@@ -1,7 +1,13 @@
 ;;; base-editor.el --- Editor configuration
+
 ;;; Commentary:
-;;; Defining the behavior of things.
+;; Defining the behavior of things.
+
 ;;; Code:
+;; base.el vars
+(defvar my-cache-dir nil)
+(defvar my-data-dir nil)
+
 (setq-default
  vc-follow-symlinks t
  ;; Save clipboard contents into kill-ring before replacing them
@@ -19,17 +25,19 @@
  scroll-conservatively 1001
  scroll-margin 0
  scroll-preserve-screen-position t
- ;; Whitespace
+ ;; White-space
  indent-tabs-mode nil
  require-final-newline t
  tab-always-indent t
  tab-width 4
  tabify-regexp "^\t* [ \t]+"
- whitespace-line-column 120
+ whitespace-line-column fill-column
  whitespace-style
  '(face tabs tab-mark trailing lines-tail)
  whitespace-display-mappings
  '((tab-mark ?\t [?› ?\t]) (newline-mark 10  [36 10]))
+ ;; Give the text some space
+ line-spacing 0.2
  ;; Wrapping
  truncate-lines t
  truncate-partial-width-windows 50
@@ -48,6 +56,29 @@
       savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
 (savehist-mode +1)
 
+;; Smart expansion completions
+(require 'hippie-exp)
+(setq hippie-expand-try-functions-list
+      '(;; Try to expand word "dynamically", searching the current buffer.
+        try-expand-dabbrev
+        ;; Try to expand word "dynamically", searching all other buffers.
+        try-expand-dabbrev-all-buffers
+        ;; Try to expand word "dynamically", searching the kill ring.
+        try-expand-dabbrev-from-kill
+        ;; Try to complete text as a file name, as many characters as unique.
+        try-complete-file-name-partially
+        ;; Try to complete text as a file name.
+        try-complete-file-name
+        ;; Try to expand word before point according to all abbrev tables.
+        try-expand-all-abbrevs
+        ;; Try to complete the current line to an entire line in the buffer.
+        try-expand-list
+        try-expand-line
+        ;; Try to complete as an Emacs Lisp symbol, as many characters as unique.
+        try-complete-lisp-symbol-partially
+        ;; Try to complete word as an Emacs Lisp symbol.
+        try-complete-lisp-symbol))
+
 ;; Branching & persistent undo
 (use-package undo-tree :demand t
   :config
@@ -62,37 +93,52 @@
 (require 'recentf)
 (setq recentf-save-file (concat my-cache-dir "recentf")
       recentf-exclude
-      (list "/tmp/" "/ssh:" "\\.?ido\\.last$" "\\.revive$" "/TAGS$"
-            "^/var/folders/.+$" my-data-dir)
+      (list "/tmp/"           ; Temp-files
+            "/dev/shm"        ; Potential secrets
+            "/ssh:"           ; Files over SSH
+            "/TAGS$"          ; Tag files
+            "/\\.git/.*\\'"   ; Git contents
+            "\\.?ido\\.last$"
+            "\\.revive$"
+            "^/var/folders/.+$"
+            my-data-dir)
       recentf-max-menu-items 0
       recentf-max-saved-items 250
       recentf-filename-handlers '(abbreviate-file-name))
 (quiet! (recentf-mode +1))
 
 ;; Ediff: use existing frame instead of creating a new one
+(require 'ediff)
+(require 'winner)
 (add-hook 'ediff-load-hook
           #'(lambda ()
               (setq ediff-diff-options "-w"
                     ediff-split-window-function #'split-window-horizontally
+                    ediff-merge-split-window-function #'split-window-horizontally
                     ;; No extra frames
                     ediff-window-setup-function #'ediff-setup-windows-plain)))
 
+(add-hook 'ediff-quit-hook #'winner-undo)
+
 ;; Revert buffers for changed files
+(require 'autorevert)
 (global-auto-revert-mode +1)
 (setq auto-revert-verbose nil)
 
-(defun my|dont-kill-scratch-buffer ()
+(defun my-dont-kill-scratch-buffer ()
   "Don't kill scratch buffers."
   (or (not (string= (buffer-name) "*scratch*"))
       (ignore (bury-buffer))))
-(add-hook 'kill-buffer-query-functions #'my|dont-kill-scratch-buffer)
+(add-hook 'kill-buffer-query-functions #'my-dont-kill-scratch-buffer)
+
+;; Make scripts executable on save
+(add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
 ;;;
 ;; Plugins
 
-;; Delete trailing whitespace before save
+;; Delete trailing white-space before save
 (use-package ws-butler :demand t
-  :diminish (ws-butler-mode . " ☯")
   :commands ws-butler-global-mode
   :config
   (ws-butler-global-mode +1)
@@ -107,25 +153,41 @@
                         (ws-butler-mode +1))
                     (ws-butler-mode -1))))))
 
-;; Handles whitespace (tabs/spaces) settings externally. This way projects can
+;; Handles white-space (tabs/spaces) settings externally. This way projects can
 ;; specify their own formatting rules.
 (use-package editorconfig :demand t
   :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
   :config
-  (editorconfig-mode +1)
-  ;; Show whitespace in tabs indentation mode
-  (add-hook 'editorconfig-custom-hooks
-            #'(lambda (props)
-                (if indent-tabs-mode (whitespace-mode +1)))))
+  (editorconfig-mode +1))
+
+;; Automatic indentation
+(electric-indent-mode +1)
+
+(use-package aggressive-indent
+  :commands global-aggressive-indent-mode
+  :init
+  (add-hook 'after-init-hook
+            #'(lambda ()
+                (global-aggressive-indent-mode +1)))
+  :config
+  ;; Disabled modes
+  (dolist (mode '(diff-auto-refine-mode))
+    (add-to-list 'aggressive-indent-excluded-modes mode))
+
+  ;; Disabled commands
+  (dolist (command '(evil-undo-pop
+                     ws-butler-clean-region))
+    (add-to-list 'aggressive-indent-protected-commands command)))
 
 ;; Auto-close delimiters and blocks as you type
 (use-package smartparens :demand t
   :init
-  (setq sp-autowrap-region nil ; Let evil-surround handle this
-        sp-highlight-pair-overlay nil
-        sp-cancel-autoskip-on-backward-movement nil
-        sp-show-pair-delay 0
-        sp-max-pair-length 3)
+  (setq-default
+   sp-autowrap-region nil ; Let evil-surround handle this
+   sp-highlight-pair-overlay nil
+   sp-cancel-autoskip-on-backward-movement nil
+   sp-show-pair-delay 0
+   sp-max-pair-length 3)
   :config
   (smartparens-global-mode +1)
   (require 'smartparens-config)
@@ -150,6 +212,11 @@
   (sp-local-pair '(xml-mode nxml-mode php-mode)
                  "<!--" "-->"   :post-handlers '(("| " "SPC"))))
 
+;; Delete selection upon insertion or DEL
+(use-package delsel :demand t
+  :config
+  (delete-selection-mode +1))
+
 ;;;
 ;; Autoloaded Plugins
 
@@ -159,10 +226,9 @@
 
 ;; Fast window navigation
 (use-package ace-window
-  :commands
-  (ace-window
-   ace-swap-window ace-delete-window
-   ace-select-window ace-delete-other-window)
+  :commands (ace-window
+             ace-swap-window ace-delete-window
+             ace-select-window ace-delete-other-window)
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-scope 'frame
@@ -175,6 +241,20 @@
   (setq avy-all-windows nil
         avy-background t))
 
+;; Bug references as buttons (builtin)
+(use-package bug-reference
+  :init
+  (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
+  (dolist (hook '(text-mode-hook magit-log-mode-hook))
+    (add-hook hook #'bug-reference-mode)))
+
+;; Use GitHub URL for bug reference
+(use-package bug-reference-github
+  :commands bug-reference-github-set-url-format
+  :init
+  (dolist (hook '(bug-reference-mode-hook bug-reference-prog-mode-hook))
+    (add-hook hook #'bug-reference-github-set-url-format)))
+
 ;; Selection helper
 (use-package expand-region
   :commands (er/expand-region er/contract-region er/mark-symbol er/mark-word))
@@ -184,10 +264,9 @@
 
 ;; Improved help commands
 (use-package help-fns+
-  :commands
-  (describe-buffer
-   describe-command describe-file
-   describe-keymap describe-option describe-option-of-type))
+  :commands (describe-buffer
+             describe-command describe-file
+             describe-keymap describe-option describe-option-of-type))
 
 (use-package imenu-anywhere
   :commands (ido-imenu-anywhere ivy-imenu-anywhere helm-imenu-anywhere))
@@ -196,6 +275,9 @@
 
 ;; Convert between regexp syntax
 (use-package pcre2el :commands rxt-quote-pcre)
+
+;; Display colors
+(use-package rainbow-mode :commands rainbow-mode)
 
 ;; Semantic navigation
 (use-package smart-forward

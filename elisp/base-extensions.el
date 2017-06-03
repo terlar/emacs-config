@@ -1,7 +1,3 @@
-(use-package company
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
@@ -13,8 +9,6 @@
     (exec-path-from-shell-copy-env "GOPATH")
     (exec-path-from-shell-copy-env "PYTHONPATH")
     (exec-path-from-shell-initialize)))
-
-(use-package flycheck)
 
 (use-package counsel
   :bind
@@ -83,13 +77,6 @@
               (org-bullets-mode t))))
 
 (use-package smex)
-
-(use-package windmove
-  :bind
-  ("C-x <up>" . windmove-up)
-  ("C-x <down>" . windmove-down)
-  ("C-x <left>" . windmove-left)
-  ("C-x <right>" . windmove-right))
 
 (use-package yasnippet
   :config

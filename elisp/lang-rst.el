@@ -1,13 +1,15 @@
 ;;; lang-rst.el --- reStructuredText
+
 ;;; Commentary:
-;;; reStructuredText (sometimes abbreviated as RST, ReST, or reST) is a
-;;; file format for textual data used primarily in the Python
-;;; programming language community for technical documentation.
+;; reStructuredText (sometimes abbreviated as RST, ReST, or reST) is a
+;; file format for textual data used primarily in the Python
+;; programming language community for technical documentation.
+
 ;;; Code:
 (use-package rst
   :mode
   ("\\.\\(txt\\|re?st\\)$" . rst-mode)
-  :commands (rst-mode)
+  :commands rst-mode
   :config
   (add-hook 'rst-mode-hook
             #'(lambda ()
@@ -20,8 +22,8 @@
   ;; Header underline display
   (set-face-attribute 'rst-adornment nil
                       :strike-through "black"
-                      :foreground (face-attribute 'default :background)
-                      :background (face-attribute 'default :background))
+                      :foreground (face-background 'default)
+                      :background (face-background 'default))
 
   ;; Typography
   (set-face-attribute 'rst-literal nil :inherit 'fixed-pitch)

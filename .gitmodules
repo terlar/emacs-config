@@ -1,0 +1,12 @@
+[submodule "vendor/nlinum"]
+	path = vendor/nlinum
+	url = https://github.com/emacsmirror/nlinum.git
+[submodule "vendor/indent-info-mode"]
+	path = vendor/indent-info-mode
+	url = https://github.com/terlar/indent-info-mode.el.git
+[submodule "vendor/raml-mode"]
+	path = vendor/raml-mode
+	url = https://github.com/victorquinn/raml-mode.git
+[submodule "vendor/rotate-text"]
+	path = vendor/rotate-text
+	url = https://github.com/debug-ito/rotate-text.el.git

@@ -1,6 +1,8 @@
 ;;; base.el --- Base configuration
+
 ;;; Commentary:
-;;; Setting sane defaults.
+;; Setting sane defaults.
+
 ;;; Code:
 (defvar my-debug-mode (or (getenv "DEBUG") init-file-debug)
   "Debug mode, enable through DEBUG=1 or use --debug-init.")
@@ -17,7 +19,7 @@
 (defvar my-data-dir
   (if (getenv "XDG_DATA_HOME")
       (concat (getenv "XDG_DATA_HOME") "/emacs/")
-    (expand-file-name "~/.local/emacs/"))
+    (expand-file-name "~/.local/share/emacs/"))
   "Use XDG-based data directory.")
 
 (defvar my-packages-dir (concat my-data-dir "packages/")
@@ -26,7 +28,7 @@
 (setq package-user-dir (expand-file-name "elpa" my-packages-dir))
 (package-initialize)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -63,20 +65,22 @@
  ;; History & backup settings (save nothing)
  auto-save-default nil
  create-lockfiles nil
+ history-delete-duplicates t
  history-length 1000
  make-backup-files nil
  ;; Files
- abbrev-file-name             (concat my-data-dir "abbrev.el")
- auto-save-list-file-name     (concat my-cache-dir "autosave")
- backup-directory-alist       (list (cons "." (concat my-cache-dir "backup/")))
- pcache-directory             (concat my-cache-dir "pcache/")
- server-auth-dir              (concat my-cache-dir "server/")
- shared-game-score-directory  (concat my-data-dir "shared-game-score/")
- tramp-auto-save-directory    (concat my-cache-dir "tramp-auto-save/")
- tramp-backup-directory-alist backup-directory-alist
- tramp-persistency-file-name  (concat my-cache-dir "tramp-persistency.el")
- url-cache-directory          (concat my-cache-dir "url/")
- url-configuration-directory  (concat my-data-dir "url/"))
+ abbrev-file-name                  (concat my-data-dir "abbrev.el")
+ auto-save-list-file-name          (concat my-cache-dir "autosave")
+ backup-directory-alist            (list (cons "." (concat my-cache-dir "backup/")))
+ pcache-directory                  (concat my-cache-dir "pcache/")
+ semanticdb-default-save-directory (concat my-cache-dir "semanticdb/")
+ server-auth-dir                   (concat my-cache-dir "server/")
+ shared-game-score-directory       (concat my-data-dir "shared-game-score/")
+ tramp-auto-save-directory         (concat my-cache-dir "tramp-auto-save/")
+ tramp-backup-directory-alist      backup-directory-alist
+ tramp-persistency-file-name       (concat my-cache-dir "tramp-persistency.el")
+ url-cache-directory               (concat my-cache-dir "url/")
+ url-configuration-directory       (concat my-data-dir "url/"))
 
 ;; Move custom defs out of init.el
 (setq custom-file (concat my-data-dir "custom.el"))
@@ -91,6 +95,7 @@
 
 ;;;
 ;; Packages
+(require 'use-package)
 (setq
  load-prefer-newer noninteractive
  package--init-file-ensured t
@@ -116,15 +121,12 @@
       select-enable-clipboard t
       select-enable-primary t)
 
-(with-eval-after-load 'evil
-  ;; Stop copying each visual state move to the clipboard:
-  (advice-add #'evil-visual-update-x-selection :override #'ignore))
-
 (setq x-gtk-use-system-tooltips nil)
 
 ;;;
 ;; Setup
-(require 'cl-lib)
+(eval-when-compile
+  (require 'cl-lib))
 
 (provide 'base)
 ;;; base.el ends here
