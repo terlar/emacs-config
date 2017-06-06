@@ -4,6 +4,9 @@
 ;; Master of the state
 
 ;;; Code:
+;; base-ui.el vars
+(defvar my-fringe-width nil)
+
 ;; base-theme.el vars
 (defvar my-evil-mode-color-list nil)
 (defvar my-evil-default-mode-color nil)
@@ -15,7 +18,7 @@
                                    '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
 
-(defvar my-mode-line-right-padding 0
+(defvar my-mode-line-right-padding 1
   "The padding on the rightmost side of mode line.")
 
 (defvar my-mode-line-bar-string " "
@@ -139,8 +142,10 @@
   "Return empty space leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
+  (when (or (daemonp) (and window-system (eq 'right (get-scroll-bar-mode))))
     (setq reserve (- reserve 3)))
+  ;; Subtract fringe width
+  (setq reserve (- reserve my-fringe-width))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 

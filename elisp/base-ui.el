@@ -17,6 +17,9 @@
   (defalias 'all-the-icons-wicon      #'ignore)
   (defalias 'all-the-icons-alltheicon #'ignore))
 
+(defvar my-fringe-width 12
+  "The fringe width to use.")
+
 (defvar my-completion-system 'ivy
   "The completion system to use.")
 
@@ -108,8 +111,8 @@
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   ;; Standardize fringe width
-  (push (cons 'left-fringe  '12) default-frame-alist)
-  (push (cons 'right-fringe '12) default-frame-alist)
+  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
+  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
   ;; No fringe in minibuffer
   (dolist (hook '(emacs-startup-hook minibuffer-setup-hook))
     (add-hook hook #'(lambda()
