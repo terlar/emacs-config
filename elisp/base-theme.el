@@ -22,7 +22,7 @@
 (defvar my-evil-default-mode-color "#AB47BC"
   "Default mode color for Evil states.")
 
-(defcustom my-evil-mode-color
+(defcustom my-evil-mode-color-list
   `((normal   . "#4CAF50")
     (emacs    . "#2196F3")
     (insert   . "#2196F3")

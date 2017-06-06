@@ -4,12 +4,14 @@
 ;; The way of the vi!
 
 ;;; Code:
-;; base-theme.el vars
-(defvar my-evil-mode-color nil)
-(defvar my-evil-default-mode-color nil)
-
 (use-package evil :demand t
-  :commands (evil-select-search-module evil-set-initial-state evil-state-property)
+  :commands
+  (evil-select-search-module
+   evil-set-initial-state
+   evil-state-property
+   evil-force-normal-state
+   evil-ex-nohighlight
+   evil-ex-hl-active-p)
   :preface
   ;; Make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
   ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'
@@ -59,26 +61,11 @@
 
   (add-hook 'minibuffer-inactive-mode-hook #'minibuffer-inactive-mode-hook-setup))
 
-;; State indicator box
-(defun evil-generate-mode-line-tag (&optional state)
-  "Generate the evil mode-line tag for STATE."
-  (let ((tag (evil-state-property state :tag t))
-        (color (alist-get state my-evil-mode-color my-evil-default-mode-color)))
-    ;; prepare mode-line: add tooltip
-    (if (stringp tag)
-        (progn
-          (face-remap-add-relative 'anzu-mode-line :background color)
-          (propertize " "
-                      'face (list :background color :foreground color :box t)
-                      'help-echo (evil-state-property state :name)
-                      'mouse-face 'mode-line-highlight))
-      tag)))
-
 ;; Escape hooks
 (defvar my-evil-esc-hook '(t)
-  "A hook run after ESC is pressed in normal mode (invoked by
-`evil-force-normal-state'). If a hook returns non-nil, all hooks after it are
-ignored.")
+  "A hook run after ESC is pressed in normal mode.
+E.g. invoked by `evil-force-normal-state'.
+If a hook returns non-nil, all hooks after it are ignored.")
 
 (defun my-evil-attach-escape-hook ()
   "Run the `my-evil-esc-hook'."
@@ -91,15 +78,15 @@ ignored.")
         (t
          ;; Run all escape hooks. If any returns non-nil, then stop there.
          (run-hook-with-args-until-success 'my-evil-esc-hook))))
-
 (advice-add #'evil-force-normal-state :after #'my-evil-attach-escape-hook)
 
 ;;;
 ;; Plugins
 (use-package evil-escape :demand t
+  :commands evil-escape
   :init
-  (setq evil-escape-excluded-states '(normal visual multiedit)
-        evil-escape-excluded-major-modes '(neotree-mode))
+  (setq-default evil-escape-excluded-states '(normal visual multiedit)
+                evil-escape-excluded-major-modes '(neotree-mode))
   :config
   (evil-escape-mode +1)
 

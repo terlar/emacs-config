@@ -9,9 +9,19 @@
 (require 'paren)
 (require 'winner)
 
+;; All-the-icons doesn't work in the terminal
+(unless (or (display-graphic-p) (daemonp))
+  (defalias 'all-the-icons-octicon    #'ignore)
+  (defalias 'all-the-icons-faicon     #'ignore)
+  (defalias 'all-the-icons-fileicon   #'ignore)
+  (defalias 'all-the-icons-wicon      #'ignore)
+  (defalias 'all-the-icons-alltheicon #'ignore))
+
 (defvar my-completion-system 'ivy
   "The completion system to use.")
 
+;;;
+;; Variables
 (setq-default
  ;; Disable bidirectional text for tiny performance boost
  bidi-display-reordering nil
@@ -27,7 +37,6 @@
  jit-lock-stealth-load nil
  jit-lock-stealth-verbose nil
  max-mini-window-height 0.3
- mode-line-default-help-echo nil ; Disable mode line mouseovers
  mouse-yank-at-point t           ; Middle-click paste at point, not at click
  resize-mini-windows 'grow-only  ; Minibuffer resizing
  show-help-function nil          ; Hide :help-echo text
@@ -111,15 +120,6 @@
 
 ;;;
 ;; Plugins
-
-(use-package indent-info-mode :ensure nil
-  :load-path "vendor/indent-info-mode/"
-  :commands (indent-info-mode
-             global-indent-info-mode
-             toggle-tab-width-setting
-             toggle-indent-mode-setting)
-  :init
-  (global-indent-info-mode +1))
 
 ;; Align wrapped lines
 (use-package adaptive-wrap
@@ -349,99 +349,20 @@ file."
 
 ;; Smooth scrolling and centered mode
 (use-package sublimity
+  :commands sublimity-mode
   :init
+  (add-hook 'after-init-hook #'sublimity-mode)
   (dolist (hook '(text-mode-hook prog-mode-hook help-mode-hook))
     (add-hook hook
               #'(lambda ()
                   (unless (minibufferp)
-                    (sublimity-mode +1)))))
+                    ;; Enable centered buffer mode
+                    (set (make-local-variable 'sublimity-attractive-centering-width) 120)))))
   :config
-  (setq-default sublimity-attractive-centering-width 120)
+  ;; This cannot be set with setq as it is defined to only allow integer values.
+  (defvar sublimity-attractive-centering-width nil)
   (require 'sublimity-scroll)
   (require 'sublimity-attractive))
-
-;;;
-;; Mode-line
-
-;; Show line and column number in the mode line
-(column-number-mode +1)
-(line-number-mode +1)
-
-;; Replace parts of mode-line with icons
-(use-package mode-icons :demand t
-  :when (or (display-graphic-p) (daemonp))
-  :config
-  (setq mode-icons-desaturate-active t
-        mode-icons-desaturate-inactive t)
-  (mode-icons-mode +1))
-
-;; Enable eldoc support when minibuffer is in use
-(use-package eldoc-eval :demand t
-  :config (eldoc-in-minibuffer-mode +1))
-
-;; Position/matches count for search in mode-line
-(use-package anzu :demand t
-  :commands
-  (global-anzu-mode
-   anzu-query-replace anzu-query-replace-regexp
-   anzu-isearch-query-replace
-   anzu-isearch-query-replace-regexp)
-  :preface
-  (defun my-update-mode-line (here total)
-    (when anzu--state
-      (let ((status (cl-case anzu--state
-                      (search (format "(%s/%d%s)"
-                                      (anzu--format-here-position here total)
-                                      total (if anzu--overflow-p "+" "")))
-                      (replace-query (format "(%d replace)" total))
-                      (replace (format " (%d/%d) " here total))))
-            (face (if (and (zerop total) (not (string= isearch-string "")))
-                      'anzu-mode-line-no-match
-                    'anzu-mode-line)))
-        (propertize (concat " " status) 'face face))))
-  :bind
-  (([remap query-replace]        . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp)
-   :map
-   isearch-mode-map
-   ([remap isearch-query-replace]        . anzu-isearch-query-replace)
-   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :config
-  (setq anzu-mode-line-update-function #'my-update-mode-line
-        anzu-minimum-input-length 1
-        anzu-search-threshold 250)
-
-  ;; Ensure anzu state is cleared when searches are done
-  (dolist (hook '(isearch-mode-end-hook my-evil-esc-hook))
-    (add-hook hook #'anzu--reset-status))
-
-  (global-anzu-mode +1)
-  (with-eval-after-load 'evil
-    (use-package evil-anzu :demand t)))
-
-(diminish 'abbrev-mode)
-(diminish 'auto-fill-function " ☰")
-
-(with-eval-after-load 'aggressive-indent
-  (diminish 'aggressive-indent-mode " ⇆"))
-(with-eval-after-load 'color-identifiers-mode
-  (diminish 'color-identifiers-mode))
-(with-eval-after-load 'editorconfig
-  (diminish 'editorconfig-mode " ☯"))
-(with-eval-after-load 'eldoc-eval
-  (diminish 'eldoc-mode))
-(with-eval-after-load 'evil-commentary
-  (diminish 'evil-commentary-mode))
-(with-eval-after-load 'evil-escape
-  (diminish 'evil-escape-mode))
-(with-eval-after-load 'rainbow-mode
-  (diminish 'rainbow-mode " ☀"))
-(with-eval-after-load 'which-key
-  (diminish 'which-key-mode))
-(with-eval-after-load 'whitespace
-  (diminish 'whitespace-mode " ␠"))
-(with-eval-after-load 'ws-butler
-  (diminish 'ws-butler-mode " ⋈"))
 
 (provide 'base-ui)
 ;;; base-ui.el ends here
