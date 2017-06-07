@@ -178,56 +178,12 @@
              ov 'display (propertize " … " 'face 'my-folded-face))))))
 
 ;; Indentation guides
-(use-package highlight-indentation
-  :commands (highlight-indentation-mode highlight-indentation-current-column-mode)
-  :preface
-  (defun my-inject-trailing-whitespace (&optional start end)
-    "The opposite of `delete-trailing-whitespace'. Injects whitespace into
-buffer so that `highlight-indentation-mode' will display uninterrupted indent
-markers. This whitespace is stripped out on save, as not to affect the resulting
-file."
-    (interactive (progn (barf-if-buffer-read-only)
-                        (if (use-region-p)
-                            (list (region-beginning) (region-end))
-                          (list nil nil))))
-    (unless indent-tabs-mode
-      (save-match-data
-        (save-excursion
-          (let ((end-marker (copy-marker (or end (point-max))))
-                (start (or start (point-min))))
-            (goto-char start)
-            (while (and (re-search-forward "^$" end-marker t) (< (point) end-marker))
-              (let (line-start line-end next-start next-end)
-                (save-excursion
-                  ;; Check previous line indent
-                  (forward-line -1)
-                  (setq line-start (point)
-                        line-end (save-excursion (back-to-indentation) (point)))
-                  ;; Check next line indent
-                  (forward-line 2)
-                  (setq next-start (point)
-                        next-end (save-excursion (back-to-indentation) (point)))
-                  ;; Back to origin
-                  (forward-line -1)
-                  ;; Adjust indent
-                  (let* ((line-indent (- line-end line-start))
-                         (next-indent (- next-end next-start))
-                         (indent (min line-indent next-indent)))
-                    (insert (make-string (if (zerop indent) 0 (1+ indent)) ? )))))
-              (forward-line 1)))))
-      (set-buffer-modified-p nil))
-    nil)
+(use-package highlight-indent-guides
+  :commands highlight-indent-guides-mode
+  :init
+  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
   :config
-  (dolist (hook '(highlight-indentation-mode-hook highlight-indentation-current-column-mode-hook))
-    (add-hook hook #'(lambda()
-                       (if (or highlight-indentation-mode highlight-indentation-current-column-mode)
-                           (progn
-                             (my-inject-trailing-whitespace)
-                             (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)
-                             (add-hook 'after-save-hook #'my-inject-trailing-whitespace nil t))
-                         (remove-hook 'before-save-hook #'delete-trailing-whitespace t)
-                         (remove-hook 'after-save-hook #'my-inject-trailing-whitespace t)
-                         (delete-trailing-whitespace))))))
+  (setq highlight-indent-guides-method 'character))
 
 ;; For modes that don't adequately highlight numbers
 (use-package highlight-numbers :commands highlight-numbers-mode)
