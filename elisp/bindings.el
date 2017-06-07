@@ -155,11 +155,25 @@ KEY must be given in `kbd' notation."
            ("W" . auto-fill-mode)                            ; Automatic line-wrapping
            ("z" . sublimity-mode))                           ; Zoomed/distraction free mode
 
+;; C-c g (Git)
+(bind-keys :prefix-map git-map
+           :prefix "C-c g"
+           ("b" . magit-blame)                 ; Git blame
+           ("B" . vcs/git-browse)              ; Git browse
+           ("c" . magit-clone)                 ; Git clone
+           ("I" . vcs/git-browse-issues)       ; Git browse issues
+           ("l" . magit-log-buffer-file)       ; Git log
+           ("m" . git-messenger:popup-message) ; Git popup message
+           ("p" . magit-pull)                  ; Git pull
+           ("s" . magit-status)                ; Git status
+           ("t" . git-timemachine-toggle))     ; Git time machine
+
 ;; C-c w (Window)
 (bind-key "C-c <" #'rotate-text-backward)
 (bind-key "C-c >" #'rotate-text)
 
 ;; Normal state
+;; TODO "]w" and "[w" for workspace navigation
 (bind-keys :map evil-normal-state-map
            ("]b" . next-buffer)
            ("[b" . previous-buffer))

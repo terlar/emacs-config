@@ -61,7 +61,8 @@
 
 ;; Keybindings
 (unless noninteractive
-  (require 'bindings))
+  (require 'bindings)
+  (require 'commands))
 
 (add-hook 'after-init-hook
           #'(lambda ()
