@@ -29,6 +29,7 @@
 (require 'feature-spellcheck)
 (require 'feature-syntax-checker)
 (require 'feature-version-control)
+(require 'feature-workspaces)
 
 ;;;
 ;; Completion

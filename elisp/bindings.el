@@ -47,6 +47,7 @@ KEY must be given in `kbd' notation."
     "C-c g" "git"
     "C-c p" "projects"
     "C-c w" "windows"
+    "C-c W" "workspaces"
     "C-c ~" "toggles")
 
   ;; Embolden local bindings
@@ -182,10 +183,11 @@ KEY must be given in `kbd' notation."
 (bind-key "C-c >" #'rotate-text)
 
 ;; Normal state
-;; TODO "]w" and "[w" for workspace navigation
 (bind-keys :map evil-normal-state-map
            ("]b" . next-buffer)
-           ("[b" . previous-buffer))
+           ("[b" . previous-buffer)
+           ("]w" . persp-next)
+           ("[w" . persp-prev))
 
 ;; Normal/visual state
 (dolist (map

@@ -32,12 +32,6 @@
   :type '(alist :key-type symbol :value-type string)
   :group 'evil-mode-line)
 
-(defun my-on-frame-open (&optional frame)
-  "If the FRAME created in terminal don't load background color."
-  (unless (display-graphic-p frame)
-    (set-face-background 'default "unspecified-bg" frame)))
-(add-hook 'after-make-frame-functions #'my-on-frame-open)
-
 ;;;
 ;; Theme
 (use-package tao-theme)
