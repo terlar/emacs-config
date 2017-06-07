@@ -163,6 +163,14 @@
 ;; Automatic indentation
 (electric-indent-mode +1)
 
+;; Ignore files
+(use-package ignoramus :demand t
+  :config
+  ;; Ignore some additional directories
+  (dolist (name '("node_modules" "vendor"))
+    (add-to-list 'ignoramus-file-basename-exact-names name))
+  (ignoramus-setup))
+
 (use-package aggressive-indent
   :commands global-aggressive-indent-mode
   :init
