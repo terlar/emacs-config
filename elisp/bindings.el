@@ -39,6 +39,16 @@ KEY must be given in `kbd' notation."
   (push '(("DEL" . nil) . ("⌫" . nil)) which-key-replacement-alist)
   (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
 
+  (which-key-add-key-based-replacements
+    "C-c !" "flycheck"
+    "C-c =" "diff"
+    "C-c @" "outline"
+    "C-c a" "apps"
+    "C-c g" "git"
+    "C-c p" "projects"
+    "C-c w" "windows"
+    "C-c ~" "toggles")
+
   ;; Embolden local bindings
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)
   (which-key-setup-side-window-bottom)

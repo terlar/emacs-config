@@ -17,14 +17,14 @@
   (defalias 'all-the-icons-wicon      #'ignore)
   (defalias 'all-the-icons-alltheicon #'ignore))
 
+;;;
+;; Settings
 (defvar my-fringe-width 12
   "The fringe width to use.")
 
 (defvar my-completion-system 'ivy
   "The completion system to use.")
 
-;;;
-;; Variables
 (setq-default
  ;; Disable bidirectional text for tiny performance boost
  bidi-display-reordering nil
@@ -89,7 +89,7 @@
               (let ((inhibit-read-only t))
                 (ansi-color-apply-on-region compilation-filter-start (point)))))
 
-;; Text Scale
+;; Text scaling
 (defadvice text-scale-increase (around all-buffers (arg) activate)
   "Text scale across all buffers."
   (dolist (buffer (buffer-list))
@@ -115,8 +115,9 @@
   (push (cons 'right-fringe my-fringe-width) default-frame-alist)
   ;; No fringe in minibuffer
   (dolist (hook '(emacs-startup-hook minibuffer-setup-hook))
-    (add-hook hook #'(lambda()
-                       (set-window-fringes (minibuffer-window) 0 0 nil)))))
+    (add-hook hook
+              #'(lambda()
+                  (set-window-fringes (minibuffer-window) 0 0 nil)))))
 
 ;; Visual mode for browser
 (add-hook 'eww-mode-hook #'buffer-face-mode)

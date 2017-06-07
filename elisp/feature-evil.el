@@ -11,7 +11,10 @@
    evil-state-property
    evil-force-normal-state
    evil-ex-nohighlight
-   evil-ex-hl-active-p)
+   evil-ex-hl-active-p
+   evil-window-top
+   evil-window-middle
+   evil-window-bottom)
   :preface
   ;; Make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
   ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'

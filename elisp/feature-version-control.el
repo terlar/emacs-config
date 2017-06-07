@@ -4,8 +4,13 @@
 ;; Tracking your changes.
 
 ;;; Code:
+
+;;;
+;; Settings
 (setq vc-make-backup-files nil)
 
+;;;
+;; Packages
 (use-package gitconfig-mode
   :mode "/\\.?git/?config$"
   :mode "/\\.gitmodules$")
