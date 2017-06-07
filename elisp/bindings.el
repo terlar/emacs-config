@@ -178,7 +178,6 @@ KEY must be given in `kbd' notation."
            ("s" . magit-status)                ; Git status
            ("t" . git-timemachine-toggle))     ; Git time machine
 
-;; C-c w (Window)
 (bind-key "C-c <" #'rotate-text-backward)
 (bind-key "C-c >" #'rotate-text)
 

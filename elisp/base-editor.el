@@ -135,7 +135,7 @@
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
 ;;;
-;; Plugins
+;; Packages
 
 ;; Delete trailing white-space before save
 (use-package ws-butler :demand t
@@ -226,7 +226,7 @@
   (delete-selection-mode +1))
 
 ;;;
-;; Autoloaded Plugins
+;; Autoloaded Packages
 
 ;; Hint mode for links
 (use-package ace-link

@@ -123,7 +123,7 @@
 (add-hook 'eww-mode-hook #'buffer-face-mode)
 
 ;;;
-;; Plugins
+;; Packages
 
 ;; Align wrapped lines
 (use-package adaptive-wrap
@@ -299,7 +299,7 @@
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines :demand t
   :diminish (page-break-lines-mode)
-  :config (global-page-break-lines-mode -1))
+  :config (global-page-break-lines-mode +1))
 
 ;; Visually separate delimiter pairs
 (use-package rainbow-delimiters

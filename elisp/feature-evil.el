@@ -84,7 +84,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 (advice-add #'evil-force-normal-state :after #'my-evil-attach-escape-hook)
 
 ;;;
-;; Plugins
+;; Packages
 (use-package evil-escape :demand t
   :commands evil-escape
   :init

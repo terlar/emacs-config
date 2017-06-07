@@ -16,7 +16,7 @@
               (flycheck-mode +1)))
 
 ;;;
-;; Plugins
+;; Packages
 (use-package auto-compile
   :commands (auto-compile-on-save-mode auto-compile-byte-compile)
   :preface
