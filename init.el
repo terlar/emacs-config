@@ -51,6 +51,7 @@
 (require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
+(require 'lang-shell)
 ;; (require 'lang-elixir)
 ;; (require 'lang-go)
 ;; (require 'lang-haskell)
