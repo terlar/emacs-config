@@ -18,7 +18,7 @@
                                    '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
 
-(defvar my-mode-line-right-padding 1
+(defvar my-mode-line-right-padding 0
   "The padding on the rightmost side of mode line.")
 
 (defvar my-mode-line-bar-string " "
@@ -36,7 +36,13 @@
   :config
   (setq mode-icons-desaturate-active t
         mode-icons-desaturate-inactive t)
-  (mode-icons-mode +1))
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                #'(lambda (&optional frame)
+                    (select-frame frame)
+                    (when (display-graphic-p frame)
+                      (mode-icons-mode +1))))
+    (mode-icons-mode +1)))
 
 (use-package indent-info-mode :ensure nil
   :load-path "vendor/indent-info-mode/"
@@ -111,15 +117,18 @@
 (with-eval-after-load 'color-identifiers-mode (diminish 'color-identifiers-mode))
 (with-eval-after-load 'evil-commentary        (diminish 'evil-commentary-mode))
 (with-eval-after-load 'evil-escape            (diminish 'evil-escape-mode))
+(with-eval-after-load 'projectile             (diminish 'projectile-mode))
+(with-eval-after-load 'super-save             (diminish 'super-save-mode))
+(with-eval-after-load 'undo-tree              (diminish 'undo-tree-mode))
 (with-eval-after-load 'which-key              (diminish 'which-key-mode))
 
-;; Symbols
-(diminish 'auto-fill-function " ☰")
-(with-eval-after-load 'aggressive-indent (diminish 'aggressive-indent-mode " ⇆"))
-(with-eval-after-load 'editorconfig      (diminish 'editorconfig-mode " ☯"))
-(with-eval-after-load 'rainbow-mode      (diminish 'rainbow-mode " ☀"))
-(with-eval-after-load 'whitespace        (diminish 'whitespace-mode " ␠"))
-(with-eval-after-load 'ws-butler         (diminish 'ws-butler-mode " ⋈"))
+;; Icons
+(with-eval-after-load 'mode-icons
+  (add-to-list 'mode-icons '("=>" #xf03c FontAwesome))
+  (add-to-list 'mode-icons '("EditorConfig" #xf040 FontAwesome))
+  (add-to-list 'mode-icons '("Fill" #xf039 FontAwesome))
+  (add-to-list 'mode-icons '("wb" #xf0b0 FontAwesome))
+  (add-to-list 'mode-icons '("ws" #xf06e FontAwesome)))
 
 (defun my-mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
@@ -142,10 +151,6 @@
   "Return empty space leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
-  (when (or (daemonp) (and window-system (eq 'right (get-scroll-bar-mode))))
-    (setq reserve (- reserve 3)))
-  ;; Subtract fringe width
-  (setq reserve (- reserve my-fringe-width))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 

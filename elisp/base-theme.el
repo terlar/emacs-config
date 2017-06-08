@@ -52,7 +52,7 @@
 
     ;; Fallback to `my-unicode-font' for Unicode characters
     (when my-unicode-font
-      (set-fontset-font t 'unicode (font-spec :family my-unicode-font)))
+      (set-fontset-font t 'unicode (font-spec :name my-unicode-font)))
     ;; ... and for variable-pitch mode
     (when my-variable-pitch-font
       (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font))))

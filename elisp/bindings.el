@@ -217,6 +217,7 @@ KEY must be given in `kbd' notation."
            ([backtab]   . neotree-project-dir)
            ;; Swapping windows
            ("C-S-w" . ace-swap-window)
+           ("z"     . zoom-window-zoom)
            ;; Undo/redo
            ("u"   . winner-undo)
            ("C-u" . winner-undo)

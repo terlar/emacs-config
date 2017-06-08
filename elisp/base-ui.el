@@ -74,11 +74,11 @@
 (defvar winner-dont-bind-my-keys t)
 (add-hook 'window-setup-hook #'winner-mode)
 
-(defun my-on-frame-open (&optional frame)
-  "If the FRAME created in terminal don't load background color."
+(defun my/reset-non-gui-bg-color (&optional frame)
+  "Unset background color for FRAME without graphic."
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)))
-(add-hook 'after-make-frame-functions #'my-on-frame-open)
+(add-hook 'after-make-frame-functions #'my/reset-non-gui-bg-color)
 
 ;; Use Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
