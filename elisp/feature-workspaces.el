@@ -23,7 +23,7 @@
         ;; Auto-load on startup
         persp-auto-resume-time (if (daemonp) 3.0 -1)
         ;; Auto-save on kill
-        persp-auto-save-opt 1)
+        persp-auto-save-opt (daemonp))
 
   ;; Don't shorten perspective name
   (setq persp-lighter
