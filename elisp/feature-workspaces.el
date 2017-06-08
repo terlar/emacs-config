@@ -21,7 +21,7 @@
         persp-save-dir (concat my-cache-dir "workspaces/")
         persp-remove-buffers-from-nil-persp-behaviour nil
         ;; Auto-load on startup
-        persp-auto-resume-time 3.0
+        persp-auto-resume-time (if (daemonp) 3.0 -1)
         ;; Auto-save on kill
         persp-auto-save-opt 1)
 
