@@ -8,8 +8,7 @@
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
-(dolist (dir '("elisp" "vendor"))
-  (add-to-list 'load-path (concat user-emacs-directory dir)))
+(add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 ;;;
 ;; Base
@@ -46,20 +45,17 @@
 
 ;;;
 ;; Language support
+(require 'lang-conf)
+(require 'lang-data)
+(require 'lang-elixir)
+(require 'lang-elm)
 (require 'lang-emacs-lisp)
 (require 'lang-markdown)
 (require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
 (require 'lang-shell)
-;; (require 'lang-elixir)
-;; (require 'lang-go)
-;; (require 'lang-haskell)
-;; (require 'lang-javascript)
-;; (require 'lang-python)
-;; (require 'lang-ruby)
-;; (require 'lang-rust)
-;; (require 'lang-web)
+(require 'lang-web)
 
 ;; Keybindings
 (unless noninteractive

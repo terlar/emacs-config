@@ -10,7 +10,7 @@
 (use-package fish-mode
   :mode (("\\.fish$"           . fish-mode)
          ("/fish_funced\\..*$" . fish-mode))
-  :commands (fish-mode)
+  :commands fish-mode
   :preface
   :init
   (add-hook 'fish-mode-hook
@@ -38,15 +38,15 @@
             #'(lambda ()
                 (setq-local company-backends
                             '((company-keywords
-                               company-files
-                               company-shell)))))
+                               company-shell
+                               company-files)))))
   (add-hook 'fish-mode-hook
             #'(lambda ()
                 (setq-local company-backends
                             '((company-keywords
-                               company-files
                                company-shell
-                               company-fish-shell)))))
+                               company-fish-shell
+                               company-files)))))
   :config
   (setq company-shell-delete-duplicates t))
 
