@@ -13,13 +13,6 @@
 ;;;
 ;; Base
 (require 'base)
-(require 'base-functions)
-(unless noninteractive
-  (require 'base-theme)
-  (require 'base-ui)
-  (require 'base-modeline)
-  (require 'base-editor)
-  (require 'base-projects))
 
 ;;;
 ;; Features

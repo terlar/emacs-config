@@ -10,6 +10,9 @@
 (defvar my-emacs-dir user-emacs-directory
   "The path to this .emacs.d directory.")
 
+(defvar my-elisp-dir (concat user-emacs-directory "elisp/")
+  "The path to the elisp files.")
+
 (defvar my-cache-dir
   (if (getenv "XDG_CACHE_HOME")
       (concat (getenv "XDG_CACHE_HOME") "/emacs/")
@@ -24,17 +27,6 @@
 
 (defvar my-packages-dir (concat my-data-dir "packages/")
   "Use XDG-based packages directory.")
-
-(setq package-user-dir (expand-file-name "elpa" my-packages-dir))
-(package-initialize)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 ;;;
 ;; Settings
@@ -58,7 +50,8 @@
  confirm-nonexistent-file-or-buffer t
  enable-recursive-minibuffers nil
  debug-on-error (and (not noninteractive) my-debug-mode)
- idle-update-delay 2            ; update UI less often
+ ;; Update UI less often
+ idle-update-delay 2
  ;; Keep the point out of the minibuffer
  minibuffer-prompt-properties
  '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt)
@@ -94,39 +87,32 @@
       initial-scratch-message nil)
 
 ;;;
-;; Packages
-(require 'use-package)
-(setq
- load-prefer-newer noninteractive
- package--init-file-ensured t
- package-enable-at-startup nil
+;; Bootstrap
 
- use-package-always-defer t
- use-package-always-ensure t
- use-package-expand-minimally (not my-debug-mode)
- use-package-debug nil
- use-package-verbose my-debug-mode
- use-package-minimum-reported-time (if my-debug-mode 0 0.1)
+(let (file-name-handler-alist)
+  (require 'cl-lib)
+  (eval-and-compile
+    (require 'base-packages (concat my-elisp-dir "base-packages")))
+  (eval-when-compile
+    (my-packages-initialize))
 
- byte-compile-dynamic nil
- byte-compile-verbose my-debug-mode
- byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+  (require 'base-functions)
+
+  (unless noninteractive
+    (require 'base-theme)
+    (require 'base-ui)
+    (require 'base-modeline)
+    (require 'base-editor)
+    (require 'base-projects)))
 
 ;;;
-;; OS
-
-;; Clipboard
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
+;; X settings
+(setq x-gtk-use-system-tooltips nil
+      ;; Clipboard
+      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
       ;; Use shared clipboard
       select-enable-clipboard t
       select-enable-primary t)
-
-(setq x-gtk-use-system-tooltips nil)
-
-;;;
-;; Setup
-(eval-when-compile
-  (require 'cl-lib))
 
 (provide 'base)
 ;;; base.el ends here
