@@ -205,7 +205,7 @@
         global-hl-line-sticky-flag nil))
 
 ;; Line numbers
-(use-package nlinum :ensure nil
+(use-package nlinum
   :load-path "vendor/nlinum/"
   :commands nlinum-mode
   :preface (defvar nlinum-format "%4d ")
@@ -237,75 +237,11 @@
     (advice-add #'evil-window-middle :after #'my-blink-cursor)
     (advice-add #'evil-window-bottom :after #'my-blink-cursor)))
 
-;; Tree navigation
-(use-package neotree
-  :commands (neotree-show
-             neotree-hide
-             neotree-toggle
-             neotree-dir
-             neotree-find
-             neo-global--select-window
-             neo-global--with-buffer
-             neo-global--window-exists-p)
-  :functions (off-p)
-  :preface
-  (defun switch-to-neotree ()
-    "Switch to NeoTree window."
-    (interactive)
-    (if (neo-global--window-exists-p)
-        (neo-global--select-window)
-      (neotree-project-dir)))
-
-  (defun neotree-project-dir ()
-    "Open NeoTree using the git root."
-    (interactive)
-    (let ((project-dir (projectile-project-root))
-          (file-name (buffer-file-name)))
-      (neotree-toggle)
-      (if project-dir
-          (if (neo-global--window-exists-p)
-              (progn
-                (neotree-dir project-dir)
-                (neotree-find file-name)))
-        (message "Could not find git project root."))))
-  :config
-  (setq
-   neo-create-file-auto-open nil
-   neo-auto-indent-point nil
-   neo-autorefresh nil
-   neo-mode-line-type 'none
-   ;; Allow temporary resizing of drawer
-   neo-window-fixed-size nil
-   ;; Always fallback to a fixed size
-   neo-window-width 30
-   neo-show-updir-line nil
-   neo-theme (if (display-graphic-p) 'icons 'arrow)
-   neo-banner-message nil
-   neo-confirm-create-file #'off-p
-   neo-confirm-create-directory #'off-p
-   neo-show-hidden-files nil
-   neo-hidden-regexp-list
-   '(;; vcs folders
-     "^\\.\\(git\\|hg\\|svn\\)$"
-     ;; compiled files
-     "\\.\\(pyc\\|o\\|elc\\|lock\\|css.map\\)$"
-     ;; generated files, caches or local pkgs
-     "^\\(node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
-     ;; org-mode folders
-     "^\\.\\(sync\\|export\\|attach\\)$"
-     "~$"
-     "^#.*#$"))
-
-  (with-eval-after-load 'projectile
-    (custom-set-variables
-     '(projectile-switch-project-action #'neotree-projectile-action)))
-
-  (push neo-buffer-name winner-boring-buffers))
-
 ;; Display page breaks as a horizontal line
-(use-package page-break-lines :demand t
+(use-package page-break-lines
+  :commands page-break-lines-mode
   :diminish (page-break-lines-mode)
-  :config (global-page-break-lines-mode +1))
+  :init (global-page-break-lines-mode +1))
 
 ;; Visually separate delimiter pairs
 (use-package rainbow-delimiters
@@ -313,22 +249,15 @@
   :init (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   :config (setq rainbow-delimiters-max-face-count 3))
 
-;; Smooth scrolling and centered mode
-(use-package sublimity
-  :commands sublimity-mode
+;; Centered mode
+(use-package visual-fill-column
   :init
-  (add-hook 'after-init-hook #'sublimity-mode)
+  (setq-default
+   visual-fill-column-center-text t
+   visual-fill-column-width 120)
+
   (dolist (hook '(text-mode-hook prog-mode-hook help-mode-hook))
-    (add-hook hook
-              #'(lambda ()
-                  (unless (minibufferp)
-                    ;; Enable centered buffer mode
-                    (set (make-local-variable 'sublimity-attractive-centering-width) 120)))))
-  :config
-  ;; This cannot be set with setq as it is defined to only allow integer values.
-  (defvar sublimity-attractive-centering-width nil)
-  (require 'sublimity-scroll)
-  (require 'sublimity-attractive))
+    (add-hook hook #'visual-fill-column-mode)))
 
 (provide 'base-ui)
 ;;; base-ui.el ends here

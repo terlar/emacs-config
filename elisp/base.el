@@ -101,6 +101,7 @@
   (unless noninteractive
     (require 'base-theme)
     (require 'base-ui)
+    (require 'base-popups)
     (require 'base-modeline)
     (require 'base-editor)
     (require 'base-projects)))

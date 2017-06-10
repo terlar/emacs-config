@@ -13,9 +13,10 @@
 
 ;;;
 ;; Variables
-(defvar my-mode-line-right-format (list
-                                   '(:eval mode-line-position)
-                                   '(:eval mode-line-mule-info))
+(defvar my-mode-line-right-format
+  (list
+   '(:eval mode-line-position)
+   '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
 
 (defvar my-mode-line-right-padding 0
@@ -31,20 +32,18 @@
 ;; Packages
 
 ;; Show icons instead of mode names
-(use-package mode-icons :demand t
-  :when (or (display-graphic-p) (daemonp))
+(use-package mode-icons
+  :commands mode-icons-mode
+  :init
+  (if (display-graphic-p)
+      (mode-icons-mode +1)
+    (add-hook 'after-make-frame-functions #'mode-icons-mode))
   :config
   (setq mode-icons-desaturate-active t
-        mode-icons-desaturate-inactive t)
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                #'(lambda (&optional frame)
-                    (select-frame frame)
-                    (when (display-graphic-p frame)
-                      (mode-icons-mode +1))))
-    (mode-icons-mode +1)))
+        mode-icons-desaturate-inactive t))
 
-(use-package indent-info-mode :ensure nil
+;; Display info about indentation current indentation settings
+(use-package indent-info-mode :ensure nil :pin manual
   :load-path "vendor/indent-info-mode/"
   :commands (indent-info-mode
              global-indent-info-mode
@@ -111,26 +110,35 @@
 (column-number-mode +1)
 (line-number-mode +1)
 
-;; Hidden
-(diminish 'abbrev-mode)
-(diminish 'eldoc-mode)
-(with-eval-after-load 'color-identifiers-mode (diminish 'color-identifiers-mode))
-(with-eval-after-load 'evil-commentary        (diminish 'evil-commentary-mode))
-(with-eval-after-load 'evil-escape            (diminish 'evil-escape-mode))
-(with-eval-after-load 'projectile             (diminish 'projectile-mode))
-(with-eval-after-load 'super-save             (diminish 'super-save-mode))
-(with-eval-after-load 'undo-tree              (diminish 'undo-tree-mode))
-(with-eval-after-load 'which-key              (diminish 'which-key-mode))
+;; Modes
+(add-hook 'after-init-hook
+          #'(lambda ()
+              ;; Hidden
+              (diminish 'abbrev-mode)
+              (diminish 'eldoc-mode)
+              (diminish 'auto-revert-mode)
+              (with-eval-after-load 'anzu                   (diminish 'anzu-mode))
+              (with-eval-after-load 'color-identifiers-mode (diminish 'color-identifiers-mode))
+              (with-eval-after-load 'company                (diminish 'company-mode))
+              (with-eval-after-load 'editorconfig           (diminish 'editorconfig-mode))
+              (with-eval-after-load 'evil-commentary        (diminish 'evil-commentary-mode))
+              (with-eval-after-load 'evil-escape            (diminish 'evil-escape-mode))
+              (with-eval-after-load 'ivy                    (diminish 'ivy-mode))
+              (with-eval-after-load 'projectile             (diminish 'projectile-mode))
+              (with-eval-after-load 'smartparens            (diminish 'smartparens-mode))
+              (with-eval-after-load 'super-save             (diminish 'super-save-mode))
+              (with-eval-after-load 'undo-tree              (diminish 'undo-tree-mode))
+              (with-eval-after-load 'ws-butler              (diminish 'ws-butler-mode))
+              (with-eval-after-load 'which-key              (diminish 'which-key-mode)))
 
-;; Icons
-(with-eval-after-load 'mode-icons
-  (add-to-list 'mode-icons '("=>" #xf03c FontAwesome))
-  (add-to-list 'mode-icons '("EditorConfig" #xf040 FontAwesome))
-  (add-to-list 'mode-icons '("Fill" #xf039 FontAwesome))
-  (add-to-list 'mode-icons '("wb" #xf0b0 FontAwesome))
-  (add-to-list 'mode-icons '("ws" #xf06e FontAwesome)))
+          ;; Icons
+          (with-eval-after-load 'mode-icons
+            (add-to-list 'mode-icons '("=>" #xf03c FontAwesome))
+            (add-to-list 'mode-icons '("Fill" #xf039 FontAwesome))
+            (add-to-list 'mode-icons '("ws" #xf06e FontAwesome))))
 
-(defun my-mode-line-bar-evil-state (&optional state)
+;; Evil state indicator
+(defun my/mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
   (let ((tag (evil-state-property state :tag t))
         (color (alist-get state my-evil-mode-color-list my-evil-default-mode-color)))
@@ -143,18 +151,18 @@
                       'help-echo (evil-state-property state :name)
                       'mouse-face 'mode-line-highlight))
       tag)))
-
 (with-eval-after-load 'evil
-  (defalias 'evil-generate-mode-line-tag #'my-mode-line-bar-evil-state))
+  (defalias 'evil-generate-mode-line-tag #'my/mode-line-bar-evil-state))
 
-(defun my-mode-line-fill-right (reserve)
+;; Right support
+(defun my/mode-line-fill-right (reserve)
   "Return empty space leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
-(defun my-mode-line-right-reserve ()
+(defun my/mode-line-right-reserve ()
   "Reserve space needed for `my-mode-line-right-format'."
   (+ my-mode-line-right-padding (length (format-mode-line my-mode-line-right-format))))
 
@@ -164,7 +172,7 @@
               (append
                mode-line-format
                (list
-                '(:eval (my-mode-line-fill-right (my-mode-line-right-reserve)))
+                '(:eval (my/mode-line-fill-right (my/mode-line-right-reserve)))
                 my-mode-line-right-format)))
 
 (provide 'base-modeline)

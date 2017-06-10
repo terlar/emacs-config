@@ -4,7 +4,7 @@
 ;;; Switch between different text values.
 
 ;;; Code:
-(use-package rotate-text :ensure nil
+(use-package rotate-text :ensure nil :pin manual
   :load-path "vendor/rotate-text/"
   :commands (rotate-text rotate-text-backward)
   :config

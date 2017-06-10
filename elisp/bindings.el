@@ -7,6 +7,11 @@
 (require 'bind-key)
 (require 'evil)
 
+(autoload 'my/neotree-toggle "tool-neotree" nil t)
+(autoload 'my/neotree-window "tool-neotree" nil t)
+(autoload 'rotate-text "rotate-text" nil t)
+(autoload 'rotate-text-backward "rotate-text" nil t)
+
 ;; base-theme.el vars
 (defvar my-default-font-height nil)
 
@@ -84,21 +89,29 @@ KEY must be given in `kbd' notation."
   (bind-key key #'text-scale-increase))
 
 ;; Neotree
-(bind-key "<left-margin> <mouse-1>" #'neotree-project-dir)
-(bind-key "<left-fringe> <mouse-1>" #'neotree-project-dir)
+(bind-keys ("<left-margin> <mouse-1>" . my/neotree-toggle)
+           ("<left-fringe> <mouse-1>" . my/neotree-toggle))
 
-(add-hook 'neotree-mode-hook
-          #'(lambda ()
-              (bind-keys :map evil-normal-state-local-map
-                         ("RET"      . neotree-enter)
-                         ([return]   . neotree-enter)
-                         ("ESC ESC"  . neotree-hide)
-                         ("q"        . neotree-hide)
-                         ("c"        . neotree-create-node)
-                         ("d"        . neotree-delete-node)
-                         ("r"        . neotree-rename-node)
-                         ("R"        . neotree-change-root)
-                         ("C-r"      . neotree-refresh))))
+(with-eval-after-load 'neotree
+  (add-hook 'neotree-mode-hook
+            #'(lambda ()
+                (bind-keys :map evil-normal-state-local-map
+                           ([tab]       . neotree-quick-look)
+                           ("RET"       . neotree-enter)
+                           ([backspace] . evil-window-prev)
+                           ("j"         . neotree-next-line)
+                           ("k"         . neotree-previous-line)
+                           ("n"         . neotree-next-line)
+                           ("p"         . neotree-previous-line)
+                           ("J"         . neotree-select-next-sibling-node)
+                           ("K"         . neotree-select-previous-sibling-node)
+                           ("H"         . neotree-select-up-node)
+                           ("L"         . neotree-select-down-node)
+                           ("q"         . neotree-hide)
+                           ("c"         . neotree-create-node)
+                           ("d"         . neotree-delete-node)
+                           ("r"         . neotree-rename-node)
+                           ("R"         . neotree-refresh)))))
 
 ;; Smarter abbrev completion
 (bind-key [remap dabbrev-expand] #'hippie-expand)
@@ -179,8 +192,8 @@ KEY must be given in `kbd' notation."
            ("s" . magit-status)                ; Git status
            ("t" . git-timemachine-toggle))     ; Git time machine
 
-(bind-key "C-c <" #'rotate-text-backward)
 (bind-key "C-c >" #'rotate-text)
+(bind-key "C-c <" #'rotate-text-backward)
 
 ;; Normal state
 (bind-keys :map evil-normal-state-map
@@ -211,10 +224,10 @@ KEY must be given in `kbd' notation."
            ("C-l"       . evil-window-right)
            ("C-w"       . ace-window)
            ("B"         . switch-to-minibuffer)
-           ([tab]       . switch-to-neotree)
-           ("TAB"       . switch-to-neotree)
-           ("<C-tab>"   . switch-to-neotree)
-           ([backtab]   . neotree-project-dir)
+           ([tab]       . my/neotree-window)
+           ("TAB"       . my/neotree-window)
+           ("<C-tab>"   . my/neotree-window)
+           ([backtab]   . my/neotree-toggle)
            ;; Swapping windows
            ("C-S-w" . ace-swap-window)
            ("z"     . zoom-window-zoom)

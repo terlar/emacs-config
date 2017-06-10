@@ -9,7 +9,7 @@
 ;; and pattern-sharing and aims for merit-based emergence of best practices.
 
 ;;; Code:
-(use-package raml-mode :ensure nil
+(use-package raml-mode :ensure nil :pin manual
   :load-path "vendor/raml-mode/"
   :mode
   ("\\.raml$" . raml-mode)
