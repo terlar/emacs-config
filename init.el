@@ -41,6 +41,7 @@
 ;; Language support
 (require 'lang-conf)
 (require 'lang-data)
+(require 'lang-ebook)
 (require 'lang-elixir)
 (require 'lang-elm)
 (require 'lang-emacs-lisp)
