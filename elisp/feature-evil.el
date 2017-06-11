@@ -54,10 +54,9 @@
   (dolist (mode '(tabulated-list-mode
                   view-mode comint-mode term-mode
                   calendar-mode Man-mode grep-mode
-                  help-mode
                   git-rebase-mode))
     (evil-set-initial-state mode 'emacs))
-  (dolist (mode '(debugger-mode))
+  (dolist (mode '(help-mode debugger-mode))
     (evil-set-initial-state mode 'normal))
   (dolist (mode '(git-commit-mode))
     (evil-set-initial-state mode 'insert))

@@ -61,11 +61,13 @@ KEY must be given in `kbd' notation."
   (which-key-mode +1))
 
 ;; Help
-(bind-keys :map help-mode-map
-           ("[[" . help-go-back)
-           ("]]" . help-go-forward)
-           ("o"  . ace-link-help)
-           ("q"  . quit-window))
+(add-hook 'help-mode-hook
+          #'(lambda ()
+              (bind-keys :map evil-normal-state-local-map
+                         ("[[" . help-go-back)
+                         ("]]" . help-go-forward)
+                         ("o"  . ace-link-help)
+                         ("q"  . quit-window))))
 
 ;; Escape acts as an extra C-g
 (bind-key "<escape>" 'keyboard-escape-quit)
