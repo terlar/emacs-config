@@ -41,7 +41,7 @@
  ;; Give the text some space
  line-spacing 0.2
  ;; Wrapping
- truncate-lines t
+ truncate-lines nil
  truncate-partial-width-windows 50
  word-wrap t)
 
