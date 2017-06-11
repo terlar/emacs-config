@@ -7,6 +7,9 @@
 ;; base.el vars
 (defvar my-emacs-dir nil)
 
+;; base-ui.el vars
+(defvar my-completion-system nil)
+
 ;; Recenter after certain jumps
 (dolist (hook '(imenu-after-jump-hook
                 evil-jumps-post-jump-hook
@@ -21,7 +24,13 @@
         dumb-jump-aggressive nil
         dumb-jump-selector (cond ((eq my-completion-system 'ivy) 'ivy)
                                  ((eq my-completion-system 'helm) 'helm)
-                                 (t 'popup))))
+                                 (t 'popup)))
+  (push '(:type "function" :supports ("ag" "grep" "rg" "git-grep") :language "sh"
+                :regex "function\\s*JJJ\\s*")
+        dumb-jump-find-rules)
+  (push '(:type "variable" :supports ("ag" "grep" "rg" "git-grep") :language "sh"
+                :regex "\\bJJJ\\s*=\\s*")
+        dumb-jump-find-rules))
 
 (use-package gxref
   :commands (gxref-xref-backend

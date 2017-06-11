@@ -89,11 +89,15 @@
         company-show-numbers t
         company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode)
         company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+        company-backends
+        '(company-capf
+          (company-dabbrev-code company-keywords)
+          company-files
+          company-dabbrev)
         company-transformers '(company-sort-by-occurrence))
 
   (with-eval-after-load 'yasnippet
     (nconc company-backends '(company-yasnippet))))
-
 
 (use-package company-statistics
   :after company
@@ -116,7 +120,8 @@
   :config
   (add-hook 'text-mode-hook
             #'(lambda ()
-                (setq-local company-backends (append '((company-emoji)) company-backends)))))
+                (setq-local company-backends
+                            (append '((company-emoji)) company-backends)))))
 
 ;;;
 ;; Autoloads
