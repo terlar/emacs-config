@@ -133,9 +133,9 @@
 
           ;; Icons
           (with-eval-after-load 'mode-icons
-            (add-to-list 'mode-icons '("=>" #xf03c FontAwesome))
-            (add-to-list 'mode-icons '("Fill" #xf039 FontAwesome))
-            (add-to-list 'mode-icons '("ws" #xf06e FontAwesome))))
+            (push '("=>" #xf03c FontAwesome) mode-icons)
+            (push '("Fill" #xf039 FontAwesome) mode-icons)
+            (push '("ws" #xf06e FontAwesome) mode-icons)))
 
 ;; Evil state indicator
 (defun my/mode-line-bar-evil-state (&optional state)

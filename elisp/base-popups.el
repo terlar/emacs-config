@@ -32,7 +32,7 @@
     (add-hook 'after-init-hook #'shackle-mode)))
 
 (with-eval-after-load 'neotree
-  (add-to-list 'shackle-rules '(" *NeoTree*" :size 25 :align left :select t))
+  (push '(" *NeoTree*" :size 25 :align left :select t) shackle-rules)
 
   (defun my/neotree-display (buffer _alist)
     (let ((win (shackle-display-buffer

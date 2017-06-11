@@ -8,7 +8,7 @@
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
-(add-to-list 'load-path (concat user-emacs-directory "elisp"))
+(push (concat user-emacs-directory "elisp") load-path)
 
 ;;;
 ;; Base

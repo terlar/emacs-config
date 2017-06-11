@@ -175,7 +175,7 @@
   :config
   ;; Ignore some additional directories
   (dolist (name '("node_modules" "vendor"))
-    (add-to-list 'ignoramus-file-basename-exact-names name))
+    (push name ignoramus-file-basename-exact-names))
   (ignoramus-setup))
 
 ;; Automatic indentation
@@ -190,12 +190,12 @@
   :config
   ;; Disabled modes
   (dolist (mode '(diff-auto-refine-mode))
-    (add-to-list 'aggressive-indent-excluded-modes mode))
+    (push mode aggressive-indent-excluded-modes))
 
   ;; Disabled commands
   (dolist (command '(evil-undo-pop
                      ws-butler-clean-region))
-    (add-to-list 'aggressive-indent-protected-commands command)))
+    (push command aggressive-indent-protected-commands)))
 
 ;; Auto-close delimiters and blocks as you type
 (use-package smartparens :demand t
