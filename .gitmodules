@@ -10,3 +10,6 @@
 [submodule "vendor/rotate-text"]
 	path = vendor/rotate-text
 	url = https://github.com/debug-ito/rotate-text.el.git
+[submodule "vendor/flycheck-inline"]
+	path = vendor/flycheck-inline
+	url = https://github.com/stardiviner/flycheck-inline

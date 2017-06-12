@@ -12,13 +12,13 @@
   :config
   (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
-;; Popup for errors
-(use-package flycheck-pos-tip
+;; Inline error messages
+(use-package flycheck-inline :ensure nil :pin manual
+  :load-path "vendor/flycheck-inline/"
   :after flycheck
   :config
-  (setq flycheck-pos-tip-timeout 10
-        flycheck-display-errors-delay 0.5)
-  (flycheck-pos-tip-mode +1))
+  (setq flycheck-display-errors-delay 0.5
+        flycheck-display-errors-function #'flycheck-inline))
 
 (provide 'feature-syntax-checker)
 ;;; feature-syntax-checker.el ends here
