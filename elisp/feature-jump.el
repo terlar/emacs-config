@@ -24,13 +24,7 @@
         dumb-jump-aggressive nil
         dumb-jump-selector (cond ((eq my-completion-system 'ivy) 'ivy)
                                  ((eq my-completion-system 'helm) 'helm)
-                                 (t 'popup)))
-  (push '(:type "function" :supports ("ag" "grep" "rg" "git-grep") :language "sh"
-                :regex "function\\s*JJJ\\s*")
-        dumb-jump-find-rules)
-  (push '(:type "variable" :supports ("ag" "grep" "rg" "git-grep") :language "sh"
-                :regex "\\bJJJ\\s*=\\s*")
-        dumb-jump-find-rules))
+                                 (t 'popup))))
 
 (use-package gxref
   :commands (gxref-xref-backend
