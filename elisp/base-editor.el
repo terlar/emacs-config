@@ -89,13 +89,12 @@
 ;; Ediff: use existing frame instead of creating a new one
 (require 'ediff)
 (require 'winner)
-(add-hook 'ediff-load-hook
-          #'(lambda ()
-              (setq ediff-diff-options "-w"
-                    ediff-split-window-function #'split-window-horizontally
-                    ediff-merge-split-window-function #'split-window-horizontally
-                    ;; No extra frames
-                    ediff-window-setup-function #'ediff-setup-windows-plain)))
+(setq-default
+ ediff-diff-options "-w"
+ ediff-split-window-function #'split-window-horizontally
+ ediff-merge-split-window-function #'split-window-horizontally
+ ;; No extra frames
+ ediff-window-setup-function #'ediff-setup-windows-plain)
 (add-hook 'ediff-quit-hook #'winner-undo)
 
 ;; Smart expansion completions

@@ -37,7 +37,10 @@
   :init
   (if (display-graphic-p)
       (mode-icons-mode +1)
-    (add-hook 'after-make-frame-functions #'mode-icons-mode))
+    (add-hook 'after-make-frame-functions
+              #'(lambda (frame)
+                  (when (display-graphic-p frame)
+                    (mode-icons-mode +1)))))
   :config
   (setq mode-icons-desaturate-active t
         mode-icons-desaturate-inactive t))
