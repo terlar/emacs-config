@@ -30,7 +30,7 @@ KEY must be given in `kbd' notation."
         which-key-add-column-padding 1
         which-key-max-display-columns nil
         which-key-min-display-lines 5
-        which-key-idle-delay 0.3)
+        which-key-idle-delay 0.5)
 
   (push '(("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil)) which-key-replacement-alist)
   (push '(("\\`\\?\\?\\'" . nil) . ("λ" . nil)) which-key-replacement-alist)
