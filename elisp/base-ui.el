@@ -123,6 +123,45 @@
 (dolist (hook '(text-mode-hook prog-mode-hook))
   (add-hook hook #'visual-line-mode))
 
+;; Inline eldoc
+(defvar my-display-overlay nil)
+
+(defun my|delete-string-display ()
+  "Delete overlay contents."
+  (when (overlayp my-display-overlay)
+    (delete-overlay my-display-overlay))
+  (remove-hook 'post-command-hook 'my|delete-string-display))
+
+(defun my|string-display-next-line (string)
+  "Overwrite contents of next line with STRING until next command."
+  (let ((str (concat (make-string (1+ (current-indentation)) 32)
+                     (propertize
+                      (copy-sequence string)
+                      'face '(:inherit mode-line))))
+        start-pos
+        end-pos)
+    (unwind-protect
+        (save-excursion
+          (my|delete-string-display)
+          (forward-line)
+          (setq start-pos (point))
+          (end-of-line)
+          (setq end-pos (point))
+          (setq my-display-overlay (make-overlay start-pos end-pos))
+          ;; Hide full line
+          (overlay-put my-display-overlay 'display "")
+          ;; Display message
+          (overlay-put my-display-overlay 'before-string str))
+      (add-hook 'post-command-hook 'my|delete-string-display))))
+
+(defun my|eldoc-display-message-momentary (format-string &rest args)
+  "Display eldoc message near point with FORMAT-STRING of ARGS."
+  (when format-string
+    (my|string-display-next-line
+     (apply 'format format-string args))))
+
+(setq eldoc-message-function #'my|eldoc-display-message-momentary)
+
 ;;;
 ;; Setup
 
