@@ -93,7 +93,7 @@
 (defun my|reset-non-gui-bg-color (&optional frame)
   "Unset background color for FRAME without graphic."
   (unless (display-graphic-p frame)
-    (set-face-background 'default "unspecified-bg" frame)))
+    (set-face-background 'default nil frame)))
 (add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
 (add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
 
