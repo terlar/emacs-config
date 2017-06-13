@@ -11,10 +11,8 @@
   :bind
   (:map
    ivy-mode-map
-   ([remap describe-face]             . counsel-describe-face)
    ([remap find-file]                 . counsel-find-file)
-   ;;([remap switch-to-buffer]          . +ivy/switch-buffer)
-   ;;([remap persp-switch-to-buffer]    . +ivy/switch-workspace-buffer)
+   ([remap switch-to-buffer]          . ivy/switch-buffer)
    ([remap recentf]                   . counsel-recentf)
    ([remap imenu]                     . counsel-imenu)
    ([remap bookmark-jump]             . counsel-bookmark)
