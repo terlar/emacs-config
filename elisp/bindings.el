@@ -199,6 +199,8 @@ KEY must be given in `kbd' notation."
 
 ;; Normal state
 (bind-keys :map evil-normal-state-map
+           ("+"  . rotate-text)
+           ("-"  . rotate-text-backward)
            ("]b" . next-buffer)
            ("[b" . previous-buffer)
            ("]w" . persp-next)
