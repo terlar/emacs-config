@@ -24,11 +24,9 @@
      ("^\\*"  :regexp t :align t :noselect t)
      ("^ \\*" :regexp t :size 12 :align t :noselect t)))
   :config
-  (if (or (display-graphic-p) (daemonp))
+  (if (display-graphic-p)
       (shackle-mode +1)
-    (add-hook 'after-make-frame-functions
-              #'(lambda ()
-                  (shackle-mode +1)))
+    (add-hook 'after-make-frame-functions #'shackle-mode)
     (add-hook 'after-init-hook #'shackle-mode)))
 
 (with-eval-after-load 'neotree

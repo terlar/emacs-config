@@ -39,11 +39,10 @@
                       'persp-face-lighter-nil-persp)))
            (safe-persp-name (get-current-persp)))))
 
-  (add-hook 'after-init-hook
-            #'(lambda ()
-                (if (or (display-graphic-p) (daemonp))
-                    (persp-mode +1)
-                  (add-hook 'after-make-frame-functions #'persp-mode)))))
+  (if (display-graphic-p)
+      (persp-mode +1)
+    (add-hook 'after-make-frame-functions #'persp-mode)
+    (add-hook 'after-init-hook #'persp-mode)))
 
 (provide 'feature-workspaces)
 ;;; feature-workspaces.el ends here

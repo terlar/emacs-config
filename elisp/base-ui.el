@@ -7,7 +7,6 @@
 (require 'ansi-color)
 (require 'compile)
 (require 'paren)
-(require 'winner)
 
 ;; All-the-icons doesn't work in the terminal
 (unless (or (display-graphic-p) (daemonp))
@@ -70,8 +69,25 @@
 (add-hook 'isearch-mode-hook #'(lambda() (setq echo-keystrokes 0)))
 (add-hook 'isearch-mode-end-hook #'(lambda() (setq echo-keystrokes 0.02)))
 
+;; Disable toolbar & menubar
+(tooltip-mode -1) ; Tooltips in echo area
+(menu-bar-mode -1)
+
+(when (or (display-graphic-p) (daemonp))
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  ;; Standardize fringe width
+  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
+  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
+  ;; No fringe in minibuffer
+  (dolist (hook '(emacs-startup-hook minibuffer-setup-hook))
+    (add-hook hook
+              #'(lambda()
+                  (set-window-fringes (minibuffer-window) 0 0 nil)))))
+
 ;; Undo/redo changes to window layout
 (defvar winner-dont-bind-my-keys t)
+(require 'winner)
 (add-hook 'window-setup-hook #'winner-mode)
 
 (defun my/reset-non-gui-bg-color (&optional frame)
@@ -79,6 +95,7 @@
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)))
 (add-hook 'after-make-frame-functions #'my/reset-non-gui-bg-color)
+(add-hook 'after-init-hook #'my/reset-non-gui-bg-color)
 
 ;; Use Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
@@ -108,22 +125,6 @@
 
 ;;;
 ;; Setup
-
-;; Disable toolbar & menubar
-(tooltip-mode -1) ; Tooltips in echo area
-(menu-bar-mode -1)
-
-(when (or (display-graphic-p) (daemonp))
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-  ;; Standardize fringe width
-  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
-  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
-  ;; No fringe in minibuffer
-  (dolist (hook '(emacs-startup-hook minibuffer-setup-hook))
-    (add-hook hook
-              #'(lambda()
-                  (set-window-fringes (minibuffer-window) 0 0 nil)))))
 
 ;; Visual mode for browser
 (add-hook 'eww-mode-hook #'buffer-face-mode)
