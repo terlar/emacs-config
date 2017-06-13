@@ -7,8 +7,8 @@
 (require 'bind-key)
 (require 'evil)
 
-(autoload 'my/neotree-toggle "tool-neotree" nil t)
-(autoload 'my/neotree-window "tool-neotree" nil t)
+(autoload 'my|neotree-toggle "tool-neotree" nil t)
+(autoload 'my|neotree-window "tool-neotree" nil t)
 (autoload 'rotate-text "rotate-text" nil t)
 (autoload 'rotate-text-backward "rotate-text" nil t)
 
@@ -91,8 +91,8 @@ KEY must be given in `kbd' notation."
   (bind-key key #'text-scale-increase))
 
 ;; Neotree
-(bind-keys ("<left-margin> <mouse-1>" . my/neotree-toggle)
-           ("<left-fringe> <mouse-1>" . my/neotree-toggle))
+(bind-keys ("<left-margin> <mouse-1>" . my|neotree-toggle)
+           ("<left-fringe> <mouse-1>" . my|neotree-toggle))
 
 (with-eval-after-load 'neotree
   (add-hook 'neotree-mode-hook
@@ -226,10 +226,10 @@ KEY must be given in `kbd' notation."
            ("C-l"       . evil-window-right)
            ("C-w"       . ace-window)
            ("B"         . switch-to-minibuffer)
-           ([tab]       . my/neotree-window)
-           ("TAB"       . my/neotree-window)
-           ("<C-tab>"   . my/neotree-window)
-           ([backtab]   . my/neotree-toggle)
+           ([tab]       . my|neotree-window)
+           ("TAB"       . my|neotree-window)
+           ("<C-tab>"   . my|neotree-window)
+           ([backtab]   . my|neotree-toggle)
            ;; Swapping windows
            ("C-S-w" . ace-swap-window)
            ("z"     . zoom-window-zoom)

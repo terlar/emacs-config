@@ -141,7 +141,7 @@
             (push '("ws" #xf06e FontAwesome) mode-icons)))
 
 ;; Evil state indicator
-(defun my/mode-line-bar-evil-state (&optional state)
+(defun my|mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
   (let ((tag (evil-state-property state :tag t))
         (color (alist-get state my-evil-mode-color-list my-evil-default-mode-color)))
@@ -155,17 +155,17 @@
                       'mouse-face 'mode-line-highlight))
       tag)))
 (with-eval-after-load 'evil
-  (defalias 'evil-generate-mode-line-tag #'my/mode-line-bar-evil-state))
+  (defalias 'evil-generate-mode-line-tag #'my|mode-line-bar-evil-state))
 
 ;; Right support
-(defun my/mode-line-fill-right (reserve)
+(defun my|mode-line-fill-right (reserve)
   "Return empty space leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
-(defun my/mode-line-right-reserve ()
+(defun my|mode-line-right-reserve ()
   "Reserve space needed for `my-mode-line-right-format'."
   (+ my-mode-line-right-padding (length (format-mode-line my-mode-line-right-format))))
 
@@ -175,7 +175,7 @@
               (append
                mode-line-format
                (list
-                '(:eval (my/mode-line-fill-right (my/mode-line-right-reserve)))
+                '(:eval (my|mode-line-fill-right (my|mode-line-right-reserve)))
                 my-mode-line-right-format)))
 
 (provide 'base-modeline)

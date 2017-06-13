@@ -32,12 +32,12 @@
 (with-eval-after-load 'neotree
   (push '(" *NeoTree*" :size 25 :align left :select t) shackle-rules)
 
-  (defun my/neotree-display (buffer _alist)
+  (defun my|neotree-display (buffer _alist)
     (let ((win (shackle-display-buffer
                 buffer nil '(:align 'left :size 25))))
       (setq neo-global--buffer (window-buffer win)
             neo-global--window win)))
-  (setq neo-display-action '(my/neotree-display)))
+  (setq neo-display-action '(my|neotree-display)))
 
 (provide 'base-popups)
 ;;; base-popups.el ends here

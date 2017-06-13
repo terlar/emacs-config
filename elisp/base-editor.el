@@ -147,7 +147,7 @@
 (use-package ws-butler
   :commands ws-butler-mode
   :preface
-  (defun my/trim-trailing-whitespace (props)
+  (defun my|trim-trailing-whitespace (props)
     "Use ws-butler mode instead of delete-trailing-whitespace."
     (if (equal (gethash 'trim_trailing_whitespace props) "true")
         (progn
@@ -157,7 +157,7 @@
       (ws-butler-mode -1)))
   :init
   (with-eval-after-load 'editorconfig
-    (add-hook 'editorconfig-custom-hooks #'my/trim-trailing-whitespace)))
+    (add-hook 'editorconfig-custom-hooks #'my|trim-trailing-whitespace)))
 
 ;; Branching & persistent undo
 (use-package undo-tree :demand t

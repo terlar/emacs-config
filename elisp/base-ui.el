@@ -90,12 +90,12 @@
 (require 'winner)
 (add-hook 'window-setup-hook #'winner-mode)
 
-(defun my/reset-non-gui-bg-color (&optional frame)
+(defun my|reset-non-gui-bg-color (&optional frame)
   "Unset background color for FRAME without graphic."
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)))
-(add-hook 'after-make-frame-functions #'my/reset-non-gui-bg-color)
-(add-hook 'after-init-hook #'my/reset-non-gui-bg-color)
+(add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
+(add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
 
 ;; Use Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
