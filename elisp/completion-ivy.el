@@ -12,7 +12,7 @@
   (:map
    ivy-mode-map
    ([remap find-file]                 . counsel-find-file)
-   ([remap switch-to-buffer]          . ivy/switch-buffer)
+   ([remap switch-to-buffer]          . ivy-switch-buffer)
    ([remap recentf]                   . counsel-recentf)
    ([remap imenu]                     . counsel-imenu)
    ([remap bookmark-jump]             . counsel-bookmark)
