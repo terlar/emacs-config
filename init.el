@@ -46,6 +46,7 @@
 (require 'lang-elm)
 (require 'lang-emacs-lisp)
 (require 'lang-markdown)
+(require 'lang-pkgbuild)
 (require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
