@@ -4,6 +4,8 @@
 ;; How to interact with Emacs.
 
 ;;; Code:
+(require 'base-vars)
+
 (require 'bind-key)
 (require 'evil)
 
@@ -11,9 +13,6 @@
 (autoload 'my|neotree-window "tool-neotree" nil t)
 (autoload 'rotate-text "rotate-text" nil t)
 (autoload 'rotate-text-backward "rotate-text" nil t)
-
-;; base-theme.el vars
-(defvar my-default-font-height nil)
 
 ;; Some bindings require simulating another key press
 (defun simulate-key-press (key)
@@ -94,7 +93,7 @@ KEY must be given in `kbd' notation."
 (bind-keys ("<left-margin> <mouse-1>" . my|neotree-toggle)
            ("<left-fringe> <mouse-1>" . my|neotree-toggle))
 
-(with-eval-after-load 'neotree
+(with-eval-after-load "neotree"
   (add-hook 'neotree-mode-hook
             #'(lambda ()
                 (bind-keys :map evil-normal-state-local-map
@@ -243,7 +242,7 @@ KEY must be given in `kbd' notation."
            ("C-C" . ace-delete-window))
 
 ;; Flycheck
-(with-eval-after-load 'flycheck
+(with-eval-after-load "flycheck"
   (bind-keys
    :map evil-motion-state-map
    ("]e" . next-error)

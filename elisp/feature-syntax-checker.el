@@ -9,6 +9,8 @@
 
 (use-package flycheck
   :commands (flycheck-mode flycheck-list-errors flycheck-buffer)
+  :init
+  (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :config
   (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
@@ -16,6 +18,7 @@
 (use-package flycheck-inline :ensure nil :pin manual
   :load-path "vendor/flycheck-inline/"
   :after flycheck
+  :commands flycheck-inline
   :config
   (setq flycheck-display-errors-delay 0.5
         flycheck-display-errors-function #'flycheck-inline))

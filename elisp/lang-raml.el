@@ -11,8 +11,7 @@
 ;;; Code:
 (use-package raml-mode :ensure nil :pin manual
   :load-path "vendor/raml-mode/"
-  :mode
-  ("\\.raml$" . raml-mode)
+  :mode "\\.raml$"
   :commands raml-mode)
 
 (provide 'lang-raml)

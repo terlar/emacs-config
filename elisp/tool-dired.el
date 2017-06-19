@@ -4,11 +4,11 @@
 ;; Directory based operations.
 
 ;;; Code:
+(require 'base-vars)
+
 (require 'dired)
 (require 'image-dired)
 (require 'autorevert)
-
-(defvar my-cache-dir nil)
 
 (setq
  ;; Always copy/delete recursively
@@ -29,14 +29,14 @@
   :after dired
   :functions dired-k--highlight
   :preface
-  (defun my-dired-k-highlight (orig-fn &rest args)
+  (defun my|dired-k-highlight (orig-fn &rest args)
     "Butt out if the requested directory is remote (i.e. through tramp)."
     (unless (file-remote-p default-directory)
       (apply orig-fn args)))
   :config
   (setq dired-k-style 'git)
 
-  (advice-add #'dired-k--highlight :around #'my-dired-k-highlight)
+  (advice-add #'dired-k--highlight :around #'my|dired-k-highlight)
 
   (add-hook 'dired-initial-position-hook #'dired-k)
   (add-hook 'dired-after-readin-hook #'dired-k-no-revert))

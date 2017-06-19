@@ -7,8 +7,7 @@
 
 ;;; Code:
 (use-package rst
-  :mode
-  ("\\.\\(txt\\|re?st\\)$" . rst-mode)
+  :mode ("\\.\\(txt\\|re?st\\)$" . rst-mode)
   :commands rst-mode
   :config
   (add-hook 'rst-mode-hook

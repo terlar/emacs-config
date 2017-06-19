@@ -8,18 +8,17 @@
 ;; compiler's static type checking.
 
 ;;; Code:
-(use-package elm-mode
-  :mode ("\\.elm$")
+(require 'base-lib)
+
+(use-package elm-mode :mode ("\\.elm$")
   :commands elm-mode
   :init
+  (with-eval-after-load "company"
+    (push-company-backends 'elm-mode '(company-elm)))
   (add-hook 'elm-mode-hook
             #'(lambda ()
                 (flycheck-mode +1)
-                (rainbow-delimiters-mode +1)
-                (require 'company)
-                (setq-local company-backends
-                            '((company-elm
-                               company-yasnippet)))))
+                (rainbow-delimiters-mode +1)))
   :config
   (setq elm-format-on-save t))
 
@@ -27,8 +26,7 @@
   :after elm-mode
   :commands flycheck-elm-setup
   :config
-  (with-eval-after-load 'flycheck
-    (add-hook 'flycheck-mode-hook #'flycheck-elm-setup)))
+  (add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
 
 (provide 'lang-elm)
 ;;; lang-elm.el ends here

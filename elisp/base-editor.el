@@ -4,9 +4,8 @@
 ;; Defining the behavior of things.
 
 ;;; Code:
-;; base.el vars
-(defvar my-cache-dir nil)
-(defvar my-data-dir nil)
+(require 'base-vars)
+(require 'base-lib)
 
 ;;;
 ;; Settings
@@ -46,7 +45,7 @@
  word-wrap t)
 
 ;;;
-;; Builtins
+;; Built-ins
 
 ;; Revert buffers for changed files
 (require 'autorevert)
@@ -65,7 +64,6 @@
       ;; Save on kill only
       savehist-autosave-interval nil
       savehist-additional-variables '(search-ring regexp-search-ring))
-
 (savehist-mode +1)
 
 ;; Keep track of recently opened files
@@ -86,16 +84,30 @@
       recentf-filename-handlers '(abbreviate-file-name))
 (quiet! (recentf-mode +1))
 
-;; Ediff: use existing frame instead of creating a new one
-(require 'ediff)
+;; Undo/redo window layout changes
 (require 'winner)
-(setq-default
- ediff-diff-options "-w"
- ediff-split-window-function #'split-window-horizontally
- ediff-merge-split-window-function #'split-window-horizontally
- ;; No extra frames
- ediff-window-setup-function #'ediff-setup-windows-plain)
-(add-hook 'ediff-quit-hook #'winner-undo)
+
+;; Ediff: use existing frame instead of creating a new one
+(use-package ediff
+  :commands (ediff-copy-diff
+             ediff-get-region-contents
+             ediff-setup-windows-plain)
+  :preface
+  (defun ediff-copy-both-to-C ()
+    "Copy change from both A and B to C."
+    (interactive)
+    (ediff-copy-diff
+     ediff-current-difference nil 'C nil
+     (concat
+      (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+      (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+  :init
+  (setq ediff-diff-options "-w"
+        ediff-split-window-function #'split-window-horizontally
+        ediff-merge-split-window-function #'split-window-horizontally
+        ;; No extra frames
+        ediff-window-setup-function #'ediff-setup-windows-plain)
+  (add-hook 'ediff-quit-hook #'winner-undo))
 
 ;; Smart expansion completions
 (require 'hippie-exp)
@@ -120,73 +132,26 @@
         ;; Try to complete word as an Emacs Lisp symbol.
         try-complete-lisp-symbol))
 
-(defun my-dont-kill-scratch-buffer ()
+(defun my|dont-kill-scratch-buffer ()
   "Don't kill scratch buffers."
   (or (not (string= (buffer-name) "*scratch*"))
       (ignore (bury-buffer))))
-(add-hook 'kill-buffer-query-functions #'my-dont-kill-scratch-buffer)
+(add-hook 'kill-buffer-query-functions #'my|dont-kill-scratch-buffer)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
-;;;
-;; Packages
-
-;; Save buffers when focus is lost
-(use-package super-save :demand t
-  :config (super-save-mode +1))
-
-;; Handles white-space (tabs/spaces) settings externally. This way projects can
-;; specify their own formatting rules.
-(use-package editorconfig :demand t
-  :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
-  :config
-  (editorconfig-mode +1))
-
-;; Delete trailing white-space before save
-(use-package ws-butler
-  :commands ws-butler-mode
-  :preface
-  (defun my|trim-trailing-whitespace (props)
-    "Use ws-butler mode instead of delete-trailing-whitespace."
-    (if (equal (gethash 'trim_trailing_whitespace props) "true")
-        (progn
-          (setq write-file-functions
-                (delete 'delete-trailing-whitespace write-file-functions))
-          (ws-butler-mode +1))
-      (ws-butler-mode -1)))
-  :init
-  (with-eval-after-load 'editorconfig
-    (add-hook 'editorconfig-custom-hooks #'my|trim-trailing-whitespace)))
-
-;; Branching & persistent undo
-(use-package undo-tree :demand t
-  :config
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist
-        (list (cons "." (concat my-cache-dir "undo-tree-hist/")))
-        undo-tree-visualizer-diff t
-        undo-tree-visualizer-timestamps t)
-  (global-undo-tree-mode +1))
-
-;; Ignore files
-(use-package ignoramus :demand t
-  :config
-  ;; Ignore some additional directories
-  (dolist (name '("node_modules" "vendor"))
-    (push name ignoramus-file-basename-exact-names))
-  (ignoramus-setup))
-
 ;; Automatic indentation
 (electric-indent-mode +1)
 
-(use-package aggressive-indent
-  :commands global-aggressive-indent-mode
-  :init
-  (add-hook 'after-init-hook
-            #'(lambda ()
-                (global-aggressive-indent-mode +1)))
+;;;
+;; Packages
+
+;; Automatic indentation as you type
+(use-package aggressive-indent :demand t
+  :commands (aggressive-indent-mode global-aggressive-indent-mode)
   :config
+  (global-aggressive-indent-mode +1)
   ;; Disabled modes
   (dolist (mode '(diff-auto-refine-mode))
     (push mode aggressive-indent-excluded-modes))
@@ -196,8 +161,28 @@
                      ws-butler-clean-region))
     (push command aggressive-indent-protected-commands)))
 
+;; Delete selection upon insertion or DEL
+(use-package delsel :demand t
+  :config (delete-selection-mode +1))
+
+;; Handles white-space (tabs/spaces) settings externally. This way projects can
+;; specify their own formatting rules.
+(use-package editorconfig :demand t
+  :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
+  :config (editorconfig-mode +1))
+
+;; Ignore files
+(use-package ignoramus :demand t
+  :config
+  ;; Ignore some additional directories
+  (dolist (name '("node_modules" "vendor"))
+    (push name ignoramus-file-basename-exact-names))
+
+  (ignoramus-setup))
+
 ;; Auto-close delimiters and blocks as you type
 (use-package smartparens :demand t
+  :commands (sp-pair sp-local-pair)
   :init
   (setq-default
    sp-autowrap-region nil ; Let evil-surround handle this
@@ -206,15 +191,17 @@
    sp-show-pair-delay 0
    sp-max-pair-length 3)
   :config
-  (smartparens-global-mode +1)
+  (add-hook 'after-init-hook #'smartparens-global-mode)
   (require 'smartparens-config)
   ;; Smartparens interferes with Replace mode
   (add-hook 'evil-replace-state-entry-hook #'turn-off-smartparens-mode)
   (add-hook 'evil-replace-state-exit-hook  #'turn-on-smartparens-mode)
 
   ;; Auto-close more conservatively
-  (sp-pair "'" nil :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))
-  (sp-pair "\"" nil :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))
+  (sp-pair "'" nil
+           :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))
+  (sp-pair "\"" nil
+           :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))
   (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " " "))
            :unless '(sp-point-before-word-p sp-point-before-same-p))
   (sp-pair "(" nil :post-handlers '(("||\n[i]" "RET") ("| " " "))
@@ -229,17 +216,42 @@
   (sp-local-pair '(xml-mode nxml-mode php-mode)
                  "<!--" "-->"   :post-handlers '(("| " "SPC"))))
 
-;; Delete selection upon insertion or DEL
-(use-package delsel :demand t
+;; Save buffers when focus is lost
+(use-package super-save :demand t
+  :config (super-save-mode +1))
+
+;; Branching & persistent undo
+(use-package undo-tree :demand t
   :config
-  (delete-selection-mode +1))
+  (global-undo-tree-mode +1)
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        (list (cons "." (concat my-cache-dir "undo-tree-hist/")))
+        undo-tree-visualizer-diff t
+        undo-tree-visualizer-timestamps t))
+
+;; Delete trailing white-space before save
+(use-package ws-butler
+  :commands ws-butler-mode
+  :preface
+  (defun my|trim-trailing-whitespace (props)
+    "Use ws-butler mode instead of delete-trailing-whitespace."
+    (if (not (equal (gethash 'trim_trailing_whitespace props) "true"))
+        (ws-butler-mode -1)
+      (setq write-file-functions
+            (delete 'delete-trailing-whitespace write-file-functions))
+      (ws-butler-mode +1)))
+  :init
+  (with-eval-after-load "editorconfig"
+    (add-hook 'editorconfig-custom-hooks #'my|trim-trailing-whitespace)))
 
 ;;;
-;; Autoloaded Packages
+;; Auto-loaded Packages
 
 ;; Hint mode for links
 (use-package ace-link
-  :commands (ace-link-help ace-link-org))
+  :commands (ace-link-help
+             ace-link-org))
 
 ;; Fast window navigation
 (use-package ace-window
@@ -253,7 +265,8 @@
 
 ;; Jump to things
 (use-package avy
-  :commands (avy-goto-char-2 avy-goto-line)
+  :commands (avy-goto-char-2
+             avy-goto-line)
   :config
   (setq avy-all-windows nil
         avy-background t))
@@ -274,7 +287,10 @@
 
 ;; Selection helper
 (use-package expand-region
-  :commands (er/expand-region er/contract-region er/mark-symbol er/mark-word))
+  :commands (er/expand-region
+             er/contract-region
+             er/mark-symbol
+             er/mark-word))
 
 ;; Move point through buffer-undo-list positions
 (use-package goto-last-change :commands goto-last-change)
@@ -301,16 +317,14 @@
   :commands (smart-up smart-down smart-backward smart-forward))
 
 ;; Utility for opening files with sudo
-(use-package sudo-edit
-  :commands sudo-edit)
+(use-package sudo-edit :commands sudo-edit)
 
 ;; Writable grep buffer and apply the changes to files
 (use-package wgrep
   :commands (wgrep-setup wgrep-change-to-wgrep-mode)
-  :config
-  (setq wgrep-auto-save-buffer t))
+  :config (setq wgrep-auto-save-buffer t))
 
-(use-package zoom-window)
+(use-package zoom-window :commands zoom-window-zoom)
 
 (provide 'base-editor)
 ;;; base-editor.el ends here

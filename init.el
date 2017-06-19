@@ -4,14 +4,12 @@
 ;;; The init file that loads all the components.
 
 ;;; Code:
-;;(package-initialize)
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6)
-
-(push (concat user-emacs-directory "elisp") load-path)
+(eval-and-compile
+  (push (concat user-emacs-directory "elisp") load-path))
 
 ;;;
 ;; Base
+;; Calls (package-initialize)
 (require 'base)
 
 ;;;
@@ -35,9 +33,6 @@
 (require 'tool-rotate-text)        ; Toggle between different text
 
 ;;;
-;; Completion
-
-;;;
 ;; Language support
 (require 'lang-conf)
 (require 'lang-data)
@@ -54,13 +49,10 @@
 (require 'lang-shell)
 (require 'lang-web)
 
+;;;
 ;; Keybindings
 (unless noninteractive
   (require 'bindings)
   (require 'commands))
 
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (setq gc-cons-threshold 16777216
-                    gc-cons-percentage 0.1)))
 ;;; init.el ends here

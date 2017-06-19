@@ -5,6 +5,8 @@
 ;; well as a garbage-collected runtime system.
 
 ;;; Code:
+(require 'base-lib)
+
 (use-package erlang
   :init
   (add-hook 'erlang-mode-hook #'flycheck-mode)
@@ -15,13 +17,7 @@
 (use-package company-erlang
   :after erlang
   :init
-  (add-hook 'erlang-mode-hook
-            #'(lambda ()
-                (require 'company)
-                (setq-local company-backends
-                            (append
-                             '(company-erlang)
-                             company-backends)))))
+  (push-company-backends 'erlang-mode '(company-erlang)))
 
 (use-package flycheck-rebar3
   :after erlang

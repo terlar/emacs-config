@@ -4,18 +4,14 @@
 ;; Support for ePUB and PDF.
 
 ;;; Code:
-(use-package ereader
-  :mode
-  ("\\.epub$" . ereader-mode)
+(use-package ereader :mode ("\\.epub$" . ereader-mode)
   :commands ereader-mode
   :config
   (add-hook 'ereader-mode-hook
             #'(lambda ()
                 (page-break-lines-mode +1))))
 
-(use-package pdf-tools
-  :mode
-  ("\\.pdf$" . pdf-view-mode)
+(use-package pdf-tools :mode ("\\.pdf$" . pdf-view-mode)
   :commands (pdf-view-mode pdf-tools-install))
 
 (provide 'lang-ebook)

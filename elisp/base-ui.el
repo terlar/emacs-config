@@ -4,26 +4,10 @@
 ;; The behavior of things.
 
 ;;; Code:
-(require 'ansi-color)
-(require 'compile)
-(require 'paren)
-
-;; All-the-icons doesn't work in the terminal
-(unless (or (display-graphic-p) (daemonp))
-  (defalias 'all-the-icons-octicon    #'ignore)
-  (defalias 'all-the-icons-faicon     #'ignore)
-  (defalias 'all-the-icons-fileicon   #'ignore)
-  (defalias 'all-the-icons-wicon      #'ignore)
-  (defalias 'all-the-icons-alltheicon #'ignore))
+(require 'base-vars)
 
 ;;;
 ;; Settings
-(defvar my-fringe-width 12
-  "The fringe width to use.")
-
-(defvar my-completion-system 'ivy
-  "The completion system to use.")
-
 (setq-default
  ;; Disable bidirectional text for tiny performance boost
  bidi-display-reordering nil
@@ -97,16 +81,19 @@
 (add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
 (add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
 
-;; Use Emacs compatible pager
+;; Use an Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
 
 ;; Highlight matching delimiters
+(require 'paren)
 (setq show-paren-delay 0.1
       show-paren-highlight-openparen t
       show-paren-when-point-inside-paren t)
 (show-paren-mode +1)
 
 ;; Filter ANSI escape codes in compilation-mode output
+(autoload 'ansi-color-apply-on-region "ansi-color" nil t)
+(require 'compile)
 (add-hook 'compilation-filter-hook
           #'(lambda ()
               (let ((inhibit-read-only t))
@@ -118,12 +105,12 @@
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer ad-do-it)))
 
-;; Word wrapping
+;; Visual line wrapping
 (diminish 'visual-line-mode)
 (dolist (hook '(text-mode-hook prog-mode-hook))
   (add-hook hook #'visual-line-mode))
 
-;; Inline eldoc
+;; Inline eldoc pop-up
 (defvar my-display-overlay nil)
 
 (defun my|delete-string-display ()
@@ -162,16 +149,13 @@
 
 (setq eldoc-message-function #'my|eldoc-display-message-momentary)
 
-;;;
-;; Setup
-
 ;; Visual mode for browser
 (add-hook 'eww-mode-hook #'buffer-face-mode)
 
 ;;;
 ;; Packages
 
-;; Align wrapped lines
+;; Align visually wrapped lines
 (use-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode
   :init
@@ -179,11 +163,11 @@
 
 ;; Pretty icons
 (use-package all-the-icons
-  :when (display-graphic-p)
-  :commands (all-the-icons-faicon all-the-icons-faicon-family))
+  :when (display-graphic-p))
 
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
+  :commands color-identifiers-mode
   :init
   (add-hook 'after-init-hook #'global-color-identifiers-mode))
 
@@ -205,32 +189,24 @@
 
 ;; Code folding (builtin)
 (use-package hideshow
-  :commands (hs-minor-mode hs-toggle-hiding hs-already-hidden-p)
+  :commands hs-minor-mode
   :init
   (add-hook 'prog-mode-hook #'hs-minor-mode)
   :config
-  (setq hs-hide-comments-when-hiding-all nil)
-
-  ;; Nicer code-folding overlays (with fringe indicators)
-  (setq hs-set-up-overlay
+  (setq hs-hide-comments-when-hiding-all nil
+        ;; Nicer code-folding overlays
+        hs-set-up-overlay
         (lambda (ov)
           (when (eq 'code (overlay-get ov 'hs))
             (overlay-put
              ov 'display (propertize " … " 'face 'my-folded-face))))))
-
-;; Indentation guides
-(use-package highlight-indent-guides
-  :commands highlight-indent-guides-mode
-  :init
-  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character))
 
 ;; For modes that don't adequately highlight numbers
 (use-package highlight-numbers :commands highlight-numbers-mode)
 
 ;; Line highlighting (builtin)
 (use-package hl-line
+  :commands hl-line-mode
   :init
   (dolist (hook '(linum-mode-hook nlinum-mode-hook))
     (add-hook hook #'hl-line-mode))
@@ -239,38 +215,59 @@
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
 
-;; Line numbers
-(use-package nlinum
-  :load-path "vendor/nlinum/"
-  :commands nlinum-mode
-  :preface (defvar nlinum-format "%4d ")
+;; Indentation guides
+(use-package indent-guide
+  :commands indent-guide-mode
   :init
-  (dolist (hook '(prog-mode-hook text-mode-hook))
-    (add-hook hook #'(lambda()
-                       (unless (eq major-mode 'org-mode)
-                         (nlinum-mode +1)))))
+  (add-hook 'prog-mode-hook #'indent-guide-mode)
   :config
-  (custom-set-variables
-   '(nlinum-highlight-current-line t)))
+  (setq indent-guide-delay 0.2
+        indent-guide-char "\x2502"))
+
+;; Display docs inline
+(use-package inline-docs
+  :commands inline-docs
+  :config
+  (setq inline-docs-border-symbol ?─))
 
 ;; Flash the line around cursor on large movements
 (use-package nav-flash
-  :commands nav-flash-show
   :preface
-  (defun my-blink-cursor (&rest _)
+  (eval-when-compile
+    (declare-function windmove-do-window-select "windmove")
+    (declare-function evil-window-top "evil")
+    (declare-function evil-window-middle "evil")
+    (declare-function evil-window-bottom "evil"))
+
+  (defun my|blink-cursor (&rest _)
     "Blink current line using `nav-flash'."
     (interactive)
     (unless (minibufferp)
-      (nav-flash-show)))
-  :init
-  (add-hook 'focus-in-hook #'my-blink-cursor)
-  (advice-add #'windmove-do-window-select :around #'my-blink-cursor)
-  (advice-add #'recenter :around #'my-blink-cursor)
+      (nav-flash-show)
+      ;; only show in the current window
+      (overlay-put compilation-highlight-overlay 'window (selected-window))))
 
-  (with-eval-after-load 'evil
-    (advice-add #'evil-window-top    :after #'my-blink-cursor)
-    (advice-add #'evil-window-middle :after #'my-blink-cursor)
-    (advice-add #'evil-window-bottom :after #'my-blink-cursor)))
+  :commands nav-flash-show
+  :init
+  (advice-add #'recenter :around #'my|blink-cursor)
+
+  (with-eval-after-load "windmove"
+    (advice-add #'windmove-do-window-select :around #'my|blink-cursor))
+
+  (with-eval-after-load "evil"
+    (advice-add #'evil-window-top    :after #'my|blink-cursor)
+    (advice-add #'evil-window-middle :after #'my|blink-cursor)
+    (advice-add #'evil-window-bottom :after #'my|blink-cursor)))
+
+;; Line numbers
+(use-package nlinum :ensure nil :pin manual
+  :load-path "vendor/nlinum/"
+  :preface (defvar nlinum-format "%4d ")
+  :commands nlinum-mode
+  :init
+  (add-hook 'prog-mode-hook #'nlinum-mode)
+  :config
+  (setq nlinum-highlight-current-line t))
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
@@ -284,7 +281,7 @@
   :init (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   :config (setq rainbow-delimiters-max-face-count 3))
 
-;; Centered mode
+;; Visual line wrapping and centered text
 (use-package visual-fill-column
   :init
   (setq-default

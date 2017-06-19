@@ -5,6 +5,12 @@
 
 ;;; Code:
 (use-package shackle :demand t
+  :commands (shackle-mode shackle-display-buffer)
+  :preface
+  (eval-when-compile
+    (defvar neo-display-action)
+    (defvar neo-global--buffer)
+    (defvar neo-global--window))
   :init
   (setq-default
    shackle-default-alignment 'below
@@ -29,7 +35,7 @@
     (add-hook 'after-make-frame-functions #'shackle-mode)
     (add-hook 'after-init-hook #'shackle-mode)))
 
-(with-eval-after-load 'neotree
+(with-eval-after-load "neotree"
   (push '(" *NeoTree*" :size 25 :align left :select t) shackle-rules)
 
   (defun my|neotree-display (buffer _alist)

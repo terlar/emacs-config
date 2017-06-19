@@ -69,7 +69,7 @@
 E.g. invoked by `evil-force-normal-state'.
 If a hook returns non-nil, all hooks after it are ignored.")
 
-(defun my-evil-attach-escape-hook ()
+(defun my|evil-attach-escape-hook ()
   "Run the `my-evil-esc-hook'."
   (cond ((minibuffer-window-active-p (minibuffer-window))
          ;; quit the minibuffer if open.
@@ -80,7 +80,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
         (t
          ;; Run all escape hooks. If any returns non-nil, then stop there.
          (run-hook-with-args-until-success 'my-evil-esc-hook))))
-(advice-add #'evil-force-normal-state :after #'my-evil-attach-escape-hook)
+(advice-add #'evil-force-normal-state :after #'my|evil-attach-escape-hook)
 
 ;;;
 ;; Packages

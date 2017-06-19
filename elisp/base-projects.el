@@ -4,14 +4,12 @@
 ;; Project management.
 
 ;;; Code:
-;; base.el vars
-(defvar my-cache-dir nil)
-(defvar my-data-dir nil)
+(require 'base-vars)
 
 (use-package projectile :demand t
   :functions projectile-ignored-directories
   :preface
-  (defun my-projectile-cache-current-file (orig-fun &rest args)
+  (defun my|projectile-cache-current-file (orig-fun &rest args)
     "Don't cache ignored files."
     (unless (cl-some (lambda (path)
                        (string-prefix-p buffer-file-name
@@ -43,18 +41,7 @@
                   ("html" "jade" "pug" "jsx" "tsx"))
                 projectile-other-file-alist))
 
-  (advice-add #'projectile-cache-current-file :around #'my-projectile-cache-current-file))
-
-;;;
-;; Projects
-(defvar-local my-project nil
-  "A list of project mode symbols to enable. Used for .dir-locals.el.")
-
-(defun my-autoload-project-mode ()
-  "Auto-enable projects listed in `my-project', which is meant to be set from .dir-locals.el files."
-  (dolist (mode my-project)
-    (funcall mode)))
-(add-hook 'after-change-major-mode-hook #'my-autoload-project-mode)
+  (advice-add #'projectile-cache-current-file :around #'my|projectile-cache-current-file))
 
 ;;;
 ;; Buffer filtering

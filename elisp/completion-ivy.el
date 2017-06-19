@@ -4,10 +4,11 @@
 ;; Completing all your things.
 
 ;;; Code:
-;; base.el vars
-(defvar my-cache-dir nil)
+(require 'base-vars)
 
 (use-package ivy :demand t
+  :commands (ivy-mode
+             ivy-format-function-line)
   :bind
   (:map
    ivy-mode-map
@@ -24,21 +25,20 @@
    ([remap describe-variable]         . counsel-describe-variable)
    ([remap describe-face]             . counsel-describe-face))
   :config
+  (defvar projectile-completion-system 'ivy)
+  (defvar smex-completion-method 'ivy)
+  (defvar magit-completing-read-function #'ivy-completing-read)
+
   (setq ivy-height 12
         ivy-do-completion-in-region nil
         ivy-wrap t
         ivy-fixed-height-minibuffer t
-        projectile-completion-system 'ivy
-        smex-completion-method 'ivy
         ;; Don't use ^ as initial input
         ivy-initial-inputs-alist nil
         ;; highlight til EOL
         ivy-format-function #'ivy-format-function-line
         ;; disable magic slash on non-match
         ivy-magic-slash-non-match-action nil)
-
-  (with-eval-after-load 'magit
-    (setq magit-completing-read-function #'ivy-completing-read))
 
   (ivy-mode +1))
 
@@ -56,7 +56,6 @@
   :config
   (setq smex-save-file (concat my-cache-dir "/smex-items"))
   (smex-initialize))
-
 
 (provide 'completion-ivy)
 ;;; completion-ivy.el ends here

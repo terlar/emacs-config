@@ -4,6 +4,8 @@
 ;; All things web.
 
 ;;; Code:
+(require 'base-lib)
+
 (use-package web-mode
   :mode
   (("\\.h?html?$" . web-mode)
@@ -17,14 +19,12 @@
    ("\\.djhtml$" . web-mode)
    ("wp-content/themes/.+/.+\\.php$" . web-mode))
   :init
-  (add-hook 'web-mode-hook
-            #'(lambda ()
-                (turn-off-smartparens-mode)
-                (setq-local company-backends
-                            '((company-tern
-                               company-css
-                               company-web-html
-                               company-files)))))
+  (add-hook 'web-mode-hook #'turn-off-smartparens-mode)
+  (with-eval-after-load "company"
+    (push-company-backends 'web-mode '(company-tern
+                                       company-css
+                                       company-web-html
+                                       company-files)))
   :config
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
@@ -45,32 +45,25 @@
   :config
   (setq emmet-move-cursor-between-quotes t))
 
-(use-package company-web
-  :when (package-installed-p 'company)
-  :after web-mode)
+(use-package company-web :after web-mode)
 
 (use-package slim-mode :mode "\\.slim$")
 
 (use-package haml-mode :mode "\\.haml$")
 
-(use-package pug-mode
-  :mode ("\\.jade$" "\\.pug$"))
+(use-package pug-mode :mode ("\\.jade$" "\\.pug$"))
 
 ;; configure CSS mode company backends
 (use-package css-mode
-  :mode ("\\.css$"
+  :mode (("\\.css$"  . css-mode)
          ("\\.scss$" . scss-mode))
   :init
-  (add-hook 'css-mode-hook
-            #'(lambda ()
-                (setq-local company-backends
-                            '((company-css
-                               company-dabbrev-code
-                               company-files))))))
+  (push-company-backends 'css-mode '(company-css
+                                     company-dabbrev-code
+                                     company-files)))
 
 ;; Live refresh of web pages
-(use-package impatient-mode
-  :commands (impatient-mode))
+(use-package impatient-mode :commands impatient-mode)
 
 (provide 'lang-web)
 ;;; lang-web.el ends here

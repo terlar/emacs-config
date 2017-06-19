@@ -1,4 +1,4 @@
-;;; base-functions.el --- Custom functions
+;;; base-lib.el --- Library functions
 
 ;;; Commentary:
 ;; Custom functions, macros and helpers.
@@ -15,11 +15,23 @@
                ((symbol-function 'write-region)
                 (lambda (start end filename &optional append visit lockname mustbenew)
                   (unless visit (setq visit 'no-message))
-                  (my--old-write-region-fn
-                   start end filename append visit lockname mustbenew)))
+                  (when (fboundp 'my--old-write-region-fn)
+                    (my--old-write-region-fn
+                     start end filename append visit lockname mustbenew))))
                (inhibit-message t)
                (save-silently t))
        ,@forms)))
+
+(defun push-company-backends (mode backends)
+  "For MODE add BACKENDS to buffer-local version of `company-backends'."
+  (let ((backends (if (listp backends) backends (list backends)))
+        (hook (intern (format "%s-hook" (symbol-name mode))))
+        (quoted (eq (car-safe backends) 'quote)))
+    (add-hook hook `(lambda ()
+                      (when (equal major-mode ',mode)
+                        (require 'company)
+                        (unless (member ',backends company-backends)
+                          (setq-local company-backends (append '((,@backends)) company-backends))))))))
 
 (defun retab ()
   "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
@@ -28,15 +40,6 @@
       (tabify (point-min) (point-max))
     (untabify (point-min) (point-max))))
 
-(defun ediff-copy-both-to-C ()
-  "Copy change from both A and B to C."
-  (interactive)
-  (ediff-copy-diff
-   ediff-current-difference nil 'C nil
-   (concat
-    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
-    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
-
 (defun switch-to-minibuffer ()
   "Switch to minibuffer window."
   (interactive)
@@ -44,5 +47,5 @@
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
 
-(provide 'base-functions)
-;;; base-functions.el ends here
+(provide 'base-lib)
+;;; base-lib.el ends here

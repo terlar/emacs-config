@@ -12,7 +12,6 @@
               (highlight-quoted-mode +1)
               (auto-compile-on-save-mode +1)
               (rainbow-delimiters-mode +1)
-
               (flycheck-mode +1)))
 
 ;;;
@@ -20,7 +19,7 @@
 (use-package auto-compile
   :commands (auto-compile-on-save-mode auto-compile-byte-compile)
   :preface
-  (defun my-emacs-lisp-load-after-compile (success)
+  (defun my|emacs-lisp-load-after-compile (success)
     "Reload the current emacs-lisp file after it's recompiled, if an older
 version is loaded."
     (when (eq success t)
@@ -31,7 +30,7 @@ version is loaded."
   (setq auto-compile-display-buffer nil
         auto-compile-use-mode-line nil)
 
-  (advice-add #'auto-compile-byte-compile :filter-return #'my-emacs-lisp-load-after-compile))
+  (advice-add #'auto-compile-byte-compile :filter-return #'my|emacs-lisp-load-after-compile))
 
 (use-package highlight-quoted
   :commands highlight-quoted-mode)

@@ -6,24 +6,28 @@
 ;; XML, JSON and even images.
 
 ;;; Code:
+(require 'base-lib)
+
 (use-package restclient
   :mode ("\\.http$" . restclient-mode)
   :commands restclient-mode
+  :preface
+  (eval-when-compile
+    (defvar evil-normal-state-local-map))
   :config
-  (add-hook 'restclient-mode-hook
-            #'(lambda ()
-                (bind-keys :map evil-normal-state-local-map
-                           ("e" . restclient-http-send-current)
-                           ("E" . restclient-http-send-current-raw)
-                           ("c" . restclient-copy-curl-command)))))
+  (with-eval-after-load "evil"
+    (add-hook 'restclient-mode-hook
+              #'(lambda ()
+                  (bind-keys :map evil-normal-state-local-map
+                             ("e" . restclient-http-send-current)
+                             ("E" . restclient-http-send-current-raw)
+                             ("c" . restclient-copy-curl-command))))))
 
 (use-package company-restclient
-  :when (package-installed-p 'company)
   :after restclient
   :config
-  (add-hook 'restclient-mode-hook
-            #'(lambda ()
-                (setq-local company-backends (append '(company-restclient) company-backends)))))
+  (with-eval-after-load "company"
+    (push-company-backends 'restclient-mode '(company-restclient))))
 
 (provide 'lang-rest)
 ;;; lang-rest.el ends here

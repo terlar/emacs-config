@@ -4,45 +4,15 @@
 ;; The look of things.
 
 ;;; Code:
-(defvar neo-global--window nil)
+(require 'base-vars)
 
-(defun my|neotree-no-fringes ()
-  "Remove fringes in neotree buffer.
-They get reset each time you select the neotree pane and are highlighted incorrectly."
-  (set-window-fringes neo-global--window 1 0))
-
-;;;
-;; Variables
-
-(defvar my-theme 'tao-yang
-  "The color theme to use.")
-
-(defvar my-default-font-height 140
-  "The default font height to use.")
-
-(defvar my-font "Fira Mono"
-  "The monospace font to use.")
-
-(defvar my-variable-pitch-font "Fira Sans Book"
-  "The regular font to use.")
-
-(defvar my-unicode-font "Noto Mono"
-  "Fallback font for unicode glyphs.")
-
-(defvar my-evil-default-mode-color "#AB47BC"
-  "Default mode color for Evil states.")
-
-(defvar my-evil-mode-color-list
-  `((normal   . "#4CAF50")
-    (emacs    . "#2196F3")
-    (insert   . "#2196F3")
-    (replace  . "#F44336")
-    (visual   . "#FF9800"))
-  "Mode color corresponding to Evil state.")
+(eval-when-compile
+  (defvar hl-todo-keyword-faces)
+  (defvar neo-global--window)
+  (declare-function neo-global--select-window "neotree"))
 
 ;;;
 ;; Theme
-
 (use-package tao-theme)
 (use-package punpun-theme)
 (use-package eziam-theme)
@@ -55,7 +25,6 @@ They get reset each time you select the neotree pane and are highlighted incorre
 
 ;;;
 ;; Typography
-
 (when (or (display-graphic-p) (daemonp))
   (with-demoted-errors "FONT ERROR: %s"
     (set-face-attribute 'default nil :height my-default-font-height :family my-font)
@@ -69,7 +38,6 @@ They get reset each time you select the neotree pane and are highlighted incorre
 
 ;;;
 ;; Faces
-
 (defface my-folded-face
   `((((background dark))
      (:inherit font-lock-comment-face :background "black"))
@@ -81,12 +49,6 @@ They get reset each time you select the neotree pane and are highlighted incorre
 (set-face-attribute 'error nil :foreground "tomato")
 (set-face-attribute 'success nil :foreground "sea green")
 (set-face-attribute 'warning nil :foreground "dark orange" :weight 'bold)
-
-(defvar hl-todo-keyword-faces
-  `(("TODO"  . (:box '(:line-width 1) :foreground ,(face-foreground 'warning)))
-    ("FIXME" . (:box '(:line-width 1) :foreground ,(face-foreground 'error)))
-    ("NOTE"  . (:box '(:line-width 1) :foreground ,(face-foreground 'success))))
-  "Faces used to highlight specific TODO keywords.")
 
 ;; Mode line
 (set-face-attribute 'mode-line nil
@@ -118,10 +80,34 @@ They get reset each time you select the neotree pane and are highlighted incorre
   (set-face-attribute 'ediff-current-diff-C nil :background "#EBEFF8")
   (set-face-attribute 'ediff-fine-diff-C    nil :background "#4A8BB3"))
 
+(with-eval-after-load "flycheck"
+  (set-face-attribute 'flycheck-error nil :inherit 'error)
+  (set-face-attribute 'flycheck-warning nil :inherit 'warning))
+
+(with-eval-after-load "hl-todo"
+  (setq hl-todo-keyword-faces
+        `(("TODO"  . (:box '(:line-width 1) :foreground ,(face-foreground 'warning)))
+          ("FIXME" . (:box '(:line-width 1) :foreground ,(face-foreground 'error)))
+          ("NOTE"  . (:box '(:line-width 1))))))
+
+(with-eval-after-load "indent-guide"
+  (set-face-foreground 'indent-guide-face (face-foreground 'vertical-border)))
+
+(with-eval-after-load "inline-docs"
+  (set-face-attribute 'inline-docs-border-face nil :inherit 'fringe)
+  (set-face-attribute 'inline-docs-indicator-face nil :inherit 'fringe))
+
 (with-eval-after-load "nav-flash"
   (set-face-attribute 'nav-flash-face nil :background "pale goldenrod"))
 
+(defun my|neotree-no-fringes ()
+  "Remove fringes in neotree buffer.
+They get reset each time you select the neotree pane and are highlighted incorrectly."
+  (set-window-fringes neo-global--window 1 0))
+
 (with-eval-after-load "neotree"
+  (advice-add #'neo-global--select-window :after #'my|neotree-no-fringes)
+
   (set-face-attribute 'neo-root-dir-face  nil :family my-variable-pitch-font)
   (set-face-attribute 'neo-dir-link-face  nil :family my-variable-pitch-font)
   (set-face-attribute 'neo-file-link-face nil :family my-variable-pitch-font)
@@ -137,9 +123,7 @@ They get reset each time you select the neotree pane and are highlighted incorre
                 (setq cursor-type nil)
                 (with-eval-after-load "evil"
                   (defadvice evil-refresh-cursor (around evil activate)
-                    (unless (eq major-mode 'neotree-mode) ad-do-it)))))
-
-  (advice-add #'neo-global--select-window :after #'my|neotree-no-fringes))
+                    (unless (eq major-mode 'neotree-mode) ad-do-it))))))
 
 (with-eval-after-load "nlinum"
   (set-face-attribute 'linum nil

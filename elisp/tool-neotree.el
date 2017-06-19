@@ -4,9 +4,7 @@
 ;; Show your files in a tree view.
 
 ;;; Code:
-(autoload 'projectile-project-root "projectile" nil t)
-
-(defvar winner-boring-buffers nil)
+(autoload 'projectile-project-root "projectile")
 
 (use-package neotree
   :commands (neotree-show
@@ -18,6 +16,9 @@
              neo-global--with-buffer
              neo-global--window-exists-p)
   :functions (off-p)
+  :preface
+  (eval-when-compile
+    (defvar winner-boring-buffers))
   :config
   (setq
    neo-create-file-auto-open nil

@@ -4,29 +4,10 @@
 ;; Setting sane defaults.
 
 ;;; Code:
-(defvar my-debug-mode (or (getenv "DEBUG") init-file-debug)
-  "Debug mode, enable through DEBUG=1 or use --debug-init.")
+(require 'base-vars)
 
-(defvar my-emacs-dir user-emacs-directory
-  "The path to this .emacs.d directory.")
-
-(defvar my-elisp-dir (concat user-emacs-directory "elisp/")
-  "The path to the elisp files.")
-
-(defvar my-cache-dir
-  (if (getenv "XDG_CACHE_HOME")
-      (concat (getenv "XDG_CACHE_HOME") "/emacs/")
-    (expand-file-name "~/.cache/emacs/"))
-  "Use XDG-based cache directory.")
-
-(defvar my-data-dir
-  (if (getenv "XDG_DATA_HOME")
-      (concat (getenv "XDG_DATA_HOME") "/emacs/")
-    (expand-file-name "~/.local/share/emacs/"))
-  "Use XDG-based data directory.")
-
-(defvar my-packages-dir (concat my-data-dir "packages/")
-  "Use XDG-based packages directory.")
+(defvar my-init-time nil
+  "The time it took, in seconds, for Emacs to initialize.")
 
 ;;;
 ;; Settings
@@ -59,7 +40,7 @@
  auto-save-default nil
  create-lockfiles nil
  history-delete-duplicates t
- history-length 1000
+ history-length 500
  make-backup-files nil
  ;; Files
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
@@ -86,34 +67,47 @@
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil)
 
-;;;
-;; Bootstrap
-
-(let (file-name-handler-alist)
-  (require 'cl-lib)
-  (eval-and-compile
-    (require 'base-packages (concat my-elisp-dir "base-packages")))
-  (eval-when-compile
-    (my-packages-initialize))
-
-  (require 'base-functions)
-
-  (unless noninteractive
-    (require 'base-theme)
-    (require 'base-ui)
-    (require 'base-popups)
-    (require 'base-modeline)
-    (require 'base-editor)
-    (require 'base-projects)))
-
-;;;
-;; X settings
+;; X
 (setq x-gtk-use-system-tooltips nil
       ;; Clipboard
       x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
       ;; Use shared clipboard
       select-enable-clipboard t
       select-enable-primary t)
+
+;;;
+;; Initialize
+(eval-and-compile
+  ;; Temporarily reduce garbage collection during startup
+  (setq gc-cons-threshold 402653184
+        gc-cons-percentage 0.6)
+
+  (require 'cl-lib)
+  (require 'base-package)
+  (require 'base-lib))
+
+(eval-when-compile
+  (my|packages-initialize))
+
+(setq load-path (eval-when-compile load-path))
+
+(add-hook 'emacs-startup-hook
+          #'(lambda ()
+              (setq gc-cons-threshold 800000
+                    gc-cons-percentage 0.1
+                    my-init-time (float-time (time-subtract after-init-time before-init-time)))
+              (message "Loaded Emacs in %.03fs"
+                       my-init-time)))
+
+;;;
+;; Bootstrap
+(unless noninteractive
+  (require 'base-ui)
+  (require 'base-modeline)
+  (require 'base-popups)
+  (require 'base-editor)
+  (require 'base-projects)
+  (require 'base-theme))
 
 (provide 'base)
 ;;; base.el ends here

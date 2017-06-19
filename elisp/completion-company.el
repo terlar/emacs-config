@@ -4,14 +4,11 @@
 ;; Modular in-buffer completion framework.
 
 ;;; Code:
-;; base.el vars
-(defvar my-cache-dir nil)
+(require 'base-vars)
+(require 'base-lib)
 
 (use-package company
-  :commands (company-mode
-             global-company-mode
-             company-complete company-complete-common
-             company-manual-begin company-grab-line)
+  :commands company-mode
   :bind
   (:map
    company-mode-map
@@ -91,13 +88,11 @@
         company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
         company-backends
         '(company-capf
-          (company-dabbrev-code company-keywords)
           company-files
+          (company-dabbrev-code company-gtags company-etags company-keywords)
           company-dabbrev)
-        company-transformers '(company-sort-by-occurrence))
+        company-transformers '(company-sort-by-occurrence)))
 
-  (with-eval-after-load 'yasnippet
-    (nconc company-backends '(company-yasnippet))))
 
 (use-package company-statistics
   :after company
@@ -129,6 +124,7 @@
 (autoload 'company-yasnippet "company-yasnippet")
 (autoload 'company-dabbrev "company-dabbrev")
 (autoload 'company-dabbrev-code "company-dabbrev-code")
+(autoload 'company-keywords "company-keywords")
 (autoload 'company-etags "company-etags")
 (autoload 'company-elisp "company-elisp")
 (autoload 'company-files "company-files")

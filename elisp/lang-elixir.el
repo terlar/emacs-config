@@ -5,8 +5,7 @@
 ;; runs on the Erlang virtual machine (BEAM).
 
 ;;; Code:
-(use-package elixir-mode
-  :mode ("\\.ex$")
+(use-package elixir-mode :mode ("\\.ex$")
   :config
   (add-hook 'elixir-mode-hook #'turn-off-smartparens-mode))
 
@@ -22,7 +21,7 @@
 
 (use-package flycheck-mix
   :after elixir-mode
-  :commands (flycheck-mix-setup))
+  :commands flycheck-mix-setup)
 
 (provide 'lang-elixir)
 ;;; lang-elixir.el ends here

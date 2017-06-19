@@ -4,11 +4,7 @@
 ;; Go to the source.
 
 ;;; Code:
-;; base.el vars
-(defvar my-emacs-dir nil)
-
-;; base-ui.el vars
-(defvar my-completion-system nil)
+(require 'base-vars)
 
 ;; Recenter after certain jumps
 (dolist (hook '(imenu-after-jump-hook

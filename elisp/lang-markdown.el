@@ -6,10 +6,11 @@
 ;;; Code:
 (use-package markdown-mode
   :mode
-  ("\\.m\\(d\\|arkdown\\)$"
-   "/README$"
+  ("/README$"
    ("/README\\.md$" . gfm-mode))
   :commands (markdown-mode gfm-mode)
+  :preface
+  (autoload 'sp-local-pair "smartparens")
   :init
   (setq markdown-enable-wiki-links t
         markdown-enable-math t
@@ -24,13 +25,14 @@
                 (variable-pitch-mode +1)
                 (setq line-spacing 2
                       fill-column 80)))
+
   (sp-local-pair
    '(markdown-mode gfm-mode)
    "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET")))
 
   ;; Typography
   (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch)
-  (set-face-attribute 'markdown-inline-code-face nil :inherit 'fixed-pitch)
+  (set-face-attribute 'markdown-inline-code-face nil :inherit 'fixed-pitch :box '(:line-width 1))
 
   (set-face-attribute 'markdown-header-face-1 nil :height 1.8)
   (set-face-attribute 'markdown-header-face-2 nil :height 1.4)

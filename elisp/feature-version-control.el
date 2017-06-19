@@ -21,7 +21,9 @@
 (use-package diff-hl
   :after magit
   :commands (global-diff-hl-mode
-             diff-hl-flydiff-mode diff-hl-dired-mode)
+             diff-hl-flydiff-mode
+             diff-hl-dired-mode
+             diff-hl-magit-post-refresh)
   :init
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
 
@@ -54,7 +56,11 @@
   (require 'magit-blame))
 
 (use-package git-link
-  :commands (git-link git-link-commit git-link-homepage))
+  :commands (git-link
+             git-link-commit git-link-homepage
+             git-link--remote-dir
+             git-link--remote-host
+             git-link--select-remote))
 
 (use-package evil-magit
   :after evil
@@ -79,8 +85,8 @@
 
 ;;;###autoload
 (defun vcs/git-browse ()
-  "Open the website for the current version controlled file. Fallback to
-repository root."
+  "Open the website for the current version controlled file.
+Fallback to repository root."
   (interactive)
   (let ((git-link-open-in-browser t))
     (call-interactively 'git-link)))

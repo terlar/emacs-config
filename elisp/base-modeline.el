@@ -4,12 +4,7 @@
 ;; Master of the state
 
 ;;; Code:
-;; base-ui.el vars
-(defvar my-fringe-width nil)
-
-;; base-theme.el vars
-(defvar my-evil-mode-color-list nil)
-(defvar my-evil-default-mode-color nil)
+(require 'base-vars)
 
 ;;;
 ;; Variables
@@ -31,30 +26,6 @@
 ;;;
 ;; Packages
 
-;; Show icons instead of mode names
-(use-package mode-icons
-  :commands mode-icons-mode
-  :init
-  (if (display-graphic-p)
-      (mode-icons-mode +1)
-    (add-hook 'after-make-frame-functions
-              #'(lambda (frame)
-                  (when (display-graphic-p frame)
-                    (mode-icons-mode +1)))))
-  :config
-  (setq mode-icons-desaturate-active t
-        mode-icons-desaturate-inactive t))
-
-;; Display info about indentation current indentation settings
-(use-package indent-info-mode :ensure nil :pin manual
-  :load-path "vendor/indent-info-mode/"
-  :commands (indent-info-mode
-             global-indent-info-mode
-             toggle-tab-width-setting
-             toggle-indent-mode-setting)
-  :init
-  (global-indent-info-mode +1))
-
 ;; Displays current match and total matches information
 (use-package anzu :demand t
   :commands
@@ -64,7 +35,7 @@
    anzu-isearch-query-replace-regexp)
   :functions anzu--reset-status
   :preface
-  (defun my-update-mode-line (here total)
+  (defun my|update-mode-line (here total)
     (when anzu--state
       (let ((status (cl-case anzu--state
                       (search (format "(%s/%d%s)"
@@ -84,7 +55,7 @@
    ([remap isearch-query-replace]        . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :config
-  (setq anzu-mode-line-update-function #'my-update-mode-line
+  (setq anzu-mode-line-update-function #'my|update-mode-line
         anzu-minimum-input-length 1
         anzu-search-threshold 250)
 
@@ -100,14 +71,39 @@
 (use-package eldoc-eval :demand t
   :config (eldoc-in-minibuffer-mode +1))
 
+;; Display info about indentation current indentation settings
+(use-package indent-info-mode :ensure nil :pin manual :demand t
+  :load-path "vendor/indent-info-mode/"
+  :commands (indent-info-mode
+             global-indent-info-mode
+             toggle-tab-width-setting
+             toggle-indent-mode-setting)
+  :config
+  ;; Setup indent info padding
+  (setq indent-info-prefix nil
+        indent-info-suffix " ")
+  (global-indent-info-mode +1))
+
+;; Show icons instead of mode names
+(use-package mode-icons
+  :commands mode-icons-mode
+  :init
+  (add-hook 'after-make-frame-functions
+            #'(lambda (frame)
+                (when (display-graphic-p frame)
+                  (mode-icons-mode +1))))
+  (add-hook 'after-init-hook
+            #'(lambda ()
+                (when (display-graphic-p)
+                  (mode-icons-mode +1))))
+  :config
+  (setq mode-icons-desaturate-active t
+        mode-icons-desaturate-inactive t))
+
 ;;;
 ;; Configuration
-(setq-default
- ;; Setup indent info padding
- indent-info-prefix nil
- indent-info-suffix " "
- ;; Disable mode line mouse-overs
- mode-line-default-help-echo nil)
+;; Disable mode line mouse-overs
+(setq-default mode-line-default-help-echo nil)
 
 ;; Show column and line number
 (column-number-mode +1)
@@ -120,27 +116,28 @@
               (diminish 'abbrev-mode)
               (diminish 'eldoc-mode)
               (diminish 'auto-revert-mode)
-              (with-eval-after-load 'anzu                   (diminish 'anzu-mode))
-              (with-eval-after-load 'color-identifiers-mode (diminish 'color-identifiers-mode))
-              (with-eval-after-load 'company                (diminish 'company-mode))
-              (with-eval-after-load 'editorconfig           (diminish 'editorconfig-mode))
-              (with-eval-after-load 'evil-commentary        (diminish 'evil-commentary-mode))
-              (with-eval-after-load 'evil-escape            (diminish 'evil-escape-mode))
-              (with-eval-after-load 'ivy                    (diminish 'ivy-mode))
-              (with-eval-after-load 'projectile             (diminish 'projectile-mode))
-              (with-eval-after-load 'smartparens            (diminish 'smartparens-mode))
-              (with-eval-after-load 'super-save             (diminish 'super-save-mode))
-              (with-eval-after-load 'undo-tree              (diminish 'undo-tree-mode))
-              (with-eval-after-load 'ws-butler              (diminish 'ws-butler-mode))
-              (with-eval-after-load 'which-key              (diminish 'which-key-mode)))
+              (with-eval-after-load "anzu"                   (diminish 'anzu-mode))
+              (with-eval-after-load "color-identifiers-mode" (diminish 'color-identifiers-mode))
+              (with-eval-after-load "company"                (diminish 'company-mode))
+              (with-eval-after-load "editorconfig"           (diminish 'editorconfig-mode))
+              (with-eval-after-load "evil-commentary"        (diminish 'evil-commentary-mode))
+              (with-eval-after-load "evil-escape"            (diminish 'evil-escape-mode))
+              (with-eval-after-load "ivy"                    (diminish 'ivy-mode))
+              (with-eval-after-load "projectile"             (diminish 'projectile-mode))
+              (with-eval-after-load "smartparens"            (diminish 'smartparens-mode))
+              (with-eval-after-load "super-save"             (diminish 'super-save-mode))
+              (with-eval-after-load "undo-tree"              (diminish 'undo-tree-mode))
+              (with-eval-after-load "ws-butler"              (diminish 'ws-butler-mode))
+              (with-eval-after-load "which-key"              (diminish 'which-key-mode)))
 
           ;; Icons
-          (with-eval-after-load 'mode-icons
+          (with-eval-after-load "mode-icons"
             (push '("=>" #xf03c FontAwesome) mode-icons)
             (push '("Fill" #xf039 FontAwesome) mode-icons)
             (push '("ws" #xf06e FontAwesome) mode-icons)))
 
 ;; Evil state indicator
+(autoload 'evil-state-property "evil-common")
 (defun my|mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
   (let ((tag (evil-state-property state :tag t))
@@ -154,10 +151,10 @@
                       'help-echo (evil-state-property state :name)
                       'mouse-face 'mode-line-highlight))
       tag)))
-(with-eval-after-load 'evil
+(with-eval-after-load "evil"
   (defalias 'evil-generate-mode-line-tag #'my|mode-line-bar-evil-state))
 
-;; Right support
+;; Right aligned mode line support
 (defun my|mode-line-fill-right (reserve)
   "Return empty space leaving RESERVE space on the right."
   (unless reserve

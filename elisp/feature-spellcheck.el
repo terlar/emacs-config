@@ -4,8 +4,7 @@
 ;; Catching your typos.
 
 ;;; Code:
-;; base-ui.el vars
-(defvar my-completion-system nil)
+(require 'base-vars)
 
 (use-package flyspell ; builtin
   :commands flyspell-mode

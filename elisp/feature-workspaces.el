@@ -4,8 +4,7 @@
 ;; Your very own workspace.
 
 ;;; Code:
-;; base.el vars
-(defvar my-cache-dir nil)
+(require 'base-vars)
 
 ;;;
 ;; Packages
