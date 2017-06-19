@@ -9,10 +9,12 @@
 (require 'bind-key)
 (require 'evil)
 
-(autoload 'my|neotree-toggle "tool-neotree" nil t)
-(autoload 'my|neotree-window "tool-neotree" nil t)
 (autoload 'rotate-text "rotate-text" nil t)
 (autoload 'rotate-text-backward "rotate-text" nil t)
+
+(autoload 'my|neotree-toggle "tool-neotree" nil t)
+(autoload 'my|neotree-window "tool-neotree" nil t)
+(autoload 'my|start-spray "feature-speed-reading" nil t)
 
 ;; Some bindings require simulating another key press
 (defun simulate-key-press (key)
@@ -175,6 +177,7 @@ KEY must be given in `kbd' notation."
            ("l" . nlinum-mode)                               ; Line numbers
            ("r" . ruler-mode)                                ; Ruler
            ("s" . flyspell-mode)                             ; Spell-checking
+           ("S" . my|start-spray)                            ; Speed-reading
            ("v" . variable-pitch-mode)                       ; Fixed-width/variable-width font
            ("w" . whitespace-mode)                           ; Display white-space characters
            ("W" . auto-fill-mode)                            ; Automatic line-wrapping
