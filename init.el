@@ -41,11 +41,13 @@
 (require 'lang-elm)
 (require 'lang-emacs-lisp)
 (require 'lang-erlang)
+(require 'lang-java)
 (require 'lang-markdown)
 (require 'lang-pkgbuild)
 (require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
+(require 'lang-scala)
 (require 'lang-shell)
 (require 'lang-web)
 
