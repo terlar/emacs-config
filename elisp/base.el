@@ -106,8 +106,7 @@
   (require 'base-modeline)
   (require 'base-popups)
   (require 'base-editor)
-  (require 'base-projects)
-  (require 'base-theme))
+  (require 'base-projects))
 
 (provide 'base)
 ;;; base.el ends here

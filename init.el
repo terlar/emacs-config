@@ -52,6 +52,7 @@
 ;;;
 ;; Keybindings
 (unless noninteractive
+  (require 'theme)
   (require 'bindings)
   (require 'commands))
 

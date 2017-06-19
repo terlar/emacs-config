@@ -222,13 +222,21 @@
 
 ;; Branching & persistent undo
 (use-package undo-tree :demand t
+  :diminish undo-tree-mode
+  :commands (undo-tree-mode
+             undo-tree-load-history-hook)
+  :preface
+  (defun my|silence-undo-tree-load (orig-fn &rest args)
+    "Silence undo-tree load errors."
+    (quiet! (apply orig-fn args)))
   :config
   (global-undo-tree-mode +1)
   (setq undo-tree-auto-save-history t
         undo-tree-history-directory-alist
         (list (cons "." (concat my-cache-dir "undo-tree-hist/")))
         undo-tree-visualizer-diff t
-        undo-tree-visualizer-timestamps t))
+        undo-tree-visualizer-timestamps t)
+  (advice-add #'undo-tree-load-history-hook :around #'my|silence-undo-tree-load))
 
 ;; Delete trailing white-space before save
 (use-package ws-butler

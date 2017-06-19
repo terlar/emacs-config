@@ -25,9 +25,9 @@
    ([remap describe-variable]         . counsel-describe-variable)
    ([remap describe-face]             . counsel-describe-face))
   :config
-  (defvar projectile-completion-system 'ivy)
-  (defvar smex-completion-method 'ivy)
-  (defvar magit-completing-read-function #'ivy-completing-read)
+  (setq-default projectile-completion-system 'ivy
+                smex-completion-method 'ivy
+                magit-completing-read-function #'ivy-completing-read)
 
   (setq ivy-height 12
         ivy-do-completion-in-region nil

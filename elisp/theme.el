@@ -1,4 +1,4 @@
-;;; base-theme.el --- Theme configuration
+;;; theme.el --- Theme configuration
 
 ;;; Commentary:
 ;; The look of things.
@@ -69,6 +69,7 @@
 
 (with-eval-after-load "company"
   (set-face-attribute 'company-tooltip nil :family my-font)
+  (set-face-foreground 'company-tooltip-annotation (face-background 'company-tooltip-selection))
   (set-face-attribute 'company-tooltip-annotation-selection nil
                       :inherit 'company-tooltip-selection))
 
@@ -133,5 +134,5 @@ They get reset each time you select the neotree pane and are highlighted incorre
                       :foreground "tomato"
                       :weight 'bold))
 
-(provide 'base-theme)
-;;; base-theme.el ends here
+(provide 'theme)
+;;; theme.el ends here

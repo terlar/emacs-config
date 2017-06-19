@@ -85,7 +85,7 @@
   (global-indent-info-mode +1))
 
 ;; Show icons instead of mode names
-(use-package mode-icons
+(use-package mode-icons :demand t
   :commands mode-icons-mode
   :init
   (add-hook 'after-make-frame-functions

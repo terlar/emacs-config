@@ -218,6 +218,7 @@
 ;; Indentation guides
 (use-package indent-guide
   :commands indent-guide-mode
+  :diminish indent-guide-mode
   :init
   (add-hook 'prog-mode-hook #'indent-guide-mode)
   :config
