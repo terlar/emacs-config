@@ -230,11 +230,21 @@
  "c"   '(debugger-continue))
 
 ;; ediff
+(add-hook 'ediff-keymap-setup-hook
+          #'(lambda ()
+              (general-define-key
+               :keymaps 'ediff-mode-map
+               "d" '(ediff-copy-both-to-C      :which-key "Copy both to C")
+               "j" '(ediff-next-difference     :which-key "Next difference")
+               "k" '(ediff-previous-difference :which-key "Previous difference"))))
+
+;; eww
 (general-define-key
- :keymaps 'ediff-mode-map
- "d" '(ediff-copy-both-to-C      :which-key "Copy both to C")
- "j" '(ediff-next-difference     :which-key "Next difference")
- "k" '(ediff-previous-difference :which-key "Previous difference"))
+ :states 'normal
+ :keymaps 'eww-mode-map
+ "h" '(eww-back-url)
+ "l" '(eww-next-url)
+ "q" '(quit-window))
 
 ;; help-mode
 (general-define-key
