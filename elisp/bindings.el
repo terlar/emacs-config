@@ -1,269 +1,487 @@
-;;; bindings.el --- Key binding configuration
+;;; bindings.el --- My key bindings
 
 ;;; Commentary:
-;; How to interact with Emacs.
+;; My key binding setup.
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-keybinds)
 
-(require 'bind-key)
-(require 'evil)
+;;;
+;; Leader key
+(defvar my-leader-key "C-c"
+  "The key used for most custom operations.")
+(defvar my-normal-leader-key "SPC"
+  "The key used for most custom operations in `evil-normal-state'.")
 
-(autoload 'rotate-text "rotate-text" nil t)
-(autoload 'rotate-text-backward "rotate-text" nil t)
+(eval `(general-define-key :states '(normal visual)
+                           ,my-normal-leader-key (general-simulate-keys ,my-leader-key)))
 
-(autoload 'my|neotree-toggle "tool-neotree" nil t)
-(autoload 'my|neotree-window "tool-neotree" nil t)
-(autoload 'my|start-spray "feature-speed-reading" nil t)
-
-;; Some bindings require simulating another key press
-(defun simulate-key-press (key)
-  "Pretend that KEY was pressed.
-KEY must be given in `kbd' notation."
-  `(lambda () (interactive)
-     (setq prefix-arg current-prefix-arg)
-     (setq unread-command-events (listify-key-sequence (read-kbd-macro ,key)))))
-
-(use-package which-key :demand t
-  :config
-  (setq which-key-sort-order #'which-key-key-order-alpha
-        which-key-sort-uppercase-first nil
-        which-key-add-column-padding 1
-        which-key-max-display-columns nil
-        which-key-min-display-lines 5
-        which-key-idle-delay 0.5)
-
-  (push '(("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil)) which-key-replacement-alist)
-  (push '(("\\`\\?\\?\\'" . nil) . ("λ" . nil)) which-key-replacement-alist)
-  (push '(("<up>"    . nil) . ("↑" . nil)) which-key-replacement-alist)
-  (push '(("<right>" . nil) . ("→" . nil)) which-key-replacement-alist)
-  (push '(("<down>"  . nil) . ("↓" . nil)) which-key-replacement-alist)
-  (push '(("<left>"  . nil) . ("←" . nil)) which-key-replacement-alist)
-  (push '(("SPC" . nil) . ("␣" . nil)) which-key-replacement-alist)
-  (push '(("TAB" . nil) . ("↹" . nil)) which-key-replacement-alist)
-  (push '(("RET" . nil) . ("⏎" . nil)) which-key-replacement-alist)
-  (push '(("DEL" . nil) . ("⌫" . nil)) which-key-replacement-alist)
-  (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
-
-  (which-key-add-key-based-replacements
-    "C-c !" "flycheck"
-    "C-c =" "diff"
-    "C-c @" "outline"
-    "C-c a" "apps"
-    "C-c g" "git"
-    "C-c p" "projects"
-    "C-c w" "windows"
-    "C-c W" "workspaces"
-    "C-c ~" "toggles")
-
-  ;; Embolden local bindings
-  (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)
-  (which-key-setup-side-window-bottom)
-  (which-key-mode +1))
-
-;; Help
-(add-hook 'help-mode-hook
-          #'(lambda ()
-              (bind-keys :map evil-normal-state-local-map
-                         ("[[" . help-go-back)
-                         ("]]" . help-go-forward)
-                         ("o"  . ace-link-help)
-                         ("q"  . quit-window))))
-
-;; Escape acts as an extra C-g
-(bind-key "<escape>" 'keyboard-escape-quit)
-
-;; Text Scaling
-(defun default-text-scale-reset ()
-  "Reset the height of the default face to `my-default-font-height'."
-  (interactive)
-  (set-face-attribute 'default nil :height my-default-font-height))
-
-(bind-key "C-=" #'default-text-scale-reset)
-(bind-key "C--" #'default-text-scale-decrease)
-(bind-key "C-+" #'default-text-scale-increase)
-(dolist (key '("<C-mouse-4>"
-               "<left-margin> <C-mouse-4>" "<right-margin> <C-mouse-4>"
-               "<left-fringe> <C-mouse-4>" "<right-fringe> <C-mouse-4>"))
-  (bind-key key #'text-scale-decrease))
-(dolist (key '("<C-mouse-5>"
-               "<left-margin> <C-mouse-5>" "<right-margin> <C-mouse-5>"
-               "<left-fringe> <C-mouse-5>" "<right-fringe> <C-mouse-5>"))
-  (bind-key key #'text-scale-increase))
-
-;; Neotree
-(bind-keys ("<left-margin> <mouse-1>" . my|neotree-toggle)
-           ("<left-fringe> <mouse-1>" . my|neotree-toggle))
-
-(with-eval-after-load "neotree"
-  (add-hook 'neotree-mode-hook
-            #'(lambda ()
-                (bind-keys :map evil-normal-state-local-map
-                           ([tab]       . neotree-quick-look)
-                           ("RET"       . neotree-enter)
-                           ([backspace] . evil-window-prev)
-                           ("j"         . neotree-next-line)
-                           ("k"         . neotree-previous-line)
-                           ("n"         . neotree-next-line)
-                           ("p"         . neotree-previous-line)
-                           ("J"         . neotree-select-next-sibling-node)
-                           ("K"         . neotree-select-previous-sibling-node)
-                           ("H"         . neotree-select-up-node)
-                           ("L"         . neotree-select-down-node)
-                           ("q"         . neotree-hide)
-                           ("c"         . neotree-create-node)
-                           ("d"         . neotree-delete-node)
-                           ("r"         . neotree-rename-node)
-                           ("R"         . neotree-refresh)))))
+;;;
+;; Remaps
 
 ;; Smarter abbrev completion
-(bind-key [remap dabbrev-expand] #'hippie-expand)
+(general-define-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; Consistent jumping
+(general-define-key [remap evil-goto-definition] 'dumb-jump-go)
+(general-define-key [remap evil-jump-to-tag] 'projectile-find-tag)
+(general-define-key [remap find-tag] 'projectile-find-tag)
 
-(bind-key [remap evil-goto-definition] #'dumb-jump-go)
-(bind-key [remap evil-jump-to-tag] #'projectile-find-tag)
-(bind-key [remap find-tag] #'projectile-find-tag)
+;;;
+;; Global
 
-;; Ediff
-;; Setting up the mappings through the bind command will leave them behind,
-;; breaking all further modes. Setup with a hook instead.
-(add-hook 'ediff-keymap-setup-hook
-          #'(lambda ()
-              (bind-keys :map ediff-mode-map
-                         ("d" . ediff-copy-both-to-C)
-                         ("j" . ediff-next-difference)
-                         ("k" . ediff-previous-difference))))
+;; Emacs debug utilities
+(general-define-key "M-;" 'eval-expression)
 
-(bind-keys :prefix-map diff-map
-           :prefix "C-c ="
-           ("b" . ediff-buffers)
-           ("B" . ediff-buffers3)
-           ("c" . compare-windows)
-           ("=" . ediff-files)
-           ("f" . ediff-files)
-           ("F" . ediff-files3)
-           ("r" . ediff-revision)
-           ("p" . ediff-patch-file)
-           ("P" . ediff-patch-buffer)
-           ("l" . ediff-regions-linewise)
-           ("w" . ediff-regions-wordwise))
+;; Text-scaling
+(general-define-key
+ "C-=" 'default-text-scale-reset
+ "C--" 'default-text-scale-decrease
+ "C-+" 'default-text-scale-increase
+ "M-=" '(lambda () (interactive) (text-scale-set 0))
+ "M--" 'text-scale-decrease
+ "M-+" 'text-scale-increase
+ "<C-mouse-4>" 'text-scale-decrease
+ "<C-mouse-5>" 'text-scale-increase)
 
-;; Open alternate file
-(bind-key "<C-tab>" #'ff-find-related-file)
+;; Leader
+(general-define-key
+ :prefix my-leader-key
+ "SPC" '(projectile-find-file :which-key "Find file in project")
+ ","   '(switch-to-buffer     :which-key "Switch to buffer")
+ "."   '(find-file            :which-key "Browse files")
+ "RET" '(counsel-bookmark     :which-key "Jump to bookmark")
+ "w"   '(:keymap evil-window-map :package evil)
 
-(bind-key "C-c q" #'fill-region)
-(bind-key "C-c ;" #'comment-or-uncomment-region)
+ "["   '(:ignore t :which-key "previous...")
+ "[ b" '(previous-buffer                        :which-key "Buffer")
+ "[ d" '(diff-hl-previous-hunk                  :which-key "Diff Hunk")
+ "[ t" '(hl-todo-previous                       :which-key "Todo")
+ "[ e" '(previous-error                         :which-key "Error")
+ "[ w" '(persp-prev                             :which-key "Workspace")
+ "[ h" '(smart-backward                         :which-key "Smart jump")
+ "[ s" '(evil-prev-flyspell-error               :which-key "Spelling error")
+ "[ S" '(flyspell-correct-previous-word-generic :which-key "Spelling correction")
 
-(bind-keys :prefix-map app-map
-           :prefix "C-c a"
-           ("c" . calendar)
-           ("C" . display-time-world)
-           ("t" . shell)
-           ("T" . ansi-term)
-           ("w" . eww))
+ "]"   '(:ignore t :which-key "next...")
+ "] b" '(next-buffer                            :which-key "Buffer")
+ "] d" '(diff-hl-next-hunk                      :which-key "Diff Hunk")
+ "] t" '(hl-todo-next                           :which-key "Todo")
+ "] e" '(next-error                             :which-key "Error")
+ "] w" '(persp-next                             :which-key "Workspace")
+ "] h" '(smart-forward                          :which-key "Smart jump")
+ "] s" '(evil-next-flyspell-error               :which-key "Spelling error")
+ "] S" '(flyspell-correct-word-generic          :which-key "Spelling correction")
 
-;; C-c ~ (Toggle)
-(bind-keys :prefix-map toggle-map
-           :prefix "C-c ~"
-           ("a" . goto-address-mode)                         ; Clickable links
-           ("c" . rainbow-mode)                              ; Color display
-           ("d" . toggle-debug-on-error)                     ; Debug on error
-           ("f" . hs-minor-mode)                             ; Code folding
-           ("F" . flycheck-mode)                             ; Syntax checker
-           ("h" . hl-line-mode)                              ; Line highlight
-           ("i" . highlight-indentation-mode)                ; Indent guides
-           ("I" . highlight-indentation-current-column-mode) ; Indent guides (column)
-           ("l" . nlinum-mode)                               ; Line numbers
-           ("r" . ruler-mode)                                ; Ruler
-           ("s" . flyspell-mode)                             ; Spell-checking
-           ("S" . my|start-spray)                            ; Speed-reading
-           ("v" . variable-pitch-mode)                       ; Fixed-width/variable-width font
-           ("w" . whitespace-mode)                           ; Display white-space characters
-           ("W" . auto-fill-mode)                            ; Automatic line-wrapping
-           ("z" . sublimity-mode))                           ; Zoomed/distraction free mode
+ "/"   '(:ignore t :which-key "search")
+ "/ /" '(swiper         :which-key "Swiper")
+ "/ i" '(imenu          :which-key "Imenu")
+ "/ I" '(imenu-anywhere :which-key "Imenu across buffers")
 
-;; C-c g (Git)
-(bind-keys :prefix-map git-map
-           :prefix "C-c g"
-           ("b" . magit-blame)                 ; Git blame
-           ("B" . vcs/git-browse)              ; Git browse
-           ("c" . magit-clone)                 ; Git clone
-           ("I" . vcs/git-browse-issues)       ; Git browse issues
-           ("l" . magit-log-buffer-file)       ; Git log
-           ("m" . git-messenger:popup-message) ; Git popup message
-           ("p" . magit-pull)                  ; Git pull
-           ("s" . magit-status)                ; Git status
-           ("t" . git-timemachine-toggle))     ; Git time machine
+ "TAB" '(:ignore t :which-key "workspace")
+ "TAB ." '(persp-switch :which-key "Switch workspace")
 
-(bind-key "C-c >" #'rotate-text)
-(bind-key "C-c <" #'rotate-text-backward)
+ "b"   '(:ignore t :which-key "buffer")
+ "b n" '(evil-buffer-new    :which-key "New empty buffer")
+ "b b" '(switch-to-buffer   :which-key "Switch buffer")
+ "b k" '(kill-buffer        :which-key "Kill buffer")
+ "b o" '(kill-other-buffers :which-key "Kill other buffers")
+ "b s" '(save-buffer        :which-key "Save buffer")
+ "b z" '(bury-buffer        :which-key "Bury buffer")
+ "b ]" '(next-buffer        :which-key "Next buffer")
+ "b [" '(previous-buffer    :which-key "Previous buffer")
+ "b S" '(sudo-edit          :which-key "Sudo edit this file")
+
+ "c"   '(:ignore t :which-key "code")
+ "c x" '(flycheck-list-errors :which-key "List errors")
+ "c e" '(eval-buffer          :which-key "Evaluate buffer")
+ "c d" '(evil-goto-definition :which-key "Jump to definition")
+
+ "f"   '(:ignore t :which-key "file")
+ "f ." '(find-file                              :which-key "Find file")
+ "f /" '(projectile-find-file                   :which-key "Find file in project")
+ "f ?" '(counsel-file-jump                      :which-key "Find file here")
+ "f a" '(projectile-find-other-file             :which-key "Find other file")
+ "f c" '(editorconfig-find-current-editorconfig :which-key "Open project editorconfig")
+ "f r" '(recentf                                :which-key "Recent files")
+ "f R" '(projectile-recentf                     :which-key "Recent project files")
+
+ "g"   '(:ignore t :which-key "git")
+ "g s" '(magit-status                :which-key "Status")
+ "g l" '(magit-log-buffer-file       :which-key "Log")
+ "g b" '(magit-blame                 :which-key "Blame")
+ "g t" '(git-timemachine-toggle      :which-key "Time machine")
+ "g r" '(diff-hl-revert-hunk         :which-key "Revert hunk")
+ "g ]" '(diff-hl-next-hunk           :which-key "Next hunk")
+ "g [" '(diff-hl-previous-hunk       :which-key "Previous hunk")
+ "g p" '(magit-pull                  :which-key "Pull")
+ "g c" '(magit-clone                 :which-key "Clone")
+ "g B" '(vcs/git-browse              :which-key "Browse")
+ "g I" '(vcs/git-browse-issues       :which-key "Browse issues")
+ "g m" '(git-messenger:popup-message :which-key "Popup message")
+
+ "h" '(:ignore t :which-key "help")
+ "h h" '(:keymap help-map)
+ "h a" '(apropos              :which-key "Apropos")
+ "h l" '(find-library         :which-key "Find library")
+ "h f" '(describe-function    :which-key "Describe function")
+ "h k" '(describe-key         :which-key "Describe key")
+ "h c" '(describe-char        :which-key "Describe char")
+ "h M" '(describe-mode        :which-key "Describe mode")
+ "h v" '(describe-variable    :which-key "Describe variable")
+ "h F" '(describe-face        :which-key "Describe face")
+ "h '" '(what-cursor-position :which-key "What face")
+ "h i" '(info                 :which-key "Info")
+
+ "o" '(:ignore t :which-key "open")
+ "o c" '(calendar           :which-key "Calendar")
+ "o C" '(display-time-world :which-key "World Time")
+ "o n" '(neotree|toggle     :which-key "NeoTree")
+ "o N" '(neotree|window     :which-key "NeoTree Window")
+ "o t" '(shell              :which-key "Terminal")
+ "o T" '(ansi-term          :which-key "ANSI Terminal")
+ "o w" '(eww                :which-key "Browser")
+
+ "=" '(:ignore t :which-key "diff")
+ "= b" '(ediff-buffers          :which-key "Buffers")
+ "= B" '(ediff-buffers3         :which-key "Buffers (3-way)")
+ "= c" '(compare-windows        :which-key "Compare windows")
+ "= =" '(ediff-files            :which-key "Files")
+ "= f" '(ediff-files            :which-key "Files")
+ "= F" '(ediff-files3           :which-key "Files (3-way)")
+ "= r" '(ediff-revision         :which-key "Compare versions")
+ "= p" '(ediff-patch-file       :which-key "Patch file")
+ "= P" '(ediff-patch-buffer     :which-key "Patch buffer")
+ "= l" '(ediff-regions-linewise :which-key "Linewise")
+ "= w" '(ediff-regions-wordwise :which-key "Wordwise")
+
+ "~" '(:ignore t :which-key "toggle")
+ "~ a" '(goto-address-mode     :which-key "Clickable links")
+ "~ c" '(rainbow-mode          :which-key "Color display")
+ "~ d" '(toggle-debug-on-error :which-key "Debug on error")
+ "~ f" '(hs-minor-mode         :which-key "Code folding")
+ "~ F" '(flycheck-mode         :which-key "Syntax checker")
+ "~ h" '(hl-line-mode          :which-key "Line highlight")
+ "~ i" '(indent-guide-mode     :which-key "Indent guides")
+ "~ l" '(nlinum-mode           :which-key "Line numbers")
+ "~ r" '(ruler-mode            :which-key "Ruler")
+ "~ s" '(flyspell-mode         :which-key "Spell-checking")
+ "~ S" '(my|start-spray        :which-key "Speed-reading")
+ "~ v" '(variable-pitch-mode   :which-key "Fixed-width/variable-width font")
+ "~ w" '(whitespace-mode       :which-key "Display white-space characters")
+ "~ W" '(auto-fill-mode        :which-key "Automatic line-wrapping")
+
+ "q" '(:ignore t :which-key "quit")
+ "q q" '(evil-save-and-quit :which-key "Quit"))
 
 ;; Normal state
-(bind-keys :map evil-normal-state-map
-           ("+"  . rotate-text)
-           ("-"  . rotate-text-backward)
-           ("]b" . next-buffer)
-           ("[b" . previous-buffer)
-           ("]w" . persp-next)
-           ("[w" . persp-prev))
+(general-define-key
+ :keymaps 'normal
+ "]b" '(next-buffer)
+ "[b" '(previous-buffer)
+ "]e" '(next-error)
+ "[e" '(previous-error)
+ "]w" '(persp-next)
+ "[w" '(persp-prev)
+ "gp" '(evil|reselect-paste)
+ "gr" '(eval-region)
+ "gR" '(eval-buffer)
+ "zx" '(kill-buffer))
 
-;; Normal/visual state
-(dolist (map
-         '(evil-normal-state-map
-           evil-visual-state-map))
-  ;; Space key in normal/visual mode acts as C-c
-  (bind-key "SPC" (simulate-key-press "C-c") (eval map))
-  ;; Tab keys in normal/visual mode navigates buffers
-  (bind-keys :map (eval map)
-             ([tab]     . next-buffer)
-             ("TAB"     . next-buffer)
-             ([backtab] . previous-buffer)))
+;; Visual state
+(general-define-key
+ :keymaps 'visual
+ "." '(evil-repeat)
+ "<" '(evil|visual-dedent)
+ ">" '(evil|visual-indent))
 
-;; Window keys (prefix C-w or C-c w)
-(bind-key "C-c w" (simulate-key-press "C-w"))
-(bind-keys :map evil-window-map
-           ;; Navigation
-           ("C-h"       . evil-window-left)
-           ("C-j"       . evil-window-down)
-           ("C-k"       . evil-window-up)
-           ("C-l"       . evil-window-right)
-           ("C-w"       . ace-window)
-           ("B"         . switch-to-minibuffer)
-           ([tab]       . my|neotree-window)
-           ("TAB"       . my|neotree-window)
-           ("<C-tab>"   . my|neotree-window)
-           ([backtab]   . my|neotree-toggle)
-           ;; Swapping windows
-           ("C-S-w" . ace-swap-window)
-           ("z"     . zoom-window-zoom)
-           ;; Undo/redo
-           ("u"   . winner-undo)
-           ("C-u" . winner-undo)
-           ("C-r" . winner-redo)
-           ;; Delete
-           ("C-C" . ace-delete-window))
+(general-define-key
+ :keymaps 'evil-window-map
+ ;; Navigation
+ "C-w"     '(ace-window           :which-key "Select a window")
+ "B"       '(switch-to-minibuffer :which-key "Switch to minibuffer")
+ [tab]     '(neotree|window       :which-key "Switch to NeoTree")
+ [backtab] '(neotree|toggle       :which-key "Toggle NeoTree")
+ ;; Swapping
+ "C-S-w"   '(ace-swap-window      :which-key "Swap window")
+ "z"       '(zoom-window-zoom     :which-key "Zoom window")
+ ;; Undo/redo
+ "u"       '(winner-undo          :which-key "Undo")
+ "C-u"     '(winner-undo          :which-key "Undo")
+ "C-r"     '(winner-redo          :which-key "Redo")
+ ;; Delete
+ "C-C"     '(ace-delete-window    :which-key "Select and delete a window"))
 
-;; Flycheck
-(with-eval-after-load "flycheck"
-  (bind-keys
-   :map evil-motion-state-map
-   ("]e" . next-error)
-   ("[e" . previous-error)
-   :map flycheck-error-list-mode-map
-   ("C-n" . flycheck-error-list-next-error)
-   ("C-p" . flycheck-error-list-previous-error)
-   ("j"   . flycheck-error-list-next-error)
-   ("k"   . flycheck-error-list-previous-error)
-   ("RET" . flycheck-error-list-goto-error)))
+;;;
+;; Built-in plugins
 
-;; Jumping
-(bind-keys
- ("M-g o" . dumb-jump-go-other-window)
- ("M-g j" . dumb-jump-go)
- ("M-g i" . dumb-jump-go-prompt)
- ("M-g x" . dumb-jump-go-prefer-external)
- ("M-g z" . dumb-jump-go-prefer-external-other-window))
+;; comint
+(general-define-key
+ :keymaps 'comint-mode-map
+ [tab] '(company-complete))
+
+;; debug
+(general-define-key
+ :states 'normal
+ :keymaps 'debugger-mode-map
+ "RET" '(debug-help-follow)
+ "n"   '(debugger-step-through)
+ "c"   '(debugger-continue))
+
+;; ediff
+(general-define-key
+ :keymaps 'ediff-mode-map
+ "d" '(ediff-copy-both-to-C      :which-key "Copy both to C")
+ "j" '(ediff-next-difference     :which-key "Next difference")
+ "k" '(ediff-previous-difference :which-key "Previous difference"))
+
+;; help-mode
+(general-define-key
+ :states 'normal
+ :keymaps 'help-mode-map
+ "[[" '(help-go-back)
+ "]]" '(help-go-forward)
+ "o"  '(ace-link-help)
+ "q"  '(quit-window))
+
+;; vc-annotate
+(general-define-key
+ :states 'normal
+ :keymaps 'vc-annotate-mode-map
+ "q"   '(kill-this-buffer)
+ "d"   '(vc-annotate-show-diff-revision-at-line)
+ "D"   '(vc-annotate-show-changeset-diff-revision-at-line)
+ "SPC" '(vc-annotate-show-log-revision-at-line)
+ "]]"  '(vc-annotate-next-revision)
+ "[["  '(vc-annotate-prev-revision)
+ "TAB" '(vc-annotate-toggle-annotation-visibility)
+ "RET" '(vc-annotate-find-revision-at-line))
+
+;;;
+;; Plugins
+
+;; company
+(general-define-key
+ :states 'insert
+ :keymaps 'company-mode-map
+ "C-SPC"   '(company-indent-or-complete-common)
+ "C-x C-l" '(company|whole-lines)
+ "C-x C-k" '(company|dict-or-keywords)
+ "C-x C-f" '(company-files)
+ "C-x C-]" '(company-etags)
+ "C-x s"   '(company-ispell)
+ "C-x C-s" '(company-yasnippet)
+ "C-x C-o" '(company-capf)
+ "C-x C-n" '(company-dabbrev-code)
+ "C-x C-p" '(company|dabbrev-code-previous))
+(general-define-key
+ :keymaps 'company-active-map
+ ;; Don't interfere with `evil-delete-backward-word' in insert mode
+ "C-w"     '(nil)
+ ;; Don't interfere with the return key
+ "RET"     '(nil)
+ ;; Abort on escape but leave current completion
+ [escape]  '(company-abort)
+
+ "C-e"     '(company-complete-selection)
+ "C-f"     '(company-complete-selection)
+ "C-SPC"   '(company-complete-common)
+ [tab]     '(company-complete-common-or-cycle)
+ [backtab] '(company-select-previous)
+
+ "C-o"     '(company-search-kill-others)
+ "C-n"     '(company-select-next)
+ "C-p"     '(company-select-previous)
+ "C-h"     '(company-quickhelp-manual-begin)
+ "C-S-h"   '(company-show-doc-buffer)
+ "C-S-s"   '(company-search-candidates)
+ "C-s"     '(company-filter-candidates))
+(general-define-key
+ :keymaps 'company-search-map
+ "C-n"    '(company-search-repeat-forward)
+ "C-p"    '(company-search-repeat-backward)
+ "C-s"    '(company|search-abort-and-filter-candidates)
+ [escape] '(company-search-abort))
+
+;; counsel
+(general-define-key
+ :keymaps 'ivy-mode-map
+ "C-o" '(ivy-dispatching-done))
+(general-define-key
+ :keymaps 'counsel-ag-map
+ [backtab] '(ivy|wgrep-occur)
+ "C-SPC" '(counsel-git-grep-recenter))
+
+;; diff-hl
+(general-define-key
+ :states 'motion
+ "]d" '(diff-hl-next-hunk)
+ "[d" '(diff-hl-previous-hunk))
+
+;; dumb-jump
+(general-define-key
+ "M-g o" '(dumb-jump-go-other-window)
+ "M-g j" '(dumb-jump-go)
+ "M-g i" '(dumb-jump-go-prompt)
+ "M-g x" '(dumb-jump-go-prefer-external)
+ "M-g z" '(dumb-jump-go-prefer-external-other-window))
+
+;; evil-commentary
+(general-define-key
+ :states 'normal
+ "gc" '(evil-commentary))
+
+;; evil-exchange
+(general-define-key
+ :states 'normal
+ "gx" '(evil-exchange))
+
+;; evil-magit
+(general-define-key
+ :states 'normal
+ :keymaps '(magit-status-mode-map magit-revision-mode-map)
+ "C-j" '(nil)
+ "C-k" '(nil))
+
+;; evil-surround
+(general-define-key
+ :states 'visual
+ "S" '(evil-surround-region))
+(general-define-key
+ :states 'operator
+ "s" '(evil-surround-edit)
+ "S" '(evil-surround-edit))
+
+;; flycheck
+(general-define-key
+ :states 'motion
+ "]e" '(next-error)
+ "[e" '(previous-error))
+(general-define-key
+ :states 'normal
+ :keymaps 'flycheck-error-list-mode-map
+ "C-n" '(flycheck-error-list-next-error)
+ "C-p" '(flycheck-error-list-previous-error)
+ "j"   '(flycheck-error-list-next-error)
+ "k"   '(flycheck-error-list-previous-error)
+ "RET" '(flycheck-error-list-goto-error))
+
+;; flyspell
+(general-define-key
+ :states 'motion
+ "]S" '(flyspell-correct-word-generic)
+ "[S" '(flyspell-correct-previous-word-generic))
+
+;; git-timemachine
+(general-define-key
+ :states '(normal visual)
+ :keymaps 'git-timemachine-mode-map
+ "p" '(git-timemachine-show-previous-revision)
+ "n" '(git-timemachine-show-next-revision)
+ "g" '(git-timemachine-show-nth-revision)
+ "q" '(git-timemachine-quit)
+ "w" '(git-timemachine-kill-abbreviated-revision)
+ "W" '(git-timemachine-kill-revision)
+ "b" '(git-timemachine-blame))
+
+;; hl-todo
+(general-define-key
+ :states 'motion
+ "]t" '(hl-todo-next)
+ "[t" '(hl-todo-previous))
+
+;; ivy
+(general-define-key
+ :keymaps 'ivy-minibuffer-map
+ [escape] '(keyboard-escape-quit)
+ "M-v"    '(yank)
+ "M-z"    '(undo)
+ "C-r"    '(evil-paste-from-register)
+ "C-k"    '(ivy-previous-line)
+ "C-j"    '(ivy-next-line)
+ "C-l"    '(ivy-alt-done)
+ "C-w"    '(ivy-backward-kill-word)
+ "C-u"    '(ivy-kill-line)
+ "C-b"    '(backward-word)
+ "C-f"    '(forward-word))
+
+;; neotree
+(general-define-key
+ "<left-margin> <mouse-1>" '(neotree|toggle)
+ "<left-fringe> <mouse-1>" '(neotree|toggle))
+(general-define-key
+ :states 'normal
+ :keymaps 'neotree-mode-map
+ "g"         '(nil)
+ [tab]       '(neotree-quick-look)
+ "RET"       '(neotree-enter)
+ "v"         '(neotree-enter-vertical-split)
+ "s"         '(neotree-enter-horizontal-split)
+ ;; Navigation
+ "j"         '(neotree-next-line)
+ "k"         '(neotree-previous-line)
+ "n"         '(neotree-next-line)
+ "p"         '(neotree-previous-line)
+ "J"         '(neotree-select-next-sibling-node)
+ "K"         '(neotree-select-previous-sibling-node)
+ "H"         '(neotree-select-up-node)
+ "L"         '(neotree-select-down-node)
+ ;; Files
+ "c"         '(neotree-create-node)
+ "d"         '(neotree-delete-node)
+ "r"         '(neotree-rename-node)
+ ;; Window
+ [backspace] '(evil-window-prev)
+ "q"         '(neotree-hide)
+ "R"         '(neotree-refresh))
+
+;; realgud
+(general-define-key
+ :states 'normal
+ :keymaps 'realgud:shortkey-mode-map
+ "j" '(evil-next-line)
+ "k" '(evil-previous-line)
+ "h" '(evil-backward-char)
+ "l" '(evil-forward-char)
+ "c" '(realgud:cmd-continue))
+(general-define-key
+ :states 'motion
+ :keymaps 'realgud:shortkey-mode-map
+ "n" '(realgud:cmd-next)
+ "b" '(realgud:cmd-break)
+ "B" '(realgud:cmd-clear))
+
+;; rotate-text
+(general-define-key
+ :keymaps 'normal
+ "+" '(rotate-text)
+ "-" '(rotate-text-backward))
+
+;; smart-forward
+(general-define-key
+ :states 'motion
+ "g]" '(smart-forward)
+ "g[" '(smart-backward))
+
+;; undo-tree
+(general-define-key
+ :state 'visual
+ "C-u" '(undo-tree-undo)
+ "C-r" '(undo-tree-redo))
+
+;;;
+;; Fixes
+
+;; Fix TAB in terminal
+(general-define-key
+ :keymaps 'input-decode-map
+ [?\C-i] [C-i]
+ [S-iso-lefttab] [backtab])
+(general-define-key
+ :keymaps 'input-decode-map
+ :predicate '(unless window-system)
+ "TAB" [tab])
 
 (provide 'bindings)
 ;;; bindings.el ends here

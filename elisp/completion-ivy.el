@@ -6,25 +6,28 @@
 ;;; Code:
 (require 'base-vars)
 
+;;;
+;; Packages
+
 (use-package ivy :demand t
   :diminish ivy-mode
   :commands (ivy-mode
-             ivy-format-function-line)
+             ivy-format-function-line
+             ivy-exit-with-action)
   :bind
-  (:map
-   ivy-mode-map
-   ([remap find-file]                 . counsel-find-file)
-   ([remap switch-to-buffer]          . ivy-switch-buffer)
-   ([remap recentf]                   . counsel-recentf)
-   ([remap imenu]                     . counsel-imenu)
-   ([remap bookmark-jump]             . counsel-bookmark)
-   ([remap projectile-switch-project] . counsel-projectile-switch-project)
-   ([remap projectile-find-file]      . counsel-projectile-find-file)
-   ([remap imenu-anywhere]            . ivy-imenu-anywhere)
-   ([remap execute-extended-command]  . counsel-M-x)
-   ([remap describe-function]         . counsel-describe-function)
-   ([remap describe-variable]         . counsel-describe-variable)
-   ([remap describe-face]             . counsel-describe-face))
+  (:map ivy-mode-map
+        ([remap find-file]                 . counsel-find-file)
+        ([remap switch-to-buffer]          . ivy-switch-buffer)
+        ([remap recentf]                   . counsel-recentf)
+        ([remap imenu]                     . counsel-imenu)
+        ([remap bookmark-jump]             . counsel-bookmark)
+        ([remap projectile-switch-project] . counsel-projectile-switch-project)
+        ([remap projectile-find-file]      . counsel-projectile-find-file)
+        ([remap imenu-anywhere]            . ivy-imenu-anywhere)
+        ([remap execute-extended-command]  . counsel-M-x)
+        ([remap describe-function]         . counsel-describe-function)
+        ([remap describe-variable]         . counsel-describe-variable)
+        ([remap describe-face]             . counsel-describe-face))
   :config
   (setq-default projectile-completion-system 'ivy
                 smex-completion-method 'ivy
@@ -57,6 +60,36 @@
   :config
   (setq smex-save-file (concat my-cache-dir "/smex-items"))
   (smex-initialize))
+
+;;;
+;; Autoloads
+
+;;;###autoload
+(defun ivy|wgrep-occur ()
+  "Invoke the search+replace wgrep buffer on the current ag/rg search results."
+  (interactive)
+  (unless (window-minibuffer-p)
+    (user-error "No completion session is active"))
+  (require 'wgrep)
+  (let* ((caller (ivy-state-caller ivy-last))
+         (occur-fn (plist-get ivy--occurs-list caller))
+         (buffer
+          (generate-new-buffer
+           (format "*ivy-occur%s \"%s\"*"
+                   (if caller (concat " " (prin1-to-string caller)) "")
+                   ivy-text))))
+    (with-current-buffer buffer
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (funcall occur-fn))
+      (setf (ivy-state-text ivy-last) ivy-text)
+      (setq ivy-occur-last ivy-last)
+      (setq-local ivy--directory ivy--directory))
+    (ivy-exit-with-action
+     `(lambda (_)
+        (pop-to-buffer ,buffer)
+        (ivy-wgrep-change-to-wgrep-mode)))))
+
 
 (provide 'completion-ivy)
 ;;; completion-ivy.el ends here
