@@ -11,7 +11,7 @@
 (use-package persp-mode :demand t
   :commands (persp-mode persp-switch)
   :init
-  (setq-default persp-keymap-prefix (kbd "C-c W"))
+  (setq-default persp-keymap-prefix (kbd "C-c TAB"))
   :config
   (setq persp-autokill-buffer-on-remove 'kill-weak
         persp-nil-name "main"

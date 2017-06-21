@@ -8,39 +8,14 @@
 (require 'base-lib)
 
 (use-package company
-  :commands company-mode
-  :bind
-  (:map
-   company-mode-map
-   ([tab] . company-indent-or-complete)
-   :map
-   company-active-map
-   ;; Don't interfere with `evil-delete-backward-word' in insert mode
-   ("C-w"     . nil)
-
-   ;; Don't affect return key
-   ("RET"      . nil)
-   ("<return>" . nil)
-   ([escape]   . company-abort)
-
-   ("C-e"     . company-complete-selection)
-   ("C-f"     . company-complete-selection)
-   ([tab]     . company-complete-common-or-cycle)
-   ([backtab] . company-select-previous)
-
-   ("C-o"     . company-search-toggle-filtering)
-   ("C-n"     . company-select-next)
-   ("C-p"     . company-select-previous)
-   ("C-h"     . company-quickhelp-manual-begin)
-   ("C-S-h"   . company-show-doc-buffer)
-   ("C-S-s"   . company-search-candidates)
-   ("C-s"     . company-filter-candidates)
-   :map
-   company-search-map
-   ("C-n" . company-search-repeat-forward)
-   ("C-p" . company-search-repeat-backward)
-   ("C-s" . company-search-abort-and-filter-candidates)
-   ([escape] . company-search-abort))
+  :diminish company-mode
+  :commands (company-mode
+             company-begin-backend
+             company-grab-line
+             company-complete-common-or-cycle
+             company-select-previous-or-abort
+             company-search-abort
+             company-filter-candidates)
   :preface
   (defvar-local company-whitespace-mode-on-p nil)
 
@@ -51,19 +26,6 @@
     (when (boundp 'whitespace-mode)
       (setq company-whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode -1))))
-
-  (defun company-indent-or-complete ()
-    "Try to indent before trying to complete."
-    (interactive)
-    (if (looking-at "\\_>")
-        (company-complete-common-or-cycle)
-      (indent-for-tab-command)))
-
-  (defun company-search-abort-and-filter-candidates ()
-    "Abort and filter candidates."
-    (interactive)
-    (company-search-abort)
-    (company-filter-candidates))
   :init
   (add-hook 'after-init-hook
             #'(lambda ()
@@ -130,6 +92,50 @@
 (autoload 'company-files "company-files")
 (autoload 'company-gtags "company-gtags")
 (autoload 'company-ispell "company-ispell")
+
+;;;###autoload
+(defun company|search-abort-and-filter-candidates ()
+  "Abort and filter candidates."
+  (interactive)
+  (company-search-abort)
+  (company-filter-candidates))
+
+;;;###autoload
+(defun company|whole-lines (command &optional arg &rest _)
+  "Complete lines based on COMMAND and ARG."
+  (interactive (list 'interactive))
+  (require 'company)
+  (pcase command
+    ('interactive (company-begin-backend '+company/whole-lines))
+    ('prefix      (company-grab-line "^[\t\s]*\\(.+\\)" 1))
+    ('candidates
+     (all-completions
+      arg
+      (split-string
+       (replace-regexp-in-string
+        "^[\t\s]+" ""
+        (concat (buffer-substring-no-properties (point-min) (line-beginning-position))
+                (buffer-substring-no-properties (line-end-position) (point-max))))
+       "\\(\r\n\\|[\n\r]\\)" t)))))
+
+;;;###autoload
+(defun company|dict-or-keywords ()
+  "`company-mode' completion combining `company-dict' and `company-keywords'."
+  (interactive)
+  (require 'company-dict)
+  (require 'company-keywords)
+  (let ((company-backends '((company-keywords company-dict))))
+    (call-interactively 'company-complete)))
+
+;;;###autoload
+(defun company|dabbrev-code-previous ()
+  "Complete like `company-dabbrev-code' but backwards."
+  (interactive)
+  (require 'company-dabbrev)
+  (let ((company-selection-wrap-around t))
+    (call-interactively #'company-dabbrev-code)
+    (company-select-previous-or-abort)))
+
 
 (provide 'completion-company)
 ;;; completion-company.el ends here

@@ -168,6 +168,7 @@
 ;; Handles white-space (tabs/spaces) settings externally. This way projects can
 ;; specify their own formatting rules.
 (use-package editorconfig :demand t
+  :diminish editorconfig-mode
   :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
   :config (editorconfig-mode +1))
 
@@ -182,6 +183,7 @@
 
 ;; Auto-close delimiters and blocks as you type
 (use-package smartparens :demand t
+  :diminish smartparens-mode
   :commands (sp-pair sp-local-pair)
   :init
   (setq-default
@@ -218,6 +220,7 @@
 
 ;; Save buffers when focus is lost
 (use-package super-save :demand t
+  :diminish super-save-mode
   :config (super-save-mode +1))
 
 ;; Branching & persistent undo
@@ -240,6 +243,7 @@
 
 ;; Delete trailing white-space before save
 (use-package ws-butler
+  :diminish ws-butler-mode
   :commands ws-butler-mode
   :preface
   (defun my|trim-trailing-whitespace (props)

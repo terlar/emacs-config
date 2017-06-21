@@ -4,6 +4,8 @@
 ;; Custom functions, macros and helpers.
 
 ;;; Code:
+(require 'base-vars)
+
 (defmacro quiet! (&rest forms)
   "Run FORMS without making any noise."
   `(if my-debug-mode
@@ -22,6 +24,8 @@
                (save-silently t))
        ,@forms)))
 
+;;;
+;; Setup
 (defun push-company-backends (mode backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."
   (let ((backends (if (listp backends) backends (list backends)))
@@ -33,12 +37,14 @@
                         (unless (member ',backends company-backends)
                           (setq-local company-backends (append '((,@backends)) company-backends))))))))
 
-(defun retab ()
-  "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
+;;;
+;; Buffers
+(defun kill-other-buffers ()
+  "Kill all other buffers."
   (interactive)
-  (if indent-tabs-mode
-      (tabify (point-min) (point-max))
-    (untabify (point-min) (point-max))))
+  (mapc 'kill-buffer
+        (delq (current-buffer)
+              (cl-remove-if-not 'buffer-file-name (buffer-list)))))
 
 (defun switch-to-minibuffer ()
   "Switch to minibuffer window."
@@ -46,6 +52,22 @@
   (if (active-minibuffer-window)
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
+
+;;;
+;; Editing
+(defun retab ()
+  "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
+  (interactive)
+  (if indent-tabs-mode
+      (tabify (point-min) (point-max))
+    (untabify (point-min) (point-max))))
+
+;;;
+;; UI
+(defun default-text-scale-reset ()
+  "Reset the height of the default face to `my-default-font-height'."
+  (interactive)
+  (set-face-attribute 'default nil :height my-default-font-height))
 
 (provide 'base-lib)
 ;;; base-lib.el ends here

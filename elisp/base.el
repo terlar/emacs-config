@@ -105,6 +105,7 @@
   (require 'base-ui)
   (require 'base-modeline)
   (require 'base-popups)
+  (require 'base-keybinds)
   (require 'base-editor)
   (require 'base-projects))
 

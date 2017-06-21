@@ -4,17 +4,18 @@
 ;; The way of the vi!
 
 ;;; Code:
+(eval-when-compile
+  (require 'cl))
+
 (use-package evil :demand t
   :commands
-  (evil-select-search-module
-   evil-set-initial-state
-   evil-state-property
-   evil-force-normal-state
-   evil-ex-nohighlight
-   evil-ex-hl-active-p
-   evil-window-top
-   evil-window-middle
-   evil-window-bottom)
+  (evil-normal-state
+   evil-select-search-module
+   evil-state-property evil-set-initial-state evil-force-normal-state
+   evil-ex-nohighlight evil-ex-hl-active-p
+   evil-window-top evil-window-middle evil-window-bottom
+   evil-shift-left evil-shift-right
+   evil-visual-restore evil-visual-make-selection)
   :preface
   ;; Make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
   ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'
@@ -69,7 +70,7 @@
 E.g. invoked by `evil-force-normal-state'.
 If a hook returns non-nil, all hooks after it are ignored.")
 
-(defun my|evil-attach-escape-hook ()
+(defun evil|attach-escape-hook ()
   "Run the `my-evil-esc-hook'."
   (cond ((minibuffer-window-active-p (minibuffer-window))
          ;; quit the minibuffer if open.
@@ -80,11 +81,12 @@ If a hook returns non-nil, all hooks after it are ignored.")
         (t
          ;; Run all escape hooks. If any returns non-nil, then stop there.
          (run-hook-with-args-until-success 'my-evil-esc-hook))))
-(advice-add #'evil-force-normal-state :after #'my|evil-attach-escape-hook)
+(advice-add #'evil-force-normal-state :after #'evil|attach-escape-hook)
 
 ;;;
 ;; Packages
 (use-package evil-escape :demand t
+  :diminish evil-escape-mode
   :commands evil-escape
   :init
   (setq-default evil-escape-excluded-states '(normal visual multiedit)
@@ -99,8 +101,9 @@ If a hook returns non-nil, all hooks after it are ignored.")
                  evil-operator-state-map))
     (bind-key "C-g" #'evil-escape (eval map))))
 
-(use-package evil-commentary
+(use-package evil-commentary :demand t
   :after evil
+  :diminish evil-commentary-mode
   :commands (evil-commentary evil-commentary-yank evil-commentary-line)
   :config (evil-commentary-mode +1))
 
@@ -124,6 +127,34 @@ If a hook returns non-nil, all hooks after it are ignored.")
   :config
   (setq evil-embrace-show-help-p nil)
   (evil-embrace-enable-evil-surround-integration))
+
+;;;
+;; Autoloads
+
+;;;###autoload
+(defun evil|visual-indent ()
+  "Visual indentation restore selection after operation."
+  (interactive)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore))
+
+;;;###autoload
+(defun evil|visual-dedent ()
+  "Visual deindentation restore selection after operation."
+  (interactive)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore))
+
+;;;###autoload
+(defun evil|reselect-paste ()
+  "Go back into visual mode and reselect the last pasted region."
+  (interactive)
+  (destructuring-bind (_ _ _ beg end) evil-last-paste
+    (evil-visual-make-selection
+     (save-excursion (goto-char beg) (point-marker))
+     end)))
 
 (provide 'feature-evil)
 ;;; feature-evil.el ends here

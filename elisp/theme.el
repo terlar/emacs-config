@@ -9,6 +9,7 @@
 (eval-when-compile
   (defvar hl-todo-keyword-faces)
   (defvar neo-global--window)
+  (defvar zoom-window-mode-line-color)
   (declare-function neo-global--select-window "neotree"))
 
 ;;;
@@ -133,6 +134,9 @@ They get reset each time you select the neotree pane and are highlighted incorre
   (set-face-attribute 'nlinum-current-line nil
                       :foreground "tomato"
                       :weight 'bold))
+
+(with-eval-after-load "zoom-window"
+  (setq zoom-window-mode-line-color (face-background 'mode-line)))
 
 (provide 'theme)
 ;;; theme.el ends here

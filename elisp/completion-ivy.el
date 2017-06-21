@@ -7,6 +7,7 @@
 (require 'base-vars)
 
 (use-package ivy :demand t
+  :diminish ivy-mode
   :commands (ivy-mode
              ivy-format-function-line)
   :bind

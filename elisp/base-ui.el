@@ -167,6 +167,7 @@
 
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
+  :diminish color-identifiers-mode
   :commands color-identifiers-mode
   :init
   (add-hook 'after-init-hook #'global-color-identifiers-mode))

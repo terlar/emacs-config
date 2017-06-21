@@ -28,6 +28,7 @@
 
 ;; Displays current match and total matches information
 (use-package anzu :demand t
+  :diminish anzu-mode
   :commands
   (global-anzu-mode
    anzu-query-replace anzu-query-replace-regexp
@@ -85,9 +86,12 @@
   (global-indent-info-mode +1))
 
 ;; Show icons instead of mode names
-(use-package mode-icons :demand t
+(use-package mode-icons
   :commands mode-icons-mode
   :init
+  (setq mode-icons-desaturate-active t
+        mode-icons-desaturate-inactive t)
+
   (add-hook 'after-make-frame-functions
             #'(lambda (frame)
                 (when (display-graphic-p frame)
@@ -95,10 +99,7 @@
   (add-hook 'after-init-hook
             #'(lambda ()
                 (when (display-graphic-p)
-                  (mode-icons-mode +1))))
-  :config
-  (setq mode-icons-desaturate-active t
-        mode-icons-desaturate-inactive t))
+                  (mode-icons-mode +1)))))
 
 ;;;
 ;; Configuration
@@ -109,32 +110,18 @@
 (column-number-mode +1)
 (line-number-mode +1)
 
-;; Modes
+;; Hidden modes
 (add-hook 'after-init-hook
           #'(lambda ()
-              ;; Hidden
               (diminish 'abbrev-mode)
-              (diminish 'eldoc-mode)
               (diminish 'auto-revert-mode)
-              (with-eval-after-load "anzu"                   (diminish 'anzu-mode))
-              (with-eval-after-load "color-identifiers-mode" (diminish 'color-identifiers-mode))
-              (with-eval-after-load "company"                (diminish 'company-mode))
-              (with-eval-after-load "editorconfig"           (diminish 'editorconfig-mode))
-              (with-eval-after-load "evil-commentary"        (diminish 'evil-commentary-mode))
-              (with-eval-after-load "evil-escape"            (diminish 'evil-escape-mode))
-              (with-eval-after-load "ivy"                    (diminish 'ivy-mode))
-              (with-eval-after-load "projectile"             (diminish 'projectile-mode))
-              (with-eval-after-load "smartparens"            (diminish 'smartparens-mode))
-              (with-eval-after-load "super-save"             (diminish 'super-save-mode))
-              (with-eval-after-load "undo-tree"              (diminish 'undo-tree-mode))
-              (with-eval-after-load "ws-butler"              (diminish 'ws-butler-mode))
-              (with-eval-after-load "which-key"              (diminish 'which-key-mode)))
+              (diminish 'eldoc-mode)))
 
-          ;; Icons
-          (with-eval-after-load "mode-icons"
-            (push '("=>" #xf03c FontAwesome) mode-icons)
-            (push '("Fill" #xf039 FontAwesome) mode-icons)
-            (push '("ws" #xf06e FontAwesome) mode-icons)))
+;; Icon modes
+(with-eval-after-load "mode-icons"
+  (push '("=>" #xf03c FontAwesome) mode-icons)
+  (push '("Fill" #xf039 FontAwesome) mode-icons)
+  (push '("ws" #xf06e FontAwesome) mode-icons))
 
 ;; Evil state indicator
 (autoload 'evil-state-property "evil-common")

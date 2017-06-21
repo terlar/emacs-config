@@ -7,6 +7,7 @@
 (require 'base-vars)
 
 (use-package projectile :demand t
+  :diminish projectile-mode
   :functions projectile-ignored-directories
   :preface
   (defun my|projectile-cache-current-file (orig-fun &rest args)

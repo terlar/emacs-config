@@ -51,7 +51,7 @@
     (push neo-buffer-name winner-boring-buffers)))
 
 ;;;###autoload
-(defun my|neotree-toggle ()
+(defun neotree|toggle ()
   "Toggle NeoTree window."
   (interactive)
   (let ((project-dir (ignore-errors (projectile-project-root)))
@@ -65,12 +65,12 @@
       (message "Could not find git project root."))))
 
 ;;;###autoload
-(defun my|neotree-window ()
+(defun neotree|window ()
   "Switch to and/or open NeoTree window."
   (interactive)
   (if (neo-global--window-exists-p)
       (neo-global--select-window)
-    (my|neotree-toggle)))
+    (neotree|toggle)))
 
 (provide 'tool-neotree)
 ;;; tool-neotree.el ends here
