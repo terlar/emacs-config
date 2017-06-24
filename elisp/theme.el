@@ -39,11 +39,16 @@
 
 ;;;
 ;; Faces
+(defface my-code-face
+  '((t (:inherit fixed-pitch :background "grey91")))
+  "Face for fixed-width text like code snippets."
+  :group 'editing)
+
 (defface my-folded-face
   `((((background dark))
      (:inherit font-lock-comment-face :background "black"))
     (((background light))
-     (:inherit font-lock-comment-face :background "light grey")))
+     (:inherit font-lock-comment-face :background "grey91")))
   "Face to hightlight `hideshow' overlays."
   :group 'editing)
 
@@ -99,6 +104,9 @@
   (set-face-attribute 'inline-docs-border-face nil :inherit 'fringe)
   (set-face-attribute 'inline-docs-indicator-face nil :inherit 'fringe))
 
+(with-eval-after-load "markdown-mode"
+  (set-face-attribute 'markdown-inline-code-face nil :box '(:line-width 1)))
+
 (with-eval-after-load "nav-flash"
   (set-face-attribute 'nav-flash-face nil :background "pale goldenrod"))
 
@@ -134,6 +142,9 @@ They get reset each time you select the neotree pane and are highlighted incorre
   (set-face-attribute 'nlinum-current-line nil
                       :foreground "tomato"
                       :weight 'bold))
+
+(with-eval-after-load "rst"
+  (set-face-attribute 'rst-literal nil :inherit 'my-code-face))
 
 (with-eval-after-load "zoom-window"
   (setq zoom-window-mode-line-color (face-background 'mode-line)))

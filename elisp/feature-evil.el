@@ -5,7 +5,11 @@
 
 ;;; Code:
 (eval-when-compile
-  (require 'cl))
+  (require 'cl)
+  (defvar buffer-face-mode))
+
+(defvar-local evil-pre-insert-state-variable-pitch-mode
+  "Hold original `variable-pitch-mode'.")
 
 (use-package evil :demand t
   :commands
@@ -85,6 +89,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 ;;;
 ;; Packages
+
 (use-package evil-escape :demand t
   :diminish evil-escape-mode
   :commands evil-escape
@@ -155,6 +160,20 @@ If a hook returns non-nil, all hooks after it are ignored.")
     (evil-visual-make-selection
      (save-excursion (goto-char beg) (point-marker))
      end)))
+
+;;;###autoload
+(defun evil|insert-state-disable-variable-pitch-mode ()
+  "Disable `variable-pitch-mode' and store original value."
+  (interactive)
+  (setq evil-pre-insert-state-variable-pitch-mode buffer-face-mode)
+  (variable-pitch-mode -1))
+
+;;;###autoload
+(defun evil|insert-state-restore-variable-pitch-mode ()
+  "Restore `variable-pitch-mode' from original value."
+  (interactive)
+  (when evil-pre-insert-state-variable-pitch-mode
+    (variable-pitch-mode +1)))
 
 (provide 'feature-evil)
 ;;; feature-evil.el ends here

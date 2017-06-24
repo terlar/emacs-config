@@ -6,40 +6,50 @@
 ;;; Code:
 (use-package markdown-mode
   :mode
-  ("/README$"
+  (("/README$" . markdown-mode)
    ("/README\\.md$" . gfm-mode))
-  :commands (markdown-mode gfm-mode)
+  :commands (markdown-mode
+             gfm-mode
+             markdown-toggle-markup-hiding)
   :preface
   (autoload 'sp-local-pair "smartparens")
+
+  (defun markdown|evil-insert-state-entry ()
+    "Setup markdown edit mode."
+    (when (eq major-mode 'markdown-mode)
+      (markdown-toggle-markup-hiding -1)))
+
+  (defun markdown|evil-insert-state-exit ()
+    "Reset markdown edit mode."
+    (when (eq major-mode 'markdown-mode)
+      (markdown-toggle-markup-hiding +1)))
   :init
   (setq markdown-enable-wiki-links t
         markdown-enable-math t
+        markdown-fontify-code-blocks-natively t
         markdown-italic-underscore t
         markdown-make-gfm-checkboxes-buttons t
         markdown-gfm-additional-languages '("sh"))
   :config
   (add-hook 'markdown-mode-hook
             #'(lambda()
+                (setq line-spacing 2
+                      fill-column 80
+                      markdown-hide-markup t)
+
                 (linum-mode -1)
                 (auto-fill-mode +1)
+
                 (variable-pitch-mode +1)
-                (setq line-spacing 2
-                      fill-column 80)))
+                (customize-set-variable 'markdown-header-scaling t)
+
+                (with-eval-after-load "evil"
+                  (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry)
+                  (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit))))
 
   (sp-local-pair
    '(markdown-mode gfm-mode)
-   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET")))
-
-  ;; Typography
-  (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch)
-  (set-face-attribute 'markdown-inline-code-face nil :inherit 'fixed-pitch :box '(:line-width 1))
-
-  (set-face-attribute 'markdown-header-face-1 nil :height 1.8)
-  (set-face-attribute 'markdown-header-face-2 nil :height 1.4)
-  (set-face-attribute 'markdown-header-face-3 nil :height 1.2)
-  (set-face-attribute 'markdown-header-face-4 nil :height 1.0)
-  (set-face-attribute 'markdown-header-face-5 nil :height 1.0)
-  (set-face-attribute 'markdown-header-face-6 nil :height 1.0))
+   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
 (use-package markdown-toc :commands markdown-toc-generate-toc)
 
