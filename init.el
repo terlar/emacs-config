@@ -16,6 +16,7 @@
 ;; Features
 (require 'feature-evil)            ; Extensible vi layer
 (require 'feature-jump)            ; Jump to definition
+(require 'feature-preview)
 (require 'feature-spellcheck)
 (require 'feature-speed-reading)
 (require 'feature-syntax-checker)

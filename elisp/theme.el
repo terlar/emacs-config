@@ -146,6 +146,11 @@ They get reset each time you select the neotree pane and are highlighted incorre
 (with-eval-after-load "rst"
   (set-face-attribute 'rst-literal nil :inherit 'my-code-face))
 
+(with-eval-after-load "web-mode"
+  (set-face-attribute 'web-mode-current-element-highlight-face nil
+                      :background nil
+                      :weight 'bold))
+
 (with-eval-after-load "zoom-window"
   (setq zoom-window-mode-line-color (face-background 'mode-line)))
 

@@ -28,9 +28,17 @@
   :config
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
-        web-mode-enable-current-element-highlight t))
+        web-mode-enable-current-element-highlight t)
 
-;; Snippets for HTML
+  ;; No padding for nested sections inside HTML
+  (with-eval-after-load 'editorconfig
+    (add-hook 'editorconfig-custom-hooks
+              #'(lambda (_)
+                  (setq web-mode-block-padding 0
+                        web-mode-script-padding 0
+                        web-mode-style-padding 0)))))
+
+;; Snippets and Zen Coding for HTML
 (use-package emmet-mode
   :after web-mode
   :commands emmet-mode
@@ -61,9 +69,6 @@
   (push-company-backends 'css-mode '(company-css
                                      company-dabbrev-code
                                      company-files)))
-
-;; Live refresh of web pages
-(use-package impatient-mode :commands impatient-mode)
 
 (provide 'lang-web)
 ;;; lang-web.el ends here

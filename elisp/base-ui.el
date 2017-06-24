@@ -278,6 +278,15 @@
   :config
   (setq nlinum-highlight-current-line t))
 
+;; Centered buffer mode
+(use-package olivetti
+  :diminish olivetti-mode
+  :init
+  (setq-default olivetti-body-width 120
+                olivetti-minimum-body-width 72)
+  (dolist (hook '(text-mode-hook prog-mode-hook help-mode-hook))
+    (add-hook hook #'olivetti-mode)))
+
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
   :commands page-break-lines-mode
@@ -289,16 +298,6 @@
   :commands rainbow-delimiters-mode
   :init (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   :config (setq rainbow-delimiters-max-face-count 3))
-
-;; Visual line wrapping and centered text
-(use-package visual-fill-column
-  :init
-  (setq-default
-   visual-fill-column-center-text t
-   visual-fill-column-width 120)
-
-  (dolist (hook '(text-mode-hook prog-mode-hook help-mode-hook))
-    (add-hook hook #'visual-fill-column-mode)))
 
 (provide 'base-ui)
 ;;; base-ui.el ends here

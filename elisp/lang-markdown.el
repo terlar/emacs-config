@@ -16,12 +16,12 @@
 
   (defun markdown|evil-insert-state-entry ()
     "Setup markdown edit mode."
-    (when (eq major-mode 'markdown-mode)
+    (when (member major-mode '(markdown-mode gfm-mode))
       (markdown-toggle-markup-hiding -1)))
 
   (defun markdown|evil-insert-state-exit ()
     "Reset markdown edit mode."
-    (when (eq major-mode 'markdown-mode)
+    (when (member major-mode '(markdown-mode gfm-mode))
       (markdown-toggle-markup-hiding +1)))
   :init
   (setq markdown-enable-wiki-links t
@@ -29,7 +29,9 @@
         markdown-fontify-code-blocks-natively t
         markdown-italic-underscore t
         markdown-make-gfm-checkboxes-buttons t
-        markdown-gfm-additional-languages '("sh"))
+        markdown-gfm-additional-languages '("sh")
+        markdown-command
+        "pandoc -f markdown -t html5 -s --self-contained --smart")
   :config
   (add-hook 'markdown-mode-hook
             #'(lambda()
