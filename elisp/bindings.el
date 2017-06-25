@@ -9,12 +9,13 @@
 
 ;;;
 ;; Leader key
+
 (defvar my-leader-key "C-c"
   "The key used for most custom operations.")
 (defvar my-normal-leader-key "SPC"
   "The key used for most custom operations in `evil-normal-state'.")
 
-(eval `(general-define-key :states '(normal visual)
+(eval `(general-define-key :keymaps '(normal visual)
                            ,my-normal-leader-key (general-simulate-keys ,my-leader-key)))
 
 ;;;
@@ -223,8 +224,8 @@
 
 ;; debug
 (general-define-key
- :states 'normal
  :keymaps 'debugger-mode-map
+ :states 'normal
  "RET" '(debug-help-follow)
  "n"   '(debugger-step-through)
  "c"   '(debugger-continue))
@@ -240,16 +241,16 @@
 
 ;; eww
 (general-define-key
- :states 'normal
  :keymaps 'eww-mode-map
+ :states 'normal
  "h" '(eww-back-url)
  "l" '(eww-next-url)
  "q" '(quit-window))
 
 ;; help-mode
 (general-define-key
- :states 'normal
  :keymaps 'help-mode-map
+ :states 'normal
  "[[" '(help-go-back)
  "]]" '(help-go-forward)
  "o"  '(ace-link-help)
@@ -257,8 +258,8 @@
 
 ;; vc-annotate
 (general-define-key
- :states 'normal
  :keymaps 'vc-annotate-mode-map
+ :states 'normal
  "q"   '(kill-this-buffer)
  "d"   '(vc-annotate-show-diff-revision-at-line)
  "D"   '(vc-annotate-show-changeset-diff-revision-at-line)
@@ -273,8 +274,8 @@
 
 ;; company
 (general-define-key
- :states 'insert
  :keymaps 'company-mode-map
+ :states 'insert
  "C-SPC"   '(company-indent-or-complete-common)
  "C-x C-l" '(company|whole-lines)
  "C-x C-k" '(company|dict-or-keywords)
@@ -325,7 +326,7 @@
 
 ;; diff-hl
 (general-define-key
- :states 'motion
+ :keymaps 'motion
  "]d" '(diff-hl-next-hunk)
  "[d" '(diff-hl-previous-hunk))
 
@@ -339,38 +340,38 @@
 
 ;; evil-commentary
 (general-define-key
- :states 'normal
+ :keymaps 'normal
  "gc" '(evil-commentary))
 
 ;; evil-exchange
 (general-define-key
- :states 'normal
+ :keymaps 'normal
  "gx" '(evil-exchange))
 
 ;; evil-magit
 (general-define-key
- :states 'normal
  :keymaps '(magit-status-mode-map magit-revision-mode-map)
+ :states 'normal
  "C-j" '(nil)
  "C-k" '(nil))
 
 ;; evil-surround
 (general-define-key
- :states 'visual
+ :keymaps 'visual
  "S" '(evil-surround-region))
 (general-define-key
- :states 'operator
+ :keymaps 'operator
  "s" '(evil-surround-edit)
  "S" '(evil-surround-edit))
 
 ;; flycheck
 (general-define-key
- :states 'motion
+ :keymaps 'motion
  "]e" '(next-error)
  "[e" '(previous-error))
 (general-define-key
- :states 'normal
  :keymaps 'flycheck-error-list-mode-map
+ :states 'normal
  "C-n" '(flycheck-error-list-next-error)
  "C-p" '(flycheck-error-list-previous-error)
  "j"   '(flycheck-error-list-next-error)
@@ -379,14 +380,14 @@
 
 ;; flyspell
 (general-define-key
- :states 'motion
+ :keymaps 'motion
  "]S" '(flyspell-correct-word-generic)
  "[S" '(flyspell-correct-previous-word-generic))
 
 ;; git-timemachine
 (general-define-key
- :states '(normal visual)
  :keymaps 'git-timemachine-mode-map
+ :states '(normal visual)
  "p" '(git-timemachine-show-previous-revision)
  "n" '(git-timemachine-show-next-revision)
  "g" '(git-timemachine-show-nth-revision)
@@ -397,7 +398,7 @@
 
 ;; hl-todo
 (general-define-key
- :states 'motion
+ :keymaps 'motion
  "]t" '(hl-todo-next)
  "[t" '(hl-todo-previous))
 
@@ -421,8 +422,8 @@
  "<left-margin> <mouse-1>" '(neotree|toggle)
  "<left-fringe> <mouse-1>" '(neotree|toggle))
 (general-define-key
- :states 'normal
  :keymaps 'neotree-mode-map
+ :states 'normal
  "g"         '(nil)
  [tab]       '(neotree-quick-look)
  "RET"       '(neotree-enter)
@@ -448,16 +449,16 @@
 
 ;; realgud
 (general-define-key
- :states 'normal
  :keymaps 'realgud:shortkey-mode-map
+ :states 'normal
  "j" '(evil-next-line)
  "k" '(evil-previous-line)
  "h" '(evil-backward-char)
  "l" '(evil-forward-char)
  "c" '(realgud:cmd-continue))
 (general-define-key
- :states 'motion
  :keymaps 'realgud:shortkey-mode-map
+ :states 'motion
  "n" '(realgud:cmd-next)
  "b" '(realgud:cmd-break)
  "B" '(realgud:cmd-clear))
@@ -470,13 +471,13 @@
 
 ;; smart-forward
 (general-define-key
- :states 'motion
+ :keymaps 'motion
  "g]" '(smart-forward)
  "g[" '(smart-backward))
 
 ;; undo-tree
 (general-define-key
- :states 'visual
+ :keymaps 'visual
  "C-u" '(undo-tree-undo)
  "C-r" '(undo-tree-redo))
 
