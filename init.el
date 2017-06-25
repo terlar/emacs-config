@@ -44,6 +44,7 @@
 (require 'lang-emacs-lisp)
 (require 'lang-erlang)
 (require 'lang-go)
+(require 'lang-haskell)
 (require 'lang-java)
 (require 'lang-markdown)
 (require 'lang-pkgbuild)

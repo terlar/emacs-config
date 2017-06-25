@@ -172,6 +172,12 @@
   :init
   (add-hook 'after-init-hook #'global-color-identifiers-mode))
 
+;; Highlight source code identifiers for modes not supported by
+;; `color-identifiers-mode'
+(use-package rainbow-identifiers
+  :diminish rainbow-identifiers-mode
+  :commands rainbow-identifiers-mode)
+
 ;; Dynamically change the default text scale
 (use-package default-text-scale
   :commands (default-text-scale-increase default-text-scale-decrease))
