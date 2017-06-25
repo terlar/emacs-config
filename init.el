@@ -51,6 +51,7 @@
 (require 'lang-rst)
 (require 'lang-scala)
 (require 'lang-shell)
+(require 'lang-uml)
 (require 'lang-web)
 
 ;;;

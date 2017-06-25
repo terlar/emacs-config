@@ -7,7 +7,8 @@
 (use-package impatient-mode
   :commands impatient-mode
   :preface
-  (declare-function markdown "markdown-mode")
+  (eval-when-compile
+    (declare-function markdown "markdown-mode"))
 
   (defun imp-markdown-filter (in)
     (let ((out (current-buffer)))
