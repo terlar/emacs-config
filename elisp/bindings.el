@@ -476,7 +476,7 @@
 
 ;; undo-tree
 (general-define-key
- :state 'visual
+ :states 'visual
  "C-u" '(undo-tree-undo)
  "C-r" '(undo-tree-redo))
 
