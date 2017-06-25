@@ -46,17 +46,15 @@ Used when `rst-header-scaling' is non-nil."
 
   (defun rst|evil-insert-state-entry ()
     "Setup reStructuredText edit mode."
-    (when (eq major-mode 'rst-mode)
-      (evil|insert-state-disable-variable-pitch-mode)
-      (customize-set-variable 'rst-header-scaling nil)
-      (hide-lines-show-all)))
+    (evil|insert-state-disable-variable-pitch-mode)
+    (customize-set-variable 'rst-header-scaling nil)
+    (hide-lines-show-all))
 
   (defun rst|evil-insert-state-exit ()
     "Reset reStructuredText edit mode."
-    (when (eq major-mode 'rst-mode)
-      (evil|insert-state-restore-variable-pitch-mode)
-      (customize-set-variable 'rst-header-scaling t)
-      (hide-lines-matching rst-adornment-regexp)))
+    (evil|insert-state-restore-variable-pitch-mode)
+    (customize-set-variable 'rst-header-scaling t)
+    (hide-lines-matching rst-adornment-regexp))
   :config
   (setq rst-preferred-adornments
         '((35 over-and-under 0) ; ?# For parts
@@ -80,9 +78,8 @@ Used when `rst-header-scaling' is non-nil."
                 (customize-set-variable 'rst-header-scaling t)
                 (hide-lines-matching rst-adornment-regexp)
 
-                (with-eval-after-load "evil"
-                  (add-hook 'evil-insert-state-entry-hook #'rst|evil-insert-state-entry)
-                  (add-hook 'evil-insert-state-exit-hook #'rst|evil-insert-state-exit)))))
+                (add-hook 'evil-insert-state-entry-hook #'rst|evil-insert-state-entry nil t)
+                (add-hook 'evil-insert-state-exit-hook #'rst|evil-insert-state-exit nil t))))
 
 ;;;
 ;; Autoloads

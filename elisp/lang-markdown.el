@@ -16,13 +16,11 @@
 
   (defun markdown|evil-insert-state-entry ()
     "Setup markdown edit mode."
-    (when (member major-mode '(markdown-mode gfm-mode))
-      (markdown-toggle-markup-hiding -1)))
+    (markdown-toggle-markup-hiding -1))
 
   (defun markdown|evil-insert-state-exit ()
     "Reset markdown edit mode."
-    (when (member major-mode '(markdown-mode gfm-mode))
-      (markdown-toggle-markup-hiding +1)))
+    (markdown-toggle-markup-hiding +1))
   :init
   (setq markdown-enable-wiki-links t
         markdown-enable-math t
@@ -45,9 +43,8 @@
                 (variable-pitch-mode +1)
                 (customize-set-variable 'markdown-header-scaling t)
 
-                (with-eval-after-load "evil"
-                  (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry)
-                  (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit))))
+                (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry nil t)
+                (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit nil t)))
 
   (sp-local-pair
    '(markdown-mode gfm-mode)
