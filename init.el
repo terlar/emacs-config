@@ -43,6 +43,7 @@
 (require 'lang-elm)
 (require 'lang-emacs-lisp)
 (require 'lang-erlang)
+(require 'lang-go)
 (require 'lang-java)
 (require 'lang-markdown)
 (require 'lang-pkgbuild)

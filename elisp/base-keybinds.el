@@ -8,7 +8,7 @@
 ;;;
 ;; Packages
 
-(use-package general
+(use-package general :demand t
   :commands
   (general-define-key
    general-simulate-keys))
