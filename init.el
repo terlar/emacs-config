@@ -46,6 +46,7 @@
 (require 'lang-go)
 (require 'lang-haskell)
 (require 'lang-java)
+(require 'lang-javascript)
 (require 'lang-markdown)
 (require 'lang-pkgbuild)
 (require 'lang-raml)
