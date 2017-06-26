@@ -49,6 +49,7 @@
 (require 'lang-javascript)
 (require 'lang-markdown)
 (require 'lang-pkgbuild)
+(require 'lang-python)
 (require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
