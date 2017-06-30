@@ -56,13 +56,11 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (unless package-archive-contents
       (package-refresh-contents))
 
-    (unless (package-installed-p 'paradox)
-      (package-install 'paradox))
-    (paradox-require 'use-package)
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
 
     (setq my-packages-init-p t)))
 
-(autoload 'paradox-require "paradox" nil nil 'macro)
 (autoload 'use-package "use-package" nil nil 'macro)
 
 (provide 'base-package)

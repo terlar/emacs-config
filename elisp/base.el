@@ -77,19 +77,22 @@
 
 ;;;
 ;; Initialize
+
 (eval-and-compile
   ;; Temporarily reduce garbage collection during startup
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6)
 
   (require 'cl-lib)
-  (require 'base-package)
-  (require 'base-lib))
+  (require 'base-package))
 
 (eval-when-compile
   (my|packages-initialize))
 
 (setq load-path (eval-when-compile load-path))
+
+(eval-and-compile
+  (require 'base-lib))
 
 (add-hook 'emacs-startup-hook
           #'(lambda ()
@@ -101,6 +104,7 @@
 
 ;;;
 ;; Bootstrap
+
 (unless noninteractive
   (require 'base-ui)
   (require 'base-modeline)

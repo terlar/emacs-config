@@ -6,6 +6,15 @@
 ;;; Code:
 (require 'base-vars)
 
+;;;
+;; Packages
+
+(use-package add-hooks
+  :commands add-hooks)
+
+;;;
+;; Setup
+
 (defmacro quiet! (&rest forms)
   "Run FORMS without making any noise."
   `(if my-debug-mode
@@ -24,8 +33,6 @@
                (save-silently t))
        ,@forms)))
 
-;;;
-;; Setup
 (defun push-company-backends (mode backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."
   (let ((backends (if (listp backends) backends (list backends)))
@@ -39,6 +46,7 @@
 
 ;;;
 ;; Buffers
+
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
@@ -55,6 +63,7 @@
 
 ;;;
 ;; Editing
+
 (defun retab ()
   "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
   (interactive)
@@ -64,6 +73,7 @@
 
 ;;;
 ;; UI
+
 (defun default-text-scale-reset ()
   "Reset the height of the default face to `my-default-font-height'."
   (interactive)
