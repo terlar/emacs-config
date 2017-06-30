@@ -34,9 +34,11 @@
  tabify-regexp "^\t* [ \t]+"
  whitespace-line-column fill-column
  whitespace-style
- '(face tabs tab-mark trailing lines-tail)
+ '(face tabs tab-mark spaces space-mark trailing lines-tail)
  whitespace-display-mappings
- '((tab-mark ?\t [?› ?\t]) (newline-mark 10  [36 10]))
+ '((tab-mark ?\t [?› ?\t])
+   (newline-mark 10 [?¬ 10])
+   (space-mark 32 [183] [46]))
  ;; Give the text some space
  line-spacing 0.2
  ;; Wrapping
