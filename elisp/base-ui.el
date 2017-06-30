@@ -279,8 +279,6 @@
   :load-path "vendor/nlinum/"
   :preface (defvar nlinum-format "%4d ")
   :commands nlinum-mode
-  :init
-  (add-hook 'prog-mode-hook #'nlinum-mode)
   :config
   (setq nlinum-highlight-current-line t))
 
