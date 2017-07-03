@@ -9,8 +9,14 @@
 ;;;
 ;; Packages
 
+;; Set multiple hooks
 (use-package add-hooks
-  :commands add-hooks)
+  :commands (add-hooks add-hooks-pair))
+
+(use-package f)    ; files and paths
+(use-package s)    ; strings
+(use-package dash) ; lists
+(use-package ov)   ; overlays
 
 ;;;
 ;; Setup

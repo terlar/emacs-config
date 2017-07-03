@@ -57,29 +57,31 @@
 (tooltip-mode -1) ; Tooltips in echo area
 (menu-bar-mode -1)
 
+(defun my--minibuffer-disable-fringes ()
+  "No fringes in minibuffer."
+  (set-window-fringes (minibuffer-window) 0 0 nil))
+
 (when (or (display-graphic-p) (daemonp))
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   ;; Standardize fringe width
   (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
   (push (cons 'right-fringe my-fringe-width) default-frame-alist)
-  ;; No fringe in minibuffer
-  (dolist (hook '(emacs-startup-hook minibuffer-setup-hook))
-    (add-hook hook
-              #'(lambda()
-                  (set-window-fringes (minibuffer-window) 0 0 nil)))))
+
+  (add-hooks-pair '(emacs-startup minibuffer-setup)
+                  #'my--minibuffer-disable-fringes))
 
 ;; Undo/redo changes to window layout
 (defvar winner-dont-bind-my-keys t)
 (require 'winner)
 (add-hook 'window-setup-hook #'winner-mode)
 
-(defun my|reset-non-gui-bg-color (&optional frame)
+(defun my--reset-non-gui-bg-color (&optional frame)
   "Unset background color for FRAME without graphic."
   (unless (display-graphic-p frame)
     (set-face-background 'default nil frame)))
-(add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
-(add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
+(add-hook 'after-make-frame-functions #'my--reset-non-gui-bg-color)
+(add-hook 'after-init-hook #'my--reset-non-gui-bg-color)
 
 ;; Use an Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
@@ -107,8 +109,8 @@
 
 ;; Visual line wrapping
 (diminish 'visual-line-mode)
-(dolist (hook '(text-mode-hook prog-mode-hook))
-  (add-hook hook #'visual-line-mode))
+(add-hooks-pair '(text-mode prog-mode)
+                #'visual-line-mode)
 
 ;; Inline eldoc pop-up
 (defvar my-display-overlay nil)
@@ -222,8 +224,8 @@
 (use-package hl-line
   :commands hl-line-mode
   :init
-  (dolist (hook '(linum-mode-hook nlinum-mode-hook))
-    (add-hook hook #'hl-line-mode))
+  (add-hooks-pair '(linum-mode nlinum-mode)
+                  #'hl-line-mode)
   :config
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
@@ -288,8 +290,8 @@
   :init
   (setq-default olivetti-body-width 120
                 olivetti-minimum-body-width 72)
-  (dolist (hook '(text-mode-hook prog-mode-hook help-mode-hook))
-    (add-hook hook #'olivetti-mode)))
+  (add-hooks-pair '(text-mode prog-mode help-mode)
+                  #'olivetti-mode))
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines

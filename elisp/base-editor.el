@@ -289,15 +289,15 @@
 (use-package bug-reference
   :init
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
-  (dolist (hook '(text-mode-hook magit-log-mode-hook))
-    (add-hook hook #'bug-reference-mode)))
+  (add-hooks-pair '(text-mode magit-log-mode)
+                  #'bug-reference-mode))
 
 ;; Use GitHub URL for bug reference
 (use-package bug-reference-github
   :commands bug-reference-github-set-url-format
   :init
-  (dolist (hook '(bug-reference-mode-hook bug-reference-prog-mode-hook))
-    (add-hook hook #'bug-reference-github-set-url-format)))
+  (add-hooks-pair '(bug-reference-mode bug-reference-prog-mode)
+                  #'bug-reference-github-set-url-format))
 
 ;; Selection helper
 (use-package expand-region

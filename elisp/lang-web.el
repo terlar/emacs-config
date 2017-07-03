@@ -45,11 +45,10 @@
   :preface
   (defvar emmet-mode-keymap (make-sparse-keymap))
   :init
-  (dolist (hook '(css-mode-hook
-                  web-mode-hook
-                  html-mode-hook haml-mode-hook
-                  nxml-mode-hook rsjx-mode-hook))
-    (add-hook hook #'emmet-mode))
+  (add-hooks-pair '(css-mode-hook
+                    web-mode-hook
+                    html-mode-hook haml-mode-hook
+                    nxml-mode-hook rsjx-mode-hook) #'emmet-mode)
   :config
   (setq emmet-move-cursor-between-quotes t))
 

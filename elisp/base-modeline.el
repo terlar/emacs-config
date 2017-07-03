@@ -61,8 +61,7 @@
         anzu-search-threshold 250)
 
   ;; Ensure anzu state is cleared when searches are done
-  (dolist (hook '(isearch-mode-end-hook my-evil-esc-hook))
-    (add-hook hook #'anzu--reset-status))
+  (add-hooks-pair '(isearch-mode-end my-evil-esc) #'anzu--reset-status)
 
   (global-anzu-mode +1))
 

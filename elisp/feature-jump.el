@@ -7,11 +7,11 @@
 (require 'base-vars)
 
 ;; Recenter after certain jumps
-(dolist (hook '(imenu-after-jump-hook
-                evil-jumps-post-jump-hook
-                counsel-grep-post-action-hook
-                dumb-jump-after-jump-hook))
-  (add-hook hook #'recenter))
+(add-hooks-pair '(imenu-after-jump
+                  evil-jumps-post-jump
+                  counsel-grep-post-action
+                  dumb-jump-after-jump)
+                #'recenter)
 
 (use-package dumb-jump
   :commands (dumb-jump-go dumb-jump-quick-look dumb-jump-back)
