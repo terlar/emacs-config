@@ -8,7 +8,8 @@
 
 ;;;
 ;; Packages
-(use-package nginx-mode)
+(use-package nginx-mode
+  :mode "/conf/.*\\.conf$")
 
 (use-package systemd
   :config
