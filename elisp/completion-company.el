@@ -17,23 +17,38 @@
              company-search-abort
              company-filter-candidates)
   :preface
-  (defvar-local company-whitespace-mode-on-p nil)
+  (defvar-local company--indent-guide-mode-on-p nil)
+  (defvar-local company--whitespace-mode-on-p nil)
+
+  (defun company|add-disable-indent-guides-hooks ()
+    (add-hook 'company-completion-started-hook #'company|turn-off-indent-guides)
+    (add-hook 'company-completion-finished-hook #'company|maybe-turn-on-indent-guides)
+    (add-hook 'company-completion-cancelled-hook #'company|maybe-turn-on-indent-guides))
 
   (defun company|add-disable-whitespace-hooks ()
-    (add-hook 'company-completion-started-hook #'company-turn-off-whitespace)
-    (add-hook 'company-completion-finished-hook #'company-maybe-turn-on-whitespace)
-    (add-hook 'company-completion-cancelled-hook #'company-maybe-turn-on-whitespace))
+    (add-hook 'company-completion-started-hook #'company|turn-off-whitespace)
+    (add-hook 'company-completion-finished-hook #'company|maybe-turn-on-whitespace)
+    (add-hook 'company-completion-cancelled-hook #'company|maybe-turn-on-whitespace))
 
-  (defun company-maybe-turn-on-whitespace (&rest ignore)
-    (when company-whitespace-mode-on-p (whitespace-mode +1)))
+  (defun company|maybe-turn-on-indent-guides (&rest ignore)
+    (when company--indent-guide-mode-on-p (indent-guide-mode +1)))
 
-  (defun company-turn-off-whitespace (&rest ignore)
+  (defun company|turn-off-indent-guides (&rest ignore)
+    (when (boundp 'indent-guide-mode)
+      (setq company--indent-guide-mode-on-p indent-guide-mode)
+      (when indent-guide-mode (indent-guide-mode -1))))
+
+  (defun company|maybe-turn-on-whitespace (&rest ignore)
+    (when company--whitespace-mode-on-p (whitespace-mode +1)))
+
+  (defun company|turn-off-whitespace (&rest ignore)
     (when (boundp 'whitespace-mode)
-      (setq company-whitespace-mode-on-p whitespace-mode)
+      (setq company--whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode -1))))
   :init
   (add-hooks-pair 'after-init
                   '(global-company-mode
+                    company|add-disable-indent-guides-hooks
                     company|add-disable-whitespace-hooks))
   :config
   (setq-default company-dabbrev-downcase nil

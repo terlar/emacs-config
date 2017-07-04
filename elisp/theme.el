@@ -75,9 +75,7 @@
 
 (with-eval-after-load "company"
   (set-face-attribute 'company-tooltip nil :family my-font)
-  (set-face-foreground 'company-tooltip-annotation (face-background 'company-tooltip-selection))
-  (set-face-attribute 'company-tooltip-annotation-selection nil
-                      :inherit 'company-tooltip-selection))
+  (set-face-foreground 'company-tooltip-annotation (face-background 'company-tooltip-selection)))
 
 (with-eval-after-load "ediff"
   (set-face-attribute 'ediff-current-diff-A nil :background "#FEF3F3")
