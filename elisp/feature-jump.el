@@ -11,7 +11,7 @@
                   evil-jumps-post-jump
                   counsel-grep-post-action
                   dumb-jump-after-jump)
-                #'recenter)
+                'recenter)
 
 (use-package dumb-jump
   :commands (dumb-jump-go dumb-jump-quick-look dumb-jump-back)

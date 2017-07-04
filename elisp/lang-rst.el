@@ -44,6 +44,16 @@ Used when `rst-header-scaling' is non-nil."
   (autoload 'evil|insert-state-restore-variable-pitch-mode "feature-evil")
   (autoload 'hide-lines-matching "hide-lines")
 
+  (defun rst|setup ()
+    (setq line-spacing 2
+          fill-column 80)
+    (customize-set-variable 'rst-header-scaling t)
+    (hide-lines-matching rst-adornment-regexp))
+
+  (defun rst|add-insert-state-hooks ()
+    (add-hook 'evil-insert-state-entry-hook #'rst|evil-insert-state-entry nil t)
+    (add-hook 'evil-insert-state-exit-hook #'rst|evil-insert-state-exit nil t))
+
   (defun rst|evil-insert-state-entry ()
     "Setup reStructuredText edit mode."
     (evil|insert-state-disable-variable-pitch-mode)
@@ -66,20 +76,11 @@ Used when `rst-header-scaling' is non-nil."
         rst-adornment-regexp
         (concat "^[" rst-adornment-chars "]\\{3,\\}$"))
 
-  (add-hook 'rst-mode-hook
-            #'(lambda ()
-                (setq line-spacing 2
-                      fill-column 80)
-
-                (linum-mode -1)
-                (auto-fill-mode +1)
-
-                (variable-pitch-mode +1)
-                (customize-set-variable 'rst-header-scaling t)
-                (hide-lines-matching rst-adornment-regexp)
-
-                (add-hook 'evil-insert-state-entry-hook #'rst|evil-insert-state-entry nil t)
-                (add-hook 'evil-insert-state-exit-hook #'rst|evil-insert-state-exit nil t))))
+  (add-hooks-pair 'rst-mode
+                  '(auto-fill-mode
+                    variable-pitch-mode
+                    rst|setup
+                    rst|add-insert-state-hooks)))
 
 ;;;
 ;; Autoloads

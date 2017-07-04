@@ -25,13 +25,12 @@
              diff-hl-dired-mode
              diff-hl-magit-post-refresh)
   :init
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  (add-hooks-pair 'magit-post-refresh 'diff-hl-magit-post-refresh)
 
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-  (add-hook 'after-init-hook
-            #'(lambda ()
-                (global-diff-hl-mode +1)
-                (diff-hl-flydiff-mode +1))))
+  (add-hooks-pair 'dired-mode 'diff-hl-dired-mode)
+  (add-hooks-pair 'after-init
+                  '(global-diff-hl-mode
+                    diff-hl-flydiff-mode)))
 
 (use-package magit
   :commands (global-magit-file-mode magit-status magit-blame)
@@ -68,7 +67,7 @@
 
 (use-package magit-gh-pulls
   :after magit
-  :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
+  :init (add-hooks-pair 'magit-mode 'turn-on-magit-gh-pulls))
 
 ;;;
 ;; Autoloads

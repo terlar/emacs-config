@@ -19,7 +19,7 @@
    ("\\.djhtml$" . web-mode)
    ("wp-content/themes/.+/.+\\.php$" . web-mode))
   :init
-  (add-hook 'web-mode-hook #'turn-off-smartparens-mode)
+  (add-hooks-pair 'web-mode 'turn-off-smartparens-mode)
   (with-eval-after-load "company"
     (push-company-backends 'web-mode '(company-tern
                                        company-css
@@ -45,10 +45,11 @@
   :preface
   (defvar emmet-mode-keymap (make-sparse-keymap))
   :init
-  (add-hooks-pair '(css-mode-hook
-                    web-mode-hook
-                    html-mode-hook haml-mode-hook
-                    nxml-mode-hook rsjx-mode-hook) #'emmet-mode)
+  (add-hooks-pair '(css-mode
+                    web-mode
+                    html-mode haml-mode
+                    nxml-mode rsjx-mode)
+                  'emmet-mode)
   :config
   (setq emmet-move-cursor-between-quotes t))
 

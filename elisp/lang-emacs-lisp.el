@@ -6,16 +6,16 @@
 ;; Emacs.
 
 ;;; Code:
-(add-hook 'emacs-lisp-mode-hook
-          #'(lambda ()
-              (eldoc-mode +1)
-              (highlight-quoted-mode +1)
-              (auto-compile-on-save-mode +1)
-              (rainbow-delimiters-mode +1)
-              (flycheck-mode +1)))
+(add-hooks-pair 'emacs-lisp-mode
+                '(eldoc-mode
+                  highlight-quoted-mode
+                  auto-compile-on-save-mode
+                  rainbow-delimiters-mode
+                  flycheck-mode))
 
 ;;;
 ;; Packages
+
 (use-package auto-compile
   :commands (auto-compile-on-save-mode auto-compile-byte-compile)
   :preface

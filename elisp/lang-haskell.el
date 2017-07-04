@@ -14,12 +14,6 @@
 ;; Packages
 
 (use-package haskell-mode
-  :mode (("\\.hs$"    . haskell-mode)
-         ("\\.ghci$"  . ghci-script-mode)
-         ("\\.cabal$" . haskell-cabal-mode))
-  :interpreter (("runghc"     . haskell-mode)
-                ("runhaskell" . haskell-mode))
-  :defines haskell-font-lock-symbols
   :preface
   (eval-when-compile
     (defvar aggressive-indent-excluded-modes))
@@ -43,37 +37,31 @@
    haskell-process-suggest-remove-import-lines t
    haskell-process-use-presentation-mode t)
 
-  (add-hook 'haskell-mode-hook #'rainbow-identifiers-mode)
+  (add-hooks-pair 'haskell-mode 'rainbow-identifiers-mode)
 
   (with-eval-after-load "aggressive-indent"
     (push 'haskell-mode aggressive-indent-excluded-modes)))
 
 (use-package intero
   :after haskell-mode
-  :diminish (intero-mode . " λ")
+  :diminish intero-mode
   :commands intero-mode
   :config
   (setq haskell-process-args-stack-ghci
         '("--ghc-options=-ferror-spans" "--with-ghc=intero" "--install-ghc"))
 
-  (add-hook 'haskell-mode-hook #'intero-mode)
+  (add-hooks-pair 'haskell-mode 'intero-mode)
 
   (with-eval-after-load "company"
     (push-company-backends 'haskell-mode '(company-intero company-files))))
 
 (use-package shm
   :after haskell-mode
+  :diminish structured-haskell-mode
   :general
   (:keymaps 'shm-map :states 'normal
             "o" 'shm|evil-open-below
             "O" 'shm|evil-open-above)
-  :preface
-  (eval-when-compile
-    (defvar shm-auto-insert-bangs)
-    (defvar shm-auto-insert-skeletons)
-    (defvar shm-indent-point-after-adding-where-clause)
-    (defvar shm-use-hdevtools)
-    (defvar shm-use-presentation-mode))
   :commands (structured-haskell-mode
              structured-haskell-repl-mode
              shm/newline-indent)
@@ -117,19 +105,19 @@ The insertion will be repeated COUNT times."
             #'(lambda ()
                 (nlinum-mode -1)
                 (hl-line-mode -1)
-
                 (haskell-indent-mode -1)
                 (haskell-indentation-mode -1)))
 
   (if (executable-find "structured-haskell-mode")
       (progn
-        (add-hook 'haskell-mode-hook #'structured-haskell-mode)
-        (add-hook 'haskell-interactive-mode-hook #'structured-haskell-repl-mode))
+        (add-hooks-pair 'haskell-mode 'structured-haskell-mode)
+        (add-hooks-pair 'haskell-interactive-mode 'structured-haskell-repl-mode))
     (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work")))
 
 ;; Smart indentation
 (use-package hi2
-  :diminish (hi2-mode)
+  :after haskell-mode
+  :diminish hi2-mode
   :general
   (:keymaps 'hi2-mode-map
             "RET" '(nil)
@@ -138,7 +126,7 @@ The insertion will be repeated COUNT times."
   :preface
   (eval-when-compile
     (defvar editorconfig-indentation-alist))
-  :init (add-hook 'haskell-mode-hook #'turn-on-hi2)
+  :init (add-hooks-pair 'haskell-mode 'turn-on-hi2)
   :config
   (with-eval-after-load 'editorconfig
     (add-to-list 'editorconfig-indentation-alist

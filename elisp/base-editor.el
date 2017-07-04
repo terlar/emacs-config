@@ -109,7 +109,7 @@
         ediff-merge-split-window-function #'split-window-horizontally
         ;; No extra frames
         ediff-window-setup-function #'ediff-setup-windows-plain)
-  (add-hook 'ediff-quit-hook #'winner-undo))
+  (add-hooks-pair 'ediff-quit 'winner-undo))
 
 ;; Smart expansion completions
 (require 'hippie-exp)
@@ -195,11 +195,11 @@
    sp-show-pair-delay 0
    sp-max-pair-length 3)
   :config
-  (add-hook 'after-init-hook #'smartparens-global-mode)
+  (add-hooks-pair 'after-init 'smartparens-global-mode)
   (require 'smartparens-config)
   ;; Smartparens interferes with Replace mode
-  (add-hook 'evil-replace-state-entry-hook #'turn-off-smartparens-mode)
-  (add-hook 'evil-replace-state-exit-hook  #'turn-on-smartparens-mode)
+  (add-hooks-pair 'evil-replace-state-entry 'turn-off-smartparens-mode)
+  (add-hooks-pair 'evil-replace-state-exit  'turn-on-smartparens-mode)
 
   ;; Auto-close more conservatively
   (sp-pair "'" nil
@@ -288,16 +288,16 @@
 ;; Bug references as buttons (builtin)
 (use-package bug-reference
   :init
-  (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
+  (add-hooks-pair 'prog-mode 'bug-reference-prog-mode)
   (add-hooks-pair '(text-mode magit-log-mode)
-                  #'bug-reference-mode))
+                  'bug-reference-mode))
 
 ;; Use GitHub URL for bug reference
 (use-package bug-reference-github
   :commands bug-reference-github-set-url-format
   :init
   (add-hooks-pair '(bug-reference-mode bug-reference-prog-mode)
-                  #'bug-reference-github-set-url-format))
+                  'bug-reference-github-set-url-format))
 
 ;; Selection helper
 (use-package expand-region

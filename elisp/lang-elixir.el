@@ -7,13 +7,13 @@
 ;;; Code:
 (use-package elixir-mode :mode ("\\.ex$")
   :config
-  (add-hook 'elixir-mode-hook #'turn-off-smartparens-mode))
+  (add-hooks-pair 'elixir-mode 'turn-off-smartparens-mode))
 
 (use-package alchemist
   :after elixir-mode
   :commands alchemist-mode
   :config
-  (add-hook 'elixir-mode-hook #'alchemist-mode))
+  (add-hooks-pair 'elixir-mode 'alchemist-mode))
 
 (use-package flycheck-credo
   :after elixir-mode

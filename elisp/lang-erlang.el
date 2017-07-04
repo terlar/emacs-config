@@ -9,7 +9,7 @@
 
 (use-package erlang
   :init
-  (add-hook 'erlang-mode-hook #'flycheck-mode)
+  (add-hooks-pair 'erlang-mode 'flycheck-mode)
   :config
   (require 'erlang-start)
   (setq erlang-check-module-name t))
@@ -22,7 +22,7 @@
 (use-package flycheck-rebar3
   :after erlang
   :init
-  (add-hook 'erlang-mode-hook #'flycheck-rebar3-setup))
+  (add-hooks-pair 'erlang-mode 'flycheck-rebar3-setup))
 
 (provide 'lang-erlang)
 ;;; lang-erlang.el ends here

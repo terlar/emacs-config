@@ -19,10 +19,9 @@
         meghanada-use-company t
         meghanada-use-flycheck t)
 
-  (add-hook 'java-mode-hook
-            #'(lambda ()
-                (flycheck-mode +1)
-                (meghanada-mode +1))))
+  (add-hooks-pair 'java-mode
+                  '(flycheck-mode
+                    meghanada-mode)))
 
 
 (use-package android-mode :commands android-mode)

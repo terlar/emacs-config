@@ -66,7 +66,7 @@
   (dolist (mode '(git-commit-mode))
     (evil-set-initial-state mode 'insert))
 
-  (add-hook 'minibuffer-inactive-mode-hook #'minibuffer-inactive-mode-hook-setup))
+  (add-hooks-pair 'minibuffer-inactive-mode 'minibuffer-inactive-mode-hook-setup))
 
 ;; Escape hooks
 (defvar my-evil-esc-hook '(t)

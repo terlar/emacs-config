@@ -20,7 +20,7 @@
   :after yaml-mode
   :commands ansible
   :init
-  (add-hook 'yaml-mode-hook #'ansible))
+  (add-hooks-pair 'yaml-mode 'ansible))
 
 (use-package ansible-doc :after ansible :commands ansible-doc)
 
@@ -31,9 +31,7 @@
   (with-eval-after-load "company"
     (push-company-backends 'yaml-mode '(company-ansible))))
 
-(use-package puppet-mode
-  :mode (("\\.pp\\'"      . puppet-mode)
-         ("Puppetfile\\'" . puppet-mode)))
+(use-package puppet-mode)
 
 (provide 'lang-conf)
 ;;; lang-conf.el ends here

@@ -7,23 +7,24 @@
 ;;; Code:
 (require 'base-lib)
 
-(use-package bats-mode :commands bats-mode)
+(use-package bats-mode
+  :commands bats-mode
+  :interpreter "bats")
 
 (use-package fish-mode
   :commands fish-mode
+  :preface
+  (defun fish|add-before-save-hook ()
+    (add-hook 'before-save-hook #'fish_indent-before-save nil t))
   :init
-  (add-hook 'fish-mode-hook
-            #'(lambda ()
-                (add-hook 'before-save-hook #'fish_indent-before-save))))
+  (add-hooks-pair 'fish-mode 'fish|add-before-save-hook))
 
 (use-package sh-script
-  :mode ("\\.zsh$" . sh-mode)
   :commands sh-mode
   :init
-  (add-hook 'sh-mode-hook
-            #'(lambda ()
-                (flycheck-mode +1)
-                (highlight-numbers-mode +1)))
+  (add-hooks-pair 'sh-mode
+                  '(flycheck-mode
+                    highlight-numbers-mode))
   :config
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always))

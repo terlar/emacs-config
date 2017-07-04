@@ -29,11 +29,9 @@
         js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil)
 
-  (add-hook 'js2-mode-hook
-            #'(lambda ()
-                (flycheck-mode +1)
-                (rainbow-delimiters-mode +1)))
-
+  (add-hooks-pair 'js2-mode
+                  '(flycheck-mode
+                    rainbow-delimiters-mode))
   (sp-with-modes '(js2-mode rjsx-mode)
     (sp-local-pair "/* " " */" :post-handlers '(("| " "SPC")))))
 
@@ -55,7 +53,7 @@
 
 (use-package tern
   :commands tern-mode
-  :init (add-hook 'js2-mode-hook #'tern-mode))
+  :init (add-hooks-pair 'js2-mode 'tern-mode))
 
 (use-package company-tern
   :when (package-installed-p 'company)

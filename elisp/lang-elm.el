@@ -15,10 +15,9 @@
   :init
   (with-eval-after-load "company"
     (push-company-backends 'elm-mode '(company-elm)))
-  (add-hook 'elm-mode-hook
-            #'(lambda ()
-                (flycheck-mode +1)
-                (rainbow-delimiters-mode +1)))
+  (add-hooks-pair 'elm-mode
+                  '(flycheck-mode
+                    rainbow-delimiters-mode))
   :config
   (setq elm-format-on-save t))
 
@@ -26,7 +25,7 @@
   :after elm-mode
   :commands flycheck-elm-setup
   :config
-  (add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
+  (add-hooks-pair 'flycheck-mode 'flycheck-elm-setup))
 
 (provide 'lang-elm)
 ;;; lang-elm.el ends here

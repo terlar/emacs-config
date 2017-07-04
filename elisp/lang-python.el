@@ -19,7 +19,6 @@
 ;; Packages
 
 (use-package python
-  :mode ("\\.py$" . python-mode)
   :commands python-mode
   :defines python-environment-directory
   :preface
@@ -30,8 +29,9 @@
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python")
   :config
-  (add-hook 'python-mode-hook #'flycheck-mode)
-  (add-hook 'python-mode-hook #'highlight-numbers-mode)
+  (add-hooks-pair 'python-mode
+                  '(flycheck-mode
+                    highlight-numbers-mode))
   (sp-with-modes 'python-mode
     (sp-local-pair "'" nil :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))))
 
@@ -49,8 +49,8 @@
     (defvar anaconda-mode-eldoc-as-single-line)
     (defvar shackle-rules))
   :init
-  (add-hook 'python-mode-hook #'anaconda-mode)
-  (add-hook 'anaconda-mode-hook #'anaconda-eldoc-mode)
+  (add-hooks-pair 'python-mode 'anaconda-mode)
+  (add-hooks-pair 'anaconda-mode 'anaconda-eldoc-mode)
   (setq anaconda-mode-installation-directory (concat my-data-dir "anaconda/")
         anaconda-mode-eldoc-as-single-line t)
   :config

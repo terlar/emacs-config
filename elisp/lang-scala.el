@@ -12,21 +12,21 @@
 
 (use-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
+  :preface
+  (defun scala|setup ()
+    (setq-local prettify-symbols-alist scala-prettify-symbols-alist)
+    (require 'imenu))
   :config
   (setq scala-indent:align-parameters t)
 
   (with-eval-after-load "company"
     (push-company-backends 'scala-mode '(ensime-company)))
 
-  (add-hook 'scala-mode-hook
-            #'(lambda ()
-                (setq-local prettify-symbols-alist scala-prettify-symbols-alist)
-                (prettify-symbols-mode +1)
-
-                (flycheck-mode +1)
-
-                (require 'imenu)
-                (ensime-mode +1))))
+  (add-hooks-pair 'scala-mode
+                  '(ensime-mode
+                    flycheck-mode
+                    prettify-symbols-mode
+                    scala|setup)))
 
 (use-package sbt-mode :after scala-mode)
 

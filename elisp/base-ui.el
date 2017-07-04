@@ -57,7 +57,7 @@
 (tooltip-mode -1) ; Tooltips in echo area
 (menu-bar-mode -1)
 
-(defun my--minibuffer-disable-fringes ()
+(defun my|minibuffer-disable-fringes ()
   "No fringes in minibuffer."
   (set-window-fringes (minibuffer-window) 0 0 nil))
 
@@ -69,19 +69,19 @@
   (push (cons 'right-fringe my-fringe-width) default-frame-alist)
 
   (add-hooks-pair '(emacs-startup minibuffer-setup)
-                  #'my--minibuffer-disable-fringes))
+                  'my|minibuffer-disable-fringes))
 
 ;; Undo/redo changes to window layout
 (defvar winner-dont-bind-my-keys t)
 (require 'winner)
 (add-hook 'window-setup-hook #'winner-mode)
 
-(defun my--reset-non-gui-bg-color (&optional frame)
+(defun my|reset-non-gui-bg-color (&optional frame)
   "Unset background color for FRAME without graphic."
   (unless (display-graphic-p frame)
     (set-face-background 'default nil frame)))
-(add-hook 'after-make-frame-functions #'my--reset-non-gui-bg-color)
-(add-hook 'after-init-hook #'my--reset-non-gui-bg-color)
+(add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
+(add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
 
 ;; Use an Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
@@ -110,7 +110,7 @@
 ;; Visual line wrapping
 (diminish 'visual-line-mode)
 (add-hooks-pair '(text-mode prog-mode)
-                #'visual-line-mode)
+                'visual-line-mode)
 
 ;; Inline eldoc pop-up
 (defvar my-display-overlay nil)
@@ -141,7 +141,7 @@
           (overlay-put my-display-overlay 'display "")
           ;; Display message
           (overlay-put my-display-overlay 'before-string str))
-      (add-hook 'post-command-hook 'my|delete-string-display))))
+      (add-hook 'post-command-hook #'my|delete-string-display))))
 
 (defun my|eldoc-display-message-momentary (format-string &rest args)
   "Display eldoc message near point with FORMAT-STRING of ARGS."
@@ -152,7 +152,7 @@
 (setq eldoc-message-function #'my|eldoc-display-message-momentary)
 
 ;; Visual mode for browser
-(add-hook 'eww-mode-hook #'buffer-face-mode)
+(add-hooks-pair 'eww-mode 'buffer-face-mode)
 
 ;;;
 ;; Packages
@@ -161,7 +161,7 @@
 (use-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode
   :init
-  (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
+  (add-hooks-pair 'visual-line-mode 'adaptive-wrap-prefix-mode))
 
 ;; Pretty icons
 (use-package all-the-icons
@@ -172,7 +172,7 @@
   :diminish color-identifiers-mode
   :commands color-identifiers-mode
   :init
-  (add-hook 'after-init-hook #'global-color-identifiers-mode))
+  (add-hooks-pair 'after-init 'global-color-identifiers-mode))
 
 ;; Highlight source code identifiers for modes not supported by
 ;; `color-identifiers-mode'
@@ -188,13 +188,13 @@
 (use-package hl-todo
   :commands hl-todo-mode
   :init
-  (add-hook 'prog-mode-hook #'hl-todo-mode))
+  (add-hooks-pair 'prog-mode 'hl-todo-mode))
 
 ;; Clickable links (builtin)
 (use-package goto-addr
   :init
-  (add-hook 'text-mode-hook #'goto-address-mode)
-  (add-hook 'prog-mode-hook #'goto-address-prog-mode))
+  (add-hooks-pair 'text-mode 'goto-address-mode)
+  (add-hooks-pair 'prog-mode 'goto-address-prog-mode))
 
 ;; Library to hide lines base on regexp
 (use-package hide-lines
@@ -207,7 +207,7 @@
 (use-package hideshow
   :commands hs-minor-mode
   :init
-  (add-hook 'prog-mode-hook #'hs-minor-mode)
+  (add-hooks-pair 'prog-mode 'hs-minor-mode)
   :config
   (setq hs-hide-comments-when-hiding-all nil
         ;; Nicer code-folding overlays
@@ -225,7 +225,7 @@
   :commands hl-line-mode
   :init
   (add-hooks-pair '(linum-mode nlinum-mode)
-                  #'hl-line-mode)
+                  'hl-line-mode)
   :config
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
@@ -236,7 +236,7 @@
   :commands indent-guide-mode
   :diminish indent-guide-mode
   :init
-  (add-hook 'prog-mode-hook #'indent-guide-mode)
+  (add-hooks-pair 'prog-mode 'indent-guide-mode)
   :config
   (setq indent-guide-delay 0.2
         indent-guide-char "\x2502"))
@@ -291,7 +291,7 @@
   (setq-default olivetti-body-width 120
                 olivetti-minimum-body-width 72)
   (add-hooks-pair '(text-mode prog-mode help-mode)
-                  #'olivetti-mode))
+                  'olivetti-mode))
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
@@ -302,7 +302,7 @@
 ;; Visually separate delimiter pairs
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode
-  :init (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+  :init (add-hooks-pair 'lisp-mode 'rainbow-delimiters-mode)
   :config (setq rainbow-delimiters-max-face-count 3))
 
 (provide 'base-ui)

@@ -14,8 +14,8 @@
    ("C-c s" . flyspell-correct-word-generic)
    ("C-c S" . flyspell-correct-previous-word-generic))
   :init
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode)
-  (add-hooks-pair '(text-mode message-mode) #'flyspell-mode)
+  (add-hooks-pair 'prog-mode 'flyspell-prog-mode)
+  (add-hooks-pair '(text-mode message-mode) 'flyspell-mode)
   :config
   (setq-default ispell-programs-name (executable-find "aspell")
                 ispell-list-command "--list"

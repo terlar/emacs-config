@@ -16,7 +16,7 @@
   :mode (("\\.ya?ml$" . yaml-mode)
          ("\\.sls$"   . yaml-mode))
   :config
-  (add-hook 'yaml-mode-hook #'indent-guide-mode))
+  (add-hooks-pair 'yaml-mode 'indent-guide-mode))
 
 (use-package json-mode
   :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")

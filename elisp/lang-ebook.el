@@ -7,9 +7,8 @@
 (use-package ereader :mode ("\\.epub$" . ereader-mode)
   :commands ereader-mode
   :config
-  (add-hook 'ereader-mode-hook
-            #'(lambda ()
-                (page-break-lines-mode +1))))
+  (add-hooks-pair 'ereader-mode
+                  'page-break-lines-mode))
 
 (use-package pdf-tools :mode ("\\.pdf$" . pdf-view-mode)
   :commands (pdf-view-mode pdf-tools-install))

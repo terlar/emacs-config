@@ -23,13 +23,14 @@
   ;; Don't indent the parenthesis or bracket based on the previous line.
   (setq enh-ruby-deep-indent-paren nil)
 
-  (add-hook 'enh-ruby-mode-hook #'flycheck-mode)
-  (add-hook 'enh-ruby-mode-hook #'rainbow-identifiers-mode))
+  (add-hooks-pair 'enh-ruby-mode
+                  '(flycheck-mode
+                    rainbow-identifiers-mode)))
 
 (use-package robe
   :commands (robe-mode robe-start)
   :init
-  (add-hook 'enh-ruby-mode-hook #'robe-mode)
+  (add-hooks-pair 'enh-ruby-mode 'robe-mode)
   (with-eval-after-load "company"
     (push-company-backends 'enh-ruby-mode '(company-robe company-dabbrev-code company-files))))
 
@@ -42,7 +43,7 @@
 
 (use-package yard-mode
   :commands yard-mode
-  :init (add-hook 'enh-ruby-mode-hook #'yard-mode))
+  :init (add-hooks-pair 'enh-ruby-mode 'yard-mode))
 
 (use-package rspec-mode
   :general

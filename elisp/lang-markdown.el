@@ -4,15 +4,28 @@
 ;; Markdown is a lightweight markup language with plain text formatting syntax.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package markdown-mode
   :mode
-  (("/README$" . markdown-mode)
-   ("/README\\.md$" . gfm-mode))
+  "/README$"
+  ("/README\\.md$" . gfm-mode)
   :commands (markdown-mode
              gfm-mode
              markdown-toggle-markup-hiding)
   :preface
   (autoload 'sp-local-pair "smartparens")
+
+  (defun markdown|setup ()
+    (setq fill-column 80
+          line-spacing 2)
+    (customize-set-variable 'markdown-header-scaling t))
+
+  (defun markdown|add-insert-state-hooks ()
+    (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry nil t)
+    (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit nil t))
 
   (defun markdown|evil-insert-state-entry ()
     "Setup markdown edit mode."
@@ -22,29 +35,22 @@
     "Reset markdown edit mode."
     (markdown-toggle-markup-hiding +1))
   :init
-  (setq markdown-enable-wiki-links t
-        markdown-enable-math t
-        markdown-fontify-code-blocks-natively t
-        markdown-italic-underscore t
-        markdown-make-gfm-checkboxes-buttons t
-        markdown-gfm-additional-languages '("sh")
-        markdown-command
-        "pandoc -f markdown -t html5 -s --self-contained --smart")
+  (setq
+   markdown-command
+   "pandoc -f markdown -t html5 -s --self-contained --smart"
+   markdown-enable-math t
+   markdown-enable-wiki-links t
+   markdown-fontify-code-blocks-natively t
+   markdown-gfm-additional-languages '("sh")
+   markdown-hide-markup t
+   markdown-italic-underscore t
+   markdown-make-gfm-checkboxes-buttons t)
   :config
-  (add-hook 'markdown-mode-hook
-            #'(lambda()
-                (setq line-spacing 2
-                      fill-column 80
-                      markdown-hide-markup t)
-
-                (linum-mode -1)
-                (auto-fill-mode +1)
-
-                (variable-pitch-mode +1)
-                (customize-set-variable 'markdown-header-scaling t)
-
-                (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry nil t)
-                (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit nil t)))
+  (add-hooks-pair 'markdown-mode
+                  '(auto-fill-mode
+                    variable-pitch-mode
+                    markdown|setup
+                    markdown|add-insert-state-hooks))
 
   (sp-local-pair
    '(markdown-mode gfm-mode)

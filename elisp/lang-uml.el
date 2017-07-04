@@ -9,7 +9,7 @@
 (use-package plantuml-mode
   :mode "\\.p\\(lant\\)?uml\\'"
   :init
-  (add-hook 'plantuml-mode-hook #'flycheck-mode)
+  (add-hooks-pair 'plantuml-mode 'flycheck-mode)
   :config
   (setq plantuml-java-command "java-headless"
         plantuml-jar-path "/opt/plantuml/plantuml.jar"))
@@ -18,7 +18,7 @@
   :after plantuml-mode
   :commands flycheck-plantuml-setup
   :config
-  (add-hook 'flycheck-mode-hook #'flycheck-plantuml-setup))
+  (add-hooks-pair 'flycheck-mode 'flycheck-plantuml-setup))
 
 (provide 'lang-uml)
 ;;; lang-uml.el ends here

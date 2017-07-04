@@ -24,7 +24,10 @@
   (eval-when-compile
     (defvar gofmt-command))
 
-  (defun setup-go-mode-compile ()
+  (defun go|add-before-save-hook ()
+    (add-hook 'before-save-hook #'gofmt-before-save nil t))
+
+  (defun go|setup-compile ()
     "Customize compile command to run go build."
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
@@ -34,16 +37,16 @@
   (setq gofmt-command "goimports")
   (if (not (executable-find "goimports"))
       (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")
-    (add-hook 'go-mode-hook
-              #'(lambda () (add-hook 'before-save-hook #'gofmt-before-save nil t))))
+    (add-hooks-pair 'go-mode 'go|add-before-save-hook))
 
-  (add-hook 'go-mode-hook #'flycheck-mode)
-  (add-hook 'go-mode-hook #'setup-go-mode-compile))
+  (add-hooks-pair 'go-mode
+                  '(flycheck-mode
+                    go|setup-compile)))
 
 (use-package go-eldoc
   :after go-mode
   :commands go-eldoc-setup
-  :config (add-hook 'go-mode-hook #'go-eldoc-setup))
+  :config (add-hooks-pair 'go-mode 'go-eldoc-setup))
 
 (use-package go-guru
   :after go-mode

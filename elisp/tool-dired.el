@@ -38,13 +38,13 @@
 
   (advice-add #'dired-k--highlight :around #'my|dired-k-highlight)
 
-  (add-hook 'dired-initial-position-hook #'dired-k)
-  (add-hook 'dired-after-readin-hook #'dired-k-no-revert))
+  (add-hooks-pair 'dired-initial-position 'dired-k)
+  (add-hooks-pair 'dired-after-readin 'dired-k-no-revert))
 
 ;; Striped dired buffers
 (use-package stripe-buffer
   :commands stripe-buffer-mode
-  :init (add-hook 'dired-mode-hook #'stripe-buffer-mode))
+  :init (add-hooks-pair 'dired-mode 'stripe-buffer-mode))
 
 (provide 'tool-dired)
 ;;; tool-dired.el ends here

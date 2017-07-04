@@ -19,6 +19,11 @@
   :preface
   (defvar-local company-whitespace-mode-on-p nil)
 
+  (defun company|add-disable-whitespace-hooks ()
+    (add-hook 'company-completion-started-hook #'company-turn-off-whitespace)
+    (add-hook 'company-completion-finished-hook #'company-maybe-turn-on-whitespace)
+    (add-hook 'company-completion-cancelled-hook #'company-maybe-turn-on-whitespace))
+
   (defun company-maybe-turn-on-whitespace (&rest ignore)
     (when company-whitespace-mode-on-p (whitespace-mode +1)))
 
@@ -27,12 +32,9 @@
       (setq company-whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode -1))))
   :init
-  (add-hook 'after-init-hook
-            #'(lambda ()
-                (add-hook 'company-completion-started-hook #'company-turn-off-whitespace)
-                (add-hook 'company-completion-finished-hook #'company-maybe-turn-on-whitespace)
-                (add-hook 'company-completion-cancelled-hook #'company-maybe-turn-on-whitespace)
-                (global-company-mode +1)))
+  (add-hooks-pair 'after-init
+                  '(global-company-mode
+                    company|add-disable-whitespace-hooks))
   :config
   (setq-default company-dabbrev-downcase nil
                 company-dabbrev-ignore-case nil
@@ -75,10 +77,8 @@
 (use-package company-emoji
   :after company
   :config
-  (add-hook 'text-mode-hook
-            #'(lambda ()
-                (setq-local company-backends
-                            (append '((company-emoji)) company-backends)))))
+  (with-eval-after-load "company"
+    (push-company-backends 'text-mode '(company-emoji))))
 
 ;;;
 ;; Autoloads
