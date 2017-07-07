@@ -223,6 +223,12 @@
  :keymaps 'comint-mode-map
  [tab] '(company-complete))
 
+;; conf-mode
+(general-define-key
+ :keymaps 'conf-mode-map
+ ;; Disable conflicting key
+ "C-c SPC" '(nil))
+
 ;; debug
 (general-define-key
  :keymaps 'debugger-mode-map
