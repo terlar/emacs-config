@@ -32,6 +32,7 @@
 ;; Tools
 (require 'tool-dired)              ; Directories
 (require 'tool-neotree)            ; Tree navigation
+(require 'tool-notes)              ; Note taking
 (require 'tool-rotate-text)        ; Toggle between different text
 
 ;;;

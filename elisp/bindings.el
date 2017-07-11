@@ -138,6 +138,7 @@
  "o" '(:ignore t :which-key "open")
  "o c" '(calendar           :which-key "Calendar")
  "o C" '(display-time-world :which-key "World Time")
+ "o d" '(deft               :which-key "Notes")
  "o n" '(neotree|toggle     :which-key "NeoTree")
  "o N" '(neotree|window     :which-key "NeoTree Window")
  "o t" '(shell              :which-key "Terminal")
