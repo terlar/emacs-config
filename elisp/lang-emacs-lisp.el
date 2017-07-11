@@ -26,6 +26,10 @@ version is loaded."
       (let ((buffer-path (file-truename buffer-file-name)))
         (when (assoc buffer-path load-history)
           (load-file buffer-path)))))
+  :init
+  (add-hooks-pair 'emacs-lisp-mode
+                  '(auto-compile-on-load-mode
+                    auto-compile-on-save-mode))
   :config
   (setq auto-compile-display-buffer nil
         auto-compile-use-mode-line nil)
