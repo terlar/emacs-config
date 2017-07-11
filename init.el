@@ -54,6 +54,7 @@
 (require 'lang-rest)
 (require 'lang-rst)
 (require 'lang-ruby)
+(require 'lang-rust)
 (require 'lang-scala)
 (require 'lang-shell)
 (require 'lang-uml)
