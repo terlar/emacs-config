@@ -220,6 +220,11 @@
   (sp-local-pair '(xml-mode nxml-mode php-mode)
                  "<!--" "-->"   :post-handlers '(("| " "SPC"))))
 
+;; Treat camel-case and snake-case words as separate words
+(use-package subword
+  :diminish subword-mode
+  :commands subword-mode)
+
 ;; Save buffers when focus is lost
 (use-package super-save :demand t
   :diminish super-save-mode
