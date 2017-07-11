@@ -16,11 +16,10 @@
  highlight-nonselected-windows nil
  blink-matching-paren nil
  frame-inhibit-implied-resize t
- jit-lock-chunk-size 10000
- jit-lock-defer-time 0.05
+ redisplay-dont-pause t
+ jit-lock-defer-time nil
  jit-lock-stealth-nice 0.1
  jit-lock-stealth-time 0.2
- jit-lock-stealth-load nil
  jit-lock-stealth-verbose nil
  max-mini-window-height 0.3
  mouse-yank-at-point t           ; Middle-click paste at point, not at click
@@ -158,10 +157,9 @@
 ;; Packages
 
 ;; Align visually wrapped lines
+;; NOTE: This can cause performance issues with font-lock.
 (use-package adaptive-wrap
-  :commands adaptive-wrap-prefix-mode
-  :init
-  (add-hooks-pair 'visual-line-mode 'adaptive-wrap-prefix-mode))
+  :commands adaptive-wrap-prefix-mode)
 
 ;; Pretty icons
 (use-package all-the-icons
