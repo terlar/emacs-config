@@ -15,6 +15,7 @@
 ;;;
 ;; Features
 (require 'feature-evil)            ; Extensible vi layer
+(require 'feature-debug)           ; Debugging
 (require 'feature-jump)            ; Jump to definition
 (require 'feature-preview)
 (require 'feature-spellcheck)
