@@ -285,6 +285,7 @@
 ;; Centered buffer mode
 (use-package olivetti
   :diminish olivetti-mode
+  :preface (defvar olivetti-mode-map (make-sparse-keymap))
   :init
   (setq-default olivetti-body-width 120
                 olivetti-minimum-body-width 72)
