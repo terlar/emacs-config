@@ -57,6 +57,7 @@
 (require 'lang-rust)
 (require 'lang-scala)
 (require 'lang-shell)
+(require 'lang-typescript)
 (require 'lang-uml)
 (require 'lang-web)
 
