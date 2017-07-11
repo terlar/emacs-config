@@ -128,7 +128,7 @@ The insertion will be repeated COUNT times."
     (defvar editorconfig-indentation-alist))
   :init (add-hooks-pair 'haskell-mode 'turn-on-hi2)
   :config
-  (with-eval-after-load 'editorconfig
+  (with-eval-after-load "editorconfig"
     (add-to-list 'editorconfig-indentation-alist
                  '(haskell-mode hi2-layout-offset hi2-left-offset hi2-ifte-offset)))
 

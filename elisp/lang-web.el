@@ -21,17 +21,18 @@
   :init
   (add-hooks-pair 'web-mode 'turn-off-smartparens-mode)
   (with-eval-after-load "company"
-    (push-company-backends 'web-mode '(company-tern
-                                       company-css
-                                       company-web-html
-                                       company-files)))
+    (push-company-backends 'web-mode
+                           '(company-tern
+                             company-css
+                             company-web-html
+                             company-files)))
   :config
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
         web-mode-enable-current-element-highlight t)
 
   ;; No padding for nested sections inside HTML
-  (with-eval-after-load 'editorconfig
+  (with-eval-after-load "editorconfig"
     (add-hook 'editorconfig-custom-hooks
               #'(lambda (_)
                   (setq web-mode-block-padding 0
