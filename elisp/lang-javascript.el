@@ -21,6 +21,7 @@
   (autoload 'sp-with-modes "smartparens")
 
   (eval-when-compile
+    (defvar flycheck-disabled-checkers)
     (defvar js2-skip-preprocessor-directives)
     (defvar js2-highlight-external-variables)
     (defvar js2-mode-show-parse-errors))
@@ -32,6 +33,12 @@
   (add-hooks-pair 'js2-mode
                   '(flycheck-mode
                     rainbow-delimiters-mode))
+
+  (add-hook 'js2-mode-hook
+            #'(lambda ()
+                ;; Prefer eslint
+                (push 'javascript-jshint flycheck-disabled-checkers)))
+
   (sp-with-modes '(js2-mode rjsx-mode)
     (sp-local-pair "/* " " */" :post-handlers '(("| " "SPC")))))
 
@@ -73,9 +80,6 @@
             "C-d" '(nil))
   :preface
   (autoload 'sp-point-in-string-or-comment "smartparens")
-
-  (eval-when-compile
-    (defvar flycheck-disabled-checkers))
   :init
   ;; Auto-detect JSX file
   (push (cons (lambda ()
@@ -87,12 +91,7 @@
                        (goto-char (match-beginning 1))
                        (not (sp-point-in-string-or-comment)))))
               'rjsx-mode)
-        magic-mode-alist)
-  :config
-  (add-hook 'rjsx-mode-hook
-            #'(lambda ()
-                ;; jshint doesn't really know how to deal with jsx
-                (push 'javascript-jshint flycheck-disabled-checkers))))
+        magic-mode-alist))
 
 (use-package coffee-mode
   :mode "\\.coffee$"
