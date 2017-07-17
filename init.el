@@ -50,6 +50,7 @@
 (require 'lang-java)
 (require 'lang-javascript)
 (require 'lang-markdown)
+(require 'lang-opengl)
 (require 'lang-pkgbuild)
 (require 'lang-python)
 (require 'lang-raml)
