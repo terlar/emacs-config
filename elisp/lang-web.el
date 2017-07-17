@@ -60,7 +60,13 @@
 
 (use-package haml-mode :mode "\\.haml$")
 
-(use-package pug-mode :mode ("\\.jade$" "\\.pug$"))
+(use-package pug-mode :mode ("\\.jade$" "\\.pug$")
+  :preface
+  (eval-when-compile
+    (defvar aggressive-indent-excluded-modes))
+  :config
+  (with-eval-after-load "aggressive-indent"
+    (push 'pug-mode aggressive-indent-excluded-modes)))
 
 ;; configure CSS mode company backends
 (use-package css-mode
