@@ -26,8 +26,7 @@
   :init
   (add-hooks-pair 'rust-mode
                   '(racer-mode
-                    eldoc-mode
-                    flycheck-rust-setup))
+                    eldoc-mode))
   :config
   (unless (executable-find "racer")
     (warn "rust-mode: couldn't find racer; no syntax checking/go to definition/documentation lookup"))
@@ -39,10 +38,14 @@
   :after rust-mode
   :config
   (with-eval-after-load "company"
-    (push-company-backends 'rust-mode '(company-racer))))
+    (push-company-backends 'rust-mode '(company-racer
+                                        company-keywords
+                                        company-dabbrev-code))))
 
 (use-package flycheck-rust
-  :after rust-mode)
+  :after rust-mode
+  :init
+  (add-hooks-pair 'flycheck-mode 'flycheck-rust-setup))
 
 (use-package cargo
   :init
