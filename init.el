@@ -4,16 +4,19 @@
 ;;; The init file that loads all the components.
 
 ;;; Code:
+
 (eval-and-compile
   (push (concat user-emacs-directory "elisp") load-path))
 
 ;;;
 ;; Base
+
 ;; Calls (package-initialize)
 (require 'base)
 
 ;;;
 ;; Features
+
 (require 'feature-evil)            ; Extensible vi layer
 (require 'feature-debug)           ; Debugging
 (require 'feature-jump)            ; Jump to definition
@@ -26,11 +29,13 @@
 
 ;;;
 ;; Completion
+
 (require 'completion-company)      ; In-buffer completion
 (require 'completion-ivy)          ; General completion
 
 ;;;
 ;; Tools
+
 (require 'tool-dired)              ; Directories
 (require 'tool-neotree)            ; Tree navigation
 (require 'tool-notes)              ; Note taking
@@ -38,6 +43,7 @@
 
 ;;;
 ;; Language support
+
 (require 'lang-conf)
 (require 'lang-data)
 (require 'lang-ebook)
@@ -51,6 +57,7 @@
 (require 'lang-javascript)
 (require 'lang-markdown)
 (require 'lang-opengl)
+(require 'lang-org)
 (require 'lang-pkgbuild)
 (require 'lang-python)
 (require 'lang-raml)
@@ -66,6 +73,7 @@
 
 ;;;
 ;; Keybindings
+
 (unless noninteractive
   (require 'theme)
   (require 'bindings)
