@@ -18,10 +18,10 @@
 (use-package flycheck-inline :ensure nil :pin manual
   :load-path "vendor/flycheck-inline/"
   :after flycheck
-  :commands flycheck-inline
+  :commands flycheck-inline-mode
   :config
-  (setq flycheck-display-errors-delay 0.5
-        flycheck-display-errors-function #'flycheck-inline))
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode)
+  (setq flycheck-display-errors-delay 0.5))
 
 (provide 'feature-syntax-checker)
 ;;; feature-syntax-checker.el ends here
