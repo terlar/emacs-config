@@ -6,6 +6,17 @@
 ;;; Code:
 
 ;;;
+;; Config
+
+;; Leader key
+(defvar my-leader-key "C-c"
+  "The key used for most custom operations.")
+(defvar my-local-leader-key "C-c m"
+  "The key used for major mode operations.")
+(defvar my-normal-leader-key "SPC"
+  "The key used for most custom operations in `evil-normal-state'.")
+
+;;;
 ;; Packages
 
 (use-package general :demand t

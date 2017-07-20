@@ -7,14 +7,6 @@
 (require 'base-vars)
 (require 'base-keybinds)
 
-;;;
-;; Leader key
-
-(defvar my-leader-key "C-c"
-  "The key used for most custom operations.")
-(defvar my-normal-leader-key "SPC"
-  "The key used for most custom operations in `evil-normal-state'.")
-
 (eval `(general-define-key :keymaps '(normal visual)
                            ,my-normal-leader-key (general-simulate-keys ,my-leader-key)))
 
