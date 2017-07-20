@@ -275,8 +275,7 @@
     (advice-add #'evil-window-bottom :after #'my|blink-cursor)))
 
 ;; Line numbers
-(use-package nlinum :ensure nil :pin manual
-  :load-path "vendor/nlinum/"
+(use-package nlinum
   :preface (defvar nlinum-format "%4d ")
   :commands nlinum-mode
   :config

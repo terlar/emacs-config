@@ -1,6 +1,3 @@
-[submodule "vendor/nlinum"]
-	path = vendor/nlinum
-	url = https://github.com/emacsmirror/nlinum.git
 [submodule "vendor/indent-info-mode"]
 	path = vendor/indent-info-mode
 	url = https://github.com/terlar/indent-info-mode.el.git
