@@ -9,6 +9,13 @@
 ;;;
 ;; Packages
 
+(use-package ob-elixir)
+(use-package ob-go)
+(use-package ob-http)
+(use-package ob-restclient)
+(use-package ob-rust)
+(use-package ob-translate)
+
 (use-package org
   :defines org-plantuml-jar-path
   :config
@@ -18,14 +25,18 @@
      (clojure    . t)
      (css        . t)
      (dot        . t)
+     (elixir     . t)
      (emacs-lisp . t)
      (haskell    . t)
+     (http       . t)
      (js         . t)
      (plantuml   . t)
      (python     . t)
      (ruby       . t)
+     (rust       . t)
      (scala      . t)
-     (shell      . t)))
+     (shell      . t)
+     (translate  . t)))
 
   (setq org-confirm-babel-evaluate nil
         org-src-fontify-natively t
