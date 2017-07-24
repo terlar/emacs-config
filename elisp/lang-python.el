@@ -24,11 +24,18 @@
   :preface
   (autoload 'sp-local-pair "smartparens")
   (autoload 'sp-with-modes "smartparens")
+
+  (defun python-repl ()
+    "Open a Python REPL."
+    (interactive)
+    (process-buffer (run-python nil t t)))
   :init
   (setq python-environment-directory my-cache-dir
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python")
   :config
+  (push-repl-command 'python-mode #'python-repl)
+
   (add-hooks-pair 'python-mode
                   '(flycheck-mode
                     highlight-numbers-mode))

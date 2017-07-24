@@ -32,7 +32,19 @@
     (if (not (string-match "go" compile-command))
         (set (make-local-variable 'compile-command)
              "go build -v && go test -v && go vet")))
+
+  (defun go-repl ()
+    "Open a Go REPL."
+    (interactive)
+    (pop-to-buffer
+     (or (get-buffer "*Go REPL*")
+         (progn (gorepl-run)
+                (let ((buf (get-buffer "*Go REPL*")))
+                  (bury-buffer buf)
+                  buf)))))
   :config
+  (push-repl-command 'go-mode #'go-repl)
+
   ;; Use goimports instead of gofmt
   (setq gofmt-command "goimports")
   (if (not (executable-find "goimports"))

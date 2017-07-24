@@ -63,7 +63,9 @@
       (("task" "namespace") () "end"))))
 
 (use-package inf-ruby
-  :commands (inf-ruby inf-ruby-console-auto))
+  :commands (inf-ruby inf-ruby-console-auto)
+  :init
+  (push-repl-command 'enh-ruby-mode 'inf-ruby))
 
 (use-package company-inf-ruby
   :when (package-installed-p 'company)

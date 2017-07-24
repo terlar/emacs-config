@@ -13,19 +13,30 @@
 
 (use-package js2-mode
   :mode
-  ("\\.js$"   . js2-mode)
+  "\\.js$"
   ("\\.json$" . js2-jsx-mode)
-  :interpreter "node"
+  :interpreter
+  "node"
+  "nodejs"
   :preface
   (autoload 'sp-local-pair "smartparens")
   (autoload 'sp-with-modes "smartparens")
 
   (eval-when-compile
-    (defvar flycheck-disabled-checkers)
-    (defvar js2-skip-preprocessor-directives)
-    (defvar js2-highlight-external-variables)
-    (defvar js2-mode-show-parse-errors))
+    (defvar flycheck-disabled-checkers))
+
+  (defun javascript-repl ()
+    "Open a JavaScript REPL."
+    (interactive)
+    (pop-to-buffer
+     (or (get-buffer "*nodejs*")
+         (progn (nodejs-repl)
+                (let ((buf (get-buffer "*nodejs*")))
+                  (bury-buffer buf)
+                  buf)))))
   :config
+  (push-repl-command 'js2-mode #'javascript-repl)
+
   (setq js2-skip-preprocessor-directives t
         js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil)
@@ -34,10 +45,11 @@
                   '(flycheck-mode
                     rainbow-delimiters-mode))
 
-  (add-hook 'js2-mode-hook
-            #'(lambda ()
-                ;; Prefer eslint
-                (push 'javascript-jshint flycheck-disabled-checkers)))
+  (with-eval-after-load "flycheck"
+    (add-hook 'js2-mode-hook
+              #'(lambda ()
+                  ;; Prefer eslint
+                  (push 'javascript-jshint flycheck-disabled-checkers))))
 
   (sp-with-modes '(js2-mode rjsx-mode)
     (sp-local-pair "/* " " */" :post-handlers '(("| " "SPC")))))
@@ -103,10 +115,6 @@
   :general
   (:keymaps '(json-mode js2-mode-map) :states 'normal
             "gQ" '(web-beautify-js)))
-
-(use-package js-comint
-  :defines inferior-js-program-command
-  :config (setq inferior-js-program-command "node"))
 
 ;;;
 ;; Skewer

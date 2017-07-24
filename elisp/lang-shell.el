@@ -21,11 +21,34 @@
 
 (use-package sh-script
   :commands sh-mode
+  :preface
+  (eval-when-compile
+    (declare-function sh-shell-process "sh-script"))
+
+  (defvar sh-shell-file)
+
+  (defun sh-repl ()
+    "Open a shell REPL."
+    (interactive)
+    (let* ((dest-sh (symbol-name sh-shell))
+           (buffer-name (format "*shell [%s]*" dest-sh))
+           (sh-shell-file dest-sh))
+
+      (pop-to-buffer
+       (or (get-buffer buffer-name)
+           (progn (sh-shell-process t)
+                  (let ((buf (get-buffer "*shell*")))
+                    (bury-buffer buf)
+                    (with-current-buffer buf
+                      (rename-buffer buffer-name))
+                    buf))))))
   :init
   (add-hooks-pair 'sh-mode
                   '(flycheck-mode
                     highlight-numbers-mode))
   :config
+  (push-repl-command 'sh-mode #'sh-repl)
+
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always))
 

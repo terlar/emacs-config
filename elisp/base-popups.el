@@ -14,19 +14,19 @@
   :init
   (setq-default
    shackle-default-alignment 'below
-   shackle-default-size 8
+   shackle-default-size 12
    shackle-rules
-   '((apropos-mode :size 0.3 :align t :select t)
+   '(("*info*"      :size 0.5 :align t :select t)
+     ("*Backtrace*" :size 20  :align t :noselect t)
+     ("*Warnings*"  :size 8   :align t :noselect t)
+     ("*Messages*"  :size 12  :align t :noselect t)
+     ("*Help*"      :size 0.3 :align t :select t)
+     ("^\\*.*Shell Command.*\\*$" :regexp t :size 20 :align t :noselect t)
+     (apropos-mode :size 0.3 :align t :select t)
      (Buffer-menu-mode :size 20 :align t :select t)
      (grep-mode :size 25 :align t :noselect t)
      (profiler-report-mode :size 0.3 :align t :select t :regexp t)
      (special-mode :align t :noselect t)
-     ("*info*" :size 0.5 :align t :select t)
-     ("*Backtrace*" :size 20 :align t :noselect t)
-     ("*Warnings*" :size 5 :align t :noselect t)
-     ("*Messages*" :size 12 :align t :noselect t)
-     ("*Help*" :size 0.3 :align t :select t)
-     ("^\\*.*Shell Command.*\\*$" :regexp t :size 20 :align t :noselect t)
      ("^\\*"  :regexp t :align t :noselect t)
      ("^ \\*" :regexp t :size 12 :align t :noselect t)))
   :config

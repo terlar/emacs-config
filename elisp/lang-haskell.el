@@ -18,6 +18,8 @@
   (eval-when-compile
     (defvar aggressive-indent-excluded-modes))
   :config
+  (push-repl-command 'haskell-mode #'switch-to-haskell)
+
   (setq
    haskell-notify-p t
    haskell-stylish-on-save t

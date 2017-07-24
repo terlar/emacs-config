@@ -6,12 +6,26 @@
 ;; Emacs.
 
 ;;; Code:
+(require 'base-lib)
+
 (add-hooks-pair 'emacs-lisp-mode
                 '(eldoc-mode
                   highlight-quoted-mode
                   auto-compile-on-save-mode
                   rainbow-delimiters-mode
                   flycheck-mode))
+
+(defun emacs-lisp-repl ()
+  "Open the Emacs Lisp REPL (`ielm')."
+  (interactive)
+  (pop-to-buffer
+   (or (get-buffer "*ielm*")
+       (progn (ielm)
+              (let ((buf (get-buffer "*ielm*")))
+                (bury-buffer buf)
+                buf)))))
+
+(push-repl-command 'emacs-lisp-mode #'emacs-lisp-repl)
 
 ;;;
 ;; Packages

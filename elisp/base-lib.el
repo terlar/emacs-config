@@ -6,6 +6,9 @@
 ;;; Code:
 (require 'base-vars)
 
+(eval-when-compile
+  (defvar eval-repl-alist))
+
 ;;;
 ;; Packages
 
@@ -50,6 +53,10 @@
                         (unless (member ',backends company-backends)
                           (setq-local company-backends (append '((,@backends)) company-backends))))))))
 
+(defun push-repl-command (mode command)
+  "Define a REPL for a MODE by running COMMAND function."
+  (push (cons mode command) eval-repl-alist))
+
 ;;;
 ;; Buffers
 
@@ -66,6 +73,17 @@
   (if (active-minibuffer-window)
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
+
+(defun popup-buffer (buffer &rest plist)
+  "Display BUFFER in a shackle popup. Optional PLIST with `shackle-rules'.
+Returns the new popup window."
+  (declare (indent defun))
+  (unless (bufferp buffer)
+    (error "%s is not a valid buffer" buffer))
+  (setq plist (append plist (shackle-match buffer)))
+  (shackle-display-buffer
+   buffer
+   nil (or plist (shackle-match buffer))))
 
 ;;;
 ;; Editing
