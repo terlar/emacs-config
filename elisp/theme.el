@@ -52,9 +52,15 @@
   "Face to hightlight `hideshow' overlays."
   :group 'editing)
 
+;; Messages
 (set-face-attribute 'error nil :foreground "tomato")
 (set-face-attribute 'success nil :foreground "sea green")
 (set-face-attribute 'warning nil :foreground "dark orange" :weight 'bold)
+
+;; Line numbers
+(set-face-attribute 'line-number-current-line nil
+                    :foreground "tomato"
+                    :weight 'bold)
 
 ;; Mode line
 (set-face-attribute 'mode-line nil
@@ -132,14 +138,6 @@ They get reset each time you select the neotree pane and are highlighted incorre
                 (with-eval-after-load "evil"
                   (defadvice evil-refresh-cursor (around evil activate)
                     (unless (eq major-mode 'neotree-mode) ad-do-it))))))
-
-(with-eval-after-load "nlinum"
-  (set-face-attribute 'linum nil
-                      :inherit 'default
-                      :family my-variable-pitch-font)
-  (set-face-attribute 'nlinum-current-line nil
-                      :foreground "tomato"
-                      :weight 'bold))
 
 (with-eval-after-load "rst"
   (set-face-attribute 'rst-literal nil :inherit 'my-code-face))

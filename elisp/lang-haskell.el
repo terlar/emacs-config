@@ -105,7 +105,6 @@ The insertion will be repeated COUNT times."
 
   (add-hook 'structured-haskell-mode-hook
             #'(lambda ()
-                (nlinum-mode -1)
                 (hl-line-mode -1)
                 (haskell-indent-mode -1)
                 (haskell-indentation-mode -1)))

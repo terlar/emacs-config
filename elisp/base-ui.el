@@ -14,6 +14,7 @@
  ;; Disable non selected window highlight
  cursor-in-non-selected-windows nil
  highlight-nonselected-windows nil
+ display-line-number-width 3
  blink-matching-paren nil
  frame-inhibit-implied-resize t
  redisplay-dont-pause t
@@ -183,8 +184,7 @@
 (use-package hl-line
   :commands hl-line-mode
   :init
-  (add-hooks-pair '(linum-mode nlinum-mode)
-                  'hl-line-mode)
+  (global-hl-line-mode +1)
   :config
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
@@ -234,13 +234,6 @@
     (advice-add #'evil-window-top    :after #'my|blink-cursor)
     (advice-add #'evil-window-middle :after #'my|blink-cursor)
     (advice-add #'evil-window-bottom :after #'my|blink-cursor)))
-
-;; Line numbers
-(use-package nlinum
-  :preface (defvar nlinum-format "%4d ")
-  :commands nlinum-mode
-  :config
-  (setq nlinum-highlight-current-line t))
 
 ;; Centered buffer mode
 (use-package olivetti
