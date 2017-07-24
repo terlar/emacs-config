@@ -48,15 +48,8 @@
   (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
 
   (which-key-add-key-based-replacements
-    "C-c !" "flycheck"
-    "C-c =" "diff"
     "C-c @" "outline"
-    "C-c a" "apps"
-    "C-c g" "git"
-    "C-c p" "projects"
-    "C-c w" "windows"
-    "C-c W" "workspaces"
-    "C-c ~" "toggles")
+    "C-c p" "project")
 
   ;; Embolden local bindings
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)

@@ -45,7 +45,7 @@
  ","   '(switch-to-buffer     :which-key "Switch to buffer")
  "."   '(find-file            :which-key "Browse files")
  "RET" '(counsel-bookmark     :which-key "Jump to bookmark")
- "w"   '(:keymap evil-window-map :package evil)
+ "w"   '(:keymap evil-window-map :package evil :which-key "window")
 
  "["   '(:ignore t :which-key "previous...")
  "[ b" '(previous-buffer                        :which-key "Buffer")
