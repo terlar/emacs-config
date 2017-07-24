@@ -86,8 +86,8 @@
   (set-face-attribute 'ediff-fine-diff-C    nil :background "#4A8BB3"))
 
 (with-eval-after-load "flycheck"
-  (set-face-attribute 'flycheck-error nil :inherit 'error)
-  (set-face-attribute 'flycheck-warning nil :inherit 'warning))
+  (set-face-underline 'flycheck-error '(:style wave :color "tomato"))
+  (set-face-underline 'flycheck-warning '(:style wave :color "dark orange")))
 
 (with-eval-after-load "hl-todo"
   (setq hl-todo-keyword-faces
