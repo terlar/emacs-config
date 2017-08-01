@@ -144,6 +144,10 @@
 (use-package default-text-scale
   :commands (default-text-scale-increase default-text-scale-decrease))
 
+(use-package eldoc-overlay-mode
+  :diminish eldoc-overlay-mode
+  :commands eldoc-overlay-mode)
+
 ;; Highlight TODO inside comments and strings
 (use-package hl-todo
   :commands hl-todo-mode

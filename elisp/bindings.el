@@ -156,6 +156,7 @@
  "~ c" '(rainbow-identifiers-mode    :which-key "Color identifiers")
  "~ C" '(rainbow-mode                :which-key "Color display")
  "~ d" '(toggle-debug-on-error       :which-key "Debug on error")
+ "~ e" '(eldoc-overlay-mode          :which-key "Eldoc inline")
  "~ f" '(hs-minor-mode               :which-key "Code folding")
  "~ F" '(flycheck-mode               :which-key "Syntax checker")
  "~ g" '(indent-guide-mode           :which-key "Indent guides")
