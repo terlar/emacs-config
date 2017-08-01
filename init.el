@@ -56,6 +56,7 @@
 (require 'lang-haskell)
 (require 'lang-java)
 (require 'lang-javascript)
+(require 'lang-lua)
 (require 'lang-markdown)
 (require 'lang-opengl)
 (require 'lang-org)
