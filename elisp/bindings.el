@@ -294,6 +294,7 @@
  ;; Don't interfere with `evil-delete-backward-word' in insert mode
  "C-w"     '(nil)
  ;; Don't interfere with the return key
+ [return]  '(nil)
  "RET"     '(nil)
  ;; Abort on escape but leave current completion
  [escape]  '(company-abort)
