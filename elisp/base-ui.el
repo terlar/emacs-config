@@ -127,6 +127,11 @@
 (use-package all-the-icons
   :when (display-graphic-p))
 
+(use-package all-the-icons-ivy
+  :when (display-graphic-p)
+  :init
+  (all-the-icons-ivy-setup))
+
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
   :diminish color-identifiers-mode
