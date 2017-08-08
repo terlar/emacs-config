@@ -98,6 +98,8 @@
  "f ?" '(counsel-file-jump                      :which-key "Find file here")
  "f a" '(projectile-find-other-file             :which-key "Find other file")
  "f c" '(editorconfig-find-current-editorconfig :which-key "Open project editorconfig")
+ "f g" '(counsel-rg                             :which-key "Grep files")
+ "f G" '(counsel-projectile-rg                  :which-key "Grep project files")
  "f r" '(recentf                                :which-key "Recent files")
  "f R" '(projectile-recentf                     :which-key "Recent project files")
 
