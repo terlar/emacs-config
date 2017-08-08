@@ -163,6 +163,7 @@
  "~ F" '(flycheck-mode               :which-key "Syntax checker")
  "~ g" '(indent-guide-mode           :which-key "Indent guides")
  "~ h" '(hl-line-mode                :which-key "Line highlight")
+ "~ i" '(aggressive-indent-mode      :which-key "Automatic indentation")
  "~ l" '(toggle-display-line-numbers :which-key "Line numbers")
  "~ r" '(ruler-mode                  :which-key "Ruler")
  "~ R" '(my|start-spray              :which-key "Speed-reading")
