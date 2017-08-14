@@ -46,6 +46,7 @@
  "."   '(find-file            :which-key "Browse files")
  "RET" '(counsel-bookmark     :which-key "Jump to bookmark")
  "w"   '(:keymap evil-window-map :package evil :which-key "window")
+ "x"   '(scratch-buffer       :which-key "Pop up scratch buffer")
 
  "["   '(:ignore t :which-key "previous...")
  "[ b" '(previous-buffer                        :which-key "Buffer")
@@ -81,6 +82,7 @@
  "b k" '(kill-buffer        :which-key "Kill buffer")
  "b o" '(kill-other-buffers :which-key "Kill other buffers")
  "b s" '(save-buffer        :which-key "Save buffer")
+ "b x" '(scratch-buffer     :which-key "Pop up scratch buffer")
  "b z" '(bury-buffer        :which-key "Bury buffer")
  "b ]" '(next-buffer        :which-key "Next buffer")
  "b [" '(previous-buffer    :which-key "Previous buffer")
