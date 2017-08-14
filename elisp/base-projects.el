@@ -19,7 +19,7 @@
       (apply orig-fun args)))
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
-        projectile-enable-caching (not noninteractive)
+        projectile-enable-caching nil
         projectile-file-exists-remote-cache-expire nil
         projectile-globally-ignored-file-suffixes
         '(".elc" ".pyc" ".o" ".hi" ".class" ".cache")
