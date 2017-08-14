@@ -38,9 +38,28 @@
       (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font))))
 
 ;;;
+;; Colors
+(defvar theme-color-mode-line "#697D8A"
+  "Color used for active mode line.")
+(defvar theme-color-mode-line-inactive "#889BA7"
+  "Color used for inactive mode line.")
+
+(defvar theme-color-error "tomato"
+  "Color used to indicate error.")
+(defvar theme-color-success "sea green"
+  "Color used to indicate success.")
+(defvar theme-color-warning "dark orange"
+  "Color used to indicate warning.")
+
+(defvar theme-color-highlight "tomato"
+  "Color used to highlight elements.")
+(defvar theme-color-lighter "grey91"
+  "Color used for less visible elements.")
+
+;;;
 ;; Faces
 (defface my-code-face
-  '((t (:inherit fixed-pitch :background "grey91")))
+  `((t (:inherit fixed-pitch :background ,theme-color-lighter)))
   "Face for fixed-width text like code snippets."
   :group 'editing)
 
@@ -48,29 +67,29 @@
   `((((background dark))
      (:inherit font-lock-comment-face :background "black"))
     (((background light))
-     (:inherit font-lock-comment-face :background "grey91")))
+     (:inherit font-lock-comment-face :background ,theme-color-lighter)))
   "Face to hightlight `hideshow' overlays."
   :group 'editing)
 
 ;; Messages
-(set-face-attribute 'error nil :foreground "tomato")
-(set-face-attribute 'success nil :foreground "sea green")
-(set-face-attribute 'warning nil :foreground "dark orange" :weight 'bold)
+(set-face-attribute 'error nil :foreground theme-color-error)
+(set-face-attribute 'success nil :foreground theme-color-success)
+(set-face-attribute 'warning nil :foreground theme-color-warning :weight 'bold)
 
 ;; Line numbers
 (set-face-attribute 'line-number-current-line nil
-                    :foreground "tomato"
+                    :foreground theme-color-highlight
                     :weight 'bold)
 
 ;; Mode line
 (set-face-attribute 'mode-line nil
                     :family my-variable-pitch-font
-                    :background "#697D8A"
-                    :box '(:line-width 6 :color "#697D8A"))
+                    :background theme-color-mode-line
+                    :box `(:line-width 6 :color ,theme-color-mode-line))
 (set-face-attribute 'mode-line-inactive nil
                     :family my-variable-pitch-font
-                    :background "#889BA7"
-                    :box '(:line-width 6 :color "#889BA7"))
+                    :background theme-color-mode-line-inactive
+                    :box `(:line-width 6 :color ,theme-color-mode-line-inactive))
 
 ;; Plugins
 (with-eval-after-load "anzu"
@@ -92,13 +111,13 @@
   (set-face-attribute 'ediff-fine-diff-C    nil :background "#4A8BB3"))
 
 (with-eval-after-load "flycheck"
-  (set-face-underline 'flycheck-error '(:style wave :color "tomato"))
-  (set-face-underline 'flycheck-warning '(:style wave :color "dark orange")))
+  (set-face-underline 'flycheck-error theme-color-error)
+  (set-face-underline 'flycheck-warning theme-color-warning))
 
 (with-eval-after-load "hl-todo"
   (setq hl-todo-keyword-faces
-        `(("TODO"  . (:box '(:line-width 1) :foreground ,(face-foreground 'warning)))
-          ("FIXME" . (:box '(:line-width 1) :foreground ,(face-foreground 'error)))
+        `(("TODO"  . (:box '(:line-width 1) :foreground ,theme-color-warning))
+          ("FIXME" . (:box '(:line-width 1) :foreground ,theme-color-error))
           ("NOTE"  . (:box '(:line-width 1))))))
 
 (with-eval-after-load "indent-guide"
@@ -107,6 +126,10 @@
 (with-eval-after-load "inline-docs"
   (set-face-attribute 'inline-docs-border-face nil :inherit 'fringe)
   (set-face-attribute 'inline-docs-indicator-face nil :inherit 'fringe))
+
+(with-eval-after-load "js2-mode"
+  (set-face-underline 'js2-error theme-color-error)
+  (set-face-underline 'js2-warning theme-color-warning))
 
 (with-eval-after-load "markdown-mode"
   (set-face-attribute 'markdown-inline-code-face nil :box '(:line-width 1)))
