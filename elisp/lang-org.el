@@ -45,5 +45,8 @@
 
   (add-hooks-pair 'org-babel-after-execute 'org-redisplay-inline-images))
 
+(use-package org-preview-html
+  :commands org-preview-html-mode)
+
 (provide 'lang-org)
 ;;; lang-org.el ends here
