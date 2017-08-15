@@ -37,9 +37,10 @@
   :config
   (push-repl-command 'js2-mode #'javascript-repl)
 
-  (setq js2-skip-preprocessor-directives t
-        js2-highlight-external-variables nil
-        js2-mode-show-parse-errors nil)
+  (setq js2-highlight-external-variables nil
+        js2-mode-show-parse-errors nil
+        js2-skip-preprocessor-directives t
+        js2-strict-trailing-comma-warning nil)
 
   (add-hooks-pair 'js2-mode
                   '(flycheck-mode
