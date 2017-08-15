@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-keybinds)
 
 ;;;
 ;; Variables
@@ -48,13 +49,12 @@
                       'anzu-mode-line-no-match
                     'anzu-mode-line)))
         (propertize (concat my-mode-line-bar-string status) 'face face))))
-  :bind
-  (([remap query-replace]        . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp)
-   :map
-   isearch-mode-map
-   ([remap isearch-query-replace]        . anzu-isearch-query-replace)
-   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+  :general
+  ([remap query-replace]        'anzu-query-replace)
+  ([remap query-replace-regexp] 'anzu-query-replace-regexp)
+  (:keymaps 'isearch-mode-map
+            [remap isearch-query-replace]        'anzu-isearch-query-replace
+            [remap isearch-query-replace-regexp] 'anzu-isearch-query-replace-regexp)
   :config
   (setq anzu-mode-line-update-function #'my|update-mode-line
         anzu-minimum-input-length 1

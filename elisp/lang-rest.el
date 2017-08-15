@@ -7,21 +7,19 @@
 
 ;;; Code:
 (require 'base-lib)
+(require 'base-keybinds)
+
+;;;
+;; Packages
 
 (use-package restclient
   :mode ("\\.http$" . restclient-mode)
   :commands restclient-mode
-  :preface
-  (eval-when-compile
-    (defvar evil-normal-state-local-map))
-  :config
-  (with-eval-after-load "evil"
-    (add-hook 'restclient-mode-hook
-              #'(lambda ()
-                  (bind-keys :map evil-normal-state-local-map
-                             ("e" . restclient-http-send-current)
-                             ("E" . restclient-http-send-current-raw)
-                             ("c" . restclient-copy-curl-command))))))
+  :general
+  (:keymaps 'restclient-mode-map :states 'normal
+            "e" 'restclient-http-send-current
+            "E" 'restclient-http-send-current-raw
+            "c" 'restclient-copy-curl-command))
 
 (use-package company-restclient
   :after restclient

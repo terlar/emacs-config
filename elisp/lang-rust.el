@@ -12,6 +12,10 @@
 ;; Packages
 
 (use-package rust-mode
+  :general
+  (:keymaps 'rust-mode-map :states 'normal
+            :prefix my-local-leader-key
+            "t a" 'cargo-process-test)
   :init
   (add-hooks-pair 'rust-mode 'flycheck-mode)
   :config

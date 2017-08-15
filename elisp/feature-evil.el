@@ -4,12 +4,17 @@
 ;; The way of the vi!
 
 ;;; Code:
+(require 'base-keybinds)
+
 (eval-when-compile
   (require 'cl)
   (defvar buffer-face-mode))
 
 (defvar-local evil-pre-insert-state-variable-pitch-mode
   "Hold original `variable-pitch-mode'.")
+
+;;;
+;; Packages
 
 (use-package evil :demand t
   :commands
@@ -98,13 +103,9 @@ If a hook returns non-nil, all hooks after it are ignored.")
                 evil-escape-excluded-major-modes '(neotree-mode))
   :config
   (evil-escape-mode +1)
-
   ;; Escape everything
-  (dolist (map '(evil-normal-state-map
-                 evil-replace-state-map
-                 evil-visual-state-map
-                 evil-operator-state-map))
-    (bind-key "C-g" #'evil-escape (eval map))))
+  (general-define-key :states '(normal insert replace visual operator)
+                      "C-g" 'evil-escape))
 
 (use-package evil-commentary :demand t
   :after evil
@@ -115,8 +116,8 @@ If a hook returns non-nil, all hooks after it are ignored.")
 (use-package evil-matchit
   :after evil
   :commands (global-evil-matchit-mode evilmi-jump-items)
-  :bind
-  ([remap evil-jump-item] . evilmi-jump-items)
+  :general
+  ([remap evil-jump-item] 'evilmi-jump-items)
   :config (global-evil-matchit-mode +1))
 
 (use-package evil-surround

@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-keybinds)
 
 ;;;
 ;; Packages
@@ -14,20 +15,20 @@
   :commands (ivy-mode
              ivy-format-function-line
              ivy-exit-with-action)
-  :bind
-  (:map ivy-mode-map
-        ([remap find-file]                 . counsel-find-file)
-        ([remap switch-to-buffer]          . ivy-switch-buffer)
-        ([remap recentf]                   . counsel-recentf)
-        ([remap imenu]                     . counsel-imenu)
-        ([remap bookmark-jump]             . counsel-bookmark)
-        ([remap projectile-switch-project] . counsel-projectile-switch-project)
-        ([remap projectile-find-file]      . counsel-projectile-find-file)
-        ([remap imenu-anywhere]            . ivy-imenu-anywhere)
-        ([remap execute-extended-command]  . counsel-M-x)
-        ([remap describe-function]         . counsel-describe-function)
-        ([remap describe-variable]         . counsel-describe-variable)
-        ([remap describe-face]             . counsel-describe-face))
+  :general
+  (:keymaps 'ivy-mode-map
+            [remap find-file]                 'counsel-find-file
+            [remap switch-to-buffer]          'ivy-switch-buffer
+            [remap recentf]                   'counsel-recentf
+            [remap imenu]                     'counsel-imenu
+            [remap bookmark-jump]             'counsel-bookmark
+            [remap projectile-switch-project] 'counsel-projectile-switch-project
+            [remap projectile-find-file]      'counsel-projectile-find-file
+            [remap imenu-anywhere]            'ivy-imenu-anywhere
+            [remap execute-extended-command]  'counsel-M-x
+            [remap describe-function]         'counsel-describe-function
+            [remap describe-variable]         'counsel-describe-variable
+            [remap describe-face]             'counsel-describe-face)
   :config
   (setq-default projectile-completion-system 'ivy
                 smex-completion-method 'ivy

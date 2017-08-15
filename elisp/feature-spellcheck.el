@@ -5,14 +5,14 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-keybinds)
 
 (use-package flyspell ; builtin
   :commands flyspell-mode
-  :bind
-  (:map
-   flyspell-mode-map
-   ("C-c s" . flyspell-correct-word-generic)
-   ("C-c S" . flyspell-correct-previous-word-generic))
+  :general
+  (:keymaps 'flyspell-mode-map
+            "C-c s" 'flyspell-correct-word-generic
+            "C-c S" 'flyspell-correct-previous-word-generic)
   :init
   (add-hooks-pair 'prog-mode 'flyspell-prog-mode)
   (add-hooks-pair '(text-mode message-mode) 'flyspell-mode)
@@ -44,11 +44,10 @@
 ;; Automatically infer dictionary
 (use-package auto-dictionary
   :commands (adict-change-dictionary adict-guess-dictionary)
-  :bind
-  (:map
-   flyspell-mode-map
-   ("C-c d" . adict-guess-dictionary)
-   ("C-c D" . adict-change-dictionary)))
+  :general
+  (:keymaps 'flyspell-mode-map
+            "C-c d" 'adict-guess-dictionary
+            "C-c D" 'adict-change-dictionary))
 
 (provide 'feature-spellcheck)
 ;;; feature-spellcheck.el ends here
