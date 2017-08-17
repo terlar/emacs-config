@@ -62,10 +62,11 @@
         (call-interactively #'evil-append-line))
       t)))
 
-(push '(:custom
-        (lambda (b &rest _) (buffer-local-value 'eval-repl-mode b))
-        :size 16)
-      shackle-rules)
+(with-eval-after-load "shackle"
+  (push '(:custom
+          (lambda (b &rest _) (buffer-local-value 'eval-repl-mode b))
+          :size 16)
+        shackle-rules))
 
 ;;;
 ;; Evaluation
