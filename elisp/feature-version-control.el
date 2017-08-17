@@ -19,18 +19,19 @@
   :mode "/\\.gitignore$")
 
 (use-package diff-hl
-  :after magit
   :commands (global-diff-hl-mode
-             diff-hl-flydiff-mode
-             diff-hl-dired-mode
              diff-hl-magit-post-refresh)
+  :preface
+  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff")
+  (autoload 'diff-hl-dired-mode "diff-hl-dired")
   :init
-  (add-hooks-pair 'magit-post-refresh 'diff-hl-magit-post-refresh)
-
-  (add-hooks-pair 'dired-mode 'diff-hl-dired-mode)
   (add-hooks-pair 'after-init
                   '(global-diff-hl-mode
-                    diff-hl-flydiff-mode)))
+                    diff-hl-flydiff-mode))
+
+  (add-hooks-pair 'dired-mode 'diff-hl-dired-mode)
+  (with-eval-after-load "magit"
+    (add-hooks-pair 'magit-post-refresh 'diff-hl-magit-post-refresh)))
 
 (use-package magit
   :commands (global-magit-file-mode magit-status magit-blame)

@@ -48,6 +48,7 @@
 
 (use-package flycheck-rust
   :after rust-mode
+  :commands flycheck-rust-setup
   :init
   (add-hooks-pair 'flycheck-mode 'flycheck-rust-setup))
 

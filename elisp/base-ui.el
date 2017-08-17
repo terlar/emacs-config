@@ -125,17 +125,18 @@
 
 ;; Pretty icons
 (use-package all-the-icons
-  :when (display-graphic-p))
+  :when (or (display-graphic-p) (daemonp)))
 
 (use-package all-the-icons-ivy
-  :when (display-graphic-p)
+  :when (or (display-graphic-p) (daemonp))
+  :commands all-the-icons-ivy-setup
   :init
   (all-the-icons-ivy-setup))
 
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
   :diminish color-identifiers-mode
-  :commands color-identifiers-mode
+  :commands (color-identifiers-mode global-color-identifiers-mode)
   :init
   (add-hooks-pair 'after-init 'global-color-identifiers-mode))
 
@@ -256,7 +257,7 @@
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
-  :commands page-break-lines-mode
+  :commands (page-break-lines-mode global-page-break-lines-mode)
   :diminish (page-break-lines-mode)
   :init (global-page-break-lines-mode +1))
 

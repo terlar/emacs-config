@@ -14,7 +14,9 @@
 
 ;;;
 ;; Theme
-(use-package tao-theme)
+(use-package tao-theme :demand t
+  :config
+  (setq tao-theme-use-height t))
 (use-package punpun-theme)
 (use-package eziam-theme)
 (use-package flatui-theme)

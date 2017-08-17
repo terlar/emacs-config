@@ -31,7 +31,7 @@
 ;; Packages
 
 (use-package auto-compile
-  :commands (auto-compile-on-save-mode auto-compile-byte-compile)
+  :commands (auto-compile-on-load-mode auto-compile-on-save-mode auto-compile-byte-compile)
   :preface
   (defun my|emacs-lisp-load-after-compile (success)
     "Reload the current emacs-lisp file after it's recompiled, if an older

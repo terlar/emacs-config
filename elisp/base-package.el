@@ -17,7 +17,6 @@ This will be nil if you have byte-compiled your configuration.")
 ;; Settings
 (setq-default
  load-prefer-newer noninteractive
- ;; Workaround package.el bug in Emacs 25
  package--init-file-ensured t
  package-enable-at-startup nil
  package-user-dir (expand-file-name "elpa" my-packages-dir)
@@ -47,19 +46,30 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (unless noninteractive
       (message "Emacs initialized"))
 
+    (setq package-activated-list nil)
+
     ;; Ensure folders exist
     (dolist (dir (list my-cache-dir my-data-dir my-packages-dir))
       (unless (file-directory-p dir)
         (make-directory dir t)))
 
-    (package-initialize)
+    (package-initialize t)
+    ;; Setup load paths
+    (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t)))
+    (setq custom-theme-load-path (append custom-theme-load-path (directory-files package-user-dir t "theme" t)))
+
     (unless package-archive-contents
       (package-refresh-contents))
 
     (unless (package-installed-p 'use-package)
       (package-install 'use-package))
 
+    (load "use-package" nil t)
+
     (setq my-packages-init-p t)))
+
+;;;
+;; Macros
 
 (autoload 'use-package "use-package" nil nil 'macro)
 

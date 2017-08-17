@@ -79,25 +79,27 @@
 ;; Initialize
 
 (eval-and-compile
+  (defvar my--file-name-handler-alist file-name-handler-alist)
+
   ;; Temporarily reduce garbage collection during startup
   (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6)
+        gc-cons-percentage 0.6
+        file-name-handler-alist nil)
 
   (require 'cl-lib)
-  (require 'base-package))
+  (require 'base-package)
 
-(eval-when-compile
-  (my|packages-initialize))
+  (eval-when-compile
+    (my|packages-initialize))
+  (setq load-path (eval-when-compile load-path))
 
-(setq load-path (eval-when-compile load-path))
-
-(eval-and-compile
   (require 'base-lib))
 
 (add-hook 'emacs-startup-hook
           #'(lambda ()
               (setq gc-cons-threshold 800000
                     gc-cons-percentage 0.1
+                    file-name-handler-alist my--file-name-handler-alist
                     my-init-time (float-time (time-subtract after-init-time before-init-time)))
               (message "Loaded Emacs in %.03fs"
                        my-init-time)))
