@@ -251,9 +251,7 @@
   :preface (defvar olivetti-mode-map (make-sparse-keymap))
   :init
   (setq-default olivetti-body-width 120
-                olivetti-minimum-body-width 72)
-  (add-hooks-pair '(text-mode prog-mode help-mode)
-                  'olivetti-mode))
+                olivetti-minimum-body-width 72))
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
