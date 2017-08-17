@@ -204,7 +204,7 @@
  ;; Navigation
  "C-w"     '(ace-window           :which-key "Select a window")
  "B"       '(switch-to-minibuffer :which-key "Switch to minibuffer")
- [tab]     '(neotree|window       :which-key "Switch to NeoTree")
+ "TAB"     '(neotree|window       :which-key "Switch to NeoTree")
  [backtab] '(neotree|toggle       :which-key "Toggle NeoTree")
  ;; Swapping
  "C-S-w"   '(ace-swap-window      :which-key "Swap window")
@@ -222,7 +222,7 @@
 ;; comint
 (general-define-key
  :keymaps 'comint-mode-map
- [tab] '(company-complete))
+ "TAB" '(company-complete))
 
 ;; conf-mode
 (general-define-key
@@ -307,7 +307,7 @@
  "C-e"     '(company-complete-selection)
  "C-f"     '(company-complete-selection)
  "C-SPC"   '(company-complete-common)
- [tab]     '(company-complete-common-or-cycle)
+ "TAB"     '(company-complete-common-or-cycle)
  [backtab] '(company-select-previous)
 
  "C-o"     '(company-search-kill-others)
@@ -434,7 +434,7 @@
  :keymaps 'neotree-mode-map
  :states 'normal
  "g"         '(nil)
- [tab]       '(neotree-quick-look)
+ "TAB"       '(neotree-quick-look)
  "RET"       '(neotree-enter)
  "v"         '(neotree-enter-vertical-split)
  "s"         '(neotree-enter-horizontal-split)
@@ -489,19 +489,6 @@
  :keymaps 'visual
  "C-u" '(undo-tree-undo)
  "C-r" '(undo-tree-redo))
-
-;;;
-;; Fixes
-
-;; Fix TAB in terminal
-(general-define-key
- :keymaps 'input-decode-map
- [?\C-i] [C-i]
- [S-iso-lefttab] [backtab])
-(general-define-key
- :keymaps 'input-decode-map
- :predicate '(unless window-system)
- "TAB" [tab])
 
 (provide 'bindings)
 ;;; bindings.el ends here
