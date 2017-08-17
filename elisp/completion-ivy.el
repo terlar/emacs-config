@@ -62,6 +62,13 @@
   (setq smex-save-file (concat my-cache-dir "/smex-items"))
   (smex-initialize))
 
+(use-package all-the-icons-ivy
+  :after ivy
+  :when (window-system)
+  :commands all-the-icons-ivy-setup
+  :init
+  (all-the-icons-ivy-setup))
+
 ;;;
 ;; Autoloads
 

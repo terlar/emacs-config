@@ -86,19 +86,14 @@
 
 ;; Show icons instead of mode names
 (use-package mode-icons
+  :when (window-system)
   :commands mode-icons-mode
   :init
   (setq mode-icons-desaturate-active t
         mode-icons-desaturate-inactive t)
 
-  (add-hook 'after-make-frame-functions
-            #'(lambda (frame)
-                (when (display-graphic-p frame)
-                  (mode-icons-mode +1))))
-  (add-hook 'after-init-hook
-            #'(lambda ()
-                (when (display-graphic-p)
-                  (mode-icons-mode +1)))))
+  (add-hook 'after-make-frame-functions #'mode-icons-mode)
+  (add-hook 'after-init-hook #'mode-icons-mode))
 
 ;;;
 ;; Configuration

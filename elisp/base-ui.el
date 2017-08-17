@@ -61,7 +61,7 @@
   "No fringes in minibuffer."
   (set-window-fringes (minibuffer-window) 0 0 nil))
 
-(when (or (display-graphic-p) (daemonp))
+(when (window-system)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   ;; Standardize fringe width
@@ -125,13 +125,13 @@
 
 ;; Pretty icons
 (use-package all-the-icons
-  :when (or (display-graphic-p) (daemonp)))
+  :when (window-system))
 
-(use-package all-the-icons-ivy
-  :when (or (display-graphic-p) (daemonp))
-  :commands all-the-icons-ivy-setup
+(use-package all-the-icons-dired
+  :when (window-system)
+  :commands all-the-icons-dired-mode
   :init
-  (all-the-icons-ivy-setup))
+  (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode))
 
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
