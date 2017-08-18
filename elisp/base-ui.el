@@ -48,14 +48,20 @@
 (setq-default confirm-kill-emacs 'y-or-n-p)
 (fset #'yes-or-no-p #'y-or-n-p)
 
-;; Show typed keystrokes in Minibuffer, while not inside isearch
-(setq echo-keystrokes 0.02)
-(add-hook 'isearch-mode-hook #'(lambda() (setq echo-keystrokes 0)))
-(add-hook 'isearch-mode-end-hook #'(lambda() (setq echo-keystrokes 0.02)))
+(defun my|enable-ui-keystrokes ()
+  "Enable keystrokes in minibuffer."
+  (setq echo-keystrokes 0.02))
+(defun my|disable-ui-keystrokes ()
+  "Disable keystrokes in minibuffer."
+  (setq echo-keystrokes 0))
+(my|enable-ui-keystrokes)
+(add-hooks-pair 'isearch-mode-hook 'my|disable-ui-keystrokes)
+(add-hooks-pair 'isearch-mode-end-hook 'my|enable-ui-keystrokes)
 
-;; Disable toolbar & menubar
-(tooltip-mode -1) ; Tooltips in echo area
+;; Disable menu bar
 (menu-bar-mode -1)
+;; Tooltips in echo area
+(tooltip-mode -1)
 
 (defun my|minibuffer-disable-fringes ()
   "No fringes in minibuffer."
