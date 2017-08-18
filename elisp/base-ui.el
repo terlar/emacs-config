@@ -200,7 +200,7 @@
 (use-package hl-line
   :commands hl-line-mode
   :init
-  (global-hl-line-mode +1)
+  (add-hooks-pair '(prog-mode text-mode conf-mode) 'hl-line-mode)
   :config
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
