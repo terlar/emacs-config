@@ -112,6 +112,12 @@
   (set-face-attribute 'ediff-current-diff-C nil :background "#EBEFF8")
   (set-face-attribute 'ediff-fine-diff-C    nil :background "#4A8BB3"))
 
+(with-eval-after-load "eros"
+  (set-face-attribute 'eros-result-overlay-face nil
+                      :foreground "white"
+                      :background "#697D8A"
+                      :box nil))
+
 (with-eval-after-load "flycheck"
   (set-face-underline 'flycheck-error theme-color-error)
   (set-face-underline 'flycheck-warning theme-color-warning))

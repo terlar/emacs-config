@@ -58,5 +58,11 @@ version is loaded."
   (setq inferior-lisp-program "clisp")
   (require 'slime-fuzzy))
 
+;; Evaluation result overlays.
+(use-package eros
+  :commands eros-mode
+  :init
+  (add-hooks-pair 'emacs-lisp-mode 'eros-mode))
+
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here
