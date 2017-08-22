@@ -236,7 +236,8 @@
  :states 'normal
  "RET" '(debug-help-follow)
  "n"   '(debugger-step-through)
- "c"   '(debugger-continue))
+ "c"   '(debugger-continue)
+ "q"   '(top-level))
 
 ;; ediff
 (add-hook 'ediff-keymap-setup-hook
