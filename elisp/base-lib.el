@@ -16,6 +16,13 @@
 (use-package add-hooks
   :commands (add-hooks add-hooks-pair))
 
+;; Library to hide lines base on regexp
+(use-package hide-lines
+  :commands (hide-lines
+             hide-lines-matching
+             hide-lines-not-matching
+             hide-lines-show-all))
+
 (use-package f)    ; files and paths
 (use-package s)    ; strings
 (use-package dash) ; lists

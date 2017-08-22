@@ -177,13 +177,6 @@
   (add-hooks-pair 'text-mode 'goto-address-mode)
   (add-hooks-pair 'prog-mode 'goto-address-prog-mode))
 
-;; Library to hide lines base on regexp
-(use-package hide-lines
-  :commands (hide-lines
-             hide-lines-matching
-             hide-lines-not-matching
-             hide-lines-show-all))
-
 ;; Code folding (builtin)
 (use-package hideshow
   :commands hs-minor-mode
