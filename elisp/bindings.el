@@ -69,9 +69,11 @@
  "] S" '(flyspell-correct-word-generic          :which-key "Spelling correction")
 
  "/"   '(:ignore t :which-key "search")
- "/ /" '(swiper         :which-key "Swiper")
- "/ i" '(imenu          :which-key "Imenu")
- "/ I" '(imenu-anywhere :which-key "Imenu across buffers")
+ "/ /" '(swiper                :which-key "Swiper")
+ "/ i" '(imenu                 :which-key "Imenu")
+ "/ I" '(imenu-anywhere        :which-key "Imenu across buffers")
+ "/ g" '(counsel-rg            :which-key "Grep files")
+ "/ G" '(counsel-projectile-rg :which-key "Grep project files")
 
  "TAB" '(:ignore t :which-key "workspace")
  "TAB ." '(persp-switch :which-key "Switch workspace")
@@ -89,6 +91,7 @@
  "b S" '(sudo-edit          :which-key "Sudo edit this file")
 
  "c"   '(:ignore t :which-key "code")
+ "c c" '(editorconfig-apply   :which-key "Apply editorconfig")
  "c x" '(flycheck-list-errors :which-key "List errors")
  "c e" '(eval-buffer          :which-key "Evaluate buffer")
  "c d" '(evil-goto-definition :which-key "Jump to definition")
