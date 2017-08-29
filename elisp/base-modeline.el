@@ -28,7 +28,7 @@
 ;; Packages
 
 ;; Displays current match and total matches information
-(use-package anzu :demand t
+(use-package anzu
   :diminish anzu-mode
   :commands
   (global-anzu-mode
@@ -37,7 +37,7 @@
    anzu-isearch-query-replace-regexp)
   :functions anzu--reset-status
   :preface
-  (defun my|update-mode-line (here total)
+  (defun my--update-mode-line (here total)
     (when anzu--state
       (let ((status (cl-case anzu--state
                       (search (format "(%s/%d%s)"
@@ -56,7 +56,7 @@
             [remap isearch-query-replace]        'anzu-isearch-query-replace
             [remap isearch-query-replace-regexp] 'anzu-isearch-query-replace-regexp)
   :config
-  (setq anzu-mode-line-update-function #'my|update-mode-line
+  (setq anzu-mode-line-update-function #'my--update-mode-line
         anzu-minimum-input-length 1
         anzu-search-threshold 250)
 
@@ -65,7 +65,7 @@
 
   (global-anzu-mode +1))
 
-(use-package evil-anzu :demand t :after evil)
+(use-package evil-anzu :after evil)
 
 ;; Enable eldoc support when minibuffer is in use
 (use-package eldoc-eval :demand t
