@@ -145,16 +145,13 @@
   :commands (color-identifiers-mode global-color-identifiers-mode)
   :init
   (global-color-identifiers-mode +1))
-
-;; Highlight source code identifiers for modes not supported by
-;; `color-identifiers-mode'
 (use-package rainbow-identifiers
   :diminish rainbow-identifiers-mode
   :commands rainbow-identifiers-mode
   :functions rainbow-identifiers-cie-l*a*b*-choose-face
   :config
   (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face
-        rainbow-identifiers-cie-l*a*b*-saturation 40
+        rainbow-identifiers-cie-l*a*b*-saturation 65
         rainbow-identifiers-cie-l*a*b*-lightness 45))
 
 ;; Dynamically change the default text scale
