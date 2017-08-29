@@ -73,7 +73,7 @@
 ;; Autoloads
 
 ;;;###autoload
-(defun ivy|wgrep-occur ()
+(defun ivy-wgrep-occur ()
   "Invoke the search+replace wgrep buffer on the current ag/rg search results."
   (interactive)
   (unless (window-minibuffer-p)

@@ -22,8 +22,8 @@
   :commands (global-diff-hl-mode
              diff-hl-magit-post-refresh)
   :preface
-  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff")
-  (autoload 'diff-hl-dired-mode "diff-hl-dired")
+  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
+  (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
   :init
   (add-hooks-pair 'after-init
                   '(global-diff-hl-mode

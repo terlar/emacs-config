@@ -8,6 +8,12 @@
 (require 'base-lib)
 (require 'base-keybinds)
 
+(eval-when-compile
+  (autoload 'sp-local-pair "smartparens")
+  (autoload 'sp-with-modes "smartparens")
+
+  (defvar flycheck-disabled-checkers))
+
 ;;;
 ;; Packages
 
@@ -19,12 +25,6 @@
   "node"
   "nodejs"
   :preface
-  (autoload 'sp-local-pair "smartparens")
-  (autoload 'sp-with-modes "smartparens")
-
-  (eval-when-compile
-    (defvar flycheck-disabled-checkers))
-
   (defun javascript-repl ()
     "Open a JavaScript REPL."
     (interactive)
@@ -34,6 +34,8 @@
                 (let ((buf (get-buffer "*nodejs*")))
                   (bury-buffer buf)
                   buf)))))
+  :init
+  (autoload 'js2-imenu-extras-mode "js2-imenu-extras" nil t)
   :config
   (push-repl-command 'js2-mode #'javascript-repl)
 
@@ -44,7 +46,8 @@
 
   (add-hooks-pair 'js2-mode
                   '(flycheck-mode
-                    rainbow-delimiters-mode))
+                    rainbow-delimiters-mode
+                    js2-imenu-extras-mode))
 
   (with-eval-after-load "flycheck"
     (add-hook 'js2-mode-hook

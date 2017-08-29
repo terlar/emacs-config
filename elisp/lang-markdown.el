@@ -4,6 +4,8 @@
 ;; Markdown is a lightweight markup language with plain text formatting syntax.
 
 ;;; Code:
+(eval-when-compile
+  (autoload 'sp-local-pair "smartparens"))
 
 ;;;
 ;; Packages
@@ -16,9 +18,7 @@
              gfm-mode
              markdown-toggle-markup-hiding)
   :preface
-  (autoload 'sp-local-pair "smartparens")
-
-  (defun markdown|setup ()
+  (defun markdown-setup ()
     (setq fill-column 80
           line-spacing 2)
     (customize-set-variable 'markdown-header-scaling t))
@@ -49,7 +49,7 @@
   (add-hooks-pair 'markdown-mode
                   '(auto-fill-mode
                     variable-pitch-mode
-                    markdown|setup
+                    markdown-setup
                     markdown|add-insert-state-hooks))
 
   (sp-local-pair

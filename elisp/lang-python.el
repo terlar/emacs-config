@@ -15,6 +15,10 @@
 (require 'base-lib)
 (require 'base-keybinds)
 
+(eval-when-compile
+  (autoload 'sp-local-pair "smartparens")
+  (autoload 'sp-with-modes "smartparens"))
+
 ;;;
 ;; Packages
 
@@ -22,9 +26,6 @@
   :commands python-mode
   :defines python-environment-directory
   :preface
-  (autoload 'sp-local-pair "smartparens")
-  (autoload 'sp-with-modes "smartparens")
-
   (defun python-repl ()
     "Open a Python REPL."
     (interactive)

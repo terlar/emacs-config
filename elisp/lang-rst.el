@@ -33,6 +33,11 @@ Used when `rst-header-scaling' is non-nil."
 (defvar rst-adornment-regexp nil
   "Regular expression to match adornments.")
 
+(eval-when-compile
+  (autoload 'evil|insert-state-disable-variable-pitch-mode "feature-evil")
+  (autoload 'evil|insert-state-restore-variable-pitch-mode "feature-evil")
+  (autoload 'hide-lines-matching "hide-lines"))
+
 ;;;
 ;; Packages
 
@@ -40,11 +45,7 @@ Used when `rst-header-scaling' is non-nil."
   :mode ("\\.\\(txt\\|re?st\\)$" . rst-mode)
   :commands rst-mode
   :preface
-  (autoload 'evil|insert-state-disable-variable-pitch-mode "feature-evil")
-  (autoload 'evil|insert-state-restore-variable-pitch-mode "feature-evil")
-  (autoload 'hide-lines-matching "hide-lines")
-
-  (defun rst|setup ()
+  (defun rst-setup ()
     (setq line-spacing 2
           fill-column 80)
     (customize-set-variable 'rst-header-scaling t)
@@ -79,7 +80,7 @@ Used when `rst-header-scaling' is non-nil."
   (add-hooks-pair 'rst-mode
                   '(auto-fill-mode
                     variable-pitch-mode
-                    rst|setup
+                    rst-setup
                     rst|add-insert-state-hooks)))
 
 ;;;

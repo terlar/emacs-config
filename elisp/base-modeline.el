@@ -118,7 +118,8 @@
   (push '("ws" #xf06e FontAwesome) mode-icons))
 
 ;; Evil state indicator
-(autoload 'evil-state-property "evil-common")
+(eval-when-compile
+  (autoload 'evil-state-property "evil-common"))
 (defun my|mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
   (let ((tag (evil-state-property state :tag t))

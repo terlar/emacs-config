@@ -334,7 +334,7 @@
  "C-o" '(ivy-dispatching-done))
 (general-define-key
  :keymaps 'counsel-ag-map
- [backtab] '(ivy|wgrep-occur)
+ [backtab] '(ivy-wgrep-occur)
  "C-SPC" '(counsel-git-grep-recenter))
 
 ;; diff-hl

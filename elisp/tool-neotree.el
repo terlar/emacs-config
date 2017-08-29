@@ -4,7 +4,8 @@
 ;; Show your files in a tree view.
 
 ;;; Code:
-(autoload 'projectile-project-root "projectile")
+(eval-when-compile
+  (autoload 'projectile-project-root "projectile"))
 
 (use-package neotree
   :commands (neotree-show
