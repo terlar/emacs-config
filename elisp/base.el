@@ -1,9 +1,10 @@
-;;; base.el --- Base configuration
+;;; base.el --- Base configuration -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;; Setting sane defaults.
 
 ;;; Code:
+
 (require 'base-vars)
 
 (defvar my-init-time nil
@@ -80,12 +81,20 @@
 ;; Initialize
 
 (eval-and-compile
-  (defvar my--file-name-handler-alist file-name-handler-alist)
-
   ;; Temporarily reduce garbage collection during startup
-  (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6
-        file-name-handler-alist nil)
+  (let ((normal-gc-cons-threshold 800000)
+        (normal-gc-cons-percentage 0.1)
+        (normal-file-name-handler-alist file-name-handler-alist)
+        (init-gc-cons-threshold 402653184)
+        (init-gc-cons-percentage 0.6))
+    (setq gc-cons-threshold init-gc-cons-threshold
+          gc-cons-percentage init-gc-cons-percentage
+          file-name-handler-alist nil)
+    (add-hook 'after-init-hook
+              #'(lambda ()
+                  (setq gc-cons-threshold normal-gc-cons-threshold
+                        gc-cons-percentage normal-gc-cons-percentage
+                        file-name-handler-alist normal-file-name-handler-alist))))
 
   (require 'cl-lib)
   (require 'base-package)
@@ -96,14 +105,11 @@
 
   (require 'base-lib))
 
+;; Startup time
 (add-hook 'emacs-startup-hook
           #'(lambda ()
-              (setq gc-cons-threshold 800000
-                    gc-cons-percentage 0.1
-                    file-name-handler-alist my--file-name-handler-alist
-                    my-init-time (float-time (time-subtract after-init-time before-init-time)))
               (message "Loaded Emacs in %.03fs"
-                       my-init-time)))
+                       (float-time (time-subtract after-init-time before-init-time)))))
 
 ;;;
 ;; Bootstrap
