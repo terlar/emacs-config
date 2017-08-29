@@ -4,7 +4,14 @@
 ;; All things web.
 
 ;;; Code:
+
 (require 'base-lib)
+
+(eval-when-compile
+  (defvar aggressive-indent-excluded-modes))
+
+;;;
+;; Packages
 
 (use-package web-mode
   :mode
@@ -56,14 +63,14 @@
 
 (use-package company-web :after web-mode)
 
-(use-package slim-mode :mode "\\.slim$")
+(use-package slim-mode :mode "\\.slim$"
+  :config
+  (with-eval-after-load "aggressive-indent"
+    (push 'slim-mode aggressive-indent-excluded-modes)))
 
 (use-package haml-mode :mode "\\.haml$")
 
 (use-package pug-mode :mode ("\\.jade$" "\\.pug$")
-  :preface
-  (eval-when-compile
-    (defvar aggressive-indent-excluded-modes))
   :config
   (with-eval-after-load "aggressive-indent"
     (push 'pug-mode aggressive-indent-excluded-modes)))
