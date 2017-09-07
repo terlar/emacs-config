@@ -70,6 +70,8 @@
     (evil-set-initial-state mode 'normal))
   (dolist (mode '(git-commit-mode))
     (evil-set-initial-state mode 'insert))
+  (dolist (mode '(package-menu-mode))
+    (evil-set-initial-state mode 'motion))
 
   (add-hooks-pair 'minibuffer-inactive-mode 'minibuffer-inactive-mode-hook-setup))
 

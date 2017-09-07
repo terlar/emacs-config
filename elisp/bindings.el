@@ -269,6 +269,12 @@
  "o"  '(ace-link-help)
  "q"  '(quit-window))
 
+;; package
+(general-define-key
+ :keymaps 'package-menu-mode-map
+ :states 'motion
+ "q" '(kill-this-buffer))
+
 ;; vc-annotate
 (general-define-key
  :keymaps 'vc-annotate-mode-map
