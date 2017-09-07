@@ -146,8 +146,8 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (evil-visual-restore))
 
 ;;;###autoload
-(defun evil|visual-dedent ()
-  "Visual deindentation restore selection after operation."
+(defun evil|visual-outdent ()
+  "Visual outdentation restore selection after operation."
   (interactive)
   (evil-shift-left (region-beginning) (region-end))
   (evil-normal-state)

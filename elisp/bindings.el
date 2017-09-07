@@ -200,7 +200,7 @@
 (general-define-key
  :keymaps 'visual
  "." '(evil-repeat)
- "<" '(evil|visual-dedent)
+ "<" '(evil|visual-outdent)
  ">" '(evil|visual-indent))
 
 (general-define-key
