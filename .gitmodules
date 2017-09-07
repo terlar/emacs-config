@@ -10,3 +10,6 @@
 [submodule "vendor/flycheck-inline"]
 	path = vendor/flycheck-inline
 	url = https://github.com/flycheck/flycheck-inline
+[submodule "vendor/source-peek"]
+	path = vendor/source-peek
+	url = https://github.com/iqbalansari/emacs-source-peek

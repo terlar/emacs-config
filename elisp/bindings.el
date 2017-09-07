@@ -95,6 +95,7 @@
  "c x" '(flycheck-list-errors :which-key "List errors")
  "c e" '(eval-buffer          :which-key "Evaluate buffer")
  "c d" '(evil-goto-definition :which-key "Jump to definition")
+ "c p" '(source-peek          :which-key "Peek definition")
  "c r" '(eval|repl            :which-key "Open REPL")
 
  "f"   '(:ignore t :which-key "file")
