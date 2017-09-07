@@ -16,12 +16,16 @@
 (use-package add-hooks
   :commands (add-hooks add-hooks-pair))
 
-;; Library to hide lines base on regexp
+;; Hide lines based on regexp
 (use-package hide-lines
   :commands (hide-lines
              hide-lines-matching
              hide-lines-not-matching
              hide-lines-show-all))
+
+;; Inline popups
+(use-package quick-peek
+  :commands (quick-peek-show quick-peek-hide))
 
 (use-package f)    ; files and paths
 (use-package s)    ; strings

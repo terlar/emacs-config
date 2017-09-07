@@ -45,7 +45,7 @@
 
   (global-magit-file-mode +1))
 
-;; Pop-up commit message for current line
+;; Popup commit message for current line
 (use-package git-messenger
   :commands git-messenger:popup-message)
 
