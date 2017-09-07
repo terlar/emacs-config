@@ -9,6 +9,7 @@
 
 ;;;
 ;; Variables
+
 (defvar my-mode-line-right-format
   (list
    '(:eval mode-line-position)
@@ -118,8 +119,7 @@
   (push '("ws" #xf06e FontAwesome) mode-icons))
 
 ;; Evil state indicator
-(eval-when-compile
-  (autoload 'evil-state-property "evil-common"))
+(autoload 'evil-state-property "evil-common")
 (defun my|mode-line-bar-evil-state (&optional state)
   "Generate the evil mode-line tag for STATE as a colorized bar."
   (let ((tag (evil-state-property state :tag t))
@@ -156,6 +156,31 @@
                (list
                 '(:eval (my|mode-line-fill-right (my|mode-line-right-reserve)))
                 my-mode-line-right-format)))
+
+(eval-when-compile
+  (defvar flycheck-mode-line))
+
+(with-eval-after-load "flycheck"
+  (setq flycheck-mode-line
+        '(:eval
+          (pcase flycheck-last-status-change
+            (`finished (if flycheck-current-errors
+                           (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
+                                          (+ (or .warning 0) (or .error 0)))))
+                             (propertize (format "✖ %s Issue%s" count (if (eq 1 count) "" "s"))
+                                         'face 'error))
+                         (propertize "✔ No Issues"
+                                     'face 'success)))
+            (`running     (propertize "⟲ Running"
+                                      'face 'warning))
+            (`no-checker  (propertize "⚠ No Checker"
+                                      'face 'warning))
+            (`not-checked "✖ Disabled")
+            (`errored     (propertize "⚠ Error"
+                                      'face 'error))
+            (`interrupted (propertize "⛔ Interrupted"
+                                      'face 'error))
+            (`suspicious  "")))))
 
 (provide 'base-modeline)
 ;;; base-modeline.el ends here
