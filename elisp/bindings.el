@@ -288,6 +288,12 @@
  "TAB" '(vc-annotate-toggle-annotation-visibility)
  "RET" '(vc-annotate-find-revision-at-line))
 
+;; xref
+(general-define-key
+ :keymaps 'xref--xref-buffer-mode-map
+ :states 'normal
+ "q" '(quit-window))
+
 ;;;
 ;; Plugins
 
