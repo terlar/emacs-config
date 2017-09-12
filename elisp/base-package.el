@@ -20,6 +20,7 @@ This will be nil if you have byte-compiled your configuration.")
  package--init-file-ensured t
  package-enable-at-startup nil
  package-user-dir (expand-file-name "elpa" my-packages-dir)
+ package-gnupghome-dir (expand-file-name "gnupg" package-user-dir)
  package-archives
  '(("gnu"   . "https://elpa.gnu.org/packages/")
    ("melpa" . "https://melpa.org/packages/"))
