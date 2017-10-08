@@ -48,7 +48,7 @@
 (defvar theme-color-warning "dark orange"
   "Color used to indicate warning.")
 
-(defvar theme-color-highlight "tomato"
+(defvar theme-color-highlight "black"
   "Color used to highlight elements.")
 (defvar theme-color-lighter "grey91"
   "Color used for less visible elements.")
