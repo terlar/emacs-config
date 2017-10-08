@@ -139,6 +139,15 @@
   :init
   (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode))
 
+;; Centered window mode
+(use-package centered-window-mode
+  :commands centered-window-mode
+  :init
+  (add-hooks-pair '(text-mode prog-mode help-mode)
+                  'centered-window-mode)
+  :config
+  (setq cwm-centered-window-width 120))
+
 ;; Highlight source code identifiers based on their name
 (use-package color-identifiers-mode
   :diminish color-identifiers-mode
@@ -245,14 +254,6 @@
     (advice-add #'evil-window-top    :after #'my|blink-cursor)
     (advice-add #'evil-window-middle :after #'my|blink-cursor)
     (advice-add #'evil-window-bottom :after #'my|blink-cursor)))
-
-;; Centered buffer mode
-(use-package olivetti
-  :diminish olivetti-mode
-  :preface (defvar olivetti-mode-map (make-sparse-keymap))
-  :init
-  (setq-default olivetti-body-width 120
-                olivetti-minimum-body-width 72))
 
 ;; Display page breaks as a horizontal line
 (use-package page-break-lines
