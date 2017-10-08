@@ -44,7 +44,7 @@
 (defvar my-theme 'tao-yang
   "The color theme to use.")
 
-(defvar my-default-font-height 140
+(defvar my-default-font-height 100
   "The default font height to use.")
 
 (defvar my-font "Fira Mono"
