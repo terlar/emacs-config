@@ -31,11 +31,6 @@
 (when (or (display-graphic-p) (daemonp))
   (with-demoted-errors "FONT ERROR: %s"
     (set-face-attribute 'default nil :height my-default-font-height :family my-font)
-
-    ;; Fallback to `my-unicode-font' for Unicode characters
-    (when my-unicode-font
-      (set-fontset-font t 'unicode (font-spec :name my-unicode-font)))
-    ;; ... and for variable-pitch mode
     (when my-variable-pitch-font
       (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font))))
 
