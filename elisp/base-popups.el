@@ -22,6 +22,7 @@
      ("*Messages*"  :size 12  :align t :noselect t)
      ("*Help*"      :size 0.3 :align t :select t)
      ("^\\*.*Shell Command.*\\*$" :regexp t :size 20 :align t :noselect t)
+     ("\\`\\*e?shell" :regexp t :size 20 :popup t :select t)
      (apropos-mode :size 0.3 :align t :select t)
      (Buffer-menu-mode :size 20 :align t :select t)
      (grep-mode :size 25 :align t :noselect t)

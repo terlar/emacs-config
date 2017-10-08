@@ -142,7 +142,7 @@
  "o d" '(deft               :which-key "Notes")
  "o n" '(neotree|toggle     :which-key "NeoTree")
  "o N" '(neotree|window     :which-key "NeoTree Window")
- "o t" '(shell              :which-key "Terminal")
+ "o t" '(eshell             :which-key "Terminal")
  "o T" '(ansi-term          :which-key "ANSI Terminal")
  "o w" '(eww                :which-key "Browser")
 
