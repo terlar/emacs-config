@@ -17,6 +17,8 @@
              company-search-abort
              company-filter-candidates)
   :preface
+  (autoload 'company-tng-frontend "company-tng" nil t)
+
   (defvar-local company--indent-guide-mode-on-p nil)
   (defvar-local company--whitespace-mode-on-p nil)
 
@@ -64,7 +66,12 @@
         company-tooltip-flip-when-above t
         company-show-numbers t
         company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode)
-        company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend)
+        company-frontends
+        '(company-tng-frontend
+          company-pseudo-tooltip-unless-just-one-frontend
+          company-echo-metadata-frontend
+          company-preview-frontend
+          company-quickhelp-frontend)
         company-backends
         '(company-capf
           company-files
