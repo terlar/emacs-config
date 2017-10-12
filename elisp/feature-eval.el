@@ -36,9 +36,9 @@
   (or (eq (current-buffer) eval-repl-buffer)
       (progn
         (if (and eval-repl-buffer (buffer-live-p eval-repl-buffer))
-            (if-let (win (get-buffer-window eval-repl-buffer))
-                (select-window win)
-              (popup-buffer eval-repl-buffer))
+            (if-let* ((win (get-buffer-window eval-repl-buffer))
+                      (select-window win))
+                (popup-buffer eval-repl-buffer))
           (when command
             (let ((repl-buffer (save-window-excursion (call-interactively command))))
               (unless (bufferp repl-buffer)
@@ -56,7 +56,7 @@
 (defun eval|repl ()
   "Open (or reopen) the REPL associated with the current `major-mode' and place the cursor at the prompt."
   (interactive)
-  (when-let (command (cdr (assq major-mode eval-repl-alist)))
+  (when-let* ((command (cdr (assq major-mode eval-repl-alist))))
     (when (eval--ensure-in-repl-buffer command)
       (when (bound-and-true-p evil-mode)
         (call-interactively #'evil-append-line))
