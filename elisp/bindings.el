@@ -161,8 +161,8 @@
 
  "~" '(:ignore t :which-key "toggle")
  "~ a" '(goto-address-mode           :which-key "Clickable links")
- "~ c" '(rainbow-identifiers-mode    :which-key "Color identifiers")
- "~ C" '(rainbow-mode                :which-key "Color display")
+ "~ c" '(rainbow-identifiers-mode    :which-key "Colorize identifiers")
+ "~ C" '(rainbow-mode                :which-key "Colorize color values")
  "~ d" '(toggle-debug-on-error       :which-key "Debug on error")
  "~ e" '(eldoc-overlay-mode          :which-key "Eldoc inline")
  "~ f" '(hs-minor-mode               :which-key "Code folding")
@@ -171,6 +171,7 @@
  "~ h" '(hl-line-mode                :which-key "Line highlight")
  "~ i" '(aggressive-indent-mode      :which-key "Automatic indentation")
  "~ l" '(toggle-display-line-numbers :which-key "Line numbers")
+ "~ L" '(coverlay-toggle-overlays    :which-key "Coverage overlays")
  "~ r" '(ruler-mode                  :which-key "Ruler")
  "~ R" '(my|start-spray              :which-key "Speed-reading")
  "~ s" '(flyspell-mode               :which-key "Spell-checking")
@@ -349,6 +350,12 @@
  :keymaps 'counsel-ag-map
  [backtab] '(ivy-wgrep-occur)
  "C-SPC" '(counsel-git-grep-recenter))
+
+;; coverlay
+(general-define-key
+ :keymaps 'coverlay-stats-mode-map
+ :states 'normal
+ "q" '(quit-window))
 
 ;; diff-hl
 (general-define-key

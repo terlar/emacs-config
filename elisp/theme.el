@@ -99,6 +99,10 @@
   (set-face-attribute 'company-tooltip nil :family my-font)
   (set-face-foreground 'company-tooltip-annotation (face-background 'company-tooltip-selection)))
 
+(with-eval-after-load "coverlay"
+  (setq-default coverlay:untested-line-background-color "#FEF3F3"
+                coverlay:tested-line-background-color "#EBF8EC"))
+
 (with-eval-after-load "ediff"
   (set-face-attribute 'ediff-current-diff-A nil :background "#FEF3F3")
   (set-face-attribute 'ediff-fine-diff-A    nil :background "#B22222")
