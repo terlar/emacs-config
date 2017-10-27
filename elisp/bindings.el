@@ -79,16 +79,17 @@
  "TAB ." '(persp-switch :which-key "Switch workspace")
 
  "b"   '(:ignore t :which-key "buffer")
- "b n" '(evil-buffer-new    :which-key "New empty buffer")
- "b b" '(switch-to-buffer   :which-key "Switch buffer")
- "b k" '(kill-buffer        :which-key "Kill buffer")
- "b o" '(kill-other-buffers :which-key "Kill other buffers")
- "b s" '(save-buffer        :which-key "Save buffer")
- "b x" '(scratch-buffer     :which-key "Pop up scratch buffer")
- "b z" '(bury-buffer        :which-key "Bury buffer")
- "b ]" '(next-buffer        :which-key "Next buffer")
- "b [" '(previous-buffer    :which-key "Previous buffer")
- "b S" '(sudo-edit          :which-key "Sudo edit this file")
+ "b f" '(list-flycheck-errors :which-key "Pop up flycheck errors")
+ "b n" '(evil-buffer-new      :which-key "New empty buffer")
+ "b b" '(switch-to-buffer     :which-key "Switch buffer")
+ "b k" '(kill-buffer          :which-key "Kill buffer")
+ "b o" '(kill-other-buffers   :which-key "Kill other buffers")
+ "b s" '(save-buffer          :which-key "Save buffer")
+ "b x" '(scratch-buffer       :which-key "Pop up scratch buffer")
+ "b z" '(bury-buffer          :which-key "Bury buffer")
+ "b ]" '(next-buffer          :which-key "Next buffer")
+ "b [" '(previous-buffer      :which-key "Previous buffer")
+ "b S" '(sudo-edit            :which-key "Sudo edit this file")
 
  "c"   '(:ignore t :which-key "code")
  "c c" '(editorconfig-apply   :which-key "Apply editorconfig")
@@ -196,6 +197,11 @@
  "gr" '(eval-region)
  "gR" '(eval-buffer)
  "zx" '(kill-buffer))
+
+(general-define-key
+ :keymaps 'motion
+ "gd" '(xref-find-definitions)
+ "gD" '(xref-find-references))
 
 ;; Visual state
 (general-define-key
@@ -409,7 +415,8 @@
  "C-p" '(flycheck-error-list-previous-error)
  "j"   '(flycheck-error-list-next-error)
  "k"   '(flycheck-error-list-previous-error)
- "RET" '(flycheck-error-list-goto-error))
+ "RET" '(flycheck-error-list-goto-error)
+ "q"   '(quit-window))
 
 ;; flyspell
 (general-define-key
