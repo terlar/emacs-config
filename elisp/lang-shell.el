@@ -23,9 +23,10 @@
   :commands sh-mode
   :preface
   (eval-when-compile
-    (declare-function sh-shell-process "sh-script"))
+    (declare-function sh-shell-process "sh-script")
 
-  (defvar sh-shell-file)
+    (defvar sh-shell-file))
+
 
   (defun sh-repl ()
     "Open a shell REPL."

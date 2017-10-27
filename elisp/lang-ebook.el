@@ -17,8 +17,9 @@
             "<left>"  'nov-previous-document
             "<right>" 'nov-next-document)
   :preface
-  (defvar nov-text-width)
-  (defvar cwm-centered-window-width)
+  (eval-when-compile
+    (defvar nov-text-width)
+    (defvar cwm-centered-window-width))
 
   (defun epub-setup ()
     (setq nov-save-place-file (concat my-data-dir "nov-places")
