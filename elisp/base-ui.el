@@ -220,12 +220,6 @@
   (setq indent-guide-delay 0.2
         indent-guide-char "\x2502"))
 
-;; Display docs inline
-(use-package inline-docs
-  :commands inline-docs
-  :config
-  (setq inline-docs-border-symbol ?─))
-
 ;; Flash the line around cursor on large movements
 (use-package nav-flash
   :preface

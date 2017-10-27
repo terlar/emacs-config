@@ -130,10 +130,6 @@
 (with-eval-after-load "indent-guide"
   (set-face-foreground 'indent-guide-face (face-foreground 'vertical-border)))
 
-(with-eval-after-load "inline-docs"
-  (set-face-attribute 'inline-docs-border-face nil :inherit 'fringe)
-  (set-face-attribute 'inline-docs-indicator-face nil :inherit 'fringe))
-
 (with-eval-after-load "js2-mode"
   (set-face-underline 'js2-error theme-color-error)
   (set-face-underline 'js2-warning theme-color-warning))
