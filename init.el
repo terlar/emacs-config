@@ -21,6 +21,7 @@
 (require 'feature-eval)
 (require 'feature-debug)
 (require 'feature-jump)
+(require 'feature-lsp)
 (require 'feature-preview)
 (require 'feature-spellcheck)
 (require 'feature-speed-reading)
