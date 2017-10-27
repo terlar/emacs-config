@@ -16,6 +16,8 @@
 (require 'base-keybinds)
 
 (eval-when-compile
+  (defvar shackle-rules)
+
   (autoload 'sp-local-pair "smartparens")
   (autoload 'sp-with-modes "smartparens"))
 
@@ -37,45 +39,23 @@
   :config
   (push-repl-command 'python-mode #'python-repl)
 
-  (add-hooks-pair 'python-mode
-                  '(flycheck-mode
-                    highlight-numbers-mode))
+  (add-hooks-pair 'python-mode 'highlight-numbers-mode)
   (sp-with-modes 'python-mode
     (sp-local-pair "'" nil :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))))
 
-(use-package anaconda-mode
-  :after python
-  :commands (anaconda-mode
-             anaconda-eldoc-mode)
-  :general
-  (:keymaps 'anaconda-mode-map :states 'motion
-            "gd" '(anaconda-mode-find-definitions)
-            "gD" '(anaconda-mode-find-references))
-  :preface
-  (eval-when-compile
-    (defvar anaconda-mode-installation-directory)
-    (defvar anaconda-mode-eldoc-as-single-line)
-    (defvar shackle-rules))
+(use-package lsp-python
+  :after lsp-mode
+  :commands lsp-python-enable
   :init
-  (add-hooks-pair 'python-mode 'anaconda-mode)
-  (add-hooks-pair 'anaconda-mode 'anaconda-eldoc-mode)
-  (setq anaconda-mode-installation-directory (concat my-data-dir "anaconda/")
-        anaconda-mode-eldoc-as-single-line t)
-  :config
-  (with-eval-after-load "shackle"
-    (push '("*anaconda-mode*" :size 10 :noselect t) shackle-rules)))
-
-(use-package company-anaconda
-  :when (package-installed-p 'company)
-  :after anaconda-mode
-  :init
-  (with-eval-after-load "company"
-    (push-company-backends 'python-mode '(company-anaconda company-files))))
+  (add-hooks-pair 'python-mode 'lsp-python-enable))
 
 (use-package pip-requirements
   :mode ("/requirements.txt$" . pip-requirements-mode))
 
-(use-package py-autopep8)
+(use-package py-autopep8
+  :commands py-autopep8-enable-on-save
+  :init
+  (add-hooks-pair 'python-mode 'py-autopep8-enable-on-save))
 
 (use-package nose
   :commands nose-mode
