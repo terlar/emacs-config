@@ -134,6 +134,11 @@
   (set-face-underline 'js2-error theme-color-error)
   (set-face-underline 'js2-warning theme-color-warning))
 
+(with-eval-after-load "lsp-mode"
+  (set-face-attribute 'lsp-face-highlight-textual nil :background nil :box '(:line-width 1 :color "dark orange"))
+  (set-face-attribute 'lsp-face-highlight-read    nil :background nil :box '(:line-width 1 :color "tomato"))
+  (set-face-attribute 'lsp-face-highlight-write   nil :background nil :box '(:line-width 1 :color "sea green")))
+
 (with-eval-after-load "markdown-mode"
   (set-face-attribute 'markdown-inline-code-face nil :box '(:line-width 1)))
 

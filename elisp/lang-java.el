@@ -11,18 +11,13 @@
 ;;; Code:
 (require 'base-vars)
 
-(use-package meghanada
-  :commands meghanada-mode
+(use-package lsp-java
+  :after lsp-mode
+  :commands lsp-java-enable
   :init
-  (setq meghanada-server-install-dir (concat my-data-dir "meghanada-server/")
-        meghanada-auto-start t
-        meghanada-use-company t
-        meghanada-use-flycheck t)
-
-  (add-hooks-pair 'java-mode
-                  '(flycheck-mode
-                    meghanada-mode)))
-
+  (add-hooks-pair 'java-mode 'lsp-java-enable)
+  :config
+  (setq lsp-java-server-install-dir "/opt/jdt-language-server/"))
 
 (use-package android-mode :commands android-mode)
 
