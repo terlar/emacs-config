@@ -9,13 +9,14 @@
 
 (use-package company
   :diminish company-mode
-  :commands (company-mode
-             company-begin-backend
-             company-grab-line
-             company-complete-common-or-cycle
-             company-select-previous-or-abort
-             company-search-abort
-             company-filter-candidates)
+  :commands
+  (company-mode global-company-mode
+   company-begin-backend
+   company-grab-line
+   company-complete-common-or-cycle
+   company-select-previous-or-abort
+   company-search-abort
+   company-filter-candidates)
   :preface
   (autoload 'company-tng-frontend "company-tng" nil t)
 
