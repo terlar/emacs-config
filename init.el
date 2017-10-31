@@ -1,4 +1,4 @@
-;;; init.el --- Main init file
+;;; init.el --- Main init file -*- lexical-binding: t no-byte-compile: t; -*-
 
 ;;; Commentary:
 ;;; The init file that loads all the components.
@@ -6,7 +6,8 @@
 ;;; Code:
 
 (eval-and-compile
-  (push (concat user-emacs-directory "elisp") load-path))
+  (push (concat user-emacs-directory "elisp") load-path)
+  (push (concat user-emacs-directory "vendor") load-path))
 
 ;;;
 ;; Base

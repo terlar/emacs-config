@@ -187,28 +187,29 @@
 ;; Normal state
 (general-define-key
  :keymaps 'normal
- "]b" '(next-buffer)
- "[b" '(previous-buffer)
- "]e" '(next-error)
- "[e" '(previous-error)
- "]w" '(persp-next)
- "[w" '(persp-prev)
- "gp" '(evil|reselect-paste)
- "gr" '(eval-region)
- "gR" '(eval-buffer)
- "zx" '(kill-buffer))
+ "]b" 'next-buffer
+ "[b" 'previous-buffer
+ "]e" 'next-error
+ "[e" 'previous-error
+ "]w" 'persp-next
+ "[w" 'persp-prev
+ "gp" 'evil|reselect-paste
+ "gr" 'eval-region
+ "gR" 'eval-buffer
+ "K"  'source-peek
+ "zx" 'kill-buffer)
 
 (general-define-key
  :keymaps 'motion
- "gd" '(xref-find-definitions)
- "gD" '(xref-find-references))
+ "gd" 'xref-find-definitions
+ "gD" 'xref-find-references)
 
 ;; Visual state
 (general-define-key
  :keymaps 'visual
- "." '(evil-repeat)
- "<" '(evil|visual-outdent)
- ">" '(evil|visual-indent))
+ "." 'evil-repeat
+ "<" 'evil|visual-outdent
+ ">" 'evil|visual-indent)
 
 (general-define-key
  :keymaps 'evil-window-map
@@ -233,22 +234,22 @@
 ;; comint
 (general-define-key
  :keymaps 'comint-mode-map
- "TAB" '(company-complete))
+ "TAB" 'company-complete)
 
 ;; conf-mode
 (general-define-key
  :keymaps 'conf-mode-map
  ;; Disable conflicting key
- "C-c SPC" '(nil))
+ "C-c SPC" '(:ignore t))
 
 ;; debug
 (general-define-key
  :keymaps 'debugger-mode-map
  :states 'normal
- "RET" '(debug-help-follow)
- "n"   '(debugger-step-through)
- "c"   '(debugger-continue)
- "q"   '(top-level))
+ "RET" 'debug-help-follow
+ "n"   'debugger-step-through
+ "c"   'debugger-continue
+ "q"   'top-level)
 
 ;; ediff
 (add-hook 'ediff-keymap-setup-hook
@@ -263,43 +264,43 @@
 (general-define-key
  :keymaps 'eww-mode-map
  :states 'normal
- "h" '(eww-back-url)
- "l" '(eww-next-url)
- "q" '(quit-window))
+ "h" 'eww-back-url
+ "l" 'eww-next-url
+ "q" 'quit-window)
 
 ;; help-mode
 (general-define-key
  :keymaps 'help-mode-map
  :states 'normal
- "[[" '(help-go-back)
- "]]" '(help-go-forward)
- "o"  '(ace-link-help)
- "q"  '(quit-window))
+ "[[" 'help-go-back
+ "]]" 'help-go-forward
+ "o"  'ace-link-help
+ "q"  'quit-window)
 
 ;; package
 (general-define-key
  :keymaps 'package-menu-mode-map
  :states 'motion
- "q" '(kill-this-buffer))
+ "q" 'kill-this-buffer)
 
 ;; vc-annotate
 (general-define-key
  :keymaps 'vc-annotate-mode-map
  :states 'normal
- "q"   '(kill-this-buffer)
- "d"   '(vc-annotate-show-diff-revision-at-line)
- "D"   '(vc-annotate-show-changeset-diff-revision-at-line)
- "SPC" '(vc-annotate-show-log-revision-at-line)
- "]]"  '(vc-annotate-next-revision)
- "[["  '(vc-annotate-prev-revision)
- "TAB" '(vc-annotate-toggle-annotation-visibility)
- "RET" '(vc-annotate-find-revision-at-line))
+ "q"   'kill-this-buffer
+ "d"   'vc-annotate-show-diff-revision-at-line
+ "D"   'vc-annotate-show-changeset-diff-revision-at-line
+ "SPC" 'vc-annotate-show-log-revision-at-line
+ "]]"  'vc-annotate-next-revision
+ "[["  'vc-annotate-prev-revision
+ "TAB" 'vc-annotate-toggle-annotation-visibility
+ "RET" 'vc-annotate-find-revision-at-line)
 
 ;; xref
 (general-define-key
  :keymaps 'xref--xref-buffer-mode-map
  :states 'normal
- "q" '(quit-window))
+ "q" 'quit-window)
 
 ;;;
 ;; Plugins
@@ -308,218 +309,218 @@
 (general-define-key
  :keymaps 'company-mode-map
  :states 'insert
- "C-SPC"   '(company-indent-or-complete-common)
- "C-x C-l" '(company|whole-lines)
- "C-x C-k" '(company|dict-or-keywords)
- "C-x C-f" '(company-files)
- "C-x C-]" '(company-etags)
- "C-x s"   '(company-ispell)
- "C-x C-s" '(company-yasnippet)
- "C-x C-o" '(company-capf)
- "C-x C-n" '(company-dabbrev-code)
- "C-x C-p" '(company|dabbrev-code-previous))
+ "C-SPC"   'company-indent-or-complete-common
+ "C-x C-l" 'company|whole-lines
+ "C-x C-k" 'company|dict-or-keywords
+ "C-x C-f" 'company-files
+ "C-x C-]" 'company-etags
+ "C-x s"   'company-ispell
+ "C-x C-s" 'company-yasnippet
+ "C-x C-o" 'company-capf
+ "C-x C-n" 'company-dabbrev-code
+ "C-x C-p" 'company|dabbrev-code-previous)
 (general-define-key
  :keymaps 'company-active-map
  ;; Don't interfere with `evil-delete-backward-word' in insert mode
- "C-w"     '(nil)
+ "C-w"     '(:ignore t)
  ;; Don't interfere with the return key
- [return]  '(nil)
- "RET"     '(nil)
+ [return]  '(:ignore t)
+ "RET"     '(:ignore t)
  ;; Abort on escape but leave current completion
- [escape]  '(company-abort)
+ [escape]  'company-abort
 
- "C-e"     '(company-complete-selection)
- "C-f"     '(company-complete-selection)
- "C-SPC"   '(company-complete-common)
- "TAB"     '(company-complete-common-or-cycle)
- [backtab] '(company-select-previous)
+ "C-e"     'company-complete-selection
+ "C-f"     'company-complete-selection
+ "C-SPC"   'company-complete-common
+ "TAB"     'company-complete-common-or-cycle
+ [backtab] 'company-select-previous
 
- "C-o"     '(company-search-kill-others)
- "C-n"     '(company-select-next)
- "C-p"     '(company-select-previous)
- "C-h"     '(company-quickhelp-manual-begin)
- "C-S-h"   '(company-show-doc-buffer)
- "C-S-s"   '(company-search-candidates)
- "C-s"     '(company-filter-candidates))
+ "C-o"     'company-search-kill-others
+ "C-n"     'company-select-next
+ "C-p"     'company-select-previous
+ "C-h"     'company-quickhelp-manual-begin
+ "C-S-h"   'company-show-doc-buffer
+ "C-S-s"   'company-search-candidates
+ "C-s"     'company-filter-candidates)
 (general-define-key
  :keymaps 'company-search-map
- "C-n"    '(company-search-repeat-forward)
- "C-p"    '(company-search-repeat-backward)
- "C-s"    '(company|search-abort-and-filter-candidates)
- [escape] '(company-search-abort))
+ "C-n"    'company-search-repeat-forward
+ "C-p"    'company-search-repeat-backward
+ "C-s"    'company|search-abort-and-filter-candidates
+ [escape] 'company-search-abort)
 
 ;; counsel
 (general-define-key
  :keymaps 'ivy-mode-map
- "C-o" '(ivy-dispatching-done))
+ "C-o" 'ivy-dispatching-done)
 (general-define-key
  :keymaps 'counsel-ag-map
- [backtab] '(ivy-wgrep-occur)
- "C-SPC" '(counsel-git-grep-recenter))
+ [backtab] 'ivy-wgrep-occur
+ "C-SPC" 'counsel-git-grep-recenter)
 
 ;; coverlay
 (general-define-key
  :keymaps 'coverlay-stats-mode-map
  :states 'normal
- "q" '(quit-window))
+ "q" 'quit-window)
 
 ;; diff-hl
 (general-define-key
  :keymaps 'motion
- "]d" '(diff-hl-next-hunk)
- "[d" '(diff-hl-previous-hunk))
+ "]d" 'diff-hl-next-hunk
+ "[d" 'diff-hl-previous-hunk)
 
 ;; dumb-jump
 (general-define-key
- "M-g o" '(dumb-jump-go-other-window)
- "M-g j" '(dumb-jump-go)
- "M-g i" '(dumb-jump-go-prompt)
- "M-g x" '(dumb-jump-go-prefer-external)
- "M-g z" '(dumb-jump-go-prefer-external-other-window))
+ "M-g o" 'dumb-jump-go-other-window
+ "M-g j" 'dumb-jump-go
+ "M-g i" 'dumb-jump-go-prompt
+ "M-g x" 'dumb-jump-go-prefer-external
+ "M-g z" 'dumb-jump-go-prefer-external-other-window)
 
 ;; evil-commentary
 (general-define-key
  :keymaps 'normal
- "gc" '(evil-commentary))
+ "gc" 'evil-commentary)
 
 ;; evil-exchange
 (general-define-key
  :keymaps 'normal
- "gx" '(evil-exchange))
+ "gx" 'evil-exchange)
 
 ;; evil-magit
 (general-define-key
  :keymaps '(magit-status-mode-map magit-revision-mode-map)
  :states 'normal
- "C-j" '(nil)
- "C-k" '(nil))
+ "C-j" '(:ignore t)
+ "C-k" '(:ignore t))
 
 ;; evil-surround
 (general-define-key
  :keymaps 'visual
- "S" '(evil-surround-region))
+ "S" 'evil-surround-region)
 (general-define-key
  :keymaps 'operator
- "s" '(evil-surround-edit)
- "S" '(evil-surround-edit))
+ "s" 'evil-surround-edit
+ "S" 'evil-surround-edit)
 
 ;; flycheck
 (general-define-key
  :keymaps 'motion
- "]e" '(next-error)
- "[e" '(previous-error))
+ "]e" 'next-error
+ "[e" 'previous-error)
 (general-define-key
  :keymaps 'flycheck-error-list-mode-map
  :states 'normal
- "C-n" '(flycheck-error-list-next-error)
- "C-p" '(flycheck-error-list-previous-error)
- "j"   '(flycheck-error-list-next-error)
- "k"   '(flycheck-error-list-previous-error)
- "RET" '(flycheck-error-list-goto-error)
- "q"   '(quit-window))
+ "C-n" 'flycheck-error-list-next-error
+ "C-p" 'flycheck-error-list-previous-error
+ "j"   'flycheck-error-list-next-error
+ "k"   'flycheck-error-list-previous-error
+ "RET" 'flycheck-error-list-goto-error
+ "q"   'quit-window)
 
 ;; flyspell
 (general-define-key
  :keymaps 'motion
- "]S" '(flyspell-correct-word-generic)
- "[S" '(flyspell-correct-previous-word-generic))
+ "]S" 'flyspell-correct-word-generic
+ "[S" 'flyspell-correct-previous-word-generic)
 
 ;; git-timemachine
 (general-define-key
  :keymaps 'git-timemachine-mode-map
  :states '(normal visual)
- "p" '(git-timemachine-show-previous-revision)
- "n" '(git-timemachine-show-next-revision)
- "g" '(git-timemachine-show-nth-revision)
- "q" '(git-timemachine-quit)
- "w" '(git-timemachine-kill-abbreviated-revision)
- "W" '(git-timemachine-kill-revision)
- "b" '(git-timemachine-blame))
+ "p" 'git-timemachine-show-previous-revision
+ "n" 'git-timemachine-show-next-revision
+ "g" 'git-timemachine-show-nth-revision
+ "q" 'git-timemachine-quit
+ "w" 'git-timemachine-kill-abbreviated-revision
+ "W" 'git-timemachine-kill-revision
+ "b" 'git-timemachine-blame)
 
 ;; hl-todo
 (general-define-key
  :keymaps 'motion
- "]t" '(hl-todo-next)
- "[t" '(hl-todo-previous))
+ "]t" 'hl-todo-next
+ "[t" 'hl-todo-previous)
 
 ;; ivy
 (general-define-key
  :keymaps 'ivy-minibuffer-map
- [escape] '(keyboard-escape-quit)
- "M-v"    '(yank)
- "M-z"    '(undo)
- "C-r"    '(evil-paste-from-register)
- "C-k"    '(ivy-previous-line)
- "C-j"    '(ivy-next-line)
- "C-l"    '(ivy-alt-done)
- "C-w"    '(ivy-backward-kill-word)
- "C-u"    '(ivy-kill-line)
- "C-b"    '(backward-word)
- "C-f"    '(forward-word))
+ [escape] 'keyboard-escape-quit
+ "M-v"    'yank
+ "M-z"    'undo
+ "C-r"    'evil-paste-from-register
+ "C-k"    'ivy-previous-line
+ "C-j"    'ivy-next-line
+ "C-l"    'ivy-alt-done
+ "C-w"    'ivy-backward-kill-word
+ "C-u"    'ivy-kill-line
+ "C-b"    'backward-word
+ "C-f"    'forward-word)
 
 ;; neotree
 (general-define-key
- "<left-margin> <mouse-1>" '(neotree|toggle)
- "<left-fringe> <mouse-1>" '(neotree|toggle))
+ "<left-margin> <mouse-1>" 'neotree|toggle
+ "<left-fringe> <mouse-1>" 'neotree|toggle)
 (general-define-key
  :keymaps 'neotree-mode-map
  :states 'normal
- "g"         '(nil)
- "TAB"       '(neotree-quick-look)
- "RET"       '(neotree-enter)
- "v"         '(neotree-enter-vertical-split)
- "s"         '(neotree-enter-horizontal-split)
+ "g"         '(:ignore t)
+ "TAB"       'neotree-quick-look
+ "RET"       'neotree-enter
+ "v"         'neotree-enter-vertical-split
+ "s"         'neotree-enter-horizontal-split
  ;; Navigation
- "j"         '(neotree-next-line)
- "k"         '(neotree-previous-line)
- "n"         '(neotree-next-line)
- "p"         '(neotree-previous-line)
- "J"         '(neotree-select-next-sibling-node)
- "K"         '(neotree-select-previous-sibling-node)
- "H"         '(neotree-select-up-node)
- "L"         '(neotree-select-down-node)
+ "j"         'neotree-next-line
+ "k"         'neotree-previous-line
+ "n"         'neotree-next-line
+ "p"         'neotree-previous-line
+ "J"         'neotree-select-next-sibling-node
+ "K"         'neotree-select-previous-sibling-node
+ "H"         'neotree-select-up-node
+ "L"         'neotree-select-down-node
  ;; Files
- "c"         '(neotree-create-node)
- "d"         '(neotree-delete-node)
- "r"         '(neotree-rename-node)
+ "c"         'neotree-create-node
+ "d"         'neotree-delete-node
+ "r"         'neotree-rename-node
  ;; Window
- [backspace] '(evil-window-prev)
- "q"         '(neotree-hide)
- "R"         '(neotree-refresh))
+ [backspace] 'evil-window-prev
+ "q"         'neotree-hide
+ "R"         'neotree-refresh)
 
 ;; realgud
 (general-define-key
  :keymaps 'realgud:shortkey-mode-map
  :states 'normal
- "j" '(evil-next-line)
- "k" '(evil-previous-line)
- "h" '(evil-backward-char)
- "l" '(evil-forward-char)
- "c" '(realgud:cmd-continue))
+ "j" 'evil-next-line
+ "k" 'evil-previous-line
+ "h" 'evil-backward-char
+ "l" 'evil-forward-char
+ "c" 'realgud:cmd-continue)
 (general-define-key
  :keymaps 'realgud:shortkey-mode-map
  :states 'motion
- "n" '(realgud:cmd-next)
- "b" '(realgud:cmd-break)
- "B" '(realgud:cmd-clear))
+ "n" 'realgud:cmd-next
+ "b" 'realgud:cmd-break
+ "B" 'realgud:cmd-clear)
 
 ;; rotate-text
 (general-define-key
  :keymaps 'normal
- "+" '(rotate-text)
- "-" '(rotate-text-backward))
+ "+" 'rotate-text
+ "-" 'rotate-text-backward)
 
 ;; smart-forward
 (general-define-key
  :keymaps 'motion
- "g]" '(smart-forward)
- "g[" '(smart-backward))
+ "g]" 'smart-forward
+ "g[" 'smart-backward)
 
 ;; undo-tree
 (general-define-key
  :keymaps 'visual
- "C-u" '(undo-tree-undo)
- "C-r" '(undo-tree-redo))
+ "C-u" 'undo-tree-undo
+ "C-r" 'undo-tree-redo)
 
 (provide 'bindings)
 ;;; bindings.el ends here

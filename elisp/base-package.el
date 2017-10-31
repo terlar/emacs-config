@@ -50,7 +50,7 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (setq package-activated-list nil)
 
     ;; Ensure folders exist
-    (dolist (dir (list my-cache-dir my-data-dir my-packages-dir))
+    (dolist (dir (list my-cache-dir my-data-dir my-packages-dir package-user-dir))
       (unless (file-directory-p dir)
         (make-directory dir t)))
 

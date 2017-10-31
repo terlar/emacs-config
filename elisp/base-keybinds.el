@@ -1,4 +1,4 @@
-;;; base-keybinds.el --- Key binding support
+;;; base-keybinds.el --- Key binding support -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; How to interact with Emacs.
@@ -19,10 +19,12 @@
 ;;;
 ;; Packages
 
-(use-package general :demand t
+(use-package general
   :commands
   (general-define-key
-   general-simulate-keys))
+   general-simulate-keys
+   use-package-normalize/:general
+   use-package-handler/:general))
 
 (use-package which-key :demand t
   :diminish which-key-mode
@@ -48,8 +50,8 @@
   (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
 
   (which-key-add-key-based-replacements
-    "C-c @" "outline"
-    "C-c p" "project")
+   "C-c @" "outline"
+   "C-c p" "project")
 
   ;; Embolden local bindings
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)
