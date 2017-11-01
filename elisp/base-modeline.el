@@ -72,18 +72,6 @@
 (use-package eldoc-eval :demand t
   :config (eldoc-in-minibuffer-mode +1))
 
-;; Display info about indentation current indentation settings
-(use-package indent-info-mode :ensure nil :pin manual :demand t
-  :load-path "vendor/indent-info-mode/"
-  :commands (indent-info-mode
-             global-indent-info-mode
-             toggle-tab-width-setting
-             toggle-indent-mode-setting)
-  :config
-  ;; Setup indent info padding
-  (setq indent-info-prefix nil
-        indent-info-suffix " ")
-  (global-indent-info-mode +1))
 
 ;; Show icons instead of mode names
 (use-package mode-icons
