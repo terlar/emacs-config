@@ -8,7 +8,7 @@
 (require 'base-keybinds)
 
 (eval `(general-define-key :keymaps '(normal visual)
-                           ,my-normal-leader-key (general-simulate-keys ,my-leader-key)))
+                           ,my-normal-leader-key (general-simulate-keys ,my-leader-key nil nil t)))
 
 ;;;
 ;; Remaps
