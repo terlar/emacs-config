@@ -10,6 +10,3 @@
 [submodule "vendor/source-peek"]
 	path = vendor/source-peek
 	url = https://github.com/iqbalansari/emacs-source-peek
-[submodule "vendor/indent-info"]
-	path = vendor/indent-info
-	url = https://github.com/terlar/indent-info.el
