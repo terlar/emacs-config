@@ -130,11 +130,9 @@
   :commands adaptive-wrap-prefix-mode)
 
 ;; Pretty icons
-(use-package all-the-icons
-  :when (window-system))
+(use-package all-the-icons)
 
 (use-package all-the-icons-dired
-  :when (window-system)
   :commands all-the-icons-dired-mode
   :init
   (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode))

@@ -64,7 +64,6 @@
 
 (use-package all-the-icons-ivy
   :after ivy
-  :when (window-system)
   :commands all-the-icons-ivy-setup
   :init
   (all-the-icons-ivy-setup))

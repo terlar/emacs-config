@@ -88,7 +88,6 @@
 
 ;; Show icons instead of mode names
 (use-package mode-icons
-  :when (window-system)
   :commands mode-icons-mode
   :init
   (setq mode-icons-desaturate-active t
