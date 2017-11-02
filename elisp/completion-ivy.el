@@ -52,7 +52,11 @@
 (use-package counsel
   :after ivy
   :config
-  (use-package counsel-projectile :demand t)
+  (use-package counsel-projectile
+    :after projectile
+    :commands counsel-projectile-on
+    :init
+    (counsel-projectile-on))
   (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"))
 
 ;; Used by `counsel-M-x'
