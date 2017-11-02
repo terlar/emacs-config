@@ -44,12 +44,14 @@
 ;; Leader
 (general-define-key
  :prefix my-leader-key
- "SPC" '(projectile-find-file :which-key "Find file in project")
- ","   '(switch-to-buffer     :which-key "Switch to buffer")
- "."   '(find-file            :which-key "Browse files")
- "RET" '(counsel-bookmark     :which-key "Jump to bookmark")
- "w"   '(:keymap evil-window-map :package evil :which-key "window")
- "x"   '(scratch-buffer       :which-key "Pop up scratch buffer")
+ "SPC" (general-predicate-dispatch #'projectile-switch-project
+         :docstring "Find file in project or switch project"
+         (projectile-project-p) #'projectile-find-file)
+ ","   '(switch-to-buffer                       :which-key "Switch to buffer")
+ "."   '(find-file                              :which-key "Browse files")
+ "RET" '(counsel-bookmark                       :which-key "Jump to bookmark")
+ "w"   '(:keymap evil-window-map :package evil  :which-key "window")
+ "x"   '(scratch-buffer                         :which-key "Pop up scratch buffer")
 
  "["   '(:ignore t :which-key "previous...")
  "[ b" '(previous-buffer                        :which-key "Buffer")

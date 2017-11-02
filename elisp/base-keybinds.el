@@ -23,6 +23,7 @@
   :commands
   (general-define-key
    general-simulate-keys
+   general-predicate-dispatch
    use-package-normalize/:general
    use-package-handler/:general))
 
@@ -37,6 +38,11 @@
         which-key-min-display-lines 5
         which-key-idle-delay 0.5)
 
+  (which-key-add-key-based-replacements
+    "C-c !"   "flycheck"
+    "C-c @"   "outline"
+    "C-c p"   "project")
+
   (push '(("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil)) which-key-replacement-alist)
   (push '(("\\`\\?\\?\\'" . nil) . ("λ" . nil)) which-key-replacement-alist)
   (push '(("<up>"    . nil) . ("↑" . nil)) which-key-replacement-alist)
@@ -48,11 +54,6 @@
   (push '(("RET" . nil) . ("⏎" . nil)) which-key-replacement-alist)
   (push '(("DEL" . nil) . ("⌫" . nil)) which-key-replacement-alist)
   (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
-
-  (which-key-add-key-based-replacements
-    "C-c !" "flycheck"
-    "C-c @" "outline"
-    "C-c p" "project")
 
   ;; Embolden local bindings
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)

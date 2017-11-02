@@ -4,7 +4,11 @@
 ;; Project management.
 
 ;;; Code:
+
 (require 'base-vars)
+
+;;;
+;; Packages
 
 (use-package projectile :demand t
   :diminish projectile-mode
@@ -46,18 +50,22 @@
 
 ;;;
 ;; Buffer filtering
+
+;;;###autoload
 (defun is-useful-buffer (buffer)
   "Determine if BUFFER is useful."
   (not (string-match
         "^ ?\\*.*\\*\\(<[0-9]+>\\)?$"
         (buffer-name buffer))))
 
+;;;###autoload
 (defun is-current-persp-buffer (buffer)
   "Determine if BUFFER belongs to current persp."
   (if (fboundp 'persp-buffer-list)
       (memq buffer (persp-buffer-list))
     t))
 
+;;;###autoload
 (defun is-visible-buffer (buffer)
   "Determine if BUFFER should be visible."
   (and (is-useful-buffer buffer) (is-current-persp-buffer buffer)))
