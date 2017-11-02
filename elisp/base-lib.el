@@ -140,5 +140,10 @@ If a region is active, copy it into the scratch buffer."
   (interactive)
   (set-face-attribute 'default nil :height my-default-font-height))
 
+(defun refresh ()
+  "Refresh buffer."
+  (interactive)
+  (font-lock-flush))
+
 (provide 'base-lib)
 ;;; base-lib.el ends here
