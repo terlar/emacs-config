@@ -162,7 +162,7 @@
 
  "~" '(:ignore t :which-key "toggle")
  "~ a" '(goto-address-mode           :which-key "Clickable links")
- "~ c" '(rainbow-identifiers-mode    :which-key "Colorize identifiers")
+ "~ c" '(color-identifiers-toggle    :which-key "Colorize identifiers")
  "~ C" '(rainbow-mode                :which-key "Colorize color values")
  "~ d" '(toggle-debug-on-error       :which-key "Debug on error")
  "~ e" '(eldoc-overlay-mode          :which-key "Eldoc inline")

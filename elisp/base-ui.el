@@ -149,6 +149,15 @@
   (setq cwm-centered-window-width 120))
 
 ;; Highlight source code identifiers based on their name
+(defun color-identifiers-toggle ()
+  "Toggle identifier colorization."
+  (interactive)
+  (if (or (bound-and-true-p color-identifiers-mode) (bound-and-true-p rainbow-identifiers-mode))
+      (progn
+        (color-identifiers-mode -1)
+        (rainbow-identifiers-mode -1))
+    (rainbow-identifiers-mode +1)))
+
 (use-package color-identifiers-mode
   :diminish color-identifiers-mode
   :commands (color-identifiers-mode global-color-identifiers-mode)
