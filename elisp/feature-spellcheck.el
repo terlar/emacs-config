@@ -8,6 +8,7 @@
 (require 'base-keybinds)
 
 (use-package flyspell ; builtin
+  :diminish flyspell-mode
   :commands flyspell-mode
   :general
   (:keymaps 'flyspell-mode-map

@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-lib)
 (require 'base-keybinds)
 
 ;;;
@@ -12,12 +13,15 @@
 
 (defvar my-mode-line-right-format
   (list
+   '(:eval flycheck-mode-line)
+   "  "
    '(:eval mode-line-position)
    '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
 
-(defvar my-mode-line-right-padding 0
-  "The padding on the rightmost side of mode line.")
+(defvar my-mode-line-fill
+  (propertize " " 'display `((space :width 3)))
+  "The mode line fill space.")
 
 (defvar my-mode-line-bar-string " "
   "The string to use for the mode line bar.")
@@ -45,7 +49,7 @@
                                       (anzu--format-here-position here total)
                                       total (if anzu--overflow-p "+" "")))
                       (replace-query (format "(%d replace)" total))
-                      (replace (format " (%d/%d) " here total))))
+                      (replace (format "(%d/%d)" here total))))
             (face (if (and (zerop total) (not (string= isearch-string "")))
                       'anzu-mode-line-no-match
                     'anzu-mode-line)))
@@ -68,9 +72,14 @@
 
 (use-package evil-anzu :after evil)
 
+(use-package mode-icons
+  :commands mode-icons-mode
+  :init (add-graphic-hook (mode-icons-mode +1)))
+
 ;; Enable eldoc support when minibuffer is in use
-(use-package eldoc-eval :demand t
-  :config (eldoc-in-minibuffer-mode +1))
+(use-package eldoc-eval
+  :commands eldoc-in-minibuffer-mode
+  :init (eldoc-in-minibuffer-mode +1))
 
 ;; Display info about indentation current indentation settings
 (use-package indent-info
@@ -79,22 +88,9 @@
              indent-info-toggle-indent-mode
              indent-info-cycle-tab-width-increase
              indent-info-cycle-tab-width-decrease)
-  :init
-  (global-indent-info-mode +1)
-  :config
-  ;; Setup indent info padding
-  (setq indent-info-prefix nil
-        indent-info-suffix " "))
-
-;; Show icons instead of mode names
-(use-package mode-icons
-  :commands mode-icons-mode
-  :init
-  (setq mode-icons-desaturate-active t
-        mode-icons-desaturate-inactive t)
-
-  (add-hook 'after-make-frame-functions #'mode-icons-mode)
-  (add-hook 'after-init-hook #'mode-icons-mode))
+  :init (global-indent-info-mode +1)
+  :config (setq indent-info-prefix nil
+                indent-info-suffix " "))
 
 ;;;
 ;; Configuration
@@ -104,19 +100,6 @@
 ;; Show column and line number
 (column-number-mode +1)
 (line-number-mode +1)
-
-;; Hidden modes
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (diminish 'abbrev-mode)
-              (diminish 'auto-revert-mode)
-              (diminish 'eldoc-mode)))
-
-;; Icon modes
-(with-eval-after-load "mode-icons"
-  (push '("=>" #xf03c FontAwesome) mode-icons)
-  (push '("Fill" #xf039 FontAwesome) mode-icons)
-  (push '("ws" #xf06e FontAwesome) mode-icons))
 
 ;; Evil state indicator
 (autoload 'evil-state-property "evil-common")
@@ -137,16 +120,12 @@
   (defalias 'evil-generate-mode-line-tag #'my|mode-line-bar-evil-state))
 
 ;; Right aligned mode line support
-(defun my|mode-line-fill-right (reserve)
-  "Return empty space leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (propertize " "
-              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
-
-(defun my|mode-line-right-reserve ()
-  "Reserve space needed for `my-mode-line-right-format'."
-  (+ my-mode-line-right-padding (length (format-mode-line my-mode-line-right-format))))
+(defun my|mode-line-fill-right (right)
+  "Return empty space between LEFT and RIGHT mode line."
+  (let* ((available-width (- (window-total-width) (string-width right))))
+    (propertize " "
+                'display `((space
+                            :align-to ,available-width)))))
 
 (delete 'mode-line-mule-info mode-line-format)
 (delete 'mode-line-position mode-line-format)
@@ -154,7 +133,7 @@
               (append
                mode-line-format
                (list
-                '(:eval (my|mode-line-fill-right (my|mode-line-right-reserve)))
+                my-mode-line-fill
                 my-mode-line-right-format)))
 
 (eval-when-compile

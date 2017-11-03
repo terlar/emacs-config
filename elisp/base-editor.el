@@ -51,6 +51,7 @@
 
 ;; Revert buffers for changed files
 (require 'autorevert)
+(diminish 'auto-revert-mode)
 (setq auto-revert-verbose nil)
 (global-auto-revert-mode +1)
 
@@ -150,10 +151,12 @@
 ;; Packages
 
 ;; Automatic indentation as you type
-(use-package aggressive-indent :demand t
+(use-package aggressive-indent
+  :diminish aggressive-indent-mode
   :commands (aggressive-indent-mode global-aggressive-indent-mode)
-  :config
+  :init
   (global-aggressive-indent-mode +1)
+  :config
   ;; Disabled modes
   (dolist (mode '(diff-auto-refine-mode))
     (push mode aggressive-indent-excluded-modes))

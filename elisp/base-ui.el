@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-lib)
 
 ;;;
 ;; Settings
@@ -63,19 +64,15 @@
 ;; Tooltips in echo area
 (tooltip-mode -1)
 
-(defun my|minibuffer-disable-fringes ()
-  "No fringes in minibuffer."
-  (set-window-fringes (minibuffer-window) 0 0 nil))
+(add-graphic-hook
+ (scroll-bar-mode -1)
+ (tool-bar-mode -1)
 
-(when (window-system)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-  ;; Standardize fringe width
-  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
-  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
-
-  (add-hooks-pair '(emacs-startup minibuffer-setup)
-                  'my|minibuffer-disable-fringes))
+ ;; Standardize fringe width
+ (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
+ (push (cons 'right-fringe my-fringe-width) default-frame-alist)
+ (add-hooks-pair '(emacs-startup minibuffer-setup)
+                 '(lambda () (set-window-fringes (minibuffer-window) 0 0 nil))))
 
 ;; Undo/redo changes to window layout
 (defvar winner-dont-bind-my-keys t)
@@ -121,6 +118,9 @@
 ;; Visual mode for browser
 (add-hooks-pair 'eww-mode 'buffer-face-mode)
 
+;; Documenation
+(diminish 'eldoc-mode)
+
 ;;;
 ;; Packages
 
@@ -134,17 +134,14 @@
 
 (use-package all-the-icons-dired
   :commands all-the-icons-dired-mode
-  :init
-  (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode))
+  :init (add-graphic-hook (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
 
 ;; Centered window mode
 (use-package centered-window-mode
+  :diminish centered-window-mode
   :commands centered-window-mode
-  :init
-  (add-hooks-pair '(text-mode prog-mode help-mode)
-                  'centered-window-mode)
-  :config
-  (setq cwm-centered-window-width 120))
+  :init (add-hooks-pair '(text-mode prog-mode help-mode) 'centered-window-mode)
+  :config (setq cwm-centered-window-width 120))
 
 ;; Highlight source code identifiers based on their name
 (defun color-identifiers-toggle ()
@@ -192,6 +189,7 @@
 
 ;; Code folding (builtin)
 (use-package hideshow
+  :diminish hs-minor-mode
   :commands hs-minor-mode
   :init
   (add-hooks-pair 'prog-mode 'hs-minor-mode)

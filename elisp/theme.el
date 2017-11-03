@@ -15,8 +15,10 @@
 ;;;
 ;; Theme
 (use-package tao-theme :demand t
+  :commands tao-with-color-variables
   :config
   (setq tao-theme-use-height t))
+
 (use-package punpun-theme)
 (use-package eziam-theme)
 (use-package flatui-theme)
@@ -25,6 +27,22 @@
 (use-package twilight-bright-theme)
 
 (load-theme my-theme t)
+
+(if (eq my-theme 'tao-yang)
+    (tao-with-color-variables
+      tao-theme-yang-palette
+      (set-face-attribute 'mode-line nil
+                          :family my-variable-pitch-font
+                          :background color-6
+                          :foreground color-11
+                          :box `(:line-width 6 :color ,color-6))
+      (set-face-attribute 'mode-line-inactive nil
+                          :family my-variable-pitch-font
+                          :background color-3
+                          :foreground color-8
+                          :box `(:line-width 6 :color ,color-3))))
+
+(set-face-foreground 'mode-line-buffer-id nil)
 
 ;;;
 ;; Typography
@@ -36,11 +54,6 @@
 
 ;;;
 ;; Colors
-(defvar theme-color-mode-line "#697D8A"
-  "Color used for active mode line.")
-(defvar theme-color-mode-line-inactive "#889BA7"
-  "Color used for inactive mode line.")
-
 (defvar theme-color-error "tomato"
   "Color used to indicate error.")
 (defvar theme-color-success "sea green"
@@ -62,7 +75,7 @@
 
 (defface my-folded-face
   `((((background dark))
-     (:inherit font-lock-comment-face :background "black"))
+     (:inherit font-lock-comment-face :background ,theme-color-highlight))
     (((background light))
      (:inherit font-lock-comment-face :background ,theme-color-lighter)))
   "Face to hightlight `hideshow' overlays."
@@ -79,14 +92,6 @@
                     :weight 'bold)
 
 ;; Mode line
-(set-face-attribute 'mode-line nil
-                    :family my-variable-pitch-font
-                    :background theme-color-mode-line
-                    :box `(:line-width 6 :color ,theme-color-mode-line))
-(set-face-attribute 'mode-line-inactive nil
-                    :family my-variable-pitch-font
-                    :background theme-color-mode-line-inactive
-                    :box `(:line-width 6 :color ,theme-color-mode-line-inactive))
 
 ;; Plugins
 (with-eval-after-load "anzu"
@@ -180,6 +185,7 @@ They get reset each time you select the neotree pane and are highlighted incorre
 
 (with-eval-after-load "web-mode"
   (set-face-attribute 'web-mode-current-element-highlight-face nil
+                      :foreground nil
                       :background nil
                       :weight 'bold))
 

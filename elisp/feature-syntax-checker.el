@@ -8,7 +8,10 @@
 (autoload 'pkg-info-version-info "pkg-info")
 
 (use-package flycheck
-  :commands (flycheck-mode flycheck-list-errors flycheck-buffer)
+  :diminish flycheck-mode
+  :commands (flycheck-mode
+             flycheck-list-errors flycheck-buffer
+             flycheck-add-next-checker)
   :init
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   :config

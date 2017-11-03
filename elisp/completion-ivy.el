@@ -5,6 +5,7 @@
 
 ;;; Code:
 (require 'base-vars)
+(require 'base-lib)
 (require 'base-keybinds)
 
 ;;;
@@ -70,7 +71,7 @@
   :after ivy
   :commands all-the-icons-ivy-setup
   :init
-  (all-the-icons-ivy-setup))
+  (add-graphic-hook (all-the-icons-ivy-setup)))
 
 ;;;
 ;; Autoloads

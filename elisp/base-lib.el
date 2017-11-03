@@ -53,6 +53,18 @@
                (save-silently t))
        ,@forms)))
 
+(defmacro add-graphic-hook (&rest forms)
+  "Add FORMS as a graphical hook."
+  `(if (daemonp)
+       (add-hook 'after-make-frame-functions
+                 (lambda (frame)
+                   (with-selected-frame frame
+                     (progn ,@forms))))
+     (when (display-graphic-p)
+       (add-hook 'after-init-hook
+                 (lambda ()
+                   (progn ,@forms))))))
+
 (defun push-company-backends (mode backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."
   (let ((backends (if (listp backends) backends (list backends)))
