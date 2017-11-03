@@ -52,7 +52,12 @@
  ","   '(switch-to-buffer                       :wk "Switch to buffer")
  "."   '(find-file                              :wk "Browse files")
  "RET" '(counsel-bookmark                       :wk "Jump to bookmark")
- "w"   '(:keymap evil-window-map :package evil  :wk "window")
+ "v"   '(:keymap
+         symbol-overlay-map
+         :package symbol-overlay :wk "overlays")
+ "w"   '(:keymap
+         evil-window-map
+         :package evil :wk "window")
  "x"   '(scratch-buffer                         :wk "Pop up scratch buffer")
 
  "["   '(:ignore t :wk "previous...")
@@ -522,6 +527,12 @@
  :keymaps 'motion
  "g]" 'smart-forward
  "g[" 'smart-backward)
+
+;; symbol-overlay
+(general-define-key
+ :keymaps 'symbol-overlay-map
+ [escape] 'symbol-overlay-remove-all
+ "C-g"    'symbol-overlay-remove-all)
 
 ;; undo-tree
 (general-define-key

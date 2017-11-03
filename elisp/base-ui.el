@@ -169,6 +169,14 @@
   (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face
         rainbow-identifiers-cie-l*a*b*-saturation 65
         rainbow-identifiers-cie-l*a*b*-lightness 45))
+(use-package symbol-overlay
+  :diminish symbol-overlay-mode
+  :commands
+  (symbol-overlay-mode
+   symbol-overlay-put
+   symbol-overlay-switch-backward symbol-overlay-switch-forward)
+  :init
+  (add-hooks-pair 'prog-mode 'symbol-overlay-mode))
 
 ;; Dynamically change the default text scale
 (use-package default-text-scale
