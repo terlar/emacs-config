@@ -54,18 +54,19 @@
 (use-package counsel
   :after ivy
   :config
+  (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+
   (use-package counsel-projectile
     :after projectile
     :commands counsel-projectile-on
-    :init
-    (counsel-projectile-on))
-  (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"))
+    :init (counsel-projectile-on)))
 
 ;; Used by `counsel-M-x'
 (use-package smex
   :commands (smex smex-major-mode-commands)
   :config
-  (setq smex-save-file (concat my-cache-dir "/smex-items"))
+  (setq smex-auto-update nil
+        smex-save-file (concat my-cache-dir "/smex-items"))
   (smex-initialize))
 
 (use-package all-the-icons-ivy
