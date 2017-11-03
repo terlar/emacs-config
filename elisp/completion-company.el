@@ -4,11 +4,15 @@
 ;; Modular in-buffer completion framework.
 
 ;;; Code:
+
 (eval-when-compile
   (require 'base-vars)
   (require 'base-lib))
 
 (autoload 'push-company-backends "base-lib")
+
+;;;
+;; Packages
 
 (use-package company
   :diminish company-mode
@@ -77,12 +81,21 @@
           company-preview-frontend
           company-quickhelp-frontend)
         company-backends
-        '(company-capf
-          company-files
-          (company-dabbrev-code company-gtags company-etags company-keywords)
-          company-dabbrev)
+        '((company-files
+           company-keywords
+           company-capf
+           company-yasnippet)
+          (company-abbrev company-dabbrev)
+          company-ispell)
         company-transformers '(company-sort-by-occurrence)))
 
+(use-package company-try-hard
+  :after company
+  :commands company-try-hard
+  :bind ("C-\\" . company-try-hard)
+  :config
+  (bind-keys :map company-active-map
+             ("C-\\" . company-try-hard)))
 
 (use-package company-statistics
   :after company
@@ -108,6 +121,7 @@
 
 ;;;
 ;; Autoloads
+
 (autoload 'company-capf "company-capf")
 (autoload 'company-yasnippet "company-yasnippet")
 (autoload 'company-dabbrev "company-dabbrev")

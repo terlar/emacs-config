@@ -8,8 +8,6 @@
 (eval-when-compile
   (require 'base-vars))
 
-(autoload 'push-company-backends "base-lib")
-
 (use-package lsp-mode
   :preface
   (eval-when-compile
@@ -29,9 +27,6 @@
   :preface
   (eval-when-compile
     (defvar company-lsp-async))
-  :init
-  (with-eval-after-load "company"
-    (push-company-backends 'lsp-mode 'company-lsp))
   :config
   (setq company-lsp-async t))
 

@@ -10,11 +10,6 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-keybinds))
-
-(autoload 'push-company-backends "base-lib")
-
 ;;;
 ;; Packages
 
@@ -22,23 +17,8 @@
   :mode "\\.tsx?$"
   :init
   (add-hooks-pair 'typescript-mode
-                  '(eldoc-mode
-                    flycheck-mode
-                    rainbow-delimiters-mode
+                  '(rainbow-delimiters-mode
                     rainbow-identifiers-mode)))
-
-(use-package tide
-  :after typescript-mode
-  :general
-  (:keymaps 'typescript-mode-map :states 'normal
-            "K"  'tide-documentation-at-point
-            "gd" 'tide-jump-to-definition
-            "gD" 'tide-references)
-  :init
-  (add-hooks-pair 'typescript-mode 'tide-setup)
-  :config
-  (with-eval-after-load "company"
-    (push-company-backends 'typescript-mode '(company-tide))))
 
 (provide 'lang-typescript)
 ;;; lang-typescript.el ends here
