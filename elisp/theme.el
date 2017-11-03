@@ -46,6 +46,7 @@
                           :box `(:line-width 6 :color ,color-3))))
 
 (set-face-foreground 'mode-line-buffer-id nil)
+(set-face-attribute 'header-line-highlight nil :inherit 'mode-line-highlight)
 
 ;;;
 ;; Typography
