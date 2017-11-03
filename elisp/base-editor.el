@@ -27,7 +27,7 @@
  hscroll-margin 1
  hscroll-step 1
  scroll-conservatively 1001
- scroll-margin 0
+ scroll-margin 4
  scroll-preserve-screen-position t
  ;; White-space
  indent-tabs-mode nil
