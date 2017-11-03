@@ -1,11 +1,15 @@
-;;; tool-neotree.el --- Tree navigation
+;;; tool-neotree.el --- Tree navigation -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Show your files in a tree view.
 
 ;;; Code:
+
 (eval-when-compile
   (autoload 'projectile-project-root "projectile"))
+
+;;;
+;; Packages
 
 (use-package neotree
   :commands (neotree-show
@@ -50,6 +54,9 @@
 
   (when (bound-and-true-p winner-mode)
     (push neo-buffer-name winner-boring-buffers)))
+
+;;;
+;; Autoloads
 
 ;;;###autoload
 (defun neotree|toggle ()

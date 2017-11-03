@@ -1,4 +1,4 @@
-;;; lang-python.el --- Python
+;;; lang-python.el --- Python -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Python is a widely used high-level programming language for general-purpose
@@ -11,15 +11,17 @@
 ;; enable writing clear programs on both a small and large scale.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
-(require 'base-keybinds)
 
 (eval-when-compile
-  (defvar shackle-rules)
+  (require 'base-vars)
+  (require 'base-keybinds)
 
-  (autoload 'sp-local-pair "smartparens")
-  (autoload 'sp-with-modes "smartparens"))
+  (defvar shackle-rules))
+
+(autoload 'sp-local-pair "smartparens")
+(autoload 'sp-with-modes "smartparens")
+
+(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages

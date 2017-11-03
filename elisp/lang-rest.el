@@ -1,4 +1,4 @@
-;;; lang-rest.el --- HTTP REST client
+;;; lang-rest.el --- HTTP REST client -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This is a tool to manually explore and test HTTP REST webservices. Runs
@@ -6,8 +6,11 @@
 ;; XML, JSON and even images.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-keybinds))
+
+(autoload 'push-company-backends "base-lib")
 
 ;;;
 ;; Packages

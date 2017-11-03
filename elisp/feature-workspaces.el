@@ -1,13 +1,16 @@
-;;; feature-workspaces.el --- Workspaces
+;;; feature-workspaces.el --- Workspaces -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Your very own workspace.
 
 ;;; Code:
-(require 'base-vars)
+
+(eval-when-compile
+  (require 'base-vars))
 
 ;;;
 ;; Packages
+
 (use-package persp-mode :demand t
   :commands (persp-mode persp-switch)
   :init

@@ -1,11 +1,15 @@
-;;; feature-syntax-checker.el --- Syntax checking
+;;; feature-syntax-checker.el --- Syntax checking -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Catching your errors.
 
 ;;; Code:
+
 ;; pkg-info doesn't get autoloaded when `flycheck-version' needs it.
 (autoload 'pkg-info-version-info "pkg-info")
+
+;;;
+;; Packages
 
 (use-package flycheck
   :diminish flycheck-mode

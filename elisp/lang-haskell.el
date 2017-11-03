@@ -1,4 +1,4 @@
-;;; lang-haskell.el --- Haskell
+;;; lang-haskell.el --- Haskell -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Haskell is a standardized, general-purpose purely functional programming
@@ -7,8 +7,12 @@
 ;; As of May 2016, a group is working on the next version, Haskell 2020.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-keybinds))
+
+(autoload 'push-company-backends "base-lib")
+(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages

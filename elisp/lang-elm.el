@@ -1,4 +1,4 @@
-;;; lang-elm.el --- Elm
+;;; lang-elm.el --- Elm -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Elm is a domain-specific programming language for declaratively creating web
@@ -8,7 +8,11 @@
 ;; compiler's static type checking.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
+
+;;;
+;; Packages
 
 (use-package elm-mode :mode ("\\.elm$")
   :commands elm-mode

@@ -1,4 +1,4 @@
-;;; lang-opengl.el --- OpenGL
+;;; lang-opengl.el --- OpenGL -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Open Graphics Library (OpenGL) is a cross-language, cross-platform

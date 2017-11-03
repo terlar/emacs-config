@@ -1,13 +1,15 @@
-;;; feature-evil.el --- Extensible vi layer
+;;; feature-evil.el --- Extensible vi layer -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; The way of the vi!
 
 ;;; Code:
-(require 'base-keybinds)
 
 (eval-when-compile
+  (require 'base-keybinds)
+
   (require 'cl)
+
   (defvar buffer-face-mode))
 
 (defvar-local evil-pre-insert-state-variable-pitch-mode

@@ -1,11 +1,15 @@
-;;; lang-erlang.el --- Erlang
+;;; lang-erlang.el --- Erlang -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Erlang is a general-purpose, concurrent, functional programming language, as
 ;; well as a garbage-collected runtime system.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
+
+;;;
+;; Packages
 
 (use-package erlang
   :init

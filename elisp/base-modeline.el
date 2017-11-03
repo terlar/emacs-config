@@ -1,12 +1,14 @@
-;;; base-modeline.el --- Status bar
+;;; base-modeline.el --- Status bar -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Master of the state
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Variables

@@ -1,13 +1,15 @@
-;;; lang-conf.el --- Configuration formats/management
+;;; lang-conf.el --- Configuration formats/management -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Configuration, config, conf...
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
 
 ;;;
 ;; Packages
+
 (use-package nginx-mode
   :mode "/conf/.*\\.conf$")
 

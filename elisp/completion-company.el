@@ -4,22 +4,23 @@
 ;; Modular in-buffer completion framework.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-lib))
+
+(autoload 'push-company-backends "base-lib")
 
 (use-package company
   :diminish company-mode
-  :commands
-  (company-mode global-company-mode
-   company-begin-backend
-   company-grab-line
-   company-complete-common-or-cycle
-   company-select-previous-or-abort
-   company-search-abort
-   company-filter-candidates)
+  :commands (company-mode
+             global-company-mode
+             company-begin-backend
+             company-grab-line
+             company-complete-common-or-cycle
+             company-select-previous-or-abort
+             company-search-abort
+             company-filter-candidates)
   :preface
-  (autoload 'company-tng-frontend "company-tng" nil t)
-
   (defvar-local company--indent-guide-mode-on-p nil)
   (defvar-local company--whitespace-mode-on-p nil)
 
@@ -49,6 +50,8 @@
       (setq company--whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode -1))))
   :init
+  (autoload 'company-tng-frontend "company-tng" nil t)
+
   (add-hooks-pair 'after-init
                   '(global-company-mode
                     company|add-disable-indent-guides-hooks

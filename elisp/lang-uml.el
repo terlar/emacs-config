@@ -1,4 +1,4 @@
-;;; lang-uml.el --- UML Schemas
+;;; lang-uml.el --- UML Schemas -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; The Unified Modeling Language (UML) is a general-purpose, developmental,
@@ -6,6 +6,10 @@
 ;; provide a standard way to visualize the design of a system.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package plantuml-mode
   :mode "\\.p\\(lant\\)?uml\\'"
   :init

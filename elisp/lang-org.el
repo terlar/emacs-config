@@ -1,4 +1,4 @@
-;;; lang-org.el --- Org mode
+;;; lang-org.el --- Org mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Org mode is for keeping notes, maintaining TODO lists, planning projects, and

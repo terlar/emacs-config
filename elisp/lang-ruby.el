@@ -1,4 +1,4 @@
-;;; lang-ruby.el --- Ruby
+;;; lang-ruby.el --- Ruby -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Ruby is a dynamic, reflective, object-oriented, general-purpose programming
@@ -6,9 +6,13 @@
 ;; Yukihiro "Matz" Matsumoto in Japan.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-keybinds))
+
+(autoload 'push-company-backends "base-lib")
+(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages

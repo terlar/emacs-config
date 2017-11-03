@@ -1,4 +1,4 @@
-;;; feature-version-control.el --- Version Control
+;;; feature-version-control.el --- Version Control -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Tracking your changes.
@@ -7,10 +7,12 @@
 
 ;;;
 ;; Settings
+
 (setq vc-make-backup-files nil)
 
 ;;;
 ;; Packages
+
 (use-package gitconfig-mode
   :mode "/\\.?git/?config$"
   :mode "/\\.gitmodules$")

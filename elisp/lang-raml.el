@@ -1,4 +1,4 @@
-;;; lang-raml.el --- RESTful API Modeling Language
+;;; lang-raml.el --- RESTful API Modeling Language -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; RAML is a YAML-based language for describing RESTful APIs.[2] It provides
@@ -9,6 +9,10 @@
 ;; and pattern-sharing and aims for merit-based emergence of best practices.
 
 ;;; Code:
+
+;;;
+;; Package
+
 (use-package raml-mode :ensure nil :pin manual
   :load-path "vendor/raml-mode/"
   :mode "\\.raml$"

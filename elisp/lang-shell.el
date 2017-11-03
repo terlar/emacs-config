@@ -1,11 +1,16 @@
-;;; lang-shell.el --- Shell scripting
+;;; lang-shell.el --- Shell scripting -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; A shell script is a computer program designed to be run by the Unix shell, a
 ;; command-line interpreter.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
+(autoload 'push-repl-command "base-lib")
+
+;;;
+;; Packages
 
 (use-package bats-mode
   :commands bats-mode

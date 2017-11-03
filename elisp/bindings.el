@@ -1,11 +1,13 @@
-;;; bindings.el --- My key bindings
+;;; bindings.el --- My key bindings -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; My key binding setup.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-keybinds))
 
 (eval `(general-define-key :keymaps '(normal visual)
                            ,my-normal-leader-key (general-simulate-keys ,my-leader-key nil nil t)))

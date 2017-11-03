@@ -1,18 +1,18 @@
-;;; lang-javascript.el --- JavaScript
+;;; lang-javascript.el --- JavaScript -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; JavaScript, often abbreviated as "JS", is a high-level, dynamic, untyped,
 ;; object-based, multi-paradigm, and interpreted programming language.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
 
 (eval-when-compile
-  (autoload 'sp-local-pair "smartparens")
-  (autoload 'sp-with-modes "smartparens")
+  (require 'base-keybinds)
 
-  (defvar flycheck-disabled-checkers))
+  (defvar flycheck-disabled-checkers)
+  (defvar editorconfig-indentation-alist))
+
+(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages

@@ -1,10 +1,12 @@
-;;; feature-jump.el --- Jump to definition
+;;; feature-jump.el --- Jump to definition -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Go to the source.
 
 ;;; Code:
-(require 'base-vars)
+
+(eval-when-compile
+  (require 'base-vars))
 
 ;; Recenter after certain jumps
 (add-hooks-pair '(imenu-after-jump
@@ -12,6 +14,9 @@
                   counsel-grep-post-action
                   dumb-jump-after-jump)
                 'recenter)
+
+;;;
+;; Packages
 
 (use-package dumb-jump
   :commands (dumb-jump-go dumb-jump-quick-look dumb-jump-back)

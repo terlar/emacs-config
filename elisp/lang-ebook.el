@@ -1,11 +1,16 @@
-;;; lang-ebook.el --- E-book file formats
+;;; lang-ebook.el --- E-book file formats -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Support for ePUB and PDF.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-keybinds))
+
+;;;
+;; Packages
 
 (use-package nov :mode ("\\.epub$" . nov-mode)
   :general

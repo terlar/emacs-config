@@ -1,9 +1,13 @@
-;;; feature-preview.el --- Preview
+;;; feature-preview.el --- Preview -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; WYSIWYG
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package impatient-mode
   :commands impatient-mode
   :preface

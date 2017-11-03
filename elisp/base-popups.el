@@ -1,9 +1,13 @@
-;;; base-popups.el --- Popups configuration
+;;; base-popups.el --- Popups configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Pop, pop, pop.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package shackle :demand t
   :commands (shackle-mode shackle-display-buffer)
   :preface

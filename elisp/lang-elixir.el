@@ -1,10 +1,14 @@
-;;; lang-elixir.el --- Elixir
+;;; lang-elixir.el --- Elixir -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Elixir is a functional, concurrent, general-purpose programming language that
 ;; runs on the Erlang virtual machine (BEAM).
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package elixir-mode :mode ("\\.ex$")
   :config
   (add-hooks-pair 'elixir-mode 'turn-off-smartparens-mode))

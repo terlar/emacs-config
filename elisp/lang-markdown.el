@@ -1,11 +1,11 @@
-;;; lang-markdown.el --- Markdown
+;;; lang-markdown.el --- Markdown -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Markdown is a lightweight markup language with plain text formatting syntax.
 
 ;;; Code:
-(eval-when-compile
-  (autoload 'sp-local-pair "smartparens"))
+
+(autoload 'sp-local-pair "smartparens")
 
 ;;;
 ;; Packages

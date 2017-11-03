@@ -1,11 +1,12 @@
-;;; base-projects.el --- Project configuration
+;;; base-projects.el --- Project configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Project management.
 
 ;;; Code:
 
-(require 'base-vars)
+(eval-when-compile
+  (require 'base-vars))
 
 ;;;
 ;; Packages

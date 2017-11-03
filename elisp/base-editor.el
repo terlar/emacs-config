@@ -1,14 +1,17 @@
-;;; base-editor.el --- Editor configuration
+;;; base-editor.el --- Editor configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Defining the behavior of things.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-lib))
 
 ;;;
 ;; Settings
+
 (setq-default
  vc-follow-symlinks t
  ;; Save clipboard contents into kill-ring before replacing them

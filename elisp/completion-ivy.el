@@ -1,12 +1,13 @@
-;;; completion-ivy.el --- Completion system
+;;; completion-ivy.el --- Completion system -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Completing all your things.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
-(require 'base-keybinds)
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages

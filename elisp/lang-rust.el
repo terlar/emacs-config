@@ -1,12 +1,13 @@
-;;; lang-rust.el --- Rust
+;;; lang-rust.el --- Rust -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Rust is a systems programming language that runs blazingly fast, prevents
 ;; segfaults, and guarantees thread safety.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages

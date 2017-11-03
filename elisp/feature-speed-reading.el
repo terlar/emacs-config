@@ -1,9 +1,13 @@
-;;; feature-speed-reading.el --- Speed reading
+;;; feature-speed-reading.el --- Speed reading -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Reading on steroids.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package spray :demand t
   :commands my|start-spray
   :preface

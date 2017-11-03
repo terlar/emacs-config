@@ -1,18 +1,21 @@
-;;; feature-eval.el --- Code evaluation and REPL
+;;; feature-eval.el --- Code evaluation and REPL -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Evaluation.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-vars)
+
+(eval-when-compile
+  (require 'base-vars)
+
+  (declare-function evil-append-line "evil-commands")
+
+  (defvar comint-last-prompt)
+  (defvar shackle-rules))
 
 (require 'subr-x)
 
-(eval-when-compile
-  (declare-function evil-append-line "evil-commands")
-  (defvar comint-last-prompt)
-  (defvar shackle-rules))
+(autoload 'popup-buffer "base-lib")
 
 ;;;
 ;; Build

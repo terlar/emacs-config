@@ -1,14 +1,17 @@
-;;; base-ui.el --- UI configuration
+;;; base-ui.el --- UI configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; The behavior of things.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-lib))
 
 ;;;
 ;; Settings
+
 (setq-default
  ;; Disable bidirectional text for tiny performance boost
  bidi-display-reordering nil

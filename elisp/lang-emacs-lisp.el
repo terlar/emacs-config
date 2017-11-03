@@ -1,4 +1,4 @@
-;;; lang-emacs-lisp.el --- Emacs Lisp
+;;; lang-emacs-lisp.el --- Emacs Lisp -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Emacs Lisp is a dialect of the Lisp programming language used as a scripting
@@ -6,7 +6,8 @@
 ;; Emacs.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-repl-command "base-lib")
 
 (add-hooks-pair 'emacs-lisp-mode
                 '(eldoc-mode

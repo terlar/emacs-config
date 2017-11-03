@@ -4,10 +4,15 @@
 ;; Custom functions, macros and helpers.
 
 ;;; Code:
-(require 'base-vars)
 
 (eval-when-compile
-  (defvar eval-repl-alist))
+  (require 'base-vars)
+
+  (defvar eval-repl-alist)
+
+  (declare-function projectile-project-root "projectile")
+  (declare-function shackle-match "shackle")
+  (declare-function shackle-display-buffer "shackle"))
 
 ;;;
 ;; Packages

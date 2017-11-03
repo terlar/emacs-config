@@ -1,11 +1,16 @@
-;;; feature-spellcheck.el --- Spellchecking
+;;; feature-spellcheck.el --- Spellchecking -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Catching your typos.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-vars)
+  (require 'base-keybinds))
+
+;;;
+;; Packages
 
 (use-package flyspell ; builtin
   :diminish flyspell-mode

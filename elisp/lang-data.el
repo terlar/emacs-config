@@ -1,13 +1,17 @@
-;;; lang-data.el --- Data formats
+;;; lang-data.el --- Data formats -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Data, data, data.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
 
 (with-eval-after-load "company"
   (push-company-backends 'nxml-mode '(company-nxml)))
+
+;;;
+;; Packages
 
 (use-package csv-mode :mode "\\.[ct]sv$")
 (use-package toml-mode :mode "\\.toml$")

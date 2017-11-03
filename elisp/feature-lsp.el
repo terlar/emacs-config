@@ -1,11 +1,14 @@
-;;; feature-lsp.el --- Language Server Protocol
+;;; feature-lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Servant of languages.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
+
+(eval-when-compile
+  (require 'base-vars))
+
+(autoload 'push-company-backends "base-lib")
 
 (use-package lsp-mode
   :preface

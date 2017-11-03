@@ -1,4 +1,4 @@
-;;; lang-scala.el --- Scala
+;;; lang-scala.el --- Scala -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Scala is a general-purpose programming language providing support for
@@ -7,8 +7,14 @@
 ;; Java.
 
 ;;; Code:
-(require 'base-vars)
-(require 'base-lib)
+
+(eval-when-compile
+  (require 'base-vars))
+
+(autoload 'push-company-backends "base-lib")
+
+;;;
+;; Packages
 
 (use-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
@@ -33,8 +39,7 @@
 (use-package ensime
   :commands (ensime ensime-mode ensime-scala-mode-hook)
   :config
-  (setq ensime-startup-snapshot-notification nil
-        ensime-startup-notification nil
+  (setq ensime-startup-notification nil
         ensime-eldoc-hints 'all
         ensime-search-interface (cond ((eq my-completion-system 'ivy) 'ivy)
                                       ((eq my-completion-system 'helm) 'helm)

@@ -1,4 +1,4 @@
-;;; lang-java.el --- Java
+;;; lang-java.el --- Java -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Java is a general-purpose computer programming language that is concurrent,
@@ -9,7 +9,12 @@
 ;; recompilation.
 
 ;;; Code:
-(require 'base-vars)
+
+(eval-when-compile
+  (require 'base-vars))
+
+;;;
+;; Packages
 
 (use-package lsp-java
   :after lsp-mode

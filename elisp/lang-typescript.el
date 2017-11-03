@@ -1,4 +1,4 @@
-;;; lang-typescript.el --- TypeScript
+;;; lang-typescript.el --- TypeScript -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; TypeScript is a free and open-source programming language developed and
@@ -9,8 +9,14 @@
 ;; applications for client-side or server-side (Node.js) execution.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-keybinds))
+
+(autoload 'push-company-backends "base-lib")
+
+;;;
+;; Packages
 
 (use-package typescript-mode
   :mode "\\.tsx?$"

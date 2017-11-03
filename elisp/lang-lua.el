@@ -1,4 +1,4 @@
-;;; lang-lua.el --- Lua
+;;; lang-lua.el --- Lua -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Lua is a powerful, efficient, lightweight, embeddable scripting language. It
@@ -6,7 +6,12 @@
 ;; programming, data-driven programming, and data description.
 
 ;;; Code:
-(require 'base-lib)
+
+(autoload 'push-company-backends "base-lib")
+(autoload 'push-repl-command "base-lib")
+
+;;;
+;; Packages
 
 (use-package lua-mode :mode ("\\.lua$")
   :interpreter "lua"

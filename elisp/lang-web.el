@@ -1,14 +1,14 @@
-;;; lang-web.el --- Web development
+;;; lang-web.el --- Web development -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; All things web.
 
 ;;; Code:
 
-(require 'base-lib)
-
 (eval-when-compile
   (defvar aggressive-indent-excluded-modes))
+
+(autoload 'push-company-backends "base-lib")
 
 ;;;
 ;; Packages

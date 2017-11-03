@@ -1,9 +1,13 @@
-;;; tool-notes.el --- Notes
+;;; tool-notes.el --- Notes -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Taking notes.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package deft
   :commands deft
   :config

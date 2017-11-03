@@ -1,4 +1,4 @@
-;;; lang-rst.el --- reStructuredText
+;;; lang-rst.el --- reStructuredText -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; reStructuredText (sometimes abbreviated as RST, ReST, or reST) is a
@@ -6,6 +6,7 @@
 ;; programming language community for technical documentation.
 
 ;;; Code:
+
 (defcustom rst-header-scaling nil
   "Whether to use variable-height faces for headers.
 When non-nil, `rst-header-face' will inherit from

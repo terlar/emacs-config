@@ -1,4 +1,4 @@
-;;; base-vars.el --- Base variables
+;;; base-vars.el --- Base variables -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Customization through variables.
@@ -7,6 +7,7 @@
 
 ;;;
 ;; Base
+
 (defvar my-debug-mode (or (getenv "DEBUG") init-file-debug)
   "Debug mode, enable through DEBUG=1 or use --debug-init.")
 
@@ -33,6 +34,7 @@
 
 ;;;
 ;; UI
+
 (defvar my-fringe-width 12
   "The fringe width to use.")
 
@@ -41,6 +43,7 @@
 
 ;;;
 ;; Theme
+
 (defvar my-theme 'tao-yang
   "The color theme to use.")
 

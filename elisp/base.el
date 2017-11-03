@@ -5,7 +5,8 @@
 
 ;;; Code:
 
-(require 'base-vars)
+(eval-when-compile
+  (require 'base-vars))
 
 (defvar my-init-time nil
   "The time it took, in seconds, for Emacs to initialize.")

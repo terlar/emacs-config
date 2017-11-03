@@ -1,4 +1,4 @@
-;;; feature-debug.el --- Debug
+;;; feature-debug.el --- Debug -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Locate those bugs.

@@ -1,13 +1,15 @@
-;;; base-package.el --- Package configuration
+;;; base-package.el --- Package configuration -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Sharing is caring.
 
 ;;; Code:
-(require 'base-vars)
 
-(require 'package)
-(require 'tls)
+(eval-when-compile
+  (require 'base-vars)
+
+  (require 'package)
+  (require 'tls))
 
 (defvar my-packages-init-p nil
   "Non-nil if the package system has been initialized.
@@ -15,6 +17,7 @@ This will be nil if you have byte-compiled your configuration.")
 
 ;;;
 ;; Settings
+
 (setq-default
  load-prefer-newer noninteractive
  package--init-file-ensured t

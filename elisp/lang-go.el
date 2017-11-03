@@ -1,4 +1,4 @@
-;;; lang-go.el --- Golang
+;;; lang-go.el --- Golang -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Go (often referred to as golang) is a free and open source programming
@@ -8,8 +8,15 @@
 ;; safety features and CSP-style concurrent programming features added.
 
 ;;; Code:
-(require 'base-lib)
-(require 'base-keybinds)
+
+(eval-when-compile
+  (require 'base-keybinds))
+
+(autoload 'push-company-backends "base-lib")
+(autoload 'push-repl-command "base-lib")
+
+;;;
+;; Packages
 
 (use-package go-mode
   :mode "\\.go$"

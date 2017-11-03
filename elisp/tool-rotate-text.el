@@ -1,9 +1,13 @@
-;;; tool-rotate-text.el --- Text rotation
+;;; tool-rotate-text.el --- Text rotation -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; Switch between different text values.
 
 ;;; Code:
+
+;;;
+;; Packages
+
 (use-package rotate-text :ensure nil :pin manual
   :load-path "vendor/rotate-text/"
   :commands (rotate-text rotate-text-backward)

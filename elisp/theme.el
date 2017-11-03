@@ -4,16 +4,19 @@
 ;; The look of things.
 
 ;;; Code:
-(require 'base-vars)
 
 (eval-when-compile
+  (require 'base-vars)
+
   (defvar hl-todo-keyword-faces)
   (defvar neo-global--window)
   (defvar zoom-window-mode-line-color)
+
   (declare-function neo-global--select-window "neotree"))
 
 ;;;
 ;; Theme
+
 (use-package tao-theme :demand t
   :commands tao-with-color-variables
   :config
@@ -46,6 +49,7 @@
 
 ;;;
 ;; Typography
+
 (when (or (display-graphic-p) (daemonp))
   (with-demoted-errors "FONT ERROR: %s"
     (set-face-attribute 'default nil :height my-default-font-height :family my-font)
@@ -54,6 +58,7 @@
 
 ;;;
 ;; Colors
+
 (defvar theme-color-error "tomato"
   "Color used to indicate error.")
 (defvar theme-color-success "sea green"
@@ -68,6 +73,7 @@
 
 ;;;
 ;; Faces
+
 (defface my-code-face
   `((t (:inherit fixed-pitch :background ,theme-color-lighter)))
   "Face for fixed-width text like code snippets."

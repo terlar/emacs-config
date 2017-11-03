@@ -1,14 +1,19 @@
-;;; tool-dired.el --- Directory edit
+;;; tool-dired.el --- Directory edit -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Directory based operations.
 
 ;;; Code:
-(require 'base-vars)
+
+(eval-when-compile
+  (require 'base-vars))
 
 (require 'dired)
 (require 'image-dired)
 (require 'autorevert)
+
+;;;
+;; Settings
 
 (setq
  ;; Always copy/delete recursively
@@ -23,6 +28,9 @@
  image-dired-gallery-dir (concat image-dired-dir "gallery/")
  image-dired-temp-image-file (concat image-dired-dir "temp-image")
  image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
+
+;;;
+;; Packages
 
 ;; Prettier dired buffers
 (use-package dired-k
