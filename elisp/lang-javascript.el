@@ -24,6 +24,8 @@
   :interpreter
   "node"
   "nodejs"
+  :general
+  (:keymaps 'js2-mode-map "M-." '(nil))
   :preface
   (defun javascript-repl ()
     "Open a JavaScript REPL."
@@ -34,56 +36,76 @@
                 (let ((buf (get-buffer "*nodejs*")))
                   (bury-buffer buf)
                   buf)))))
+
+  (defun coverlay-mode-enable ()
+    "Turn on `coverlay-mode'."
+    (coverlay-mode +1)
+    (unless (bound-and-true-p coverlay--loaded-filepath)
+      (coverlay-watch-file (concat
+                            (locate-dominating-file (file-name-directory buffer-file-name) "coverage")
+                            "coverage"
+                            "/lcov.info"))))
   :init
-  (autoload 'js2-imenu-extras-mode "js2-imenu-extras" nil t)
+  (add-hooks-pair 'js2-mode
+                  '(flycheck-mode
+                    rainbow-delimiters-mode
+                    coverlay-mode-enable
+                    (lambda ()
+                      (run-with-idle-timer 0.2 t 'color-identifiers:refresh))))
+
+  (with-eval-after-load "editorconfig"
+    (add-to-list 'editorconfig-indentation-alist
+                 '(js2-mode js2-basic-offset js-switch-indent-offset)))
   :config
   (push-repl-command 'js2-mode #'javascript-repl)
 
   (setq js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil
         js2-skip-preprocessor-directives t
-        js2-strict-trailing-comma-warning nil)
+        js2-strict-trailing-comma-warning nil))
 
-  (add-hooks-pair 'js2-mode
-                  '(flycheck-mode
-                    rainbow-delimiters-mode
-                    js2-imenu-extras-mode))
+(use-package lsp-javascript-typescript :ensure nil :pin manual
+  :after lsp-mode
+  :load-path "vendor/lsp-javascript/"
+  :commands lsp-javascript-typescript-enable
+  :preface
+  (eval-when-compile
+    (declare-function flycheck-add-next-checker "flycheck"))
+  :init
+  (require 'lsp-flycheck)
+  (add-hooks-pair '(js2-mode rjsx-mode typescript-mode) 'lsp-javascript-typescript-enable)
 
   (with-eval-after-load "flycheck"
-    (add-hook 'js2-mode-hook
-              #'(lambda ()
-                  ;; Prefer eslint
-                  (push 'javascript-jshint flycheck-disabled-checkers))))
-
-  (sp-with-modes '(js2-mode rjsx-mode)
-    (sp-local-pair "/* " " */" :post-handlers '(("| " "SPC")))))
-
-(use-package xref-js2 :commands xref-js2-xref-backend)
-
-(use-package nodejs-repl :commands nodejs-repl)
+    (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
 (use-package js2-refactor
+  :after js2-mode
+  :general
+  (:keymaps 'js2-mode-map
+            "C-k" '(js2r-kill))
   :commands
-  (js2r-extract-function
-   js2r-extract-method js2r-introduce-parameter
+  (js2-refactor-mode
+   js2r-add-keybindings-with-prefix js2r-kill
+   js2r-extract-function js2r-extract-method js2r-introduce-parameter
    js2r-localize-parameter js2r-expand-object js2r-contract-object
    js2r-expand-function js2r-contract-function js2r-expand-array
    js2r-contract-array js2r-wrap-buffer-in-iife js2r-inject-global-in-iife
    js2r-add-to-globals-annotation js2r-extract-var js2r-inline-var
    js2r-rename-var js2r-var-to-this js2r-arguments-to-object js2r-ternary-to-if
    js2r-split-var-declaration js2r-split-string js2r-unwrap js2r-log-this
-   js2r-debug-this js2r-forward-slurp js2r-forward-barf))
-
-(use-package tern
-  :commands tern-mode
-  :init (add-hooks-pair 'js2-mode 'tern-mode))
-
-(use-package company-tern
-  :when (package-installed-p 'company)
-  :after tern
+   js2r-debug-this js2r-forward-slurp js2r-forward-barf)
+  :preface
+  (defun setup-js2-refactor-keybinding-prefix ()
+    "Setup keybindings for js2-refactor."
+    (js2r-add-keybindings-with-prefix "C-c c R"))
   :init
-  (with-eval-after-load "company"
-    (push-company-backends 'js2-mode '(company-tern company-files))))
+  (add-hooks-pair 'js2-mode
+                  '(js2-refactor-mode
+                    setup-js2-refactor-keybinding-prefix)))
+
+(use-package nodejs-repl :commands nodejs-repl)
+
+(use-package indium)
 
 (use-package rjsx-mode
   :mode
@@ -115,10 +137,15 @@
   :init (setq coffee-indent-like-python-mode t))
 
 (use-package web-beautify
-  :commands web-beautify-js
+  :commands
+  (web-beautify-js web-beautify-html web-beautify-css)
   :general
-  (:keymaps '(json-mode js2-mode-map) :states 'normal
-            "gQ" '(web-beautify-js)))
+  (:keymaps '(js2-mode-map json-mode-map) :states 'normal
+            "gQ" '(web-beautify-js))
+  (:keymaps 'html-mode-map :states 'normal
+            "gQ" '(web-beautify-html))
+  (:keymaps 'css-mode-map :states 'normal
+            "gQ" '(web-beautify-css)))
 
 ;;;
 ;; Skewer

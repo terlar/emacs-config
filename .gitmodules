@@ -10,3 +10,6 @@
 [submodule "vendor/source-peek"]
 	path = vendor/source-peek
 	url = https://github.com/iqbalansari/emacs-source-peek
+[submodule "vendor/lsp-javascript"]
+	path = vendor/lsp-javascript
+	url = https://github.com/emacs-lsp/lsp-javascript.git
