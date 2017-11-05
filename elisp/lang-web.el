@@ -9,34 +9,24 @@
   (defvar aggressive-indent-excluded-modes))
 
 (autoload 'push-company-backends "base-lib")
+(autoload 'flycheck-add-mode "flycheck")
 
 ;;;
 ;; Packages
 
 (use-package web-mode
-  :mode
-  (("\\.h?html?$" . web-mode)
-   ("\\.\\(tpl\\|blade\\)\\(\\.php\\)?$" . web-mode)
-   ("\\.[agj]sp$" . web-mode)
-   ("\\.as[cp]x$" . web-mode)
-   ("\\.erb$" . web-mode)
-   ("\\.mustache$" . web-mode)
-   ("\\.tsx$" . web-mode)
-   ("\\.jsx$" . web-mode)
-   ("\\.djhtml$" . web-mode)
-   ("wp-content/themes/.+/.+\\.php$" . web-mode))
+  :mode "\\.\\(phtml\\|php|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
   :init
-  (add-hooks-pair 'web-mode 'turn-off-smartparens-mode)
-  (with-eval-after-load "company"
-    (push-company-backends 'web-mode
-                           '(company-tern
-                             company-css
-                             company-web-html
-                             company-files)))
+  (add-hooks-pair 'web-mode
+                  '(flycheck-mode
+                    turn-off-smartparens-mode))
   :config
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
         web-mode-enable-current-element-highlight t)
+
+  (with-eval-after-load "flycheck"
+    (flycheck-add-mode 'html-tidy 'web-mode))
 
   ;; No padding for nested sections inside HTML
   (with-eval-after-load "editorconfig"
@@ -45,6 +35,15 @@
                   (setq web-mode-block-padding 0
                         web-mode-script-padding 0
                         web-mode-style-padding 0)))))
+
+(use-package company-web :after web-mode
+  :init
+  (with-eval-after-load "company"
+    (push-company-backends 'web-mode
+                           '(company-web-html
+                             company-web-jade
+                             company-web-slim
+                             company-css))))
 
 ;; Snippets and Zen Coding for HTML
 (use-package emmet-mode
@@ -61,8 +60,6 @@
   :config
   (setq emmet-move-cursor-between-quotes t))
 
-(use-package company-web :after web-mode)
-
 (use-package slim-mode :mode "\\.slim$"
   :config
   (with-eval-after-load "aggressive-indent"
@@ -77,12 +74,9 @@
 
 ;; configure CSS mode company backends
 (use-package css-mode
-  :mode (("\\.css$"  . css-mode)
-         ("\\.scss$" . scss-mode))
+  :mode "\\.s?css$"
   :init
-  (push-company-backends 'css-mode '(company-css
-                                     company-dabbrev-code
-                                     company-files)))
+  (push-company-backends 'css-mode 'company-css))
 
 (provide 'lang-web)
 ;;; lang-web.el ends here
