@@ -65,5 +65,9 @@ version is loaded."
   :init
   (add-hooks-pair 'emacs-lisp-mode 'eros-mode))
 
+;; Emacs Start Up Profiler
+(use-package esup
+  :commands esup)
+
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here
