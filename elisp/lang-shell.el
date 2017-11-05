@@ -8,6 +8,11 @@
 
 (autoload 'push-company-backends "base-lib")
 (autoload 'push-repl-command "base-lib")
+(autoload 'eshell-send-input "eshell")
+
+(add-hooks-pair 'eshell-mode '(company-mode
+                               (lambda ()
+                                 (setq-local scroll-margin 0))))
 
 ;;;
 ;; Packages
@@ -31,7 +36,6 @@
     (declare-function sh-shell-process "sh-script")
 
     (defvar sh-shell-file))
-
 
   (defun sh-repl ()
     "Open a shell REPL."
@@ -86,6 +90,17 @@
     (push-company-backends 'fish-mode '(company-fish-shell
                                         company-shell
                                         company-files))))
+
+;;;
+;; Functions
+
+;;;###autoload
+(defun eshell-clear-buffer ()
+  "Clear eshell terminal."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (eshell-send-input)))
 
 (provide 'lang-shell)
 ;;; lang-shell.el ends here

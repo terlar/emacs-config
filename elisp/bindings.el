@@ -272,6 +272,15 @@
                "j" '(ediff-next-difference     :wk "Next difference")
                "k" '(ediff-previous-difference :wk "Previous difference"))))
 
+;; eshell
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (general-define-key
+               :keymaps 'eshell-mode-map
+               "C-l" 'eshell-clear-buffer
+               [tab] 'company-complete-common-or-cycle
+               "TAB" 'company-complete-common-or-cycle)))
+
 ;; eww
 (general-define-key
  :keymaps 'eww-mode-map
@@ -345,6 +354,7 @@
  "C-f"     'company-complete-selection
  "C-SPC"   'company-complete-common
  "TAB"     'company-complete-common-or-cycle
+ [tab]     'company-complete-common-or-cycle
  [backtab] 'company-select-previous
 
  "C-o"     'company-search-kill-others
