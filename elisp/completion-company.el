@@ -73,7 +73,7 @@
         company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
         company-show-numbers t
-        company-global-modes '(not eshell-mode comint-mode erc-mode message-mode help-mode)
+        company-global-modes '(not comint-mode erc-mode message-mode help-mode helpful-mode)
         company-frontends
         '(company-tng-frontend
           company-pseudo-tooltip-unless-just-one-frontend

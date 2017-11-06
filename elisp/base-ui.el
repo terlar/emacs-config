@@ -143,7 +143,9 @@
 (use-package centered-window-mode
   :diminish centered-window-mode
   :commands centered-window-mode
-  :init (add-hooks-pair '(text-mode prog-mode help-mode) 'centered-window-mode)
+  :init (add-hooks-pair '(text-mode
+                          prog-mode
+                          help-mode helpful-mode) 'centered-window-mode)
   :config (setq cwm-centered-window-width 120))
 
 ;; Highlight source code identifiers based on their name
@@ -197,6 +199,13 @@
   :init
   (add-hooks-pair 'text-mode 'goto-address-mode)
   (add-hooks-pair 'prog-mode 'goto-address-prog-mode))
+
+;; A better *help* buffer
+(use-package helpful
+  :commands (helpful-at-point
+             helpful-callable helpful-command
+             helpful-function helpful-key helpful-macro
+             helpful-symbol helpful-variable))
 
 ;; Code folding (builtin)
 (use-package hideshow

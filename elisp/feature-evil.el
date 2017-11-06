@@ -68,7 +68,7 @@
                   calendar-mode Man-mode grep-mode
                   git-rebase-mode))
     (evil-set-initial-state mode 'emacs))
-  (dolist (mode '(help-mode debugger-mode))
+  (dolist (mode '(help-mode helpful-mode debugger-mode))
     (evil-set-initial-state mode 'normal))
   (dolist (mode '(git-commit-mode))
     (evil-set-initial-state mode 'insert))

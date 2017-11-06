@@ -141,10 +141,13 @@
  "h a" '(apropos              :wk "Apropos")
  "h l" '(find-library         :wk "Find library")
  "h f" '(describe-function    :wk "Describe function")
- "h k" '(describe-key         :wk "Describe key")
- "h c" '(describe-char        :wk "Describe char")
+ "h k" '(helpful-key          :wk "Describe key")
+ "h c" '(helpful-command      :wk "Describe command")
+ "h C" '(describe-char        :wk "Describe char")
+ "h m" '(helpful-macro        :wk "Describe macro")
  "h M" '(describe-mode        :wk "Describe mode")
  "h v" '(describe-variable    :wk "Describe variable")
+ "h f" '(helpful-function     :wk "Describe function")
  "h F" '(describe-face        :wk "Describe face")
  "h '" '(what-cursor-position :wk "What face")
  "h i" '(info                 :wk "Info")
@@ -271,6 +274,18 @@
                "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
                "j" '(ediff-next-difference     :wk "Next difference")
                "k" '(ediff-previous-difference :wk "Previous difference"))))
+
+;; emacs-lisp-mode
+(general-define-key
+ :keymaps 'emacs-lisp-mode-map
+ :states 'normal
+ "K" 'helpful-at-point)
+
+;; elisp-refs-mode
+(general-define-key
+ :keymaps 'elisp-refs-mode-map
+ :states 'normal
+ "q" 'kill-this-buffer)
 
 ;; eshell
 (add-hook 'eshell-mode-hook
@@ -458,6 +473,19 @@
  "w" 'git-timemachine-kill-abbreviated-revision
  "W" 'git-timemachine-kill-revision
  "b" 'git-timemachine-blame)
+
+;; helpful
+(general-define-key
+ :keymaps 'helpful-mode-map
+ :states 'normal
+ "o"  'ace-link-help
+ "q"  'quit-window)
+(general-define-key
+ :keymaps 'help-map
+ "f" '(helpful-function :package helpful)
+ "k" '(helpful-key      :package helpful)
+ "v" '(helpful-variable :package helpful)
+ "M" '(helpful-macro    :package helpful))
 
 ;; hl-todo
 (general-define-key
