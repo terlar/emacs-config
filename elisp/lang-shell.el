@@ -10,9 +10,8 @@
 (autoload 'push-repl-command "base-lib")
 (autoload 'eshell-send-input "eshell")
 
-(add-hooks-pair 'eshell-mode '(company-mode
-                               (lambda ()
-                                 (setq-local scroll-margin 0))))
+(add-hooks-pair 'eshell-mode '(lambda ()
+                                (setq-local scroll-margin 0)))
 
 ;;;
 ;; Packages
