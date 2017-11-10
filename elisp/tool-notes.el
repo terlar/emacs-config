@@ -12,6 +12,7 @@
   :commands deft
   :config
   (setq deft-directory "~/notes"
+        deft-default-extension "org"
         deft-extensions
         '("txt" "tex" "org" "md" "rst")))
 
