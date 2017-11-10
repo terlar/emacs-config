@@ -30,5 +30,13 @@
   (add-hook 'flycheck-mode-hook #'flycheck-inline-mode)
   (setq flycheck-display-errors-delay 0.5))
 
+;; Pop-up error messages
+(use-package flycheck-popup-tip
+  :disabled t
+  :after flycheck
+  :commands flycheck-popup-tip-mode
+  :config
+  (add-hooks-pair 'flycheck-mode 'flycheck-popup-tip-mode))
+
 (provide 'feature-syntax-checker)
 ;;; feature-syntax-checker.el ends here
