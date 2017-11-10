@@ -500,6 +500,7 @@
  "M-v"    'yank
  "M-z"    'undo
  "C-r"    'evil-paste-from-register
+ "C-e"    'ivy-insert-current
  "C-k"    'ivy-previous-line
  "C-j"    'ivy-next-line
  "C-l"    'ivy-alt-done
