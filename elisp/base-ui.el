@@ -186,7 +186,8 @@
 
 (use-package eldoc-overlay-mode
   :diminish eldoc-overlay-mode
-  :commands eldoc-overlay-mode)
+  :commands eldoc-overlay-mode
+  :init (eldoc-overlay-mode +1))
 
 ;; Highlight TODO inside comments and strings
 (use-package hl-todo
