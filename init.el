@@ -40,6 +40,7 @@
 ;; Tools
 
 (require 'tool-coverage)           ; Code coverage
+(require 'tool-docsets)            ; Docsets
 (require 'tool-dired)              ; Directories
 (require 'tool-neotree)            ; Tree navigation
 (require 'tool-notes)              ; Note taking
