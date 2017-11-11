@@ -12,9 +12,11 @@
   :commands deft
   :config
   (setq deft-directory "~/notes"
-        deft-default-extension "org"
         deft-extensions
-        '("txt" "tex" "org" "md" "rst")))
+        '("txt" "tex" "org" "md" "rst")
+        deft-default-extension "org"
+        deft-use-filename-as-title t
+        deft-use-filter-string-for-filename t))
 
 (provide 'tool-notes)
 ;;; tool-notes.el ends here
