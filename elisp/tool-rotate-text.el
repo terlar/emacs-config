@@ -8,8 +8,8 @@
 ;;;
 ;; Packages
 
-(use-package rotate-text :ensure nil :pin manual
-  :load-path "vendor/rotate-text/"
+(req-package rotate-text
+  :loader :el-get
   :commands (rotate-text rotate-text-backward)
   :config
   (dolist (item '(("true" "false")

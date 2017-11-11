@@ -64,15 +64,11 @@
         js2-skip-preprocessor-directives t
         js2-strict-trailing-comma-warning nil))
 
-(use-package lsp-javascript-typescript :ensure nil :pin manual
-  :after lsp-mode
-  :load-path "vendor/lsp-javascript/"
+(req-package lsp-javascript-typescript
+  :require lsp-mode
+  :loader :el-get
   :commands lsp-javascript-typescript-enable
-  :preface
-  (eval-when-compile
-    (declare-function flycheck-add-next-checker "flycheck"))
-  :init
-  (require 'lsp-flycheck)
+  :config
   (add-hooks-pair '(js2-mode rjsx-mode typescript-mode) 'lsp-javascript-typescript-enable)
 
   (with-eval-after-load "flycheck"

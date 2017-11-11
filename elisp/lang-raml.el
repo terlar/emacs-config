@@ -13,8 +13,8 @@
 ;;;
 ;; Package
 
-(use-package raml-mode :ensure nil :pin manual
-  :load-path "vendor/raml-mode/"
+(req-package raml-mode
+  :loader :el-get
   :mode "\\.raml$"
   :commands raml-mode)
 

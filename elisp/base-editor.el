@@ -342,8 +342,8 @@
   :commands (smart-up smart-down smart-backward smart-forward))
 
 ;; Peek definition (Display function source inline)
-(use-package source-peek :ensure nil :pin manual :demand t
-  :load-path "vendor/source-peek/"
+(req-package source-peek
+  :loader :el-get
   :commands source-peek)
 
 ;; Utility for opening files with sudo

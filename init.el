@@ -85,4 +85,6 @@
   (require 'bindings)
   (require 'commands))
 
+(req-package-finish)
+
 ;;; init.el ends here

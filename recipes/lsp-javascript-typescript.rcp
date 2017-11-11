@@ -1,0 +1,5 @@
+(:name lsp-javascript-typescript
+    :description "Javascript and Typescript support for lsp-mode"
+    :type github
+    :pkgname "emacs-lsp/lsp-javascript"
+    :features lsp-javascript-typescript)

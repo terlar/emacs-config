@@ -1,0 +1,5 @@
+(:name flycheck-inline
+       :description "Display Flycheck errors inline"
+       :type github
+       :pkgname "flycheck/flycheck-inline"
+       :features flycheck-inline)

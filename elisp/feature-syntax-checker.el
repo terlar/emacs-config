@@ -22,13 +22,14 @@
   (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
 ;; Inline error messages
-(use-package flycheck-inline :ensure nil :pin manual
-  :load-path "vendor/flycheck-inline/"
-  :after flycheck
+(req-package flycheck-inline
+  :require flycheck
+  :loader :el-get
   :commands flycheck-inline-mode
   :config
-  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode)
-  (setq flycheck-display-errors-delay 0.5))
+  (setq flycheck-display-errors-delay 0.5)
+
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
 
 ;; Pop-up error messages
 (use-package flycheck-popup-tip

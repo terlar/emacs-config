@@ -1,0 +1,5 @@
+(:name raml-mode
+    :description "Major mode for editing RAML"
+    :type github
+    :pkgname "victorquinn/raml-mode"
+    :features raml-mode)

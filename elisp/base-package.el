@@ -67,8 +67,17 @@ When base.el is compiled, this function will be avoided to speed up startup."
 
     (unless (package-installed-p 'use-package)
       (package-install 'use-package))
-
     (load "use-package" nil t)
+
+    (use-package req-package
+      :functions req-package-finish)
+    (use-package el-get
+      :config
+      (setq el-get-dir (expand-file-name "el-get" my-packages-dir)
+            el-get-status-file (expand-file-name ".status.el" el-get-dir)
+            el-get-autoload-file (expand-file-name ".loaddefs.el" el-get-dir))
+
+      (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory)))
 
     (setq my-packages-init-p t)))
 
@@ -76,6 +85,7 @@ When base.el is compiled, this function will be avoided to speed up startup."
 ;; Macros
 
 (autoload 'use-package "use-package" nil nil 'macro)
+(autoload 'req-package "req-package" nil nil 'macro)
 
 (provide 'base-package)
 ;;; base-package.el ends here
