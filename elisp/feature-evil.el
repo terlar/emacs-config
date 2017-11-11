@@ -8,8 +8,6 @@
 (eval-when-compile
   (require 'base-keybinds)
 
-  (require 'cl)
-
   (defvar buffer-face-mode))
 
 (defvar-local evil-pre-insert-state-variable-pitch-mode
