@@ -6,29 +6,25 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
+  (require 'base-vars)
+  (require 'base-package))
 
-(use-package lsp-mode
-  :preface
-  (eval-when-compile
-    (defvar lsp-enable-eldoc))
-  :commands (lsp-mode
-             lsp-define-stdio-client lsp-client-on-notification
-             lsp-make-traverser)
+(req-package lsp-mode
+  :demand t
   :init
-  (add-hooks-pair 'lsp-mode 'flycheck-mode)
-  :config
   (setq lsp-enable-eldoc t)
-  (with-eval-after-load 'lsp-mode
-    (require 'lsp-flycheck)))
-
-(use-package company-lsp
-  :commands company-lsp
-  :preface
-  (eval-when-compile
-    (defvar company-lsp-async))
   :config
-  (setq company-lsp-async t))
+  (require 'lsp-flycheck)
+  (add-hooks-pair 'lsp-mode 'flycheck-mode))
+
+(req-package company-lsp
+  :require company lsp-mode
+  :commands company-lsp
+  :after lsp-mode
+  :init
+  (setq company-lsp-async t)
+  :config
+  (push 'company-lsp company-backends))
 
 (provide 'feature-lsp)
 ;;; feature-lsp.el ends here

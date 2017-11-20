@@ -8,10 +8,13 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
-(use-package glsl-mode
+(req-package glsl-mode
   :mode "\\.\\(frag\\|vert\\)$")
 
 (provide 'lang-opengl)

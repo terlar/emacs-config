@@ -9,41 +9,53 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
-
-(autoload 'push-company-backends "base-lib")
+  (require 'base-vars)
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package scala-mode
+(req-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
-  :preface
-  (defun scala|setup ()
-    (setq-local prettify-symbols-alist scala-prettify-symbols-alist)
-    (require 'imenu))
-  :config
+  :init
   (setq scala-indent:align-parameters t)
+  :config
+  (set-aggressive-indent 'scala-mode :disabled t)
+  (set-company-backends 'scala-mode 'ensime-company)
 
-  (with-eval-after-load "company"
-    (push-company-backends 'scala-mode '(ensime-company)))
+  (add-hook! 'scala-mode
+             (setq-local prettify-symbols-alist scala-prettify-symbols-alist))
 
   (add-hooks-pair 'scala-mode
-                  '(ensime-mode
-                    flycheck-mode
-                    prettify-symbols-mode
-                    scala|setup)))
+                  '(flycheck-mode
+                    prettify-symbols-mode)))
 
-(use-package sbt-mode :after scala-mode)
+(req-package sbt-mode
+  :require scala-mode
+  :after scala-mode)
 
-(use-package ensime
-  :commands (ensime ensime-mode ensime-scala-mode-hook)
-  :config
+(req-package ensime
+  :require scala-mode
+  :after scala-mode
+  :init
+  (autoload 'eir-eval-in-scala "eval-in-repl-scala")
+
   (setq ensime-startup-notification nil
         ensime-eldoc-hints 'all
-        ensime-search-interface (cond ((eq my-completion-system 'ivy) 'ivy)
-                                      ((eq my-completion-system 'helm) 'helm)
-                                      (t nil))))
+        ensime-search-interface 'ivy)
+  :config
+  (set-repl-command 'scala-mode #'ensime-inf-switch)
+  (set-eval-command 'scala-mode #'eir-eval-in-scala)
+
+  (set-doc-fn 'scala-mode #'ensime-show-doc-for-symbol-at-point)
+  ;; jump-fn #'ensime-edit-definition
+  ;; pop-fn #'ensime-pop-find-definition-stack
+  ;; refs-fn #'ensime-show-uses-of-symbol-at-point
+
+  (set-evil-state 'ensime-inf-mode 'insert)
+  (set-popup-buffer (rx bos "*Scala REPL*" eos))
+
+  (add-hooks-pair 'scala-mode 'ensime-mode))
 
 (provide 'lang-scala)
 ;;; lang-scala.el ends here

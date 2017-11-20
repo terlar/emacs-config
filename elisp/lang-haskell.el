@@ -9,20 +9,23 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-package)
   (require 'base-keybinds))
-
-(autoload 'push-company-backends "base-lib")
-(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages
 
-(use-package haskell-mode
-  :preface
-  (eval-when-compile
-    (defvar aggressive-indent-excluded-modes))
-  :config
-  (push-repl-command 'haskell-mode #'switch-to-haskell)
+(req-package haskell-mode
+  :mode
+  "\\.[gh]s$"
+  "\\.hsc$"
+  ("\\.l[gh]s$" . literate-haskell-mode)
+  :interpreter
+  "runghc"
+  "runhaskell"
+  :init
+  (autoload 'haskell-doc-current-info "haskell-doc")
+  (autoload 'haskell-hoogle-lookup-from-local "haskell-hoogle")
 
   (setq
    haskell-notify-p t
@@ -42,40 +45,47 @@
    haskell-process-suggest-hoogle-imports nil
    haskell-process-suggest-remove-import-lines t
    haskell-process-use-presentation-mode t)
+  :config
+  (set-aggressive-indent 'haskell-mode :disabled t)
 
-  (add-hooks-pair 'haskell-mode 'rainbow-identifiers-mode)
+  (add-hooks-pair 'haskell-mode 'rainbow-identifiers-mode))
 
-  (with-eval-after-load "aggressive-indent"
-    (push 'haskell-mode aggressive-indent-excluded-modes)))
-
-(use-package intero
+(req-package intero
+  :require haskell-mode
   :after haskell-mode
   :diminish intero-mode
-  :commands intero-mode
   :config
-  (setq haskell-process-args-stack-ghci
-        '("--ghc-options=-ferror-spans" "--with-ghc=intero" "--install-ghc"))
+  (set-eval-command 'haskell-mode #'intero-repl-eval-region)
+  (set-repl-command 'haskell-mode #'intero-repl)
+  (set-evil-state 'intero-repl-mode 'insert)
+  (set-popup-buffer (rx bos "*intero:" (one-or-more anything) "*" eos))
 
-  (add-hooks-pair 'haskell-mode 'intero-mode)
+  (set-doc-fn 'haskell-mode #'intero-info)
+  ;; jump-fn #'intero-goto-definition
+  ;; pop-fn #'xref-pop-marker-stack
+  (set-company-backends 'haskell-mode 'company-intero)
 
-  (with-eval-after-load "company"
-    (push-company-backends 'haskell-mode '(company-intero company-files))))
+  (set-evil-state 'intero-help-mode 'motion)
+  (set-popup-buffer (rx bos "*Intero-Help*" eos))
 
-(use-package shm
+  (add-hooks-pair 'haskell-mode 'intero-mode))
+
+(req-package shm
+  :require haskell-mode
   :after haskell-mode
   :diminish structured-haskell-mode
   :general
-  (:keymaps 'shm-map :states 'normal
-            "o" 'shm|evil-open-below
-            "O" 'shm|evil-open-above)
-  :commands (structured-haskell-mode
-             structured-haskell-repl-mode
-             shm/newline-indent)
-  :preface
-  (eval-when-compile
-    (require 'evil)
-    (declare-function evil-insert-state "evil-commands")
-    (declare-function evil-maybe-remove-spaces "evil-states"))
+  (:keymaps
+   'shm-map
+   :states 'normal
+   "o" 'shm|evil-open-below
+   "O" 'shm|evil-open-above)
+  :init
+  (setq shm-auto-insert-bangs t
+        shm-auto-insert-skeletons t
+        shm-indent-point-after-adding-where-clause t
+        shm-use-hdevtools t
+        shm-use-presentation-mode t)
 
   (defun shm|evil-open-above (count)
     "Insert a new line above point and switch to Insert state.
@@ -101,52 +111,43 @@ The insertion will be repeated COUNT times."
     (evil-insert-state +1)
     (add-hook 'post-command-hook #'evil-maybe-remove-spaces))
   :config
-  (setq shm-auto-insert-bangs t
-        shm-auto-insert-skeletons t
-        shm-indent-point-after-adding-where-clause t
-        shm-use-hdevtools t
-        shm-use-presentation-mode t)
-
-  (add-hook 'structured-haskell-mode-hook
-            #'(lambda ()
-                (hl-line-mode -1)
-                (haskell-indent-mode -1)
-                (haskell-indentation-mode -1)))
-
   (if (executable-find "structured-haskell-mode")
       (progn
         (add-hooks-pair 'haskell-mode 'structured-haskell-mode)
         (add-hooks-pair 'haskell-interactive-mode 'structured-haskell-repl-mode))
-    (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work")))
+    (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work"))
+
+  (add-hook! 'structured-haskell-mode-hook
+             (hl-line-mode -1)
+             (haskell-indentation-mode -1)))
 
 ;; Smart indentation
-(use-package hi2
+(req-package hi2
+  :require haskell-mode
   :after haskell-mode
   :diminish hi2-mode
   :general
-  (:keymaps 'hi2-mode-map
-            "RET" '(nil)
-            "TAB" '(hi2-indent-line))
-  :commands (turn-on-hi2 hi2-mode)
-  :preface
-  (eval-when-compile
-    (defvar editorconfig-indentation-alist))
-  :init (add-hooks-pair 'haskell-mode 'turn-on-hi2)
+  (:keymaps
+   'hi2-mode-map
+   "RET" 'nil
+   "TAB" 'hi2-indent-line)
   :config
   (with-eval-after-load "editorconfig"
     (add-to-list 'editorconfig-indentation-alist
                  '(haskell-mode hi2-layout-offset hi2-left-offset hi2-ifte-offset)))
 
   (add-hook 'editorconfig-custom-hooks
-            #'(lambda (props)
-                "Use half indentation space for keyword `where'."
-                (let ((indent_size (gethash 'indent_size props)))
-                  (setq-default hi2-where-pre-offset
-                                (/ (string-to-number (if indent_size indent_size "4"))
-                                   2))
-                  (setq-default hi2-where-post-offset
-                                (/ (string-to-number (if indent_size indent_size "4"))
-                                   2))))))
+            (lambda (props)
+              "Use half indentation space for keyword `where'."
+              (let ((indent_size (gethash 'indent_size props)))
+                (setq-default hi2-where-pre-offset
+                              (/ (string-to-number (if indent_size indent_size "4"))
+                                 2))
+                (setq-default hi2-where-post-offset
+                              (/ (string-to-number (if indent_size indent_size "4"))
+                                 2)))))
+
+  (add-hooks-pair 'haskell-mode 'turn-on-hi2))
 
 (provide 'lang-haskell)
 ;;; lang-haskell.el ends here

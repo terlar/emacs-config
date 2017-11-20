@@ -5,38 +5,57 @@
 
 ;;; Code:
 
-(autoload 'push-company-backends "base-lib")
-
-(with-eval-after-load "company"
-  (push-company-backends 'nxml-mode '(company-nxml)))
+(eval-when-compile
+  (require 'base-package)
+  (require 'base-lib))
 
 ;;;
 ;; Packages
 
-(use-package csv-mode :mode "\\.[ct]sv$")
-(use-package toml-mode :mode "\\.toml$")
+(req-package nxml-mode
+  :loader :built-in
+  :mode "\\.plist$"
+  :init
+  (setq nxml-slash-auto-complete-flag t)
+  :config
+  (add-hooks-pair 'nxml-mode 'flycheck-mode)
+  (set-company-backends 'nxml-mode 'company-nxml)
+  (with-eval-after-load "smartparens"
+    (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
-(use-package yaml-mode
-  :mode (("\\.ya?ml$" . yaml-mode)
-         ("\\.sls$"   . yaml-mode))
+(req-package csv-mode
+  :mode "\\.[ct]sv$"
+  :config
+  (add-hook! 'csv-mode
+             (visual-line-mode 0)
+             (centered-window-mode 0)))
+
+(req-package json-mode
+  :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
+
+(req-package yaml-mode
+  :mode
+  "\\.ya?ml$"
   :config
   (add-hooks-pair 'yaml-mode 'indent-guide-mode))
 
-(use-package json-mode
-  :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
-
-(use-package protobuf-mode :mode "\\.proto$")
-
-(use-package thrift :mode ("\\.thrift$" . thrift-mode)
+(req-package sql
+  :mode ("\\.sql$" . sql-mode)
+  :commands
+  (sql-connect
+   sql-set-product)
+  :init
+  (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager"))
   :config
-  (add-hook 'thrift-mode-hook
-            #'(lambda ()
-                (run-hooks 'prog-mode-hook))))
+  (set-evil-state 'sql-interactive-mode 'insert)
+  (set-popup-buffer (rx bos "*SQL: *" eos))
+  (add-hook! 'sql-interactive-mode (toggle-truncate-lines t)))
 
-(use-package sql :mode ("\\.sql$" . sql-mode)
-  :commands (sql-connect sql-set-product))
+(req-package protobuf-mode
+  :mode "\\.proto$")
 
-(use-package dockerfile-mode :mode "/Dockerfile$")
+(req-package thrift
+  :mode ("\\.thrift$" . thrift-mode))
 
 (provide 'lang-data)
 ;;; lang-data.el ends here

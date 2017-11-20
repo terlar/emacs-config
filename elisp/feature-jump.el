@@ -6,7 +6,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
+  (require 'base-vars)
+  (require 'base-package))
 
 ;; Recenter after certain jumps
 (add-hooks-pair '(imenu-after-jump
@@ -18,23 +19,26 @@
 ;;;
 ;; Packages
 
-(use-package dumb-jump
-  :commands (dumb-jump-go dumb-jump-quick-look dumb-jump-back)
-  :config
+(req-package dumb-jump
+  :commands
+  (dumb-jump-go
+   dumb-jump-quick-look
+   dumb-jump-back)
+  :init
   (setq dumb-jump-default-project my-emacs-dir
         dumb-jump-aggressive nil
-        dumb-jump-selector (cond ((eq my-completion-system 'ivy) 'ivy)
-                                 ((eq my-completion-system 'helm) 'helm)
-                                 (t 'popup))))
+        dumb-jump-selector 'ivy))
 
-(use-package gxref
-  :commands (gxref-xref-backend
-             gxref-create-db
-             gxref-update-db
-             gxref-single-update-db
-             gxref-set-project-dir)
-  :init
-  (setq-default xref-backend-functions '(gxref-xref-backend t)))
+(req-package gxref
+  :after xref
+  :commands
+  (gxref-xref-backend
+   gxref-create-db
+   gxref-update-db
+   gxref-single-update-db
+   gxref-set-project-dir)
+  :config
+  (cl-pushnew 'gxref-xref-backend xref-backend-functions))
 
 (provide 'feature-jump)
 ;;; feature-jump.el ends here

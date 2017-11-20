@@ -7,53 +7,36 @@
 
 (eval-when-compile
   (require 'base-vars)
+  (require 'base-package)
   (require 'base-keybinds))
 
 ;;;
 ;; Packages
 
-(use-package flyspell ; builtin
+(req-package flyspell
+  :loader :built-in
   :diminish flyspell-mode
   :commands flyspell-mode
-  :general
-  (:keymaps 'flyspell-mode-map
-            "C-c s" 'flyspell-correct-word-generic
-            "C-c S" 'flyspell-correct-previous-word-generic)
   :init
+  (setq ispell-programs-name (executable-find "aspell")
+        ispell-list-command "--list"
+        ispell-extr-args '("--dont-tex-check-comments"))
+
   (add-hooks-pair 'prog-mode 'flyspell-prog-mode)
-  (add-hooks-pair '(text-mode message-mode) 'flyspell-mode)
-  :config
-  (setq-default ispell-programs-name (executable-find "aspell")
-                ispell-list-command "--list"
-                ispell-extr-args '("--dont-tex-check-comments")))
+  (add-hooks-pair '(text-mode message-mode) 'flyspell-mode))
 
-(cond ((eq my-completion-system 'ivy)
-       (use-package flyspell-correct-ivy))
-      ((eq my-completion-system 'helm)
-       (use-package flyspell-correct-helm))
-      (t
-       (use-package flyspell-correct-popup)))
-
-(use-package flyspell-correct
+(req-package flyspell-correct-ivy
+  :require flyspell ivy
+  :after flyspell
   :commands
   (flyspell-correct-word-generic
-   flyspell-correct-previous-word-generic)
-  :config
-  (cond ((eq my-completion-system 'ivy)
-         (require 'flyspell-correct-ivy))
-        ((eq my-completion-system 'helm)
-         (require 'flyspell-correct-helm))
-        (t
-         (require 'flyspell-correct-popup)
-         (setq flyspell-correct-auto-delay 0.8))))
+   flyspell-correct-previous-word-generic))
 
 ;; Automatically infer dictionary
-(use-package auto-dictionary
-  :commands (adict-change-dictionary adict-guess-dictionary)
-  :general
-  (:keymaps 'flyspell-mode-map
-            "C-c d" 'adict-guess-dictionary
-            "C-c D" 'adict-change-dictionary))
+(req-package auto-dictionary
+  :commands
+  (adict-change-dictionary
+   adict-guess-dictionary))
 
 (provide 'feature-spellcheck)
 ;;; feature-spellcheck.el ends here

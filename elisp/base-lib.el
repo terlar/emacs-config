@@ -7,30 +7,51 @@
 
 (eval-when-compile
   (require 'base-vars)
+  (require 'base-package))
 
-  (defvar eval-repl-alist)
+(defvar popup-buffer-list nil
+  "List of popup buffers.")
 
-  (declare-function projectile-project-root "projectile")
-  (declare-function shackle-match "shackle")
-  (declare-function shackle-display-buffer "shackle"))
+(defvar-local documentation-function nil
+  "Function to use for documentation look-ups.")
+
+(defvar evil-state-change-mode-alist nil
+  "An alist mapping functions to evil state changes for major modes.")
+
+(defvar-local evil-state-change-functions nil
+  "The evil state change functions for the current buffer.")
 
 ;;;
 ;; Packages
 
 ;; Set multiple hooks
 (use-package add-hooks
-  :commands (add-hooks add-hooks-pair))
+  :commands
+  (add-hooks
+   add-hooks-pair))
+
+;; Enable Emacs minor modes by buffer name and contents
+(use-package auto-minor-mode
+  :demand t)
 
 ;; Hide lines based on regexp
 (use-package hide-lines
-  :commands (hide-lines
-             hide-lines-matching
-             hide-lines-not-matching
-             hide-lines-show-all))
+  :commands
+  (hide-lines
+   hide-lines-matching
+   hide-lines-not-matching
+   hide-lines-show-all))
 
 ;; Inline popups
 (use-package quick-peek
-  :commands (quick-peek-show quick-peek-hide))
+  :commands
+  (quick-peek-show quick-peek-hide))
+
+(use-package spinner
+  :commands
+  (spinner-start
+   spinner-create
+   spinner-print))
 
 (use-package f)    ; files and paths
 (use-package s)    ; strings
@@ -40,23 +61,79 @@
 ;;;
 ;; Setup
 
-(defmacro quiet! (&rest forms)
-  "Run FORMS without making any noise."
-  `(if my-debug-mode
-       (progn ,@forms)
-     (fset 'my--old-write-region-fn (symbol-function 'write-region))
-     (cl-letf ((standard-output (lambda (&rest _)))
-               ((symbol-function 'load-file) (lambda (file) (load file nil t)))
-               ((symbol-function 'message) (lambda (&rest _)))
-               ((symbol-function 'write-region)
-                (lambda (start end filename &optional append visit lockname mustbenew)
-                  (unless visit (setq visit 'no-message))
-                  (when (fboundp 'my--old-write-region-fn)
-                    (my--old-write-region-fn
-                     start end filename append visit lockname mustbenew))))
-               (inhibit-message t)
-               (save-silently t))
-       ,@forms)))
+(defmacro add-hook! (mode &rest forms)
+  "Add a lambda hook for MODE using FORMS as body."
+  `(add-hooks-pair ,mode (lambda () ,@forms)))
+
+(defmacro set-evil-state (modes state)
+  "Set MODES initial STATE using `evil-set-initial-state'."
+  `(with-eval-after-load "evil"
+     (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
+       (evil-set-initial-state mode ,state))))
+
+(defmacro set-evil-state-change (modes &rest plist)
+  "Set MODES state change behavior configuration through PLIST.
+The list accepts the following properties:
+
+:on-insert FN
+  Add code to be run on insert entry.
+:on-normal FN
+  Add code to be run on normal entry."
+  `(with-eval-after-load "evil"
+     (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
+       (cl-pushnew (cons mode (list ,@plist)) evil-state-change-mode-alist :test #'equal))))
+
+(defmacro set-aggressive-indent (modes &rest plist)
+  "Set MODES `agressive-indent' configuration through PLIST.
+The list accepts the following properties:
+
+:disabled BOOLEAN
+  Disable auto-indent."
+  (let ((disabled (plist-get plist :disabled)))
+    `(with-eval-after-load "aggressive-indent"
+       (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
+         (when ,disabled
+           (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
+
+(defmacro set-doc-fn (mode function)
+  "Set MODE documentation FUNCTION using `documentation-function'."
+  `(add-hook! ,mode (setq documentation-function ,function)))
+
+(defun documentation-at-point ()
+  "Get documentation at point using `documentation-function'."
+  (interactive)
+  (if (commandp documentation-function)
+      (call-interactively documentation-function)
+    (call-interactively 'source-peek)))
+
+(defmacro set-company-backends (mode &rest backends)
+  "For MODE add BACKENDS to buffer-local version of `company-backends'."
+  `(with-eval-after-load "company"
+     (add-hook!
+      ,mode
+      (make-variable-buffer-local 'company-backends)
+      (dolist (backend (list ,@(reverse backends)))
+        (cl-pushnew backend company-backends :test #'equal)))))
+
+(defun set-popup-buffer (&rest buffers)
+  "Display BUFFERS as popup."
+  (dolist (buffer buffers)
+    (push buffer popup-buffer-list)
+    (cl-pushnew `(,buffer
+                  (display-buffer-reuse-window
+                   display-buffer-in-side-window)
+                  (reusable-frames . visible)
+                  (side            . bottom)
+                  (window-height   . 0.4))
+                display-buffer-alist :test #'equal)))
+
+(defun set-repl-command (mode command)
+  "Define a REPL for MODE by running COMMAND."
+  (cl-pushnew (cons mode command) eval-repl-alist :test #'equal))
+
+(defun set-eval-command (mode command)
+  "Define eval function for MODE by running COMMAND."
+  (cl-pushnew (cons mode command) eval-runner-alist :test #'equal))
 
 (defmacro add-graphic-hook (&rest forms)
   "Add FORMS as a graphical hook."
@@ -70,24 +147,45 @@
                  (lambda ()
                    (progn ,@forms))))))
 
-(defun push-company-backends (mode backends)
-  "For MODE add BACKENDS to buffer-local version of `company-backends'."
-  (let ((backends (if (listp backends) backends (list backends)))
-        (hook (intern (format "%s-hook" (symbol-name mode))))
-        (quoted (eq (car-safe backends) 'quote)))
-    (add-hook hook `(lambda ()
-                      (when (equal major-mode ',mode)
-                        (require 'company)
-                        (unless (member ',backends company-backends)
-                          (setq-local company-backends (append '((,@backends)) company-backends))))))))
+(defmacro add-terminal-hook (&rest forms)
+  "Add FORMS as a graphical hook."
+  `(if (daemonp)
+       (add-hook 'after-make-frame-functions
+                 (lambda (frame)
+                   (unless (display-graphic-p frame)
+                     (with-selected-frame frame
+                       (progn ,@forms)))))
+     (unless (display-graphic-p)
+       (add-hook 'after-init-hook
+                 (lambda ()
+                   (progn ,@forms))))))
 
-(defun push-repl-command (mode command)
-  "Define a REPL for a MODE by running COMMAND function."
-  (push (cons mode command) eval-repl-alist))
+(defmacro quiet! (&rest forms)
+  "Run FORMS without making any noise."
+  `(if my-debug-mode
+       (progn ,@forms)
+     (fset '+old-write-region-fn (symbol-function 'write-region))
+     (cl-letf ((standard-output (lambda (&rest _)))
+               ((symbol-function 'load-file) (lambda (file) (load file nil t)))
+               ((symbol-function 'message) (lambda (&rest _)))
+               ((symbol-function 'write-region)
+                (lambda (start end filename &optional append visit lockname mustbenew)
+                  (unless visit (setq visit 'no-message))
+                  (when (fboundp '+old-write-region-fn)
+                    (+old-write-region-fn
+                     start end filename append visit lockname mustbenew))))
+               (inhibit-message t)
+               (save-silently t))
+       ,@forms)))
+
+(defun run-prog-mode-hooks ()
+  "Run hooks all `prog-mode' hooks."
+  (run-hooks 'prog-mode-hook))
 
 ;;;
 ;; Buffers
 
+;;;### autoload
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
@@ -95,6 +193,7 @@
         (delq (current-buffer)
               (cl-remove-if-not 'buffer-file-name (buffer-list)))))
 
+;;;### autoload
 (defun switch-to-minibuffer ()
   "Switch to minibuffer window."
   (interactive)
@@ -102,61 +201,130 @@
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
 
-(defun popup-buffer (buffer &rest plist)
-  "Display BUFFER in a shackle popup. Optional PLIST with `shackle-rules'.
-Returns the new popup window."
-  (declare (indent defun))
-  (unless (bufferp buffer)
-    (error "%s is not a valid buffer" buffer))
-  (setq plist (append plist (shackle-match buffer)))
-  (shackle-display-buffer
-   buffer
-   nil (or plist (shackle-match buffer))))
+;;;### autoload
+(defun toggle-scratch-buffer ()
+  "Toggle scratch buffer."
+  (interactive)
+  (toggle-popup-buffer t (rx bos "*scratch*" eos)))
 
-(defun scratch-buffer (&optional arg)
-  "Opens the scratch buffer in a popup window.
+;;;### autoload
+(defun open-and-switch-to-buffer (command buffer &optional do-switch)
+  "Open a `COMMAND', and switch to that `BUFFER' when `DO-SWITCH'."
+  (interactive)
+  (if (get-buffer buffer)
+      (switch-to-buffer buffer)
+    (funcall command)
+    (bury-buffer)
+    (when do-switch
+      (switch-to-buffer buffer))))
 
-If ARG (universal argument) is non-nil, open it in the current window instead of
-a popup.
+;;;### autoload
+(defun get-buffer-display-time (buffer)
+  "Get the display time for BUFFER."
+  (with-current-buffer buffer
+    (float-time buffer-display-time)))
 
-If a region is active, copy it into the scratch buffer."
-  (interactive "P")
-  (let ((text (and (region-active-p)
-                   (buffer-substring-no-properties
-                    (region-beginning) (region-end))))
-        (mode major-mode)
-        (derived-p (derived-mode-p 'prog-mode 'text-mode))
-        (old-project (projectile-project-root))
-        (new-buf (get-buffer-create "*scratch*")))
-    (if arg
-        (switch-to-buffer new-buf)
-      (popup-buffer new-buf))
-    (with-current-buffer new-buf
-      (setq default-directory old-project)
-      (when (and (not (eq major-mode mode))
-                 derived-p
-                 (functionp mode))
-        (funcall mode))
-      (if text (insert text)))))
+;;;### autoload
+(defun toggle-popup-buffer (&optional select buffer-rx)
+  "Toggle and SELECT popup buffer matching BUFFER-RX."
+  (interactive)
+  (let ((open-popup-buffers
+         (if buffer-rx
+             (seq-filter
+              (lambda (buff)
+                (string-match buffer-rx (buffer-name buff)))
+              (mapcar #'window-buffer (window-at-side-list)))
+           (seq-filter
+            (lambda (buff)
+              (seq-some
+               (lambda (buff-rx)
+                 (string-match buff-rx (buffer-name buff)))
+               popup-buffer-list))
+            (mapcar #'window-buffer (window-at-side-list)))))
+        (closed-popup-buffers
+         (if buffer-rx
+             (seq-filter
+              (lambda (buff)
+                (string-match buffer-rx (buffer-name buff)))
+              (buffer-list))
+           (seq-filter
+            (lambda (buff)
+              (seq-some
+               (lambda (buff-rx)
+                 (string-match buff-rx (buffer-name buff)))
+               popup-buffer-list))
+            (buffer-list)))))
+    (cond ((= 1 (length open-popup-buffers))
+           (delete-window (get-buffer-window (car open-popup-buffers))))
+          ((and (> 0 (length open-popup-buffers) (not select)))
+           (delete-window
+            (get-buffer-window
+             (car
+              (sort
+               open-popup-buffers
+               #'(lambda (a b)
+                   (> (get-buffer-display-time a) (get-buffer-display-time b))))))))
+          ((> 0 (length open-popup-buffers))
+           (ivy-read "Close popup: "
+                     (mapcar #'buffer-name open-popup-buffers)
+                     :action (lambda (x)
+                               (delete-window (get-buffer-window x)))
+                     :caller 'toggle-popup-buffer))
+          ((seq-empty-p closed-popup-buffers)
+           (message "No popup buffers found"))
+          ((= 1 (length closed-popup-buffers))
+           (pop-to-buffer (car closed-popup-buffers)))
+          ((not select)
+           (pop-to-buffer
+            (car
+             (sort
+              closed-popup-buffers
+              #'(lambda (a b)
+                  (> (get-buffer-display-time a) (get-buffer-display-time b)))))))
+          (t
+           (ivy-read "Open popup: "
+                     (mapcar #'buffer-name closed-popup-buffers)
+                     :action (lambda (x)
+                               (pop-to-buffer x))
+                     :caller 'toggle-popup-buffer)))))
 
 ;;;
 ;; Editing
 
-(defun retab ()
+;;;### autoload
+(defun retab-buffer ()
   "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
   (interactive)
-  (if indent-tabs-mode
-      (tabify (point-min) (point-max))
-    (untabify (point-min) (point-max))))
+  (save-excursion
+    (if indent-tabs-mode
+        (tabify (point-min) (point-max))
+      (untabify (point-min) (point-max)))))
 
 ;;;
 ;; UI
 
+;;;### autoload
+(defun get-faces (pos)
+  "Get the font faces at POS."
+  (remq nil
+        (list
+         (get-char-property pos 'read-face-name)
+         (get-char-property pos 'face)
+         (plist-get (text-properties-at pos) 'face))))
+
+;;;### autoload
+(defun hide-fringes ()
+  "Hide fringes for window."
+  (interactive)
+  (set-window-fringes nil 0 0))
+
+;;;### autoload
 (defun default-text-scale-reset ()
   "Reset the height of the default face to `my-default-font-height'."
   (interactive)
   (set-face-attribute 'default nil :height my-default-font-height))
 
+;;;### autoload
 (defun refresh ()
   "Refresh buffer."
   (interactive)

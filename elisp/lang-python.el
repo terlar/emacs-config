@@ -14,67 +14,79 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-keybinds)
-
-  (defvar shackle-rules))
-
-(autoload 'sp-local-pair "smartparens")
-(autoload 'sp-with-modes "smartparens")
-
-(autoload 'push-repl-command "base-lib")
+  (require 'base-package)
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
 
-(use-package python
+(req-package python
+  :mode
+  ("\\.py$" . python-mode)
+  :interpreter
+  ("python" . python-mode)
   :commands python-mode
-  :defines python-environment-directory
-  :preface
+  :init
+  (autoload 'eir-repl-start "eval-in-repl" nil t)
+  (autoload 'eir-run-python "eval-in-repl-python" nil t)
+  (autoload 'eir-eval-in-python "eval-in-repl-python" nil t)
+
   (defun python-repl ()
     "Open a Python REPL."
     (interactive)
-    (process-buffer (run-python nil t t)))
-  :init
+    (eir-repl-start "*Python*" #'eir-run-python))
+
+  (set-popup-buffer (rx bos "*Python*" eos))
+
   (setq python-environment-directory my-cache-dir
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python")
   :config
-  (push-repl-command 'python-mode #'python-repl)
+  (set-repl-command 'python-mode #'python-repl)
+  (set-eval-command 'python-mode #'eir-eval-in-python)
 
-  (add-hooks-pair 'python-mode 'highlight-numbers-mode)
-  (sp-with-modes 'python-mode
-    (sp-local-pair "'" nil :unless '(sp-point-before-word-p sp-point-after-word-p sp-point-before-same-p))))
+  (add-hooks-pair 'python-mode 'highlight-numbers-mode))
 
-(use-package lsp-python
-  :after lsp-mode
+(req-package python-x
+  :require python
+  :after python)
+
+(req-package pip-requirements
+  :require python
+  :mode ("/requirements.txt$" . pip-requirements-mode))
+
+(req-package lsp-python
+  :require lsp-mode python
   :commands lsp-python-enable
   :init
   (add-hooks-pair 'python-mode 'lsp-python-enable))
 
-(use-package pip-requirements
-  :mode ("/requirements.txt$" . pip-requirements-mode))
-
-(use-package py-autopep8
-  :commands py-autopep8-enable-on-save
-  :init
+(req-package py-autopep8
+  :require python
+  :after python
+  :config
   (add-hooks-pair 'python-mode 'py-autopep8-enable-on-save))
 
-(use-package nose
-  :commands nose-mode
-  :general
-  (:keymaps 'nose-mode-map :states 'normal :prefix "C-c t"
-            "r" '(nosetests-again)
-            "a" '(nosetests-all)
-            "s" '(nosetests-one)
-            "v" '(nosetests-module)
-            "A" '(nosetests-pdb-all)
-            "O" '(nosetests-pdb-one)
-            "V" '(nosetests-pdb-module))
-  :preface
-  (defvar nose-mode-map (make-sparse-keymap))
+(req-package pydoc
+  :after python
+  :commands pydoc-at-point
   :config
-  (with-eval-after-load "shackle"
-    (push '("*nosetests*" :size 0.4 :noselect t) shackle-rules)))
+  (set-doc-fn 'python-mode #'pydoc-at-point)
+  (set-evil-state 'pydoc-mode 'motion)
+  (set-popup-buffer (rx bos "*pydoc*" eos)))
+
+(req-package python-test
+  :require python
+  :after python
+  :init
+  (setq python-test-backend 'pytest)
+  :config
+  (setq python-test-project-root-files
+        (append '("README.md")
+                python-test-project-root-files))
+
+  (set-popup-buffer (rx bos "*python-test*" eos)))
 
 (provide 'lang-python)
 ;;; lang-python.el ends here

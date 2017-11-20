@@ -5,38 +5,44 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;; pkg-info doesn't get autoloaded when `flycheck-version' needs it.
 (autoload 'pkg-info-version-info "pkg-info")
 
 ;;;
 ;; Packages
 
-(use-package flycheck
+(req-package flycheck
   :diminish flycheck-mode
-  :commands (flycheck-mode
-             flycheck-list-errors flycheck-buffer
-             flycheck-add-next-checker)
+  :commands
+  (flycheck-mode
+   flycheck-list-errors flycheck-buffer
+   flycheck-add-next-checker)
   :init
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
   :config
-  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
+  (set-evil-state 'flycheck-error-list-mode 'motion)
+  (set-popup-buffer (rx bos "*Flycheck errors*" eos)
+                    (rx bos "*Flycheck checker*" eos)))
 
 ;; Inline error messages
 (req-package flycheck-inline
   :require flycheck
   :loader :el-get
   :commands flycheck-inline-mode
-  :config
+  :init
   (setq flycheck-display-errors-delay 0.5)
-
-  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  (add-hooks-pair 'flycheck-mode 'flycheck-inline-mode))
 
 ;; Pop-up error messages
-(use-package flycheck-popup-tip
+(req-package flycheck-popup-tip
+  :require flycheck
   :disabled t
-  :after flycheck
   :commands flycheck-popup-tip-mode
-  :config
+  :init
   (add-hooks-pair 'flycheck-mode 'flycheck-popup-tip-mode))
 
 (provide 'feature-syntax-checker)

@@ -5,36 +5,88 @@
 
 ;;; Code:
 
-(autoload 'push-company-backends "base-lib")
+(eval-when-compile
+  (require 'base-package)
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
 
-(use-package nginx-mode
-  :mode "/conf/.*\\.conf$")
-
-(use-package systemd
-  :config
-  (add-hook 'systemd-mode-hook
-            #'(lambda ()
-                (run-hooks 'prog-mode-hook))))
-
-(use-package ansible
-  :after yaml-mode
-  :commands ansible
+(req-package docker
   :init
-  (add-hooks-pair 'yaml-mode 'ansible))
+  (autoload 'docker-images "docker-images" nil t)
+  (autoload 'docker-containers "docker-containers" nil t)
+  (autoload 'docker-volumes "docker-volumes" nil t)
+  (autoload 'docker-networks "docker-networks" nil t)
 
-(use-package ansible-doc :after ansible :commands ansible-doc)
+  (set-popup-buffer
+   (rx bos "*" (or "docker-images" "docker-containers"
+                   "docker-volumes" "docker-networks") "*" eos))
 
-(use-package company-ansible
+  (set-evil-state '(docker-images-mode
+                    docker-containers-mode
+                    docker-volumes-mode
+                    docker-networks-mode) 'motion))
+
+(req-package dockerfile-mode
+  :mode "Dockerfile$")
+
+(req-package docker-compose-mode
+  :mode "docker-compose\\.yml")
+
+(req-package nginx-mode
+  :mode
+  "nginx\\.conf$"
+  "nginx/.+\\.conf$"
+  "conf/.+\\.conf$"
+  :magic-fallback
+  "\\(?:.*\n\\)*\\(?:http\\|server\\|location .+\\|upstream .+\\)[ \n\t]+{")
+
+(req-package systemd
+  :mode
+  ("\\.\\(automount\\|busname\\|mount\\|service\\|slice\\|socket\\|swap\\|target\\|timer\\|link\\|netdev\\|network\\)$" . systemd-mode))
+
+(req-package ansible
+  :minor
+  "site\\.yml$"
+  "roles/.+\\.yml$"
+  :require yaml-mode
+  :commands ansible)
+(req-package ansible-doc
+  :require ansible
+  :after ansible
+  :diminish ansible-doc-mode
+  :commands
+  (ansible-doc
+   ansible-doc-mode)
+  :config
+  (defun ansible-doc-at-point ()
+    "Ansible doc with selected point"
+    (interactive)
+    (ansible-doc (thing-at-point 'symbol)))
+  (set-doc-fn 'ansible 'ansible-doc-at-point)
+  (set-evil-state 'ansible-doc-module-mode 'motion)
+  (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos))
+
+  (add-hook 'ansible-hook #'ansible-doc-mode))
+(req-package company-ansible
+  :require company ansible
   :after ansible
   :commands company-ansible
-  :init
-  (with-eval-after-load "company"
-    (push-company-backends 'yaml-mode '(company-ansible))))
+  :config
+  (set-company-backends 'ansible 'company-ansible))
 
-(use-package puppet-mode)
+(req-package puppet-mode
+  :mode "\\.pp$")
+
+(req-package salt-mode
+  :mode
+  "\\.sls$"
+  :config
+  (set-doc-fn 'salt-mode 'salt-mode-browse-doc)
+
+  (add-hooks-pair 'salt-mode 'flyspell-mode))
 
 (provide 'lang-conf)
 ;;; lang-conf.el ends here

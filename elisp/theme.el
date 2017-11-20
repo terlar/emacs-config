@@ -7,28 +7,14 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (defvar neo-global--window)
-  (declare-function neo-global--select-window "neotree"))
-
-;;;
-;; Faces
-
-(defface my-code-face
-  `((t (:inherit fixed-pitch)))
-  "Face for fixed-width text like code snippets."
-  :group 'editing)
-
-(defface my-folded-face
-  `((t (:inherit font-lock-comment-face)))
-  "Face to hightlight `hideshow' overlays."
-  :group 'editing)
+  (require 'base-package))
 
 ;;;
 ;; Theme
 
-(use-package tao-theme :demand t
-  :commands tao-with-color-variables
-  :config
+(use-package tao-theme
+  :demand t
+  :init
   (setq tao-theme-use-height t))
 
 (use-package punpun-theme)
@@ -48,18 +34,18 @@
   (with-demoted-errors "FONT ERROR: %s"
     (set-face-attribute 'default nil :height my-default-font-height :family my-font)
     (when my-variable-pitch-font
-      (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font))))
+      (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font :height 1.2))))
 
 ;;;
 ;; NeoTree
 
-(defun my|neotree-no-fringes ()
+(defun +neotree-no-fringes ()
   "Remove fringes in neotree buffer.
 They get reset each time you select the neotree pane and are highlighted incorrectly."
   (set-window-fringes neo-global--window 1 0))
 
 (with-eval-after-load "neotree"
-  (advice-add #'neo-global--select-window :after #'my|neotree-no-fringes)
+  (advice-add #'neo-global--select-window :after #'+neotree-no-fringes)
   (add-hook 'neotree-mode-hook
             #'(lambda ()
                 ;; Setup spacing
@@ -67,7 +53,7 @@ They get reset each time you select the neotree pane and are highlighted incorre
                       tab-width 1)
 
                 ;; Hide cursor and highlight full line instead
-                (hl-line-mode +1)
+                (hl-line-mode 1)
                 (setq cursor-type nil)
                 (with-eval-after-load "evil"
                   (defadvice evil-refresh-cursor (around evil activate)

@@ -15,6 +15,8 @@
   "Non-nil if the package system has been initialized.
 This will be nil if you have byte-compiled your configuration.")
 
+(defvar my-el-get-dir (expand-file-name "el-get" my-packages-dir))
+
 ;;;
 ;; Settings
 
@@ -42,7 +44,7 @@ This will be nil if you have byte-compiled your configuration.")
  byte-compile-verbose my-debug-mode
  byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
-(defun my|packages-initialize (&optional force-p)
+(defun +packages-initialize (&optional force-p)
   "Initialize installed packages and ensure they are installed.
 When FORCE-P is provided it will run no matter the preconditions.
 When base.el is compiled, this function will be avoided to speed up startup."
@@ -53,14 +55,15 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (setq package-activated-list nil)
 
     ;; Ensure folders exist
-    (dolist (dir (list my-cache-dir my-data-dir my-packages-dir package-user-dir))
+    (dolist (dir (list my-cache-dir my-data-dir my-packages-dir package-user-dir my-el-get-dir))
       (unless (file-directory-p dir)
         (make-directory dir t)))
 
     (package-initialize t)
     ;; Setup load paths
-    (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t)))
-    (setq custom-theme-load-path (append custom-theme-load-path (directory-files package-user-dir t "theme" t)))
+    (dolist (dir (list package-user-dir my-el-get-dir))
+      (setq load-path (append load-path (directory-files dir t "^[^.]" t)))
+      (setq custom-theme-load-path (append custom-theme-load-path (directory-files dir t "theme" t))))
 
     (unless package-archive-contents
       (package-refresh-contents))
@@ -70,13 +73,16 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (load "use-package" nil t)
 
     (use-package req-package
-      :functions req-package-finish)
+      :functions req-package-finish
+      :init
+      (if (and (not noninteractive) my-debug-mode)
+          (setq req-package-log-level 'debug)))
     (use-package el-get
-      :config
-      (setq el-get-dir (expand-file-name "el-get" my-packages-dir)
+      :init
+      (setq el-get-dir my-el-get-dir
             el-get-status-file (expand-file-name ".status.el" el-get-dir)
             el-get-autoload-file (expand-file-name ".loaddefs.el" el-get-dir))
-
+      :config
       (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory)))
 
     (setq my-packages-init-p t)))

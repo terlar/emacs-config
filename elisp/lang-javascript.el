@@ -7,17 +7,13 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-keybinds)
-
-  (defvar flycheck-disabled-checkers)
-  (defvar editorconfig-indentation-alist))
-
-(autoload 'push-repl-command "base-lib")
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
 
-(use-package js2-mode
+(req-package js2-mode
   :mode
   "\\.js$"
   ("\\.json$" . js2-jsx-mode)
@@ -25,8 +21,23 @@
   "node"
   "nodejs"
   :general
-  (:keymaps 'js2-mode-map "M-." '(nil))
-  :preface
+  (:keymaps 'js2-mode-map "M-." 'nil)
+  :init
+  (setq js2-highlight-external-variables nil
+        js2-mode-show-parse-errors nil
+        js2-skip-preprocessor-directives t
+        js2-strict-trailing-comma-warning nil)
+
+  (add-hooks-pair 'js2-mode
+                  '(flycheck-mode
+                    rainbow-delimiters-mode
+                    +coverlay-mode-enable
+                    +color-identifiers-delayed-refresh))
+
+  (with-eval-after-load "editorconfig"
+    (add-to-list 'editorconfig-indentation-alist
+                 '(js2-mode js2-basic-offset js-switch-indent-offset)))
+  :config
   (defun javascript-repl ()
     "Open a JavaScript REPL."
     (interactive)
@@ -37,45 +48,29 @@
                   (bury-buffer buf)
                   buf)))))
 
-  (defun coverlay-mode-enable ()
-    "Turn on `coverlay-mode'."
-    (coverlay-mode +1)
-    (unless (bound-and-true-p coverlay--loaded-filepath)
-      (coverlay-watch-file (concat
-                            (locate-dominating-file (file-name-directory buffer-file-name) "coverage")
-                            "coverage"
-                            "/lcov.info"))))
-  :init
-  (add-hooks-pair 'js2-mode
+  (set-repl-command 'js2-mode #'javascript-repl))
+
+(req-package typescript-mode
+  :mode "\\.tsx?$"
+  :config
+  (add-hooks-pair 'typescript-mode
                   '(flycheck-mode
                     rainbow-delimiters-mode
-                    coverlay-mode-enable
-                    (lambda ()
-                      (run-with-idle-timer 0.2 t 'color-identifiers:refresh))))
-
-  (with-eval-after-load "editorconfig"
-    (add-to-list 'editorconfig-indentation-alist
-                 '(js2-mode js2-basic-offset js-switch-indent-offset)))
-  :config
-  (push-repl-command 'js2-mode #'javascript-repl)
-
-  (setq js2-highlight-external-variables nil
-        js2-mode-show-parse-errors nil
-        js2-skip-preprocessor-directives t
-        js2-strict-trailing-comma-warning nil))
+                    rainbow-identifiers-mode)))
 
 (req-package lsp-javascript-typescript
   :require lsp-mode
   :loader :el-get
   :commands lsp-javascript-typescript-enable
-  :config
+  :init
   (add-hooks-pair '(js2-mode rjsx-mode typescript-mode) 'lsp-javascript-typescript-enable)
-
+  :config
   (with-eval-after-load "flycheck"
     (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
-(use-package js2-refactor
-  :after js2-mode
+(req-package js2-refactor
+  :require js2-mode
+  :diminish js2-refactor-mode
   :general
   (:keymaps 'js2-mode-map
             "C-k" '(js2r-kill))
@@ -99,11 +94,11 @@
                   '(js2-refactor-mode
                     setup-js2-refactor-keybinding-prefix)))
 
-(use-package nodejs-repl :commands nodejs-repl)
+(req-package nodejs-repl :commands nodejs-repl)
 
-(use-package indium)
+(req-package indium)
 
-(use-package rjsx-mode
+(req-package rjsx-mode
   :mode
   ("\\.jsx$"             . rjsx-mode)
   ("components/.+\\.js$" . rjsx-mode)
@@ -113,7 +108,6 @@
             "<"   '(nil)
             "C-d" '(nil))
   :preface
-  (autoload 'sp-point-in-string-or-comment "smartparens")
   :init
   ;; Auto-detect JSX file
   (push (cons (lambda ()
@@ -127,12 +121,12 @@
               'rjsx-mode)
         magic-mode-alist))
 
-(use-package coffee-mode
+(req-package coffee-mode
   :mode "\\.coffee$"
   :defines coffee-indent-like-python-mode
   :init (setq coffee-indent-like-python-mode t))
 
-(use-package web-beautify
+(req-package web-beautify
   :commands
   (web-beautify-js web-beautify-html web-beautify-css)
   :general
@@ -146,7 +140,7 @@
 ;;;
 ;; Skewer
 
-(use-package skewer-mode
+(req-package skewer-mode
   :commands (skewer-mode run-skewer)
   :general
   (:keymaps 'skewer-mode-map :states 'normal :prefix ","
@@ -154,7 +148,7 @@
             "se" '(skewer-eval-defun)
             "sf" '(skewer-load-buffer)))
 
-(use-package skewer-css :ensure nil
+(req-package skewer-css :ensure nil
   :commands skewer-css-mode
   :general
   (:keymaps 'skewer-css-mode-map :states 'normal :prefix ","
@@ -163,7 +157,7 @@
             "sb" '(skewer-css-eval-buffer)
             "sc" '(skewer-css-clear-all)))
 
-(use-package skewer-html :ensure nil
+(req-package skewer-html :ensure nil
   :commands skewer-html-mode
   :general
   (:keymaps 'skewer-html-mode-map :states 'normal :prefix ","

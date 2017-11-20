@@ -6,53 +6,55 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
-
-(require 'dired)
-(require 'image-dired)
-(require 'autorevert)
-
-;;;
-;; Settings
-
-(setq
- ;; Always copy/delete recursively
- dired-recursive-copies  'always
- dired-recursive-deletes 'top
- ;; Auto refresh dired, but be quiet about it
- global-auto-revert-non-file-buffers t
- auto-revert-verbose nil
- ;; files
- image-dired-dir (concat my-cache-dir "image-dired/")
- image-dired-db-file (concat image-dired-dir "image-dired/db.el")
- image-dired-gallery-dir (concat image-dired-dir "gallery/")
- image-dired-temp-image-file (concat image-dired-dir "temp-image")
- image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image"))
+  (require 'base-vars)
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-;; Prettier dired buffers
-(use-package dired-k
+(req-package dired
+  :loader :built-in
+  :init
+  ;; Always copy/delete recursively
+  (setq dired-recursive-copies  'always
+        dired-recursive-deletes 'top))
+
+(req-package image-dired
+  :loader :built-in
+  :require dired
   :after dired
-  :functions dired-k--highlight
-  :preface
-  (defun my|dired-k-highlight (orig-fn &rest args)
+  :init
+  (setq image-dired-dir (concat my-cache-dir "image-dired/")
+        image-dired-db-file (concat image-dired-dir "image-dired/db.el")
+        image-dired-gallery-dir (concat image-dired-dir "gallery/")
+        image-dired-temp-image-file (concat image-dired-dir "temp-image")
+        image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image")))
+
+;; Prettier dired buffers
+(req-package dired-k
+  :require dired
+  :after dired
+  :commands
+  (dired-k
+   dired-k-no-revert)
+  :init
+  (setq dired-k-style 'git)
+
+  (add-hooks-pair 'dired-initial-position 'dired-k)
+  (add-hooks-pair 'dired-after-readin 'dired-k-no-revert)
+  :config
+  (defun +dired-k-highlight (orig-fn &rest args)
     "Butt out if the requested directory is remote (i.e. through tramp)."
     (unless (file-remote-p default-directory)
       (apply orig-fn args)))
-  :config
-  (setq dired-k-style 'git)
-
-  (advice-add #'dired-k--highlight :around #'my|dired-k-highlight)
-
-  (add-hooks-pair 'dired-initial-position 'dired-k)
-  (add-hooks-pair 'dired-after-readin 'dired-k-no-revert))
+  (advice-add #'dired-k--highlight :around #'+dired-k-highlight))
 
 ;; Striped dired buffers
-(use-package stripe-buffer
+(req-package stripe-buffer
+  :require dired
   :commands stripe-buffer-mode
-  :init (add-hooks-pair 'dired-mode 'stripe-buffer-mode))
+  :init
+  (add-hooks-pair 'dired-mode 'stripe-buffer-mode))
 
 (provide 'tool-dired)
 ;;; tool-dired.el ends here

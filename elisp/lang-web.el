@@ -6,24 +6,21 @@
 ;;; Code:
 
 (eval-when-compile
-  (defvar aggressive-indent-excluded-modes))
-
-(autoload 'push-company-backends "base-lib")
-(autoload 'flycheck-add-mode "flycheck")
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package web-mode
-  :mode "\\.\\(phtml\\|php|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
+(req-package web-mode
+  :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
   :init
-  (add-hooks-pair 'web-mode
-                  '(flycheck-mode
-                    turn-off-smartparens-mode))
-  :config
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
         web-mode-enable-current-element-highlight t)
+  :config
+  (add-hooks-pair 'web-mode
+                  '(flycheck-mode
+                    turn-off-smartparens-mode))
 
   (with-eval-after-load "flycheck"
     (flycheck-add-mode 'html-tidy 'web-mode))
@@ -36,47 +33,49 @@
                         web-mode-script-padding 0
                         web-mode-style-padding 0)))))
 
-(use-package company-web :after web-mode
-  :init
-  (with-eval-after-load "company"
-    (push-company-backends 'web-mode
-                           '(company-web-html
-                             company-web-jade
-                             company-web-slim
-                             company-css))))
+(req-package company-web
+  :require web-mode
+  :after web-mode
+  :config
+  (set-company-backends 'web-mode
+                        '(company-web-html
+                          company-web-jade
+                          company-web-slim
+                          company-css)))
 
 ;; Snippets and Zen Coding for HTML
-(use-package emmet-mode
-  :after web-mode
-  :commands emmet-mode
+(req-package emmet-mode
+  :demand t
   :preface
   (defvar emmet-mode-keymap (make-sparse-keymap))
   :init
+  (setq emmet-move-cursor-between-quotes t)
+  :config
   (add-hooks-pair '(css-mode
                     web-mode
                     html-mode haml-mode
                     nxml-mode rsjx-mode)
-                  'emmet-mode)
-  :config
-  (setq emmet-move-cursor-between-quotes t))
+                  'emmet-mode))
 
-(use-package slim-mode :mode "\\.slim$"
+(req-package slim-mode
+  :mode "\\.slim$"
   :config
-  (with-eval-after-load "aggressive-indent"
-    (push 'slim-mode aggressive-indent-excluded-modes)))
+  (set-aggressive-indent 'slim-mode :disabled t))
 
-(use-package haml-mode :mode "\\.haml$")
+(req-package haml-mode
+  :mode "\\.haml$")
 
-(use-package pug-mode :mode ("\\.jade$" "\\.pug$")
+(req-package pug-mode
+  :mode
+  "\\.\\(pug\\|jade\\)$"
   :config
-  (with-eval-after-load "aggressive-indent"
-    (push 'pug-mode aggressive-indent-excluded-modes)))
+  (set-aggressive-indent 'pug-mode :disabled t))
 
 ;; configure CSS mode company backends
-(use-package css-mode
+(req-package css-mode
   :mode "\\.s?css$"
-  :init
-  (push-company-backends 'css-mode 'company-css))
+  :config
+  (set-company-backends 'css-mode 'company-css))
 
 (provide 'lang-web)
 ;;; lang-web.el ends here

@@ -6,10 +6,14 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
-(use-package pkgbuild-mode)
+(req-package pkgbuild-mode
+  :mode "/PKGBUILD$")
 
 (provide 'lang-pkgbuild)
 ;;; lang-pkgbuild.el ends here

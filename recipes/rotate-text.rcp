@@ -1,5 +1,5 @@
 (:name rotate-text
-    :description "Cycle through words, symbols and patterns"
-    :type github
-    :pkgname "debug-ito/rotate-text.el"
-    :features rotate-text)
+       :description "Cycle through words, symbols and patterns"
+       :type github
+       :pkgname "debug-ito/rotate-text.el"
+       :features rotate-text)

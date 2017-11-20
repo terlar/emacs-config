@@ -6,18 +6,25 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
-(use-package ob-elixir)
-(use-package ob-go)
-(use-package ob-http)
-(use-package ob-restclient)
-(use-package ob-rust)
-(use-package ob-translate)
+(req-package ob-elixir)
+(req-package ob-go)
+(req-package ob-http)
+(req-package ob-restclient)
+(req-package ob-rust)
+(req-package ob-translate)
 
-(use-package org
-  :defines org-plantuml-jar-path
+(req-package org
+  :init
+  (setq org-confirm-babel-evaluate nil
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -38,14 +45,10 @@
      (shell      . t)
      (translate  . t)))
 
-  (setq org-confirm-babel-evaluate nil
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-
+  (add-hooks-pair 'org-mode 'variable-pitch-mode)
   (add-hooks-pair 'org-babel-after-execute 'org-redisplay-inline-images))
 
-(use-package org-preview-html
+(req-package org-preview-html
   :commands org-preview-html-mode)
 
 (provide 'lang-org)

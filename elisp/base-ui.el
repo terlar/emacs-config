@@ -7,6 +7,7 @@
 
 (eval-when-compile
   (require 'base-vars)
+  (require 'base-package)
   (require 'base-lib))
 
 ;;;
@@ -35,6 +36,12 @@
  visible-cursor nil
  x-stretch-cursor nil
  uniquify-buffer-name-style 'forward
+ ;; Scrolling
+ hscroll-margin 1
+ hscroll-step 1
+ scroll-conservatively 1001
+ scroll-margin 0
+ scroll-preserve-screen-position t
  ;; Fringes
  fringes-outside-margins t
  indicate-buffer-boundaries 'right
@@ -52,24 +59,23 @@
 (setq-default confirm-kill-emacs 'y-or-n-p)
 (fset #'yes-or-no-p #'y-or-n-p)
 
-(defun my|enable-ui-keystrokes ()
+(defun enable-ui-keystrokes ()
   "Enable keystrokes in minibuffer."
   (setq echo-keystrokes 0.02))
-(defun my|disable-ui-keystrokes ()
+(defun disable-ui-keystrokes ()
   "Disable keystrokes in minibuffer."
   (setq echo-keystrokes 0))
-(my|enable-ui-keystrokes)
-(add-hooks-pair 'isearch-mode-hook 'my|disable-ui-keystrokes)
-(add-hooks-pair 'isearch-mode-end-hook 'my|enable-ui-keystrokes)
+(enable-ui-keystrokes)
+(add-hooks-pair 'isearch-mode-hook 'disable-ui-keystrokes)
+(add-hooks-pair 'isearch-mode-end-hook 'enable-ui-keystrokes)
 
-;; Disable menu bar
-(menu-bar-mode -1)
 ;; Tooltips in echo area
-(tooltip-mode -1)
+(tooltip-mode 0)
 
 (add-graphic-hook
- (scroll-bar-mode -1)
- (tool-bar-mode -1)
+ (menu-bar-mode 0)
+ (tool-bar-mode 0)
+ (scroll-bar-mode 0)
 
  ;; Standardize fringe width
  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
@@ -77,35 +83,8 @@
  (add-hooks-pair '(emacs-startup minibuffer-setup)
                  '(lambda () (set-window-fringes (minibuffer-window) 0 0 nil))))
 
-;; Undo/redo changes to window layout
-(defvar winner-dont-bind-my-keys t)
-(require 'winner)
-(add-hook 'window-setup-hook #'winner-mode)
-
-(defun my|reset-non-gui-bg-color (&optional frame)
-  "Unset background color for FRAME without graphic."
-  (unless (display-graphic-p frame)
-    (set-face-background 'default nil frame)))
-(add-hook 'after-make-frame-functions #'my|reset-non-gui-bg-color)
-(add-hook 'after-init-hook #'my|reset-non-gui-bg-color)
-
-;; Use an Emacs compatible pager
-(setenv "PAGER" "/usr/bin/cat")
-
-;; Highlight matching delimiters
-(require 'paren)
-(setq show-paren-delay 0.1
-      show-paren-highlight-openparen t
-      show-paren-when-point-inside-paren t)
-(show-paren-mode +1)
-
-;; Filter ANSI escape codes in compilation-mode output
-(autoload 'ansi-color-apply-on-region "ansi-color" nil t)
-(require 'compile)
-(add-hook 'compilation-filter-hook
-          #'(lambda ()
-              (let ((inhibit-read-only t))
-                (ansi-color-apply-on-region compilation-filter-start (point)))))
+;; Transparent non-graphic background color
+(add-terminal-hook (set-face-background 'default nil))
 
 ;; Text scaling
 (defadvice text-scale-increase (around all-buffers (arg) activate)
@@ -115,63 +94,179 @@
 
 ;; Visual line wrapping
 (diminish 'visual-line-mode)
-(add-hooks-pair '(text-mode prog-mode)
-                'visual-line-mode)
+(add-hooks-pair '(text-mode prog-mode) 'visual-line-mode)
 
 ;; Visual mode for browser
 (add-hooks-pair 'eww-mode 'buffer-face-mode)
 
-;; Documenation
-(diminish 'eldoc-mode)
+;; Extra margin at bottom for programming modes
+(add-hook! 'prog-mode (setq-local scroll-margin 4))
+
+;;;
+;; Built-ins
+
+;; comint
+(req-package comint
+  :loader :built-in
+  :init
+  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+  (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
+
+;; Compilation
+(req-package compile
+  :loader :built-in
+  :init
+  (autoload 'ansi-color-apply-on-region "ansi-color")
+  ;; Filter ANSI escape codes in compilation-mode output
+  (defun +colorize-compilation-buffer ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max))))
+  (add-hook 'compilation-filter-hook '+colorize-compilation-buffer))
+
+;; Code folding
+(req-package hideshow
+  :loader :built-in
+  :diminish hs-minor-mode
+  :commands hs-minor-mode
+  :init
+  (defun +hs-fold-overlay-ellipsis (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (overlay-put
+       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
+
+  (setq hs-hide-comments-when-hiding-all nil
+        hs-set-up-overlay #'+hs-fold-overlay-ellipsis)
+
+  (add-hooks-pair 'prog-mode 'hs-minor-mode))
+
+;; Line highlighting (builtin)
+(req-package hl-line
+  :loader :built-in
+  :commands hl-line-mode
+  :init
+  ;; Only highlight in selected window
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil)
+
+  (add-hooks-pair '(prog-mode
+                    text-mode
+                    conf-mode) 'hl-line-mode))
+
+;; Highlight matching delimiters
+(req-package paren
+  :loader :built-in
+  :defer 2
+  :init
+  (setq show-paren-delay 0.1
+        show-paren-highlight-openparen t
+        show-paren-when-point-inside-paren t)
+  :config
+  (show-paren-mode 1))
+
+;; Undo/redo window layout changes
+(req-package winner
+  :loader :built-in
+  :commands
+  (winner-mode
+   winner-undo winner-redo)
+  :init
+  (defvar winner-dont-bind-my-keys t)
+  (add-hook 'window-setup-hook #'winner-mode))
 
 ;;;
 ;; Packages
 
+;; Hint mode for links
+(req-package ace-link
+  :commands
+  (ace-link-help
+   ace-link-org))
+
+;; Fast window navigation
+(req-package ace-window
+  :commands
+  (ace-window
+   ace-swap-window ace-delete-window
+   ace-select-window ace-delete-other-window)
+  :init
+  (setq aw-background t
+        aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-scope 'frame))
+
 ;; Align visually wrapped lines
 ;; NOTE: This can cause performance issues with font-lock.
-(use-package adaptive-wrap
+(req-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode)
 
 ;; Pretty icons
-(use-package all-the-icons)
-
-(use-package all-the-icons-dired
+(req-package all-the-icons-dired
   :commands all-the-icons-dired-mode
-  :init (add-graphic-hook (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
+  :init
+  (add-graphic-hook
+   (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
+
+;; Jump to things
+(req-package avy
+  :commands
+  (avy-goto-char-2
+   avy-goto-line)
+  :init
+  (setq avy-all-windows nil
+        avy-background t))
+
+;; Bug references as buttons
+(req-package bug-reference
+  :loader :built-in
+  :commands
+  (bug-reference-mode
+   bug-reference-prog-mode)
+  :init
+  (add-hooks-pair 'prog-mode 'bug-reference-prog-mode)
+  (add-hooks-pair '(text-mode magit-log-mode)
+                  'bug-reference-mode))
+
+;; Use GitHub URL for bug reference
+(req-package bug-reference-github
+  :require bug-reference
+  :after bug-reference
+  :commands bug-reference-github-set-url-format
+  :init
+  (add-hooks-pair '(bug-reference-mode bug-reference-prog-mode)
+                  'bug-reference-github-set-url-format))
 
 ;; Centered window mode
-(use-package centered-window-mode
+(req-package centered-window-mode
   :diminish centered-window-mode
   :commands centered-window-mode
-  :init (add-hooks-pair '(text-mode
-                          prog-mode
-                          help-mode helpful-mode) 'centered-window-mode)
-  :config (setq cwm-centered-window-width 120))
+  :init
+  (setq cwm-centered-window-width 120)
+
+  (add-hooks-pair '(text-mode
+                    conf-mode
+                    prog-mode
+                    help-mode helpful-mode) 'centered-window-mode))
 
 ;; Highlight source code identifiers based on their name
-(defun color-identifiers-toggle ()
-  "Toggle identifier colorization."
-  (interactive)
-  (if (or (bound-and-true-p color-identifiers-mode) (bound-and-true-p rainbow-identifiers-mode))
-      (progn
-        (color-identifiers-mode -1)
-        (rainbow-identifiers-mode -1))
-    (rainbow-identifiers-mode +1)))
-
-(use-package color-identifiers-mode
+(req-package color-identifiers-mode
   :diminish color-identifiers-mode
-  :commands (color-identifiers-mode global-color-identifiers-mode)
-  :init
-  (global-color-identifiers-mode +1))
-(use-package rainbow-identifiers
+  :commands
+  (color-identifiers-mode
+   global-color-identifiers-mode
+   color-identifiers:refresh)
+  :defer 2
+  :config
+  (global-color-identifiers-mode 1))
+(req-package rainbow-identifiers
   :diminish rainbow-identifiers-mode
   :commands rainbow-identifiers-mode
   :functions rainbow-identifiers-cie-l*a*b*-choose-face
-  :config
+  :init
   (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face
         rainbow-identifiers-cie-l*a*b*-saturation 65
         rainbow-identifiers-cie-l*a*b*-lightness 45))
-(use-package symbol-overlay
+
+;; Manual symbol highlight
+(req-package symbol-overlay
   :diminish symbol-overlay-mode
   :commands
   (symbol-overlay-mode
@@ -181,111 +276,88 @@
   (add-hooks-pair 'prog-mode 'symbol-overlay-mode))
 
 ;; Dynamically change the default text scale
-(use-package default-text-scale
-  :commands (default-text-scale-increase default-text-scale-decrease))
+(req-package default-text-scale
+  :commands
+  (default-text-scale-increase default-text-scale-decrease))
 
-(use-package eldoc-overlay-mode
+(req-package eldoc-overlay-mode
   :diminish eldoc-overlay-mode
-  :commands eldoc-overlay-mode
-  :init (eldoc-overlay-mode +1))
+  :commands eldoc-overlay-mode)
 
 ;; Highlight TODO inside comments and strings
-(use-package hl-todo
+(req-package hl-todo
   :commands hl-todo-mode
   :init
   (add-hooks-pair 'prog-mode 'hl-todo-mode))
 
 ;; Clickable links (builtin)
-(use-package goto-addr
+(req-package goto-addr
+  :commands
+  (goto-address-mode
+   goto-address-prog-mode)
   :init
   (add-hooks-pair 'text-mode 'goto-address-mode)
   (add-hooks-pair 'prog-mode 'goto-address-prog-mode))
 
-;; A better *help* buffer
-(use-package helpful
-  :commands (helpful-at-point
-             helpful-callable helpful-command
-             helpful-function helpful-key helpful-macro
-             helpful-symbol helpful-variable))
-
-;; Code folding (builtin)
-(use-package hideshow
-  :diminish hs-minor-mode
-  :commands hs-minor-mode
-  :init
-  (add-hooks-pair 'prog-mode 'hs-minor-mode)
-  :config
-  (setq hs-hide-comments-when-hiding-all nil
-        ;; Nicer code-folding overlays
-        hs-set-up-overlay
-        (lambda (ov)
-          (when (eq 'code (overlay-get ov 'hs))
-            (overlay-put
-             ov 'display (propertize " … " 'face 'my-folded-face))))))
-
 ;; For modes that don't adequately highlight numbers
-(use-package highlight-numbers :commands highlight-numbers-mode)
-
-;; Line highlighting (builtin)
-(use-package hl-line
-  :commands hl-line-mode
-  :init
-  (add-hooks-pair '(prog-mode text-mode conf-mode) 'hl-line-mode)
-  :config
-  ;; Only highlight in selected window
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil))
+(req-package highlight-numbers
+  :commands highlight-numbers-mode)
 
 ;; Indentation guides
-(use-package indent-guide
+(req-package indent-guide
   :commands indent-guide-mode
   :diminish indent-guide-mode
   :init
-  (add-hooks-pair 'prog-mode 'indent-guide-mode)
-  :config
   (setq indent-guide-delay 0.2
-        indent-guide-char "\x2502"))
+        indent-guide-char "\x2502")
+  (add-hooks-pair 'prog-mode 'indent-guide-mode))
 
 ;; Flash the line around cursor on large movements
-(use-package nav-flash
-  :preface
-  (eval-when-compile
-    (declare-function windmove-do-window-select "windmove")
-    (declare-function evil-window-top "evil")
-    (declare-function evil-window-middle "evil")
-    (declare-function evil-window-bottom "evil"))
-
-  (defun my|blink-cursor (&rest _)
-    "Blink current line using `nav-flash'."
-    (interactive)
-    (unless (minibufferp)
-      (nav-flash-show)
-      ;; only show in the current window
-      (overlay-put compilation-highlight-overlay 'window (selected-window))))
-
-  :commands nav-flash-show
-  :init
-  (advice-add #'recenter :around #'my|blink-cursor)
-
-  (with-eval-after-load "windmove"
-    (advice-add #'windmove-do-window-select :around #'my|blink-cursor))
-
+(req-package beacon
+  :diminish beacon-mode
+  :demand t
+  :config
   (with-eval-after-load "evil"
-    (advice-add #'evil-window-top    :after #'my|blink-cursor)
-    (advice-add #'evil-window-middle :after #'my|blink-cursor)
-    (advice-add #'evil-window-bottom :after #'my|blink-cursor)))
+    (advice-add #'evil-window-top    :after #'beacon-blink)
+    (advice-add #'evil-window-middle :after #'beacon-blink)
+    (advice-add #'evil-window-bottom :after #'beacon-blink))
+
+  (add-hooks-pair 'prog-mode 'beacon-mode))
 
 ;; Display page breaks as a horizontal line
-(use-package page-break-lines
-  :commands (page-break-lines-mode global-page-break-lines-mode)
-  :diminish (page-break-lines-mode)
-  :init (global-page-break-lines-mode +1))
+(req-package page-break-lines
+  :diminish page-break-lines-mode
+  :commands
+  (page-break-lines-mode
+   global-page-break-lines-mode)
+  :defer 2
+  :config
+  (global-page-break-lines-mode 1))
 
 ;; Visually separate delimiter pairs
-(use-package rainbow-delimiters
+(req-package rainbow-delimiters
   :commands rainbow-delimiters-mode
-  :init (add-hooks-pair 'lisp-mode 'rainbow-delimiters-mode)
-  :config (setq rainbow-delimiters-max-face-count 3))
+  :init
+  (setq rainbow-delimiters-max-face-count 3)
+  (add-hooks-pair 'lisp-mode 'rainbow-delimiters-mode))
+
+;;;
+;; Autoloads
+
+;;;### autoload
+(defun +color-identifiers-toggle ()
+  "Toggle identifier colorization."
+  (interactive)
+  (if (or (bound-and-true-p color-identifiers-mode) (bound-and-true-p rainbow-identifiers-mode))
+      (progn
+        (color-identifiers-mode 0)
+        (rainbow-identifiers-mode 0))
+    (rainbow-identifiers-mode 1)))
+
+;;;### autoload
+(defun +color-identifiers-delayed-refresh ()
+  "Refresh color identifiers with a delay."
+  (run-with-idle-timer 0.2 nil 'color-identifiers:refresh))
 
 (provide 'base-ui)
 ;;; base-ui.el ends here

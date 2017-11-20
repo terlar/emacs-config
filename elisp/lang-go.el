@@ -10,93 +10,92 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-package)
+  (require 'base-lib)
   (require 'base-keybinds))
-
-(autoload 'push-company-backends "base-lib")
-(autoload 'push-repl-command "base-lib")
 
 ;;;
 ;; Packages
 
-(use-package go-mode
+(req-package go-mode
   :mode "\\.go$"
   :interpreter "go"
-  :commands (go-mode gofmt-before-save)
-  :general
-  (:keymaps 'go-mode-map :states 'normal
-            "K"  'godoc-at-point
-            "gd" 'go-guru-definition
-            "gD" 'go-guru-referrers)
-  :preface
-  (eval-when-compile
-    (defvar gofmt-command))
-
-  (defun go|add-before-save-hook ()
-    (add-hook 'before-save-hook #'gofmt-before-save nil t))
-
-  (defun go|setup-compile ()
-    "Customize compile command to run go build."
-    (if (not (string-match "go" compile-command))
-        (set (make-local-variable 'compile-command)
-             "go build -v && go test -v && go vet")))
-
-  (defun go-repl ()
-    "Open a Go REPL."
-    (interactive)
-    (pop-to-buffer
-     (or (get-buffer "*Go REPL*")
-         (progn (gorepl-run)
-                (let ((buf (get-buffer "*Go REPL*")))
-                  (bury-buffer buf)
-                  buf)))))
-  :config
-  (push-repl-command 'go-mode #'go-repl)
-
-  ;; Use goimports instead of gofmt
+  :init
   (setq gofmt-command "goimports")
-  (if (not (executable-find "goimports"))
-      (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")
-    (add-hooks-pair 'go-mode 'go|add-before-save-hook))
+  :config
+  (set-doc-fn 'go-mode 'godoc-at-point)
 
-  (add-hooks-pair 'go-mode
-                  '(flycheck-mode
-                    go|setup-compile)))
+  (if (executable-find "goimports")
+      (add-hook! 'go-mode (add-hook 'before-save-hook #'gofmt-before-save nil t))
+    (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save"))
 
-(use-package go-eldoc
+  (add-hooks-pair 'go-mode 'flycheck-mode))
+
+(req-package go-eldoc
+  :require go-mode
   :after go-mode
   :commands go-eldoc-setup
-  :config (add-hooks-pair 'go-mode 'go-eldoc-setup))
+  :config (add-hooks-pair 'go-mode #'go-eldoc-setup))
 
-(use-package go-guru
+;; Code navigation & refactoring
+(req-package go-guru
+  :require go-mode
   :after go-mode
-  :commands (go-guru-describe
-             go-guru-freevars go-guru-implements go-guru-peers
-             go-guru-referrers go-guru-definition go-guru-pointsto
-             go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
-             go-guru-expand-region)
+  :general
+  (:keymaps
+   'go-mode-map
+   :states '(normal motion)
+   "gd" 'go-guru-definition
+   "gD" 'go-guru-referrers)
+  :commands
+  (go-guru-describe
+   go-guru-freevars go-guru-implements go-guru-peers
+   go-guru-referrers go-guru-definition go-guru-pointsto
+   go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
+   go-guru-expand-region)
   :config
-  (unless (executable-find "guru")
-    (warn "go-mode: couldn't find guru, refactoring commands won't work")))
+  (if (executable-find "guru")
+      (progn
+        ;; jump-fn #'go-guru-definition
+        ;; pop-fn #'xref-pop-marker-stack
+        ;; refs-fn #'go-guru-referrers
+        )
+    (warn "go-mode: couldn't find guru; refactoring commands won't work"))
 
-(use-package gorepl-mode
-  :after go-mode
-  :commands (gorepl-run gorepl-run-load-current-file)
-  :config
-  (unless (executable-find "gore")
-    (warn "go-mode: couldn't find gore, REPL support disabled")))
+  (set-popup-buffer (rx bos "*go-guru-output*" eos)))
 
-(use-package company-go
+;; REPL
+(req-package gorepl-mode
+  :require go-mode
   :after go-mode
-  :defines company-go-show-annotation
-  :preface
-  (eval-when-compile
-    (defvar command-go-gocode-command))
-  :init (setq command-go-gocode-command "gocode")
+  :commands
+  (gorepl-run
+   gorepl-run-load-current-file)
   :config
-  (setq company-go-show-annotation t)
+  (defun +gorepl-eval ()
+    "Evaluate in Go REPL."
+    (if (use-region-p)
+        (gorepl-eval-region (region-beginning) (region-end))
+      (gorepl-eval-line-goto-next-line)))
+
+  (if (executable-find "gore")
+      (progn
+        (set-eval-command 'go-mode #'+gorepl-eval)
+        (set-repl-command 'go-mode #'gorepl-run))
+    (warn "go-mode: couldn't find gore, REPL support disabled"))
+
+  (set-popup-buffer (rx bos "*Go REPL*" eos)))
+
+;; Completion
+(req-package company-go
+  :require company go-mode
+  :after go-mode
+  :commands company-go
+  :init
+  (setq command-go-gocode-command "gocode")
+  :config
   (if (executable-find command-go-gocode-command)
-      (with-eval-after-load "company"
-        (push-company-backends 'go-mode '(company-go)))
+      (set-company-backends 'go-mode 'company-go)
     (warn "go-mode: couldn't find gocode, code completion won't work")))
 
 (provide 'lang-go)

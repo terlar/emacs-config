@@ -7,21 +7,23 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
-(use-package plantuml-mode
-  :mode "\\.p\\(lant\\)?uml\\'"
+(req-package plantuml-mode
+  :mode "\\.p\\(lant\\)?uml$"
   :init
-  (add-hooks-pair 'plantuml-mode 'flycheck-mode)
-  :config
   (setq plantuml-java-command "java-headless"
         plantuml-jar-path "/opt/plantuml/plantuml.jar"))
 
-(use-package flycheck-plantuml
+(req-package flycheck-plantuml
+  :require flycheck plantuml-mode
   :after plantuml-mode
-  :commands flycheck-plantuml-setup
   :config
+  (add-hooks-pair 'plantuml-mode 'flycheck-mode)
   (add-hooks-pair 'flycheck-mode 'flycheck-plantuml-setup))
 
 (provide 'lang-uml)

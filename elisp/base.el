@@ -38,12 +38,13 @@
  ;; Keep the point out of the minibuffer
  minibuffer-prompt-properties
  '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt)
- ;; History & backup settings (save nothing)
- auto-save-default nil
+ ;; History & backup settings
+ auto-save-default t            ; Enable auto-save
+ auto-save-visited-file-name t  ; Auto-save to the same file
  create-lockfiles nil
+ make-backup-files nil
  history-delete-duplicates t
  history-length 500
- make-backup-files nil
  ;; Files
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
  auto-save-list-file-name          (concat my-cache-dir "autosave")
@@ -61,7 +62,6 @@
 
 ;; Move custom defs out of init.el
 (setq custom-file (concat my-data-dir "custom.el"))
-(load custom-file t t)
 
 ;; Quiet startup
 (advice-add #'display-startup-echo-area-message :override #'ignore)
@@ -102,7 +102,7 @@
   (require 'base-package)
 
   (eval-when-compile
-    (my|packages-initialize))
+    (+packages-initialize))
   (setq load-path (eval-when-compile load-path))
 
   (require 'base-lib))
@@ -117,12 +117,12 @@
 ;; Bootstrap
 
 (unless noninteractive
-  (require 'base-ui)
-  (require 'base-modeline)
-  (require 'base-popups)
   (require 'base-keybinds)
+  (require 'base-popups)
+  (require 'base-projects)
+  (require 'base-modeline)
   (require 'base-editor)
-  (require 'base-projects))
+  (require 'base-ui))
 
 (provide 'base)
 ;;; base.el ends here

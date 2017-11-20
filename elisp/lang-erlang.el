@@ -6,27 +6,47 @@
 
 ;;; Code:
 
-(autoload 'push-company-backends "base-lib")
+(eval-when-compile
+  (require 'base-package)
+  (require 'base-lib))
 
 ;;;
 ;; Packages
 
-(use-package erlang
+(req-package erlang
+  :mode
+  ("\\.[eh]rl$" . erlang-mode)
+  ("rebar\\.config" . erlang-mode)
   :init
-  (add-hooks-pair 'erlang-mode 'flycheck-mode)
+  (autoload 'eir-eval-in-erlang "eval-in-repl-erlang")
+  (setq erlang-check-module-name t
+        erlang-root-dir "/usr/lib/erlang")
   :config
+  (set-eval-command 'erlang-mode #'eir-eval-in-erlang)
+  (set-repl-command 'erlang-mode #'erlang-shell-display)
+  (set-popup-buffer (rx bos (zero-or-more anything) "*erlang*" eos))
+  (set-doc-fn 'erlang-mode 'erlang-man-function)
+  ;; jump-fn #'xref-find-definitions
+  ;; pop-fn #'xref-pop-marker-stack
+  ;; refs-fn #'xref-find-references
+
   (require 'erlang-start)
-  (setq erlang-check-module-name t))
 
-(use-package company-erlang
-  :after erlang
-  :init
-  (push-company-backends 'erlang-mode '(company-erlang)))
+  (add-hooks-pair 'erlang-mode 'flycheck-mode))
 
-(use-package flycheck-rebar3
+(req-package company-erlang
+  :require company erlang
   :after erlang
-  :init
-  (add-hooks-pair 'erlang-mode 'flycheck-rebar3-setup))
+  :commands company-erlang
+  :config
+  (set-company-backends 'erlang-mode 'company-erlang))
+
+(req-package flycheck-rebar3
+  :require erlang
+  :commands flycheck-rebar3-setup
+  :after erlang
+  :config
+  (flycheck-rebar3-setup))
 
 (provide 'lang-erlang)
 ;;; lang-erlang.el ends here

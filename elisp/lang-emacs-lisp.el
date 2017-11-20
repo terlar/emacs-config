@@ -7,66 +7,71 @@
 
 ;;; Code:
 
-(autoload 'push-repl-command "base-lib")
+(eval-when-compile
+  (require 'base-lib)
+  (require 'base-package))
 
-(add-hooks-pair 'emacs-lisp-mode
-                '(eldoc-mode
-                  highlight-quoted-mode
-                  auto-compile-on-save-mode
-                  rainbow-delimiters-mode
-                  flycheck-mode))
+(autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
-(defun emacs-lisp-repl ()
-  "Open the Emacs Lisp REPL (`ielm')."
-  (interactive)
-  (pop-to-buffer
-   (or (get-buffer "*ielm*")
-       (progn (ielm)
-              (let ((buf (get-buffer "*ielm*")))
-                (bury-buffer buf)
-                buf)))))
+(add-hook! 'after-init
+           (defun emacs-lisp-repl ()
+             "Open the Emacs Lisp REPL (`ielm')."
+             (interactive)
+             (let* ((buffer-name "*ielm*")
+                    (buffer-regexp (regexp-quote buffer-name)))
+               (eir-repl-start buffer-regexp #'ielm)
+               (pop-to-buffer (get-buffer buffer-name))
+               (add-to-list 'popup-buffer-list buffer-regexp)))
 
-(push-repl-command 'emacs-lisp-mode #'emacs-lisp-repl)
+           (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
+           (set-repl-command 'emacs-lisp-mode #'emacs-lisp-repl)
+           (set-doc-fn 'emacs-lisp-mode 'helpful-at-point)
+           ;; jump-fn #'xref-find-definitions
+           ;; pop-fn #'xref-pop-marker-stack
+           ;; refs-fn #'xref-find-references
+
+           (add-hooks-pair 'emacs-lisp-mode
+                           '(flycheck-mode
+                             rainbow-delimiters-mode)))
 
 ;;;
 ;; Packages
 
-(use-package auto-compile
-  :commands (auto-compile-on-load-mode auto-compile-on-save-mode auto-compile-byte-compile)
-  :preface
-  (defun my|emacs-lisp-load-after-compile (success)
+(req-package auto-compile
+  :commands
+  (auto-compile-on-load-mode
+   auto-compile-on-save-mode
+   auto-compile-byte-compile)
+  :init
+  (setq auto-compile-display-buffer nil
+        auto-compile-use-mode-line nil)
+
+  (add-hooks-pair 'emacs-lisp-mode
+                  '(auto-compile-on-load-mode
+                    auto-compile-on-save-mode))
+  :config
+  (defun +emacs-lisp-load-after-compile (success)
     "Reload the current emacs-lisp file after it's recompiled, if an older
 version is loaded."
     (when (eq success t)
       (let ((buffer-path (file-truename buffer-file-name)))
         (when (assoc buffer-path load-history)
           (load-file buffer-path)))))
+  (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
+
+(req-package highlight-quoted
+  :commands highlight-quoted-mode
   :init
-  (add-hooks-pair 'emacs-lisp-mode
-                  '(auto-compile-on-load-mode
-                    auto-compile-on-save-mode))
-  :config
-  (setq auto-compile-display-buffer nil
-        auto-compile-use-mode-line nil)
-
-  (advice-add #'auto-compile-byte-compile :filter-return #'my|emacs-lisp-load-after-compile))
-
-(use-package highlight-quoted
-  :commands highlight-quoted-mode)
-
-(use-package slime
-  :config
-  (setq inferior-lisp-program "clisp")
-  (require 'slime-fuzzy))
+  (add-hooks-pair 'emacs-lisp-mode 'highlight-quoted-mode))
 
 ;; Evaluation result overlays.
-(use-package eros
+(req-package eros
   :commands eros-mode
   :init
   (add-hooks-pair 'emacs-lisp-mode 'eros-mode))
 
 ;; Emacs Start Up Profiler
-(use-package esup
+(req-package esup
   :commands esup)
 
 (provide 'lang-emacs-lisp)

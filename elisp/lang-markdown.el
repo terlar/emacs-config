@@ -5,35 +5,19 @@
 
 ;;; Code:
 
-(autoload 'sp-local-pair "smartparens")
+(eval-when-compile
+  (require 'base-package)
+  (require 'base-lib))
 
 ;;;
 ;; Packages
 
-(use-package markdown-mode
+(req-package markdown-mode
   :mode
+  "\\.markdown$"
+  "\\.md$"
   "/README$"
   ("/README\\.md$" . gfm-mode)
-  :commands (markdown-mode
-             gfm-mode
-             markdown-toggle-markup-hiding)
-  :preface
-  (defun markdown-setup ()
-    (setq fill-column 80
-          line-spacing 2)
-    (customize-set-variable 'markdown-header-scaling t))
-
-  (defun markdown|add-insert-state-hooks ()
-    (add-hook 'evil-insert-state-entry-hook #'markdown|evil-insert-state-entry nil t)
-    (add-hook 'evil-insert-state-exit-hook #'markdown|evil-insert-state-exit nil t))
-
-  (defun markdown|evil-insert-state-entry ()
-    "Setup markdown edit mode."
-    (markdown-toggle-markup-hiding -1))
-
-  (defun markdown|evil-insert-state-exit ()
-    "Reset markdown edit mode."
-    (markdown-toggle-markup-hiding +1))
   :init
   (setq
    markdown-command
@@ -41,22 +25,30 @@
    markdown-enable-math t
    markdown-enable-wiki-links t
    markdown-fontify-code-blocks-natively t
-   markdown-gfm-additional-languages '("sh")
    markdown-hide-markup t
    markdown-italic-underscore t
    markdown-make-gfm-checkboxes-buttons t)
+
+  (customize-set-variable 'markdown-header-scaling t)
   :config
+  (set-evil-state-change
+   '(markdown-mode gfm-mode)
+   :on-insert (lambda () (markdown-toggle-markup-hiding 0))
+   :on-normal (lambda () (markdown-toggle-markup-hiding 1)))
+
+  (add-hook! 'markdown-mode
+             (setq fill-column 80
+                   line-spacing 2))
+
   (add-hooks-pair 'markdown-mode
                   '(auto-fill-mode
-                    variable-pitch-mode
-                    markdown-setup
-                    markdown|add-insert-state-hooks))
+                    variable-pitch-mode)))
 
-  (sp-local-pair
-   '(markdown-mode gfm-mode)
-   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
+(req-package edit-indirect)
 
-(use-package markdown-toc :commands markdown-toc-generate-toc)
+(req-package markdown-toc
+  :require markdown-mode
+  :commands markdown-toc-generate-toc)
 
 (provide 'lang-markdown)
 ;;; lang-markdown.el ends here

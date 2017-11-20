@@ -7,31 +7,39 @@
 
 ;;; Code:
 
-(autoload 'push-company-backends "base-lib")
-(autoload 'push-repl-command "base-lib")
+(eval-when-compile
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package lua-mode :mode ("\\.lua$")
+(req-package lua-mode
+  :mode ("\\.lua$")
   :interpreter "lua"
-  :preface
-  (defun lua-repl ()
-    "Open Lua REPL."
-    (interactive)
-    (lua-start-process "lua" "lua")
-    (pop-to-buffer lua-process-buffer))
   :init
-  (add-hooks-pair 'lua-mode 'flycheck-mode)
-  :config
-  (push-repl-command 'lua-mode #'lua-repl))
+  (autoload 'eir-eval-in-lua "eval-in-repl-lua" nil t)
 
-(use-package company-lua
-  :when (package-installed-p 'company)
+  (defun lua-repl ()
+    "Open a Lua REPL."
+    (interactive)
+    (lua-start-process)
+    (pop-to-buffer lua-process-buffer))
+
+  (setq lua-documentation-function 'eww)
+  :config
+  (set-repl-command 'lua-mode #'lua-repl)
+  (set-eval-command 'lua-mode #'eir-eval-in-lua)
+  (set-popup-buffer (rx bos "*lua*" eos))
+
+  (set-doc-fn 'lua-mode 'lua-search-documentation)
+
+  (add-hooks-pair 'lua-mode 'flycheck-mode))
+
+(req-package company-lua
+  :require company lua-mode
   :after lua-mode
   :config
-  (with-eval-after-load "company"
-    (push-company-backends 'lua-mode '(company-lua))))
+  (set-company-backends 'lua-mode 'company-lua))
 
 (provide 'lang-lua)
 ;;; lang-lua.el ends here

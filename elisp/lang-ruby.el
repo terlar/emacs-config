@@ -9,74 +9,81 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-keybinds))
-
-(autoload 'push-company-backends "base-lib")
-(autoload 'push-repl-command "base-lib")
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package enh-ruby-mode
-  :mode (("\\.rb$" . enh-ruby-mode)
-         ("\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$" . enh-ruby-mode)
-         ("/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$" . enh-ruby-mode))
-  :interpreter "ruby"
-  :defines enh-ruby-deep-indent-paren
-  :config
+(req-package enh-ruby-mode
+  :mode
+  ("\\.rb$" . enh-ruby-mode)
+  ("\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$" . enh-ruby-mode)
+  ("/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$" . enh-ruby-mode)
+  :interpreter
+  ("ruby" . enh-ruby-mode)
+  :init
   ;; Don't indent the parenthesis or bracket based on the previous line.
   (setq enh-ruby-deep-indent-paren nil)
-
+  :config
   (add-hooks-pair 'enh-ruby-mode
                   '(flycheck-mode
                     rainbow-identifiers-mode)))
 
-(use-package robe
-  :commands (robe-mode robe-start)
-  :init
-  (add-hooks-pair 'enh-ruby-mode 'robe-mode)
-  (with-eval-after-load "company"
-    (push-company-backends 'enh-ruby-mode '(company-robe company-dabbrev-code company-files))))
+(req-package robe
+  :require enh-ruby-mode
+  :after enh-ruby-mode
+  :config
+  (set-doc-fn 'enh-ruby-mode #'robe-doc)
+  ;; jump-fn #'robe-jump
+  ;; pop-fn #'xref-pop-marker-stack
 
-(use-package ruby-refactor
+  (set-company-backends 'enh-ruby-mode 'company-robe)
+  (set-popup-buffer (rx bos "*robe-doc*" eos))
+
+  (add-hooks-pair 'enh-ruby-mode 'robe-mode))
+
+(req-package yard-mode
+  :require enh-ruby-mode
+  :after enh-ruby-mode
+  :diminish yard-mode
+  :config
+  (add-hooks-pair 'enh-ruby-mode 'yard-mode))
+
+(req-package ruby-refactor
+  :require enh-ruby-mode
+  :after enh-ruby-mode)
+
+(req-package rspec-mode
+  :minor
+  "_spec\\.rb$")
+
+(req-package inf-ruby
+  :require enh-ruby-mode
+  :after enh-ruby-mode
   :commands
-  (ruby-refactor-extract-to-method
-   ruby-refactor-extract-local-variable
-   ruby-refactor-extract-constant ruby-refactor-add-parameter
-   ruby-refactor-extract-to-let ruby-refactor-convert-post-conditional))
-
-(use-package yard-mode
-  :commands yard-mode
-  :init (add-hooks-pair 'enh-ruby-mode 'yard-mode))
-
-(use-package rspec-mode
-  :general
-  (:keymaps 'rspec-mode-map :states 'normal :prefix "C-c t"
-            "r" '(rspec-rerun)
-            "a" '(rspec-verify-all)
-            "s" '(rspec-verify-single)
-            "v" '(rspec-verify))
+  (inf-ruby
+   inf-ruby-console-auto)
   :init
-  (defvar rspec-mode-verifiable-map (make-sparse-keymap))
-  (defvar evilmi-ruby-match-tags
-    '((("unless" "if") ("elsif" "else") "end")
-      ("begin" ("rescue" "ensure") "end")
-      ("case" ("when" "else") "end")
-      (("class" "def" "while" "do" "module" "for" "until") () "end")
-      ;; Rake
-      (("task" "namespace") () "end"))))
+  (autoload 'eir-repl-start "eval-in-repl" nil t)
+  (autoload 'eir-eval-in-ruby "eval-in-repl-ruby" nil t)
 
-(use-package inf-ruby
-  :commands (inf-ruby inf-ruby-console-auto)
-  :init
-  (push-repl-command 'enh-ruby-mode 'inf-ruby))
+  (setq inf-ruby-default-implementation "pry")
 
-(use-package company-inf-ruby
-  :when (package-installed-p 'company)
+  (set-popup-buffer (rx bos "*ruby*" eos)
+                    (rx bos "*pry*" eos)
+                    (rx bos "*gem*" eos)
+                    (rx bos "*bundle console*" eos))
+  :config
+  (set-repl-command 'enh-ruby-mode 'inf-ruby-console-auto)
+  (set-eval-command 'enh-ruby-mode 'eir-eval-in-ruby)
+
+  (set-evil-state 'inf-ruby-mode 'insert))
+
+(req-package company-inf-ruby
+  :require company inf-ruby
   :after inf-ruby
   :config
-  (with-eval-after-load "company"
-    (push-company-backends 'inf-ruby-mode '(company-inf-ruby))))
+  (set-company-backends 'inf-ruby-mode 'company-inf-ruby))
 
 (provide 'lang-ruby)
 ;;; lang-ruby.el ends here

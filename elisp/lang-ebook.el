@@ -7,37 +7,64 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-keybinds))
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package nov :mode ("\\.epub$" . nov-mode)
-  :general
-  (:keymaps 'nov-mode-map :states 'normal
-            "]p"      'nov-next-document
-            "[p"      'nov-previous-document
-            "<up>"    'nov-scroll-down
-            "<down>"  'nov-scroll-up
-            "<left>"  'nov-previous-document
-            "<right>" 'nov-next-document)
-  :preface
-  (eval-when-compile
-    (defvar nov-text-width)
-    (defvar cwm-centered-window-width))
+(req-package justify-kp
+  :loader :el-get
+  :commands
+  (pj-justify
+   pj-line-width))
 
-  (defun epub-setup ()
-    (setq nov-save-place-file (concat my-data-dir "nov-places")
-          nov-text-width most-positive-fixnum
-          cwm-centered-window-width 120)
-    (face-remap-add-relative 'variable-pitch :family "Noto Serif"
-                             :height 1.5))
+(req-package nov
+  :mode ("\\.epub$" . nov-mode)
   :init
-  (add-hooks-pair 'nov-mode '(epub-setup
-                              centered-window-mode)))
+  (setq nov-save-place-file (concat my-data-dir "nov-places")
+        nov-text-width most-positive-fixnum)
+  :config
+  (defun +nov-font-setup ()
+    (face-remap-add-relative 'variable-pitch
+                             :family "Noto Serif"
+                             :height 1.2))
 
-(use-package pdf-tools :mode ("\\.pdf$" . pdf-view-mode)
-  :commands (pdf-view-mode pdf-tools-install))
+  (defun +nov-delayed-render ()
+    "Rerender nov after load."
+    (run-with-idle-timer 0.2 nil 'nov-render-document))
+
+  (defun +nov-window-configuration-change-hook ()
+    (+nov-post-html-render-hook)
+    (remove-hook 'window-configuration-change-hook
+                 '+nov-window-configuration-change-hook
+                 t))
+
+  (defun +nov-post-html-render-hook ()
+    (if (get-buffer-window)
+        (let ((max-width (pj-line-width))
+              buffer-read-only)
+          (save-excursion
+            (goto-char (point-min))
+            (while (not (eobp))
+              (when (not (looking-at "^[[:space:]]*$"))
+                (goto-char (line-end-position))
+                (when (> (shr-pixel-column) max-width)
+                  (goto-char (line-beginning-position))
+                  (pj-justify)))
+              (forward-line 1))))
+      (add-hook 'window-configuration-change-hook
+                '+nov-window-configuration-change-hook
+                nil t)))
+  (add-hook 'nov-post-html-render-hook '+nov-post-html-render-hook)
+
+  (add-hooks-pair 'nov-mode '(+nov-font-setup
+                              +nov-delayed-render
+                              centered-window-mode
+                              hide-fringes)))
+
+(req-package pdf-tools
+  :mode ("\\.pdf$" . pdf-view-mode)
+  :commands pdf-tools-install)
 
 (provide 'lang-ebook)
 ;;; lang-ebook.el ends here

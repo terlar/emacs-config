@@ -6,25 +6,22 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-package)
   (autoload 'projectile-project-root "projectile"))
 
 ;;;
 ;; Packages
 
-(use-package neotree
-  :commands (neotree-show
-             neotree-hide
-             neotree-toggle
-             neotree-dir
-             neotree-find
-             neo-global--select-window
-             neo-global--with-buffer
-             neo-global--window-exists-p)
-  :functions (off-p)
-  :preface
-  (eval-when-compile
-    (defvar winner-boring-buffers))
-  :config
+(req-package neotree
+  :commands
+  (neotree-show
+   neotree-hide
+   neotree-toggle
+   neotree-dir
+   neotree-find
+   neo-global--select-window
+   neo-global--with-buffer)
+  :init
   (setq
    neo-create-file-auto-open nil
    neo-auto-indent-point nil
@@ -59,7 +56,7 @@
 ;; Autoloads
 
 ;;;###autoload
-(defun neotree|toggle ()
+(defun +neotree-toggle ()
   "Toggle NeoTree window."
   (interactive)
   (let ((project-dir (ignore-errors (projectile-project-root)))
@@ -73,12 +70,12 @@
       (message "Could not find git project root."))))
 
 ;;;###autoload
-(defun neotree|window ()
+(defun +neotree-window ()
   "Switch to and/or open NeoTree window."
   (interactive)
   (if (neo-global--window-exists-p)
       (neo-global--select-window)
-    (neotree|toggle)))
+    (+neotree-toggle)))
 
 (provide 'tool-neotree)
 ;;; tool-neotree.el ends here

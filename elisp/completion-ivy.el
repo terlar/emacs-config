@@ -6,32 +6,24 @@
 ;;; Code:
 (eval-when-compile
   (require 'base-vars)
+  (require 'base-package)
   (require 'base-lib)
   (require 'base-keybinds))
 
 ;;;
 ;; Packages
 
-(use-package ivy :demand t
+(req-package ivy
   :diminish ivy-mode
-  :commands (ivy-mode
-             ivy-format-function-line
-             ivy-exit-with-action)
   :general
   (:keymaps 'ivy-mode-map
-            [remap find-file]                 'counsel-find-file
-            [remap switch-to-buffer]          'ivy-switch-buffer
-            [remap recentf]                   'counsel-recentf
-            [remap imenu]                     'counsel-imenu
-            [remap bookmark-jump]             'counsel-bookmark
-            [remap projectile-switch-project] 'counsel-projectile-switch-project
-            [remap projectile-find-file]      'counsel-projectile-find-file
-            [remap imenu-anywhere]            'ivy-imenu-anywhere
-            [remap execute-extended-command]  'counsel-M-x
-            [remap describe-function]         'counsel-describe-function
-            [remap describe-variable]         'counsel-describe-variable
-            [remap describe-face]             'counsel-describe-face)
-  :config
+            [remap switch-to-buffer] 'ivy-switch-buffer
+            [remap imenu-anywhere]   'ivy-imenu-anywhere)
+  (:keymaps 'ivy-occur-grep-mode-map :states 'normal
+            "i" 'ivy-wgrep-change-to-wgrep-mode
+            "q" 'quit-window)
+  :demand t
+  :init
   (setq-default projectile-completion-system 'ivy
                 smex-completion-method 'ivy
                 magit-completing-read-function #'ivy-completing-read)
@@ -46,64 +38,60 @@
         ivy-format-function #'ivy-format-function-line
         ;; disable magic slash on non-match
         ivy-magic-slash-non-match-action nil)
-
-  (ivy-mode +1))
-
-(use-package swiper :commands (swiper swiper-all))
-
-(use-package counsel
-  :after ivy
   :config
-  (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+  (set-popup-buffer (rx bos "*ivy-occur " (one-or-more anything) "*" eos))
 
-  (use-package counsel-projectile
-    :after projectile
-    :commands counsel-projectile-on
-    :init (counsel-projectile-on)))
+  (ivy-mode 1))
+
+(req-package swiper
+  :require ivy
+  :after ivy
+  :commands
+  (swiper
+   swiper-multi
+   swiper-all))
+
+(req-package counsel
+  :require swiper
+  :after ivy
+  :general
+  (:keymaps 'ivy-mode-map
+            [remap find-file]                 'counsel-find-file
+            [remap recentf]                   'counsel-recentf
+            [remap imenu]                     'counsel-imenu
+            [remap bookmark-jump]             'counsel-bookmark
+            [remap projectile-switch-project] 'counsel-projectile-switch-project
+            [remap projectile-find-file]      'counsel-projectile-find-file
+            [remap execute-extended-command]  'counsel-M-x
+            [remap describe-function]         'counsel-describe-function
+            [remap describe-variable]         'counsel-describe-variable
+            [remap describe-face]             'counsel-describe-face)
+  :init
+  (setq counsel-find-file-ignore-regexp
+        "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"
+        counsel-grep-base-command
+        "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
+(req-package counsel-projectile
+  :require counsel projectile
+  :after counsel
+  :config
+  (counsel-projectile-on))
 
 ;; Used by `counsel-M-x'
-(use-package smex
-  :commands (smex smex-major-mode-commands)
-  :config
+(req-package smex
+  :init
   (setq smex-auto-update nil
         smex-save-file (concat my-cache-dir "/smex-items"))
+  :config
   (smex-initialize))
 
-(use-package all-the-icons-ivy
+;; Icons in ivy buffers
+(req-package all-the-icons-ivy
+  :require ivy
   :after ivy
   :commands all-the-icons-ivy-setup
   :init
   (add-graphic-hook (all-the-icons-ivy-setup)))
-
-;;;
-;; Autoloads
-
-;;;###autoload
-(defun ivy-wgrep-occur ()
-  "Invoke the search+replace wgrep buffer on the current ag/rg search results."
-  (interactive)
-  (unless (window-minibuffer-p)
-    (user-error "No completion session is active"))
-  (require 'wgrep)
-  (let* ((caller (ivy-state-caller ivy-last))
-         (occur-fn (plist-get ivy--occurs-list caller))
-         (buffer
-          (generate-new-buffer
-           (format "*ivy-occur%s \"%s\"*"
-                   (if caller (concat " " (prin1-to-string caller)) "")
-                   ivy-text))))
-    (with-current-buffer buffer
-      (let ((inhibit-read-only t))
-        (erase-buffer)
-        (funcall occur-fn))
-      (setf (ivy-state-text ivy-last) ivy-text)
-      (setq ivy-occur-last ivy-last)
-      (setq-local ivy--directory ivy--directory))
-    (ivy-exit-with-action
-     `(lambda (_)
-        (pop-to-buffer ,buffer)
-        (ivy-wgrep-change-to-wgrep-mode)))))
-
 
 (provide 'completion-ivy)
 ;;; completion-ivy.el ends here

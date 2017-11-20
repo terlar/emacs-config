@@ -11,25 +11,40 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package lsp-java
-  :after lsp-mode
+(req-package lsp-java
+  :require lsp-mode
   :commands lsp-java-enable
   :init
-  (add-hooks-pair 'java-mode 'lsp-java-enable)
-  :config
-  (setq lsp-java-server-install-dir "/opt/jdt-language-server/"))
+  (setq lsp-java-server-install-dir "/opt/jdt-language-server/")
+  (add-hooks-pair 'java-mode 'lsp-java-enable))
 
-(use-package android-mode :commands android-mode)
+(req-package javadoc-lookup
+  :commands javadoc-lookup
+  :init
+  (set-doc-fn 'java-mode #'javadoc-lookup))
 
-(use-package groovy-mode :mode "\\.g\\(radle\\|roovy\\)$")
+(req-package android-mode
+  :commands
+  (android-mode
+   android-create-project
+   android-start-emulator))
 
-(use-package gradle-mode)
-(use-package log4j-mode)
+(req-package groovy-mode
+  :mode "\\.gr\\(adle\\|oovy\\)$")
+
+(req-package gradle-mode
+  :commands gradle-mode
+  :init
+  (add-hooks-pair 'java-mode 'gradle-mode))
+
+(req-package log4j-mode
+  :mode "\\.log$"
+  :interpreter "syslog-mode")
 
 (provide 'lang-java)
 ;;; lang-java.el ends here

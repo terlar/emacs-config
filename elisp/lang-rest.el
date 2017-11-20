@@ -8,27 +8,32 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-package)
   (require 'base-keybinds))
-
-(autoload 'push-company-backends "base-lib")
 
 ;;;
 ;; Packages
 
-(use-package restclient
-  :mode ("\\.http$" . restclient-mode)
-  :commands restclient-mode
+(req-package restclient
+  :mode
+  ("\\.http$" . restclient-mode)
+  :interpreter
+  ("restclient" . restclient-mode)
   :general
-  (:keymaps 'restclient-mode-map :states 'normal
-            "e" 'restclient-http-send-current
-            "E" 'restclient-http-send-current-raw
-            "c" 'restclient-copy-curl-command))
+  (:keymaps
+   'restclient-mode-map
+   :states 'normal
+   "e" 'restclient-http-send-current
+   "E" 'restclient-http-send-current-raw
+   "c" 'restclient-copy-curl-command)
+  :config
+  (rx bos "*HTTP Response*" eos))
 
-(use-package company-restclient
+(req-package company-restclient
+  :require restclient
   :after restclient
   :config
-  (with-eval-after-load "company"
-    (push-company-backends 'restclient-mode '(company-restclient))))
+  (set-company-backends 'restclient-mode 'company-restclient))
 
 (provide 'lang-rest)
 ;;; lang-rest.el ends here

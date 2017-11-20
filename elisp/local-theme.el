@@ -40,20 +40,33 @@
  `(success                                          ((t (:foreground ,theme-color-success))))
  `(warning                                          ((t (:foreground ,theme-color-warning :weight bold))))
 
- `(my-code-face                                     ((t (:background ,theme-color-lighter))))
- `(my-folded-face                                   ((t (:background ,theme-color-lighter))))
+ ;; comint
+ `(comint-highlight-prompt                          ((t (:height 1.0))))
+ ;; compile
+ `(compilation-error                                ((t (:foreground ,theme-color-error))))
+ `(compilation-warning                              ((t (:foreground ,theme-color-warning))))
+ ;; ediff
+ `(ediff-current-diff-A                             ((t (:background "#FFDDDD"))))
+ `(ediff-fine-diff-A                                ((t (:background "#B22222"))))
+ `(ediff-current-diff-B                             ((t (:background "#EEFFCC"))))
+ `(ediff-fine-diff-B                                ((t (:background "#00AA13"))))
+ `(ediff-current-diff-C                             ((t (:background "#EEFFFF"))))
+ `(ediff-fine-diff-C                                ((t (:background "#4A8BB3"))))
+ ;; org-mode
+ `(org-block                                        ((t (:inherit fixed-pitch))))
+ `(org-formula                                      ((t (:inherit fixed-pitch))))
+ `(org-table                                        ((t (:inherit fixed-pitch))))
+ `(org-verbatim                                     ((t (:inherit fixed-pitch))))
 
  ;; anzu
  `(anzu-mode-line                                   ((t (:foreground "white" :background ,my-evil-default-mode-color :box nil))))
+ ;; cargo
+ `(cargo-process--standard-face                     ((t (:foreground nil))))
+ `(cargo-process--ok-face                           ((t (:foreground ,theme-color-success))))
+ `(cargo-process--error-face                        ((t (:foreground ,theme-color-error))))
+ `(cargo-process--warning-face                      ((t (:foreground ,theme-color-warning))))
  ;; company
  `(company-tooltip                                  ((t (:family ,my-font))))
- ;; ediff
- `(ediff-current-diff-A                             ((t (:background "#FEF3F3"))))
- `(ediff-fine-diff-A                                ((t (:background "#B22222"))))
- `(ediff-current-diff-B                             ((t (:background "#EBF8EC"))))
- `(ediff-fine-diff-B                                ((t (:background "#00AA13"))))
- `(ediff-current-diff-C                             ((t (:background "#EBEFF8"))))
- `(ediff-fine-diff-C                                ((t (:background "#4A8BB3"))))
  ;; eros
  `(eros-result-overlay-face                         ((t (:foreground "white" :background "#697D8A" :box nil))))
  ;; indent-guide
@@ -68,30 +81,42 @@
  ;; flycheck
  `(flycheck-error                                   ((t (:underline (:color ,theme-color-error)))))
  `(flycheck-warning                                 ((t (:underline (:color ,theme-color-warning)))))
- ;; markdown-mode
- `(markdown-inline-code-face                        ((t (:box (:line-width 1)))))
  ;; nav-flash
  `(nav-flash-face                                   ((t (:background "pale goldenrod"))))
  ;; neotree
- `(neo-root-dir-face                                ((t (:family my-variable-pitch-font))))
- `(neo-dir-link-face                                ((t (:family my-variable-pitch-font))))
- `(neo-file-link-face                               ((t (:family my-variable-pitch-font))))
+ `(neo-root-dir-face                                ((t (:family ,my-variable-pitch-font))))
+ `(neo-dir-link-face                                ((t (:family ,my-variable-pitch-font))))
+ `(neo-file-link-face                               ((t (:family ,my-variable-pitch-font))))
  ;; rst
- `(rst-literal                                      ((t (:inherit my-code-face))))
+ `(rst-literal                                      ((t (:inherit fixed-pitch))))
  ;; shm
  `(shm-current-face                                 ((t (:inherit hl-line))))
- `(shm-quarantine-face                              ((t (:background "#ffdddd"))))
+ `(shm-quarantine-face                              ((t (:background "#FFDDDD"))))
+ ;; spray
+ `(spray-base-face                                  ((t (:foreground "Gray25" :family "Noto Serif" :weight normal :underline nil))))
+ `(spray-accent-face                                ((t (:foreground "red" :underline (:color "Gray25") :overline "Gray25"))))
+ ;; stripe-buffer
+ `(stripe-highlight                                 ((t (:background "#EAEAEA"))))
  ;; web-mode
- `(web-mode-current-element-highlight-face          ((t (:foreground nil :background nil :weight bold)))))
+ `(web-mode-current-element-highlight-face          ((t (:foreground nil :background nil :weight bold))))
+ ;; which-key
+ `(which-key-local-map-description-face             ((t (:weight bold)))))
 
 ;;;
 ;; Theme Variables
 
 (custom-theme-set-variables
  'local
+ ;; beacon
+ '(beacon-color "pale goldenrod")
  ;; coverlay
- '(coverlay:untested-line-background-color "#FEF3F3")
- '(coverlay:tested-line-background-color   "#EBF8EC")
+ '(coverlay:untested-line-background-color "#FFDDDD")
+ '(coverlay:tested-line-background-color   "#EEFFCC")
+ ;; dired-k
+ '(dired-k-size-colors
+   '((1024 . "grey90") (2048 . "grey85") (3072 . "grey80")
+     (5120 . "grey70") (10240 . "grey65") (20480 . "grey60") (40960 . "grey55")
+     (102400 . "grey25") (262144 . "grey10") (524288 . "grey0")))
  ;; hl-todo
  `(hl-todo-keyword-faces
    `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))

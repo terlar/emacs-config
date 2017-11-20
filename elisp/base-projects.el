@@ -6,22 +6,15 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
+  (require 'base-vars)
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package projectile :demand t
+(req-package projectile
   :diminish projectile-mode
-  :functions projectile-ignored-directories
-  :preface
-  (defun my|projectile-cache-current-file (orig-fun &rest args)
-    "Don't cache ignored files."
-    (unless (cl-some (lambda (path)
-                       (string-prefix-p buffer-file-name
-                                        (expand-file-name path)))
-                     (projectile-ignored-directories))
-      (apply orig-fun args)))
+  :demand t
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
         projectile-enable-caching nil
@@ -31,11 +24,25 @@
         projectile-globally-ignored-files
         '("TAGS" "GPATH" "GRTAGS" "GTAGS")
         projectile-indexing-method 'alien
-        projectile-ignored-projects `(,my-data-dir)
+        projectile-ignored-projects (list my-data-dir)
         projectile-known-projects-file (concat my-cache-dir "projectile.projects"))
   :config
-  (projectile-mode +1)
+  (defun +projectile-cache-current-file (orig-fun &rest args)
+    "Don't cache ignored files."
+    (unless (cl-some (lambda (path)
+                       (string-prefix-p buffer-file-name
+                                        (expand-file-name path)))
+                     (projectile-ignored-directories))
+      (apply orig-fun args)))
+  (advice-add #'projectile-cache-current-file :around #'+projectile-cache-current-file)
 
+  (setq projectile-globally-ignored-directories
+        (append '("_build" "elm-stuff" "tests/elm-stuff")
+                projectile-globally-ignored-directories))
+
+  (setq projectile-project-root-files
+        (append '("package.json" "Package.swift" "README.md")
+                projectile-project-root-files))
   (setq projectile-other-file-alist
         (append '(("less" "css")
                   ("styl" "css")
@@ -47,32 +54,29 @@
                   ("html" "jade" "pug" "jsx" "tsx"))
                 projectile-other-file-alist))
 
-  (advice-add #'projectile-cache-current-file :around #'my|projectile-cache-current-file))
+  (projectile-mode 1))
 
 ;;;
 ;; Buffer filtering
 
-;;;###autoload
-(defun is-useful-buffer (buffer)
+(defun +is-useful-buffer (buffer)
   "Determine if BUFFER is useful."
   (not (string-match
         "^ ?\\*.*\\*\\(<[0-9]+>\\)?$"
         (buffer-name buffer))))
 
-;;;###autoload
-(defun is-current-persp-buffer (buffer)
+(defun +is-current-persp-buffer (buffer)
   "Determine if BUFFER belongs to current persp."
   (if (fboundp 'persp-buffer-list)
       (memq buffer (persp-buffer-list))
     t))
 
-;;;###autoload
-(defun is-visible-buffer (buffer)
+(defun +is-visible-buffer (buffer)
   "Determine if BUFFER should be visible."
-  (and (is-useful-buffer buffer) (is-current-persp-buffer buffer)))
+  (and (+is-useful-buffer buffer) (+is-current-persp-buffer buffer)))
 
 ;; Filter out buffers that is not deemed visible.
-(push '(buffer-predicate . is-visible-buffer) default-frame-alist)
+(push '(buffer-predicate . +is-visible-buffer) default-frame-alist)
 
 (provide 'base-projects)
 ;;; base-projects.el ends here

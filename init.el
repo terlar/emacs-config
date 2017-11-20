@@ -19,16 +19,16 @@
 ;; Features
 
 (require 'feature-evil)
+(require 'feature-workspaces)
+(require 'feature-version-control)
+(require 'feature-spellcheck)
+(require 'feature-syntax-checker)
 (require 'feature-eval)
-(require 'feature-debug)
 (require 'feature-jump)
+(require 'feature-debug)
 (require 'feature-lsp)
 (require 'feature-preview)
-(require 'feature-spellcheck)
 (require 'feature-speed-reading)
-(require 'feature-syntax-checker)
-(require 'feature-version-control)
-(require 'feature-workspaces)
 
 ;;;
 ;; Completion
@@ -49,8 +49,8 @@
 ;;;
 ;; Language support
 
-(require 'lang-conf)
 (require 'lang-data)
+(require 'lang-conf)
 (require 'lang-ebook)
 (require 'lang-elixir)
 (require 'lang-elm)
@@ -60,31 +60,27 @@
 (require 'lang-haskell)
 (require 'lang-java)
 (require 'lang-javascript)
+(require 'lang-lisp)
 (require 'lang-lua)
 (require 'lang-markdown)
 (require 'lang-opengl)
 (require 'lang-org)
 (require 'lang-pkgbuild)
 (require 'lang-python)
-(require 'lang-raml)
 (require 'lang-rest)
 (require 'lang-rst)
 (require 'lang-ruby)
 (require 'lang-rust)
 (require 'lang-scala)
 (require 'lang-shell)
-(require 'lang-typescript)
 (require 'lang-uml)
 (require 'lang-web)
 
-;;;
-;; Keybindings
+(req-package-finish)
 
 (unless noninteractive
-  (require 'theme)
   (require 'bindings)
-  (require 'commands))
-
-(req-package-finish)
+  (require 'commands)
+  (require 'theme))
 
 ;;; init.el ends here

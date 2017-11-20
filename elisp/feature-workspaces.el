@@ -6,17 +6,17 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-vars))
+  (require 'base-vars)
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(use-package persp-mode :demand t
-  :commands (persp-mode persp-switch)
+(req-package persp-mode
+  :demand t
   :init
-  (setq-default persp-keymap-prefix (kbd "C-c TAB"))
-  :config
-  (setq persp-autokill-buffer-on-remove 'kill-weak
+  (setq persp-keymap-prefix (kbd "C-c TAB")
+        persp-autokill-buffer-on-remove 'kill-weak
         persp-nil-name "main"
         persp-nil-hidden t
         persp-auto-save-fname "autosave"
@@ -25,10 +25,9 @@
         ;; Auto-load on startup
         persp-auto-resume-time (if (daemonp) 3.0 -1)
         ;; Auto-save on kill
-        persp-auto-save-opt (if (daemonp) 1 0))
-
-  ;; Don't shorten perspective name
-  (setq persp-lighter
+        persp-auto-save-opt (if (daemonp) 1 0)
+        ;; Don't shorten perspective name
+        persp-lighter
         '(:eval
           (format
            (propertize
@@ -40,11 +39,8 @@
                           'persp-face-lighter-buffer-not-in-persp)
                       'persp-face-lighter-nil-persp)))
            (safe-persp-name (get-current-persp)))))
-
-  (if (display-graphic-p)
-      (persp-mode +1)
-    (add-hook 'after-make-frame-functions #'persp-mode)
-    (add-hook 'after-init-hook #'persp-mode)))
+  :config
+  (persp-mode 1))
 
 (provide 'feature-workspaces)
 ;;; feature-workspaces.el ends here

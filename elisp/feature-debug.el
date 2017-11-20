@@ -5,11 +5,18 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
-(use-package realgud
-  :commands (realgud:gdb realgud:trepanjs realgud:bashdb realgud:zshdb))
+(req-package realgud
+  :commands
+  (realgud:gdb
+   realgud:trepanjs
+   realgud:bashdb
+   realgud:zshdb))
 
 (provide 'feature-debug)
 ;;; feature-debug.el ends here
