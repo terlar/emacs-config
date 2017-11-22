@@ -314,7 +314,7 @@ The list accepts the following properties:
   :group 'readability-mode)
 
 (defvar-local readability-mode-saved-state-plist nil
-  "Plist containing the state before `readability-mode' was enabled.
+  "Properties containing the state before `readability-mode' was enabled.
 Contains following state:
 
   :line-spacing NUMBER
