@@ -72,14 +72,12 @@ Used when `rst-header-scaling' is non-nil."
                 (hide-lines-matching rst-adornment-regexp)))
 
   (add-hook! 'rst-mode
-             (setq line-spacing 2
-                   fill-column 80)
              (customize-set-variable 'rst-header-scaling t)
              (hide-lines-matching rst-adornment-regexp))
 
   (add-hooks-pair 'rst-mode
                   '(auto-fill-mode
-                    variable-pitch-mode)))
+                    readability-mode)))
 
 ;;;
 ;; Autoloads

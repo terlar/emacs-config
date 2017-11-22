@@ -24,11 +24,6 @@
   (setq nov-save-place-file (concat my-data-dir "nov-places")
         nov-text-width most-positive-fixnum)
   :config
-  (defun +nov-font-setup ()
-    (face-remap-add-relative 'variable-pitch
-                             :family "Noto Serif"
-                             :height 1.2))
-
   (defun +nov-delayed-render ()
     "Rerender nov after load."
     (run-with-idle-timer 0.2 nil 'nov-render-document))
@@ -57,10 +52,10 @@
                 nil t)))
   (add-hook 'nov-post-html-render-hook '+nov-post-html-render-hook)
 
-  (add-hooks-pair 'nov-mode '(+nov-font-setup
-                              +nov-delayed-render
+  (add-hooks-pair 'nov-mode '(+nov-delayed-render
                               centered-window-mode
-                              hide-fringes)))
+                              hide-fringes
+                              readability-mode)))
 
 (req-package pdf-tools
   :mode ("\\.pdf$" . pdf-view-mode)

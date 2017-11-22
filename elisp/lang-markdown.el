@@ -36,13 +36,9 @@
    :on-insert (lambda () (markdown-toggle-markup-hiding 0))
    :on-normal (lambda () (markdown-toggle-markup-hiding 1)))
 
-  (add-hook! 'markdown-mode
-             (setq fill-column 80
-                   line-spacing 2))
-
   (add-hooks-pair 'markdown-mode
                   '(auto-fill-mode
-                    variable-pitch-mode)))
+                    readability-mode)))
 
 (req-package edit-indirect)
 

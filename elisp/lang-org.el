@@ -7,7 +7,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-lib))
 
 ;;;
 ;; Packages
@@ -45,7 +46,7 @@
      (shell      . t)
      (translate  . t)))
 
-  (add-hooks-pair 'org-mode 'variable-pitch-mode)
+  (add-hooks-pair 'org-mode 'readability-mode)
   (add-hooks-pair 'org-babel-after-execute 'org-redisplay-inline-images))
 
 (req-package org-preview-html
