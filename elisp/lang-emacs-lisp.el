@@ -72,7 +72,10 @@ version is loaded."
 
 ;; Emacs Start Up Profiler
 (req-package esup
-  :commands esup)
+  :commands esup
+  :config
+  (set-evil-state 'esup-mode 'motion)
+  (set-popup-buffer (rx bos "*esup*" eos)))
 
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here
