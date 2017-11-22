@@ -183,6 +183,7 @@
  "o s" '(speed-read         :wk "Speed-reading")
  "o t" '(eshell             :wk "Terminal")
  "o T" '(ansi-term          :wk "ANSI Terminal")
+ "o u" '(ace-link           :wk "Open link")
  "o w" '(eww                :wk "Browser")
 
  "s" '(:ignore t :wk "spell")

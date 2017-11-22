@@ -179,7 +179,8 @@
 ;; Hint mode for links
 (req-package ace-link
   :commands
-  (ace-link-help
+  (ace-link
+   ace-link-help
    ace-link-org))
 
 ;; Fast window navigation
