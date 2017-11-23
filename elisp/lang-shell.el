@@ -47,6 +47,7 @@
   :config
   (set-repl-command 'sh-mode #'eir-shell-repl)
   (set-eval-command 'sh-mode #'eir-eval-in-shell)
+  (set-doc-fn 'sh-mode #'man)
 
   (set-popup-buffer (rx bos "*shell*" eos)
                     (rx bos "*shell [" (one-or-more anything) "]*" eos))

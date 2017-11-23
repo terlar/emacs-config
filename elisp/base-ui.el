@@ -98,7 +98,10 @@
 
 ;; Visual line wrapping
 (diminish 'visual-line-mode)
-(add-hooks-pair '(text-mode prog-mode) 'visual-line-mode)
+(add-hooks-pair '(text-mode
+                  prog-mode
+                  Man-mode)
+                'visual-line-mode)
 
 ;; Visual mode for browser
 (add-hooks-pair 'eww-mode 'buffer-face-mode)

@@ -58,6 +58,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
                     elisp-refs-mode
                     help-mode
                     messages-buffer-mode
+                    Man-mode
                     package-menu-mode
                     process-menu-mode
                     vc-annotate-mode
