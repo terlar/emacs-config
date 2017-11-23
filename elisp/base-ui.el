@@ -222,6 +222,7 @@
   (bug-reference-mode
    bug-reference-prog-mode)
   :init
+  (setq bug-reference-bug-regexp "\\(#\\|GH-\\)\\(?2:[0-9]+\\)")
   (add-hooks-pair 'prog-mode 'bug-reference-prog-mode)
   (add-hooks-pair '(text-mode magit-log-mode)
                   'bug-reference-mode))
