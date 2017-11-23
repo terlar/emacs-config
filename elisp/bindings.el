@@ -185,6 +185,7 @@
  "o T" '(ansi-term          :wk "ANSI Terminal")
  "o u" '(ace-link           :wk "Open link")
  "o w" '(eww                :wk "Browser")
+ "o x" '(re-builder         :wk "Browser")
 
  "s" '(:ignore t :wk "spell")
  "s d" '(adict-guess-dictionary  :wk "Guess dictionary")
