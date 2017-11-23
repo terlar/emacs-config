@@ -78,17 +78,19 @@
 (add-graphic-hook
  (menu-bar-mode 0)
  (tool-bar-mode 0)
- (scroll-bar-mode 0)
-
- ;; Standardize fringe width
- (push (cons 'internal-border-width my-fringe-width) default-frame-alist)
- (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
- (push (cons 'right-fringe my-fringe-width) default-frame-alist)
- (add-hook! '(emacs-startup minibuffer-setup)
-            (set-window-fringes (minibuffer-window) 0 0 nil)))
+ (scroll-bar-mode 0))
 
 ;; Transparent non-graphic background color
 (add-terminal-hook (set-face-background 'default nil))
+
+;; Setup border
+(push (cons 'internal-border-width my-fringe-width) default-frame-alist)
+
+;; Standardize fringe width
+(push (cons 'left-fringe  my-fringe-width) default-frame-alist)
+(push (cons 'right-fringe my-fringe-width) default-frame-alist)
+(add-hook! '(emacs-startup minibuffer-setup)
+           (set-window-fringes (minibuffer-window) 0 0 nil))
 
 ;; Text scaling
 (defadvice text-scale-increase (around all-buffers (arg) activate)
