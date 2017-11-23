@@ -93,10 +93,10 @@
           gc-cons-percentage init-gc-cons-percentage
           file-name-handler-alist nil)
     (add-hook 'after-init-hook
-              #'(lambda ()
-                  (setq gc-cons-threshold normal-gc-cons-threshold
-                        gc-cons-percentage normal-gc-cons-percentage
-                        file-name-handler-alist normal-file-name-handler-alist))))
+              (lambda ()
+                (setq gc-cons-threshold normal-gc-cons-threshold
+                      gc-cons-percentage normal-gc-cons-percentage
+                      file-name-handler-alist normal-file-name-handler-alist))))
 
   (require 'cl-lib)
   (require 'base-package)
@@ -109,9 +109,9 @@
 
 ;; Startup time
 (add-hook 'emacs-startup-hook
-          #'(lambda ()
-              (message "Loaded Emacs in %.03fs"
-                       (float-time (time-subtract after-init-time before-init-time)))))
+          (lambda ()
+            (message "Loaded Emacs in %.03fs"
+                     (float-time (time-subtract after-init-time before-init-time)))))
 
 ;;;
 ;; Bootstrap

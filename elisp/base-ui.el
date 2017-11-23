@@ -80,8 +80,8 @@
  ;; Standardize fringe width
  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
- (add-hooks-pair '(emacs-startup minibuffer-setup)
-                 '(lambda () (set-window-fringes (minibuffer-window) 0 0 nil))))
+ (add-hook! '(emacs-startup minibuffer-setup)
+            (set-window-fringes (minibuffer-window) 0 0 nil)))
 
 ;; Transparent non-graphic background color
 (add-terminal-hook (set-face-background 'default nil))

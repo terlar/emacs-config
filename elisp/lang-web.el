@@ -28,10 +28,10 @@
   ;; No padding for nested sections inside HTML
   (with-eval-after-load "editorconfig"
     (add-hook 'editorconfig-custom-hooks
-              #'(lambda (_)
-                  (setq web-mode-block-padding 0
-                        web-mode-script-padding 0
-                        web-mode-style-padding 0)))))
+              (lambda (_)
+                (setq web-mode-block-padding 0
+                      web-mode-script-padding 0
+                      web-mode-style-padding 0)))))
 
 (req-package company-web
   :require web-mode

@@ -95,9 +95,9 @@ The list accepts the following properties:
          (when ,disabled
            (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
 
-(defmacro set-doc-fn (mode function)
+(defun set-doc-fn (mode function)
   "Set MODE documentation FUNCTION using `documentation-function'."
-  `(add-hook! ,mode (setq documentation-function ,function)))
+  `(add-hooks-pair ,mode (lambda () (setq documentation-function ,function))))
 
 (defun documentation-at-point ()
   "Get documentation at point using `documentation-function'."
@@ -109,11 +109,12 @@ The list accepts the following properties:
 (defmacro set-company-backends (mode &rest backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."
   `(with-eval-after-load "company"
-     (add-hook!
+     (add-hooks-pair
       ,mode
-      (make-variable-buffer-local 'company-backends)
-      (dolist (backend (list ,@(reverse backends)))
-        (cl-pushnew backend company-backends :test #'equal)))))
+      (lambda ()
+        (make-variable-buffer-local 'company-backends)
+        (dolist (backend (list ,@(reverse backends)))
+          (cl-pushnew backend company-backends :test #'equal))))))
 
 (defun set-popup-buffer (&rest buffers)
   "Display BUFFERS as popup."
@@ -144,8 +145,7 @@ The list accepts the following properties:
                      (progn ,@forms))))
      (when (display-graphic-p)
        (add-hook 'after-init-hook
-                 (lambda ()
-                   (progn ,@forms))))))
+                 (lambda () (progn ,@forms))))))
 
 (defmacro add-terminal-hook (&rest forms)
   "Add FORMS as a graphical hook."
@@ -157,8 +157,7 @@ The list accepts the following properties:
                        (progn ,@forms)))))
      (unless (display-graphic-p)
        (add-hook 'after-init-hook
-                 (lambda ()
-                   (progn ,@forms))))))
+                 (lambda () (progn ,@forms))))))
 
 (defmacro quiet! (&rest forms)
   "Run FORMS without making any noise."
@@ -262,13 +261,13 @@ The list accepts the following properties:
              (car
               (sort
                open-popup-buffers
-               #'(lambda (a b)
-                   (> (get-buffer-display-time a) (get-buffer-display-time b))))))))
+               (lambda (a b)
+                 (> (get-buffer-display-time a)
+                    (get-buffer-display-time b))))))))
           ((> 0 (length open-popup-buffers))
            (ivy-read "Close popup: "
                      (mapcar #'buffer-name open-popup-buffers)
-                     :action (lambda (x)
-                               (delete-window (get-buffer-window x)))
+                     :action (lambda (x) (delete-window (get-buffer-window x)))
                      :caller 'toggle-popup-buffer))
           ((seq-empty-p closed-popup-buffers)
            (message "No popup buffers found"))
@@ -279,13 +278,13 @@ The list accepts the following properties:
             (car
              (sort
               closed-popup-buffers
-              #'(lambda (a b)
-                  (> (get-buffer-display-time a) (get-buffer-display-time b)))))))
+              (lambda (a b)
+                (> (get-buffer-display-time a)
+                   (get-buffer-display-time b)))))))
           (t
            (ivy-read "Open popup: "
                      (mapcar #'buffer-name closed-popup-buffers)
-                     :action (lambda (x)
-                               (pop-to-buffer x))
+                     :action (lambda (x) (pop-to-buffer x))
                      :caller 'toggle-popup-buffer)))))
 
 ;;;

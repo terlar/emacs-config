@@ -46,18 +46,17 @@ They get reset each time you select the neotree pane and are highlighted incorre
 
 (with-eval-after-load "neotree"
   (advice-add #'neo-global--select-window :after #'+neotree-no-fringes)
-  (add-hook 'neotree-mode-hook
-            #'(lambda ()
-                ;; Setup spacing
-                (setq line-spacing 2
-                      tab-width 1)
+  (add-hook! 'neotree-mode
+             ;; Setup spacing
+             (setq line-spacing 2
+                   tab-width 1)
 
-                ;; Hide cursor and highlight full line instead
-                (hl-line-mode 1)
-                (setq cursor-type nil)
-                (with-eval-after-load "evil"
-                  (defadvice evil-refresh-cursor (around evil activate)
-                    (unless (eq major-mode 'neotree-mode) ad-do-it))))))
+             ;; Hide cursor and highlight full line instead
+             (hl-line-mode 1)
+             (setq cursor-type nil)
+             (with-eval-after-load "evil"
+               (defadvice evil-refresh-cursor (around evil activate)
+                 (unless (eq major-mode 'neotree-mode) ad-do-it)))))
 
 (provide 'theme)
 ;;; theme.el ends here

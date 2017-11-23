@@ -32,12 +32,17 @@
  "C-s" 'counsel-grep-or-swiper
  "C-r" 'counsel-grep-or-swiper)
 
+;; Accessible REPL
+(general-define-key
+ :keymaps 'global
+ "M-;" 'elisp-repl)
+
 ;; Text-scaling
 (general-define-key
  "C-=" 'default-text-scale-reset
  "C--" 'default-text-scale-decrease
  "C-+" 'default-text-scale-increase
- "M-=" '(lambda () (interactive) (text-scale-set 0))
+ "M-=" (lambda () (interactive) (text-scale-set 0))
  "M--" 'text-scale-decrease
  "M-+" 'text-scale-increase
  "<C-mouse-4>" 'text-scale-decrease
@@ -305,22 +310,20 @@
  "?" 'counsel-grep-or-swiper)
 
 ;; ediff
-(add-hook 'ediff-keymap-setup-hook
-          #'(lambda ()
-              (general-define-key
-               :keymaps 'ediff-mode-map
-               "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
-               "j" '(ediff-next-difference     :wk "Next difference")
-               "k" '(ediff-previous-difference :wk "Previous difference"))))
+(add-hook! 'ediff-keymap-setup
+           (general-define-key
+            :keymaps 'ediff-mode-map
+            "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
+            "j" '(ediff-next-difference     :wk "Next difference")
+            "k" '(ediff-previous-difference :wk "Previous difference")))
 
 ;; eshell
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (general-define-key
-               :keymaps 'eshell-mode-map
-               "C-l" 'eshell-clear-buffer
-               [tab] 'company-complete-common-or-cycle
-               "TAB" 'company-complete-common-or-cycle)))
+(add-hook! 'eshell-mode
+           (general-define-key
+            :keymaps 'eshell-mode-map
+            "C-l" 'eshell-clear-buffer
+            [tab] 'company-complete-common-or-cycle
+            "TAB" 'company-complete-common-or-cycle))
 
 ;; eww
 (general-define-key

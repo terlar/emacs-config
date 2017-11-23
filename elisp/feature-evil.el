@@ -70,14 +70,12 @@ If a hook returns non-nil, all hooks after it are ignored.")
       (setq-local evil-state-change-functions plist)))
   (add-hook 'after-change-major-mode-hook #'+evil-init-state-change)
 
-  (add-hook 'evil-insert-state-entry-hook
-            #'(lambda ()
-                (let ((fn (plist-get evil-state-change-functions :on-insert)))
-                  (when (functionp fn) (funcall fn)))))
-  (add-hook 'evil-normal-state-entry-hook
-            #'(lambda ()
-                (let ((fn (plist-get evil-state-change-functions :on-normal)))
-                  (when (functionp fn) (funcall fn)))))
+  (add-hook! 'evil-insert-state-entry
+             (let ((fn (plist-get evil-state-change-functions :on-insert)))
+               (when (functionp fn) (funcall fn))))
+  (add-hook! 'evil-normal-state-entry
+             (let ((fn (plist-get evil-state-change-functions :on-normal)))
+               (when (functionp fn) (funcall fn))))
 
   (evil-mode 1))
 
