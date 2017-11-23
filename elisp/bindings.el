@@ -333,12 +333,19 @@
 ;; help-mode
 (general-define-key
  :keymaps '(help-mode-map
-            helpful-mode-map)
- :states '(normal motion insert emacs)
- "[[" 'help-go-back
- "]]" 'help-go-forward
+            helpful-mode-map
+            elisp-refs-mode)
  "o"  'ace-link-help
- "q"  'quit-window)
+ "q"  'quit-window
+ :states '(normal motion)
+ "[[" 'help-go-back
+ "]]" 'help-go-forward)
+
+;; package
+(general-define-key
+ :keymaps 'org-mode-map
+ :major-modes t
+ "C-c SPC" 'nil)
 
 ;; package
 (general-define-key
