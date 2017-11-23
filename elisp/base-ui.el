@@ -42,6 +42,9 @@
  scroll-conservatively 1001
  scroll-margin 0
  scroll-preserve-screen-position t
+ ;; Margins
+ left-margin-width 1
+ right-margin-width 1
  ;; Fringes
  fringes-outside-margins t
  indicate-buffer-boundaries 'right
@@ -78,6 +81,7 @@
  (scroll-bar-mode 0)
 
  ;; Standardize fringe width
+ (push (cons 'internal-border-width my-fringe-width) default-frame-alist)
  (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
  (push (cons 'right-fringe my-fringe-width) default-frame-alist)
  (add-hook! '(emacs-startup minibuffer-setup)
@@ -241,12 +245,7 @@
   :diminish centered-window-mode
   :commands centered-window-mode
   :init
-  (setq cwm-centered-window-width 120)
-
-  (add-hooks-pair '(text-mode
-                    conf-mode
-                    prog-mode
-                    help-mode helpful-mode) 'centered-window-mode))
+  (setq cwm-centered-window-width 120))
 
 ;; Highlight source code identifiers based on their name
 (req-package color-identifiers-mode
