@@ -14,17 +14,8 @@
 (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
 (add-hook! 'after-init
-           (defun emacs-lisp-repl ()
-             "Open the Emacs Lisp REPL (`ielm')."
-             (interactive)
-             (let* ((buffer-name "*ielm*")
-                    (buffer-regexp (regexp-quote buffer-name)))
-               (eir-repl-start buffer-regexp #'ielm)
-               (pop-to-buffer (get-buffer buffer-name))
-               (add-to-list 'popup-buffer-list buffer-regexp)))
-
            (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
-           (set-repl-command 'emacs-lisp-mode #'emacs-lisp-repl)
+           (set-repl-command 'emacs-lisp-mode #'elisp-repl)
            (set-doc-fn 'emacs-lisp-mode 'helpful-at-point)
            ;; jump-fn #'xref-find-definitions
            ;; pop-fn #'xref-pop-marker-stack
@@ -76,6 +67,19 @@ version is loaded."
   :config
   (set-evil-state 'esup-mode 'motion)
   (set-popup-buffer (rx bos "*esup*" eos)))
+
+;;;
+;; Autoloads
+
+;;;###autoload
+(defun elisp-repl ()
+  "Open the Emacs Lisp REPL (`ielm')."
+  (interactive)
+  (let* ((buffer-name "*ielm*")
+         (buffer-regexp (regexp-quote buffer-name)))
+    (eir-repl-start buffer-regexp #'ielm)
+    (pop-to-buffer (get-buffer buffer-name))
+    (add-to-list 'popup-buffer-list buffer-regexp)))
 
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here
