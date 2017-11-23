@@ -100,7 +100,6 @@
 
 ;; Display info about indentation current indentation settings
 (req-package indent-info
-  :loader :el-get
   :demand t
   :init
   (setq indent-info-prefix nil
