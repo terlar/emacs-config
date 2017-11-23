@@ -95,7 +95,7 @@ The list accepts the following properties:
          (when ,disabled
            (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
 
-(defun set-doc-fn (mode function)
+(defmacro set-doc-fn (mode function)
   "Set MODE documentation FUNCTION using `documentation-function'."
   `(add-hooks-pair ,mode (lambda () (setq documentation-function ,function))))
 
