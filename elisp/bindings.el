@@ -7,6 +7,7 @@
 
 (eval-when-compile
   (require 'base-vars)
+  (require 'base-lib)
   (require 'base-keybinds))
 
 (eval `(general-define-key :keymaps '(normal motion visual)
@@ -32,11 +33,6 @@
  "C-s" 'counsel-grep-or-swiper
  "C-r" 'counsel-grep-or-swiper)
 
-;; Accessible REPL
-(general-define-key
- :keymaps 'global
- "M-;" 'elisp-repl)
-
 ;; Text-scaling
 (general-define-key
  "C-=" 'default-text-scale-reset
@@ -60,6 +56,7 @@
  "'"   '(toggle-popup-buffer                    :wk "Toggle popup buffer")
  ","   '(switch-to-buffer                       :wk "Switch to buffer")
  "."   '(find-file                              :wk "Browse files")
+ ":"   '(elisp-repl                             :wk "Emacs Lisp REPL")
  ";"   '(counsel-bookmark                       :wk "Jump to bookmark")
  "RET" '(repl                                   :wk "Open REPL")
  "v"   '(:keymap
