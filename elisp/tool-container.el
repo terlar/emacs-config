@@ -17,6 +17,8 @@
 
 (req-package docker
   :init
+  (setq docker-containers-show-all t)
+
   (autoload 'docker-images "docker-images" nil t)
   (autoload 'docker-containers "docker-containers" nil t)
   (autoload 'docker-volumes "docker-volumes" nil t)
@@ -33,6 +35,26 @@
 
 (req-package docker-compose-mode
   :mode "docker-compose\\.yml")
+
+(req-package docker-tramp
+  :require docker
+  :after docker
+  :init
+  (setq docker-tramp-use-names t))
+
+(req-package kubernetes
+  :commands
+  (kubernetes-overview
+   kubernetes-display-pods
+   kubernetes-display-configmaps))
+
+(req-package kubernetes-evil
+  :require evil kubernetes
+  :after kubernetes)
+
+(req-package kubernetes-tramp
+  :require kubernetes
+  :after kubernetes)
 
 (provide 'tool-container)
 ;;; tool-container.el ends here
