@@ -50,13 +50,13 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (set-evil-state '(tabulated-list-mode
                     view-mode comint-mode term-mode
                     calendar-mode Man-mode grep-mode
-                    image-mode
-                    git-rebase-mode)
+                    image-mode git-rebase-mode)
                   'emacs)
   (set-evil-state 'git-commit-mode 'insert)
   (set-evil-state '(debugger-mode
                     elisp-refs-mode
                     help-mode
+                    imenu-list-major-mode
                     messages-buffer-mode
                     Man-mode
                     package-menu-mode
