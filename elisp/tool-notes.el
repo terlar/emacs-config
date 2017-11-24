@@ -21,7 +21,8 @@
         deft-use-filename-as-title t
         deft-use-filter-string-for-filename t)
   :config
-  (set-evil-state 'deft-mode 'emacs))
+  (set-evil-state 'deft-mode 'emacs)
+  (add-hooks-pair 'deft-mode 'line-cursor))
 
 (provide 'tool-notes)
 ;;; tool-notes.el ends here

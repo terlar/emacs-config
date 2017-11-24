@@ -32,75 +32,72 @@
  'local
  `(mode-line                               ((t (:family ,my-variable-pitch-font :foreground "#252525" :background "#DADADA" :box (:line-width 6 :color "#DADADA")))))
  `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :foreground "#9E9E9E" :background "#F6F6F6" :box (:line-width 6 :color "#F6F6F6")))))
- `(mode-line-buffer-id                              ((t (:foreground nil :weight bold))))
- `(header-line-highlight                            ((t (:inherit mode-line-highlight))))
- `(line-number-current-line                         ((t (:foreground ,theme-color-highlight :weight bold))))
+ `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
+ `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
+ `(line-number-current-line                ((t (:foreground ,theme-color-highlight :weight bold))))
+ `(hl-line                                 ((t (:background "#E8E8E8"))))
 
- `(error                                            ((t (:foreground ,theme-color-error))))
- `(success                                          ((t (:foreground ,theme-color-success))))
- `(warning                                          ((t (:foreground ,theme-color-warning :weight bold))))
+ `(error                                   ((t (:foreground ,theme-color-error))))
+ `(success                                 ((t (:foreground ,theme-color-success))))
+ `(warning                                 ((t (:foreground ,theme-color-warning :weight bold))))
 
  ;; comint
- `(comint-highlight-prompt                          ((t (:height 1.0))))
+ `(comint-highlight-prompt                 ((t (:height 1.0))))
  ;; compile
- `(compilation-error                                ((t (:foreground ,theme-color-error))))
- `(compilation-warning                              ((t (:foreground ,theme-color-warning))))
+ `(compilation-error                       ((t (:foreground ,theme-color-error))))
+ `(compilation-warning                     ((t (:foreground ,theme-color-warning))))
  ;; ediff
- `(ediff-current-diff-A                             ((t (:background "#FFDDDD"))))
- `(ediff-fine-diff-A                                ((t (:background "#B22222"))))
- `(ediff-current-diff-B                             ((t (:background "#EEFFCC"))))
- `(ediff-fine-diff-B                                ((t (:background "#00AA13"))))
- `(ediff-current-diff-C                             ((t (:background "#EEFFFF"))))
- `(ediff-fine-diff-C                                ((t (:background "#4A8BB3"))))
+ `(ediff-current-diff-A                    ((t (:background "#EECCCC"))))
+ `(ediff-fine-diff-A                       ((t (:background "#AA2222"))))
+ `(ediff-current-diff-B                    ((t (:background "#CCEECC"))))
+ `(ediff-fine-diff-B                       ((t (:background "#22AA22"))))
+ `(ediff-current-diff-C                    ((t (:background "#CCFFFF"))))
+ `(ediff-fine-diff-C                       ((t (:background "#4488BB"))))
  ;; org-mode
- `(org-block                                        ((t (:inherit fixed-pitch))))
- `(org-formula                                      ((t (:inherit fixed-pitch))))
- `(org-table                                        ((t (:inherit fixed-pitch))))
- `(org-verbatim                                     ((t (:inherit fixed-pitch))))
+ `(org-block                               ((t (:inherit fixed-pitch))))
+ `(org-formula                             ((t (:inherit fixed-pitch))))
+ `(org-table                               ((t (:inherit fixed-pitch))))
+ `(org-verbatim                            ((t (:inherit fixed-pitch))))
 
  ;; anzu
- `(anzu-mode-line                                   ((t (:foreground "white" :background ,my-evil-default-mode-color :box nil))))
+ `(anzu-mode-line                          ((t (:foreground "white" :background ,my-evil-default-mode-color :box nil))))
  ;; cargo
- `(cargo-process--standard-face                     ((t (:foreground nil))))
- `(cargo-process--ok-face                           ((t (:foreground ,theme-color-success))))
- `(cargo-process--error-face                        ((t (:foreground ,theme-color-error))))
- `(cargo-process--warning-face                      ((t (:foreground ,theme-color-warning))))
+ `(cargo-process--standard-face            ((t (:foreground nil))))
+ `(cargo-process--ok-face                  ((t (:foreground ,theme-color-success))))
+ `(cargo-process--error-face               ((t (:foreground ,theme-color-error))))
+ `(cargo-process--warning-face             ((t (:foreground ,theme-color-warning))))
  ;; company
- `(company-tooltip                                  ((t (:family ,my-font))))
+ `(company-tooltip                         ((t (:family ,my-font))))
  ;; eros
- `(eros-result-overlay-face                         ((t (:foreground "white" :background "#697D8A" :box nil))))
+ `(eros-result-overlay-face                ((t (:foreground "white" :background "#697D8A" :box nil))))
  ;; indent-guide
- `(indent-guide-face                                ((t (:inherit fringe))))
+ `(indent-guide-face                       ((t (:inherit fringe))))
  ;; js2-mode
- `(js2-error                                        ((t (:inherit flycheck-error))))
- `(js2-warning                                      ((t (:inherit flycheck-warning))))
+ `(js2-error                               ((t (:inherit flycheck-error))))
+ `(js2-warning                             ((t (:inherit flycheck-warning))))
  ;; lsp-mode
- `(lsp-face-highlight-textual                       ((t (:background nil :box (:line-width 1 :color "dark orange")))))
- `(lsp-face-highlight-read                          ((t (:background nil :box (:line-width 1 :color "tomato")))))
- `(lsp-face-highlight-write                         ((t (:background nil :box (:line-width 1 :color "sea green")))))
+ `(lsp-face-highlight-textual              ((t (:background nil :box (:line-width 1 :color "dark orange")))))
+ `(lsp-face-highlight-read                 ((t (:background nil :box (:line-width 1 :color "tomato")))))
+ `(lsp-face-highlight-write                ((t (:background nil :box (:line-width 1 :color "sea green")))))
  ;; flycheck
- `(flycheck-error                                   ((t (:underline (:color ,theme-color-error)))))
- `(flycheck-warning                                 ((t (:underline (:color ,theme-color-warning)))))
+ `(flycheck-error                          ((t (:underline (:color ,theme-color-error)))))
+ `(flycheck-warning                        ((t (:underline (:color ,theme-color-warning)))))
  ;; nav-flash
- `(nav-flash-face                                   ((t (:background "pale goldenrod"))))
- ;; neotree
- `(neo-root-dir-face                                ((t (:family ,my-variable-pitch-font))))
- `(neo-dir-link-face                                ((t (:family ,my-variable-pitch-font))))
- `(neo-file-link-face                               ((t (:family ,my-variable-pitch-font))))
+ `(nav-flash-face                          ((t (:background "#FFFBDD"))))
  ;; rst
- `(rst-literal                                      ((t (:inherit fixed-pitch))))
+ `(rst-literal                             ((t (:inherit fixed-pitch))))
  ;; shm
- `(shm-current-face                                 ((t (:inherit hl-line))))
- `(shm-quarantine-face                              ((t (:background "#FFDDDD"))))
+ `(shm-current-face                        ((t (:inherit hl-line))))
+ `(shm-quarantine-face                     ((t (:background "#FFDDDD"))))
  ;; spray
- `(spray-base-face                                  ((t (:foreground "Gray25" :family "Noto Serif" :weight normal :underline nil))))
- `(spray-accent-face                                ((t (:foreground "red" :underline (:color "Gray25") :overline "Gray25"))))
+ `(spray-base-face                         ((t (:foreground "Gray25" :family "Noto Serif" :weight normal :underline nil))))
+ `(spray-accent-face                       ((t (:foreground "red" :underline (:color "Gray25") :overline "Gray25"))))
  ;; stripe-buffer
- `(stripe-highlight                                 ((t (:background "#EAEAEA"))))
+ `(stripe-highlight                        ((t (:background "#EAEAEA"))))
  ;; web-mode
- `(web-mode-current-element-highlight-face          ((t (:foreground nil :background nil :weight bold))))
+ `(web-mode-current-element-highlight-face ((t (:foreground nil :background nil :weight bold))))
  ;; which-key
- `(which-key-local-map-description-face             ((t (:weight bold)))))
+ `(which-key-local-map-description-face    ((t (:weight bold)))))
 
 ;;;
 ;; Theme Variables
@@ -108,7 +105,7 @@
 (custom-theme-set-variables
  'local
  ;; beacon
- '(beacon-color "pale goldenrod")
+ '(beacon-color "#FFFBDD")
  ;; coverlay
  '(coverlay:untested-line-background-color "#FFDDDD")
  '(coverlay:tested-line-background-color   "#EEFFCC")

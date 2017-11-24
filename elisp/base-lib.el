@@ -348,19 +348,23 @@ Contains following state:
   (force-window-update (current-buffer)))
 
 ;;;### autoload
-(defun get-faces (pos)
-  "Get the font faces at POS."
-  (remq nil
-        (list
-         (get-char-property pos 'read-face-name)
-         (get-char-property pos 'face)
-         (plist-get (text-properties-at pos) 'face))))
+(defun line-cursor ()
+  "Use line cursor instead of regular cursor."
+  (interactive)
+  (hl-line-mode 1)
+  (internal-show-cursor (get-buffer-window) nil))
 
 ;;;### autoload
 (defun hide-fringes ()
-  "Hide fringes for window."
+  "Hide fringes for buffer."
   (interactive)
-  (set-window-fringes nil 0 0))
+  (set-window-fringes (get-buffer-window) 0 0 nil))
+
+;;;### autoload
+(defun hide-mode-line ()
+  "Hide mode line for buffer."
+  (interactive)
+  (setq mode-line-format nil))
 
 ;;;### autoload
 (defun default-text-scale-reset ()

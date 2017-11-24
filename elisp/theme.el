@@ -36,27 +36,5 @@
     (when my-variable-pitch-font
       (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font :height 1.2))))
 
-;;;
-;; NeoTree
-
-(defun +neotree-no-fringes ()
-  "Remove fringes in neotree buffer.
-They get reset each time you select the neotree pane and are highlighted incorrectly."
-  (set-window-fringes neo-global--window 1 0))
-
-(with-eval-after-load "neotree"
-  (advice-add #'neo-global--select-window :after #'+neotree-no-fringes)
-  (add-hook! 'neotree-mode
-             ;; Setup spacing
-             (setq line-spacing 2
-                   tab-width 1)
-
-             ;; Hide cursor and highlight full line instead
-             (hl-line-mode 1)
-             (setq cursor-type nil)
-             (with-eval-after-load "evil"
-               (defadvice evil-refresh-cursor (around evil activate)
-                 (unless (eq major-mode 'neotree-mode) ad-do-it)))))
-
 (provide 'theme)
 ;;; theme.el ends here

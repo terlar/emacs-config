@@ -176,18 +176,17 @@
  "h '" '(what-cursor-position    :wk "What face")
 
  "o" '(:ignore t :wk "open")
- "o c" '(calendar           :wk "Calendar")
- "o C" '(display-time-world :wk "World Time")
- "o d" '(deft               :wk "Notes")
- "o n" '(+neotree-toggle    :wk "NeoTree")
- "o N" '(+neotree-window    :wk "NeoTree Window")
- "o p" '(list-processes     :wk "List processes")
- "o s" '(speed-read         :wk "Speed-reading")
- "o t" '(eshell             :wk "Terminal")
- "o T" '(ansi-term          :wk "ANSI Terminal")
- "o u" '(ace-link           :wk "Open link")
- "o w" '(eww                :wk "Browser")
- "o x" '(re-builder         :wk "Browser")
+ "o c" '(calendar                     :wk "Calendar")
+ "o C" '(display-time-world           :wk "World Time")
+ "o d" '(deft                         :wk "Notes")
+ "o f" '(dired-sidebar-toggle-sidebar :wk "File tree")
+ "o p" '(list-processes               :wk "List processes")
+ "o s" '(speed-read                   :wk "Speed-reading")
+ "o t" '(eshell                       :wk "Terminal")
+ "o T" '(ansi-term                    :wk "ANSI Terminal")
+ "o u" '(ace-link                     :wk "Open link")
+ "o w" '(eww                          :wk "Browser")
+ "o x" '(re-builder                   :wk "Browser")
 
  "s" '(:ignore t :wk "spell")
  "s d" '(adict-guess-dictionary  :wk "Guess dictionary")
@@ -263,8 +262,6 @@
  ;; Navigation
  "C-w"     '(ace-window           :wk "Select a window")
  "B"       '(switch-to-minibuffer :wk "Switch to minibuffer")
- "TAB"     '(+neotree-window      :wk "Switch to NeoTree")
- [backtab] '(+neotree-toggle      :wk "Toggle NeoTree")
  ;; Swapping
  "C-S-w"   '(ace-swap-window      :wk "Swap window")
  "z"       '(zoom-window-zoom     :wk "Zoom window")
@@ -298,11 +295,7 @@
 (general-define-key
  :keymaps 'dired-mode-map
  :major-modes t
- :states '(normal motion)
- "gg" 'evil-goto-first-line
- "G" 'evil-goto-line
- "j" 'dired-next-line
- "k" 'dired-previous-line
+ :states 'normal
  "/" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper)
 
@@ -524,36 +517,6 @@
  "C-u"    'ivy-kill-line
  "C-b"    'backward-word
  "C-f"    'forward-word)
-
-;; neotree
-(general-define-key
- "<left-margin> <mouse-1>" '+neotree-toggle
- "<left-fringe> <mouse-1>" '+neotree-toggle)
-(general-define-key
- :keymaps 'neotree-mode-map
- :states 'normal
- "g"         'nil
- "TAB"       'neotree-quick-look
- "RET"       'neotree-enter
- "v"         'neotree-enter-vertical-split
- "s"         'neotree-enter-horizontal-split
- ;; Navigation
- "j"         'neotree-next-line
- "k"         'neotree-previous-line
- "n"         'neotree-next-line
- "p"         'neotree-previous-line
- "J"         'neotree-select-next-sibling-node
- "K"         'neotree-select-previous-sibling-node
- "H"         'neotree-select-up-node
- "L"         'neotree-select-down-node
- ;; Files
- "c"         'neotree-create-node
- "d"         'neotree-delete-node
- "r"         'neotree-rename-node
- ;; Window
- [backspace] 'evil-window-prev
- "q"         'neotree-hide
- "R"         'neotree-refresh)
 
 ;; nov
 (general-define-key

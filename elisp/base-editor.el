@@ -317,6 +317,8 @@
 
 ;; Display colors
 (req-package rainbow-mode
+  :minor
+  "-theme\\.el$"
   :commands rainbow-mode)
 
 ;; Semantic navigation

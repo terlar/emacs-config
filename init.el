@@ -42,7 +42,7 @@
 (require 'tool-coverage)           ; Code coverage
 (require 'tool-docsets)            ; Docsets
 (require 'tool-dired)              ; Directories
-(require 'tool-neotree)            ; Tree navigation
+(require 'tool-sidebar)            ; Sidebar
 (require 'tool-notes)              ; Note taking
 (require 'tool-rotate-text)        ; Toggle between different text
 (require 'tool-container)          ; Container management

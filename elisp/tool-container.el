@@ -31,7 +31,7 @@
   (set-evil-state '(docker-images-mode
                     docker-containers-mode
                     docker-volumes-mode
-                    docker-networks-mode) 'motion))
+                    docker-networks-mode) 'emacs))
 
 (req-package docker-compose-mode
   :mode "docker-compose\\.yml")

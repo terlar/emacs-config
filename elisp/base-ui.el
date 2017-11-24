@@ -208,13 +208,6 @@
 (req-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode)
 
-;; Pretty icons
-(req-package all-the-icons-dired
-  :commands all-the-icons-dired-mode
-  :init
-  (add-graphic-hook
-   (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
-
 ;; Jump to things
 (req-package avy
   :commands

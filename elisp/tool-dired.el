@@ -17,7 +17,27 @@
   :init
   ;; Always copy/delete recursively
   (setq dired-recursive-copies  'always
-        dired-recursive-deletes 'top))
+        dired-recursive-deletes 'top)
+  :config
+  (add-hook! 'dired-mode
+             (face-remap-add-relative 'hl-line :background "#DDDDDD"))
+  (add-hooks-pair 'dired-mode 'hl-line-mode))
+
+;; Display subtrees
+(req-package dired-subtree
+  :commands
+  (dired-subtree-toggle
+   dired-subtree-cycle)
+  :init
+  (setq dired-subtree-use-backgrounds nil))
+
+;; Pretty icons
+(req-package all-the-icons-dired
+  :diminish all-the-icons-dired-mode
+  :commands all-the-icons-dired-mode
+  :init
+  (add-graphic-hook
+   (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
 
 (req-package image-dired
   :loader :built-in
@@ -29,25 +49,6 @@
         image-dired-gallery-dir (concat image-dired-dir "gallery/")
         image-dired-temp-image-file (concat image-dired-dir "temp-image")
         image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image")))
-
-;; Prettier dired buffers
-(req-package dired-k
-  :require dired
-  :after dired
-  :commands
-  (dired-k
-   dired-k-no-revert)
-  :init
-  (setq dired-k-style 'git)
-
-  (add-hooks-pair 'dired-initial-position 'dired-k)
-  (add-hooks-pair 'dired-after-readin 'dired-k-no-revert)
-  :config
-  (defun +dired-k-highlight (orig-fn &rest args)
-    "Butt out if the requested directory is remote (i.e. through tramp)."
-    (unless (file-remote-p default-directory)
-      (apply orig-fn args)))
-  (advice-add #'dired-k--highlight :around #'+dired-k-highlight))
 
 ;; Striped dired buffers
 (req-package stripe-buffer

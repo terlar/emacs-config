@@ -54,6 +54,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
                   'emacs)
   (set-evil-state 'git-commit-mode 'insert)
   (set-evil-state '(debugger-mode
+                    dired-mode
                     elisp-refs-mode
                     help-mode
                     imenu-list-major-mode
