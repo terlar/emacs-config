@@ -45,6 +45,7 @@
 (require 'tool-neotree)            ; Tree navigation
 (require 'tool-notes)              ; Note taking
 (require 'tool-rotate-text)        ; Toggle between different text
+(require 'tool-container)          ; Container management
 
 ;;;
 ;; Language support

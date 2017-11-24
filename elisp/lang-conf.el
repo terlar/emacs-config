@@ -13,28 +13,6 @@
 ;;;
 ;; Packages
 
-(req-package docker
-  :init
-  (autoload 'docker-images "docker-images" nil t)
-  (autoload 'docker-containers "docker-containers" nil t)
-  (autoload 'docker-volumes "docker-volumes" nil t)
-  (autoload 'docker-networks "docker-networks" nil t)
-
-  (set-popup-buffer
-   (rx bos "*" (or "docker-images" "docker-containers"
-                   "docker-volumes" "docker-networks") "*" eos))
-
-  (set-evil-state '(docker-images-mode
-                    docker-containers-mode
-                    docker-volumes-mode
-                    docker-networks-mode) 'motion))
-
-(req-package dockerfile-mode
-  :mode "Dockerfile$")
-
-(req-package docker-compose-mode
-  :mode "docker-compose\\.yml")
-
 (req-package nginx-mode
   :mode
   "nginx\\.conf$"
