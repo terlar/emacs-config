@@ -1,0 +1,5 @@
+(:name sidebar
+       :description "A customizable file explorer with git integration for emacs"
+       :type github
+       :pkgname "sebastiencs/sidebar.el"
+       :features sidebar)
