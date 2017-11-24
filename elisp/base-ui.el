@@ -314,14 +314,16 @@
 ;; Flash the line around cursor on large movements
 (req-package beacon
   :diminish beacon-mode
-  :demand t
+  :command beacon-mode
   :config
-  (with-eval-after-load "evil"
-    (advice-add #'evil-window-top    :after #'beacon-blink)
-    (advice-add #'evil-window-middle :after #'beacon-blink)
-    (advice-add #'evil-window-bottom :after #'beacon-blink))
+  (defun +beacon-blink ()
+    (when (bound-and-true-p beacon-mode)
+      (beacon-blink)))
 
-  (add-hooks-pair 'prog-mode 'beacon-mode))
+  (with-eval-after-load "evil"
+    (advice-add #'evil-window-top    :after #'+beacon-blink)
+    (advice-add #'evil-window-middle :after #'+beacon-blink)
+    (advice-add #'evil-window-bottom :after #'+beacon-blink)))
 
 ;; Display page breaks as a horizontal line
 (req-package page-break-lines
