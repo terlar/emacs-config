@@ -17,9 +17,7 @@
            (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
            (set-repl-command 'emacs-lisp-mode #'elisp-repl)
            (set-doc-fn 'emacs-lisp-mode 'helpful-at-point)
-           ;; jump-fn #'xref-find-definitions
-           ;; pop-fn #'xref-pop-marker-stack
-           ;; refs-fn #'xref-find-references
+           (smart-jump-register :modes 'emacs-lisp-mode)
 
            (add-hooks-pair 'emacs-lisp-mode
                            '(flycheck-mode

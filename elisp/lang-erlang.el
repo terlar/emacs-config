@@ -26,9 +26,7 @@
   (set-repl-command 'erlang-mode #'erlang-shell-display)
   (set-popup-buffer (rx bos (zero-or-more anything) "*erlang*" eos))
   (set-doc-fn 'erlang-mode 'erlang-man-function)
-  ;; jump-fn #'xref-find-definitions
-  ;; pop-fn #'xref-pop-marker-stack
-  ;; refs-fn #'xref-find-references
+  (smart-jump-register :modes 'erlang-mode)
 
   (require 'erlang-start)
 

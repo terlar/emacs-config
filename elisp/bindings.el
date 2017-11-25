@@ -231,7 +231,6 @@
 ;; Normal state
 (general-define-key
  :keymaps 'normal
- "<C-return>" 'repl-eval
  "]b" 'next-buffer
  "[b" 'previous-buffer
  "]c" 'eir-next-code-line
@@ -239,23 +238,27 @@
  "[e" 'previous-error
  "]w" 'persp-next
  "[w" 'persp-prev
- "gp" 'evil-reselect-paste
+ "<C-return>" 'repl-eval
  "gr" 'eval-region
  "gR" 'eval-buffer
- "K"  'documentation-at-point
+ "gV" '+evil-reselect-paste
  "zx" 'kill-buffer)
 
 (general-define-key
  :keymaps '(normal motion)
- "gd" 'xref-find-definitions
- "gD" 'xref-find-references)
+ "C-t" 'smart-jump-back
+ "K"  'documentation-at-point
+ "gd" 'smart-jump-go
+ "gD" 'smart-jump-references
+ "gh" 'documentation-at-point
+ "gp" 'source-peek)
 
 ;; Visual state
 (general-define-key
  :keymaps 'visual
  "." 'evil-repeat
- "<" 'evil-visual-outdent
- ">" 'evil-visual-indent)
+ "<" '+evil-visual-outdent
+ ">" '+evil-visual-indent)
 
 (general-define-key
  :keymaps 'evil-window-map

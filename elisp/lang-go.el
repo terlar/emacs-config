@@ -11,8 +11,7 @@
 
 (eval-when-compile
   (require 'base-package)
-  (require 'base-lib)
-  (require 'base-keybinds))
+  (require 'base-lib))
 
 ;;;
 ;; Packages
@@ -41,12 +40,6 @@
 (req-package go-guru
   :require go-mode
   :after go-mode
-  :general
-  (:keymaps
-   'go-mode-map
-   :states '(normal motion)
-   "gd" 'go-guru-definition
-   "gD" 'go-guru-referrers)
   :commands
   (go-guru-describe
    go-guru-freevars go-guru-implements go-guru-peers
@@ -55,13 +48,13 @@
    go-guru-expand-region)
   :config
   (if (executable-find "guru")
-      (progn
-        ;; jump-fn #'go-guru-definition
-        ;; pop-fn #'xref-pop-marker-stack
-        ;; refs-fn #'go-guru-referrers
-        )
+      (smart-jump-register :modes 'go-mode
+                           :jump-fn #'go-guru-definition
+                           :pop-fn #'xref-pop-marker-stack
+                           :refs-fn #'go-guru-referrers)
     (warn "go-mode: couldn't find guru; refactoring commands won't work"))
 
+  (set-evil-state 'go-guru-output-mode 'motion)
   (set-popup-buffer (rx bos "*go-guru-output*" eos)))
 
 ;; REPL

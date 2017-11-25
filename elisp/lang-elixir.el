@@ -34,8 +34,10 @@
   (set-eval-command 'elixir-mode #'eir-eval-in-iex)
   (set-repl-command 'elixir-mode #'alchemist-iex-run)
   (set-doc-fn 'elixir-mode #'alchemist-help-search-at-point)
-  ;; jump-fn #'alchemist-goto-definition-at-point
-  ;; pop-fn #'alchemist-goto-jump-back
+  (smart-jump-register :modes 'elixir-mode
+                       :jump-fn #'alchemist-goto-definition-at-point
+                       :pop-fn #'alchemist-goto-jump-back
+                       :refs-fn #'smart-jump-simple-find-references)
 
   (set-evil-state '(alchemist-execute-mode
                     alchemist-mix-mode

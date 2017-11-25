@@ -117,7 +117,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 ;; Autoloads
 
 ;;;###autoload
-(defun evil-visual-indent ()
+(defun +evil-visual-indent ()
   "Visual indentation restore selection after operation."
   (interactive)
   (evil-shift-right (region-beginning) (region-end))
@@ -125,7 +125,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (evil-visual-restore))
 
 ;;;###autoload
-(defun evil-visual-outdent ()
+(defun +evil-visual-outdent ()
   "Visual outdentation restore selection after operation."
   (interactive)
   (evil-shift-left (region-beginning) (region-end))
@@ -133,7 +133,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (evil-visual-restore))
 
 ;;;###autoload
-(defun evil-reselect-paste ()
+(defun +evil-reselect-paste ()
   "Go back into visual mode and reselect the last pasted region."
   (interactive)
   (destructuring-bind (_ _ _ beg end) evil-last-paste

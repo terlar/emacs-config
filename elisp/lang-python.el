@@ -60,7 +60,9 @@
   :require lsp-mode python
   :commands lsp-python-enable
   :init
-  (add-hooks-pair 'python-mode 'lsp-python-enable))
+  (add-hooks-pair 'python-mode 'lsp-python-enable)
+  :config
+  (smart-jump-register :modes 'python-mode))
 
 (req-package py-autopep8
   :require python

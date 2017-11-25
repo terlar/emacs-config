@@ -21,7 +21,9 @@
   :commands lsp-java-enable
   :init
   (setq lsp-java-server-install-dir "/opt/jdt-language-server/")
-  (add-hooks-pair 'java-mode 'lsp-java-enable))
+  (add-hooks-pair 'java-mode 'lsp-java-enable)
+  :config
+  (smart-jump-register :modes 'java-mode))
 
 (req-package javadoc-lookup
   :commands javadoc-lookup

@@ -20,8 +20,6 @@
   :interpreter
   "node"
   "nodejs"
-  :general
-  (:keymaps 'js2-mode-map "M-." 'nil)
   :init
   (setq js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil
@@ -63,8 +61,14 @@
   :loader :el-get
   :commands lsp-javascript-typescript-enable
   :init
-  (add-hooks-pair '(js2-mode rjsx-mode typescript-mode) 'lsp-javascript-typescript-enable)
+  (add-hooks-pair '(js2-mode
+                    rjsx-mode
+                    typescript-mode)
+                  'lsp-javascript-typescript-enable)
   :config
+  (smart-jump-register :modes '(js2-mode
+                                rsjx-mode
+                                typescript-mode))
   (with-eval-after-load "flycheck"
     (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 

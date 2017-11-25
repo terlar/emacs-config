@@ -34,8 +34,10 @@
   :after enh-ruby-mode
   :config
   (set-doc-fn 'enh-ruby-mode #'robe-doc)
-  ;; jump-fn #'robe-jump
-  ;; pop-fn #'xref-pop-marker-stack
+  (smart-jump-register :modes 'enh-ruby-mode
+                       :jump-fn #'robe-jump
+                       :pop-fn #'xref-pop-marker-stack
+                       :refs-fn #'smart-jump-simple-find-references)
 
   (set-company-backends 'enh-ruby-mode 'company-robe)
   (set-popup-buffer (rx bos "*robe-doc*" eos))

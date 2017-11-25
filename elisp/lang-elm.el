@@ -36,9 +36,7 @@
   (set-repl-command 'elm-mode #'elm-repl-load)
 
   (set-doc-fn 'elm-mode #'elm-oracle-doc-at-point)
-  ;; jump-fn #'xref-find-definitions
-  ;; pop-fn #'xref-pop-marker-stack
-  ;; refs-fn #'xref-find-references
+  (smart-jump-register :modes 'elm-mode)
 
   (set-aggressive-indent 'elm-mode :disabled t)
   (set-company-backends 'elm-mode 'company-elm)

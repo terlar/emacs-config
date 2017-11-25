@@ -48,9 +48,10 @@
   (set-eval-command 'scala-mode #'eir-eval-in-scala)
 
   (set-doc-fn 'scala-mode #'ensime-show-doc-for-symbol-at-point)
-  ;; jump-fn #'ensime-edit-definition
-  ;; pop-fn #'ensime-pop-find-definition-stack
-  ;; refs-fn #'ensime-show-uses-of-symbol-at-point
+  (smart-jump-register :modes 'scala-mode
+                       :jump-fn #'ensime-edit-definition
+                       :pop-fn #'ensime-pop-find-definition-stack
+                       :refs-fn #'ensime-show-uses-of-symbol-at-point)
 
   (set-evil-state 'ensime-inf-mode 'insert)
   (set-popup-buffer (rx bos "*Scala REPL*" eos))

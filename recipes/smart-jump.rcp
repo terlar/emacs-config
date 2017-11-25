@@ -1,0 +1,5 @@
+(:name smart-jump
+       :description "Smartly go to definition leveraging several methods"
+       :type github
+       :pkgname "jojojames/smart-jump"
+       :features smart-jump)

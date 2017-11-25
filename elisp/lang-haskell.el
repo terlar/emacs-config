@@ -61,8 +61,11 @@
   (set-popup-buffer (rx bos "*intero:" (one-or-more anything) "*" eos))
 
   (set-doc-fn 'haskell-mode #'intero-info)
-  ;; jump-fn #'intero-goto-definition
-  ;; pop-fn #'xref-pop-marker-stack
+  (smart-jump-register :modes 'haskell-mode
+                       :jump-fn #'intero-goto-definition
+                       :pop-fn #'xref-pop-marker-stack
+                       :refs-fn #'smart-jump-simple-find-references)
+
   (set-company-backends 'haskell-mode 'company-intero)
 
   (set-evil-state 'intero-help-mode 'motion)

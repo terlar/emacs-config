@@ -37,9 +37,10 @@
   (setq inferior-lisp-program "clisp")
   (add-hooks-pair 'lisp-mode 'slime-mode)
   :config
-  ;; jump-fn #'slime-edit-definition
-  ;; pop-fn #'slime-pop-find-definition-stack
-  ;; ref-fn #'slime-who-references
+  (smart-jump-register :modes 'lisp-mode
+                       :jump-fn #'slime-edit-definition
+                       :pop-fn #'slime-pop-find-definition-stack
+                       :refs-fn #'slime-who-references)
 
   (slime-setup '(slime-fancy)))
 
