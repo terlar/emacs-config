@@ -6,8 +6,8 @@
 ;;; Code:
 
 (eval-and-compile
-  (push (concat user-emacs-directory "elisp") load-path)
-  (push (concat user-emacs-directory "vendor") load-path))
+  (push (concat user-emacs-directory "lisp") load-path)
+  (push (concat user-emacs-directory "site-lisp") load-path))
 
 ;;;
 ;; Base

@@ -14,9 +14,6 @@
 (defvar my-emacs-dir user-emacs-directory
   "The path to this .emacs.d directory.")
 
-(defvar my-elisp-dir (concat user-emacs-directory "elisp/")
-  "The path to the elisp files.")
-
 (defvar my-cache-dir
   (if (getenv "XDG_CACHE_HOME")
       (concat (getenv "XDG_CACHE_HOME") "/emacs/")
