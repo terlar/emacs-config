@@ -51,6 +51,9 @@
   (set-popup-buffer (rx bos "*SQL: *" eos))
   (add-hook! 'sql-interactive-mode (toggle-truncate-lines t)))
 
+(req-package es-mode
+  :mode "\\.es$")
+
 (req-package protobuf-mode
   :mode "\\.proto$")
 
