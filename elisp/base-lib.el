@@ -354,6 +354,11 @@ Contains following state:
   (hl-line-mode 1)
   (internal-show-cursor (get-buffer-window) nil))
 
+(defun show-cursor ()
+  "Show cursor."
+  (interactive)
+  (internal-show-cursor (get-buffer-window) t))
+
 ;;;### autoload
 (defun hide-fringes ()
   "Hide fringes for buffer."
