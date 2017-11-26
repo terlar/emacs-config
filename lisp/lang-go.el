@@ -54,30 +54,34 @@
                            :refs-fn #'go-guru-referrers)
     (warn "go-mode: couldn't find guru; refactoring commands won't work"))
 
-  (set-evil-state 'go-guru-output-mode 'motion)
-  (set-popup-buffer (rx bos "*go-guru-output*" eos)))
+  (set-popup-buffer (rx bos "*go-guru-output*" eos))
+  (set-evil-state 'go-guru-output-mode 'motion))
 
 ;; REPL
 (req-package gorepl-mode
-  :require go-mode
   :after go-mode
   :commands
   (gorepl-run
    gorepl-run-load-current-file)
-  :config
-  (defun +gorepl-eval ()
-    "Evaluate in Go REPL."
+  :init
+  (defun go-repl ()
+    "Open a Go REPL."
+    (interactive)
+    (open-and-switch-to-buffer #'gorepl-run "*Go REPL*" t))
+
+  (defun go-repl-eval ()
+    "Evaluate code in Go REPL."
     (if (use-region-p)
         (gorepl-eval-region (region-beginning) (region-end))
       (gorepl-eval-line-goto-next-line)))
 
-  (if (executable-find "gore")
-      (progn
-        (set-eval-command 'go-mode #'+gorepl-eval)
-        (set-repl-command 'go-mode #'gorepl-run))
-    (warn "go-mode: couldn't find gore, REPL support disabled"))
+  (set-repl-command 'go-mode #'go-repl)
+  (set-eval-command 'go-mode #'go-repl-eval)
 
-  (set-popup-buffer (rx bos "*Go REPL*" eos)))
+  (set-popup-buffer (rx bos "*Go REPL*" eos))
+  :config
+  (unless (executable-find "gore")
+    (warn "go-mode: couldn't find gore, REPL support disabled")))
 
 ;; Completion
 (req-package company-go

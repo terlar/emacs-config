@@ -27,7 +27,8 @@
   :config
   (add-hooks-pair 'enh-ruby-mode
                   '(flycheck-mode
-                    rainbow-identifiers-mode)))
+                    rainbow-identifiers-mode
+                    +rainbow-identifiers-delayed-refresh)))
 
 (req-package robe
   :require enh-ruby-mode
@@ -60,26 +61,30 @@
   "_spec\\.rb$")
 
 (req-package inf-ruby
-  :require enh-ruby-mode
   :after enh-ruby-mode
   :commands
   (inf-ruby
    inf-ruby-console-auto)
   :init
-  (autoload 'eir-repl-start "eval-in-repl" nil t)
-  (autoload 'eir-eval-in-ruby "eval-in-repl-ruby" nil t)
+  (autoload 'eir-eval-in-ruby "eval-in-repl-ruby")
 
-  (setq inf-ruby-default-implementation "pry")
+  (defun ruby-repl ()
+    "Open a Ruby REPL."
+    (interactive)
+    (ignore-errors
+      (open-and-switch-to-buffer #'inf-ruby-console-auto "*gem*" t))
+    (unless (get-buffer "*gem*")
+      (open-and-switch-to-buffer #'inf-ruby "*pry*" t)))
 
-  (set-popup-buffer (rx bos "*ruby*" eos)
-                    (rx bos "*pry*" eos)
-                    (rx bos "*gem*" eos)
-                    (rx bos "*bundle console*" eos))
-  :config
-  (set-repl-command 'enh-ruby-mode 'inf-ruby-console-auto)
-  (set-eval-command 'enh-ruby-mode 'eir-eval-in-ruby)
+  (set-repl-command 'enh-ruby-mode #'ruby-repl)
+  (set-eval-command 'enh-ruby-mode #'eir-eval-in-ruby)
 
-  (set-evil-state 'inf-ruby-mode 'insert))
+  (set-popup-buffer (rx bos "*"
+                        (or "ruby" "pry" "gem" "bundle console")
+                        "*" eos))
+  (set-evil-state 'inf-ruby-mode 'insert)
+
+  (setq inf-ruby-default-implementation "pry"))
 
 (req-package company-inf-ruby
   :require company inf-ruby

@@ -11,8 +11,9 @@
 (defvar my-debug-mode (or (getenv "DEBUG") init-file-debug)
   "Debug mode, enable through DEBUG=1 or use --debug-init.")
 
-(defvar my-emacs-dir user-emacs-directory
-  "The path to this .emacs.d directory.")
+(defvar my-site-lisp-dir
+  (expand-file-name "site-lisp" user-emacs-directory)
+  "Directory for shared files.")
 
 (defvar my-cache-dir
   (if (getenv "XDG_CACHE_HOME")

@@ -28,14 +28,15 @@
   ("python" . python-mode)
   :commands python-mode
   :init
-  (autoload 'eir-repl-start "eval-in-repl" nil t)
-  (autoload 'eir-run-python "eval-in-repl-python" nil t)
-  (autoload 'eir-eval-in-python "eval-in-repl-python" nil t)
+  (autoload 'eir-eval-in-python "eval-in-repl-python")
 
   (defun python-repl ()
     "Open a Python REPL."
     (interactive)
-    (eir-repl-start "*Python*" #'eir-run-python))
+    (open-and-switch-to-buffer #'run-python "*Python*" t))
+
+  (set-repl-command 'python-mode #'python-repl)
+  (set-eval-command 'python-mode #'eir-eval-in-python)
 
   (set-popup-buffer (rx bos "*Python*" eos))
 
@@ -43,9 +44,6 @@
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python")
   :config
-  (set-repl-command 'python-mode #'python-repl)
-  (set-eval-command 'python-mode #'eir-eval-in-python)
-
   (add-hooks-pair 'python-mode 'highlight-numbers-mode))
 
 (req-package python-x

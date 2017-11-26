@@ -11,13 +11,19 @@
 
 (autoload 'eshell-send-input "eshell")
 (autoload 'eir-shell-repl "eval-in-repl-shell" nil t)
-(autoload 'eir-eval-in-shell "eval-in-repl-shell" nil t)
+(autoload 'eir-eval-in-shell "eval-in-repl-shell")
+
+(defalias 'shell-repl 'eir-shell-repl)
 
 ;; Use Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
 
 ;; Use Emacs compatible shell for comint
 (setq shell-file-name "bash")
+
+(set-doc-fn '(sh-mode fish-mode) #'man)
+(set-repl-command '(sh-mode fish-mode) #'shell-repl)
+(set-eval-command '(sh-mode fish-mode) #'eir-eval-in-shell)
 
 ;;;
 ;; Packages
@@ -33,9 +39,6 @@
   "/fish_funced\\..*$"
   :interpreter "fish"
   :config
-  (set-repl-command 'fish-mode #'eir-shell-repl)
-  (set-eval-command 'fish-mode #'eir-eval-in-shell)
-
   (add-hook! 'fish-mode
              (add-hook 'before-save-hook #'fish_indent-before-save nil t)))
 
@@ -45,10 +48,6 @@
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always)
   :config
-  (set-repl-command 'sh-mode #'eir-shell-repl)
-  (set-eval-command 'sh-mode #'eir-eval-in-shell)
-  (set-doc-fn 'sh-mode #'man)
-
   (set-popup-buffer (rx bos "*shell*" eos)
                     (rx bos "*shell [" (one-or-more anything) "]*" eos))
 

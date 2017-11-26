@@ -20,9 +20,10 @@
                                  turn-off-smartparens-mode)))
 
 (req-package alchemist
-  :require elixir-mode
   :after elixir-mode
-  :commands alchemist-mode
+  :commands
+  (alchemist-mode
+   alchemist-iex-run)
   :general
   (:keymaps
    'alchemist-help-minor-mode-map
@@ -30,10 +31,13 @@
    "q" 'quit-window)
   :init
   (autoload 'eir-eval-in-iex "eval-in-repl-iex")
-  :config
-  (set-eval-command 'elixir-mode #'eir-eval-in-iex)
+
+  (defalias 'elixir-repl 'alchemist-iex-run)
+
   (set-repl-command 'elixir-mode #'alchemist-iex-run)
-  (set-doc-fn 'elixir-mode #'alchemist-help-search-at-point)
+  (set-eval-command 'elixir-mode #'eir-eval-in-iex)
+  :config
+  (set-doc-fn 'alchemist-mode #'alchemist-help-search-at-point)
   (smart-jump-register :modes 'alchemist-mode
                        :jump-fn #'alchemist-goto-definition-at-point
                        :pop-fn #'alchemist-goto-jump-back

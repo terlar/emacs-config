@@ -358,7 +358,11 @@
 ;;;### autoload
 (defun +color-identifiers-delayed-refresh ()
   "Refresh color identifiers with a delay."
-  (run-with-idle-timer 0.2 nil 'color-identifiers:refresh))
+  (run-with-idle-timer 0.2 nil #'color-identifiers:refresh))
+
+(defun +rainbow-identifiers-delayed-refresh ()
+  "Refresh rainbow identifiers with a delay."
+  (run-with-idle-timer 0.2 nil #'refresh))
 
 (provide 'base-ui)
 ;;; base-ui.el ends here

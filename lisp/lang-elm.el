@@ -21,6 +21,15 @@
   :commands elm-mode
   :init
   (autoload 'eir-eval-in-elm "eval-in-repl-elm")
+
+  (defalias 'elm-repl 'elm-repl-load)
+
+  (set-repl-command 'elm-mode #'elm-repl)
+  (set-eval-command 'elm-mode #'eir-eval-in-elm)
+
+  (set-popup-buffer (rx bos "*elm*" eos))
+  (set-evil-state 'elm-interactive-mode 'insert)
+
   (setq elm-format-on-save t
         elm-tags-on-save t
         elm-tags-exclude-elm-stuff nil)
@@ -32,18 +41,13 @@
   (unless (executable-find "elm-repl")
     (warn "elm-mode: couldn't find elm-repl; repl and eval won't work"))
 
-  (set-eval-command 'elm-mode #'eir-eval-in-elm)
-  (set-repl-command 'elm-mode #'elm-repl-load)
-
   (set-doc-fn 'elm-mode #'elm-oracle-doc-at-point)
   (smart-jump-register :modes 'elm-mode)
 
   (set-aggressive-indent 'elm-mode :disabled t)
   (set-company-backends 'elm-mode 'company-elm)
 
-  (set-evil-state 'elm-interactive-mode 'insert)
-  (set-popup-buffer (rx bos "*elm*" eos)
-                    (rx bos "*elm-make*" eos)
+  (set-popup-buffer (rx bos "*elm-make*" eos)
                     (rx bos "*elm-test*" eos))
 
   (add-hooks-pair 'elm-mode 'rainbow-delimiters-mode))

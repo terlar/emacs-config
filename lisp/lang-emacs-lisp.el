@@ -14,10 +14,12 @@
 (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
 (add-hook! 'after-init
-           (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
            (set-repl-command 'emacs-lisp-mode #'elisp-repl)
-           (set-doc-fn 'emacs-lisp-mode 'helpful-at-point)
+           (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
+           (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
            (smart-jump-register :modes 'emacs-lisp-mode)
+
+           (set-popup-buffer (rx bos "*ielm*" eos))
 
            (add-hooks-pair 'emacs-lisp-mode
                            '(flycheck-mode
@@ -73,11 +75,7 @@ version is loaded."
 (defun elisp-repl ()
   "Open the Emacs Lisp REPL (`ielm')."
   (interactive)
-  (let* ((buffer-name "*ielm*")
-         (buffer-regexp (regexp-quote buffer-name)))
-    (eir-repl-start buffer-regexp #'ielm)
-    (pop-to-buffer (get-buffer buffer-name))
-    (add-to-list 'popup-buffer-list buffer-regexp)))
+  (open-and-switch-to-buffer #'ielm "*ielm*" t))
 
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here

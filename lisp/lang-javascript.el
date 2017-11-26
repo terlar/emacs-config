@@ -34,19 +34,7 @@
 
   (with-eval-after-load "editorconfig"
     (add-to-list 'editorconfig-indentation-alist
-                 '(js2-mode js2-basic-offset js-switch-indent-offset)))
-  :config
-  (defun javascript-repl ()
-    "Open a JavaScript REPL."
-    (interactive)
-    (pop-to-buffer
-     (or (get-buffer "*nodejs*")
-         (progn (nodejs-repl)
-                (let ((buf (get-buffer "*nodejs*")))
-                  (bury-buffer buf)
-                  buf)))))
-
-  (set-repl-command 'js2-mode #'javascript-repl))
+                 '(js2-mode js2-basic-offset js-switch-indent-offset))))
 
 (req-package typescript-mode
   :mode "\\.tsx?$"
@@ -98,7 +86,29 @@
                   '(js2-refactor-mode
                     setup-js2-refactor-keybinding-prefix)))
 
-(req-package nodejs-repl :commands nodejs-repl)
+(req-package nodejs-repl
+  :commands
+  (nodejs-repl
+   nodejs-repl-send-region
+   nodejs-repl-send-line
+   nodejs-repl-load-file)
+  :init
+  (defun javascript-repl ()
+    "Open a JavaScript REPL."
+    (interactive)
+    (open-and-switch-to-buffer #'nodejs-repl "*nodejs*" t))
+
+  (defun javascript-repl-eval ()
+    "Evaluate code in JavaScript REPL"
+    (if (use-region-p)
+        (nodejs-repl-send-region)
+      (nodejs-repl-send-line)))
+
+  (set-repl-command 'js2-mode #'javascript-repl)
+  (set-eval-command 'js2-mode #'javascript-repl-eval)
+
+  (set-popup-buffer (rx bos "*nodejs*" eos))
+  (set-evil-state 'nodejs-repl-mode 'insert))
 
 (req-package indium)
 

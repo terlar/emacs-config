@@ -51,15 +51,18 @@
   (add-hooks-pair 'haskell-mode 'rainbow-identifiers-mode))
 
 (req-package intero
-  :require haskell-mode
   :after haskell-mode
   :diminish intero-mode
-  :config
-  (set-eval-command 'haskell-mode #'intero-repl-eval-region)
+  :commands intero-repl
+  :init
+  (defalias 'haskell-repl 'intero-repl)
+
   (set-repl-command 'haskell-mode #'intero-repl)
+  (set-eval-command 'haskell-mode #'intero-repl-eval-region)
+
   (set-evil-state 'intero-repl-mode 'insert)
   (set-popup-buffer (rx bos "*intero:" (one-or-more anything) "*" eos))
-
+  :config
   (set-doc-fn 'haskell-mode #'intero-info)
   (smart-jump-register :modes 'haskell-mode
                        :jump-fn #'intero-goto-definition

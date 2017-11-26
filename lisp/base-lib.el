@@ -211,11 +211,11 @@ The list accepts the following properties:
   "Open a `COMMAND', and switch to that `BUFFER' when `DO-SWITCH'."
   (interactive)
   (if (get-buffer buffer)
-      (switch-to-buffer buffer)
-    (funcall command)
-    (bury-buffer)
-    (when do-switch
-      (switch-to-buffer buffer))))
+      (switch-to-buffer-other-window buffer)
+    (progn
+      (call-interactively command)
+      (when do-switch
+        (switch-to-buffer-other-window buffer)))))
 
 ;;;### autoload
 (defun get-buffer-display-time (buffer)

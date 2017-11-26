@@ -16,6 +16,7 @@
 (req-package lua-mode
   :mode ("\\.lua$")
   :interpreter "lua"
+  :commands lua-start-process
   :init
   (autoload 'eir-eval-in-lua "eval-in-repl-lua" nil t)
 
@@ -25,12 +26,13 @@
     (lua-start-process)
     (pop-to-buffer lua-process-buffer))
 
-  (setq lua-documentation-function 'eww)
-  :config
   (set-repl-command 'lua-mode #'lua-repl)
   (set-eval-command 'lua-mode #'eir-eval-in-lua)
+
   (set-popup-buffer (rx bos "*lua*" eos))
 
+  (setq lua-documentation-function 'eww)
+  :config
   (set-doc-fn 'lua-mode 'lua-search-documentation)
 
   (add-hooks-pair 'lua-mode 'flycheck-mode))

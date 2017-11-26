@@ -26,15 +26,26 @@
      slime-trace-dialog-mode-map)
    :states 'normal
    "q" 'quit-window)
+  :commands
+  (slime slime-repl slime-connected-p)
   :init
   (autoload 'eir-eval-in-slime "eval-in-repl-slime" nil t)
-  (set-repl-command 'lisp-mode #'slime-repl)
-  (set-eval-command 'lisp-mode #'eir-eval-in-slime)
-  (set-popup-buffer (rx bos "*slime-" (one-or-more anything) "*" eos))
 
+  (defun lisp-repl ()
+    "Open a Lisp REPL (`slime')."
+    (interactive)
+    (unless (slime-connected-p)
+      (slime))
+    (slime-repl))
+
+  (set-repl-command 'lisp-mode #'lisp-repl)
+  (set-eval-command 'lisp-mode #'eir-eval-in-slime)
   (set-doc-fn 'lisp-mode #'slime-describe-symbol)
 
+  (set-popup-buffer (rx bos "*slime-" (one-or-more anything) "*" eos))
+
   (setq inferior-lisp-program "clisp")
+
   (add-hooks-pair 'lisp-mode 'slime-mode)
   :config
   (smart-jump-register :modes 'lisp-mode

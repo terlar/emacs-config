@@ -25,7 +25,7 @@
    dumb-jump-quick-look
    dumb-jump-back)
   :init
-  (setq dumb-jump-default-project my-emacs-dir
+  (setq dumb-jump-default-project user-emacs-directory
         dumb-jump-aggressive nil
         dumb-jump-selector 'ivy))
 
