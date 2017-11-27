@@ -38,7 +38,7 @@
 
   (add-hooks-pair 'markdown-mode
                   '(auto-fill-mode
-                    readability-mode)))
+                    readable-mode)))
 
 (req-package edit-indirect)
 

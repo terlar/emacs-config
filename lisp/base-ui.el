@@ -342,6 +342,12 @@
   (setq rainbow-delimiters-max-face-count 3)
   (add-hooks-pair 'lisp-mode 'rainbow-delimiters-mode))
 
+;; Make text readable
+(req-package readable
+  :loader :path
+  :load-path my-site-lisp-dir
+  :commands readable-mode)
+
 ;;;
 ;; Autoloads
 

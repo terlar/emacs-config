@@ -55,7 +55,7 @@
   (add-hooks-pair 'nov-mode '(+nov-delayed-render
                               centered-window-mode
                               hide-fringes
-                              readability-mode)))
+                              readable-mode)))
 
 (req-package pdf-tools
   :mode ("\\.pdf$" . pdf-view-mode)

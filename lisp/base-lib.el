@@ -302,51 +302,6 @@ The list accepts the following properties:
 ;;;
 ;; UI
 
-(defface readability-mode-face
-  '((t (:family "Noto Serif" :height 1.2)))
-  "Face to use for `readability-mode'."
-  :group 'readability-mode)
-
-(defcustom readability-mode-line-spacing 0.4
-  "Readability `line-spacing'."
-  :type 'number
-  :group 'readability-mode)
-
-(defvar-local readability-mode-saved-state-plist nil
-  "Properties containing the state before `readability-mode' was enabled.
-Contains following state:
-
-  :line-spacing NUMBER
-  :variable-pitch BOOLEAN")
-(defvar-local readability-mode-remapping nil
-  "Readability `face-remap' cookie.")
-
-;;;### autoload
-(defun readability-mode ()
-  "Improve the readability."
-  (interactive)
-  (when readability-mode-remapping
-    (face-remap-remove-relative readability-mode-remapping))
-
-  (if (null (get this-command 'state-on-p))
-      (progn
-        (setq readability-mode-saved-state-plist
-              (list :line-spacing line-spacing :variable-pitch (bound-and-true-p buffer-face-mode)))
-
-        (variable-pitch-mode 1)
-        (setq line-spacing readability-mode-line-spacing
-              readability-mode-remapping
-              (face-remap-add-relative 'variable-pitch 'readability-mode-face))
-        (put this-command 'state-on-p t))
-    (progn
-      (variable-pitch-mode (plist-get readability-mode-saved-state-plist :variable-pitch))
-      (setq line-spacing (plist-get readability-mode-saved-state-plist :line-spacing)
-            readability-mode-saved-state-plist nil)
-
-      (put this-command 'state-on-p nil)))
-
-  (force-window-update (current-buffer)))
-
 ;;;### autoload
 (defun line-cursor ()
   "Use line cursor instead of regular cursor."

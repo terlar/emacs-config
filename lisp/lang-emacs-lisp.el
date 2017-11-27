@@ -19,7 +19,9 @@
            (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
            (smart-jump-register :modes 'emacs-lisp-mode)
 
-           (set-popup-buffer (rx bos "*ielm*" eos))
+           (set-evil-state 'checkdoc-output-mode 'motion)
+           (set-popup-buffer (rx bos "*ielm*" eos)
+                             (rx bos "*Style Warnings*" eos))
 
            (add-hooks-pair 'emacs-lisp-mode
                            '(flycheck-mode

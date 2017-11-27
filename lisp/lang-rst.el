@@ -77,7 +77,7 @@ Used when `rst-header-scaling' is non-nil."
 
   (add-hooks-pair 'rst-mode
                   '(auto-fill-mode
-                    readability-mode)))
+                    readable-mode)))
 
 ;;;
 ;; Autoloads
