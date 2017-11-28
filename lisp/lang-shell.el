@@ -21,10 +21,6 @@
 ;; Use Emacs compatible shell for comint
 (setq shell-file-name "bash")
 
-(set-doc-fn '(sh-mode fish-mode) #'man)
-(set-repl-command '(sh-mode fish-mode) #'shell-repl)
-(set-eval-command '(sh-mode fish-mode) #'eir-eval-in-shell)
-
 ;;;
 ;; Packages
 
@@ -38,16 +34,26 @@
   "\\.fish$"
   "/fish_funced\\..*$"
   :interpreter "fish"
+  :init
+  (set-repl-command 'fish-mode #'shell-repl)
+  (set-eval-command 'fish-mode #'eir-eval-in-shell)
   :config
+  (set-doc-fn 'fish-mode #'man)
+
   (add-hook! 'fish-mode
              (add-hook 'before-save-hook #'fish_indent-before-save nil t)))
 
 (req-package sh-script
   :demand t
   :init
+  (set-repl-command 'sh-mode #'shell-repl)
+  (set-eval-command 'sh-mode #'eir-eval-in-shell)
+
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always)
   :config
+  (set-doc-fn 'sh-mode #'man)
+
   (set-popup-buffer (rx bos "*shell*" eos)
                     (rx bos "*shell [" (one-or-more anything) "]*" eos))
 

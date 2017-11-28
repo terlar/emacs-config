@@ -349,6 +349,11 @@
  :states '(normal motion insert emacs)
  "q" 'kill-this-buffer)
 
+;; shell
+(general-define-key
+ :keymaps 'shell-mode-map
+ "C-l" 'comint-clear-buffer)
+
 ;; vc-annotate
 (general-define-key
  :keymaps 'vc-annotate-mode-map
