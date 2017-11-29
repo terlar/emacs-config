@@ -314,7 +314,7 @@
 ;; Flash the line around cursor on large movements
 (req-package beacon
   :diminish beacon-mode
-  :command beacon-mode
+  :commands beacon-mode
   :config
   (defun +beacon-blink ()
     (when (bound-and-true-p beacon-mode)

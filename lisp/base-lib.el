@@ -47,6 +47,10 @@
   :commands
   (quick-peek-show quick-peek-hide))
 
+;; Diminish lines
+(use-package diminish
+  :commands diminish)
+
 (use-package spinner
   :commands
   (spinner-start
