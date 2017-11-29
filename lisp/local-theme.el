@@ -53,6 +53,8 @@
  `(ediff-fine-diff-B                       ((t (:background "#22AA22"))))
  `(ediff-current-diff-C                    ((t (:background "#CCFFFF"))))
  `(ediff-fine-diff-C                       ((t (:background "#4488BB"))))
+ `(ediff-current-diff-Ancestor             ((t (:background "#DDF1F1"))))
+ `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
  ;; org-mode
  `(org-block                               ((t (:inherit fixed-pitch))))
  `(org-formula                             ((t (:inherit fixed-pitch))))
