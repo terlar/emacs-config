@@ -49,6 +49,7 @@
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
  auto-save-list-file-name          (concat my-cache-dir "autosave")
  backup-directory-alist            (list (cons "." (concat my-cache-dir "backup/")))
+ eshell-directory-name             (concat my-data-dir "eshell/")
  eshell-history-file-name          (concat my-data-dir "eshell-history")
  pcache-directory                  (concat my-cache-dir "pcache/")
  semanticdb-default-save-directory (concat my-cache-dir "semanticdb/")
