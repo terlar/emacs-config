@@ -17,6 +17,7 @@
   :mode
   ("\\.[eh]rl$" . erlang-mode)
   ("rebar\\.config" . erlang-mode)
+  :hook (erlang-mode . flycheck-mode)
   :init
   (autoload 'eir-eval-in-erlang "eval-in-repl-erlang")
 
@@ -33,9 +34,7 @@
   (set-doc-fn 'erlang-mode 'erlang-man-function)
   (smart-jump-register :modes 'erlang-mode)
 
-  (require 'erlang-start)
-
-  (add-hooks-pair 'erlang-mode 'flycheck-mode))
+  (require 'erlang-start))
 
 (req-package company-erlang
   :require company erlang

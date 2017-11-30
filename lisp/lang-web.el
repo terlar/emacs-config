@@ -13,15 +13,14 @@
 
 (req-package web-mode
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
+  :hook
+  (web-mode . flycheck-mode)
+  (web-mode . turn-off-smartparens-mode)
   :init
   (setq web-mode-enable-html-entities-fontification t
         ;; Highlight enclosing tags of the element under cursor
         web-mode-enable-current-element-highlight t)
   :config
-  (add-hooks-pair 'web-mode
-                  '(flycheck-mode
-                    turn-off-smartparens-mode))
-
   (with-eval-after-load "flycheck"
     (flycheck-add-mode 'html-tidy 'web-mode))
 
@@ -45,17 +44,12 @@
 
 ;; Snippets and Zen Coding for HTML
 (req-package emmet-mode
-  :demand t
+  :hook
+  (css-mode web-mode html-mode haml-mode nxml-mode rsjx-mode)
   :preface
   (defvar emmet-mode-keymap (make-sparse-keymap))
   :init
-  (setq emmet-move-cursor-between-quotes t)
-  :config
-  (add-hooks-pair '(css-mode
-                    web-mode
-                    html-mode haml-mode
-                    nxml-mode rsjx-mode)
-                  'emmet-mode))
+  (setq emmet-move-cursor-between-quotes t))
 
 (req-package slim-mode
   :mode "\\.slim$"

@@ -18,10 +18,9 @@
 
 (req-package lsp-java
   :require lsp-mode
-  :commands lsp-java-enable
+  :hook (java-mode . lsp-java-enable)
   :init
   (setq lsp-java-server-install-dir "/opt/jdt-language-server/")
-  (add-hooks-pair 'java-mode 'lsp-java-enable)
   :config
   (smart-jump-register :modes 'java-mode))
 
@@ -84,9 +83,7 @@
   :mode "\\.gr\\(adle\\|oovy\\)$")
 
 (req-package gradle-mode
-  :commands gradle-mode
-  :init
-  (add-hooks-pair 'java-mode 'gradle-mode))
+  :hook (java-mode . gradle-mode))
 
 (req-package log4j-mode
   :mode "\\.log$"

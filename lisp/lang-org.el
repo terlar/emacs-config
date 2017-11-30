@@ -21,6 +21,9 @@
 (req-package ob-translate)
 
 (req-package org
+  :hook
+  (org-mode . readable-mode)
+  (org-babel-after-execute . org-redisplay-inline-images)
   :init
   (setq org-confirm-babel-evaluate nil
         org-src-fontify-natively t
@@ -44,10 +47,7 @@
      (rust       . t)
      (scala      . t)
      (shell      . t)
-     (translate  . t)))
-
-  (add-hooks-pair 'org-mode 'readable-mode)
-  (add-hooks-pair 'org-babel-after-execute 'org-redisplay-inline-images))
+     (translate  . t))))
 
 (req-package org-preview-html
   :commands org-preview-html-mode)

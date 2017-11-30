@@ -21,18 +21,18 @@
   ("/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$" . enh-ruby-mode)
   :interpreter
   ("ruby" . enh-ruby-mode)
+  :hook
+  (enh-ruby-mode . flycheck-mode)
+  (enh-ruby-mode . rainbow-identifiers-mode)
+  (enh-ruby-mode . +rainbow-identifiers-delayed-refresh)
   :init
   ;; Don't indent the parenthesis or bracket based on the previous line.
-  (setq enh-ruby-deep-indent-paren nil)
-  :config
-  (add-hooks-pair 'enh-ruby-mode
-                  '(flycheck-mode
-                    rainbow-identifiers-mode
-                    +rainbow-identifiers-delayed-refresh)))
+  (setq enh-ruby-deep-indent-paren nil))
 
 (req-package robe
   :require enh-ruby-mode
   :after enh-ruby-mode
+  :hook (enh-ruby-mode . robe-mode)
   :config
   (set-doc-fn 'enh-ruby-mode #'robe-doc)
   (smart-jump-register :modes 'enh-ruby-mode
@@ -41,16 +41,13 @@
                        :refs-fn #'smart-jump-simple-find-references)
 
   (set-company-backends 'enh-ruby-mode 'company-robe)
-  (set-popup-buffer (rx bos "*robe-doc*" eos))
-
-  (add-hooks-pair 'enh-ruby-mode 'robe-mode))
+  (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
 (req-package yard-mode
   :require enh-ruby-mode
   :after enh-ruby-mode
   :diminish yard-mode
-  :config
-  (add-hooks-pair 'enh-ruby-mode 'yard-mode))
+  :hook enh-ruby-mode)
 
 (req-package ruby-refactor
   :require enh-ruby-mode

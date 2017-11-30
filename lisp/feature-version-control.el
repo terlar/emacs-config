@@ -25,13 +25,12 @@
 
 (req-package diff-hl
   :demand t
+  :hook
+  (dired-mode . diff-hl-dired-mode)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
   :init
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
-
-  (add-hooks-pair 'dired-mode 'diff-hl-dired-mode)
-  (with-eval-after-load "magit"
-    (add-hooks-pair 'magit-post-refresh 'diff-hl-magit-post-refresh))
   :config
   (global-diff-hl-mode 1)
   (diff-hl-flydiff-mode 1))
@@ -68,18 +67,10 @@
    git-link--remote-host
    git-link--select-remote))
 
-(req-package evil-magit
-  :require evil magit
-  :after evil
-  :init
-  (setq evil-magit-want-horizontal-movement t))
-
 (req-package magit-gh-pulls
   :require magit
   :after magit
-  :commands turn-on-magit-gh-pulls
-  :config
-  (add-hooks-pair 'magit-mode 'turn-on-magit-gh-pulls))
+  :hook (magit-mode . magit-gh-pulls-mode))
 
 ;;;
 ;; Autoloads

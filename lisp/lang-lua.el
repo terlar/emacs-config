@@ -17,6 +17,7 @@
   :mode ("\\.lua$")
   :interpreter "lua"
   :commands lua-start-process
+  :hook (lua-mode . flycheck-mode)
   :init
   (autoload 'eir-eval-in-lua "eval-in-repl-lua" nil t)
 
@@ -33,9 +34,7 @@
 
   (setq lua-documentation-function 'eww)
   :config
-  (set-doc-fn 'lua-mode 'lua-search-documentation)
-
-  (add-hooks-pair 'lua-mode 'flycheck-mode))
+  (set-doc-fn 'lua-mode 'lua-search-documentation))
 
 (req-package company-lua
   :require company lua-mode

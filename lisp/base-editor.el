@@ -8,7 +8,8 @@
 (eval-when-compile
   (require 'base-vars)
   (require 'base-package)
-  (require 'base-lib))
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Settings
@@ -70,6 +71,11 @@
   :config
   (global-auto-revert-mode 1))
 
+;; Documentation lines
+(req-package eldoc
+  :loader :built-in
+  :diminish eldoc-mode)
+
 ;; Ediff: use existing frame instead of creating a new one
 (req-package ediff
   :require winner
@@ -78,14 +84,13 @@
   (ediff-copy-diff
    ediff-get-region-contents
    ediff-setup-windows-plain)
+  :hook (ediff-quit . winner-undo)
+  :general
+  (:keymaps 'ediff-mode-map
+            "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
+            "j" '(ediff-next-difference     :wk "Next difference")
+            "k" '(ediff-previous-difference :wk "Previous difference"))
   :init
-  (setq ediff-diff-options "-w"
-        ;; Split horizontally
-        ediff-merge-split-window-function #'split-window-horizontally
-        ediff-split-window-function #'split-window-horizontally
-        ;; No extra frames
-        ediff-window-setup-function #'ediff-setup-windows-plain)
-  :config
   (defun ediff-copy-both-to-C ()
     "Copy change from both A and B to C."
     (interactive)
@@ -95,7 +100,12 @@
       (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
       (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 
-  (add-hooks-pair 'ediff-quit 'winner-undo))
+  (setq ediff-diff-options "-w"
+        ;; Split horizontally
+        ediff-merge-split-window-function #'split-window-horizontally
+        ediff-split-window-function #'split-window-horizontally
+        ;; No extra frames
+        ediff-window-setup-function #'ediff-setup-windows-plain))
 
 ;; Smart expansion completions
 (req-package hippie-exp
@@ -258,7 +268,7 @@
 ;; Delete trailing white-space before save
 (req-package ws-butler
   :diminish ws-butler-mode
-  :demand t
+  :commands ws-butler-mode
   :init
   (defun +ws-butler-editorconfig (props)
     "Use ws-butler mode instead of delete-trailing-whitespace."

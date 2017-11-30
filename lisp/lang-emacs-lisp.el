@@ -13,35 +13,27 @@
 
 (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
-(add-hook! 'after-init
-           (set-repl-command 'emacs-lisp-mode #'elisp-repl)
-           (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
-           (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
-           (smart-jump-register :modes 'emacs-lisp-mode)
+(set-repl-command 'emacs-lisp-mode #'elisp-repl)
+(set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
+(set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
+(with-eval-after-load "smart-jump"
+  (smart-jump-register :modes 'emacs-lisp-mode))
 
-           (set-evil-state 'checkdoc-output-mode 'motion)
-           (set-popup-buffer (rx bos "*ielm*" eos)
-                             (rx bos "*Style Warnings*" eos))
-
-           (add-hooks-pair 'emacs-lisp-mode
-                           '(flycheck-mode
-                             rainbow-delimiters-mode)))
+(set-evil-state 'checkdoc-output-mode 'motion)
+(set-popup-buffer (rx bos "*ielm*" eos)
+                  (rx bos "*Style Warnings*" eos))
 
 ;;;
 ;; Packages
 
 (req-package auto-compile
-  :commands
-  (auto-compile-on-load-mode
-   auto-compile-on-save-mode
-   auto-compile-byte-compile)
+  :commands auto-compile-byte-compile
+  :hook
+  (emacs-lisp-mode . auto-compile-on-load-mode)
+  (emacs-lisp-mode . auto-compile-on-save-mode)
   :init
   (setq auto-compile-display-buffer nil
         auto-compile-use-mode-line nil)
-
-  (add-hooks-pair 'emacs-lisp-mode
-                  '(auto-compile-on-load-mode
-                    auto-compile-on-save-mode))
   :config
   (defun +emacs-lisp-load-after-compile (success)
     "Reload the current emacs-lisp file after it's recompiled, if an older
@@ -53,15 +45,11 @@ version is loaded."
   (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
 
 (req-package highlight-quoted
-  :commands highlight-quoted-mode
-  :init
-  (add-hooks-pair 'emacs-lisp-mode 'highlight-quoted-mode))
+  :hook (emacs-lisp-mode . highlight-quoted-mode))
 
 ;; Evaluation result overlays.
 (req-package eros
-  :commands eros-mode
-  :init
-  (add-hooks-pair 'emacs-lisp-mode 'eros-mode))
+  :hook (emacs-lisp-mode . eros-mode))
 
 ;; Emacs Start Up Profiler
 (req-package esup

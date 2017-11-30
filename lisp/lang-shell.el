@@ -7,7 +7,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 (autoload 'eshell-send-input "eshell")
 (autoload 'eir-shell-repl "eval-in-repl-shell" nil t)
@@ -22,6 +23,19 @@
 (setq shell-file-name "bash")
 
 ;;;
+;; Built-ins
+
+;; Emacs Shell
+(req-package esh-mode
+  :loader :built-in
+  :hook
+  (eshell-mode
+   . (lambda ()
+       (general-define-key
+        :keymaps 'eshell-mode-map
+        "C-l" 'eshell-clear-buffer))))
+
+;;;
 ;; Packages
 
 ;; Bash tests
@@ -34,32 +48,31 @@
   "\\.fish$"
   "/fish_funced\\..*$"
   :interpreter "fish"
+  :hook
+  (fish-mode
+   . (lambda ()
+       (add-hook 'before-save-hook #'fish_indent-before-save nil t)))
   :init
   (set-repl-command 'fish-mode #'shell-repl)
   (set-eval-command 'fish-mode #'eir-eval-in-shell)
   :config
-  (set-doc-fn 'fish-mode #'man)
-
-  (add-hook! 'fish-mode
-             (add-hook 'before-save-hook #'fish_indent-before-save nil t)))
+  (set-doc-fn 'fish-mode #'man))
 
 (req-package sh-script
-  :demand t
+  :hook
+  (sh-mode . flycheck-mode)
+  (sh-mode . highlight-numbers-mode)
   :init
   (set-repl-command 'sh-mode #'shell-repl)
   (set-eval-command 'sh-mode #'eir-eval-in-shell)
 
-  ;; Use regular indentation for line-continuation
-  (setq sh-indent-after-continuation 'always)
-  :config
-  (set-doc-fn 'sh-mode #'man)
-
   (set-popup-buffer (rx bos "*shell*" eos)
                     (rx bos "*shell [" (one-or-more anything) "]*" eos))
 
-  (add-hooks-pair 'sh-mode
-                  '(flycheck-mode
-                    highlight-numbers-mode)))
+  ;; Use regular indentation for line-continuation
+  (setq sh-indent-after-continuation 'always)
+  :config
+  (set-doc-fn 'sh-mode #'man))
 
 ;; Completion for keywords, executable files in PATH and ENV variables.
 (req-package company-shell

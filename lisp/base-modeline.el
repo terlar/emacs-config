@@ -45,10 +45,6 @@
                mode-line-format
                mode-line-right-format))
 
-(add-hook! 'after-init-hook
-           (diminish 'buffer-face-mode)
-           (diminish 'eldoc-mode))
-
 ;;;
 ;; Packages
 
@@ -56,6 +52,9 @@
 (req-package anzu
   :diminish anzu-mode
   :commands global-anzu-mode
+  :hook
+  (isearch-mode-end . anzu--reset-status)
+  (my-evil-esc . anzu--reset-status)
   :general
   ([remap query-replace]                'anzu-query-replace)
   ([remap query-replace-regexp]         'anzu-query-replace-regexp)
@@ -82,9 +81,6 @@
         anzu-minimum-input-length 1
         anzu-search-threshold 250)
   :config
-  ;; Ensure anzu state is cleared when searches are done
-  (add-hooks-pair '(isearch-mode-end my-evil-esc) #'anzu--reset-status)
-
   (global-anzu-mode 1))
 
 (req-package evil-anzu

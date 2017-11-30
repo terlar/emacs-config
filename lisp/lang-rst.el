@@ -48,7 +48,13 @@ Used when `rst-header-scaling' is non-nil."
 (req-package rst
   :mode
   ("\\.rst$" . rst-mode)
-  :commands rst-mode
+  :hook
+  (rst-mode . auto-fill-mode)
+  (rst-mode . readable-mode)
+  (rst-mode
+   . (lambda ()
+       (customize-set-variable 'rst-header-scaling t)
+       (hide-lines-matching rst-adornment-regexp)))
   :config
   (setq rst-preferred-adornments
         '((35 over-and-under 0) ; ?# For parts
@@ -69,15 +75,7 @@ Used when `rst-header-scaling' is non-nil."
    :on-normal (lambda ()
                 (+evil-insert-state-restore-variable-pitch-mode)
                 (customize-set-variable 'rst-header-scaling t)
-                (hide-lines-matching rst-adornment-regexp)))
-
-  (add-hook! 'rst-mode
-             (customize-set-variable 'rst-header-scaling t)
-             (hide-lines-matching rst-adornment-regexp))
-
-  (add-hooks-pair 'rst-mode
-                  '(auto-fill-mode
-                    readable-mode)))
+                (hide-lines-matching rst-adornment-regexp))))
 
 ;;;
 ;; Autoloads

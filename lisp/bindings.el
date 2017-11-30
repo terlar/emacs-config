@@ -302,21 +302,11 @@
  "/" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper)
 
-;; ediff
-(add-hook! 'ediff-keymap-setup
-           (general-define-key
-            :keymaps 'ediff-mode-map
-            "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
-            "j" '(ediff-next-difference     :wk "Next difference")
-            "k" '(ediff-previous-difference :wk "Previous difference")))
-
-;; eshell
-(add-hook! 'eshell-mode
-           (general-define-key
-            :keymaps 'eshell-mode-map
-            "C-l" 'eshell-clear-buffer
-            [tab] 'company-complete-common-or-cycle
-            "TAB" 'company-complete-common-or-cycle))
+;; ;; eshell
+;; (add-hook! 'eshell-mode
+;;            (general-define-key
+;;             :keymaps 'eshell-mode-map
+;;             "C-l" 'eshell-clear-buffer))
 
 ;; eww
 (general-define-key
@@ -585,6 +575,10 @@
 (general-define-key
  :keymaps 'visual
  "C-u" 'undo-tree-undo
+ "C-r" 'undo-tree-redo)
+(general-define-key
+ :keymaps 'normal
+ "u"   'undo-tree-undo
  "C-r" 'undo-tree-redo)
 
 ;; wgrep

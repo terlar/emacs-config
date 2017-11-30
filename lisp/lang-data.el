@@ -15,41 +15,43 @@
 (req-package nxml-mode
   :loader :built-in
   :mode "\\.plist$"
+  :hook (nxml-mode . flycheck-mode)
   :init
   (setq nxml-slash-auto-complete-flag t)
   :config
-  (add-hooks-pair 'nxml-mode 'flycheck-mode)
   (set-company-backends 'nxml-mode 'company-nxml)
   (with-eval-after-load "smartparens"
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
 (req-package csv-mode
   :mode "\\.[ct]sv$"
-  :config
-  (add-hook! 'csv-mode
-             (visual-line-mode 0)
-             (centered-window-mode 0)))
+  :hook
+  (csv-mode
+   . (lambda ()
+       (visual-line-mode 0)
+       (centered-window-mode 0))))
 
 (req-package json-mode
   :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
 
 (req-package yaml-mode
-  :mode
-  "\\.ya?ml$"
-  :config
-  (add-hooks-pair 'yaml-mode 'indent-guide-mode))
+  :mode "\\.ya?ml$"
+  :hook (yaml-mode . indent-guide-mode))
 
 (req-package sql
   :mode ("\\.sql$" . sql-mode)
   :commands
   (sql-connect
    sql-set-product)
+  :hook
+  (sql-interactive-mode
+   . (lambda ()
+       (toggle-truncate-lines t)))
   :init
   (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager"))
   :config
   (set-evil-state 'sql-interactive-mode 'insert)
-  (set-popup-buffer (rx bos "*SQL: *" eos))
-  (add-hook! 'sql-interactive-mode (toggle-truncate-lines t)))
+  (set-popup-buffer (rx bos "*SQL: *" eos)))
 
 (req-package es-mode
   :mode "\\.es$")

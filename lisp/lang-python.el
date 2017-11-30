@@ -27,6 +27,7 @@
   :interpreter
   ("python" . python-mode)
   :commands python-mode
+  :hook (python-mode . highlight-numbers-mode)
   :init
   (autoload 'eir-eval-in-python "eval-in-repl-python")
 
@@ -42,9 +43,7 @@
 
   (setq python-environment-directory my-cache-dir
         python-indent-guess-indent-offset-verbose nil
-        python-shell-interpreter "python")
-  :config
-  (add-hooks-pair 'python-mode 'highlight-numbers-mode))
+        python-shell-interpreter "python"))
 
 (req-package python-x
   :require python
@@ -56,17 +55,14 @@
 
 (req-package lsp-python
   :require lsp-mode python
-  :commands lsp-python-enable
-  :init
-  (add-hooks-pair 'python-mode 'lsp-python-enable)
+  :hook (python-mode . lsp-python-enable)
   :config
   (smart-jump-register :modes 'python-mode))
 
 (req-package py-autopep8
   :require python
   :after python
-  :config
-  (add-hooks-pair 'python-mode 'py-autopep8-enable-on-save))
+  :hook (python-mode . py-autopep8-enable-on-save))
 
 (req-package pydoc
   :after python

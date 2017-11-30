@@ -35,9 +35,8 @@
   :require ansible
   :after ansible
   :diminish ansible-doc-mode
-  :commands
-  (ansible-doc
-   ansible-doc-mode)
+  :commands ansible-doc
+  :hook (ansible . ansible-doc-mode)
   :config
   (defun ansible-doc-at-point ()
     "Ansible doc with selected point"
@@ -45,9 +44,7 @@
     (ansible-doc (thing-at-point 'symbol)))
   (set-doc-fn 'ansible 'ansible-doc-at-point)
   (set-evil-state 'ansible-doc-module-mode 'motion)
-  (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos))
-
-  (add-hook 'ansible-hook #'ansible-doc-mode))
+  (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos)))
 (req-package company-ansible
   :require company ansible
   :after ansible
@@ -59,12 +56,10 @@
   :mode "\\.pp$")
 
 (req-package salt-mode
-  :mode
-  "\\.sls$"
+  :mode "\\.sls$"
+  :hook (salt-mode . flyspell-mode)
   :config
-  (set-doc-fn 'salt-mode 'salt-mode-browse-doc)
-
-  (add-hooks-pair 'salt-mode 'flyspell-mode))
+  (set-doc-fn 'salt-mode 'salt-mode-browse-doc))
 
 (provide 'lang-conf)
 ;;; lang-conf.el ends here

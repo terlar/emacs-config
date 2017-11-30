@@ -18,7 +18,7 @@
 
 (req-package elm-mode
   :mode ("\\.elm$")
-  :commands elm-mode
+  :hook (elm-mode . rainbow-delimiters-mode)
   :init
   (autoload 'eir-eval-in-elm "eval-in-repl-elm")
 
@@ -48,16 +48,14 @@
   (set-company-backends 'elm-mode 'company-elm)
 
   (set-popup-buffer (rx bos "*elm-make*" eos)
-                    (rx bos "*elm-test*" eos))
-
-  (add-hooks-pair 'elm-mode 'rainbow-delimiters-mode))
+                    (rx bos "*elm-test*" eos)))
 
 (req-package flycheck-elm
   :require flycheck elm-mode
   :after elm-mode
-  :commands flycheck-elm-setup
-  :config
-  (flycheck-elm-setup))
+  :hook
+  (elm-mode . flycheck-mode)
+  (elm-mode . flycheck-elm-setup))
 
 (provide 'lang-elm)
 ;;; lang-elm.el ends here

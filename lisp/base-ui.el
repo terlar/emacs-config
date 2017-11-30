@@ -62,16 +62,6 @@
 (setq-default confirm-kill-emacs 'y-or-n-p)
 (fset #'yes-or-no-p #'y-or-n-p)
 
-(defun enable-ui-keystrokes ()
-  "Enable keystrokes in minibuffer."
-  (setq echo-keystrokes 0.02))
-(defun disable-ui-keystrokes ()
-  "Disable keystrokes in minibuffer."
-  (setq echo-keystrokes 0))
-(enable-ui-keystrokes)
-(add-hooks-pair 'isearch-mode-hook 'disable-ui-keystrokes)
-(add-hooks-pair 'isearch-mode-end-hook 'enable-ui-keystrokes)
-
 ;; Tooltips in echo area
 (tooltip-mode 0)
 
@@ -105,12 +95,6 @@
                   Man-mode)
                 'visual-line-mode)
 
-;; Visual mode for browser
-(add-hooks-pair 'eww-mode 'buffer-face-mode)
-
-;; Extra margin at bottom for programming modes
-(add-hook! 'prog-mode (setq-local scroll-margin 4))
-
 ;;;
 ;; Built-ins
 
@@ -124,19 +108,28 @@
 ;; Compilation
 (req-package compile
   :loader :built-in
+  :hook (compilation-filter . +colorize-compilation-buffer)
   :init
   (autoload 'ansi-color-apply-on-region "ansi-color")
   ;; Filter ANSI escape codes in compilation-mode output
   (defun +colorize-compilation-buffer ()
     (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region (point-min) (point-max))))
-  (add-hook 'compilation-filter-hook '+colorize-compilation-buffer))
+      (ansi-color-apply-on-region (point-min) (point-max)))))
+
+;; Browser
+(req-package eww
+  :loader :built-in
+  :hook (eww-mode . buffer-face-mode))
+
+(req-package face-remap
+  :loader :built-in
+  :diminish buffer-face-mode)
 
 ;; Code folding
 (req-package hideshow
   :loader :built-in
   :diminish hs-minor-mode
-  :commands hs-minor-mode
+  :hook (prog-mode . hs-minor-mode)
   :init
   (defun +hs-fold-overlay-ellipsis (ov)
     (when (eq 'code (overlay-get ov 'hs))
@@ -144,22 +137,16 @@
        ov 'display (propertize " … " 'face 'font-lock-comment-face))))
 
   (setq hs-hide-comments-when-hiding-all nil
-        hs-set-up-overlay #'+hs-fold-overlay-ellipsis)
-
-  (add-hooks-pair 'prog-mode 'hs-minor-mode))
+        hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
 
 ;; Line highlighting (builtin)
 (req-package hl-line
   :loader :built-in
-  :commands hl-line-mode
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :init
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil)
-
-  (add-hooks-pair '(prog-mode
-                    text-mode
-                    conf-mode) 'hl-line-mode))
+        global-hl-line-sticky-flag nil))
 
 ;; Highlight matching delimiters
 (req-package paren
@@ -172,15 +159,20 @@
   :config
   (show-paren-mode 1))
 
+;; Major mode for editing source code.
+(req-package prog-mode
+  :loader :built-in
+  :hook (prog-mode
+         . (lambda () (setq-local scroll-margin 4))))
+
 ;; Undo/redo window layout changes
 (req-package winner
   :loader :built-in
+  :hook (window-setup . winner-mode)
   :commands
-  (winner-mode
-   winner-undo winner-redo)
+  (winner-undo winner-redo)
   :init
-  (defvar winner-dont-bind-my-keys t)
-  (add-hook 'window-setup-hook #'winner-mode))
+  (defvar winner-dont-bind-my-keys t))
 
 ;;;
 ;; Packages
@@ -220,23 +212,18 @@
 ;; Bug references as buttons
 (req-package bug-reference
   :loader :built-in
-  :commands
-  (bug-reference-mode
-   bug-reference-prog-mode)
+  :hook
+  (prog-mode . bug-reference-prog-mode)
+  ((text-mode magit-log-mode) . bug-reference-mode)
   :init
-  (setq bug-reference-bug-regexp "\\(#\\|GH-\\)\\(?2:[0-9]+\\)")
-  (add-hooks-pair 'prog-mode 'bug-reference-prog-mode)
-  (add-hooks-pair '(text-mode magit-log-mode)
-                  'bug-reference-mode))
+  (setq bug-reference-bug-regexp "\\(#\\|GH-\\)\\(?2:[0-9]+\\)"))
 
 ;; Use GitHub URL for bug reference
 (req-package bug-reference-github
   :require bug-reference
   :after bug-reference
-  :commands bug-reference-github-set-url-format
-  :init
-  (add-hooks-pair '(bug-reference-mode bug-reference-prog-mode)
-                  'bug-reference-github-set-url-format))
+  :hook
+  ((bug-reference-mode bug-reference-prog-mode) . bug-reference-github-set-url-format))
 
 ;; Centered window mode
 (req-package centered-window-mode
@@ -268,11 +255,9 @@
 (req-package symbol-overlay
   :diminish symbol-overlay-mode
   :commands
-  (symbol-overlay-mode
-   symbol-overlay-put
+  (symbol-overlay-put
    symbol-overlay-switch-backward symbol-overlay-switch-forward)
-  :init
-  (add-hooks-pair 'prog-mode 'symbol-overlay-mode))
+  :hook (prog-mode . symbol-overlay-mode))
 
 ;; Dynamically change the default text scale
 (req-package default-text-scale
@@ -285,18 +270,13 @@
 
 ;; Highlight TODO inside comments and strings
 (req-package hl-todo
-  :commands hl-todo-mode
-  :init
-  (add-hooks-pair 'prog-mode 'hl-todo-mode))
+  :hook (prog-mode . hl-todo-mode))
 
 ;; Clickable links (builtin)
 (req-package goto-addr
-  :commands
-  (goto-address-mode
-   goto-address-prog-mode)
-  :init
-  (add-hooks-pair 'text-mode 'goto-address-mode)
-  (add-hooks-pair 'prog-mode 'goto-address-prog-mode))
+  :hook
+  (text-mode . goto-address-mode)
+  (prog-mode . goto-address-prog-mode))
 
 ;; For modes that don't adequately highlight numbers
 (req-package highlight-numbers
@@ -304,12 +284,11 @@
 
 ;; Indentation guides
 (req-package indent-guide
-  :commands indent-guide-mode
   :diminish indent-guide-mode
+  :hook (prog-mode . indent-guide-mode)
   :init
   (setq indent-guide-delay 0.2
-        indent-guide-char "\x2502")
-  (add-hooks-pair 'prog-mode 'indent-guide-mode))
+        indent-guide-char "\x2502"))
 
 ;; Flash the line around cursor on large movements
 (req-package beacon
@@ -337,10 +316,10 @@
 
 ;; Visually separate delimiter pairs
 (req-package rainbow-delimiters
-  :commands rainbow-delimiters-mode
+  :hook
+  ((lisp-mode emacs-lisp-mode) . rainbow-delimiters-mode)
   :init
-  (setq rainbow-delimiters-max-face-count 3)
-  (add-hooks-pair 'lisp-mode 'rainbow-delimiters-mode))
+  (setq rainbow-delimiters-max-face-count 3))
 
 ;; Make text readable
 (req-package readable

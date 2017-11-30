@@ -14,14 +14,15 @@
 
 (req-package dired
   :loader :built-in
+  :hook
+  (dired-mode . hl-line-mode)
+  (dired-mode
+   . (lambda ()
+       (face-remap-add-relative 'hl-line :background "#DDDDDD")))
   :init
   ;; Always copy/delete recursively
   (setq dired-recursive-copies  'always
-        dired-recursive-deletes 'top)
-  :config
-  (add-hook! 'dired-mode
-             (face-remap-add-relative 'hl-line :background "#DDDDDD"))
-  (add-hooks-pair 'dired-mode 'hl-line-mode))
+        dired-recursive-deletes 'top))
 
 ;; Display subtrees
 (req-package dired-subtree
@@ -37,7 +38,7 @@
   :commands all-the-icons-dired-mode
   :init
   (add-graphic-hook
-   (add-hooks-pair 'dired-mode #'all-the-icons-dired-mode)))
+   (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode)))
 
 (req-package image-dired
   :loader :built-in
@@ -53,9 +54,7 @@
 ;; Striped dired buffers
 (req-package stripe-buffer
   :require dired
-  :commands stripe-buffer-mode
-  :init
-  (add-hooks-pair 'dired-mode 'stripe-buffer-mode))
+  :hook (dired-mode . stripe-buffer-mode))
 
 (provide 'tool-dired)
 ;;; tool-dired.el ends here

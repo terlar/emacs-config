@@ -22,9 +22,9 @@
 (req-package flycheck-plantuml
   :require flycheck plantuml-mode
   :after plantuml-mode
-  :config
-  (add-hooks-pair 'plantuml-mode 'flycheck-mode)
-  (add-hooks-pair 'flycheck-mode 'flycheck-plantuml-setup))
+  :hook
+  (plantuml-mode . flycheck-mode)
+  (flycheck-mode . flycheck-plantuml-setup))
 
 (provide 'lang-uml)
 ;;; lang-uml.el ends here

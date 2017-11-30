@@ -16,14 +16,14 @@
 (req-package flyspell
   :loader :built-in
   :diminish flyspell-mode
-  :commands flyspell-mode
+  :hook
+  (prog-mode . flyspell-prog-mode)
+  (text-mode . flyspell-mode)
+  (message-mode . flyspell-mode)
   :init
   (setq ispell-programs-name (executable-find "aspell")
         ispell-list-command "--list"
-        ispell-extr-args '("--dont-tex-check-comments"))
-
-  (add-hooks-pair 'prog-mode 'flyspell-prog-mode)
-  (add-hooks-pair '(text-mode message-mode) 'flyspell-mode))
+        ispell-extr-args '("--dont-tex-check-comments")))
 
 (req-package flyspell-correct-ivy
   :require flyspell ivy

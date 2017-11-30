@@ -19,22 +19,23 @@
 (req-package go-mode
   :mode "\\.go$"
   :interpreter "go"
+  :hook
+  (go-mode . flycheck-mode)
+  (go-mode
+   . (lambda ()
+       (add-hook 'before-save-hook #'gofmt-before-save nil t)))
   :init
   (setq gofmt-command "goimports")
   :config
   (set-doc-fn 'go-mode 'godoc-at-point)
 
-  (if (executable-find "goimports")
-      (add-hook! 'go-mode (add-hook 'before-save-hook #'gofmt-before-save nil t))
-    (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save"))
-
-  (add-hooks-pair 'go-mode 'flycheck-mode))
+  (unless (executable-find "goimports")
+    (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")))
 
 (req-package go-eldoc
   :require go-mode
   :after go-mode
-  :commands go-eldoc-setup
-  :config (add-hooks-pair 'go-mode #'go-eldoc-setup))
+  :hook (go-mode . go-eldoc-setup))
 
 ;; Code navigation & refactoring
 (req-package go-guru

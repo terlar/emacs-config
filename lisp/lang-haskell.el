@@ -23,6 +23,7 @@
   :interpreter
   "runghc"
   "runhaskell"
+  :hook (haskell-mode . rainbow-identifiers-mode)
   :init
   (autoload 'haskell-doc-current-info "haskell-doc")
   (autoload 'haskell-hoogle-lookup-from-local "haskell-hoogle")
@@ -46,14 +47,17 @@
    haskell-process-suggest-remove-import-lines t
    haskell-process-use-presentation-mode t)
   :config
-  (set-aggressive-indent 'haskell-mode :disabled t)
-
-  (add-hooks-pair 'haskell-mode 'rainbow-identifiers-mode))
+  (set-aggressive-indent 'haskell-mode :disabled t))
 
 (req-package intero
   :after haskell-mode
   :diminish intero-mode
   :commands intero-repl
+  :hook (haskell-mode . intero-mode)
+  :general
+  (:keymaps
+   'intero-mode-map
+   "C-c TAB" 'nil)
   :init
   (defalias 'haskell-repl 'intero-repl)
 
@@ -72,20 +76,25 @@
   (set-company-backends 'haskell-mode 'company-intero)
 
   (set-evil-state 'intero-help-mode 'motion)
-  (set-popup-buffer (rx bos "*Intero-Help*" eos))
-
-  (add-hooks-pair 'haskell-mode 'intero-mode))
+  (set-popup-buffer (rx bos "*Intero-Help*" eos)))
 
 (req-package shm
   :require haskell-mode
   :after haskell-mode
   :diminish structured-haskell-mode
+  :hook
+  (haskell-mode . structured-haskell-mode)
+  (haskell-interactive-mode . structured-haskell-repl-mode)
+  (structured-haskell-mode
+   . (lambda ()
+       (hl-line-mode -1)
+       (haskell-indentation-mode -1)))
   :general
   (:keymaps
    'shm-map
    :states 'normal
-   "o" 'shm|evil-open-below
-   "O" 'shm|evil-open-above)
+   "o" '+shm-evil-open-below
+   "O" '+shm-evil-open-above)
   :init
   (setq shm-auto-insert-bangs t
         shm-auto-insert-skeletons t
@@ -93,7 +102,7 @@
         shm-use-hdevtools t
         shm-use-presentation-mode t)
 
-  (defun shm|evil-open-above (count)
+  (defun +shm-evil-open-above (count)
     "Insert a new line above point and switch to Insert state.
 The insertion will be repeated COUNT times."
     (interactive "p")
@@ -105,7 +114,7 @@ The insertion will be repeated COUNT times."
     (evil-insert-state +1)
     (add-hook 'post-command-hook #'evil-maybe-remove-spaces))
 
-  (defun shm|evil-open-below (count)
+  (defun +shm-evil-open-below (count)
     "Insert a new line below point and switch to Insert state.
 The insertion will be repeated COUNT times."
     (interactive "p")
@@ -117,21 +126,15 @@ The insertion will be repeated COUNT times."
     (evil-insert-state +1)
     (add-hook 'post-command-hook #'evil-maybe-remove-spaces))
   :config
-  (if (executable-find "structured-haskell-mode")
-      (progn
-        (add-hooks-pair 'haskell-mode 'structured-haskell-mode)
-        (add-hooks-pair 'haskell-interactive-mode 'structured-haskell-repl-mode))
-    (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work"))
-
-  (add-hook! 'structured-haskell-mode-hook
-             (hl-line-mode -1)
-             (haskell-indentation-mode -1)))
+  (unless (executable-find "structured-haskell-mode")
+    (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work")))
 
 ;; Smart indentation
 (req-package hi2
   :require haskell-mode
   :after haskell-mode
   :diminish hi2-mode
+  :hook (haskell-mode . turn-on-hi2)
   :general
   (:keymaps
    'hi2-mode-map
@@ -151,9 +154,7 @@ The insertion will be repeated COUNT times."
                                  2))
                 (setq-default hi2-where-post-offset
                               (/ (string-to-number (if indent_size indent_size "4"))
-                                 2)))))
-
-  (add-hooks-pair 'haskell-mode 'turn-on-hi2))
+                                 2))))))
 
 (provide 'lang-haskell)
 ;;; lang-haskell.el ends here

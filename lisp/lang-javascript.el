@@ -20,17 +20,16 @@
   :interpreter
   "node"
   "nodejs"
+  :hook
+  (js2-mode . flycheck-mode)
+  (js2-mode . rainbow-delimiters-mode)
+  (js2-mode . +coverlay-mode-enable)
+  (js2-mode . +color-identifiers-delayed-refresh)
   :init
   (setq js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil
         js2-skip-preprocessor-directives t
         js2-strict-trailing-comma-warning nil)
-
-  (add-hooks-pair 'js2-mode
-                  '(flycheck-mode
-                    rainbow-delimiters-mode
-                    +coverlay-mode-enable
-                    +color-identifiers-delayed-refresh))
 
   (with-eval-after-load "editorconfig"
     (add-to-list 'editorconfig-indentation-alist
@@ -38,21 +37,18 @@
 
 (req-package typescript-mode
   :mode "\\.tsx?$"
-  :config
-  (add-hooks-pair 'typescript-mode
-                  '(flycheck-mode
-                    rainbow-delimiters-mode
-                    rainbow-identifiers-mode)))
+  :hook
+  (typescript-mode . flycheck-mode)
+  (typescript-mode . rainbow-delimiters-mode)
+  (typescript-mode . rainbow-identifiers-mode))
 
 (req-package lsp-javascript-typescript
   :require lsp-mode
   :loader :el-get
-  :commands lsp-javascript-typescript-enable
-  :init
-  (add-hooks-pair '(js2-mode
-                    rjsx-mode
-                    typescript-mode)
-                  'lsp-javascript-typescript-enable)
+  :hook
+  (js2-mode . lsp-javascript-typescript-enable)
+  (rjsx-mode . lsp-javascript-typescript-enable)
+  (typescript-mode . lsp-javascript-typescript-enable)
   :config
   (smart-jump-register :modes '(js2-mode
                                 rsjx-mode
@@ -67,9 +63,8 @@
   (:keymaps 'js2-mode-map
             "C-k" '(js2r-kill))
   :commands
-  (js2-refactor-mode
-   js2r-add-keybindings-with-prefix js2r-kill
-   js2r-extract-function js2r-extract-method js2r-introduce-parameter
+  (js2r-add-keybindings-with-prefix
+   js2r-kill js2r-extract-function js2r-extract-method js2r-introduce-parameter
    js2r-localize-parameter js2r-expand-object js2r-contract-object
    js2r-expand-function js2r-contract-function js2r-expand-array
    js2r-contract-array js2r-wrap-buffer-in-iife js2r-inject-global-in-iife
@@ -77,14 +72,11 @@
    js2r-rename-var js2r-var-to-this js2r-arguments-to-object js2r-ternary-to-if
    js2r-split-var-declaration js2r-split-string js2r-unwrap js2r-log-this
    js2r-debug-this js2r-forward-slurp js2r-forward-barf)
-  :preface
-  (defun setup-js2-refactor-keybinding-prefix ()
-    "Setup keybindings for js2-refactor."
-    (js2r-add-keybindings-with-prefix "C-c c R"))
-  :init
-  (add-hooks-pair 'js2-mode
-                  '(js2-refactor-mode
-                    setup-js2-refactor-keybinding-prefix)))
+  :hook
+  (js2-mode . js2-refactor-mode)
+  (js2-mode
+   . (lambda ()
+       (js2r-add-keybindings-with-prefix "C-c c R"))))
 
 (req-package nodejs-repl
   :commands

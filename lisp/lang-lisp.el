@@ -28,6 +28,7 @@
    "q" 'quit-window)
   :commands
   (slime slime-repl slime-connected-p)
+  :hook (lisp-mode . slime-mode)
   :init
   (autoload 'eir-eval-in-slime "eval-in-repl-slime" nil t)
 
@@ -45,8 +46,6 @@
   (set-popup-buffer (rx bos "*slime-" (one-or-more anything) "*" eos))
 
   (setq inferior-lisp-program "clisp")
-
-  (add-hooks-pair 'lisp-mode 'slime-mode)
   :config
   (smart-jump-register :modes 'lisp-mode
                        :jump-fn #'slime-edit-definition

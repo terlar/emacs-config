@@ -20,14 +20,18 @@
 
 (req-package nov
   :mode ("\\.epub$" . nov-mode)
+  :hook
+  (nov-mode . centered-window-mode)
+  (nov-mode . hide-fringes)
+  (nov-mode . readable-mode)
+  (nov-mode
+   . (lambda ()
+       (run-with-idle-timer 0.2 nil 'nov-render-document)))
+  (nov-post-html-render . +nov-post-html-render-hook)
   :init
   (setq nov-save-place-file (concat my-data-dir "nov-places")
         nov-text-width most-positive-fixnum)
   :config
-  (defun +nov-delayed-render ()
-    "Rerender nov after load."
-    (run-with-idle-timer 0.2 nil 'nov-render-document))
-
   (defun +nov-window-configuration-change-hook ()
     (+nov-post-html-render-hook)
     (remove-hook 'window-configuration-change-hook
@@ -49,13 +53,7 @@
               (forward-line 1))))
       (add-hook 'window-configuration-change-hook
                 '+nov-window-configuration-change-hook
-                nil t)))
-  (add-hook 'nov-post-html-render-hook '+nov-post-html-render-hook)
-
-  (add-hooks-pair 'nov-mode '(+nov-delayed-render
-                              centered-window-mode
-                              hide-fringes
-                              readable-mode)))
+                nil t))))
 
 (req-package pdf-tools
   :mode ("\\.pdf$" . pdf-view-mode)

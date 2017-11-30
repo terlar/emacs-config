@@ -14,14 +14,13 @@
 
 (req-package dired-sidebar
   :commands dired-sidebar-toggle-sidebar
-  :config
-  (add-hook! 'dired-sidebar-mode
-             (setq-local beacon-mode nil)
-             (stripe-buffer-mode 0)
-             (add-hook 'buffer-list-update-hook #'line-cursor nil t))
-
-  (add-hooks-pair 'dired-sidebar-mode '(line-cursor
-                                        hide-mode-line)))
+  :hook
+  (dired-sidebar-mode . hide-mode-line)
+  (dired-sidebar-mode . line-cursor)
+  (dired-sidebar-mode
+   . (lambda ()
+       (setq-local beacon-mode nil)
+       (stripe-buffer-mode 0))))
 
 (provide 'tool-sidebar)
 ;;; tool-sidebar.el ends here

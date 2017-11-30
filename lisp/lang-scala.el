@@ -17,18 +17,16 @@
 
 (req-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
+  :hook
+  (scala-mode . flycheck-mode)
+  (scala-mode . prettify-symbols-mode)
+  (scala-mode
+   . (lambda ()
+       (setq-local prettify-symbols-alist scala-prettify-symbols-alist)))
   :init
   (setq scala-indent:align-parameters t)
   :config
-  (set-aggressive-indent 'scala-mode :disabled t)
-  (set-company-backends 'scala-mode 'ensime-company)
-
-  (add-hook! 'scala-mode
-             (setq-local prettify-symbols-alist scala-prettify-symbols-alist))
-
-  (add-hooks-pair 'scala-mode
-                  '(flycheck-mode
-                    prettify-symbols-mode)))
+  (set-aggressive-indent 'scala-mode :disabled t))
 
 (req-package sbt-mode
   :require scala-mode
@@ -37,6 +35,7 @@
 (req-package ensime
   :require scala-mode
   :after scala-mode
+  :hook (scala-mode . ensime-mode)
   :init
   (autoload 'eir-eval-in-scala "eval-in-repl-scala")
 
@@ -47,6 +46,7 @@
   (set-repl-command 'scala-mode #'ensime-inf-switch)
   (set-eval-command 'scala-mode #'eir-eval-in-scala)
 
+  (set-company-backends 'scala-mode 'ensime-company)
   (set-doc-fn 'ensime-mode #'ensime-show-doc-for-symbol-at-point)
   (smart-jump-register :modes 'ensime-mode
                        :jump-fn #'ensime-edit-definition
@@ -54,9 +54,7 @@
                        :refs-fn #'ensime-show-uses-of-symbol-at-point)
 
   (set-evil-state 'ensime-inf-mode 'insert)
-  (set-popup-buffer (rx bos "*Scala REPL*" eos))
-
-  (add-hooks-pair 'scala-mode 'ensime-mode))
+  (set-popup-buffer (rx bos "*Scala REPL*" eos)))
 
 (provide 'lang-scala)
 ;;; lang-scala.el ends here

@@ -15,20 +15,20 @@
 
 (req-package elixir-mode
   :mode "\\.exs?$"
-  :config
-  (add-hooks-pair 'elixir-mode '(flycheck-mode
-                                 turn-off-smartparens-mode)))
+  :hook
+  (elixir-mode . flycheck-mode)
+  (elixir-mode . turn-off-smartparens-mode))
 
 (req-package alchemist
   :after elixir-mode
   :commands
-  (alchemist-mode
-   alchemist-iex-run)
+  (alchemist-iex-run)
   :general
   (:keymaps
    'alchemist-help-minor-mode-map
    :states 'normal
    "q" 'quit-window)
+  :hook (elixir-mode . alchemist-mode)
   :init
   (autoload 'eir-eval-in-iex "eval-in-repl-iex")
 
@@ -53,9 +53,7 @@
   (set-evil-state 'alchemist-iex-mode 'insert)
   (set-popup-buffer (rx bos "*alchemist " (one-or-more anything) "*" eos)
                     (rx bos "*alchemist-refcard*" eos)
-                    (rx bos "*Alchemist-IEx*" eos))
-
-  (add-hooks-pair 'elixir-mode 'alchemist-mode))
+                    (rx bos "*Alchemist-IEx*" eos)))
 
 (req-package flycheck-credo
   :require flycheck elixir-mode

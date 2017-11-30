@@ -25,7 +25,22 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 (req-package evil
   :demand t
+  :hook
+  (after-change-major-mode . +evil-init-state-change)
+  (evil-insert-state-entry
+   . (lambda ()
+       (let ((fn (plist-get evil-state-change-functions :on-insert)))
+         (when (functionp fn) (funcall fn)))))
+  (evil-normal-state-entry
+   . (lambda ()
+       (let ((fn (plist-get evil-state-change-functions :on-normal)))
+         (when (functionp fn) (funcall fn)))))
   :init
+  (defun +evil-init-state-change ()
+    "Initialize evil state change functions."
+    (when-let* ((plist (cdr (assq major-mode evil-state-change-mode-alist))))
+      (setq-local evil-state-change-functions plist)))
+
   (setq evil-mode-line-format '(before . mode-line-front-space)
         evil-want-C-u-scroll t
         evil-want-visual-char-semi-exclusive t
@@ -66,20 +81,14 @@ If a hook returns non-nil, all hooks after it are ignored.")
                     xref--xref-buffer-mode)
                   'motion)
 
-  (defun +evil-init-state-change ()
-    "Initialize evil state change functions."
-    (when-let* ((plist (cdr (assq major-mode evil-state-change-mode-alist))))
-      (setq-local evil-state-change-functions plist)))
-  (add-hook 'after-change-major-mode-hook #'+evil-init-state-change)
-
-  (add-hook! 'evil-insert-state-entry
-             (let ((fn (plist-get evil-state-change-functions :on-insert)))
-               (when (functionp fn) (funcall fn))))
-  (add-hook! 'evil-normal-state-entry
-             (let ((fn (plist-get evil-state-change-functions :on-normal)))
-               (when (functionp fn) (funcall fn))))
-
   (evil-mode 1))
+
+;; Magit integration
+(req-package evil-magit
+  :require evil magit
+  :after evil
+  :init
+  (setq evil-magit-want-horizontal-movement t))
 
 ;; Comment/uncomment lines
 (req-package evil-commentary

@@ -18,6 +18,9 @@
   "\\.md$"
   "/README$"
   ("/README\\.md$" . gfm-mode)
+  :hook
+  (markdown-mode . auto-fill-mode)
+  (markdown-mode . readable-mode)
   :init
   (setq
    markdown-command
@@ -34,11 +37,7 @@
   (set-evil-state-change
    '(markdown-mode gfm-mode)
    :on-insert (lambda () (markdown-toggle-markup-hiding 0))
-   :on-normal (lambda () (markdown-toggle-markup-hiding 1)))
-
-  (add-hooks-pair 'markdown-mode
-                  '(auto-fill-mode
-                    readable-mode)))
+   :on-normal (lambda () (markdown-toggle-markup-hiding 1))))
 
 (req-package edit-indirect)
 

@@ -73,9 +73,7 @@
         "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
 (req-package counsel-projectile
   :require counsel projectile
-  :after counsel
-  :config
-  (counsel-projectile-on))
+  :after counsel)
 
 ;; Used by `counsel-M-x'
 (req-package smex
