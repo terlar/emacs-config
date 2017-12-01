@@ -32,15 +32,15 @@
 
 ;; Inline error messages
 (req-package flycheck-inline
-  :require flycheck
   :loader :el-get
+  :after flycheck
   :hook (flycheck-mode . flycheck-inline-mode)
   :init
   (setq flycheck-display-errors-delay 0.5))
 
 ;; Pop-up error messages
 (req-package flycheck-popup-tip
-  :require flycheck
+  :after flycheck
   :disabled t
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 

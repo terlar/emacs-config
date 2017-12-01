@@ -154,7 +154,7 @@
             "se" '(skewer-eval-defun)
             "sf" '(skewer-load-buffer)))
 
-(req-package skewer-css :ensure nil
+(req-package skewer-css
   :commands skewer-css-mode
   :general
   (:keymaps 'skewer-css-mode-map :states 'normal :prefix ","
@@ -163,7 +163,7 @@
             "sb" '(skewer-css-eval-buffer)
             "sc" '(skewer-css-clear-all)))
 
-(req-package skewer-html :ensure nil
+(req-package skewer-html
   :commands skewer-html-mode
   :general
   (:keymaps 'skewer-html-mode-map :states 'normal :prefix ","

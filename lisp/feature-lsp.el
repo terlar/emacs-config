@@ -13,7 +13,9 @@
   :demand t
   :hook (lsp-mode . flycheck-mode)
   :init
-  (setq lsp-enable-eldoc t))
+  (setq lsp-enable-eldoc t)
+  :config
+  (require 'lsp-flycheck))
 
 (req-package company-lsp
   :require company lsp-mode
