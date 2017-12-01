@@ -298,15 +298,10 @@
 (general-define-key
  :keymaps 'dired-mode-map
  :major-modes t
- :states 'normal
+ :states 'motion
+ "RET" 'dired-find-file
  "/" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper)
-
-;; ;; eshell
-;; (add-hook! 'eshell-mode
-;;            (general-define-key
-;;             :keymaps 'eshell-mode-map
-;;             "C-l" 'eshell-clear-buffer))
 
 ;; eww
 (general-define-key
