@@ -26,17 +26,46 @@
 ;; Built-ins
 
 ;; Emacs Shell
-(req-package esh-mode
+(req-package eshell
   :loader :built-in
   :hook
   (eshell-mode
    . (lambda ()
        (general-define-key
         :keymaps 'eshell-mode-map
-        "C-l" 'eshell-clear-buffer))))
+        :states 'insert
+        [remap eshell-pcomplete] 'completion-at-point
+        "C-r" 'eshell-list-history
+        "C-l" 'eshell-clear-buffer)
+
+       (setq eshell-visual-commands
+             (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands))))
+  :init
+  (defun eshell/gs (&rest args)
+    (magit-status (pop args) nil)
+    (eshell/echo))
+
+  (setq eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+        eshell-buffer-maximum-lines 20000
+        eshell-history-size 1000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input 'all
+        eshell-error-if-no-glob t
+        eshell-save-history-on-exit t
+        eshell-prefer-lisp-functions nil
+        eshell-destroy-buffer-when-process-dies t))
 
 ;;;
 ;; Packages
+
+;; Eshell fringe status indicator
+(req-package eshell-fringe-status
+  :after eshell
+  :hook (eshell-mode . eshell-fringe-status-mode))
+
+(req-package fish-completion
+  :after eshell
+  :hook (eshell-mode . fish-completion-mode))
 
 ;; Bash tests
 (req-package bats-mode

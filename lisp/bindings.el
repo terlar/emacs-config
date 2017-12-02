@@ -358,6 +358,8 @@
 (general-define-key
  :keymaps 'company-mode-map
  :states 'insert
+ "TAB"     'company-indent-or-complete-common
+ [tab]     'company-indent-or-complete-common
  "C-SPC"   'company-indent-or-complete-common
  "C-x C-l" '+company-whole-lines
  "C-x C-k" '+company-dict-or-keywords

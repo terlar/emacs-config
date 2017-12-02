@@ -65,7 +65,8 @@
             [remap execute-extended-command]  'counsel-M-x
             [remap describe-function]         'counsel-describe-function
             [remap describe-variable]         'counsel-describe-variable
-            [remap describe-face]             'counsel-describe-face)
+            [remap describe-face]             'counsel-describe-face
+            [remap eshell-list-history]       'counsel-esh-history)
   :init
   (setq counsel-find-file-ignore-regexp
         "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"
