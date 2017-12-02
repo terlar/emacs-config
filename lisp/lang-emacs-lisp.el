@@ -19,6 +19,10 @@
 (with-eval-after-load "smart-jump"
   (smart-jump-register :modes 'emacs-lisp-mode))
 
+(set-prettify-symbols 'emacs-lisp-mode '(("defun"    . ?ƒ)
+                                         ("defmacro" . ?μ)
+                                         ("defvar"   . ?ν)))
+
 (set-evil-state 'checkdoc-output-mode 'motion)
 (set-popup-buffer (rx bos "*ielm*" eos)
                   (rx bos "*Style Warnings*" eos))

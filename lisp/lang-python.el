@@ -41,6 +41,16 @@
 
   (set-popup-buffer (rx bos "*Python*" eos))
 
+  (set-prettify-symbols 'python-mode
+                        '(("def"    . ?ƒ)
+                          ("sum"    . ?Σ)
+                          ("**2"    . ?²)
+                          ("**3"    . ?³)
+                          ("None"   . ?∅)
+                          ("in"     . ?∈)
+                          ("not in" . ?∉)
+                          ("return" . ?➡)))
+
   (setq python-environment-directory my-cache-dir
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python"))

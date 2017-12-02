@@ -163,7 +163,17 @@
 (req-package prog-mode
   :loader :built-in
   :hook (prog-mode
-         . (lambda () (setq-local scroll-margin 4))))
+         . (lambda () (setq-local scroll-margin 4)))
+  :config
+  (set-prettify-symbols 'prog-mode
+                        '(("lambda" . ?λ)
+                          ("/=" . ?≠)
+                          ("!=" . ?≠)
+                          (">=" . ?≥)
+                          ("<=" . ?≤)
+                          ("=>" . ?⇒)))
+
+  (global-prettify-symbols-mode 1))
 
 ;; Undo/redo window layout changes
 (req-package winner

@@ -99,6 +99,12 @@ The list accepts the following properties:
          (when ,disabled
            (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
 
+(defmacro set-prettify-symbols (mode symbols)
+  "Set MODE prettified symbols to SYMBOLS."
+  `(add-hooks-pair ,mode (lambda ()
+                           (dolist (symbol ,symbols)
+                             (push symbol prettify-symbols-alist)))))
+
 (defmacro set-doc-fn (mode function)
   "Set MODE documentation FUNCTION using `documentation-function'."
   `(add-hooks-pair ,mode (lambda () (setq documentation-function ,function))))

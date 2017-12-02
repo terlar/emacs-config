@@ -29,6 +29,10 @@
   :config
   (set-doc-fn 'go-mode 'godoc-at-point)
 
+  (set-prettify-symbols 'go-mode
+                        '(("func" . ?ƒ)
+                          (":="   . ?←)))
+
   (unless (executable-find "goimports")
     (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")))
 
