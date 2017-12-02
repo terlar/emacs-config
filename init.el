@@ -39,13 +39,14 @@
 ;;;
 ;; Tools
 
+(require 'tool-container)          ; Container management
 (require 'tool-coverage)           ; Code coverage
-(require 'tool-docsets)            ; Docsets
 (require 'tool-dired)              ; Directories
-(require 'tool-sidebar)            ; Sidebar
+(require 'tool-docsets)            ; Docsets
 (require 'tool-notes)              ; Note taking
 (require 'tool-rotate-text)        ; Toggle between different text
-(require 'tool-container)          ; Container management
+(require 'tool-sidebar)            ; Sidebar
+(require 'tool-tramp)              ; Transparent Remote Access, Multiple Protocols
 
 ;;;
 ;; Language support

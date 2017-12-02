@@ -29,6 +29,7 @@
 (req-package eshell
   :loader :built-in
   :hook
+  (eshell-mode . eshell-smart-initialize)
   (eshell-mode
    . (lambda ()
        (general-define-key
@@ -41,6 +42,8 @@
        (setq eshell-visual-commands
              (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands))))
   :init
+  (autoload 'eshell-smart-initialize "em-smart")
+
   (defun eshell/gs (&rest args)
     (magit-status (pop args) nil)
     (eshell/echo))
@@ -49,11 +52,13 @@
         eshell-buffer-maximum-lines 20000
         eshell-history-size 1000
         eshell-hist-ignoredups t
-        eshell-scroll-to-bottom-on-input 'all
         eshell-error-if-no-glob t
-        eshell-save-history-on-exit t
         eshell-prefer-lisp-functions nil
-        eshell-destroy-buffer-when-process-dies t))
+        eshell-save-history-on-exit t
+        eshell-destroy-buffer-when-process-dies t
+        eshell-where-to-jump 'begin
+        eshell-review-quick-commands nil
+        eshell-smart-space-goes-to-end t))
 
 ;;;
 ;; Packages
