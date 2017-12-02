@@ -57,12 +57,12 @@ Used when `rst-header-scaling' is non-nil."
        (hide-lines-matching rst-adornment-regexp)))
   :config
   (setq rst-preferred-adornments
-        '((35 over-and-under 0) ; ?# For parts
-          (42 over-and-under 0) ; ?* For chapters
-          (61 simple 0)         ; ?= For sections
-          (45 simple 0)         ; ?- For subsections
-          (94 simple 0)         ; ?^ For subsubsections
-          (34 simple 0))        ; ?" For paragraphs
+        '((?# over-and-under 0)  ; # For parts
+          (?* over-and-under 0)  ; * For chapters
+          (?= simple 0)          ; = For sections
+          (?- simple 0)          ; - For subsections
+          (?^ simple 0)          ; ^ For subsubsections
+          (?\" simple 0))        ; " For paragraphs
         rst-adornment-regexp
         (concat "^[" rst-adornment-chars "]\\{3,\\}$"))
 

@@ -26,10 +26,23 @@
   (org-babel-after-execute . org-redisplay-inline-images)
   :init
   (setq org-confirm-babel-evaluate nil
+        org-hide-block-startup t
+        org-hide-emphasis-markers t
         org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
+  (set-evil-state-change
+   'org-mode
+   :on-insert (lambda ()
+                (setq org-hide-block-startup nil
+                      org-hide-emphasis-markers nil)
+                (font-lock-fontify-block))
+   :on-normal (lambda ()
+                (setq org-hide-block-startup t
+                      org-hide-emphasis-markers t)
+                (font-lock-fontify-block)))
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((calc       . t)
@@ -48,6 +61,9 @@
      (scala      . t)
      (shell      . t)
      (translate  . t))))
+
+(req-package org-bullets
+  :hook (org-mode . org-bullets-mode))
 
 (req-package org-preview-html
   :commands org-preview-html-mode)
