@@ -111,7 +111,7 @@ The insertion will be repeated COUNT times."
     (setq evil-insert-count count)
     (setq evil-insert-lines t)
     (setq evil-insert-vcount nil)
-    (evil-insert-state +1)
+    (evil-insert-state 1)
     (add-hook 'post-command-hook #'evil-maybe-remove-spaces))
 
   (defun +shm-evil-open-below (count)
@@ -123,7 +123,7 @@ The insertion will be repeated COUNT times."
     (setq evil-insert-count count)
     (setq evil-insert-lines t)
     (setq evil-insert-vcount nil)
-    (evil-insert-state +1)
+    (evil-insert-state 1)
     (add-hook 'post-command-hook #'evil-maybe-remove-spaces))
   :config
   (unless (executable-find "structured-haskell-mode")

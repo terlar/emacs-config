@@ -57,7 +57,9 @@
 
 (req-package pdf-tools
   :mode ("\\.pdf$" . pdf-view-mode)
-  :commands pdf-tools-install)
+  :commands
+  (pdf-tools-install
+   pdf-view-bookmark-jump-handler))
 
 (provide 'lang-ebook)
 ;;; lang-ebook.el ends here
