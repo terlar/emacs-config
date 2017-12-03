@@ -29,8 +29,9 @@
                 magit-completing-read-function #'ivy-completing-read)
 
   (setq ivy-height 12
-        ivy-do-completion-in-region nil
+        ivy-do-completion-in-region t
         ivy-wrap t
+        ivy-use-virtual-buffers t
         ivy-fixed-height-minibuffer t
         ;; Don't use ^ as initial input
         ivy-initial-inputs-alist nil

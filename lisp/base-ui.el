@@ -56,7 +56,8 @@
  ;; No blinking or beeping
  ring-bell-function #'ignore
  visible-bell nil
- calendar-week-start-day 1)
+ calendar-week-start-day 1
+ help-window-select t)
 
 ;; y/n instead of yes/no
 (setq-default confirm-kill-emacs 'y-or-n-p)

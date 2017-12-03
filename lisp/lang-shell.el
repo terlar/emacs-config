@@ -68,6 +68,13 @@
   :after eshell
   :hook (eshell-mode . eshell-fringe-status-mode))
 
+(req-package company-eshell-autosuggest
+  :commands company-eshell-autosuggest
+  :after eshell
+  :init
+  (set-company-backends 'eshell-mode
+                        '(company-capf company-eshell-autosuggest)))
+
 (req-package fish-completion
   :after eshell
   :hook (eshell-mode . fish-completion-mode))

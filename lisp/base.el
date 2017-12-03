@@ -31,7 +31,7 @@
  compilation-ask-about-save nil ; Save all buffers on `compile'
  compilation-scroll-output t
  confirm-nonexistent-file-or-buffer t
- enable-recursive-minibuffers nil
+ enable-recursive-minibuffers t
  debug-on-error (and (not noninteractive) my-debug-mode)
  ;; Update UI less often
  idle-update-delay 2

@@ -358,9 +358,7 @@
 (general-define-key
  :keymaps 'company-mode-map
  :states 'insert
- "TAB"     'company-indent-or-complete-common
- [tab]     'company-indent-or-complete-common
- "C-SPC"   'company-indent-or-complete-common
+ "C-SPC"   'company-complete-common
  "C-x C-l" '+company-whole-lines
  "C-x C-k" '+company-dict-or-keywords
  "C-x C-f" 'company-files
@@ -370,6 +368,14 @@
  "C-x C-o" 'company-capf
  "C-x C-n" 'company-dabbrev-code
  "C-x C-p" '+company-dabbrev-code-previous)
+(general-define-key
+ :keymaps 'company-mode-map
+ :states 'insert
+ "TAB" (general-predicate-dispatch nil
+         (eq major-mode 'eshell-mode) 'company-complete-common)
+ [tab] (general-predicate-dispatch nil
+         (eq major-mode 'eshell-mode) 'company-complete-common))
+
 (general-define-key
  :keymaps 'company-active-map
  ;; Don't interfere with `evil-delete-backward-word' in insert mode
