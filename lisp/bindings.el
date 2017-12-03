@@ -534,6 +534,10 @@
 ;; pdfview
 (general-define-key
  :keymaps 'pdf-view-mode-map
+ "]]" 'pdf-view-scroll-up-or-next-page
+ "[[" 'pdf-view-scroll-down-or-previous-page
+ "]p" 'pdf-view-next-page
+ "[p" 'pdf-view-previous-page
  "h" 'pdf-view-previous-page
  "j" 'pdf-view-next-line-or-next-page
  "k" 'pdf-view-previous-line-or-previous-page
