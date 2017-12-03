@@ -73,7 +73,7 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (load "use-package" nil t)
 
     (use-package req-package
-      :functions req-package-finish
+      :commands req-package-finish
       :init
       (if (and (not noninteractive) my-debug-mode)
           (setq req-package-log-level 'debug)))

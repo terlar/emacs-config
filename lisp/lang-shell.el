@@ -111,20 +111,20 @@
 ;; Completion for keywords, executable files in PATH and ENV variables.
 (req-package company-shell
   :require company
-  :demand t
   :init
   (setq company-shell-delete-duplicates t)
   :config
-  (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
-                  "command" "compgen" "complete" "continue" "declare" "dirs"
-                  "disown" "do" "done" "echo" "enable" "eval" "exec" "exit"
-                  "export" "false" "fc" "fg" "for" "function" "getopts" "hash"
-                  "help" "history" "if" "elif" "else" "fi" "jobs" "kill" "let"
-                  "local" "logout" "popd" "printf" "pushd" "pwd" "read"
-                  "readonly" "return" "select" "set" "shift" "shopt" "source"
-                  "suspend" "test" "then" "time" "times" "trap" "true" "type"
-                  "typeset" "ulimit" "umask" "unalias" "unset" "until"
-                  "variables" "while") company-keywords-alist)
+  (with-eval-after-load "company"
+    (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
+                    "command" "compgen" "complete" "continue" "declare" "dirs"
+                    "disown" "do" "done" "echo" "enable" "eval" "exec" "exit"
+                    "export" "false" "fc" "fg" "for" "function" "getopts" "hash"
+                    "help" "history" "if" "elif" "else" "fi" "jobs" "kill" "let"
+                    "local" "logout" "popd" "printf" "pushd" "pwd" "read"
+                    "readonly" "return" "select" "set" "shift" "shopt" "source"
+                    "suspend" "test" "then" "time" "times" "trap" "true" "type"
+                    "typeset" "ulimit" "umask" "unalias" "unset" "until"
+                    "variables" "while") company-keywords-alist))
 
   (set-company-backends 'sh-mode
                         '(company-keywords
