@@ -16,7 +16,7 @@
 ;;;
 ;; Packages
 
-(req-package go-mode
+(use-package go-mode
   :mode "\\.go$"
   :interpreter "go"
   :hook
@@ -36,14 +36,11 @@
   (unless (executable-find "goimports")
     (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")))
 
-(req-package go-eldoc
-  :require go-mode
-  :after go-mode
+(use-package go-eldoc
   :hook (go-mode . go-eldoc-setup))
 
 ;; Code navigation & refactoring
-(req-package go-guru
-  :require go-mode
+(use-package go-guru
   :after go-mode
   :commands
   (go-guru-describe
@@ -63,7 +60,7 @@
   (set-evil-state 'go-guru-output-mode 'motion))
 
 ;; REPL
-(req-package gorepl-mode
+(use-package gorepl-mode
   :after go-mode
   :commands
   (gorepl-run
@@ -89,10 +86,9 @@
     (warn "go-mode: couldn't find gore, REPL support disabled")))
 
 ;; Completion
-(req-package company-go
-  :require company go-mode
+(use-package company-go
+  :requires company
   :after go-mode
-  :commands company-go
   :init
   (setq command-go-gocode-command "gocode")
   :config

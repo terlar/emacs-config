@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(req-package js2-mode
+(use-package js2-mode
   :mode
   "\\.js$"
   ("\\.json$" . js2-jsx-mode)
@@ -35,7 +35,7 @@
     (add-to-list 'editorconfig-indentation-alist
                  '(js2-mode js2-basic-offset js-switch-indent-offset))))
 
-(req-package typescript-mode
+(use-package typescript-mode
   :mode "\\.tsx?$"
   :hook
   (typescript-mode . flycheck-mode)
@@ -43,8 +43,8 @@
   (typescript-mode . rainbow-identifiers-mode))
 
 (req-package lsp-javascript-typescript
-  :require lsp-mode
   :loader :el-get
+  :requires lsp-mode
   :hook
   (js2-mode . lsp-javascript-typescript-enable)
   (rjsx-mode . lsp-javascript-typescript-enable)
@@ -56,8 +56,7 @@
   (with-eval-after-load "flycheck"
     (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
-(req-package js2-refactor
-  :require js2-mode
+(use-package js2-refactor
   :diminish js2-refactor-mode
   :general
   (:keymaps 'js2-mode-map
@@ -78,7 +77,7 @@
    . (lambda ()
        (js2r-add-keybindings-with-prefix "C-c c R"))))
 
-(req-package nodejs-repl
+(use-package nodejs-repl
   :commands
   (nodejs-repl
    nodejs-repl-send-region
@@ -93,7 +92,7 @@
   (defun javascript-repl-eval ()
     "Evaluate code in JavaScript REPL"
     (if (use-region-p)
-        (nodejs-repl-send-region)
+        (nodejs-repl-send-region (region-beginning) (region-end))
       (nodejs-repl-send-line)))
 
   (set-repl-command 'js2-mode #'javascript-repl)
@@ -102,17 +101,17 @@
   (set-popup-buffer (rx bos "*nodejs*" eos))
   (set-evil-state 'nodejs-repl-mode 'insert))
 
-(req-package indium)
+(use-package indium)
 
-(req-package rjsx-mode
+(use-package rjsx-mode
   :mode
   ("\\.jsx$"             . rjsx-mode)
   ("components/.+\\.js$" . rjsx-mode)
   :commands rjsx-mode
   :general
   (:keymaps 'rjsx-mode-map
-            "<"   '(nil)
-            "C-d" '(nil))
+            "<"   'nil
+            "C-d" 'nil)
   :preface
   :init
   ;; Auto-detect JSX file
@@ -127,12 +126,12 @@
               'rjsx-mode)
         magic-mode-alist))
 
-(req-package coffee-mode
+(use-package coffee-mode
   :mode "\\.coffee$"
   :defines coffee-indent-like-python-mode
   :init (setq coffee-indent-like-python-mode t))
 
-(req-package web-beautify
+(use-package web-beautify
   :commands
   (web-beautify-js web-beautify-html web-beautify-css)
   :general
@@ -146,7 +145,7 @@
 ;;;
 ;; Skewer
 
-(req-package skewer-mode
+(use-package skewer-mode
   :commands (skewer-mode run-skewer)
   :general
   (:keymaps 'skewer-mode-map :states 'normal :prefix ","
@@ -154,7 +153,7 @@
             "se" '(skewer-eval-defun)
             "sf" '(skewer-load-buffer)))
 
-(req-package skewer-css
+(use-package skewer-css
   :commands skewer-css-mode
   :general
   (:keymaps 'skewer-css-mode-map :states 'normal :prefix ","
@@ -163,7 +162,7 @@
             "sb" '(skewer-css-eval-buffer)
             "sc" '(skewer-css-clear-all)))
 
-(req-package skewer-html
+(use-package skewer-html
   :commands skewer-html-mode
   :general
   (:keymaps 'skewer-html-mode-map :states 'normal :prefix ","

@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(req-package company
+(use-package company
   :diminish company-mode
   :commands
   (company-mode
@@ -72,8 +72,7 @@
         '(company-tng-frontend
           company-pseudo-tooltip-unless-just-one-frontend
           company-echo-metadata-frontend
-          company-preview-frontend
-          company-quickhelp-frontend)
+          company-preview-frontend)
         company-backends
         '((company-files
            company-keywords
@@ -90,32 +89,24 @@
 
   (global-company-mode 1))
 
-(req-package company-try-hard
-  :require company
-  :commands company-try-hard
-  :bind ("C-\\" . company-try-hard)
-  :config
-  (bind-keys :map company-active-map
-             ("C-\\" . company-try-hard)))
+(use-package company-try-hard
+  :commands company-try-hard)
 
-(req-package company-statistics
-  :require company
+(use-package company-statistics
   :after company
   :init
   (setq company-statistics-file (concat my-cache-dir "company-stats-cache.el"))
   :config
   (quiet! (company-statistics-mode 1)))
 
-(req-package company-quickhelp
-  :require company
+(use-package company-quickhelp
   :after company
   :init
   (setq company-quickhelp-delay nil)
   :config
   (company-quickhelp-mode 1))
 
-(req-package company-dict
-  :require company
+(use-package company-dict
   :commands company-dict)
 
 ;;;

@@ -12,8 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package nxml-mode
-  :loader :built-in
+(use-package nxml-mode
   :mode "\\.plist$"
   :hook (nxml-mode . flycheck-mode)
   :init
@@ -23,7 +22,7 @@
   (with-eval-after-load "smartparens"
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
-(req-package csv-mode
+(use-package csv-mode
   :mode "\\.[ct]sv$"
   :hook
   (csv-mode
@@ -31,14 +30,14 @@
        (visual-line-mode 0)
        (centered-window-mode 0))))
 
-(req-package json-mode
+(use-package json-mode
   :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
 
-(req-package yaml-mode
+(use-package yaml-mode
   :mode "\\.ya?ml$"
   :hook (yaml-mode . indent-guide-mode))
 
-(req-package sql
+(use-package sql
   :mode ("\\.sql$" . sql-mode)
   :commands
   (sql-connect
@@ -53,13 +52,13 @@
   (set-evil-state 'sql-interactive-mode 'insert)
   (set-popup-buffer (rx bos "*SQL: *" eos)))
 
-(req-package es-mode
+(use-package es-mode
   :mode "\\.es$")
 
-(req-package protobuf-mode
+(use-package protobuf-mode
   :mode "\\.proto$")
 
-(req-package thrift
+(use-package thrift
   :mode ("\\.thrift$" . thrift-mode))
 
 (provide 'lang-data)

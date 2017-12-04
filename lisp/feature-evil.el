@@ -23,7 +23,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 ;;;
 ;; Packages
 
-(req-package evil
+(use-package evil
   :demand t
   :hook
   (after-change-major-mode . +evil-init-state-change)
@@ -84,15 +84,13 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (evil-mode 1))
 
 ;; Magit integration
-(req-package evil-magit
-  :require evil magit
-  :after evil
+(use-package evil-magit
+  :after (evil magit)
   :init
   (setq evil-magit-want-horizontal-movement t))
 
 ;; Comment/uncomment lines
-(req-package evil-commentary
-  :require evil
+(use-package evil-commentary
   :diminish evil-commentary-mode
   :commands
   (evil-commentary
@@ -100,22 +98,19 @@ If a hook returns non-nil, all hooks after it are ignored.")
    evil-commentary-line))
 
 ;; Improved % matching
-(req-package evil-matchit
-  :require evil
+(use-package evil-matchit
   :commands evilmi-jump-items
   :general
   ([remap evil-jump-item] 'evilmi-jump-items))
 
 ;; Quoting/parenthesizing
-(req-package evil-surround
-  :require evil
+(use-package evil-surround
   :commands
   (evil-surround-edit
    evil-Surround-edit
    evil-surround-region))
-(req-package evil-embrace
-  :require evil evil-surround
-  :after evil
+(use-package evil-embrace
+  :after (evil evil-surround)
   :commands evil-embrace-enable-evil-surround-integration
   :init
   (setq evil-embrace-show-help-p nil)

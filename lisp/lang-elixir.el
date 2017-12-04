@@ -13,16 +13,14 @@
 ;;;
 ;; Packages
 
-(req-package elixir-mode
+(use-package elixir-mode
   :mode "\\.exs?$"
   :hook
   (elixir-mode . flycheck-mode)
   (elixir-mode . turn-off-smartparens-mode))
 
-(req-package alchemist
-  :after elixir-mode
-  :commands
-  (alchemist-iex-run)
+(use-package alchemist
+  :commands alchemist-iex-run
   :general
   (:keymaps
    'alchemist-help-minor-mode-map
@@ -55,17 +53,13 @@
                     (rx bos "*alchemist-refcard*" eos)
                     (rx bos "*Alchemist-IEx*" eos)))
 
-(req-package flycheck-credo
-  :require flycheck elixir-mode
-  :after elixir-mode
-  :config
-  (flycheck-credo-setup))
+(use-package flycheck-credo
+  :requires flycheck
+  :hook (elixir-mode . flycheck-credo-setup))
 
-(req-package flycheck-mix
-  :require flycheck elixir-mode
-  :after elixir-mode
-  :config
-  (flycheck-mix-setup))
+(use-package flycheck-mix
+  :requires flycheck
+  :hook (elixir-mode . flycheck-mix-setup))
 
 (provide 'lang-elixir)
 ;;; lang-elixir.el ends here

@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package persp-mode
+(use-package persp-mode
   :demand t
   :init
   (setq persp-keymap-prefix (kbd "C-c TAB")

@@ -26,8 +26,7 @@
 ;; Built-ins
 
 ;; Emacs Shell
-(req-package eshell
-  :loader :built-in
+(use-package eshell
   :hook
   (eshell-mode . eshell-smart-initialize)
   (eshell-mode
@@ -64,27 +63,27 @@
 ;; Packages
 
 ;; Eshell fringe status indicator
-(req-package eshell-fringe-status
+(use-package eshell-fringe-status
   :after eshell
   :hook (eshell-mode . eshell-fringe-status-mode))
 
-(req-package company-eshell-autosuggest
+(use-package company-eshell-autosuggest
   :commands company-eshell-autosuggest
   :after eshell
   :init
   (set-company-backends 'eshell-mode
                         '(company-capf company-eshell-autosuggest)))
 
-(req-package fish-completion
+(use-package fish-completion
   :after eshell
   :hook (eshell-mode . fish-completion-mode))
 
 ;; Bash tests
-(req-package bats-mode
+(use-package bats-mode
   :mode "\\.bats$"
   :interpreter "bats")
 
-(req-package fish-mode
+(use-package fish-mode
   :mode
   "\\.fish$"
   "/fish_funced\\..*$"
@@ -99,7 +98,7 @@
   :config
   (set-doc-fn 'fish-mode #'man))
 
-(req-package sh-script
+(use-package sh-script
   :hook
   (sh-mode . flycheck-mode)
   (sh-mode . highlight-numbers-mode)
@@ -116,8 +115,9 @@
   (set-doc-fn 'sh-mode #'man))
 
 ;; Completion for keywords, executable files in PATH and ENV variables.
-(req-package company-shell
-  :require company
+(use-package company-shell
+  :requires company
+  :after (:any sh-mode fish-mode)
   :init
   (setq company-shell-delete-duplicates t)
   :config

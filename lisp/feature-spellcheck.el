@@ -7,14 +7,12 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package)
-  (require 'base-keybinds))
+  (require 'base-package))
 
 ;;;
 ;; Packages
 
-(req-package flyspell
-  :loader :built-in
+(use-package flyspell
   :diminish flyspell-mode
   :hook
   (prog-mode . flyspell-prog-mode)
@@ -25,15 +23,14 @@
         ispell-list-command "--list"
         ispell-extr-args '("--dont-tex-check-comments")))
 
-(req-package flyspell-correct-ivy
-  :require flyspell ivy
-  :after flyspell
+(use-package flyspell-correct-ivy
+  :requires ivy
   :commands
   (flyspell-correct-word-generic
    flyspell-correct-previous-word-generic))
 
 ;; Automatically infer dictionary
-(req-package auto-dictionary
+(use-package auto-dictionary
   :commands
   (adict-change-dictionary
    adict-guess-dictionary))

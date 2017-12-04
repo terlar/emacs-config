@@ -45,7 +45,7 @@ Used when `rst-header-scaling' is non-nil."
 ;;;
 ;; Packages
 
-(req-package rst
+(use-package rst
   :mode
   ("\\.rst$" . rst-mode)
   :hook

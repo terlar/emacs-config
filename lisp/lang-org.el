@@ -14,14 +14,14 @@
 ;;;
 ;; Packages
 
-(req-package ob-elixir)
-(req-package ob-go)
-(req-package ob-http)
-(req-package ob-restclient)
-(req-package ob-rust)
-(req-package ob-translate)
+(use-package ob-elixir)
+(use-package ob-go)
+(use-package ob-http)
+(use-package ob-restclient)
+(use-package ob-rust)
+(use-package ob-translate)
 
-(req-package org
+(use-package org
   :hook
   (org-mode . readable-mode)
   (org-babel-after-execute . org-redisplay-inline-images)
@@ -75,10 +75,10 @@
      (shell      . t)
      (translate  . t))))
 
-(req-package org-bullets
+(use-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
-(req-package org-preview-html
+(use-package org-preview-html
   :commands org-preview-html-mode)
 
 ;;;###autoload

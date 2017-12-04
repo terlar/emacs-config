@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(req-package rust-mode
+(use-package rust-mode
   :mode "\\.rs$"
   :general
   (:keymaps
@@ -26,9 +26,7 @@
   :config
   (set-popup-buffer (rx bos "*rustfmt*" eos)))
 
-(req-package racer
-  :require rust-mode
-  :after rust-mode
+(use-package racer
   :hook (rust-mode . racer-mode)
   :config
   (set-doc-fn 'rust-mode #'racer-describe)
@@ -38,24 +36,19 @@
   (set-evil-state 'racer-help-mode 'motion)
   (set-popup-buffer (rx bos "*Racer Help*" eos)))
 
-(req-package flycheck-rust
-  :require flycheck rust-mode
-  :after rust-mode
+(use-package flycheck-rust
   :hook
   (rust-mode . flycheck-mode)
   (flycheck-mode . flycheck-rust-setup))
 
-(req-package lsp-rust
+(use-package lsp-rust
   :disabled t
-  :require lsp-mode rust-mode
-  :after rust-mode
+  :requires lsp-mode
   :hook (rust-mode . lsp-rust-enable)
   :init
   (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
 
-(req-package cargo
-  :require rust-mode
-  :after rust-mode
+(use-package cargo
   :hook (rust-mode . cargo-minor-mode)
   :general
   (:keymaps

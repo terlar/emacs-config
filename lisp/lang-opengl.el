@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(req-package glsl-mode
+(use-package glsl-mode
   :mode "\\.\\(frag\\|vert\\)$")
 
 (provide 'lang-opengl)

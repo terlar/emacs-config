@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package dired-sidebar
+(use-package dired-sidebar
   :commands dired-sidebar-toggle-sidebar
   :hook
   (dired-sidebar-mode . hide-mode-line)

@@ -30,7 +30,7 @@
 ;;;
 ;; Packages
 
-(req-package auto-compile
+(use-package auto-compile
   :commands auto-compile-byte-compile
   :hook
   (emacs-lisp-mode . auto-compile-on-load-mode)
@@ -48,15 +48,15 @@ version is loaded."
           (load-file buffer-path)))))
   (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
 
-(req-package highlight-quoted
+(use-package highlight-quoted
   :hook (emacs-lisp-mode . highlight-quoted-mode))
 
 ;; Evaluation result overlays.
-(req-package eros
+(use-package eros
   :hook (emacs-lisp-mode . eros-mode))
 
 ;; Emacs Start Up Profiler
-(req-package esup
+(use-package esup
   :commands esup
   :config
   (set-evil-state 'esup-mode 'motion)

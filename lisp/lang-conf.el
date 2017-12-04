@@ -7,13 +7,12 @@
 
 (eval-when-compile
   (require 'base-package)
-  (require 'base-lib)
-  (require 'base-keybinds))
+  (require 'base-lib))
 
 ;;;
 ;; Packages
 
-(req-package nginx-mode
+(use-package nginx-mode
   :mode
   "nginx\\.conf$"
   "nginx/.+\\.conf$"
@@ -21,19 +20,16 @@
   :magic-fallback
   "\\(?:.*\n\\)*\\(?:http\\|server\\|location .+\\|upstream .+\\)[ \n\t]+{")
 
-(req-package systemd
+(use-package systemd
   :mode
   ("\\.\\(automount\\|busname\\|mount\\|service\\|slice\\|socket\\|swap\\|target\\|timer\\|link\\|netdev\\|network\\)$" . systemd-mode))
 
-(req-package ansible
+(use-package ansible
   :minor
   "site\\.yml$"
   "roles/.+\\.yml$"
-  :require yaml-mode
   :commands ansible)
-(req-package ansible-doc
-  :require ansible
-  :after ansible
+(use-package ansible-doc
   :diminish ansible-doc-mode
   :commands ansible-doc
   :hook (ansible . ansible-doc-mode)
@@ -45,17 +41,16 @@
   (set-doc-fn 'ansible 'ansible-doc-at-point)
   (set-evil-state 'ansible-doc-module-mode 'motion)
   (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos)))
-(req-package company-ansible
-  :require company ansible
+(use-package company-ansible
   :after ansible
   :commands company-ansible
   :config
   (set-company-backends 'ansible 'company-ansible))
 
-(req-package puppet-mode
+(use-package puppet-mode
   :mode "\\.pp$")
 
-(req-package salt-mode
+(use-package salt-mode
   :mode "\\.sls$"
   :hook (salt-mode . flyspell-mode)
   :config

@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(req-package slime
+(use-package slime
   :commands
   (slime-mode
    slime-describe-symbol)

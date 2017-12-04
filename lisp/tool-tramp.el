@@ -12,8 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package tramp
-  :loader :built-in
+(use-package tramp
   :init
   (setq tramp-default-method "ssh"))
 

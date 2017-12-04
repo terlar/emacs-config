@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(req-package restclient
+(use-package restclient
   :mode
   ("\\.http$" . restclient-mode)
   :interpreter
@@ -29,8 +29,8 @@
   :config
   (rx bos "*HTTP Response*" eos))
 
-(req-package company-restclient
-  :require restclient
+(use-package company-restclient
+  :requires company
   :after restclient
   :config
   (set-company-backends 'restclient-mode 'company-restclient))

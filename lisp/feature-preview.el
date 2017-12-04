@@ -10,7 +10,7 @@
 ;;;
 ;; Packages
 
-(req-package impatient-mode
+(use-package impatient-mode
   :commands impatient-mode
   :config
   (defun +imp-markdown-filter (in)

@@ -15,7 +15,7 @@
 ;;;
 ;; Packages
 
-(req-package haskell-mode
+(use-package haskell-mode
   :mode
   "\\.[gh]s$"
   "\\.hsc$"
@@ -49,8 +49,7 @@
   :config
   (set-aggressive-indent 'haskell-mode :disabled t))
 
-(req-package intero
-  :after haskell-mode
+(use-package intero
   :diminish intero-mode
   :commands intero-repl
   :hook (haskell-mode . intero-mode)
@@ -78,9 +77,7 @@
   (set-evil-state 'intero-help-mode 'motion)
   (set-popup-buffer (rx bos "*Intero-Help*" eos)))
 
-(req-package shm
-  :require haskell-mode
-  :after haskell-mode
+(use-package shm
   :diminish structured-haskell-mode
   :hook
   (haskell-mode . structured-haskell-mode)
@@ -130,9 +127,7 @@ The insertion will be repeated COUNT times."
     (warn "haskell-mode: couldn't find structured-haskell-mode, structured editing won't work")))
 
 ;; Smart indentation
-(req-package hi2
-  :require haskell-mode
-  :after haskell-mode
+(use-package hi2
   :diminish hi2-mode
   :hook (haskell-mode . turn-on-hi2)
   :general

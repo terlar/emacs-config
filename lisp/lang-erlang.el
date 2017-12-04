@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(req-package erlang
+(use-package erlang
   :mode
   ("\\.[eh]rl$" . erlang-mode)
   ("rebar\\.config" . erlang-mode)
@@ -36,15 +36,13 @@
 
   (require 'erlang-start))
 
-(req-package company-erlang
-  :require company erlang
+(use-package company-erlang
+  :requires company
   :after erlang
-  :commands company-erlang
   :config
   (set-company-backends 'erlang-mode 'company-erlang))
 
-(req-package flycheck-rebar3
-  :require erlang
+(use-package flycheck-rebar3
   :commands flycheck-rebar3-setup
   :after erlang
   :config

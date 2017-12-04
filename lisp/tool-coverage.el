@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(req-package coverlay
+(use-package coverlay
   :diminish coverlay-mode
   :commands
   (coverlay-mode

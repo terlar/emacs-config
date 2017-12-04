@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(req-package flycheck
+(use-package flycheck
   :diminish flycheck-mode
   :commands
   (flycheck-list-errors
@@ -33,14 +33,12 @@
 ;; Inline error messages
 (req-package flycheck-inline
   :loader :el-get
-  :after flycheck
   :hook (flycheck-mode . flycheck-inline-mode)
   :init
   (setq flycheck-display-errors-delay 0.5))
 
 ;; Pop-up error messages
-(req-package flycheck-popup-tip
-  :after flycheck
+(use-package flycheck-popup-tip
   :disabled t
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 

@@ -12,10 +12,10 @@
 ;;;
 ;; Packages
 
-(req-package dockerfile-mode
+(use-package dockerfile-mode
   :mode "Dockerfile$")
 
-(req-package docker
+(use-package docker
   :init
   (setq docker-containers-show-all t)
 
@@ -33,27 +33,24 @@
                     docker-volumes-mode
                     docker-networks-mode) 'emacs))
 
-(req-package docker-compose-mode
+(use-package docker-compose-mode
   :mode "docker-compose\\.yml")
 
-(req-package docker-tramp
-  :require docker
+(use-package docker-tramp
   :after docker
   :init
   (setq docker-tramp-use-names t))
 
-(req-package kubernetes
+(use-package kubernetes
   :commands
   (kubernetes-overview
    kubernetes-display-pods
    kubernetes-display-configmaps))
 
-(req-package kubernetes-evil
-  :require evil kubernetes
-  :after kubernetes)
+(use-package kubernetes-evil
+  :after (evil kubernetes))
 
-(req-package kubernetes-tramp
-  :require kubernetes
+(use-package kubernetes-tramp
   :after kubernetes)
 
 (provide 'tool-container)

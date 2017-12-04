@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(req-package enh-ruby-mode
+(use-package enh-ruby-mode
   :mode
   ("\\.rb$" . enh-ruby-mode)
   ("\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$" . enh-ruby-mode)
@@ -29,9 +29,7 @@
   ;; Don't indent the parenthesis or bracket based on the previous line.
   (setq enh-ruby-deep-indent-paren nil))
 
-(req-package robe
-  :require enh-ruby-mode
-  :after enh-ruby-mode
+(use-package robe
   :hook (enh-ruby-mode . robe-mode)
   :config
   (set-doc-fn 'enh-ruby-mode #'robe-doc)
@@ -43,22 +41,18 @@
   (set-company-backends 'enh-ruby-mode 'company-robe)
   (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
-(req-package yard-mode
-  :require enh-ruby-mode
-  :after enh-ruby-mode
+(use-package yard-mode
   :diminish yard-mode
   :hook enh-ruby-mode)
 
-(req-package ruby-refactor
-  :require enh-ruby-mode
+(use-package ruby-refactor
   :after enh-ruby-mode)
 
-(req-package rspec-mode
+(use-package rspec-mode
   :minor
   "_spec\\.rb$")
 
-(req-package inf-ruby
-  :after enh-ruby-mode
+(use-package inf-ruby
   :commands
   (inf-ruby
    inf-ruby-console-auto)
@@ -83,8 +77,8 @@
 
   (setq inf-ruby-default-implementation "pry"))
 
-(req-package company-inf-ruby
-  :require company inf-ruby
+(use-package company-inf-ruby
+  :requires company
   :after inf-ruby
   :config
   (set-company-backends 'inf-ruby-mode 'company-inf-ruby))

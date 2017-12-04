@@ -15,7 +15,7 @@
 ;;;
 ;; Packages
 
-(req-package scala-mode
+(use-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
   :hook
   (scala-mode . flycheck-mode)
@@ -28,13 +28,10 @@
   :config
   (set-aggressive-indent 'scala-mode :disabled t))
 
-(req-package sbt-mode
-  :require scala-mode
+(use-package sbt-mode
   :after scala-mode)
 
-(req-package ensime
-  :require scala-mode
-  :after scala-mode
+(use-package ensime
   :hook (scala-mode . ensime-mode)
   :init
   (autoload 'eir-eval-in-scala "eval-in-repl-scala")

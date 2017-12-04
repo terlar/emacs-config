@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package markdown-mode
+(use-package markdown-mode
   :mode
   "\\.markdown$"
   "\\.md$"
@@ -39,11 +39,12 @@
    :on-insert (lambda () (markdown-toggle-markup-hiding 0))
    :on-normal (lambda () (markdown-toggle-markup-hiding 1))))
 
-(req-package edit-indirect)
+(use-package edit-indirect)
 
-(req-package markdown-toc
-  :require markdown-mode
-  :commands markdown-toc-generate-toc)
+(use-package markdown-toc
+  :commands
+  (markdown-toc-generate-toc
+   markdown-toc-refresh-toc))
 
 (provide 'lang-markdown)
 ;;; lang-markdown.el ends here

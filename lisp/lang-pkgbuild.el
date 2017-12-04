@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package pkgbuild-mode
+(use-package pkgbuild-mode
   :mode "/PKGBUILD$")
 
 (provide 'lang-pkgbuild)

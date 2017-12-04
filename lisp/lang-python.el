@@ -15,13 +15,12 @@
 (eval-when-compile
   (require 'base-vars)
   (require 'base-package)
-  (require 'base-lib)
-  (require 'base-keybinds))
+  (require 'base-lib))
 
 ;;;
 ;; Packages
 
-(req-package python
+(use-package python
   :mode
   ("\\.py$" . python-mode)
   :interpreter
@@ -55,26 +54,22 @@
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python"))
 
-(req-package python-x
-  :require python
+(use-package python-x
   :after python)
 
-(req-package pip-requirements
-  :require python
+(use-package pip-requirements
   :mode ("/requirements.txt$" . pip-requirements-mode))
 
-(req-package lsp-python
-  :require lsp-mode python
+(use-package lsp-python
+  :requires lsp-mode
   :hook (python-mode . lsp-python-enable)
   :config
   (smart-jump-register :modes 'python-mode))
 
-(req-package py-autopep8
-  :require python
-  :after python
+(use-package py-autopep8
   :hook (python-mode . py-autopep8-enable-on-save))
 
-(req-package pydoc
+(use-package pydoc
   :after python
   :commands pydoc-at-point
   :config
@@ -82,8 +77,7 @@
   (set-evil-state 'pydoc-mode 'motion)
   (set-popup-buffer (rx bos "*pydoc*" eos)))
 
-(req-package python-test
-  :require python
+(use-package python-test
   :after python
   :init
   (setq python-test-backend 'pytest)

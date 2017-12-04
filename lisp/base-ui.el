@@ -100,15 +100,13 @@
 ;; Built-ins
 
 ;; comint
-(req-package comint
-  :loader :built-in
+(use-package comint
   :init
   (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
   (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
 
 ;; Compilation
-(req-package compile
-  :loader :built-in
+(use-package compile
   :hook (compilation-filter . +colorize-compilation-buffer)
   :init
   (autoload 'ansi-color-apply-on-region "ansi-color")
@@ -118,17 +116,14 @@
       (ansi-color-apply-on-region (point-min) (point-max)))))
 
 ;; Browser
-(req-package eww
-  :loader :built-in
+(use-package eww
   :hook (eww-mode . buffer-face-mode))
 
-(req-package face-remap
-  :loader :built-in
+(use-package face-remap
   :diminish buffer-face-mode)
 
 ;; Code folding
-(req-package hideshow
-  :loader :built-in
+(use-package hideshow
   :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode)
   :init
@@ -141,8 +136,7 @@
         hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
 
 ;; Line highlighting (builtin)
-(req-package hl-line
-  :loader :built-in
+(use-package hl-line
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :init
   ;; Only highlight in selected window
@@ -150,8 +144,7 @@
         global-hl-line-sticky-flag nil))
 
 ;; Highlight matching delimiters
-(req-package paren
-  :loader :built-in
+(use-package paren
   :defer 2
   :init
   (setq show-paren-delay 0.1
@@ -161,8 +154,7 @@
   (show-paren-mode 1))
 
 ;; Major mode for editing source code.
-(req-package prog-mode
-  :loader :built-in
+(use-package prog-mode
   :hook (prog-mode
          . (lambda () (setq-local scroll-margin 4)))
   :config
@@ -177,8 +169,7 @@
   (global-prettify-symbols-mode 1))
 
 ;; Undo/redo window layout changes
-(req-package winner
-  :loader :built-in
+(use-package winner
   :hook (window-setup . winner-mode)
   :commands
   (winner-undo winner-redo)
@@ -189,14 +180,14 @@
 ;; Packages
 
 ;; Hint mode for links
-(req-package ace-link
+(use-package ace-link
   :commands
   (ace-link
    ace-link-help
    ace-link-org))
 
 ;; Fast window navigation
-(req-package ace-window
+(use-package ace-window
   :commands
   (ace-window
    ace-swap-window ace-delete-window
@@ -208,11 +199,11 @@
 
 ;; Align visually wrapped lines
 ;; NOTE: This can cause performance issues with font-lock.
-(req-package adaptive-wrap
+(use-package adaptive-wrap
   :commands adaptive-wrap-prefix-mode)
 
 ;; Jump to things
-(req-package avy
+(use-package avy
   :commands
   (avy-goto-char-2
    avy-goto-line)
@@ -221,8 +212,7 @@
         avy-background t))
 
 ;; Bug references as buttons
-(req-package bug-reference
-  :loader :built-in
+(use-package bug-reference
   :hook
   (prog-mode . bug-reference-prog-mode)
   ((text-mode magit-log-mode) . bug-reference-mode)
@@ -230,21 +220,19 @@
   (setq bug-reference-bug-regexp "\\(#\\|GH-\\)\\(?2:[0-9]+\\)"))
 
 ;; Use GitHub URL for bug reference
-(req-package bug-reference-github
-  :require bug-reference
-  :after bug-reference
+(use-package bug-reference-github
   :hook
   ((bug-reference-mode bug-reference-prog-mode) . bug-reference-github-set-url-format))
 
 ;; Centered window mode
-(req-package centered-window-mode
+(use-package centered-window-mode
   :diminish centered-window-mode
   :commands centered-window-mode
   :init
   (setq cwm-centered-window-width 120))
 
 ;; Highlight source code identifiers based on their name
-(req-package color-identifiers-mode
+(use-package color-identifiers-mode
   :diminish color-identifiers-mode
   :commands
   (color-identifiers-mode
@@ -253,7 +241,7 @@
   :defer 2
   :config
   (global-color-identifiers-mode 1))
-(req-package rainbow-identifiers
+(use-package rainbow-identifiers
   :diminish rainbow-identifiers-mode
   :commands rainbow-identifiers-mode
   :functions rainbow-identifiers-cie-l*a*b*-choose-face
@@ -263,7 +251,7 @@
         rainbow-identifiers-cie-l*a*b*-lightness 45))
 
 ;; Manual symbol highlight
-(req-package symbol-overlay
+(use-package symbol-overlay
   :diminish symbol-overlay-mode
   :commands
   (symbol-overlay-put
@@ -271,30 +259,30 @@
   :hook (prog-mode . symbol-overlay-mode))
 
 ;; Dynamically change the default text scale
-(req-package default-text-scale
+(use-package default-text-scale
   :commands
   (default-text-scale-increase default-text-scale-decrease))
 
-(req-package eldoc-overlay-mode
+(use-package eldoc-overlay-mode
   :diminish eldoc-overlay-mode
   :commands eldoc-overlay-mode)
 
 ;; Highlight TODO inside comments and strings
-(req-package hl-todo
+(use-package hl-todo
   :hook (prog-mode . hl-todo-mode))
 
 ;; Clickable links (builtin)
-(req-package goto-addr
+(use-package goto-addr
   :hook
   (text-mode . goto-address-mode)
   (prog-mode . goto-address-prog-mode))
 
 ;; For modes that don't adequately highlight numbers
-(req-package highlight-numbers
+(use-package highlight-numbers
   :commands highlight-numbers-mode)
 
 ;; Indentation guides
-(req-package indent-guide
+(use-package indent-guide
   :diminish indent-guide-mode
   :hook (prog-mode . indent-guide-mode)
   :init
@@ -302,7 +290,7 @@
         indent-guide-char "\x2502"))
 
 ;; Flash the line around cursor on large movements
-(req-package beacon
+(use-package beacon
   :diminish beacon-mode
   :commands beacon-mode
   :config
@@ -316,7 +304,7 @@
     (advice-add #'evil-window-bottom :after #'+beacon-blink)))
 
 ;; Display page breaks as a horizontal line
-(req-package page-break-lines
+(use-package page-break-lines
   :diminish page-break-lines-mode
   :commands
   (page-break-lines-mode
@@ -326,15 +314,14 @@
   (global-page-break-lines-mode 1))
 
 ;; Visually separate delimiter pairs
-(req-package rainbow-delimiters
+(use-package rainbow-delimiters
   :hook
   ((lisp-mode emacs-lisp-mode) . rainbow-delimiters-mode)
   :init
   (setq rainbow-delimiters-max-face-count 3))
 
 ;; Make text readable
-(req-package readable
-  :loader :path
+(use-package readable
   :load-path my-site-lisp-dir
   :commands readable-mode)
 

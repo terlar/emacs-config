@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(req-package web-mode
+(use-package web-mode
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
   :hook
   (web-mode . flycheck-mode)
@@ -32,8 +32,8 @@
                       web-mode-script-padding 0
                       web-mode-style-padding 0)))))
 
-(req-package company-web
-  :require web-mode
+(use-package company-web
+  :requires company
   :after web-mode
   :config
   (set-company-backends 'web-mode
@@ -43,7 +43,7 @@
                           company-css)))
 
 ;; Snippets and Zen Coding for HTML
-(req-package emmet-mode
+(use-package emmet-mode
   :hook
   (css-mode web-mode html-mode haml-mode nxml-mode rsjx-mode)
   :preface
@@ -51,22 +51,22 @@
   :init
   (setq emmet-move-cursor-between-quotes t))
 
-(req-package slim-mode
+(use-package slim-mode
   :mode "\\.slim$"
   :config
   (set-aggressive-indent 'slim-mode :disabled t))
 
-(req-package haml-mode
+(use-package haml-mode
   :mode "\\.haml$")
 
-(req-package pug-mode
+(use-package pug-mode
   :mode
   "\\.\\(pug\\|jade\\)$"
   :config
   (set-aggressive-indent 'pug-mode :disabled t))
 
 ;; configure CSS mode company backends
-(req-package css-mode
+(use-package css-mode
   :mode "\\.s?css$"
   :config
   (set-company-backends 'css-mode 'company-css))

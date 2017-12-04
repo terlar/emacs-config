@@ -49,10 +49,10 @@
 ;; Packages
 
 ;; Displays current match and total matches information
-(req-package anzu
+(use-package anzu
   :diminish anzu-mode
-  :commands global-anzu-mode
   :hook
+  (after-init . global-anzu-mode)
   (isearch-mode-end . anzu--reset-status)
   (my-evil-esc . anzu--reset-status)
   :general
@@ -79,23 +79,20 @@
 
   (setq anzu-mode-line-update-function #'+anzu-update-mode-line
         anzu-minimum-input-length 1
-        anzu-search-threshold 250)
-  :config
-  (global-anzu-mode 1))
+        anzu-search-threshold 250))
 
-(req-package evil-anzu
-  :require evil anzu
-  :after anzu)
+(use-package evil-anzu
+  :after (evil anzu))
 
 ;; Enable eldoc support when minibuffer is in use
-(req-package eldoc-eval
+(use-package eldoc-eval
   :commands eldoc-in-minibuffer-mode
   :defer 2
   :config
   (eldoc-in-minibuffer-mode 1))
 
 ;; Display info about indentation current indentation settings
-(req-package indent-info
+(use-package indent-info
   :demand t
   :init
   (setq indent-info-prefix nil
@@ -104,7 +101,7 @@
   (global-indent-info-mode 1))
 
 ;; Icons in mode-line
-(req-package mode-icons
+(use-package mode-icons
   :commands mode-icons-mode
   :init
   (add-graphic-hook (mode-icons-mode 1)))
