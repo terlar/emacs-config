@@ -44,6 +44,9 @@ This will be nil if you have byte-compiled your configuration.")
  byte-compile-verbose my-debug-mode
  byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
+(autoload 'use-package "use-package" nil nil 'macro)
+(autoload 'req-package "req-package" nil nil 'macro)
+
 (defun +packages-initialize (&optional force-p)
   "Initialize installed packages and ensure they are installed.
 When FORCE-P is provided it will run no matter the preconditions.
@@ -86,12 +89,6 @@ When base.el is compiled, this function will be avoided to speed up startup."
       (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory)))
 
     (setq my-packages-init-p t)))
-
-;;;
-;; Macros
-
-(autoload 'use-package "use-package" nil nil 'macro)
-(autoload 'req-package "req-package" nil nil 'macro)
 
 (provide 'base-package)
 ;;; base-package.el ends here
