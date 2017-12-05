@@ -44,6 +44,7 @@
 (require 'tool-dired)              ; Directories
 (require 'tool-docsets)            ; Docsets
 (require 'tool-notes)              ; Note taking
+(require 'tool-recording)          ; Screencasting
 (require 'tool-rotate-text)        ; Toggle between different text
 (require 'tool-sidebar)            ; Sidebar
 (require 'tool-tramp)              ; Transparent Remote Access, Multiple Protocols
