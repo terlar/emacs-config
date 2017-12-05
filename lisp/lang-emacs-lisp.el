@@ -13,6 +13,8 @@
 
 (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
+(add-to-list 'auto-mode-alist '("recipes/.*$" . emacs-lisp-mode))
+
 (set-repl-command 'emacs-lisp-mode #'elisp-repl)
 (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
 (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
