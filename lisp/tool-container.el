@@ -37,7 +37,7 @@
   :mode "docker-compose\\.yml")
 
 (use-package docker-tramp
-  :after docker
+  :demand t
   :init
   (setq docker-tramp-use-names t))
 
@@ -51,7 +51,7 @@
   :after (evil kubernetes))
 
 (use-package kubernetes-tramp
-  :after kubernetes)
+  :demand t)
 
 (provide 'tool-container)
 ;;; tool-container.el ends here
