@@ -57,10 +57,10 @@
    spinner-create
    spinner-print))
 
-(use-package f)    ; files and paths
-(use-package s)    ; strings
-(use-package dash) ; lists
-(use-package ov)   ; overlays
+(use-package f :demand t)    ; files and paths
+(use-package s :demand t)    ; strings
+(use-package dash :demand t) ; lists
+(use-package ov :demand t)   ; overlays
 
 ;;;
 ;; Setup
