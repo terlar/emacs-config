@@ -138,6 +138,7 @@
  "f G" '(counsel-projectile-rg                  :wk "Grep project files")
  "f r" '(recentf                                :wk "Recent files")
  "f R" '(projectile-recentf                     :wk "Recent project files")
+ "f t" '(counsel-tramp                          :wk "Find TRAMP file")
 
  "g"   '(:ignore t :wk "git")
  "g [" '(diff-hl-previous-hunk       :wk "Previous hunk")
