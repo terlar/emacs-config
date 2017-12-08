@@ -42,5 +42,27 @@
   :config
   (persp-mode 1))
 
+;;;
+;; Buffer filtering
+
+(defun +is-useful-buffer (buffer)
+  "Determine if BUFFER is useful."
+  (not (string-match
+        "^ ?\\*.*\\*\\(<[0-9]+>\\)?$"
+        (buffer-name buffer))))
+
+(defun +is-current-persp-buffer (buffer)
+  "Determine if BUFFER belongs to current persp."
+  (if (fboundp 'persp-buffer-list)
+      (memq buffer (persp-buffer-list))
+    t))
+
+(defun +is-visible-buffer (buffer)
+  "Determine if BUFFER should be visible."
+  (and (+is-useful-buffer buffer) (+is-current-persp-buffer buffer)))
+
+;; Filter out buffers that is not deemed visible.
+(push '(buffer-predicate . +is-visible-buffer) default-frame-alist)
+
 (provide 'feature-workspaces)
 ;;; feature-workspaces.el ends here
