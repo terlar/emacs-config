@@ -61,8 +61,5 @@
   "Determine if BUFFER should be visible."
   (and (+is-useful-buffer buffer) (+is-current-persp-buffer buffer)))
 
-;; Filter out buffers that is not deemed visible.
-(push '(buffer-predicate . +is-visible-buffer) default-frame-alist)
-
 (provide 'feature-workspaces)
 ;;; feature-workspaces.el ends here
