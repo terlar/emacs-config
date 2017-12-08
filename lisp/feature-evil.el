@@ -26,20 +26,22 @@ If a hook returns non-nil, all hooks after it are ignored.")
 (use-package evil
   :demand t
   :hook
-  (after-change-major-mode . +evil-init-state-change)
-  (evil-insert-state-entry
-   . (lambda ()
-       (let ((fn (plist-get evil-state-change-functions :on-insert)))
-         (when (functionp fn) (funcall fn)))))
-  (evil-normal-state-entry
-   . (lambda ()
-       (let ((fn (plist-get evil-state-change-functions :on-normal)))
-         (when (functionp fn) (funcall fn)))))
+  (after-change-major-mode . +evil-init-state-entry-functions)
+  (evil-insert-state-entry . +evil-insert-state-entry-run-functions)
+  (evil-normal-state-entry . +evil-normal-state-entry-run-functions)
   :preface
-  (defun +evil-init-state-change ()
-    "Initialize evil state change functions."
-    (when-let* ((plist (cdr (assq major-mode evil-state-change-mode-alist))))
-      (setq-local evil-state-change-functions plist)))
+  (defun +evil-init-state-entry-functions ()
+    "Initialize evil state entry functions."
+    (when-let* ((plist (cdr (assq major-mode evil-state-entry-functions-mode-alist))))
+      (setq-local evil-state-entry-functions plist)))
+
+  (defun +evil-insert-state-entry-run-functions ()
+    (let ((fn (plist-get evil-state-entry-functions :on-insert)))
+      (when (functionp fn) (funcall fn))))
+
+  (defun +evil-normal-state-entry-run-functions ()
+    (let ((fn (plist-get evil-state-entry-functions :on-normal)))
+      (when (functionp fn) (funcall fn))))
   :init
   (setq evil-mode-line-format '(before . mode-line-front-space)
         evil-want-C-u-scroll t

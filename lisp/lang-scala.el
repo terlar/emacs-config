@@ -19,10 +19,11 @@
   :mode "\\.s\\(cala\\|bt\\)$"
   :hook
   (scala-mode . flycheck-mode)
-  (scala-mode . prettify-symbols-mode)
-  (scala-mode
-   . (lambda ()
-       (setq-local prettify-symbols-alist scala-prettify-symbols-alist)))
+  (scala-mode . +scala-mode-setup)
+  :preface
+  (defun +scala-mode-setup ()
+    (prettify-symbols-mode 1)
+    (setq-local prettify-symbols-alist scala-prettify-symbols-alist))
   :init
   (setq scala-indent:align-parameters t)
   :config

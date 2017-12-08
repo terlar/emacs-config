@@ -25,10 +25,11 @@
 (use-package csv-mode
   :mode "\\.[ct]sv$"
   :hook
-  (csv-mode
-   . (lambda ()
-       (visual-line-mode 0)
-       (centered-window-mode 0))))
+  (csv-mode . +csv-mode-setup)
+  :preface
+  (defun +csv-mode-setup ()
+    (visual-line-mode 0)
+    (centered-window-mode 0)))
 
 (use-package json-mode
   :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
@@ -43,9 +44,10 @@
   (sql-connect
    sql-set-product)
   :hook
-  (sql-interactive-mode
-   . (lambda ()
-       (toggle-truncate-lines t)))
+  (sql-interactive-mode . +sql-interactive-mode-setup)
+  :preface
+  (defun +sql-interactive-mode-setup ()
+    (toggle-truncate-lines t))
   :init
   (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager"))
   :config

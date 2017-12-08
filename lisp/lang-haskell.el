@@ -82,16 +82,17 @@
   :hook
   (haskell-mode . structured-haskell-mode)
   (haskell-interactive-mode . structured-haskell-repl-mode)
-  (structured-haskell-mode
-   . (lambda ()
-       (hl-line-mode -1)
-       (haskell-indentation-mode -1)))
+  (structured-haskell-mode . +shm-setup)
   :general
   (:keymaps
    'shm-map
    :states 'normal
    "o" '+shm-evil-open-below
    "O" '+shm-evil-open-above)
+  :preface
+  (defun +shm-setup ()
+    (hl-line-mode -1)
+    (haskell-indentation-mode -1))
   :init
   (setq shm-auto-insert-bangs t
         shm-auto-insert-skeletons t

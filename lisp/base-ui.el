@@ -80,8 +80,10 @@
 ;; Standardize fringe width
 (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
 (push (cons 'right-fringe my-fringe-width) default-frame-alist)
-(add-hook! '(emacs-startup minibuffer-setup)
-           (set-window-fringes (minibuffer-window) 0 0 nil))
+(defun +disable-minibuffer-window-fringes ()
+  "Disable the window fringes for minibuffer window."
+  (set-window-fringes (minibuffer-window) 0 0 nil))
+(add-hooks-pair '(emacs-startup minibuffer-setup) '+disable-minibuffer-window-fringes)
 
 ;; Text scaling
 (defadvice text-scale-increase (around all-buffers (arg) activate)
@@ -156,8 +158,10 @@
 
 ;; Major mode for editing source code.
 (use-package prog-mode
-  :hook (prog-mode
-         . (lambda () (setq-local scroll-margin 4)))
+  :hook (prog-mode . +prog-mode-setup)
+  :preface
+  (defun +prog-mode-setup ()
+    (setq-local scroll-margin 4))
   :config
   (set-prettify-symbols 'prog-mode
                         '(("lambda" . ?λ)

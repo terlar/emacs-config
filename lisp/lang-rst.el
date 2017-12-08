@@ -51,10 +51,21 @@ Used when `rst-header-scaling' is non-nil."
   :hook
   (rst-mode . auto-fill-mode)
   (rst-mode . readable-mode)
-  (rst-mode
-   . (lambda ()
-       (customize-set-variable 'rst-header-scaling t)
-       (hide-lines-matching rst-adornment-regexp)))
+  (rst-mode . +rst-mode-setup)
+  :preface
+  (defun +rst-mode-setup ()
+    (customize-set-variable 'rst-header-scaling t)
+    (hide-lines-matching rst-adornment-regexp))
+
+  (defun +rst-mode-on-insert-state-entry ()
+    (+evil-insert-state-disable-variable-pitch-mode)
+    (customize-set-variable 'rst-header-scaling nil)
+    (hide-lines-show-all))
+
+  (defun +rst-mode-on-normal-state-entry ()
+    (+evil-insert-state-restore-variable-pitch-mode)
+    (customize-set-variable 'rst-header-scaling t)
+    (hide-lines-matching rst-adornment-regexp))
   :config
   (setq rst-preferred-adornments
         '((?# over-and-under 0)  ; # For parts
@@ -66,16 +77,10 @@ Used when `rst-header-scaling' is non-nil."
         rst-adornment-regexp
         (concat "^[" rst-adornment-chars "]\\{3,\\}$"))
 
-  (set-evil-state-change
+  (set-evil-state-entry
    'rst-mode
-   :on-insert (lambda ()
-                (+evil-insert-state-disable-variable-pitch-mode)
-                (customize-set-variable 'rst-header-scaling nil)
-                (hide-lines-show-all))
-   :on-normal (lambda ()
-                (+evil-insert-state-restore-variable-pitch-mode)
-                (customize-set-variable 'rst-header-scaling t)
-                (hide-lines-matching rst-adornment-regexp))))
+   :on-insert #'+rst-mode-on-insert-state-entry
+   :on-normal #'+rst-mode-on-normal-state-entry))
 
 ;;;
 ;; Autoloads

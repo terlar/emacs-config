@@ -15,12 +15,13 @@
 (use-package dired-sidebar
   :commands dired-sidebar-toggle-sidebar
   :hook
-  (dired-sidebar-mode . hide-mode-line)
-  (dired-sidebar-mode . line-cursor)
-  (dired-sidebar-mode
-   . (lambda ()
-       (setq-local beacon-mode nil)
-       (stripe-buffer-mode 0))))
+  (dired-sidebar-mode . +dired-sidebar-setup)
+  :preface
+  (defun +dired-sidebar-setup ()
+    (hide-mode-line)
+    (line-cursor)
+    (setq-local beacon-mode nil)
+    (stripe-buffer-mode 0)))
 
 (provide 'tool-sidebar)
 ;;; tool-sidebar.el ends here

@@ -73,9 +73,10 @@
    js2r-debug-this js2r-forward-slurp js2r-forward-barf)
   :hook
   (js2-mode . js2-refactor-mode)
-  (js2-mode
-   . (lambda ()
-       (js2r-add-keybindings-with-prefix "C-c c R"))))
+  (js2-mode . +js2r-setup-keybindings)
+  :preface
+  (defun +js2r-setup-keybindings ()
+    (js2r-add-keybindings-with-prefix "C-c c R")))
 
 (use-package nodejs-repl
   :commands

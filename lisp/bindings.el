@@ -38,7 +38,7 @@
  "C-=" 'default-text-scale-reset
  "C--" 'default-text-scale-decrease
  "C-+" 'default-text-scale-increase
- "M-=" (lambda () (interactive) (text-scale-set 0))
+ "M-=" 'text-scale-reset
  "M--" 'text-scale-decrease
  "M-+" 'text-scale-increase
  "<C-mouse-4>" 'text-scale-decrease

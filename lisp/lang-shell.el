@@ -29,17 +29,19 @@
 (use-package eshell
   :hook
   (eshell-mode . eshell-smart-initialize)
-  (eshell-mode
-   . (lambda ()
-       (general-define-key
-        :keymaps 'eshell-mode-map
-        :states 'insert
-        [remap eshell-pcomplete] 'completion-at-point
-        "C-r" 'eshell-list-history
-        "C-l" 'eshell-clear-buffer)
-
-       (setq eshell-visual-commands
-             (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands))))
+  (eshell-mode . +eshell-define-keys)
+  (eshell-mode . +eshell-setup)
+  :preface
+  (defun +eshell-define-keys ()
+    (general-define-key
+     :keymaps 'eshell-mode-map
+     :states 'insert
+     [remap eshell-pcomplete] 'completion-at-point
+     "C-r" 'eshell-list-history
+     "C-l" 'eshell-clear-buffer))
+  (defun +eshell-setup ()
+    (setq eshell-visual-commands
+          (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands)))
   :init
   (autoload 'eshell-smart-initialize "em-smart")
 
@@ -86,9 +88,10 @@
   "/fish_funced\\..*$"
   :interpreter "fish"
   :hook
-  (fish-mode
-   . (lambda ()
-       (add-hook 'before-save-hook #'fish_indent-before-save nil t)))
+  (fish-mode . +fish-mode-setup)
+  :preface
+  (defun +fish-mode-setup()
+    (add-hook 'before-save-hook #'fish_indent-before-save nil t))
   :init
   (set-repl-command 'fish-mode #'shell-repl)
   (set-eval-command 'fish-mode #'eir-eval-in-shell)

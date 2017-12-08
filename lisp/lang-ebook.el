@@ -24,10 +24,11 @@
   (nov-mode . centered-window-mode)
   (nov-mode . hide-fringes)
   (nov-mode . readable-mode)
-  (nov-mode
-   . (lambda ()
-       (run-with-idle-timer 0.2 nil 'nov-render-document)))
+  (nov-mode . +nov-mode-delayed-render)
   (nov-post-html-render . +nov-post-html-render-hook)
+  :preface
+  (defun +nov-mode-delayed-render ()
+    (run-with-idle-timer 0.2 nil 'nov-render-document))
   :init
   (setq nov-save-place-file (concat my-data-dir "nov-places")
         nov-text-width most-positive-fixnum)

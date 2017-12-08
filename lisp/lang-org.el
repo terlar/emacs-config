@@ -33,6 +33,16 @@
    "O" '+org-evil-open-above
    "<<" 'org-metaleft
    ">>" 'org-metaright)
+  :preface
+  (defun +org-mode-on-insert-state-entry ()
+    (setq org-hide-block-startup nil
+          org-hide-emphasis-markers nil)
+    (font-lock-fontify-block))
+
+  (defun +org-mode-on-normal-state-entry ()
+    (setq org-hide-block-startup t
+          org-hide-emphasis-markers t)
+    (font-lock-fontify-block))
   :init
   (setq org-confirm-babel-evaluate nil
         org-hide-block-startup t
@@ -45,16 +55,10 @@
                         ("laptop" . ?l))
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
-  (set-evil-state-change
+  (set-evil-state-entry
    'org-mode
-   :on-insert (lambda ()
-                (setq org-hide-block-startup nil
-                      org-hide-emphasis-markers nil)
-                (font-lock-fontify-block))
-   :on-normal (lambda ()
-                (setq org-hide-block-startup t
-                      org-hide-emphasis-markers t)
-                (font-lock-fontify-block)))
+   :on-insert #'+org-mode-on-insert-state-entry
+   :on-normal #'+org-mode-on-normal-state-entry)
 
   (org-babel-do-load-languages
    'org-babel-load-languages

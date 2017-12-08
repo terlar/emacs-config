@@ -15,11 +15,11 @@
 (defvar-local documentation-function nil
   "Function to use for documentation look-ups.")
 
-(defvar evil-state-change-mode-alist nil
-  "An alist mapping functions to evil state changes for major modes.")
+(defvar evil-state-entry-functions-mode-alist nil
+  "An alist mapping functions to evil state entry for major modes.")
 
-(defvar-local evil-state-change-functions nil
-  "The evil state change functions for the current buffer.")
+(defvar-local evil-state-entry-functions nil
+  "The evil state entry functions for the current buffer.")
 
 ;;;
 ;; Packages
@@ -65,18 +65,14 @@
 ;;;
 ;; Setup
 
-(defmacro add-hook! (mode &rest forms)
-  "Add a lambda hook for MODE using FORMS as body."
-  `(add-hooks-pair ,mode (lambda () ,@forms)))
-
 (defmacro set-evil-state (modes state)
   "Set MODES initial STATE using `evil-set-initial-state'."
   `(with-eval-after-load "evil"
      (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
        (evil-set-initial-state mode ,state))))
 
-(defmacro set-evil-state-change (modes &rest plist)
-  "Set MODES state change behavior configuration through PLIST.
+(defmacro set-evil-state-entry (modes &rest plist)
+  "Set MODES state entry behavior configuration through PLIST.
 The list accepts the following properties:
 
 :on-insert FN
@@ -85,7 +81,7 @@ The list accepts the following properties:
   Add code to be run on normal entry."
   `(with-eval-after-load "evil"
      (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
-       (cl-pushnew (cons mode (list ,@plist)) evil-state-change-mode-alist :test #'equal))))
+       (cl-pushnew (cons mode (list ,@plist)) evil-state-entry-functions-mode-alist :test #'equal))))
 
 (defmacro set-aggressive-indent (modes &rest plist)
   "Set MODES `agressive-indent' configuration through PLIST.
@@ -311,6 +307,12 @@ The list accepts the following properties:
 
 ;;;
 ;; UI
+
+;;;### autoload
+(defun text-scale-reset ()
+  "Reset text scale by setting it to 0."
+  (interactive)
+  (text-scale-set 0))
 
 ;;;### autoload
 (defun line-cursor ()

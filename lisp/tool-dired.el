@@ -15,9 +15,10 @@
 (use-package dired
   :hook
   (dired-mode . hl-line-mode)
-  (dired-mode
-   . (lambda ()
-       (face-remap-add-relative 'hl-line :background "#DDDDDD")))
+  (dired-mode . +dired-mode-setup)
+  :preface
+  (defun +dired-mode-setup ()
+    (face-remap-add-relative 'hl-line :background "#DDDDDD"))
   :init
   ;; Always copy/delete recursively
   (setq dired-recursive-copies  'always

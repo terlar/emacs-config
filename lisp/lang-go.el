@@ -21,9 +21,10 @@
   :interpreter "go"
   :hook
   (go-mode . flycheck-mode)
-  (go-mode
-   . (lambda ()
-       (add-hook 'before-save-hook #'gofmt-before-save nil t)))
+  (go-mode . +go-mode-setup)
+  :preface
+  (defun +go-mode-setup ()
+    (add-hook 'before-save-hook #'gofmt-before-save nil t))
   :init
   (setq gofmt-command "goimports")
   :config
