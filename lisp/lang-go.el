@@ -31,40 +31,36 @@
 
   (set-prettify-symbols 'go-mode
                         '(("func" . ?ƒ)
-                          (":="   . ?←)))
-
-  (unless (executable-find "goimports")
-    (warn "go-mode: couldn't find goimports; no code formatting/fixed imports on save")))
+                          (":="   . ?←))))
 
 (use-package go-eldoc
   :hook (go-mode . go-eldoc-setup))
 
 ;; Code navigation & refactoring
 (use-package go-guru
-  :after go-mode
   :commands
   (go-guru-describe
    go-guru-freevars go-guru-implements go-guru-peers
    go-guru-referrers go-guru-definition go-guru-pointsto
    go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
    go-guru-expand-region)
+  :init
+  (when (executable-find "guru")
+    (smart-jump-register :modes 'go-mode
+                         :jump-fn #'go-guru-definition
+                         :pop-fn #'xref-pop-marker-stack
+                         :refs-fn #'go-guru-referrers))
   :config
-  (if (executable-find "guru")
-      (smart-jump-register :modes 'go-mode
-                           :jump-fn #'go-guru-definition
-                           :pop-fn #'xref-pop-marker-stack
-                           :refs-fn #'go-guru-referrers)
-    (warn "go-mode: couldn't find guru; refactoring commands won't work"))
-
   (set-popup-buffer (rx bos "*go-guru-output*" eos))
   (set-evil-state 'go-guru-output-mode 'motion))
 
 ;; REPL
 (use-package gorepl-mode
-  :after go-mode
   :commands
   (gorepl-run
-   gorepl-run-load-current-file)
+   gorepl-run-load-current-file
+   gorepl-eval-region
+   gorepl-eval-line-goto-next-line)
   :init
   (defun go-repl ()
     "Open a Go REPL."
@@ -80,21 +76,16 @@
   (set-repl-command 'go-mode #'go-repl)
   (set-eval-command 'go-mode #'go-repl-eval)
 
-  (set-popup-buffer (rx bos "*Go REPL*" eos))
-  :config
-  (unless (executable-find "gore")
-    (warn "go-mode: couldn't find gore, REPL support disabled")))
+  (set-popup-buffer (rx bos "*Go REPL*" eos)))
 
 ;; Completion
 (use-package company-go
   :requires company
-  :after go-mode
+  :commands company-go
   :init
   (setq command-go-gocode-command "gocode")
-  :config
-  (if (executable-find command-go-gocode-command)
-      (set-company-backends 'go-mode 'company-go)
-    (warn "go-mode: couldn't find gocode, code completion won't work")))
+  (when (executable-find command-go-gocode-command)
+    (set-company-backends 'go-mode 'company-go)))
 
 (provide 'lang-go)
 ;;; lang-go.el ends here

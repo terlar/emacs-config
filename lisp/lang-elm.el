@@ -34,13 +34,6 @@
         elm-tags-on-save t
         elm-tags-exclude-elm-stuff nil)
   :config
-  (unless (executable-find "elm-format")
-    (warn "elm-mode: couldn't find elm-format; auto-formatting won't work"))
-  (unless (executable-find "elm-oracle")
-    (warn "elm-mode: couldn't find elm-oracle; completion and documentation won't work"))
-  (unless (executable-find "elm-repl")
-    (warn "elm-mode: couldn't find elm-repl; repl and eval won't work"))
-
   (set-doc-fn 'elm-mode #'elm-oracle-doc-at-point)
   (smart-jump-register :modes 'elm-mode)
 

@@ -40,7 +40,6 @@
    (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode)))
 
 (use-package image-dired
-  :after dired
   :init
   (setq image-dired-dir (concat my-cache-dir "image-dired/")
         image-dired-db-file (concat image-dired-dir "image-dired/db.el")

@@ -41,15 +41,10 @@
         #'+smart-jump-find-references-with-counsel-rg))
 
 (use-package gxref
-  :after xref
-  :commands
-  (gxref-xref-backend
-   gxref-create-db
-   gxref-update-db
-   gxref-single-update-db
-   gxref-set-project-dir)
-  :config
-  (cl-pushnew 'gxref-xref-backend xref-backend-functions))
+  :commands gxref-xref-backend
+  :init
+  (with-eval-after-load "xref"
+    (cl-pushnew 'gxref-xref-backend xref-backend-functions)))
 
 ;;;
 ;; Autoloads

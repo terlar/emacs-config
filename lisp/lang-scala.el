@@ -29,7 +29,7 @@
   (set-aggressive-indent 'scala-mode :disabled t))
 
 (use-package sbt-mode
-  :after scala-mode)
+  :hook scala-mode)
 
 (use-package ensime
   :hook (scala-mode . ensime-mode)

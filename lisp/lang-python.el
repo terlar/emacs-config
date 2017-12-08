@@ -54,9 +54,6 @@
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python"))
 
-(use-package python-x
-  :after python)
-
 (use-package pip-requirements
   :mode ("/requirements.txt$" . pip-requirements-mode))
 
@@ -70,15 +67,23 @@
   :hook (python-mode . py-autopep8-enable-on-save))
 
 (use-package pydoc
-  :after python
   :commands pydoc-at-point
-  :config
+  :init
   (set-doc-fn 'python-mode #'pydoc-at-point)
   (set-evil-state 'pydoc-mode 'motion)
   (set-popup-buffer (rx bos "*pydoc*" eos)))
 
+(use-package python-x
+  :hook (python-mode . python-x-setup))
+
 (use-package python-test
-  :after python
+  :commands
+  (python-test
+   python-test-class
+   python-test-method
+   python-test-function
+   python-test-file
+   python-test-project)
   :init
   (setq python-test-backend 'pytest)
   :config

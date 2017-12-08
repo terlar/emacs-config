@@ -64,18 +64,15 @@
 
 ;; Eshell fringe status indicator
 (use-package eshell-fringe-status
-  :after eshell
   :hook (eshell-mode . eshell-fringe-status-mode))
 
 (use-package company-eshell-autosuggest
   :commands company-eshell-autosuggest
-  :after eshell
   :init
   (set-company-backends 'eshell-mode
                         '(company-capf company-eshell-autosuggest)))
 
 (use-package fish-completion
-  :after eshell
   :hook (eshell-mode . fish-completion-mode))
 
 ;; Bash tests
@@ -117,10 +114,13 @@
 ;; Completion for keywords, executable files in PATH and ENV variables.
 (use-package company-shell
   :requires company
-  :after (:any sh-mode fish-mode)
+  :commands
+  (company-shell
+   company-shell-env
+   company-fish-shell)
   :init
   (setq company-shell-delete-duplicates t)
-  :config
+
   (with-eval-after-load "company"
     (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
                     "command" "compgen" "complete" "continue" "declare" "dirs"

@@ -35,12 +35,12 @@ If a hook returns non-nil, all hooks after it are ignored.")
    . (lambda ()
        (let ((fn (plist-get evil-state-change-functions :on-normal)))
          (when (functionp fn) (funcall fn)))))
-  :init
+  :preface
   (defun +evil-init-state-change ()
     "Initialize evil state change functions."
     (when-let* ((plist (cdr (assq major-mode evil-state-change-mode-alist))))
       (setq-local evil-state-change-functions plist)))
-
+  :init
   (setq evil-mode-line-format '(before . mode-line-front-space)
         evil-want-C-u-scroll t
         evil-want-visual-char-semi-exclusive t
@@ -62,10 +62,15 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (define-key evil-insert-state-map (kbd "<escape>") 'evil-normal-state)
 
   ;; Default modes
-  (set-evil-state '(tabulated-list-mode
-                    view-mode comint-mode term-mode
-                    calendar-mode Man-mode grep-mode
-                    image-mode git-rebase-mode)
+  (set-evil-state '(calendar-mode
+                    comint-mode
+                    git-rebase-mode
+                    grep-mode
+                    image-mode
+                    special-mode
+                    tabulated-list-mode
+                    term-mode
+                    view-mode)
                   'emacs)
   (set-evil-state 'git-commit-mode 'insert)
   (set-evil-state '(debugger-mode
@@ -85,6 +90,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 ;; Magit integration
 (use-package evil-magit
+  :demand t
   :after (evil magit)
   :init
   (setq evil-magit-want-horizontal-movement t))
@@ -110,8 +116,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
    evil-Surround-edit
    evil-surround-region))
 (use-package evil-embrace
-  :after (evil evil-surround)
-  :commands evil-embrace-enable-evil-surround-integration
+  :demand t
   :init
   (setq evil-embrace-show-help-p nil)
   :config

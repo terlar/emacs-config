@@ -48,6 +48,7 @@
    kubernetes-display-configmaps))
 
 (use-package kubernetes-evil
+  :demand t
   :after (evil kubernetes))
 
 (use-package kubernetes-tramp

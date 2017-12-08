@@ -93,18 +93,14 @@
   :commands company-try-hard)
 
 (use-package company-statistics
-  :after company
+  :hook (company-mode-hook . company-statistics-mode)
   :init
-  (setq company-statistics-file (concat my-cache-dir "company-stats-cache.el"))
-  :config
-  (quiet! (company-statistics-mode 1)))
+  (setq company-statistics-file (concat my-cache-dir "company-stats-cache.el")))
 
 (use-package company-quickhelp
-  :after company
+  :hook (company-mode-hook . company-quickhelp-mode)
   :init
-  (setq company-quickhelp-delay nil)
-  :config
-  (company-quickhelp-mode 1))
+  (setq company-quickhelp-delay nil))
 
 (use-package company-dict
   :commands company-dict)

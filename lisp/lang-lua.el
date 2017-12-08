@@ -38,8 +38,8 @@
 
 (use-package company-lua
   :requires company
-  :after lua-mode
-  :config
+  :commands company-lua
+  :init
   (set-company-backends 'lua-mode 'company-lua))
 
 (provide 'lang-lua)

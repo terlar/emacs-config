@@ -34,8 +34,12 @@
 
 (use-package company-web
   :requires company
-  :after web-mode
-  :config
+  :commands
+  (company-web-html
+   company-web-jade
+   company-web-slim
+   company-css)
+  :init
   (set-company-backends 'web-mode
                         '(company-web-html
                           company-web-jade

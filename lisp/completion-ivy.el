@@ -78,6 +78,7 @@
 
 (use-package counsel-projectile
   :demand t
+  :after (counsel projectile)
   :config
   (general-define-key
    :keymaps 'ivy-mode-map

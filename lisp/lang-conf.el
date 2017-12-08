@@ -42,9 +42,8 @@
   (set-evil-state 'ansible-doc-module-mode 'motion)
   (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos)))
 (use-package company-ansible
-  :after ansible
   :commands company-ansible
-  :config
+  :init
   (set-company-backends 'ansible 'company-ansible))
 
 (use-package puppet-mode

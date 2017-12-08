@@ -25,9 +25,7 @@
   :commands paredit-mode
   :hook
   ((eval-expression-minibuffer-setup
-    emacs-lisp-mode ielm-mode
-    lisp-mode lisp-interaction-mode
-    scheme-mode) . paredit-mode))
+    ielm-mode lisp-interaction-mode) . paredit-mode))
 
 (req-package eval-in-repl
   :loader :el-get

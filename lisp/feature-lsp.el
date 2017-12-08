@@ -19,12 +19,11 @@
 
 (use-package company-lsp
   :requires company
-  :after lsp-mode
   :commands company-lsp
   :init
   (setq company-lsp-async t)
-  :config
-  (push 'company-lsp company-backends))
+  (with-eval-after-load "company"
+    (push 'company-lsp company-backends)))
 
 (provide 'feature-lsp)
 ;;; feature-lsp.el ends here

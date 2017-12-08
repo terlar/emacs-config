@@ -38,15 +38,12 @@
 
 (use-package company-erlang
   :requires company
-  :after erlang
-  :config
+  :commands company-erlang
+  :init
   (set-company-backends 'erlang-mode 'company-erlang))
 
 (use-package flycheck-rebar3
-  :commands flycheck-rebar3-setup
-  :after erlang
-  :config
-  (flycheck-rebar3-setup))
+  :hook (erlang-mode . flycheck-rebar3-setup))
 
 (provide 'lang-erlang)
 ;;; lang-erlang.el ends here

@@ -108,8 +108,9 @@
 ;; Compilation
 (use-package compile
   :hook (compilation-filter . +colorize-compilation-buffer)
-  :init
+  :preface
   (autoload 'ansi-color-apply-on-region "ansi-color")
+
   ;; Filter ANSI escape codes in compilation-mode output
   (defun +colorize-compilation-buffer ()
     (let ((inhibit-read-only t))

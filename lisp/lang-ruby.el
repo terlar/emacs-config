@@ -46,7 +46,7 @@
   :hook enh-ruby-mode)
 
 (use-package ruby-refactor
-  :after enh-ruby-mode)
+  :hook (enh-ruby-mode . ruby-refactor-mode))
 
 (use-package rspec-mode
   :minor
@@ -79,8 +79,8 @@
 
 (use-package company-inf-ruby
   :requires company
-  :after inf-ruby
-  :config
+  :commands company-inf-ruby
+  :init
   (set-company-backends 'inf-ruby-mode 'company-inf-ruby))
 
 (provide 'lang-ruby)

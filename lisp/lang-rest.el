@@ -31,8 +31,8 @@
 
 (use-package company-restclient
   :requires company
-  :after restclient
-  :config
+  :commands company-restclient
+  :init
   (set-company-backends 'restclient-mode 'company-restclient))
 
 (provide 'lang-rest)

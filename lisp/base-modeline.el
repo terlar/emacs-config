@@ -82,6 +82,7 @@
         anzu-search-threshold 250))
 
 (use-package evil-anzu
+  :demand t
   :after (evil anzu))
 
 ;; Enable eldoc support when minibuffer is in use
