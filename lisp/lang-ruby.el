@@ -33,7 +33,7 @@
   :hook (enh-ruby-mode . robe-mode)
   :config
   (set-doc-fn 'enh-ruby-mode #'robe-doc)
-  (smart-jump-register :modes 'enh-ruby-mode
+  (smart-jump-register :modes 'robe-mode
                        :jump-fn #'robe-jump
                        :pop-fn #'xref-pop-marker-stack
                        :refs-fn #'smart-jump-simple-find-references)
