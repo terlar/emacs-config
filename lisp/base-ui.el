@@ -50,9 +50,6 @@
  indicate-buffer-boundaries 'right
  indicate-empty-lines t
  visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
- ;; `pos-tip' defaults
- pos-tip-internal-border-width 6
- pos-tip-border-width 1
  ;; No blinking or beeping
  ring-bell-function #'ignore
  visible-bell nil
@@ -318,6 +315,12 @@
   :defer 2
   :config
   (global-page-break-lines-mode 1))
+
+;; Show tooltip at point
+(use-package pos-tip
+  :init
+  (setq pos-tip-internal-border-width 6
+        pos-tip-border-width 0))
 
 ;; Visually separate delimiter pairs
 (use-package rainbow-delimiters
