@@ -30,7 +30,14 @@
   (set-aggressive-indent 'scala-mode :disabled t))
 
 (use-package sbt-mode
-  :hook scala-mode)
+  :commands
+  (sbt-start
+   run-scala
+   sbt-command
+   sbt-run-previous-command)
+  :config
+  (set-evil-state 'sbt-mode 'insert)
+  (set-popup-buffer (rx bos "*sbt*" (one-or-more anything) eos)))
 
 (use-package ensime
   :hook (scala-mode . ensime-mode)
