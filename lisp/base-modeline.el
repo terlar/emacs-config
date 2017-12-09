@@ -85,13 +85,6 @@
   :demand t
   :after (evil anzu))
 
-;; Enable eldoc support when minibuffer is in use
-(use-package eldoc-eval
-  :commands eldoc-in-minibuffer-mode
-  :defer 2
-  :config
-  (eldoc-in-minibuffer-mode 1))
-
 ;; Display info about indentation current indentation settings
 (use-package indent-info
   :demand t

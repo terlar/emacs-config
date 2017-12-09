@@ -102,7 +102,8 @@
 ;; Built-ins
 
 ;; comint
-(use-package comint
+(req-package comint
+  :loader :built-in
   :init
   (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
   (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
