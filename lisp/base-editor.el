@@ -299,7 +299,7 @@
    helpful-symbol helpful-variable)
   :config
   (set-evil-state 'helpful-mode 'motion)
-  (set-popup-buffer (rx bos "*helpful: " (one-or-more anything) "*" eos)))
+  (set-popup-buffer (rx bos "*helpful" (one-or-more anything) "*" eos)))
 
 ;; Jump to document locations in any buffer
 (use-package imenu-anywhere
