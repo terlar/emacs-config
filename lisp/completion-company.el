@@ -82,11 +82,11 @@
       (setq company--whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode 0))))
 
-  (defun company-preview-if-none-selected-frontend (command)
-    "`company-preview-frontend', but only when nothing is selected."
-    (message "%s" company-selection)
+  (defun company-preview-if-not-tng-frontend (command)
+    "`company-preview-frontend', but not when tng is active."
     (unless (and (eq command 'post-command)
-                 (> company-selection 0))
+                 company-selection-changed
+                 (memq 'company-tng-frontend company-frontends))
       (company-preview-frontend command)))
   :init
   (autoload 'company-tng-frontend "company-tng" nil t)
@@ -107,7 +107,7 @@
         company-frontends
         '(company-tng-frontend
           company-pseudo-tooltip-unless-just-one-frontend
-          company-preview-if-none-selected-frontend
+          company-preview-if-not-tng-frontend
           company-echo-metadata-frontend)
         company-backends
         '(company-capf
