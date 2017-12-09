@@ -355,59 +355,6 @@
 ;;;
 ;; Plugins
 
-;; company
-(general-define-key
- :keymaps 'company-mode-map
- :states 'insert
- "C-SPC"   'company-complete-common
- "C-x C-l" '+company-whole-lines
- "C-x C-k" '+company-dict-or-keywords
- "C-x C-f" 'company-files
- "C-x C-]" 'company-etags
- "C-x s"   'company-ispell
- "C-x C-s" 'company-yasnippet
- "C-x C-o" 'company-capf
- "C-x C-n" 'company-dabbrev-code
- "C-x C-p" '+company-dabbrev-code-previous)
-(general-define-key
- :keymaps 'company-mode-map
- :states 'insert
- "TAB" (general-predicate-dispatch nil
-         (eq major-mode 'eshell-mode) 'company-complete-common)
- [tab] (general-predicate-dispatch nil
-         (eq major-mode 'eshell-mode) 'company-complete-common))
-
-(general-define-key
- :keymaps 'company-active-map
- ;; Don't interfere with `evil-delete-backward-word' in insert mode
- "C-w"     'nil
- ;; Don't interfere with the return key
- [return]  'nil
- "RET"     'nil
- ;; Abort on escape but leave current completion
- [escape]  'company-abort
-
- "C-e"     'company-complete-selection
- "C-f"     'company-complete-selection
- "C-SPC"   'company-complete-common
- "TAB"     'company-complete-common-or-cycle
- [tab]     'company-complete-common-or-cycle
- [backtab] 'company-select-previous
-
- "C-o"     'company-search-kill-others
- "C-n"     'company-select-next
- "C-p"     'company-select-previous
- "C-h"     'company-quickhelp-manual-begin
- "C-S-h"   'company-show-doc-buffer
- "C-S-s"   'company-search-candidates
- "C-s"     'company-filter-candidates)
-(general-define-key
- :keymaps 'company-search-map
- "C-n"    'company-search-repeat-forward
- "C-p"    'company-search-repeat-backward
- "C-s"    '+company-search-abort-and-filter-candidates
- [escape] 'company-search-abort)
-
 ;; counsel
 (general-define-key
  :keymaps 'ivy-mode-map

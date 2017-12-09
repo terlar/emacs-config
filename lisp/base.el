@@ -73,7 +73,7 @@
       initial-scratch-message nil)
 
 ;; X
-(setq x-gtk-use-system-tooltips nil
+(setq x-gtk-use-system-tooltips t
       ;; Clipboard
       x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
       ;; Use shared clipboard

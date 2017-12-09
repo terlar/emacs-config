@@ -70,6 +70,8 @@
  `(cargo-process--warning-face             ((t (:foreground ,theme-color-warning))))
  ;; company
  `(company-tooltip                         ((t (:family ,my-font))))
+ `(company-tooltip-search                  ((t (:weight bold))))
+ `(company-tooltip-search-selection        ((t (:weight bold))))
  ;; eros
  `(eros-result-overlay-face                ((t (:foreground "white" :background "#697D8A" :box nil))))
  ;; indent-guide

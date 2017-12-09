@@ -31,6 +31,13 @@
   (eshell-mode . eshell-smart-initialize)
   (eshell-mode . +eshell-define-keys)
   (eshell-mode . +eshell-setup)
+  :general
+  (:keymaps 'company-mode-map
+            :states 'insert
+            "TAB" (general-predicate-dispatch nil
+                    (eq major-mode 'eshell-mode) 'company-complete-common)
+            [tab] (general-predicate-dispatch nil
+                    (eq major-mode 'eshell-mode) 'company-complete-common))
   :preface
   (defun +eshell-define-keys ()
     (general-define-key

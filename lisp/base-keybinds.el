@@ -20,12 +20,7 @@
 ;; Packages
 
 (use-package general
-  :commands
-  (general-define-key
-   general-simulate-keys
-   general-predicate-dispatch
-   use-package-normalize/:general
-   use-package-handler/:general))
+  :demand t)
 
 (use-package which-key
   :diminish which-key-mode
