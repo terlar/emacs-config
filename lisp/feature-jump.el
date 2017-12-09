@@ -37,7 +37,7 @@
    smart-jump-references
    smart-jump-simple-find-references)
   :init
-  (setq smart-jump-simple-find-references-function
+  (setq smart-jump-find-references-fallback-function
         #'+smart-jump-find-references-with-counsel-rg))
 
 (use-package gxref
