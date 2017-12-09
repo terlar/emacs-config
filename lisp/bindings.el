@@ -232,6 +232,13 @@
 ;; Normal state
 (general-define-key
  :keymaps 'normal
+ "<C-return>" 'repl-eval
+ "gr" 'eval-region
+ "gR" 'eval-buffer
+ "gV" '+evil-reselect-paste)
+
+(general-define-key
+ :keymaps '(normal motion)
  "]b" 'next-buffer
  "[b" 'previous-buffer
  "]c" 'eir-next-code-line
@@ -239,20 +246,13 @@
  "[e" 'previous-error
  "]w" 'persp-next
  "[w" 'persp-prev
- "<C-return>" 'repl-eval
- "gr" 'eval-region
- "gR" 'eval-buffer
- "gV" '+evil-reselect-paste
- "zx" 'kill-buffer)
-
-(general-define-key
- :keymaps '(normal motion)
  "C-t" 'smart-jump-back
- "K"  'documentation-at-point
- "gd" 'smart-jump-go
- "gD" 'smart-jump-references
- "gh" 'documentation-at-point
- "gp" 'source-peek)
+ "K"  '(documentation-at-point :wk "Documentation for symbol")
+ "gd" '(smart-jump-go          :wk "Go to definition")
+ "gD" '(smart-jump-references  :wk "Find all references")
+ "gh" '(documentation-at-point :wk "Documentation for symbol")
+ "gp" '(source-peek            :wk "Peek definition")
+ "zx" 'kill-buffer)
 
 ;; Visual state
 (general-define-key
