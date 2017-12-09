@@ -81,6 +81,13 @@
     (when (boundp 'whitespace-mode)
       (setq company--whitespace-mode-on-p whitespace-mode)
       (when whitespace-mode (whitespace-mode 0))))
+
+  (defun company-preview-if-none-selected-frontend (command)
+    "`company-preview-frontend', but only when nothing is selected."
+    (message "%s" company-selection)
+    (unless (and (eq command 'post-command)
+                 (> company-selection 0))
+      (company-preview-frontend command)))
   :init
   (autoload 'company-tng-frontend "company-tng" nil t)
 
@@ -99,8 +106,8 @@
               message-mode)
         company-frontends
         '(company-tng-frontend
-          company-pseudo-tooltip-frontend
-          company-preview-frontend
+          company-pseudo-tooltip-unless-just-one-frontend
+          company-preview-if-none-selected-frontend
           company-echo-metadata-frontend)
         company-backends
         '(company-capf
