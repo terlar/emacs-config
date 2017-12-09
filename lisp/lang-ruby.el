@@ -16,11 +16,10 @@
 
 (use-package enh-ruby-mode
   :mode
-  ("\\.rb$" . enh-ruby-mode)
-  ("\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$" . enh-ruby-mode)
-  ("/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$" . enh-ruby-mode)
-  :interpreter
-  ("ruby" . enh-ruby-mode)
+  "\\.rb$"
+  "\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$"
+  "/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$"
+  :interpreter "ruby"
   :hook
   (enh-ruby-mode . flycheck-mode)
   (enh-ruby-mode . rainbow-identifiers-mode)

@@ -54,6 +54,7 @@
 
 (require 'lang-data)
 (require 'lang-conf)
+(require 'lang-crystal)
 (require 'lang-ebook)
 (require 'lang-elixir)
 (require 'lang-elm)
