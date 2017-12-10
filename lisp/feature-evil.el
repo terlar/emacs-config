@@ -62,6 +62,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (set-evil-state '(debugger-mode
                     dired-mode
                     elisp-refs-mode
+                    finder-mode
                     help-mode
                     imenu-list-major-mode
                     messages-buffer-mode

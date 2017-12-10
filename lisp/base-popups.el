@@ -23,11 +23,13 @@
  (rx bos "*Process List*" eos)
  (rx bos "*Help*" eos)
  (rx bos "*Man " (one-or-more anything) "*" eos)
+ (rx bos "*Finder*" eos)
  (rx bos "*General Keybindings*" eos)
  (rx bos "*compilation*" eos)
  (rx bos "*xref*" eos)
  (rx bos "*eshell*" eos)
- (rx bos "*scratch*" eos))
+ (rx bos "*scratch*" eos)
+ (rx bos "COMMIT_MESSAGE" eos))
 
 (provide 'base-popups)
 ;;; base-popups.el ends here
