@@ -77,7 +77,7 @@ Used when `rst-header-scaling' is non-nil."
         rst-adornment-regexp
         (concat "^[" rst-adornment-chars "]\\{3,\\}$"))
 
-  (set-evil-state-entry
+  (evil-stateful-set-state-entry
    'rst-mode
    :on-insert #'+rst-mode-on-insert-state-entry
    :on-normal #'+rst-mode-on-normal-state-entry))

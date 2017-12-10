@@ -39,7 +39,7 @@
 
   (customize-set-variable 'markdown-header-scaling t)
   :config
-  (set-evil-state-entry
+  (evil-stateful-set-state-entry
    '(markdown-mode gfm-mode)
    :on-insert #'+markdown-mode-on-insert-state-entry
    :on-normal #'+markdown-mode-on-normal-state-entry))

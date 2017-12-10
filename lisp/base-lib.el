@@ -15,12 +15,6 @@
 (defvar-local documentation-function nil
   "Function to use for documentation look-ups.")
 
-(defvar evil-state-entry-functions-mode-alist nil
-  "An alist mapping functions to evil state entry for major modes.")
-
-(defvar-local evil-state-entry-functions nil
-  "The evil state entry functions for the current buffer.")
-
 ;;;
 ;; Packages
 
@@ -70,18 +64,6 @@
   `(with-eval-after-load "evil"
      (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
        (evil-set-initial-state mode ,state))))
-
-(defmacro set-evil-state-entry (modes &rest plist)
-  "Set MODES state entry behavior configuration through PLIST.
-The list accepts the following properties:
-
-:on-insert FN
-  Add code to be run on insert entry.
-:on-normal FN
-  Add code to be run on normal entry."
-  `(with-eval-after-load "evil"
-     (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
-       (cl-pushnew (cons mode (list ,@plist)) evil-state-entry-functions-mode-alist :test #'equal))))
 
 (defmacro set-aggressive-indent (modes &rest plist)
   "Set MODES `agressive-indent' configuration through PLIST.

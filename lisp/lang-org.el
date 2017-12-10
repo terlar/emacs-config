@@ -55,7 +55,7 @@
                         ("laptop" . ?l))
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
-  (set-evil-state-entry
+  (evil-stateful-set-state-entry
    'org-mode
    :on-insert #'+org-mode-on-insert-state-entry
    :on-normal #'+org-mode-on-normal-state-entry)
