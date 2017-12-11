@@ -64,6 +64,9 @@ version is loaded."
   (set-evil-state 'esup-mode 'motion)
   (set-popup-buffer (rx bos "*esup*" eos)))
 
+(use-package package-lint
+  :commands package-lint-current-buffer)
+
 ;;;
 ;; Autoloads
 
