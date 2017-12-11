@@ -29,7 +29,7 @@
  (rx bos "*xref*" eos)
  (rx bos "*eshell*" eos)
  (rx bos "*scratch*" eos)
- (rx bos "COMMIT_MESSAGE" eos))
+ (rx bos "COMMIT_EDITMSG" eos))
 
 (provide 'base-popups)
 ;;; base-popups.el ends here

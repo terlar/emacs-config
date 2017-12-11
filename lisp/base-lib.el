@@ -36,6 +36,9 @@
    hide-lines-not-matching
    hide-lines-show-all))
 
+;; Show tooltip at point
+(use-package pos-tip)
+
 ;; Inline popups
 (use-package quick-peek
   :commands
