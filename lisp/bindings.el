@@ -323,11 +323,16 @@
  "[[" 'help-go-back
  "]]" 'help-go-forward)
 
-;; package
+;; org-mode
 (general-define-key
  :keymaps 'org-mode-map
  :major-modes t
  "C-c SPC" 'nil)
+
+(general-define-key
+ :keymaps 'org-src-mode-map
+ :states 'normal
+ "ZZ" '+org-edit-src-save-and-exit)
 
 ;; package
 (general-define-key

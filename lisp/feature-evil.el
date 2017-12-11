@@ -26,6 +26,8 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 (use-package evil
   :demand t
+  :hook
+  (org-src-mode . evil-normalize-keymaps)
   :init
   (setq evil-mode-line-format '(before . mode-line-front-space)
         evil-want-C-u-scroll t

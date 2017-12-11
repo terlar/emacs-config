@@ -43,11 +43,19 @@
     (setq org-hide-block-startup t
           org-hide-emphasis-markers t)
     (font-lock-fontify-block))
+
+  (defun +org-edit-src-save-and-exit ()
+    "Save parent buffer with current state source-code buffer and exit."
+    (interactive)
+    (org-edit-src-save)
+    (org-edit-src-exit))
   :init
   (setq org-confirm-babel-evaluate nil
         org-hide-block-startup t
         org-hide-emphasis-markers t
         org-special-ctrl-a/e t
+        org-edit-src-content-indentation 0
+        org-src-preserve-indentation nil
         org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-tag-alist '(("@work"  . ?w)
