@@ -1,0 +1,5 @@
+(:name exercism
+       :description "exercism.io integration"
+       :type github
+       :pkgname "canweriotnow/exercism-emacs"
+       :features exercism)
