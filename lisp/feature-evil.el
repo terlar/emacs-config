@@ -79,7 +79,6 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 ;; Run functions on state entry
 (use-package evil-stateful
-  :load-path my-site-lisp-dir
   :hook (after-init . global-evil-stateful-mode)
   :commands evil-stateful-set-state-entry)
 
