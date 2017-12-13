@@ -38,6 +38,13 @@
   :mode "\\.ya?ml$"
   :hook (yaml-mode . indent-guide-mode))
 
+(use-package flycheck-yamllint
+  :requires flycheck
+  :init
+  :hook
+  (flycheck-mode . flycheck-yamllint-setup)
+  (yaml-mode . flycheck-mode))
+
 (use-package sql
   :mode ("\\.sql$" . sql-mode)
   :commands
