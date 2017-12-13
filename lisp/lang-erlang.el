@@ -43,7 +43,8 @@
   (set-company-backends 'erlang-mode 'company-erlang))
 
 (use-package flycheck-rebar3
-  :hook (erlang-mode . flycheck-rebar3-setup))
+  :requires flycheck
+  :hook (flycheck-mode . flycheck-rebar3-setup))
 
 (provide 'lang-erlang)
 ;;; lang-erlang.el ends here

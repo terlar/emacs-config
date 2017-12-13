@@ -55,11 +55,11 @@
 
 (use-package flycheck-credo
   :requires flycheck
-  :hook (elixir-mode . flycheck-credo-setup))
+  :hook (flycheck-mode . flycheck-credo-setup))
 
 (use-package flycheck-mix
   :requires flycheck
-  :hook (elixir-mode . flycheck-mix-setup))
+  :hook (flycheck-mode . flycheck-mix-setup))
 
 (provide 'lang-elixir)
 ;;; lang-elixir.el ends here

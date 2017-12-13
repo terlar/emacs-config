@@ -47,7 +47,7 @@
   :requires flycheck
   :hook
   (elm-mode . flycheck-mode)
-  (elm-mode . flycheck-elm-setup))
+  (flycheck-mode . flycheck-elm-setup))
 
 (provide 'lang-elm)
 ;;; lang-elm.el ends here

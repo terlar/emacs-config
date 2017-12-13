@@ -37,6 +37,7 @@
   (set-popup-buffer (rx bos "*Racer Help*" eos)))
 
 (use-package flycheck-rust
+  :requires flycheck
   :hook
   (rust-mode . flycheck-mode)
   (flycheck-mode . flycheck-rust-setup))
