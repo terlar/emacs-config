@@ -71,10 +71,12 @@ version is loaded."
 
 ;; Shorten package prefixes
 (use-package nameless
+  :diminish nameless-mode
   :hook (emacs-lisp-mode . nameless-mode))
 
 ;; Improve readability of escape characters in regular expressions
 (use-package easy-escape
+  :diminish easy-escape-minor-mode
   :hook (emacs-lisp-mode . easy-escape-minor-mode))
 
 ;; Evaluation result overlays.
