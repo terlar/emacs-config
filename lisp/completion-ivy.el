@@ -58,34 +58,32 @@
 
 (use-package counsel
   :demand t
+  :general
+  (:keymaps 'ivy-mode-map
+            [remap find-file]                 'counsel-find-file
+            [remap recentf]                   'counsel-recentf
+            [remap imenu]                     'counsel-imenu
+            [remap bookmark-jump]             'counsel-bookmark
+            [remap execute-extended-command]  'counsel-M-x
+            [remap describe-function]         'counsel-describe-function
+            [remap describe-variable]         'counsel-describe-variable
+            [remap describe-face]             'counsel-describe-face
+            [remap eshell-list-history]       'counsel-esh-history)
   :init
   (setq counsel-find-file-ignore-regexp
         "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"
         counsel-grep-base-command
-        "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-  :config
-  (general-define-key
-   :keymaps 'ivy-mode-map
-   [remap find-file]                 'counsel-find-file
-   [remap recentf]                   'counsel-recentf
-   [remap imenu]                     'counsel-imenu
-   [remap bookmark-jump]             'counsel-bookmark
-   [remap execute-extended-command]  'counsel-M-x
-   [remap describe-function]         'counsel-describe-function
-   [remap describe-variable]         'counsel-describe-variable
-   [remap describe-face]             'counsel-describe-face
-   [remap eshell-list-history]       'counsel-esh-history))
+        "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
 
 (use-package counsel-projectile
   :demand t
   :after (counsel projectile)
-  :config
-  (general-define-key
-   :keymaps 'ivy-mode-map
-   [remap projectile-switch-project]   'counsel-projectile-switch-project
-   [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer
-   [remap projectile-find-file]        'counsel-projectile-find-file
-   [remap projectile-find-dir]         'counsel-projectile-find-dir))
+  :general
+  (:keymaps 'ivy-mode-map
+            [remap projectile-switch-project]   'counsel-projectile-switch-project
+            [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer
+            [remap projectile-find-file]        'counsel-projectile-find-file
+            [remap projectile-find-dir]         'counsel-projectile-find-dir))
 
 (req-package counsel-tramp
   :loader :el-get
