@@ -29,6 +29,22 @@
 (set-popup-buffer (rx bos "*ielm*" eos)
                   (rx bos "*Style Warnings*" eos))
 
+
+(defun +emacs-lisp-mode-on-insert-state-entry ()
+  "Run for `emacs-lisp-mode' on insert state entry."
+  (nameless-mode -1)
+  (easy-escape-minor-mode -1))
+
+(defun +emacs-lisp-mode-on-normal-state-entry ()
+  "Run for `emacs-lisp-mode' on normal state entry."
+  (nameless-mode +1)
+  (easy-escape-minor-mode +1))
+
+(evil-stateful-set-state-entry
+ 'emacs-lisp-mode
+ :on-insert #'+emacs-lisp-mode-on-insert-state-entry
+ :on-normal #'+emacs-lisp-mode-on-normal-state-entry)
+
 ;;;
 ;; Packages
 
@@ -52,6 +68,14 @@ version is loaded."
 
 (use-package highlight-quoted
   :hook (emacs-lisp-mode . highlight-quoted-mode))
+
+;; Shorten package prefixes
+(use-package nameless
+  :hook (emacs-lisp-mode . nameless-mode))
+
+;; Improve readability of escape characters in regular expressions
+(use-package easy-escape
+  :hook (emacs-lisp-mode . easy-escape-minor-mode))
 
 ;; Evaluation result overlays.
 (use-package eros
