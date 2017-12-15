@@ -43,7 +43,6 @@
   (flycheck-mode . flycheck-rust-setup))
 
 (use-package lsp-rust
-  :disabled t
   :requires lsp-mode
   :hook (rust-mode . lsp-rust-enable)
   :init
