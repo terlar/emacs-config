@@ -128,15 +128,13 @@
   :init
   (setq company-statistics-file (concat my-cache-dir "company-stats-cache.el")))
 
-(req-package company-quickhelp
-  :loader :el-get
+(use-package company-quickhelp
   :hook (company-mode . company-quickhelp-mode)
   :general
   (:keymaps 'company-active-map
             "C-h" 'company-quickhelp-manual-begin)
   :init
-  (setq company-quickhelp-delay nil
-        company-quickhelp-use-system-tooltip t))
+  (setq company-quickhelp-delay nil))
 
 (use-package company-dict
   :commands company-dict)
