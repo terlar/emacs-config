@@ -12,6 +12,45 @@
   (require 'base-keybinds))
 
 ;;;
+;; Functions
+
+;;;###autoload
+(defun +org-evil-open-above (count)
+  "Insert a new line above point and switch to Insert state.
+The insertion will be repeated COUNT times.
+It acts in the same way as `org-meta-return'."
+  (interactive "p")
+  (unless (eq evil-want-fine-undo t)
+    (evil-start-undo-step))
+
+  (back-to-indentation)
+  (org-meta-return)
+  (evil-move-end-of-line)
+
+  (setq evil-insert-count count)
+  (setq evil-insert-lines t)
+  (setq evil-insert-vcount nil)
+  (evil-insert-state 1))
+
+;;;###autoload
+(defun +org-evil-open-below (count)
+  "Insert a new line below point and switch to Insert state.
+The insertion will be repeated COUNT times.
+It acts in the same way as `org-meta-return'."
+  (interactive "p")
+  (unless (eq evil-want-fine-undo t)
+    (evil-start-undo-step))
+  (push (point) buffer-undo-list)
+
+  (evil-move-end-of-line)
+  (org-meta-return)
+
+  (setq evil-insert-count count)
+  (setq evil-insert-lines t)
+  (setq evil-insert-vcount nil)
+  (evil-insert-state 1))
+
+;;;
 ;; Packages
 
 (use-package ob-elixir)
@@ -92,42 +131,6 @@
 
 (use-package org-preview-html
   :commands org-preview-html-mode)
-
-;;;###autoload
-(defun +org-evil-open-above (count)
-  "Insert a new line above point and switch to Insert state.
-The insertion will be repeated COUNT times.
-It acts in the same way as `org-meta-return'."
-  (interactive "p")
-  (unless (eq evil-want-fine-undo t)
-    (evil-start-undo-step))
-
-  (back-to-indentation)
-  (org-meta-return)
-  (evil-move-end-of-line)
-
-  (setq evil-insert-count count)
-  (setq evil-insert-lines t)
-  (setq evil-insert-vcount nil)
-  (evil-insert-state 1))
-
-;;;###autoload
-(defun +org-evil-open-below (count)
-  "Insert a new line below point and switch to Insert state.
-The insertion will be repeated COUNT times.
-It acts in the same way as `org-meta-return'."
-  (interactive "p")
-  (unless (eq evil-want-fine-undo t)
-    (evil-start-undo-step))
-  (push (point) buffer-undo-list)
-
-  (evil-move-end-of-line)
-  (org-meta-return)
-
-  (setq evil-insert-count count)
-  (setq evil-insert-lines t)
-  (setq evil-insert-vcount nil)
-  (evil-insert-state 1))
 
 (provide 'lang-org)
 ;;; lang-org.el ends here
