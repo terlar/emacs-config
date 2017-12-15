@@ -84,6 +84,10 @@
 (use-package fish-completion
   :hook (eshell-mode . fish-completion-mode))
 
+;; Extended shell/comint mode
+(use-package shx
+  :hook (after-init . shx-global-mode))
+
 ;; Bash tests
 (use-package bats-mode
   :mode "\\.bats$"
