@@ -90,6 +90,8 @@
  `(nav-flash-face                          ((t (:background "#FFFBDD"))))
  ;; rst
  `(rst-literal                             ((t (:inherit fixed-pitch))))
+ ;; perspeen
+ `(perspeen-selected-face                  ((t (:weight bold))))
  ;; shm
  `(shm-current-face                        ((t (:inherit hl-line))))
  `(shm-quarantine-face                     ((t (:background "#FFDDDD"))))
