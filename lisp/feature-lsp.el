@@ -15,7 +15,8 @@
   :init
   (setq lsp-enable-eldoc t)
   :config
-  (require 'lsp-flycheck))
+  (with-eval-after-load "flycheck"
+    (require 'lsp-flycheck)))
 
 (use-package company-lsp
   :requires company
