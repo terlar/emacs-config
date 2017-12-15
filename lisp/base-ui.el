@@ -261,6 +261,11 @@
    symbol-overlay-switch-backward symbol-overlay-switch-forward)
   :hook (prog-mode . symbol-overlay-mode))
 
+;; Compact whitespace in docstrings
+(use-package compact-docstrings
+  :diminish compact-docstrings-mode
+  :hook (prog-mode . compact-docstrings-mode))
+
 ;; Dynamically change the default text scale
 (use-package default-text-scale
   :commands
