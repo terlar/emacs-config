@@ -94,8 +94,7 @@
  "/ g" '(counsel-rg            :wk "Grep files")
  "/ G" '(counsel-projectile-rg :wk "Grep project files")
 
- "TAB" '(:ignore t :wk "workspace")
- "TAB ." '(persp-switch :wk "Switch workspace")
+ "W" '(:ignore t :wk "workspace")
 
  "b"   '(:ignore t :wk "buffer")
  "b [" '(previous-buffer            :wk "Previous buffer")

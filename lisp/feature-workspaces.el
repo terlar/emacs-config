@@ -15,15 +15,14 @@
 (use-package persp-mode
   :demand t
   :init
-  (setq persp-keymap-prefix (kbd "C-c TAB")
-        persp-autokill-buffer-on-remove 'kill-weak
-        persp-nil-name "main"
-        persp-nil-hidden t
+  (setq persp-keymap-prefix (kbd "C-c W")
         persp-auto-save-fname "autosave"
         persp-save-dir (concat my-cache-dir "workspaces/")
+        persp-nil-hidden t
         persp-remove-buffers-from-nil-persp-behaviour nil
+        persp-autokill-buffer-on-remove 'kill-weak
         ;; Auto-load on startup
-        persp-auto-resume-time (if (daemonp) 3.0 -1)
+        persp-auto-resume-time (if (daemonp) 3.0 0)
         ;; Auto-save on kill
         persp-auto-save-opt (if (daemonp) 1 0)
         ;; Don't shorten perspective name
@@ -41,6 +40,26 @@
            (safe-persp-name (get-current-persp)))))
   :config
   (persp-mode 1))
+
+;; Auto-create project perspectives
+(use-package persp-mode-projectile-bridge
+  :requires projectile
+  :preface
+  (defun +persp-mode-projectile-bridge-setup ()
+    (if persp-mode-projectile-bridge-mode
+        (persp-mode-projectile-bridge-find-perspectives-for-all-buffers)
+      (persp-mode-projectile-bridge-kill-perspectives)))
+  :hook
+  (persp-mode-projectile-bridge-mode . +persp-mode-projectile-bridge-setup)
+  (after-init . persp-mode-projectile-bridge-mode))
+
+(use-package perspeen
+  :disabled t
+  :init
+  (setq perspeen-keymap-prefix (kbd "C-c TAB")
+        perspeen-use-tab nil)
+  :config
+  (perspeen-mode 1))
 
 ;;;
 ;; Buffer filtering
