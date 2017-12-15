@@ -99,6 +99,7 @@
         company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
         company-show-numbers t
+        company-require-match nil
         company-global-modes
         '(not comint-mode
               erc-mode
