@@ -221,6 +221,7 @@
  "~ r" '(ruler-mode                  :wk "Ruler")
  "~ s" '(flyspell-mode               :wk "Spell-checking")
  "~ S" '(subword-mode                :wk "Subword")
+ "~ t" '(toggle-truncate-lines       :wk "Truncate lines")
  "~ v" '(variable-pitch-mode         :wk "Fixed-width/variable-width font")
  "~ w" '(whitespace-mode             :wk "Display white-space characters")
  "~ W" '(auto-fill-mode              :wk "Automatic line-wrapping")
