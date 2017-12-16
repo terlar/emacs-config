@@ -22,7 +22,7 @@
         persp-remove-buffers-from-nil-persp-behaviour nil
         persp-autokill-buffer-on-remove 'kill-weak
         ;; Auto-load on startup
-        persp-auto-resume-time (if (daemonp) 3.0 0)
+        persp-auto-resume-time (if (daemonp) 2.0 0)
         ;; Auto-save on kill
         persp-auto-save-opt (if (daemonp) 1 0)
         ;; Don't shorten perspective name
@@ -43,15 +43,14 @@
 
 ;; Auto-create project perspectives
 (use-package persp-mode-projectile-bridge
-  :requires projectile
   :preface
   (defun +persp-mode-projectile-bridge-setup ()
     (if persp-mode-projectile-bridge-mode
         (persp-mode-projectile-bridge-find-perspectives-for-all-buffers)
       (persp-mode-projectile-bridge-kill-perspectives)))
   :hook
-  (persp-mode-projectile-bridge-mode . +persp-mode-projectile-bridge-setup)
-  (after-init . persp-mode-projectile-bridge-mode))
+  (persp-mode . persp-mode-projectile-bridge-mode)
+  (persp-mode-projectile-bridge-mode . +persp-mode-projectile-bridge-setup))
 
 (use-package perspeen
   :disabled t
