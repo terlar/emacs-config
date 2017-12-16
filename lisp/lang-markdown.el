@@ -26,6 +26,8 @@
     (markdown-toggle-markup-hiding 0))
   (defun +markdown-mode-on-normal-state-entry ()
     (markdown-toggle-markup-hiding 1))
+  :custom
+  (markdown-header-scaling t)
   :init
   (setq
    markdown-command
@@ -36,8 +38,6 @@
    markdown-hide-markup t
    markdown-italic-underscore t
    markdown-make-gfm-checkboxes-buttons t)
-
-  (customize-set-variable 'markdown-header-scaling t)
   :config
   (evil-stateful-set-state-entry
    '(markdown-mode gfm-mode)

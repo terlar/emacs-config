@@ -28,6 +28,8 @@ If a hook returns non-nil, all hooks after it are ignored.")
   :demand t
   :hook
   (org-src-mode . evil-normalize-keymaps)
+  :custom
+  (evil-want-Y-yank-to-eol t)
   :init
   (setq evil-mode-line-format '(before . mode-line-front-space)
         evil-want-C-u-scroll t
@@ -41,9 +43,6 @@ If a hook returns non-nil, all hooks after it are ignored.")
         ;; Column range for ex commands
         evil-ex-visual-char-range t
         evil-insert-skip-empty-lines t)
-
-  ;; evil-want-Y-yank-to-eol must be set via customize to have an effect
-  (customize-set-variable 'evil-want-Y-yank-to-eol t)
   :config
   ;; Use Emacs key-map for insert state.
   (setq evil-insert-state-map (make-sparse-keymap))
