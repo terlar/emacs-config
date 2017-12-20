@@ -61,6 +61,7 @@
 ;; Packages
 
 (use-package company
+  :demand t
   :diminish company-mode
   :hook
   (after-init . global-company-mode)

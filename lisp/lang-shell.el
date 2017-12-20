@@ -128,13 +128,14 @@
 ;; Completion for keywords, executable files in PATH and ENV variables.
 (use-package company-shell
   :requires company
+  :after company
   :commands
   (company-shell
    company-shell-env
    company-fish-shell)
   :init
   (setq company-shell-delete-duplicates t)
-
+  :config
   (with-eval-after-load "company"
     (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
                     "command" "compgen" "complete" "continue" "declare" "dirs"

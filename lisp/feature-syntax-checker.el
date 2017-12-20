@@ -15,6 +15,7 @@
 ;; Packages
 
 (use-package flycheck
+  :demand t
   :diminish flycheck-mode
   :commands
   (flycheck-list-errors

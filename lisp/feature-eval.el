@@ -29,7 +29,6 @@
 
 (req-package eval-in-repl
   :loader :el-get
-  :requires (dash paredit)
   :commands
   (eir-repl-start
    eir-eval-in-repl-lisp
