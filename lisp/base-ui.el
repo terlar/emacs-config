@@ -272,7 +272,7 @@
   :commands
   (default-text-scale-increase default-text-scale-decrease))
 
-(use-package eldoc-overlay-mode
+(use-package eldoc-overlay
   :diminish eldoc-overlay-mode
   :commands eldoc-overlay-mode)
 
