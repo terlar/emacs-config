@@ -42,8 +42,7 @@
   (typescript-mode . rainbow-delimiters-mode)
   (typescript-mode . rainbow-identifiers-mode))
 
-(req-package lsp-javascript-typescript
-  :loader :el-get
+(use-package lsp-javascript-typescript
   :requires lsp-mode
   :hook
   (js2-mode . lsp-javascript-typescript-enable)
