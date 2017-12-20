@@ -83,6 +83,20 @@ version is loaded."
 (use-package eros
   :hook (emacs-lisp-mode . eros-mode))
 
+;; Discover elisp functions
+(req-package suggest
+  :loader :el-get
+  :preface
+  (defun +suggest-popup ()
+    "Open suggest as a popup."
+    (interactive)
+    (open-and-switch-to-buffer #'suggest "*suggest*"))
+  :commands
+  (suggest suggest-update)
+  :init
+  (setq suggest-pop-to-buffer t)
+  (set-popup-buffer (rx bos "*suggest*" eos)))
+
 ;; Emacs Start Up Profiler
 (use-package esup
   :commands esup

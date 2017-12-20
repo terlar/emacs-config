@@ -160,6 +160,7 @@
  "h d" '(counsel-dash            :wk "Documentation")
  "h i" '(info                    :wk "Info")
  "h l" '(find-library            :wk "Find library")
+ "h s" '(+suggest-popup          :wk "Suggest functions")
  "h b" '(describe-buffer         :wk "Describe buffer")
  "h c" '(helpful-command         :wk "Describe command")
  "h C" '(describe-char           :wk "Describe char")

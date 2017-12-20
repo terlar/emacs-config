@@ -1,0 +1,6 @@
+(:name suggest
+       :description "discover elisp functions that do what you want"
+       :type github
+       :pkgname "terlar/suggest.el"
+       :branch "support-buffer-popup"
+       :features suggest)
