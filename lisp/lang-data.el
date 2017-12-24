@@ -19,7 +19,7 @@
   (setq nxml-slash-auto-complete-flag t)
   :config
   (set-company-backends 'nxml-mode 'company-nxml)
-  (with-eval-after-load "smartparens"
+  (with-eval-after-load 'smartparens
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
 (use-package csv-mode

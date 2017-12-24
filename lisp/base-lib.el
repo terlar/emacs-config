@@ -54,7 +54,7 @@
 
 (defmacro set-evil-state (modes state)
   "Set MODES initial STATE using `evil-set-initial-state'."
-  `(with-eval-after-load "evil"
+  `(with-eval-after-load 'evil
      (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
        (evil-set-initial-state mode ,state))))
 
@@ -76,7 +76,7 @@ The list accepts the following properties:
 :disabled BOOLEAN
   Disable auto-indent."
   (let ((disabled (plist-get plist :disabled)))
-    `(with-eval-after-load "aggressive-indent"
+    `(with-eval-after-load 'aggressive-indent
        (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
          (when ,disabled
            (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
@@ -107,7 +107,7 @@ The list accepts the following properties:
 
 (defmacro set-company-backends (mode &rest backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."
-  `(with-eval-after-load "company"
+  `(with-eval-after-load 'company
      (add-hooks-pair
       ,mode
       (lambda ()

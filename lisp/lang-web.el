@@ -21,11 +21,11 @@
         ;; Highlight enclosing tags of the element under cursor
         web-mode-enable-current-element-highlight t)
   :config
-  (with-eval-after-load "flycheck"
+  (with-eval-after-load 'flycheck
     (flycheck-add-mode 'html-tidy 'web-mode))
 
   ;; No padding for nested sections inside HTML
-  (with-eval-after-load "editorconfig"
+  (with-eval-after-load 'editorconfig
     (add-hook 'editorconfig-custom-hooks
               (lambda (_)
                 (setq web-mode-block-padding 0

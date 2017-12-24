@@ -31,7 +31,7 @@
         js2-skip-preprocessor-directives t
         js2-strict-trailing-comma-warning nil)
 
-  (with-eval-after-load "editorconfig"
+  (with-eval-after-load 'editorconfig
     (add-to-list 'editorconfig-indentation-alist
                  '(js2-mode js2-basic-offset js-switch-indent-offset))))
 
@@ -52,7 +52,7 @@
   (smart-jump-register :modes '(js2-mode
                                 rsjx-mode
                                 typescript-mode))
-  (with-eval-after-load "flycheck"
+  (with-eval-after-load 'flycheck
     (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
 (use-package js2-refactor

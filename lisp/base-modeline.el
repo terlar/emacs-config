@@ -114,11 +114,11 @@
                       'help-echo (evil-state-property state :name)
                       'mouse-face 'mode-line-highlight))
       tag)))
-(with-eval-after-load "evil"
+(with-eval-after-load 'evil
   (defalias 'evil-generate-mode-line-tag #'+mode-line-evil-state-bar))
 
 ;; Flycheck
-(with-eval-after-load "flycheck"
+(with-eval-after-load 'flycheck
   (setq flycheck-mode-line
         '(:eval
           (pcase flycheck-last-status-change

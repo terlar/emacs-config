@@ -43,7 +43,7 @@
 (use-package gxref
   :commands gxref-xref-backend
   :init
-  (with-eval-after-load "xref"
+  (with-eval-after-load 'xref
     (cl-pushnew 'gxref-xref-backend xref-backend-functions)))
 
 ;;;

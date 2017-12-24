@@ -139,7 +139,7 @@
   :init
   (setq company-shell-delete-duplicates t)
   :config
-  (with-eval-after-load "company"
+  (with-eval-after-load 'company
     (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
                     "command" "compgen" "complete" "continue" "declare" "dirs"
                     "disown" "do" "done" "echo" "enable" "eval" "exec" "exit"

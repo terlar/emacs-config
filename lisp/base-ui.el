@@ -307,7 +307,7 @@
     (when (bound-and-true-p beacon-mode)
       (beacon-blink)))
 
-  (with-eval-after-load "evil"
+  (with-eval-after-load 'evil
     (advice-add #'evil-window-top    :after #'+beacon-blink)
     (advice-add #'evil-window-middle :after #'+beacon-blink)
     (advice-add #'evil-window-bottom :after #'+beacon-blink)))

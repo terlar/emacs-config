@@ -15,7 +15,7 @@
   :init
   (setq lsp-enable-eldoc t)
   :config
-  (with-eval-after-load "flycheck"
+  (with-eval-after-load 'flycheck
     (require 'lsp-flycheck)))
 
 (use-package company-lsp
@@ -23,7 +23,7 @@
   :commands company-lsp
   :init
   (setq company-lsp-async t)
-  (with-eval-after-load "company"
+  (with-eval-after-load 'company
     (push 'company-lsp company-backends)))
 
 (provide 'feature-lsp)
