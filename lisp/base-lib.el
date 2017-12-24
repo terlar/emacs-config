@@ -70,14 +70,14 @@
 
 (defmacro set-on-evil-state (modes state &rest forms)
   "Set MODES state entry hooks for STATE using FORMS."
-  `(dolist (mode (if (listp ,modes) ,modes (list ,modes)))
-     (let ((mode-hook (intern (format "%s-hook" mode)))
-           (mode-hook-fn-name (intern (format "%s--add-evil-%s-state-entry-hook" mode ,state)))
-           (state-hook (intern (format "evil-%s-state-entry-hook" ,state)))
-           (state-hook-fn-name (intern (format "%s--on-%s-state-entry" mode ,state))))
-       (defalias state-hook-fn-name (lambda () ,@forms))
-       (defalias mode-hook-fn-name `(lambda () (add-hook ',state-hook #',state-hook-fn-name nil t)))
-       (add-hook mode-hook mode-hook-fn-name))))
+  `(let* ((modes (if (listp ,modes) ,modes (list ,modes)))
+          (modes-name (mapconcat #'symbol-name modes "-"))
+          (mode-hook-fn-name (intern (format "add-evil-%s-state-entry-hook--%s" ,state modes-name)))
+          (state-hook (intern (format "evil-%s-state-entry-hook" ,state)))
+          (state-hook-fn-name (intern (format "on-%s-state-entry--%s" ,state modes-name))))
+     (defalias state-hook-fn-name (lambda () ,@forms))
+     (defalias mode-hook-fn-name `(lambda () (add-hook ',state-hook #',state-hook-fn-name nil t)))
+     (add-hooks-pair modes mode-hook-fn-name)))
 
 (defmacro set-aggressive-indent (modes &rest plist)
   "Set MODES `agressive-indent' configuration through PLIST.
@@ -91,15 +91,22 @@ The list accepts the following properties:
          (when ,disabled
            (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))))))
 
-(defmacro set-prettify-symbols (mode symbols)
-  "Set MODE prettified symbols to SYMBOLS."
-  `(add-hooks-pair ,mode (lambda ()
-                           (dolist (symbol ,symbols)
-                             (push symbol prettify-symbols-alist)))))
+(defmacro set-prettify-symbols (modes symbols)
+  "Set MODES prettified symbols to SYMBOLS."
+  `(let* ((modes (if (listp ,modes) ,modes (list ,modes)))
+          (fn-name (intern (format "set-prettify-symbols--%s" (mapconcat #'symbol-name modes "-")))))
+     (defalias fn-name
+       (lambda () (dolist (symbol ,symbols)
+               (push symbol prettify-symbols-alist))))
+     (add-hooks-pair modes fn-name)))
 
-(defmacro set-doc-fn (mode function)
-  "Set MODE documentation FUNCTION using `documentation-function'."
-  `(add-hooks-pair ,mode (lambda () (setq documentation-function ,function))))
+(defmacro set-doc-fn (modes function)
+  "Set MODES documentation FUNCTION using `documentation-function'."
+  `(let* ((modes (if (listp ,modes) ,modes (list ,modes)))
+          (fn-name (intern (format "set-doc-fn--%s" (mapconcat #'symbol-name modes "-")))))
+     (defalias fn-name
+       (lambda () (setq documentation-function ,function)))
+     (add-hooks-pair modes fn-name)))
 
 (defun documentation-at-point ()
   "Get documentation at point using `documentation-function'."
