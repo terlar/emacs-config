@@ -21,11 +21,6 @@
   :hook
   (markdown-mode . auto-fill-mode)
   (markdown-mode . readable-mode)
-  :preface
-  (defun +markdown-mode-on-insert-state-entry ()
-    (markdown-toggle-markup-hiding 0))
-  (defun +markdown-mode-on-normal-state-entry ()
-    (markdown-toggle-markup-hiding 1))
   :custom
   (markdown-header-scaling t)
   :init
@@ -39,10 +34,10 @@
    markdown-italic-underscore t
    markdown-make-gfm-checkboxes-buttons t)
   :config
-  (evil-stateful-set-state-entry
-   '(markdown-mode gfm-mode)
-   :on-insert #'+markdown-mode-on-insert-state-entry
-   :on-normal #'+markdown-mode-on-normal-state-entry))
+  (set-on-evil-state 'markdown-mode 'insert
+                     (markdown-toggle-markup-hiding 0))
+  (set-on-evil-state 'markdown-mode 'normal
+                     (markdown-toggle-markup-hiding 1)))
 
 (use-package edit-indirect)
 

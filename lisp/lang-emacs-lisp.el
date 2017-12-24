@@ -29,21 +29,12 @@
 (set-popup-buffer (rx bos "*ielm*" eos)
                   (rx bos "*Style Warnings*" eos))
 
-
-(defun +emacs-lisp-mode-on-insert-state-entry ()
-  "Run for `emacs-lisp-mode' on insert state entry."
-  (nameless-mode -1)
-  (easy-escape-minor-mode -1))
-
-(defun +emacs-lisp-mode-on-normal-state-entry ()
-  "Run for `emacs-lisp-mode' on normal state entry."
-  (nameless-mode +1)
-  (easy-escape-minor-mode +1))
-
-(evil-stateful-set-state-entry
- 'emacs-lisp-mode
- :on-insert #'+emacs-lisp-mode-on-insert-state-entry
- :on-normal #'+emacs-lisp-mode-on-normal-state-entry)
+(set-on-evil-state 'emacs-lisp-mode 'insert
+                   (nameless-mode -1)
+                   (easy-escape-minor-mode -1))
+(set-on-evil-state 'emacs-lisp-mode 'normal
+                   (nameless-mode +1)
+                   (easy-escape-minor-mode +1))
 
 ;;;
 ;; Packages

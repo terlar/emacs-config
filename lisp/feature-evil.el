@@ -76,11 +76,6 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
   (evil-mode 1))
 
-;; Run functions on state entry
-(use-package evil-stateful
-  :hook (after-init . global-evil-stateful-mode)
-  :commands evil-stateful-set-state-entry)
-
 ;; Magit integration
 (use-package evil-magit
   :demand t

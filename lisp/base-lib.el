@@ -68,6 +68,17 @@
      (dolist (mode (if (listp ,modes) ,modes (list ,modes)))
        (evil-set-initial-state mode ,state))))
 
+(defmacro set-on-evil-state (modes state &rest forms)
+  "Set MODES state entry hooks for STATE using FORMS."
+  `(dolist (mode (if (listp ,modes) ,modes (list ,modes)))
+     (let ((mode-hook (intern (format "%s-hook" mode)))
+           (mode-hook-fn-name (intern (format "%s--add-evil-%s-state-entry-hook" mode ,state)))
+           (state-hook (intern (format "evil-%s-state-entry-hook" ,state)))
+           (state-hook-fn-name (intern (format "%s--on-%s-state-entry" mode ,state))))
+       (defalias state-hook-fn-name (lambda () ,@forms))
+       (defalias mode-hook-fn-name `(lambda () (add-hook ',state-hook #',state-hook-fn-name nil t)))
+       (add-hook mode-hook mode-hook-fn-name))))
+
 (defmacro set-aggressive-indent (modes &rest plist)
   "Set MODES `agressive-indent' configuration through PLIST.
 The list accepts the following properties:

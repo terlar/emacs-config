@@ -73,16 +73,6 @@ It acts in the same way as `org-meta-return'."
    "<<" 'org-metaleft
    ">>" 'org-metaright)
   :preface
-  (defun +org-mode-on-insert-state-entry ()
-    (setq org-hide-block-startup nil
-          org-hide-emphasis-markers nil)
-    (font-lock-fontify-block))
-
-  (defun +org-mode-on-normal-state-entry ()
-    (setq org-hide-block-startup t
-          org-hide-emphasis-markers t)
-    (font-lock-fontify-block))
-
   (defun +org-edit-src-save-and-exit ()
     "Save parent buffer with current state source-code buffer and exit."
     (interactive)
@@ -102,10 +92,14 @@ It acts in the same way as `org-meta-return'."
                         ("laptop" . ?l))
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
-  (evil-stateful-set-state-entry
-   'org-mode
-   :on-insert #'+org-mode-on-insert-state-entry
-   :on-normal #'+org-mode-on-normal-state-entry)
+  (set-on-evil-state 'org-mode 'insert
+                     (setq org-hide-block-startup nil
+                           org-hide-emphasis-markers nil)
+                     (font-lock-fontify-block))
+  (set-on-evil-state 'org-mode 'normal
+                     (setq org-hide-block-startup t
+                           org-hide-emphasis-markers t)
+                     (font-lock-fontify-block))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
