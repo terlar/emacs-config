@@ -20,44 +20,34 @@
 
 ;; Set multiple hooks
 (use-package add-hooks
-  :commands
-  (add-hooks
-   add-hooks-pair))
+  :commands (add-hooks add-hooks-pair))
 
 ;; Enable Emacs minor modes by buffer name and contents
-(use-package auto-minor-mode
-  :demand t)
+(use-package auto-minor-mode :demand t)
 
 ;; Hide lines based on regexp
 (use-package hide-lines
   :commands
-  (hide-lines
-   hide-lines-matching
-   hide-lines-not-matching
-   hide-lines-show-all))
+  (hide-lines hide-lines-matching hide-lines-not-matching hide-lines-show-all))
 
 ;; Show tooltip at point
 (use-package pos-tip)
 
 ;; Inline popups
 (use-package quick-peek
-  :commands
-  (quick-peek-show quick-peek-hide))
+  :commands (quick-peek-show quick-peek-hide))
 
 ;; Diminish lines
 (use-package diminish
   :commands diminish)
 
 (use-package spinner
-  :commands
-  (spinner-start
-   spinner-create
-   spinner-print))
+  :commands (spinner-start spinner-create spinner-print))
 
-(use-package f :demand t)    ; files and paths
-(use-package s :demand t)    ; strings
+(use-package f    :demand t) ; files and paths
+(use-package s    :demand t) ; strings
 (use-package dash :demand t) ; lists
-(use-package ov :demand t)   ; overlays
+(use-package ov   :demand t) ; overlays
 
 ;;;
 ;; Setup
