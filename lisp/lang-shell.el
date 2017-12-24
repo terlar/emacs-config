@@ -19,6 +19,9 @@
 ;; Use Emacs compatible pager
 (setenv "PAGER" "/usr/bin/cat")
 
+;; Make less work
+(setenv "LESS" "--dumb --prompt=s")
+
 ;; Use Emacs compatible shell for comint
 (setq shell-file-name "bash")
 
@@ -86,7 +89,7 @@
 
 ;; Extended shell/comint mode
 (use-package shx
-  :hook (after-init . shx-global-mode))
+  :hook (shell-mode . shx-global-mode))
 
 ;; Bash tests
 (use-package bats-mode
