@@ -65,12 +65,6 @@
   :diminish company-mode
   :hook
   (after-init . global-company-mode)
-  (company-completion-started   . +company-turn-off-indent-guides)
-  (company-completion-finished  . +company-maybe-turn-on-indent-guides)
-  (company-completion-cancelled . +company-maybe-turn-on-indent-guides)
-  (company-completion-started   . +company-turn-off-whitespace)
-  (company-completion-finished  . +company-maybe-turn-on-whitespace)
-  (company-completion-cancelled . +company-maybe-turn-on-whitespace)
   :general
   (:keymaps 'company-mode-map
             :states 'insert
@@ -110,25 +104,6 @@
             "C-o" 'company-search-toggle-filtering
             "C-s" '+company-search-abort-and-filter-candidates)
   :preface
-  (defvar-local company--indent-guide-mode-on-p nil)
-  (defvar-local company--whitespace-mode-on-p nil)
-
-  (defun +company-maybe-turn-on-indent-guides (&rest ignore)
-    (when company--indent-guide-mode-on-p (indent-guide-mode 1)))
-
-  (defun +company-turn-off-indent-guides (&rest ignore)
-    (when (boundp 'indent-guide-mode)
-      (setq company--indent-guide-mode-on-p indent-guide-mode)
-      (when indent-guide-mode (indent-guide-mode 0))))
-
-  (defun +company-maybe-turn-on-whitespace (&rest ignore)
-    (when company--whitespace-mode-on-p (whitespace-mode 1)))
-
-  (defun +company-turn-off-whitespace (&rest ignore)
-    (when (boundp 'whitespace-mode)
-      (setq company--whitespace-mode-on-p whitespace-mode)
-      (when whitespace-mode (whitespace-mode 0))))
-
   (defun company-preview-if-not-tng-frontend (command)
     "`company-preview-frontend', but not when tng is active."
     (unless (and (eq command 'post-command)
