@@ -95,11 +95,7 @@ The face used is `readable' and `line-spacing' is configured by
     (progn
       (variable-pitch-mode (plist-get readable-mode-saved-state-plist :variable-pitch))
       (setq line-spacing (plist-get readable-mode-saved-state-plist :line-spacing)
-            readable-mode-saved-state-plist nil)))
-
-  ;;(force-window-update (current-buffer))
-  )
+            readable-mode-saved-state-plist nil))))
 
 (provide 'readable)
-
 ;;; readable.el ends here
