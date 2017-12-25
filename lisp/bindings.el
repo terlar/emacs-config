@@ -475,7 +475,7 @@
  "<down>"  'nov-scroll-up
  "<left>"  'nov-previous-document
  "<right>" 'nov-next-document
- "q"       'image-kill-buffer)
+ "q"       'kill-this-buffer)
 
 ;; pdfview
 (general-define-key
@@ -488,7 +488,7 @@
  "j" 'pdf-view-next-line-or-next-page
  "k" 'pdf-view-previous-line-or-previous-page
  "l" 'pdf-view-next-page
- "q" 'image-kill-buffer)
+ "q" 'kill-this-buffer)
 
 ;; realgud
 (general-define-key
