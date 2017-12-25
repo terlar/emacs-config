@@ -96,6 +96,32 @@
                   Man-mode)
                 'visual-line-mode)
 
+(with-eval-after-load 'shr
+  (defun shr-tag-h1 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.5))
+		               'bold)))
+  (defun shr-tag-h2 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.3))
+		               'bold)))
+  (defun shr-tag-h3 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.2 :underline t))
+		               'bold)))
+  (defun shr-tag-h4 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.1 :underline t))
+		               'italic)))
+  (defun shr-tag-h5 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.0 :weight bold))
+		               'italic)))
+  (defun shr-tag-h6 (dom)
+    (shr-heading dom (if shr-use-fonts
+		                 '(variable-pitch (:height 1.0 :weight bold))
+		               'italic))))
+
 ;;;
 ;; Built-ins
 
