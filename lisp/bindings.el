@@ -182,6 +182,7 @@
  "o d" '(deft                         :wk "Notes")
  "o f" '(dired-sidebar-toggle-sidebar :wk "File tree")
  "o p" '(list-processes               :wk "List processes")
+ "o r" '(camcorder-record             :wk "Record video")
  "o s" '(speed-read                   :wk "Speed-reading")
  "o t" '(eshell                       :wk "Terminal")
  "o T" '(ansi-term                    :wk "ANSI Terminal")
