@@ -8,7 +8,8 @@
 (eval-when-compile
   (require 'base-vars)
   (require 'base-package)
-  (require 'base-lib))
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Settings
@@ -123,97 +124,15 @@
 		               'italic))))
 
 ;;;
-;; Built-ins
-
-;; comint
-(req-package comint
-  :loader :built-in
-  :init
-  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
-  (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
-
-;; Compilation
-(use-package compile
-  :hook (compilation-filter . +colorize-compilation-buffer)
-  :preface
-  (autoload 'ansi-color-apply-on-region "ansi-color")
-
-  ;; Filter ANSI escape codes in compilation-mode output
-  (defun +colorize-compilation-buffer ()
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region (point-min) (point-max)))))
-
-;; Browser
-(use-package eww
-  :hook (eww-mode . buffer-face-mode))
-
-(use-package face-remap
-  :diminish buffer-face-mode)
-
-;; Code folding
-(use-package hideshow
-  :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode)
-  :init
-  (defun +hs-fold-overlay-ellipsis (ov)
-    (when (eq 'code (overlay-get ov 'hs))
-      (overlay-put
-       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
-
-  (setq hs-hide-comments-when-hiding-all nil
-        hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
-
-;; Line highlighting (builtin)
-(use-package hl-line
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
-  :init
-  ;; Only highlight in selected window
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil))
-
-;; Highlight matching delimiters
-(use-package paren
-  :defer 2
-  :init
-  (setq show-paren-delay 0.1
-        show-paren-highlight-openparen t
-        show-paren-when-point-inside-paren t)
-  :config
-  (show-paren-mode 1))
-
-;; Major mode for editing source code.
-(use-package prog-mode
-  :hook (prog-mode . +prog-mode-setup)
-  :preface
-  (defun +prog-mode-setup ()
-    (setq-local scroll-margin 4))
-  :config
-  (set-prettify-symbols 'prog-mode
-                        '(("lambda" . ?λ)
-                          ("/=" . ?≠)
-                          ("!=" . ?≠)
-                          (">=" . ?≥)
-                          ("<=" . ?≤)
-                          ("=>" . ?⇒)))
-
-  (global-prettify-symbols-mode 1))
-
-;; Undo/redo window layout changes
-(use-package winner
-  :hook (window-setup . winner-mode)
-  :commands
-  (winner-undo winner-redo)
-  :init
-  (defvar winner-dont-bind-my-keys t))
-
-;;;
 ;; Packages
 
 ;; Hint mode for links
 (use-package ace-link
   :commands
   (ace-link
+   ace-link-info
    ace-link-help
+   ace-link-eww
    ace-link-org))
 
 ;; Fast window navigation
@@ -365,6 +284,101 @@
 (use-package readable
   :load-path my-site-lisp-dir
   :commands readable-mode)
+
+;;;
+;; Built-ins
+
+;; comint
+(req-package comint
+  :loader :built-in
+  :init
+  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+  (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
+
+;; Compilation
+(use-package compile
+  :hook (compilation-filter . +colorize-compilation-buffer)
+  :preface
+  (autoload 'ansi-color-apply-on-region "ansi-color")
+
+  ;; Filter ANSI escape codes in compilation-mode output
+  (defun +colorize-compilation-buffer ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max)))))
+
+;; Browser
+(use-package eww
+  :general
+  (:keymaps 'eww-mode-map
+            :states 'normal
+            "f"  'ace-link-eww
+            "F"  'eww
+            "o"  'ace-link-eww
+            "O"  'eww
+            "[p" 'eww-back-url
+            "]p" 'eww-forward-url
+            "q"  'quit-window)
+  :hook
+  (eww-mode . readable-mode))
+
+(use-package face-remap
+  :diminish buffer-face-mode)
+
+;; Code folding
+(use-package hideshow
+  :diminish hs-minor-mode
+  :hook (prog-mode . hs-minor-mode)
+  :init
+  (defun +hs-fold-overlay-ellipsis (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (overlay-put
+       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
+
+  (setq hs-hide-comments-when-hiding-all nil
+        hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
+
+;; Line highlighting (builtin)
+(use-package hl-line
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :init
+  ;; Only highlight in selected window
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
+
+;; Highlight matching delimiters
+(use-package paren
+  :defer 2
+  :init
+  (setq show-paren-delay 0.1
+        show-paren-highlight-openparen t
+        show-paren-when-point-inside-paren t)
+  :config
+  (show-paren-mode 1))
+
+;; Major mode for editing source code.
+(use-package prog-mode
+  :hook (prog-mode . +prog-mode-setup)
+  :preface
+  (defun +prog-mode-setup ()
+    (setq-local scroll-margin 4))
+  :config
+  (set-prettify-symbols 'prog-mode
+                        '(("lambda" . ?λ)
+                          ("/=" . ?≠)
+                          ("!=" . ?≠)
+                          (">=" . ?≥)
+                          ("<=" . ?≤)
+                          ("=>" . ?⇒)))
+
+  (global-prettify-symbols-mode 1))
+
+;; Undo/redo window layout changes
+(use-package winner
+  :hook (window-setup . winner-mode)
+  :commands
+  (winner-undo winner-redo)
+  :init
+  (defvar winner-dont-bind-my-keys t))
 
 ;;;
 ;; Autoloads

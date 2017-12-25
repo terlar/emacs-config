@@ -305,14 +305,6 @@
  "/" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper)
 
-;; eww
-(general-define-key
- :keymaps 'eww-mode-map
- :states 'normal
- "h" 'eww-back-url
- "l" 'eww-next-url
- "q" 'quit-window)
-
 ;; help-mode
 (general-define-key
  :keymaps '(help-mode-map
