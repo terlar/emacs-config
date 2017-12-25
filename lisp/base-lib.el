@@ -49,6 +49,10 @@
 (use-package dash :demand t) ; lists
 (use-package ov   :demand t) ; overlays
 
+(use-package blacklist-minor-modes
+  :load-path my-site-lisp-dir
+  :commands blacklist-minor-modes)
+
 ;;;
 ;; Setup
 
