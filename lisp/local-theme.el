@@ -30,8 +30,8 @@
 
 (custom-theme-set-faces
  'local
- `(mode-line                               ((t (:family ,my-variable-pitch-font :foreground "#252525" :background "#DADADA" :box (:line-width 15 :color "#DADADA")))))
- `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :foreground "#9E9E9E" :background "#F6F6F6" :box (:line-width 15 :color "#F6F6F6")))))
+ `(mode-line                               ((t (:family ,my-variable-pitch-font :foreground "#171717" :background "#E8E8E8" :box (:line-width 15 :color "#E8E8E8")))))
+ `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :foreground "#616161" :background "#DADADA" :box (:line-width 15 :color "#DADADA")))))
  `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
  `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
  `(line-number-current-line                ((t (:foreground ,theme-color-highlight :weight bold))))
