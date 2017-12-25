@@ -85,8 +85,7 @@
             [remap projectile-find-file]        'counsel-projectile-find-file
             [remap projectile-find-dir]         'counsel-projectile-find-dir))
 
-(req-package counsel-tramp
-  :loader :el-get
+(use-package counsel-tramp
   :commands counsel-tramp)
 
 ;; Use ivy for xref lookups

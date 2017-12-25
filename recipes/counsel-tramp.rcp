@@ -1,5 +1,0 @@
-(:name counsel-tramp
-       :description "Tramp ivy interface for ssh and docker and ‎vagrant"
-       :type github
-       :pkgname "masasam/emacs-counsel-tramp"
-       :features counsel-tramp)
