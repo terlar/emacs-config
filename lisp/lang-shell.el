@@ -78,11 +78,11 @@
 (use-package eshell-fringe-status
   :hook (eshell-mode . eshell-fringe-status-mode))
 
-(use-package company-eshell-autosuggest
-  :commands company-eshell-autosuggest
+(use-package esh-autosuggest
+  :commands esh-autosuggest
   :init
   (set-company-backends 'eshell-mode
-                        '(company-capf company-eshell-autosuggest)))
+                        '(company-capf esh-autosuggest)))
 
 (use-package fish-completion
   :hook (eshell-mode . fish-completion-mode))
