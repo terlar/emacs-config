@@ -133,9 +133,7 @@
           company-preview-if-not-tng-frontend
           company-echo-metadata-frontend)
         company-backends
-        '(company-capf
-          company-yasnippet
-          company-files
+        '((company-capf company-yasnippet company-files)
           (company-dabbrev-code
            company-gtags company-etags
            company-keywords)
@@ -159,7 +157,10 @@
   (setq company-quickhelp-delay nil))
 
 (use-package company-dict
-  :commands company-dict)
+  :commands company-dict
+  :init
+  (with-eval-after-load 'company
+    (push 'company-dict company-backends)))
 
 ;;;
 ;; Autoloads

@@ -19,6 +19,8 @@
 ;; Features
 
 (require 'feature-evil)
+(require 'feature-snippets)
+(require 'feature-templates)
 (require 'feature-workspaces)
 (require 'feature-version-control)
 (require 'feature-spellcheck)
