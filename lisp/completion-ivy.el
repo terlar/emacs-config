@@ -29,10 +29,11 @@
                 magit-completing-read-function #'ivy-completing-read)
 
   (setq ivy-height 12
-        ivy-do-completion-in-region t
-        ivy-wrap t
-        ivy-use-virtual-buffers t
         ivy-fixed-height-minibuffer t
+        ivy-do-completion-in-region t
+        ivy-use-selectable-prompt t
+        ivy-use-virtual-buffers t
+        ivy-wrap t
         ;; Don't use ^ as initial input
         ivy-initial-inputs-alist nil
         ;; highlight til EOL
