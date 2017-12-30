@@ -31,6 +31,7 @@
 ;; Emacs Shell
 (use-package eshell
   :hook
+  (eshell-mode . abbrev-mode)
   (eshell-mode . eshell-smart-initialize)
   (eshell-mode . +eshell-define-keys)
   (eshell-mode . +eshell-setup)
@@ -69,7 +70,30 @@
         eshell-destroy-buffer-when-process-dies t
         eshell-where-to-jump 'begin
         eshell-review-quick-commands nil
-        eshell-smart-space-goes-to-end t))
+        eshell-smart-space-goes-to-end t)
+
+  (define-abbrev-table 'eshell-mode-abbrev-table
+    '(("base64" "base64 -w0")
+      ("d" "docker")
+      ("dim" "docker images")
+      ("dp" "docker ps")
+      ("dc" "docker-compose")
+      ("dcl" "docker-compose logs")
+      ("j" "journalctl --since=today")
+      ("jb" "journalctl --boot")
+      ("je" "journalctl --since=today --priority=0..3")
+      ("jf" "journalctl --follow")
+      ("ju" "journalctl --unit")
+      ("juu" "journalctl --user-unit")
+      ("sc" "systemctl")
+      ("scl" "systemctl list-units")
+      ("scs" "systemctl status")
+      ("scu" "systemctl --user")
+      ("scul" "systemctl --user list-units")
+      ("scus" "systemctl --user status")
+      ("time" "time -p")
+      ("tree" "tree -a")
+      ("week" "date '+%V'"))))
 
 ;;;
 ;; Packages
