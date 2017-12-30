@@ -11,6 +11,22 @@
   (require 'base-keybinds))
 
 ;;;
+;; Functions
+
+(defun counsel-abbrev (abbrev-name)
+  "Insert abbreviation matching ABBREV-NAME."
+  (interactive
+   (list
+    (ivy-completing-read "Insert abbrev: "
+                         (cl-loop for table in (abbrev--active-tables)
+                                  unless (abbrev-table-empty-p table)
+                                  append (append (delete 0 table) ())))))
+  (progn
+    (dolist (table (abbrev--active-tables))
+      (when (abbrev-symbol abbrev-name table)
+        (abbrev-insert (abbrev-symbol abbrev-name table))))))
+
+;;;
 ;; Packages
 
 (use-package ivy

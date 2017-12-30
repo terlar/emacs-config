@@ -31,7 +31,8 @@
 (general-define-key
  :keymaps 'global
  "C-s" 'counsel-grep-or-swiper
- "C-r" 'counsel-grep-or-swiper)
+ "C-r" 'counsel-grep-or-swiper
+ "C-x /" 'counsel-abbrev)
 
 ;; Text-scaling
 (general-define-key
