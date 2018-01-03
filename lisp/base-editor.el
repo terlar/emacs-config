@@ -20,7 +20,7 @@
  save-interprogram-paste-before-kill t
  ;; Bookmarks
  bookmark-default-file (concat my-cache-dir "bookmarks")
- bookmark-save-flag t
+ bookmark-save-flag 1
  ;; Formatting
  delete-trailing-lines nil
  fill-column 80
