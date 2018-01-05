@@ -126,5 +126,13 @@ It acts in the same way as `org-meta-return'."
 (req-package org-preview-html
   :commands org-preview-html-mode)
 
+(req-package org-noter
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix my-leader-key
+   "m n" 'org-noter)
+  :commands org-noter)
+
 (provide 'lang-org)
 ;;; lang-org.el ends here
