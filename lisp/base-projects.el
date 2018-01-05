@@ -25,7 +25,7 @@
         '("TAGS" "GPATH" "GRTAGS" "GTAGS")
         projectile-indexing-method 'alien
         projectile-ignored-projects (list my-data-dir)
-        projectile-known-projects-file (concat my-cache-dir "projectile.projects"))
+        projectile-known-projects-file (concat my-data-dir "projectile.projects"))
   :config
   (defun +projectile-cache-current-file (orig-fun &rest args)
     "Don't cache ignored files."

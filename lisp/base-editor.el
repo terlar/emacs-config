@@ -19,7 +19,7 @@
  ;; Save clipboard contents into kill-ring before replacing them
  save-interprogram-paste-before-kill t
  ;; Bookmarks
- bookmark-default-file (concat my-cache-dir "bookmarks")
+ bookmark-default-file (concat my-data-dir "bookmarks")
  bookmark-save-flag 1
  ;; Formatting
  delete-trailing-lines nil
