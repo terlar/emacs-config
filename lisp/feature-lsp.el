@@ -18,6 +18,13 @@
   (with-eval-after-load 'flycheck
     (require 'lsp-flycheck)))
 
+(req-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :init
+  (setq lsp-ui-doc-include-signature nil
+        lsp-ui-sideline-show-symbol nil
+        lsp-ui-sideline-ignore-duplicate t))
+
 (req-package company-lsp
   :requires company
   :commands company-lsp

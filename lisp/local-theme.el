@@ -125,6 +125,8 @@
    `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
      ("FIXME" . (:box (:line-width 1) :foreground ,theme-color-error))
      ("NOTE"  . (:box (:line-width 1)))))
+ ;; lsp-ui
+ `(lsp-ui-doc-background "#E8E8E8")
  ;; zoom-window
  `(zoom-window-mode-line-color (face-background 'mode-line)))
 
