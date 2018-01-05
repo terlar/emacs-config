@@ -43,7 +43,10 @@
  ;; Wrapping
  default-truncate-lines nil
  truncate-partial-width-windows 50
- word-wrap t)
+ word-wrap t
+ ;; Don't prompt for local variables
+ enable-local-eval nil
+ enable-local-variables :safe)
 
 (defun +dont-kill-scratch-buffer ()
   "Don't kill scratch buffers."
