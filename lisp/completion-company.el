@@ -133,7 +133,7 @@
           company-preview-if-not-tng-frontend
           company-echo-metadata-frontend)
         company-backends
-        '((company-capf company-yasnippet company-files)
+        '((company-capf company-files :with company-yasnippet)
           (company-dabbrev-code
            company-gtags company-etags
            company-keywords)
