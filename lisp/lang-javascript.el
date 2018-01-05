@@ -16,7 +16,6 @@
 (req-package js2-mode
   :mode
   "\\.js$"
-  ("\\.json$" . js2-jsx-mode)
   :interpreter
   "node"
   "nodejs"
@@ -41,6 +40,11 @@
   (typescript-mode . flycheck-mode)
   (typescript-mode . rainbow-delimiters-mode)
   (typescript-mode . rainbow-identifiers-mode))
+
+(req-package json-mode
+  :mode "\\.json$"
+  :hook
+  (json-mode . flycheck-mode))
 
 (req-package lsp-javascript-typescript
   :requires lsp-mode
