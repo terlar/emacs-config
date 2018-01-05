@@ -16,7 +16,7 @@
 ;;;
 ;; Packages
 
-(use-package go-mode
+(req-package go-mode
   :mode "\\.go$"
   :interpreter "go"
   :hook
@@ -34,11 +34,11 @@
                         '(("func" . ?ƒ)
                           (":="   . ?←))))
 
-(use-package go-eldoc
+(req-package go-eldoc
   :hook (go-mode . go-eldoc-setup))
 
 ;; Code navigation & refactoring
-(use-package go-guru
+(req-package go-guru
   :commands
   (go-guru-describe
    go-guru-freevars go-guru-implements go-guru-peers
@@ -56,7 +56,7 @@
   (set-evil-state 'go-guru-output-mode 'motion))
 
 ;; REPL
-(use-package gorepl-mode
+(req-package gorepl-mode
   :commands
   (gorepl-run
    gorepl-run-load-current-file
@@ -80,7 +80,7 @@
   (set-popup-buffer (rx bos "*Go REPL*" eos)))
 
 ;; Completion
-(use-package company-go
+(req-package company-go
   :requires company
   :commands company-go
   :init

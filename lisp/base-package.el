@@ -34,7 +34,6 @@ This will be nil if you have byte-compiled your configuration.")
  tls-checktrust gnutls-verify-error
 
  use-package-always-defer t
- use-package-always-ensure t
  use-package-debug nil
  use-package-expand-minimally (eval-when-compile (not my-debug-mode))
  use-package-minimum-reported-time (if my-debug-mode 0 0.1)

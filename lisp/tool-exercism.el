@@ -10,8 +10,10 @@
 
 ;;;
 ;; Packages
+(req-package request)
 
 (req-package exercism
+  :require request
   :loader :el-get
   :commands
   (exercism

@@ -9,7 +9,7 @@
   (require 'base-vars)
   (require 'base-package))
 
-(use-package lsp-mode
+(req-package lsp-mode
   :demand t
   :hook (lsp-mode . flycheck-mode)
   :init
@@ -18,7 +18,7 @@
   (with-eval-after-load 'flycheck
     (require 'lsp-flycheck)))
 
-(use-package company-lsp
+(req-package company-lsp
   :requires company
   :commands company-lsp
   :init

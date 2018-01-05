@@ -16,7 +16,7 @@
 ;;;
 ;; Packages
 
-(use-package lsp-java
+(req-package lsp-java
   :requires lsp-mode
   :hook (java-mode . lsp-java-enable)
   :init
@@ -24,7 +24,7 @@
   :config
   (smart-jump-register :modes 'java-mode))
 
-(use-package java-repl
+(req-package java-repl
   :load-path my-site-lisp-dir
   :commands run-java-repl
   :init
@@ -67,24 +67,24 @@
 
   (setq java-repl-file-path "/usr/bin/javarepl"))
 
-(use-package javadoc-lookup
+(req-package javadoc-lookup
   :commands javadoc-lookup
   :init
   (set-doc-fn 'java-mode #'javadoc-lookup))
 
-(use-package android-mode
+(req-package android-mode
   :commands
   (android-mode
    android-create-project
    android-start-emulator))
 
-(use-package groovy-mode
+(req-package groovy-mode
   :mode "\\.gr\\(adle\\|oovy\\)$")
 
-(use-package gradle-mode
+(req-package gradle-mode
   :hook (java-mode . gradle-mode))
 
-(use-package log4j-mode
+(req-package log4j-mode
   :mode "\\.log$"
   :interpreter "syslog-mode")
 

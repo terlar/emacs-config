@@ -39,7 +39,7 @@
 ;;;
 ;; Packages
 
-(use-package auto-compile
+(req-package auto-compile
   :commands auto-compile-byte-compile
   :hook
   (emacs-lisp-mode . auto-compile-on-load-mode)
@@ -57,21 +57,21 @@ version is loaded."
           (load-file buffer-path)))))
   (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
 
-(use-package highlight-quoted
+(req-package highlight-quoted
   :hook (emacs-lisp-mode . highlight-quoted-mode))
 
 ;; Shorten package prefixes
-(use-package nameless
+(req-package nameless
   :diminish nameless-mode
   :hook (emacs-lisp-mode . nameless-mode))
 
 ;; Improve readability of escape characters in regular expressions
-(use-package easy-escape
+(req-package easy-escape
   :diminish easy-escape-minor-mode
   :hook (emacs-lisp-mode . easy-escape-minor-mode))
 
 ;; Evaluation result overlays.
-(use-package eros
+(req-package eros
   :hook (emacs-lisp-mode . eros-mode))
 
 ;; Discover elisp functions
@@ -89,13 +89,13 @@ version is loaded."
   (set-popup-buffer (rx bos "*suggest*" eos)))
 
 ;; Emacs Start Up Profiler
-(use-package esup
+(req-package esup
   :commands esup
   :config
   (set-evil-state 'esup-mode 'motion)
   (set-popup-buffer (rx bos "*esup*" eos)))
 
-(use-package package-lint
+(req-package package-lint
   :commands package-lint-current-buffer)
 
 ;;;

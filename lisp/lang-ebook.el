@@ -18,7 +18,7 @@
   (pj-justify
    pj-line-width))
 
-(use-package nov
+(req-package nov
   :mode ("\\.epub$" . nov-mode)
   :hook
   (nov-mode . centered-window-mode)
@@ -56,7 +56,7 @@
                 '+nov-window-configuration-change-hook
                 nil t))))
 
-(use-package pdf-tools
+(req-package pdf-tools
   :mode ("\\.pdf$" . pdf-view-mode)
   :commands
   (pdf-tools-install

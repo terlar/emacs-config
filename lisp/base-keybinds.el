@@ -5,6 +5,9 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Config
 
@@ -19,10 +22,9 @@
 ;;;
 ;; Packages
 
-(use-package general
-  :demand t)
+(req-package general :force t :demand t)
 
-(use-package which-key
+(req-package which-key :force t
   :diminish which-key-mode
   :commands
   (which-key-mode

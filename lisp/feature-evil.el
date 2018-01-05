@@ -24,7 +24,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 ;;;
 ;; Packages
 
-(use-package evil
+(req-package evil
   :demand t
   :hook
   (org-src-mode . evil-normalize-keymaps)
@@ -77,14 +77,14 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (evil-mode 1))
 
 ;; Magit integration
-(use-package evil-magit
+(req-package evil-magit
   :demand t
   :after (evil magit)
   :init
   (setq evil-magit-want-horizontal-movement t))
 
 ;; Comment/uncomment lines
-(use-package evil-commentary
+(req-package evil-commentary
   :diminish evil-commentary-mode
   :commands
   (evil-commentary
@@ -92,18 +92,18 @@ If a hook returns non-nil, all hooks after it are ignored.")
    evil-commentary-line))
 
 ;; Improved % matching
-(use-package evil-matchit
+(req-package evil-matchit
   :commands evilmi-jump-items
   :general
   ([remap evil-jump-item] 'evilmi-jump-items))
 
 ;; Quoting/parenthesizing
-(use-package evil-surround
+(req-package evil-surround
   :commands
   (evil-surround-edit
    evil-Surround-edit
    evil-surround-region))
-(use-package evil-embrace
+(req-package evil-embrace
   :demand t
   :init
   (setq evil-embrace-show-help-p nil)

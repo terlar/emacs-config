@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package flyspell
+(req-package flyspell
   :diminish flyspell-mode
   :hook
   (prog-mode . flyspell-prog-mode)
@@ -23,14 +23,14 @@
         ispell-list-command "--list"
         ispell-extr-args '("--dont-tex-check-comments")))
 
-(use-package flyspell-correct-ivy
+(req-package flyspell-correct-ivy
   :requires ivy
   :commands
   (flyspell-correct-word-generic
    flyspell-correct-previous-word-generic))
 
 ;; Automatically infer dictionary
-(use-package auto-dictionary
+(req-package auto-dictionary
   :commands
   (adict-change-dictionary
    adict-guess-dictionary))

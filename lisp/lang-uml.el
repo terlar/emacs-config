@@ -13,13 +13,13 @@
 ;;;
 ;; Packages
 
-(use-package plantuml-mode
+(req-package plantuml-mode
   :mode "\\.p\\(lant\\)?uml$"
   :init
   (setq plantuml-java-command "java-headless"
         plantuml-jar-path "/opt/plantuml/plantuml.jar"))
 
-(use-package flycheck-plantuml
+(req-package flycheck-plantuml
   :requires flycheck
   :hook
   (plantuml-mode . flycheck-mode)

@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package nginx-mode
+(req-package nginx-mode
   :mode
   "nginx\\.conf$"
   "nginx/.+\\.conf$"
@@ -20,16 +20,16 @@
   :magic-fallback
   "\\(?:.*\n\\)*\\(?:http\\|server\\|location .+\\|upstream .+\\)[ \n\t]+{")
 
-(use-package systemd
+(req-package systemd
   :mode
   ("\\.\\(automount\\|busname\\|mount\\|service\\|slice\\|socket\\|swap\\|target\\|timer\\|link\\|netdev\\|network\\)$" . systemd-mode))
 
-(use-package ansible
+(req-package ansible
   :minor
   "site\\.yml$"
   "roles/.+\\.yml$"
   :commands ansible)
-(use-package ansible-doc
+(req-package ansible-doc
   :diminish ansible-doc-mode
   :commands ansible-doc
   :hook (ansible . ansible-doc-mode)
@@ -41,15 +41,15 @@
   (set-doc-fn 'ansible 'ansible-doc-at-point)
   (set-evil-state 'ansible-doc-module-mode 'motion)
   (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos)))
-(use-package company-ansible
+(req-package company-ansible
   :commands company-ansible
   :init
   (set-company-backends 'ansible 'company-ansible))
 
-(use-package puppet-mode
+(req-package puppet-mode
   :mode "\\.pp$")
 
-(use-package salt-mode
+(req-package salt-mode
   :mode "\\.sls$"
   :hook (salt-mode . flyspell-mode)
   :config

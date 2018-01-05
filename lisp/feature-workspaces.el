@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package persp-mode
+(req-package persp-mode
   :demand t
   :init
   (setq persp-keymap-prefix (kbd "C-c W")
@@ -42,7 +42,7 @@
   (persp-mode 1))
 
 ;; Auto-create project perspectives
-(use-package persp-mode-projectile-bridge
+(req-package persp-mode-projectile-bridge
   :preface
   (defun +persp-mode-projectile-bridge-setup ()
     (if persp-mode-projectile-bridge-mode
@@ -52,7 +52,7 @@
   (persp-mode . persp-mode-projectile-bridge-mode)
   (persp-mode-projectile-bridge-mode . +persp-mode-projectile-bridge-setup))
 
-(use-package perspeen
+(req-package perspeen
   :disabled t
   :init
   (setq perspeen-keymap-prefix (kbd "C-c TAB")

@@ -8,7 +8,7 @@
 ;;;
 ;; Built-ins
 
-(use-package autoinsert
+(req-package autoinsert
   :defer 1
   :init
   (setq auto-insert-query nil
@@ -19,7 +19,7 @@
 ;;;
 ;; Packages
 
-(use-package yatemplate
+(req-package yatemplate
   :defer 1
   :hook (yas-global-mode . yatemplate-fill-alist))
 

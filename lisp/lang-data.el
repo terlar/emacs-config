@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package nxml-mode
+(req-package nxml-mode
   :mode "\\.plist$"
   :hook (nxml-mode . flycheck-mode)
   :init
@@ -22,7 +22,7 @@
   (with-eval-after-load 'smartparens
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
-(use-package csv-mode
+(req-package csv-mode
   :mode "\\.[ct]sv$"
   :hook
   (csv-mode . +csv-mode-setup)
@@ -31,21 +31,21 @@
     (visual-line-mode 0)
     (centered-window-mode 0)))
 
-(use-package json-mode
+(req-package json-mode
   :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
 
-(use-package yaml-mode
+(req-package yaml-mode
   :mode "\\.ya?ml$"
   :hook (yaml-mode . indent-guide-mode))
 
-(use-package flycheck-yamllint
+(req-package flycheck-yamllint
   :requires flycheck
   :init
   :hook
   (flycheck-mode . flycheck-yamllint-setup)
   (yaml-mode . flycheck-mode))
 
-(use-package sql
+(req-package sql
   :mode ("\\.sql$" . sql-mode)
   :commands
   (sql-connect
@@ -61,13 +61,13 @@
   (set-evil-state 'sql-interactive-mode 'insert)
   (set-popup-buffer (rx bos "*SQL: *" eos)))
 
-(use-package es-mode
+(req-package es-mode
   :mode "\\.es$")
 
-(use-package protobuf-mode
+(req-package protobuf-mode
   :mode "\\.proto$")
 
-(use-package thrift
+(req-package thrift
   :mode ("\\.thrift$" . thrift-mode))
 
 (provide 'lang-data)

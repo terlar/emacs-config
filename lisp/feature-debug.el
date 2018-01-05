@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(use-package realgud
+(req-package realgud
   :commands
   (realgud:gdb
    realgud:trepanjs

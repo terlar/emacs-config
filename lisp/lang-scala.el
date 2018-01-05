@@ -15,7 +15,7 @@
 ;;;
 ;; Packages
 
-(use-package scala-mode
+(req-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$"
   :hook
   (scala-mode . flycheck-mode)
@@ -29,7 +29,7 @@
   :config
   (set-aggressive-indent 'scala-mode :disabled t))
 
-(use-package sbt-mode
+(req-package sbt-mode
   :commands
   (sbt-start
    run-scala
@@ -39,7 +39,7 @@
   (set-evil-state 'sbt-mode 'insert)
   (set-popup-buffer (rx bos "*sbt*" (one-or-more anything) eos)))
 
-(use-package ensime
+(req-package ensime
   :hook (scala-mode . ensime-mode)
   :init
   (autoload 'eir-eval-in-scala "eval-in-repl-scala")

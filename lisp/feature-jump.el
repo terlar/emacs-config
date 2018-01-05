@@ -19,7 +19,7 @@
 ;;;
 ;; Packages
 
-(use-package dumb-jump
+(req-package dumb-jump
   :commands
   (dumb-jump-go
    dumb-jump-quick-look
@@ -29,7 +29,7 @@
         dumb-jump-aggressive nil
         dumb-jump-selector 'ivy))
 
-(use-package smart-jump
+(req-package smart-jump
   :commands
   (smart-jump-register
    smart-jump-go
@@ -40,7 +40,7 @@
   (setq smart-jump-find-references-fallback-function
         #'+smart-jump-find-references-with-counsel-rg))
 
-(use-package gxref
+(req-package gxref
   :commands gxref-xref-backend
   :init
   (with-eval-after-load 'xref

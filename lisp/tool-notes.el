@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(use-package deft
+(req-package deft
   :commands deft
   :init
   (setq deft-directory "~/notes"

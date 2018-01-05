@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package dired
+(req-package dired
   :hook
   (dired-mode . hl-line-mode)
   (dired-mode . +dired-mode-setup)
@@ -25,7 +25,7 @@
         dired-recursive-deletes 'top))
 
 ;; Display subtrees
-(use-package dired-subtree
+(req-package dired-subtree
   :commands
   (dired-subtree-toggle
    dired-subtree-cycle)
@@ -33,14 +33,14 @@
   (setq dired-subtree-use-backgrounds nil))
 
 ;; Pretty icons
-(use-package all-the-icons-dired
+(req-package all-the-icons-dired
   :diminish all-the-icons-dired-mode
   :commands all-the-icons-dired-mode
   :init
   (add-graphic-hook
    (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode)))
 
-(use-package image-dired
+(req-package image-dired
   :init
   (setq image-dired-dir (concat my-cache-dir "image-dired/")
         image-dired-db-file (concat image-dired-dir "image-dired/db.el")
@@ -49,7 +49,7 @@
         image-dired-temp-rotate-image-file (concat image-dired-dir "temp-rotate-image")))
 
 ;; Striped dired buffers
-(use-package stripe-buffer
+(req-package stripe-buffer
   :hook (dired-mode . stripe-buffer-mode))
 
 (provide 'tool-dired)

@@ -53,14 +53,14 @@ It acts in the same way as `org-meta-return'."
 ;;;
 ;; Packages
 
-(use-package ob-elixir)
-(use-package ob-go)
-(use-package ob-http)
-(use-package ob-restclient)
-(use-package ob-rust)
-(use-package ob-translate)
+(req-package ob-elixir)
+(req-package ob-go)
+(req-package ob-http)
+(req-package ob-restclient)
+(req-package ob-rust)
+(req-package ob-translate)
 
-(use-package org
+(req-package org
   :hook
   (org-mode . readable-mode)
   (org-babel-after-execute . org-redisplay-inline-images)
@@ -120,10 +120,10 @@ It acts in the same way as `org-meta-return'."
      (shell      . t)
      (translate  . t))))
 
-(use-package org-bullets
+(req-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
-(use-package org-preview-html
+(req-package org-preview-html
   :commands org-preview-html-mode)
 
 (provide 'lang-org)

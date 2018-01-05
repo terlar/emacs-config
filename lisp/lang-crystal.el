@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(use-package crystal-mode
+(req-package crystal-mode
   :mode "\\.cr$"
   :interpreter "crystal")
 

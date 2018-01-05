@@ -29,7 +29,7 @@
 ;; Built-ins
 
 ;; Emacs Shell
-(use-package eshell
+(req-package eshell
   :hook
   (eshell-mode . abbrev-mode)
   (eshell-mode . eshell-smart-initialize)
@@ -99,28 +99,28 @@
 ;; Packages
 
 ;; Eshell fringe status indicator
-(use-package eshell-fringe-status
+(req-package eshell-fringe-status
   :hook (eshell-mode . eshell-fringe-status-mode))
 
-(use-package esh-autosuggest
+(req-package esh-autosuggest
   :commands esh-autosuggest
   :init
   (set-company-backends 'eshell-mode
                         '(company-capf esh-autosuggest)))
 
-(use-package fish-completion
+(req-package fish-completion
   :hook (eshell-mode . fish-completion-mode))
 
 ;; Extended shell/comint mode
-(use-package shx
+(req-package shx
   :hook (shell-mode . shx-global-mode))
 
 ;; Bash tests
-(use-package bats-mode
+(req-package bats-mode
   :mode "\\.bats$"
   :interpreter "bats")
 
-(use-package fish-mode
+(req-package fish-mode
   :mode
   "\\.fish$"
   "/fish_funced\\..*$"
@@ -136,7 +136,7 @@
   :config
   (set-doc-fn 'fish-mode #'man))
 
-(use-package sh-script
+(req-package sh-script
   :hook
   (sh-mode . flycheck-mode)
   (sh-mode . highlight-numbers-mode)
@@ -153,7 +153,7 @@
   (set-doc-fn 'sh-mode #'man))
 
 ;; Completion for keywords, executable files in PATH and ENV variables.
-(use-package company-shell
+(req-package company-shell
   :requires company
   :after company
   :commands

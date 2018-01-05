@@ -20,7 +20,7 @@
 ;;;
 ;; Packages
 
-(use-package python
+(req-package python
   :mode
   ("\\.py$" . python-mode)
   :interpreter
@@ -54,29 +54,29 @@
         python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "python"))
 
-(use-package pip-requirements
+(req-package pip-requirements
   :mode ("/requirements.txt$" . pip-requirements-mode))
 
-(use-package lsp-python
+(req-package lsp-python
   :requires lsp-mode
   :hook (python-mode . lsp-python-enable)
   :config
   (smart-jump-register :modes 'python-mode))
 
-(use-package py-autopep8
+(req-package py-autopep8
   :hook (python-mode . py-autopep8-enable-on-save))
 
-(use-package pydoc
+(req-package pydoc
   :commands pydoc-at-point
   :init
   (set-doc-fn 'python-mode #'pydoc-at-point)
   (set-evil-state 'pydoc-mode 'motion)
   (set-popup-buffer (rx bos "*pydoc*" eos)))
 
-(use-package python-x
+(req-package python-x
   :hook (python-mode . python-x-setup))
 
-(use-package python-test
+(req-package python-test
   :commands
   (python-test
    python-test-class

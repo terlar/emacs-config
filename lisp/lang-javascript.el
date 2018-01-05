@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(use-package js2-mode
+(req-package js2-mode
   :mode
   "\\.js$"
   ("\\.json$" . js2-jsx-mode)
@@ -35,14 +35,14 @@
     (add-to-list 'editorconfig-indentation-alist
                  '(js2-mode js2-basic-offset js-switch-indent-offset))))
 
-(use-package typescript-mode
+(req-package typescript-mode
   :mode "\\.tsx?$"
   :hook
   (typescript-mode . flycheck-mode)
   (typescript-mode . rainbow-delimiters-mode)
   (typescript-mode . rainbow-identifiers-mode))
 
-(use-package lsp-javascript-typescript
+(req-package lsp-javascript-typescript
   :requires lsp-mode
   :hook
   (js2-mode . lsp-javascript-typescript-enable)
@@ -55,7 +55,7 @@
   (with-eval-after-load 'flycheck
     (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
-(use-package js2-refactor
+(req-package js2-refactor
   :diminish js2-refactor-mode
   :general
   (:keymaps 'js2-mode-map
@@ -77,7 +77,7 @@
   (defun +js2r-setup-keybindings ()
     (js2r-add-keybindings-with-prefix "C-c c R")))
 
-(use-package nodejs-repl
+(req-package nodejs-repl
   :commands
   (nodejs-repl
    nodejs-repl-send-region
@@ -101,9 +101,9 @@
   (set-popup-buffer (rx bos "*nodejs*" eos))
   (set-evil-state 'nodejs-repl-mode 'insert))
 
-(use-package indium)
+(req-package indium)
 
-(use-package rjsx-mode
+(req-package rjsx-mode
   :mode
   ("\\.jsx$"             . rjsx-mode)
   ("components/.+\\.js$" . rjsx-mode)
@@ -126,12 +126,12 @@
               'rjsx-mode)
         magic-mode-alist))
 
-(use-package coffee-mode
+(req-package coffee-mode
   :mode "\\.coffee$"
   :defines coffee-indent-like-python-mode
   :init (setq coffee-indent-like-python-mode t))
 
-(use-package web-beautify
+(req-package web-beautify
   :commands
   (web-beautify-js web-beautify-html web-beautify-css)
   :general
@@ -145,7 +145,7 @@
 ;;;
 ;; Skewer
 
-(use-package skewer-mode
+(req-package skewer-mode
   :commands (skewer-mode run-skewer)
   :general
   (:keymaps 'skewer-mode-map :states 'normal :prefix ","
@@ -153,7 +153,7 @@
             "se" '(skewer-eval-defun)
             "sf" '(skewer-load-buffer)))
 
-(use-package skewer-css
+(req-package skewer-css
   :commands skewer-css-mode
   :general
   (:keymaps 'skewer-css-mode-map :states 'normal :prefix ","
@@ -162,7 +162,7 @@
             "sb" '(skewer-css-eval-buffer)
             "sc" '(skewer-css-clear-all)))
 
-(use-package skewer-html
+(req-package skewer-html
   :commands skewer-html-mode
   :general
   (:keymaps 'skewer-html-mode-map :states 'normal :prefix ","

@@ -60,7 +60,7 @@
 ;;;
 ;; Packages
 
-(use-package company
+(req-package company
   :demand t
   :diminish company-mode
   :hook
@@ -140,15 +140,15 @@
           company-oddmuse company-dabbrev)
         company-transformers '(company-sort-by-occurrence)))
 
-(use-package company-try-hard
+(req-package company-try-hard
   :commands company-try-hard)
 
-(use-package company-statistics
+(req-package company-statistics
   :hook (company-mode . company-statistics-mode)
   :init
   (setq company-statistics-file (concat my-cache-dir "company-stats-cache.el")))
 
-(use-package company-quickhelp
+(req-package company-quickhelp
   :hook (company-mode . company-quickhelp-mode)
   :general
   (:keymaps 'company-active-map
@@ -156,7 +156,7 @@
   :init
   (setq company-quickhelp-delay nil))
 
-(use-package company-dict
+(req-package company-dict
   :commands company-dict
   :init
   (with-eval-after-load 'company

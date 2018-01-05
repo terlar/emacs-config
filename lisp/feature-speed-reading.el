@@ -16,7 +16,7 @@
 ;;;
 ;; Packages
 
-(use-package spray
+(req-package spray
   :commands spray-mode
   :init
   (defun speed-read ()

@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(use-package yasnippet
+(req-package yasnippet
   :demand t
   :diminish yas-minor-mode
   :mode
@@ -32,7 +32,7 @@
     (add-hook 'yas/before-expand-snippet-hook #'evil-insert-state)
     (add-hook 'evil-normal-state-entry-hook #'yas-abort-snippet)))
 
-(use-package yasnippet-snippets
+(req-package yasnippet-snippets
   :demand t)
 
 (provide 'feature-snippets)

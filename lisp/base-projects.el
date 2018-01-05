@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package projectile
+(req-package projectile
   :diminish projectile-mode
   :demand t
   :init

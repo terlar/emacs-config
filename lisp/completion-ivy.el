@@ -29,7 +29,7 @@
 ;;;
 ;; Packages
 
-(use-package ivy
+(req-package ivy
   :diminish ivy-mode
   :hook (after-init . ivy-mode)
   :general
@@ -59,21 +59,21 @@
   :config
   (set-popup-buffer (rx bos "*ivy-occur " (one-or-more anything) "*" eos)))
 
-(use-package swiper
+(req-package swiper
   :commands
   (swiper
    swiper-multi
    swiper-all))
 
 ;; Used by `counsel-M-x'
-(use-package smex
+(req-package smex
   :init
   (setq smex-auto-update nil
         smex-save-file (concat my-cache-dir "/smex-items"))
   :config
   (smex-initialize))
 
-(use-package counsel
+(req-package counsel
   :demand t
   :general
   (:keymaps 'ivy-mode-map
@@ -92,7 +92,7 @@
         counsel-grep-base-command
         "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
 
-(use-package counsel-projectile
+(req-package counsel-projectile
   :demand t
   :after (counsel projectile)
   :general
@@ -102,17 +102,17 @@
             [remap projectile-find-file]        'counsel-projectile-find-file
             [remap projectile-find-dir]         'counsel-projectile-find-dir))
 
-(use-package counsel-tramp
+(req-package counsel-tramp
   :commands counsel-tramp)
 
 ;; Use ivy for xref lookups
-(use-package ivy-xref
+(req-package ivy-xref
   :commands ivy-xref-show-xrefs
   :init
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 ;; Icons in ivy buffers
-(use-package all-the-icons-ivy
+(req-package all-the-icons-ivy
   :demand t
   :after (ivy counsel counsel-projectile)
   :config

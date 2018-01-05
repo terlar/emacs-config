@@ -14,7 +14,7 @@
 ;;;
 ;; Packages
 
-(use-package flycheck
+(req-package flycheck
   :demand t
   :diminish flycheck-mode
   :commands
@@ -39,7 +39,7 @@
   (setq flycheck-display-errors-delay 0.5))
 
 ;; Pop-up error messages
-(use-package flycheck-popup-tip
+(req-package flycheck-popup-tip
   :disabled t
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 

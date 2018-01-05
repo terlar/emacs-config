@@ -19,37 +19,37 @@
 ;; Packages
 
 ;; Set multiple hooks
-(use-package add-hooks
+(req-package add-hooks :force t
   :commands (add-hooks add-hooks-pair))
 
 ;; Enable Emacs minor modes by buffer name and contents
-(use-package auto-minor-mode :demand t)
+(req-package auto-minor-mode :force t :demand t)
 
 ;; Hide lines based on regexp
-(use-package hide-lines
+(req-package hide-lines :force t
   :commands
   (hide-lines hide-lines-matching hide-lines-not-matching hide-lines-show-all))
 
 ;; Show tooltip at point
-(use-package pos-tip)
+(req-package pos-tip :force t)
 
 ;; Inline popups
-(use-package quick-peek
+(req-package quick-peek :force t
   :commands (quick-peek-show quick-peek-hide))
 
 ;; Diminish lines
-(use-package diminish
+(req-package diminish :force t
   :commands diminish)
 
-(use-package spinner
+(req-package spinner :force t
   :commands (spinner-start spinner-create spinner-print))
 
-(use-package f    :demand t) ; files and paths
-(use-package s    :demand t) ; strings
-(use-package dash :demand t) ; lists
-(use-package ov   :demand t) ; overlays
+(req-package f    :force t) ; files and paths
+(req-package s    :force t) ; strings
+(req-package dash :force t) ; lists
+(req-package ov   :force t) ; overlays
 
-(use-package blacklist-minor-modes
+(req-package blacklist-minor-modes :force t
   :load-path my-site-lisp-dir
   :commands blacklist-minor-modes)
 

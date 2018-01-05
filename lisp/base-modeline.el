@@ -49,7 +49,7 @@
 ;; Packages
 
 ;; Displays current match and total matches information
-(use-package anzu
+(req-package anzu
   :diminish anzu-mode
   :hook
   (after-init . global-anzu-mode)
@@ -81,12 +81,12 @@
         anzu-minimum-input-length 1
         anzu-search-threshold 250))
 
-(use-package evil-anzu
+(req-package evil-anzu
   :demand t
   :after (evil anzu))
 
 ;; Display info about indentation current indentation settings
-(use-package indent-info
+(req-package indent-info
   :demand t
   :init
   (setq indent-info-prefix nil
@@ -95,7 +95,7 @@
   (global-indent-info-mode 1))
 
 ;; Icons in mode-line
-(use-package mode-icons
+(req-package mode-icons
   :commands mode-icons-mode
   :init
   (add-graphic-hook (mode-icons-mode 1)))

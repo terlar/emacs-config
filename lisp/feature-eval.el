@@ -21,7 +21,7 @@
 ;;;
 ;; Packages
 
-(use-package paredit
+(req-package paredit
   :commands paredit-mode
   :hook
   ((eval-expression-minibuffer-setup
@@ -37,7 +37,7 @@
   (setq eir-jump-after-eval t
         eir-repl-placement 'below))
 
-(use-package quickrun
+(req-package quickrun
   :commands
   (quickrun
    quickrun-region

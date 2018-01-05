@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package dired-sidebar
+(req-package dired-sidebar
   :commands dired-sidebar-toggle-sidebar
   :hook
   (dired-sidebar-mode . +dired-sidebar-setup)

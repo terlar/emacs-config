@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(use-package lua-mode
+(req-package lua-mode
   :mode ("\\.lua$")
   :interpreter "lua"
   :commands lua-start-process
@@ -36,7 +36,7 @@
   :config
   (set-doc-fn 'lua-mode 'lua-search-documentation))
 
-(use-package company-lua
+(req-package company-lua
   :requires company
   :commands company-lua
   :init

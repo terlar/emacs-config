@@ -16,14 +16,14 @@
 ;;;
 ;; Packages
 
-(use-package gitconfig-mode
+(req-package gitconfig-mode
   :mode "/\\.?git/?config$"
   :mode "/\\.gitmodules$")
 
-(use-package gitignore-mode
+(req-package gitignore-mode
   :mode "/\\.gitignore$")
 
-(use-package diff-hl
+(req-package diff-hl
   :demand t
   :hook
   (dired-mode . diff-hl-dired-mode)
@@ -35,7 +35,7 @@
   (global-diff-hl-mode 1)
   (diff-hl-flydiff-mode 1))
 
-(use-package magit
+(req-package magit
   :demand t
   :init
   (setq magit-log-buffer-file-locked t
@@ -48,17 +48,17 @@
   (global-magit-file-mode 1))
 
 ;; Popup commit message for current line
-(use-package git-messenger
+(req-package git-messenger
   :commands git-messenger:popup-message)
 
-(use-package git-timemachine
+(req-package git-timemachine
   :commands
   (git-timemachine
    git-timemachine-toggle)
   :config
   (require 'magit-blame))
 
-(use-package git-link
+(req-package git-link
   :commands
   (git-link
    git-link-commit git-link-homepage
@@ -66,7 +66,7 @@
    git-link--remote-host
    git-link--select-remote))
 
-(use-package magit-gh-pulls
+(req-package magit-gh-pulls
   :hook (magit-mode . magit-gh-pulls-mode))
 
 ;;;

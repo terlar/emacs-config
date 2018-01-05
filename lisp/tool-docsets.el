@@ -11,7 +11,7 @@
 ;;;
 ;; Packages
 
-(use-package counsel-dash
+(req-package counsel-dash
   :commands
   (counsel-dash
    counsel-dash-install-docset)

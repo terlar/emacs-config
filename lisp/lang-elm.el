@@ -16,7 +16,7 @@
 ;;;
 ;; Packages
 
-(use-package elm-mode
+(req-package elm-mode
   :mode ("\\.elm$")
   :hook (elm-mode . rainbow-delimiters-mode)
   :init
@@ -43,7 +43,7 @@
   (set-popup-buffer (rx bos "*elm-make*" eos)
                     (rx bos "*elm-test*" eos)))
 
-(use-package flycheck-elm
+(req-package flycheck-elm
   :requires flycheck
   :hook
   (elm-mode . flycheck-mode)

@@ -13,13 +13,13 @@
 ;;;
 ;; Packages
 
-(use-package elixir-mode
+(req-package elixir-mode
   :mode "\\.exs?$"
   :hook
   (elixir-mode . flycheck-mode)
   (elixir-mode . turn-off-smartparens-mode))
 
-(use-package alchemist
+(req-package alchemist
   :commands alchemist-iex-run
   :general
   (:keymaps
@@ -53,11 +53,11 @@
                     (rx bos "*alchemist-refcard*" eos)
                     (rx bos "*Alchemist-IEx*" eos)))
 
-(use-package flycheck-credo
+(req-package flycheck-credo
   :requires flycheck
   :hook (flycheck-mode . flycheck-credo-setup))
 
-(use-package flycheck-mix
+(req-package flycheck-mix
   :requires flycheck
   :hook (flycheck-mode . flycheck-mix-setup))
 

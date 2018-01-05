@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(use-package markdown-mode
+(req-package markdown-mode
   :mode
   "\\.markdown$"
   "\\.md$"
@@ -39,9 +39,9 @@
   (set-on-evil-state 'markdown-mode 'normal
                      (markdown-toggle-markup-hiding 1)))
 
-(use-package edit-indirect)
+(req-package edit-indirect)
 
-(use-package markdown-toc
+(req-package markdown-toc
   :commands
   (markdown-toc-generate-toc
    markdown-toc-refresh-toc))

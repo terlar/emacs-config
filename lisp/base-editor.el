@@ -64,7 +64,7 @@
 ;; Built-ins
 
 ;; Revert buffers for changed files
-(use-package autorevert
+(req-package autorevert
   :diminish auto-revert-mode
   :defer 2
   :init
@@ -74,11 +74,11 @@
   (global-auto-revert-mode 1))
 
 ;; Documentation lines
-(use-package eldoc
+(req-package eldoc
   :diminish eldoc-mode)
 
 ;; Ediff: use existing frame instead of creating a new one
-(use-package ediff
+(req-package ediff
   :commands
   (ediff-copy-diff
    ediff-get-region-contents
@@ -107,7 +107,7 @@
         ediff-window-setup-function #'ediff-setup-windows-plain))
 
 ;; Smart expansion completions
-(use-package hippie-exp
+(req-package hippie-exp
   :demand t
   :init
   (setq hippie-expand-try-functions-list
@@ -132,7 +132,7 @@
           try-complete-lisp-symbol)))
 
 ;; Keep track of recently opened files
-(use-package recentf
+(req-package recentf
   :demand t
   :init
   (setq recentf-exclude
@@ -153,7 +153,7 @@
   (quiet! (recentf-mode 1)))
 
 ;; Persistent minibuffer history
-(use-package savehist
+(req-package savehist
   :demand t
   :init
   (setq savehist-additional-variables '(search-ring regexp-search-ring)
@@ -165,7 +165,7 @@
   (savehist-mode 1))
 
 ;; Persistent point place
-(use-package saveplace
+(req-package saveplace
   :demand t
   :init
   (setq save-place-file (concat my-cache-dir "saveplace"))
@@ -176,7 +176,7 @@
 ;; Packages
 
 ;; Automatic indentation as you type
-(use-package aggressive-indent
+(req-package aggressive-indent
   :diminish aggressive-indent-mode
   :commands
   (aggressive-indent-mode
@@ -195,7 +195,7 @@
   (global-aggressive-indent-mode 1))
 
 ;; Delete selection upon insertion or DEL
-(use-package delsel
+(req-package delsel
   :commands delete-selection-mode
   :defer 2
   :config
@@ -203,7 +203,7 @@
 
 ;; Handles white-space (tabs/spaces) settings externally. This way projects can
 ;; specify their own formatting rules.
-(use-package editorconfig
+(req-package editorconfig
   :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
   :diminish editorconfig-mode
   :demand t
@@ -214,7 +214,7 @@
   (editorconfig-mode 1))
 
 ;; Ignore files
-(use-package ignoramus
+(req-package ignoramus
   :demand t
   :config
   ;; Ignore some additional directories
@@ -223,7 +223,7 @@
   (ignoramus-setup))
 
 ;; Auto-close delimiters and blocks as you type
-(use-package smartparens
+(req-package smartparens
   :diminish smartparens-mode
   :demand t
   :init
@@ -237,7 +237,7 @@
   (smartparens-global-mode 1))
 
 ;; Branching & persistent undo
-(use-package undo-tree
+(req-package undo-tree
   :diminish undo-tree-mode
   :demand t
   :init
@@ -260,7 +260,7 @@
   (global-undo-tree-mode 1))
 
 ;; Delete trailing white-space before save
-(use-package ws-butler
+(req-package ws-butler
   :diminish ws-butler-mode
   :commands ws-butler-mode
   :init
@@ -276,25 +276,25 @@
 ;; Auto-loaded Packages
 
 ;; Selection helper
-(use-package expand-region
+(req-package expand-region
   :commands (er/contract-region
              er/expand-region
              er/mark-symbol
              er/mark-word))
 
 ;; Move point through buffer-undo-list positions
-(use-package goto-last-change
+(req-package goto-last-change
   :commands goto-last-change)
 
 ;; Improved help commands
-(use-package help-fns+
+(req-package help-fns+
   :commands
   (describe-buffer
    describe-keymap
    describe-option describe-option-of-type))
 
 ;; A better *help* buffer
-(use-package helpful
+(req-package helpful
   :commands
   (helpful-at-point
    helpful-callable helpful-command
@@ -305,28 +305,28 @@
   (set-popup-buffer (rx bos "*helpful" (one-or-more anything) "*" eos)))
 
 ;; Jump to document locations in any buffer
-(use-package imenu-anywhere
+(req-package imenu-anywhere
   :commands
   (helm-imenu-anywhere
    ido-imenu-anywhere
    ivy-imenu-anywhere))
 
 ;; Document locations
-(use-package imenu-list
+(req-package imenu-list
   :commands imenu-list-minor-mode)
 
 ;; Convert between regexp syntax
-(use-package pcre2el
+(req-package pcre2el
   :commands rxt-quote-pcre)
 
 ;; Display colors
-(use-package rainbow-mode
+(req-package rainbow-mode
   :minor
   "-theme\\.el$"
   :commands rainbow-mode)
 
 ;; Semantic navigation
-(use-package smart-forward
+(req-package smart-forward
   :commands
   (smart-backward
    smart-forward
@@ -339,23 +339,23 @@
   :commands source-peek)
 
 ;; Treat camel-case and snake-case words as separate words
-(use-package subword
+(req-package subword
   :diminish subword-mode
   :commands subword-mode)
 
 ;; Utility for opening files with sudo
-(use-package sudo-edit
+(req-package sudo-edit
   :commands sudo-edit)
 
 ;; Writable grep buffer and apply the changes to files
-(use-package wgrep-ag
+(req-package wgrep-ag
   :commands
   (wgrep-ag-setup
    wgrep-change-to-wgrep-mode)
   :init
   (setq wgrep-auto-save-buffer t))
 
-(use-package zoom-window
+(req-package zoom-window
   :commands zoom-window-zoom)
 
 (provide 'base-editor)
