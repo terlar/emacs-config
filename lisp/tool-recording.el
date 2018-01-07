@@ -12,7 +12,10 @@
 ;;;
 ;; Packages
 
+(req-package names)
+
 (req-package camcorder
+  :require names
   :commands
   (camcorder-record
    camcorder-convert-to-gif)

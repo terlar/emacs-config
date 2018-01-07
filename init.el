@@ -18,19 +18,19 @@
 ;;;
 ;; Features
 
-(require 'feature-evil)
-(require 'feature-snippets)
-(require 'feature-templates)
-(require 'feature-workspaces)
-(require 'feature-version-control)
-(require 'feature-spellcheck)
-(require 'feature-syntax-checker)
-(require 'feature-eval)
-(require 'feature-jump)
 (require 'feature-debug)
+(require 'feature-eval)
+(require 'feature-evil)
+(require 'feature-jump)
 (require 'feature-lsp)
 (require 'feature-preview)
+(require 'feature-snippets)
 (require 'feature-speed-reading)
+(require 'feature-spellcheck)
+(require 'feature-syntax-checker)
+(require 'feature-templates)
+(require 'feature-version-control)
+(require 'feature-workspaces)
 
 ;;;
 ;; Completion
@@ -55,9 +55,9 @@
 ;;;
 ;; Language support
 
-(require 'lang-data)
 (require 'lang-conf)
 (require 'lang-crystal)
+(require 'lang-data)
 (require 'lang-ebook)
 (require 'lang-elixir)
 (require 'lang-elm)
@@ -83,11 +83,11 @@
 (require 'lang-uml)
 (require 'lang-web)
 
-(req-package-finish)
-
 (unless noninteractive
   (require 'bindings)
   (require 'commands)
   (require 'theme))
+
+(req-package-finish)
 
 ;;; init.el ends here

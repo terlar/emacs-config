@@ -43,6 +43,14 @@ This will be nil if you have byte-compiled your configuration.")
  byte-compile-verbose my-debug-mode
  byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
+;; Prevent packages from being saved to custom file.
+(defun package--save-selected-packages (&optional value)
+  "Set and (don't!) save `package-selected-packages' to VALUE."
+  (when value
+    (setq package-selected-packages value))
+  (unless after-init-time
+    (add-hook 'after-init-hook #'package--save-selected-packages)))
+
 (defun +packages-initialize (&optional force-p)
   "Initialize installed packages and ensure they are installed.
 When FORCE-P is provided it will run no matter the preconditions.
@@ -72,11 +80,13 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (load "use-package" nil t)
 
     (use-package req-package
+      :ensure t
       :commands (req-package req-package-finish)
       :init
       (if (and (not noninteractive) my-debug-mode)
           (setq req-package-log-level 'debug)))
     (use-package el-get
+      :ensure t
       :init
       (setq el-get-dir my-el-get-dir
             el-get-status-file (expand-file-name ".status.el" el-get-dir)

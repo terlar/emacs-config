@@ -8,12 +8,13 @@
 (eval-when-compile
   (require 'base-package))
 
+(defvar exercism-auto-enable nil)
+
 ;;;
 ;; Packages
 (req-package request)
 
 (req-package exercism
-  :require request
   :loader :el-get
   :commands
   (exercism
@@ -22,7 +23,9 @@
    exercism-fetch
    exercism-tracks)
   :init
-  (setq exercism-dir (expand-file-name "exercism" "~/src/")))
+  (setq exercism-dir (expand-file-name "exercism" "~/src/"))
+  ;; Fix the auto-mode-alist addition
+  (push `(,exercism-dir . exercism-mode) auto-mode-alist))
 
 (provide 'tool-exercism)
 ;;; tool-exercism.el ends here

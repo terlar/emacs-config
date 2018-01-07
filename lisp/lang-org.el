@@ -61,6 +61,13 @@ It acts in the same way as `org-meta-return'."
 (req-package ob-translate)
 
 (req-package org
+  :require
+  ob-elixir
+  ob-go
+  ob-http
+  ob-restclient
+  ob-rust
+  ob-translate
   :hook
   (org-mode . readable-mode)
   (org-babel-after-execute . org-redisplay-inline-images)
