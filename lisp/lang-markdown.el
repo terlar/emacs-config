@@ -27,7 +27,6 @@
   (setq
    markdown-command
    "pandoc -f markdown -t html5 -s --self-contained --smart"
-   markdown-enable-math t
    markdown-enable-wiki-links t
    markdown-fontify-code-blocks-natively t
    markdown-hide-markup t

@@ -13,7 +13,8 @@
   :demand t
   :hook (lsp-mode . flycheck-mode)
   :init
-  (setq lsp-enable-eldoc t)
+  (setq lsp-enable-eldoc t
+        lsp-inhibit-message t)
   :config
   (with-eval-after-load 'flycheck
     (require 'lsp-flycheck)))
