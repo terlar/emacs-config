@@ -74,6 +74,8 @@ If a hook returns non-nil, all hooks after it are ignored.")
                     xref--xref-buffer-mode)
                   'motion)
 
+  (push '("^\\*Deft\\*") evil-buffer-regexps)
+
   (evil-mode 1))
 
 ;; Magit integration

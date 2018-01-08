@@ -13,6 +13,7 @@
 
 (req-package deft
   :commands deft
+  :hook (deft-mode . line-cursor)
   :init
   (setq deft-directory "~/notes"
         deft-extensions

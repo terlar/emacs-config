@@ -316,7 +316,7 @@ The list accepts the following properties:
   "Use line cursor instead of regular cursor."
   (interactive)
   (hl-line-mode 1)
-  (internal-show-cursor (get-buffer-window) nil))
+  (setq-local cursor-type nil))
 
 (defun show-cursor ()
   "Show cursor."
