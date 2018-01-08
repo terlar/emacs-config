@@ -49,6 +49,7 @@
         (persp-mode-projectile-bridge-find-perspectives-for-all-buffers)
       (persp-mode-projectile-bridge-kill-perspectives)))
   :hook
+  (after-init . persp-mode-projectile-bridge-mode)
   (persp-mode . persp-mode-projectile-bridge-mode)
   (persp-mode-projectile-bridge-mode . +persp-mode-projectile-bridge-setup))
 
