@@ -20,8 +20,9 @@
 (general-define-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; Consistent jumping
-(general-define-key [remap evil-goto-definition] 'dumb-jump-go)
-(general-define-key [remap evil-jump-to-tag] 'projectile-find-tag)
+(with-eval-after-load 'evil
+  (general-define-key [remap evil-goto-definition] 'dumb-jump-go)
+  (general-define-key [remap evil-jump-to-tag] 'projectile-find-tag))
 (general-define-key [remap find-tag] 'projectile-find-tag)
 
 ;;;
@@ -264,20 +265,22 @@
  "<" '+evil-visual-outdent
  ">" '+evil-visual-indent)
 
-(general-define-key
- :keymaps 'evil-window-map
- ;; Navigation
- "C-w"     '(ace-window           :wk "Select a window")
- "B"       '(switch-to-minibuffer :wk "Switch to minibuffer")
- ;; Swapping
- "C-S-w"   '(ace-swap-window      :wk "Swap window")
- "z"       '(zoom-window-zoom     :wk "Zoom window")
- ;; Undo/redo
- "u"       '(winner-undo          :wk "Undo")
- "C-u"     '(winner-undo          :wk "Undo")
- "C-r"     '(winner-redo          :wk "Redo")
- ;; Delete
- "C-C"     '(ace-delete-window    :wk "Select and delete a window"))
+(with-eval-after-load 'evil
+  (general-define-key
+   :keymaps 'evil-window-map
+   ;; Navigation
+   "C-w"     '(ace-window           :wk "Select a window")
+   "B"       '(switch-to-minibuffer :wk "Switch to minibuffer")
+   ;; Swapping
+   "C-S-w"   '(ace-swap-window      :wk "Swap window")
+   "z"       '(maximize-window      :wk "Maximize window")
+   "Z"       '(zoom-window-zoom     :wk "Zoom window")
+   ;; Undo/redo
+   "u"       '(winner-undo          :wk "Undo")
+   "C-u"     '(winner-undo          :wk "Undo")
+   "C-r"     '(winner-redo          :wk "Redo")
+   ;; Delete
+   "C-C"     '(ace-delete-window    :wk "Select and delete a window")))
 
 ;;;
 ;; Built-in plugins
