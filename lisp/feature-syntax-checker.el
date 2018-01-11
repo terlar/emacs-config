@@ -33,7 +33,7 @@
 
 ;; Inline error messages
 (req-package flycheck-inline
-  :loader :el-get
+  :el-get t
   :hook (flycheck-mode . flycheck-inline-mode)
   :init
   (setq flycheck-display-errors-delay 0.5))

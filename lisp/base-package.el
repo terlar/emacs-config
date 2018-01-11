@@ -34,6 +34,7 @@ This will be nil if you have byte-compiled your configuration.")
  tls-checktrust gnutls-verify-error
 
  use-package-always-defer t
+ use-package-always-ensure t
  use-package-debug nil
  use-package-expand-minimally (eval-when-compile (not my-debug-mode))
  use-package-minimum-reported-time (if my-debug-mode 0 0.1)
@@ -80,13 +81,12 @@ When base.el is compiled, this function will be avoided to speed up startup."
     (load "use-package" nil t)
 
     (use-package req-package
-      :ensure t
-      :commands (req-package req-package-finish)
+      :demand t
       :init
       (if (and (not noninteractive) my-debug-mode)
           (setq req-package-log-level 'debug)))
     (use-package el-get
-      :ensure t
+      :demand t
       :init
       (setq el-get-dir my-el-get-dir
             el-get-status-file (expand-file-name ".status.el" el-get-dir)

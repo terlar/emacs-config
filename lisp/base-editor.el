@@ -335,7 +335,7 @@
 
 ;; Peek definition (Display function source inline)
 (req-package source-peek
-  :loader :el-get
+  :el-get t
   :commands source-peek)
 
 ;; Treat camel-case and snake-case words as separate words

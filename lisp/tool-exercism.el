@@ -15,7 +15,7 @@
 (req-package request)
 
 (req-package exercism
-  :loader :el-get
+  :el-get t
   :commands
   (exercism
    exercism-submit

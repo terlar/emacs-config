@@ -76,7 +76,7 @@ version is loaded."
 
 ;; Discover elisp functions
 (req-package suggest
-  :loader :el-get
+  :el-get t
   :preface
   (defun +suggest-popup ()
     "Open suggest as a popup."
