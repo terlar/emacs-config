@@ -9,9 +9,6 @@
   (require 'base-vars)
   (require 'base-package))
 
-(defvar popup-buffer-list nil
-  "List of popup buffers.")
-
 (defvar-local documentation-function nil
   "Function to use for documentation look-ups.")
 
@@ -122,7 +119,6 @@ The list accepts the following properties:
 (defun set-popup-buffer (&rest buffers)
   "Display BUFFERS as popup."
   (dolist (buffer buffers)
-    (push buffer popup-buffer-list)
     (cl-pushnew `(,buffer
                   (display-buffer-reuse-window
                    display-buffer-in-side-window)
@@ -207,7 +203,7 @@ The list accepts the following properties:
 (defun toggle-scratch-buffer ()
   "Toggle scratch buffer."
   (interactive)
-  (toggle-popup-buffer t (rx bos "*scratch*" eos)))
+  (open-and-switch-to-buffer #'nil "*scratch*"))
 
 ;;;### autoload
 (defun open-and-switch-to-buffer (command buffer &optional do-switch)
@@ -225,70 +221,6 @@ The list accepts the following properties:
   "Get the display time for BUFFER."
   (with-current-buffer buffer
     (float-time buffer-display-time)))
-
-;;;### autoload
-(defun toggle-popup-buffer (&optional select buffer-rx)
-  "Toggle and SELECT popup buffer matching BUFFER-RX."
-  (interactive)
-  (let ((open-popup-buffers
-         (if buffer-rx
-             (seq-filter
-              (lambda (buff)
-                (string-match buffer-rx (buffer-name buff)))
-              (mapcar #'window-buffer (window-at-side-list)))
-           (seq-filter
-            (lambda (buff)
-              (seq-some
-               (lambda (buff-rx)
-                 (string-match buff-rx (buffer-name buff)))
-               popup-buffer-list))
-            (mapcar #'window-buffer (window-at-side-list)))))
-        (closed-popup-buffers
-         (if buffer-rx
-             (seq-filter
-              (lambda (buff)
-                (string-match buffer-rx (buffer-name buff)))
-              (buffer-list))
-           (seq-filter
-            (lambda (buff)
-              (seq-some
-               (lambda (buff-rx)
-                 (string-match buff-rx (buffer-name buff)))
-               popup-buffer-list))
-            (buffer-list)))))
-    (cond ((= 1 (length open-popup-buffers))
-           (delete-window (get-buffer-window (car open-popup-buffers))))
-          ((and (> 0 (length open-popup-buffers) (not select)))
-           (delete-window
-            (get-buffer-window
-             (car
-              (sort
-               open-popup-buffers
-               (lambda (a b)
-                 (> (get-buffer-display-time a)
-                    (get-buffer-display-time b))))))))
-          ((> 0 (length open-popup-buffers))
-           (ivy-read "Close popup: "
-                     (mapcar #'buffer-name open-popup-buffers)
-                     :action (lambda (x) (delete-window (get-buffer-window x)))
-                     :caller 'toggle-popup-buffer))
-          ((seq-empty-p closed-popup-buffers)
-           (message "No popup buffers found"))
-          ((= 1 (length closed-popup-buffers))
-           (pop-to-buffer (car closed-popup-buffers)))
-          ((not select)
-           (pop-to-buffer
-            (car
-             (sort
-              closed-popup-buffers
-              (lambda (a b)
-                (> (get-buffer-display-time a)
-                   (get-buffer-display-time b)))))))
-          (t
-           (ivy-read "Open popup: "
-                     (mapcar #'buffer-name closed-popup-buffers)
-                     :action (lambda (x) (pop-to-buffer x))
-                     :caller 'toggle-popup-buffer)))))
 
 ;;;
 ;; Editing

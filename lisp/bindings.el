@@ -54,7 +54,7 @@
  "SPC" (general-predicate-dispatch #'projectile-switch-project
          :docstring "Find file in project or switch project"
          (projectile-project-p) #'projectile-find-file)
- "'"   '(toggle-popup-buffer                    :wk "Toggle popup buffer")
+ "'"   '(window-toggle-side-windows             :wk "Toggle side windows")
  ","   '(switch-to-buffer                       :wk "Switch to buffer")
  "."   '(find-file                              :wk "Browse files")
  ":"   '(elisp-repl                             :wk "Emacs Lisp REPL")
