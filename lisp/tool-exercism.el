@@ -25,7 +25,7 @@
   :init
   (setq exercism-dir (expand-file-name "exercism" "~/src/"))
   ;; Fix the auto-mode-alist addition
-  (push `(,exercism-dir . exercism-mode) auto-mode-alist))
+  (push `(,exercism-dir . exercism-mode) auto-minor-mode-alist))
 
 (provide 'tool-exercism)
 ;;; tool-exercism.el ends here
