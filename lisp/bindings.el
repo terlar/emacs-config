@@ -310,6 +310,18 @@
  "/" 'counsel-grep-or-swiper
  "?" 'counsel-grep-or-swiper)
 
+;; emacs-lisp
+(general-define-key
+ :keymaps 'emacs-lisp-mode-map
+ :major-modes t
+ "C-c m t" 'elisp-test)
+
+;; ert
+(general-define-key
+ :keymaps 'ert-results-mode
+ :states '(normal motion)
+ "q" 'quit-window)
+
 ;; help-mode
 (general-define-key
  :keymaps '(help-mode-map

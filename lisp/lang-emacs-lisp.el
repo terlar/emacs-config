@@ -107,5 +107,16 @@ version is loaded."
   (interactive)
   (open-and-switch-to-buffer #'ielm "*ielm*" t))
 
+(defun elisp-test ()
+  "Run test file."
+  (interactive)
+  (when (string-match (buffer-name (current-buffer))
+                      "-test.el$")
+    (autoload 'ert-delete-all-tests "ert")
+    (ert-delete-all-tests))
+
+  (eval-buffer)
+  (ert t))
+
 (provide 'lang-emacs-lisp)
 ;;; lang-emacs-lisp.el ends here

@@ -27,6 +27,7 @@
  (rx bos "*General Keybindings*" eos)
  (rx bos "*compilation*" eos)
  (rx bos "*xref*" eos)
+ (rx bos "*ert*" eos)
  (rx bos "*eshell*" eos)
  (rx bos "*scratch*" eos)
  (rx bos "COMMIT_EDITMSG" eos))
