@@ -1,4 +1,4 @@
-;;; base-lib.el --- Library functions
+;;; base-lib.el --- Library functions -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Custom functions, macros and helpers.
