@@ -9,12 +9,24 @@
 ;; Settings
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 (setq vc-make-backup-files nil)
 
 ;;;
 ;; Packages
+
+(req-package vc-annotate
+  :general
+  (:keymaps 'vc-annotate-mode-map :states '(normal motion emacs)
+            "d"   'vc-annotate-show-diff-revision-at-line
+            "D"   'vc-annotate-show-changeset-diff-revision-at-line
+            "SPC" 'vc-annotate-show-log-revision-at-line
+            "]]"  'vc-annotate-next-revision
+            "[["  'vc-annotate-prev-revision
+            "TAB" 'vc-annotate-toggle-annotation-visibility
+            "RET" 'vc-annotate-find-revision-at-line))
 
 (req-package gitconfig-mode
   :mode "/\\.?git/?config$"
@@ -25,6 +37,10 @@
 
 (req-package diff-hl
   :demand t
+  :general
+  (:keymaps 'motion
+            "[d" 'diff-hl-previous-hunk
+            "]d" 'diff-hl-next-hunk)
   :hook
   (dired-mode . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh)
@@ -55,6 +71,15 @@
   :commands
   (git-timemachine
    git-timemachine-toggle)
+  :general
+  (:keymaps 'git-timemachine-mode-map :states '(normal insert emacs)
+            "p" 'git-timemachine-show-previous-revision
+            "n" 'git-timemachine-show-next-revision
+            "g" 'git-timemachine-show-nth-revision
+            "q" 'git-timemachine-quit
+            "w" 'git-timemachine-kill-abbreviated-revision
+            "W" 'git-timemachine-kill-revision
+            "b" 'git-timemachine-blame)
   :config
   (require 'magit-blame))
 

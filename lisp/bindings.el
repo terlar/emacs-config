@@ -10,8 +10,10 @@
   (require 'base-lib)
   (require 'base-keybinds))
 
-(eval `(general-define-key :keymaps '(normal motion visual)
-                           ,my-normal-leader-key (general-simulate-keys ,my-leader-key nil nil t)))
+(with-eval-after-load 'evil
+  (eval `(general-define-key :keymaps '(normal motion visual)
+                             ,my-normal-leader-key
+                             (general-simulate-keys ,my-leader-key nil nil t))))
 
 ;;;
 ;; Remaps
@@ -20,23 +22,25 @@
 (general-define-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; Consistent jumping
-(with-eval-after-load 'evil
-  (general-define-key [remap evil-goto-definition] 'dumb-jump-go)
-  (general-define-key [remap evil-jump-to-tag] 'projectile-find-tag))
-(general-define-key [remap find-tag] 'projectile-find-tag)
+(general-define-key
+ [remap find-tag]         'projectile-find-tag
+ [remap evil-jump-to-tag] 'projectile-find-tag)
 
 ;;;
 ;; Global
 
-;; Use counsel/swiper for search
 (general-define-key
  :keymaps 'global
+
+ ;; Window navigation
+ "C-`" 'window-toggle-side-windows
+
+ ;; Use counsel/swiper for search
  "C-s" 'counsel-grep-or-swiper
  "C-r" 'counsel-grep-or-swiper
- "C-x /" 'counsel-abbrev)
+ "C-x /" 'counsel-abbrev
 
-;; Text-scaling
-(general-define-key
+ ;; Text-scaling
  "C-=" 'default-text-scale-reset
  "C--" 'default-text-scale-decrease
  "C-+" 'default-text-scale-increase
@@ -44,228 +48,281 @@
  "M--" 'text-scale-decrease
  "M-+" 'text-scale-increase
  "<C-mouse-4>" 'text-scale-decrease
- "<C-mouse-5>" 'text-scale-increase)
+ "<C-mouse-5>" 'text-scale-increase
 
-;; Screen refresh
-(general-define-key "C-l" 'refresh)
+ ;; Screen refresh
+ "C-l" 'refresh)
 
 ;; Leader
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "["
+ ""  '(:ignore t :wk "previous...")
+ "[" '(text-scale-decrease                    :wk "Text size")
+ "b" '(previous-buffer                        :wk "Buffer")
+ "d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
+ "t" '(hl-todo-previous                       :wk "Todo")
+ "e" '(previous-error                         :wk "Error")
+ "w" '(persp-prev                             :wk "Workspace")
+ "h" '(smart-backward                         :wk "Smart jump")
+ "s" '(evil-prev-flyspell-error               :wk "Spelling error")
+ "S" '(flyspell-correct-previous-word-generic
+       :package flyspell-correct-ivy          :wk "Spelling correction"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "]"
+ ""  '(:ignore t :wk "next...")
+ "]" '(text-scale-increase                    :wk "Text size")
+ "b" '(next-buffer                            :wk "Buffer")
+ "d" '(diff-hl-next-hunk                      :wk "Diff Hunk")
+ "t" '(hl-todo-next                           :wk "Todo")
+ "e" '(next-error                             :wk "Error")
+ "w" '(persp-next                             :wk "Workspace")
+ "h" '(smart-forward                          :wk "Smart jump")
+ "s" '(evil-next-flyspell-error               :wk "Spelling error")
+ "S" '(flyspell-correct-word-generic
+       :package flyspell-correct-ivy          :wk "Spelling correction"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "/"
+ ""  '(:ignore t :wk "search")
+ "/" '(swiper                :wk "Swiper")
+ "i" '(imenu                 :wk "Imenu")
+ "I" '(imenu-anywhere        :wk "Imenu across buffers")
+ "g" '(counsel-rg            :wk "Grep files")
+ "G" '(counsel-projectile-rg :wk "Grep project files"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "="
+ ""  '(:ignore t :wk "diff")
+ "b" '(ediff-buffers          :wk "Buffers")
+ "B" '(ediff-buffers3         :wk "Buffers (3-way)")
+ "c" '(compare-windows        :wk "Compare windows")
+ "=" '(ediff-files            :wk "Files")
+ "f" '(ediff-files            :wk "Files")
+ "F" '(ediff-files3           :wk "Files (3-way)")
+ "r" '(ediff-revision         :wk "Compare versions")
+ "p" '(ediff-patch-file       :wk "Patch file")
+ "P" '(ediff-patch-buffer     :wk "Patch buffer")
+ "l" '(ediff-regions-linewise :wk "Linewise")
+ "w" '(ediff-regions-wordwise :wk "Wordwise"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "b"
+ ""  '(:ignore t :wk "buffer")
+ "[" '(previous-buffer            :wk "Previous buffer")
+ "]" '(next-buffer                :wk "Next buffer")
+ "b" '(switch-to-buffer           :wk "Switch buffer")
+ "k" '(kill-buffer                :wk "Kill buffer")
+ "n" '(evil-buffer-new            :wk "New empty buffer")
+ "o" '(kill-other-buffers         :wk "Kill other buffers")
+ "s" '(save-buffer                :wk "Save buffer")
+ "S" '(sudo-edit                  :wk "Sudo edit this file")
+ "x" '(toggle-scratch-buffer      :wk "Toggle scratch buffer")
+ "z" '(bury-buffer                :wk "Bury buffer"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "c"
+ ""  '(:ignore t :wk "code")
+ "." '(editorconfig-apply         :wk "Apply editorconfig")
+ "c" '(recompile                  :wk "Recompile")
+ "C" '(projectile-compile-project :wk "Compile")
+ "d" '(counsel-dash-at-point      :wk "Lookup documentation at point")
+ "D" '(counsel-dash               :wk "Lookup documentation")
+ "e" '(repl-eval                  :wk "Evaluate code")
+ "f" '(editorconfig-format-buffer :wk "Reformat")
+ "o" '(imenu-list-minor-mode      :wk "Outline")
+ "p" '(source-peek                :wk "Peek definition")
+ "r" '(repl                       :wk "Open REPL")
+ "t" '(retab-buffer               :wk "Retab")
+ "x" '(flycheck-list-errors       :wk "List errors"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "d"
+ ""  '(:ignore t :wk "docker")
+ "c" '(docker-containers :wk "Docker containers")
+ "i" '(docker-images     :wk "Docker images")
+ "n" '(docker-networks   :wk "Docker networks")
+ "v" '(docker-volumes    :wk "Docker volumes"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "f"
+ ""  '(:ignore t :wk "file")
+ "." '(find-file                              :wk "Find file")
+ "/" '(projectile-find-file                   :wk "Find file in project")
+ "?" '(counsel-file-jump                      :wk "Find file here")
+ "a" '(projectile-find-other-file             :wk "Find other file")
+ "c" '(editorconfig-find-current-editorconfig :wk "Open project editorconfig")
+ "g" '(counsel-rg                             :wk "Grep files")
+ "G" '(counsel-projectile-rg                  :wk "Grep project files")
+ "r" '(recentf                                :wk "Recent files")
+ "R" '(projectile-recentf                     :wk "Recent project files")
+ "t" '(counsel-tramp                          :wk "Find TRAMP file"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "g"
+ ""  '(:ignore t :wk "git")
+ "[" '(diff-hl-previous-hunk       :wk "Previous hunk")
+ "]" '(diff-hl-next-hunk           :wk "Next hunk")
+ "b" '(magit-blame                 :wk "Blame")
+ "B" '(vcs-git-browse              :wk "Browse")
+ "c" '(magit-clone                 :wk "Clone")
+ "f" '(magit-file-popup            :wk "File popup")
+ "I" '(vcs-git-browse-issues       :wk "Browse issues")
+ "l" '(magit-log-buffer-file       :wk "Log")
+ "m" '(git-messenger:popup-message :wk "Popup message")
+ "p" '(magit-pull                  :wk "Pull")
+ "r" '(diff-hl-revert-hunk         :wk "Revert hunk")
+ "R" '(vc-revert                   :wk "Revert buffer")
+ "s" '(magit-status                :wk "Status")
+ "t" '(git-timemachine-toggle      :wk "Time machine"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "h"
+ ""  '(:ignore t :wk "help")
+ "h" '(:keymap help-map)
+ "a" '(apropos                 :wk "Apropos")
+ "d" '(counsel-dash            :wk "Documentation")
+ "i" '(info                    :wk "Info")
+ "l" '(find-library            :wk "Find library")
+ "s" '(+suggest-popup          :wk "Suggest functions")
+ "b" '(describe-buffer         :wk "Describe buffer")
+ "c" '(helpful-command         :wk "Describe command")
+ "C" '(describe-char           :wk "Describe char")
+ "f" '(describe-function       :wk "Describe function")
+ "k" '(helpful-key             :wk "Describe key")
+ "K" '(describe-keymap         :wk "Describe keymap")
+ "m" '(helpful-macro           :wk "Describe macro")
+ "M" '(describe-mode           :wk "Describe mode")
+ "o" '(describe-option         :wk "Describe option")
+ "O" '(describe-option-of-type :wk "Describe option (of type)")
+ "v" '(helpful-variable        :wk "Describe variable")
+ "f" '(helpful-function        :wk "Describe function")
+ "F" '(describe-face           :wk "Describe face")
+ "'" '(what-cursor-position    :wk "What face"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "i"
+ ""  '(:ignore t :wk "insert")
+ "y" '(counsel-yank-pop   :wk "From kill-ring")
+ "s" '(yas-insert-snippet :wk "From snippet"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "o"
+ ""  '(:ignore t :wk "open")
+ "c" '(calendar                     :wk "Calendar")
+ "C" '(display-time-world           :wk "World Time")
+ "d" '(deft                         :wk "Notes")
+ "f" '(dired-sidebar-toggle-sidebar :wk "File tree")
+ "p" '(list-processes               :wk "List processes")
+ "r" '(camcorder-record             :wk "Record video")
+ "s" '(speed-read                   :wk "Speed-reading")
+ "t" '(eshell                       :wk "Terminal")
+ "T" '(ansi-term                    :wk "ANSI Terminal")
+ "u" '(ace-link                     :wk "Open link")
+ "w" '(eww                          :wk "Browser")
+ "x" '(re-builder                   :wk "Browser"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "s"
+ ""  '(:ignore t :wk "spell")
+ "d" '(adict-guess-dictionary  :wk "Guess dictionary")
+ "D" '(adict-change-dictionary :wk "Select dictionary"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "t"
+ ""  '(:ignore t :wk "toggle")
+ "a" '(goto-address-mode           :wk "Clickable links")
+ "c" '(+color-identifiers-toggle   :wk "Colorize identifiers")
+ "C" '(rainbow-mode                :wk "Colorize color values")
+ "d" '(toggle-debug-on-error       :wk "Debug on error")
+ "e" '(eldoc-overlay-mode          :wk "Eldoc inline")
+ "f" '(hs-minor-mode               :wk "Code folding")
+ "F" '(flycheck-mode               :wk "Syntax checker")
+ "g" '(indent-guide-mode           :wk "Indent guides")
+ "h" '(hl-line-mode                :wk "Line highlight")
+ "i" '(aggressive-indent-mode      :wk "Automatic indentation")
+ "l" '(display-line-numbers-mode   :wk "Line numbers")
+ "L" '(coverlay-toggle-overlays    :wk "Coverage overlays")
+ "r" '(ruler-mode                  :wk "Ruler")
+ "s" '(flyspell-mode               :wk "Spell-checking")
+ "S" '(subword-mode                :wk "Subword")
+ "t" '(toggle-truncate-lines       :wk "Truncate lines")
+ "v" '(variable-pitch-mode         :wk "Fixed-width/variable-width font")
+ "w" '(whitespace-mode             :wk "Display white-space characters")
+ "W" '(auto-fill-mode              :wk "Automatic line-wrapping"))
+
 (general-define-key
  :prefix my-leader-key
  "SPC" (general-predicate-dispatch #'projectile-switch-project
          :docstring "Find file in project or switch project"
          (projectile-project-p) #'projectile-find-file)
- "'"   '(window-toggle-side-windows             :wk "Toggle side windows")
  ","   '(switch-to-buffer                       :wk "Switch to buffer")
  "."   '(find-file                              :wk "Browse files")
+ "~"   '(window-toggle-side-windows             :wk "Toggle last popup")
  ":"   '(elisp-repl                             :wk "Emacs Lisp REPL")
  ";"   '(counsel-bookmark                       :wk "Jump to bookmark")
  "RET" '(repl                                   :wk "Open REPL")
- "v"   '(:keymap
-         symbol-overlay-map
-         :package symbol-overlay :wk "overlays")
- "w"   '(:keymap
-         evil-window-map
-         :package evil :wk "window")
+ "u"   '(universal-argument                     :wk "Universal argument")
+ "v"   '(:keymap symbol-overlay-map
+                 :package symbol-overlay :wk "overlays")
+ "w"   '(:keymap evil-window-map
+                 :package evil :wk "window")
  "x"   '(toggle-scratch-buffer                  :wk "Toggle scratch buffer")
-
- "["   '(:ignore t :wk "previous...")
- "[ b" '(previous-buffer                        :wk "Buffer")
- "[ d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
- "[ t" '(hl-todo-previous                       :wk "Todo")
- "[ e" '(previous-error                         :wk "Error")
- "[ w" '(persp-prev                             :wk "Workspace")
- "[ h" '(smart-backward                         :wk "Smart jump")
- "[ s" '(evil-prev-flyspell-error               :wk "Spelling error")
- "[ S" '(flyspell-correct-previous-word-generic :wk "Spelling correction")
-
- "]"   '(:ignore t :wk "next...")
- "] b" '(next-buffer                            :wk "Buffer")
- "] d" '(diff-hl-next-hunk                      :wk "Diff Hunk")
- "] t" '(hl-todo-next                           :wk "Todo")
- "] e" '(next-error                             :wk "Error")
- "] w" '(persp-next                             :wk "Workspace")
- "] h" '(smart-forward                          :wk "Smart jump")
- "] s" '(evil-next-flyspell-error               :wk "Spelling error")
- "] S" '(flyspell-correct-word-generic          :wk "Spelling correction")
-
- "/"   '(:ignore t :wk "search")
- "/ /" '(swiper                :wk "Swiper")
- "/ i" '(imenu                 :wk "Imenu")
- "/ I" '(imenu-anywhere        :wk "Imenu across buffers")
- "/ g" '(counsel-rg            :wk "Grep files")
- "/ G" '(counsel-projectile-rg :wk "Grep project files")
-
- "W" '(:ignore t :wk "workspace")
-
- "b"   '(:ignore t :wk "buffer")
- "b [" '(previous-buffer            :wk "Previous buffer")
- "b ]" '(next-buffer                :wk "Next buffer")
- "b b" '(switch-to-buffer           :wk "Switch buffer")
- "b f" '(editorconfig-format-buffer :wk "Reformat buffer")
- "b k" '(kill-buffer                :wk "Kill buffer")
- "b n" '(evil-buffer-new            :wk "New empty buffer")
- "b o" '(kill-other-buffers         :wk "Kill other buffers")
- "b s" '(save-buffer                :wk "Save buffer")
- "b S" '(sudo-edit                  :wk "Sudo edit this file")
- "b t" '(retab-buffer               :wk "Retab buffer")
- "b z" '(bury-buffer                :wk "Bury buffer")
-
- "c"   '(:ignore t :wk "code")
- "c ." '(editorconfig-apply         :wk "Apply editorconfig")
- "c c" '(recompile                  :wk "Recompile")
- "c C" '(projectile-compile-project :wk "Compile")
- "c d" '(counsel-dash-at-point      :wk "Lookup documentation at point")
- "c D" '(counsel-dash               :wk "Lookup documentation")
- "c e" '(repl-eval                  :wk "Evaluate code")
- "c o" '(imenu-list-minor-mode      :wk "Outline")
- "c p" '(source-peek                :wk "Peek definition")
- "c r" '(repl                       :wk "Open REPL")
- "c x" '(flycheck-list-errors       :wk "List errors")
-
- "d"   '(:ignore t :wk "docker")
- "d c" '(docker-containers :wk "Docker containers")
- "d i" '(docker-images     :wk "Docker images")
- "d n" '(docker-networks   :wk "Docker networks")
- "d v" '(docker-volumes    :wk "Docker volumes")
-
- "f"   '(:ignore t :wk "file")
- "f ." '(find-file                              :wk "Find file")
- "f /" '(projectile-find-file                   :wk "Find file in project")
- "f ?" '(counsel-file-jump                      :wk "Find file here")
- "f a" '(projectile-find-other-file             :wk "Find other file")
- "f c" '(editorconfig-find-current-editorconfig :wk "Open project editorconfig")
- "f g" '(counsel-rg                             :wk "Grep files")
- "f G" '(counsel-projectile-rg                  :wk "Grep project files")
- "f r" '(recentf                                :wk "Recent files")
- "f R" '(projectile-recentf                     :wk "Recent project files")
- "f t" '(counsel-tramp                          :wk "Find TRAMP file")
-
- "g"   '(:ignore t :wk "git")
- "g [" '(diff-hl-previous-hunk       :wk "Previous hunk")
- "g ]" '(diff-hl-next-hunk           :wk "Next hunk")
- "g b" '(magit-blame                 :wk "Blame")
- "g B" '(vcs-git-browse              :wk "Browse")
- "g c" '(magit-clone                 :wk "Clone")
- "g f" '(magit-file-popup            :wk "File popup")
- "g I" '(vcs-git-browse-issues       :wk "Browse issues")
- "g l" '(magit-log-buffer-file       :wk "Log")
- "g m" '(git-messenger:popup-message :wk "Popup message")
- "g p" '(magit-pull                  :wk "Pull")
- "g r" '(diff-hl-revert-hunk         :wk "Revert hunk")
- "g s" '(magit-status                :wk "Status")
- "g t" '(git-timemachine-toggle      :wk "Time machine")
-
- "h" '(:ignore t :wk "help")
- "h h" '(:keymap help-map)
- "h a" '(apropos                 :wk "Apropos")
- "h d" '(counsel-dash            :wk "Documentation")
- "h i" '(info                    :wk "Info")
- "h l" '(find-library            :wk "Find library")
- "h s" '(+suggest-popup          :wk "Suggest functions")
- "h b" '(describe-buffer         :wk "Describe buffer")
- "h c" '(helpful-command         :wk "Describe command")
- "h C" '(describe-char           :wk "Describe char")
- "h f" '(describe-function       :wk "Describe function")
- "h k" '(helpful-key             :wk "Describe key")
- "h K" '(describe-keymap         :wk "Describe keymap")
- "h m" '(helpful-macro           :wk "Describe macro")
- "h M" '(describe-mode           :wk "Describe mode")
- "h o" '(describe-option         :wk "Describe option")
- "h O" '(describe-option-of-type :wk "Describe option (of type)")
- "h v" '(helpful-variable        :wk "Describe variable")
- "h f" '(helpful-function        :wk "Describe function")
- "h F" '(describe-face           :wk "Describe face")
- "h '" '(what-cursor-position    :wk "What face")
-
- "o" '(:ignore t :wk "open")
- "o c" '(calendar                     :wk "Calendar")
- "o C" '(display-time-world           :wk "World Time")
- "o d" '(deft                         :wk "Notes")
- "o f" '(dired-sidebar-toggle-sidebar :wk "File tree")
- "o p" '(list-processes               :wk "List processes")
- "o r" '(camcorder-record             :wk "Record video")
- "o s" '(speed-read                   :wk "Speed-reading")
- "o t" '(eshell                       :wk "Terminal")
- "o T" '(ansi-term                    :wk "ANSI Terminal")
- "o u" '(ace-link                     :wk "Open link")
- "o w" '(eww                          :wk "Browser")
- "o x" '(re-builder                   :wk "Browser")
-
- "s" '(:ignore t :wk "spell")
- "s d" '(adict-guess-dictionary  :wk "Guess dictionary")
- "s D" '(adict-change-dictionary :wk "Select dictionary")
-
- "=" '(:ignore t :wk "diff")
- "= b" '(ediff-buffers          :wk "Buffers")
- "= B" '(ediff-buffers3         :wk "Buffers (3-way)")
- "= c" '(compare-windows        :wk "Compare windows")
- "= =" '(ediff-files            :wk "Files")
- "= f" '(ediff-files            :wk "Files")
- "= F" '(ediff-files3           :wk "Files (3-way)")
- "= r" '(ediff-revision         :wk "Compare versions")
- "= p" '(ediff-patch-file       :wk "Patch file")
- "= P" '(ediff-patch-buffer     :wk "Patch buffer")
- "= l" '(ediff-regions-linewise :wk "Linewise")
- "= w" '(ediff-regions-wordwise :wk "Wordwise")
-
- "~" '(:ignore t :wk "toggle")
- "~ a" '(goto-address-mode           :wk "Clickable links")
- "~ c" '(+color-identifiers-toggle   :wk "Colorize identifiers")
- "~ C" '(rainbow-mode                :wk "Colorize color values")
- "~ d" '(toggle-debug-on-error       :wk "Debug on error")
- "~ e" '(eldoc-overlay-mode          :wk "Eldoc inline")
- "~ f" '(hs-minor-mode               :wk "Code folding")
- "~ F" '(flycheck-mode               :wk "Syntax checker")
- "~ g" '(indent-guide-mode           :wk "Indent guides")
- "~ h" '(hl-line-mode                :wk "Line highlight")
- "~ i" '(aggressive-indent-mode      :wk "Automatic indentation")
- "~ l" '(display-line-numbers-mode   :wk "Line numbers")
- "~ L" '(coverlay-toggle-overlays    :wk "Coverage overlays")
- "~ r" '(ruler-mode                  :wk "Ruler")
- "~ s" '(flyspell-mode               :wk "Spell-checking")
- "~ S" '(subword-mode                :wk "Subword")
- "~ t" '(toggle-truncate-lines       :wk "Truncate lines")
- "~ v" '(variable-pitch-mode         :wk "Fixed-width/variable-width font")
- "~ w" '(whitespace-mode             :wk "Display white-space characters")
- "~ W" '(auto-fill-mode              :wk "Automatic line-wrapping")
-
- "q" '(:ignore t :wk "quit")
- "q q" '(evil-save-and-quit :wk "Quit"))
-
-;; Normal state
-(general-define-key
- :keymaps 'normal
- "<C-return>" 'repl-eval
- "gr" 'eval-region
- "gR" 'eval-buffer
- "gV" '+evil-reselect-paste)
-
-(general-define-key
- :keymaps '(normal motion)
- "]b" 'next-buffer
- "[b" 'previous-buffer
- "]c" 'eir-next-code-line
- "]e" 'next-error
- "[e" 'previous-error
- "]w" 'persp-next
- "[w" 'persp-prev
- "C-t" 'smart-jump-back
- "K"  '(documentation-at-point :wk "Documentation for symbol")
- "gd" '(smart-jump-go          :wk "Go to definition")
- "gD" '(smart-jump-references  :wk "Find all references")
- "gh" '(documentation-at-point :wk "Documentation for symbol")
- "gp" '(source-peek            :wk "Peek definition")
- "zx" 'kill-buffer)
-
-;; Visual state
-(general-define-key
- :keymaps 'visual
- "." 'evil-repeat
- "<" '+evil-visual-outdent
- ">" '+evil-visual-indent)
+ "W" '(:ignore t :wk "workspace"))
 
 (with-eval-after-load 'evil
+  ;; Normal state
+  (general-define-key
+   :keymaps 'normal
+   "<C-return>" 'repl-eval
+   "gr" 'eval-region
+   "gR" 'eval-buffer
+   "gV" '+evil-reselect-paste
+   "+" '(rotate-text :package rotate-text)
+   "-" '(rotate-text-backward :package rotate-text))
+
+  (general-define-key
+   :keymaps '(normal motion)
+   "]b" 'next-buffer
+   "[b" 'previous-buffer
+   "]c" 'eir-next-code-line
+   "]e" 'next-error
+   "[e" 'previous-error
+   "]w" 'persp-next
+   "[w" 'persp-prev
+   "C-t" 'smart-jump-back
+   "K"  '(documentation-at-point :wk "Documentation for symbol")
+   "g[" '(smart-backward :package smart-forward)
+   "g]" '(smart-forward  :package smart-forward)
+   "gd" '(smart-jump-go          :wk "Go to definition")
+   "gD" '(smart-jump-references  :wk "Find all references")
+   "gh" '(documentation-at-point :wk "Documentation for symbol")
+   "gp" '(source-peek            :wk "Peek definition")
+   "zx" 'kill-buffer
+   "ZX" 'bury-buffer)
+
+  ;; Visual state
+  (general-define-key
+   :keymaps 'visual
+   "." 'evil-repeat
+   "<" '+evil-visual-outdent
+   ">" '+evil-visual-indent)
+
   (general-define-key
    :keymaps 'evil-window-map
    ;; Navigation
@@ -280,283 +337,21 @@
    "C-u"     '(winner-undo          :wk "Undo")
    "C-r"     '(winner-redo          :wk "Redo")
    ;; Delete
-   "C-C"     '(ace-delete-window    :wk "Select and delete a window")))
+   "C-C"     '(ace-delete-window    :wk "Select and delete a window"))
 
-;;;
-;; Built-in plugins
+  (general-define-key
+   :keymaps '(help-mode-map
+              elisp-refs-mode-map)
+   :states '(normal motion emacs)
+   "[[" 'help-go-back
+   "]]" 'help-go-forward
+   "K"  '(helpful-at-point :package 'helpful)
+   "o"  '(ace-link-help    :package 'ace-link))
 
-;; conf-mode
-(general-define-key
- :keymaps 'conf-mode-map
- ;; Disable conflicting key
- "C-c \"" 'nil
- "C-c '" 'nil
- "C-c :" 'nil
- "C-c SPC" 'nil)
-
-;; debug
-(general-define-key
- :keymaps 'debugger-mode-map
- :states '(normal motion insert emacs)
- "RET" 'debug-help-follow
- "n"   'debugger-step-through)
-
-;; dired
-(general-define-key
- :keymaps 'dired-mode-map
- :major-modes t
- :states 'motion
- "RET" 'dired-find-file
- "/" 'counsel-grep-or-swiper
- "?" 'counsel-grep-or-swiper)
-
-;; emacs-lisp
-(general-define-key
- :keymaps 'emacs-lisp-mode-map
- :major-modes t
- "C-c m t" 'elisp-test)
-
-;; ert
-(general-define-key
- :keymaps 'ert-results-mode
- :states '(normal motion)
- "q" 'quit-window)
-
-;; help-mode
-(general-define-key
- :keymaps '(help-mode-map
-            helpful-mode-map
-            elisp-refs-mode)
- "o"  'ace-link-help
- "q"  'quit-window
- :states '(normal motion)
- "[[" 'help-go-back
- "]]" 'help-go-forward)
-
-;; org-mode
-(general-define-key
- :keymaps 'org-mode-map
- :major-modes t
- "C-c SPC" 'nil)
-
-(general-define-key
- :keymaps 'org-src-mode-map
- :states 'normal
- "ZZ" '+org-edit-src-save-and-exit)
-
-;; package
-(general-define-key
- :keymaps 'package-menu-mode-map
- :states '(normal motion insert emacs)
- "q" 'kill-this-buffer)
-
-;; shell
-(general-define-key
- :keymaps 'shell-mode-map
- "C-l" 'comint-clear-buffer)
-
-;; vc-annotate
-(general-define-key
- :keymaps 'vc-annotate-mode-map
- :states '(normal motion insert emacs)
- "d"   'vc-annotate-show-diff-revision-at-line
- "D"   'vc-annotate-show-changeset-diff-revision-at-line
- "SPC" 'vc-annotate-show-log-revision-at-line
- "]]"  'vc-annotate-next-revision
- "[["  'vc-annotate-prev-revision
- "TAB" 'vc-annotate-toggle-annotation-visibility
- "RET" 'vc-annotate-find-revision-at-line)
-
-;;;
-;; Plugins
-
-;; counsel
-(general-define-key
- :keymaps 'ivy-mode-map
- "C-o" 'ivy-dispatching-done)
-(general-define-key
- :keymaps 'counsel-ag-map
- [backtab] 'ivy-occur
- "C-SPC" 'ivy-call-and-recenter)
-
-;; diff-hl
-(general-define-key
- :keymaps 'motion
- "]d" 'diff-hl-next-hunk
- "[d" 'diff-hl-previous-hunk)
-
-;; dumb-jump
-(general-define-key
- "M-g o" 'dumb-jump-go-other-window
- "M-g j" 'dumb-jump-go
- "M-g i" 'dumb-jump-go-prompt
- "M-g x" 'dumb-jump-go-prefer-external
- "M-g z" 'dumb-jump-go-prefer-external-other-window)
-
-;; evil-commentary
-(general-define-key
- :keymaps 'normal
- "gc" 'evil-commentary
- "gy" 'evil-commentary-yank)
-
-;; evil-exchange
-(general-define-key
- :keymaps 'normal
- "gx" 'evil-exchange)
-
-;; evil-magit
-(general-define-key
- :keymaps '(magit-status-mode-map magit-revision-mode-map)
- :states 'normal
- "C-j" 'nil
- "C-k" 'nil)
-
-;; evil-surround
-(general-define-key
- :keymaps 'visual
- "S" 'evil-surround-region)
-(general-define-key
- :keymaps 'operator
- "s" 'evil-surround-edit
- "S" 'evil-Surround-edit)
-
-;; flycheck
-(general-define-key
- :keymaps 'motion
- "]e" 'next-error
- "[e" 'previous-error)
-(general-define-key
- :keymaps 'flycheck-error-list-mode-map
- :states '(normal motion insert emacs)
- "C-n" 'flycheck-error-list-next-error
- "C-p" 'flycheck-error-list-previous-error
- "j"   'flycheck-error-list-next-error
- "k"   'flycheck-error-list-previous-error
- "RET" 'flycheck-error-list-goto-error)
-
-;; flyspell
-(general-define-key
- :keymaps 'motion
- "]S" 'flyspell-correct-word-generic
- "[S" 'flyspell-correct-previous-word-generic)
-
-;; git-timemachine
-(general-define-key
- :keymaps 'git-timemachine-mode-map
- :states '(normal visual)
- "p" 'git-timemachine-show-previous-revision
- "n" 'git-timemachine-show-next-revision
- "g" 'git-timemachine-show-nth-revision
- "q" 'git-timemachine-quit
- "w" 'git-timemachine-kill-abbreviated-revision
- "W" 'git-timemachine-kill-revision
- "b" 'git-timemachine-blame)
-
-;; helpful
-(general-define-key
- :keymaps 'help-map
- "f" 'helpful-function
- "k" 'helpful-key
- "v" 'helpful-variable
- "M" 'helpful-macro)
-
-;; hl-todo
-(general-define-key
- :keymaps 'motion
- "]t" 'hl-todo-next
- "[t" 'hl-todo-previous)
-
-;; ivy
-(general-define-key
- :keymaps 'ivy-minibuffer-map
- [escape] 'keyboard-escape-quit
- "M-v"    'yank
- "M-z"    'undo
- "C-r"    'evil-paste-from-register
- "C-e"    'ivy-insert-current
- "C-k"    'ivy-previous-line
- "C-j"    'ivy-next-line
- "C-l"    'ivy-alt-done
- "C-w"    'ivy-backward-kill-word
- "C-u"    'ivy-kill-line
- "C-b"    'backward-word
- "C-f"    'forward-word)
-
-;; nov
-(general-define-key
- :keymaps 'nov-mode-map
- :states 'normal
- "]p"      'nov-next-document
- "[p"      'nov-previous-document
- "<up>"    'nov-scroll-down
- "<down>"  'nov-scroll-up
- "<left>"  'nov-previous-document
- "<right>" 'nov-next-document
- "q"       'kill-this-buffer)
-
-;; pdfview
-(general-define-key
- :keymaps 'pdf-view-mode-map
- "]]" 'pdf-view-scroll-up-or-next-page
- "[[" 'pdf-view-scroll-down-or-previous-page
- "]p" 'pdf-view-next-page
- "[p" 'pdf-view-previous-page
- "h" 'pdf-view-previous-page
- "j" 'pdf-view-next-line-or-next-page
- "k" 'pdf-view-previous-line-or-previous-page
- "l" 'pdf-view-next-page
- "q" 'kill-this-buffer)
-
-;; realgud
-(general-define-key
- :keymaps 'realgud:shortkey-mode-map
- :states 'normal
- "j" 'evil-next-line
- "k" 'evil-previous-line
- "h" 'evil-backward-char
- "l" 'evil-forward-char
- "c" 'realgud:cmd-continue)
-(general-define-key
- :keymaps 'realgud:shortkey-mode-map
- :states 'motion
- "n" 'realgud:cmd-next
- "b" 'realgud:cmd-break
- "B" 'realgud:cmd-clear)
-
-;; rotate-text
-(general-define-key
- :keymaps 'normal
- "+" 'rotate-text
- "-" 'rotate-text-backward)
-
-;; smart-forward
-(general-define-key
- :keymaps 'motion
- "g]" 'smart-forward
- "g[" 'smart-backward)
-
-;; symbol-overlay
-(general-define-key
- :keymaps 'symbol-overlay-map
- [escape] 'symbol-overlay-remove-all
- "C-g"    'symbol-overlay-remove-all)
-
-;; undo-tree
-(general-define-key
- :keymaps 'visual
- "C-u" 'undo-tree-undo
- "C-r" 'undo-tree-redo)
-(general-define-key
- :keymaps 'normal
- "u"   'undo-tree-undo
- "C-r" 'undo-tree-redo)
-
-;; wgrep
-(general-define-key
- :keymaps 'wgrep-mode-map
- :states 'normal
- "d" 'wgrep-mark-deletion
- "ZZ" 'wgrep-finish-edit)
+  (general-define-key
+   :keymaps 'package-menu-mode-map
+   :states '(normal motion insert emacs)
+   "q" 'kill-this-buffer))
 
 (provide 'bindings)
 ;;; bindings.el ends here

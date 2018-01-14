@@ -8,8 +8,10 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-vars)
   (require 'base-lib)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
 
@@ -35,6 +37,19 @@
 (set-on-evil-state 'emacs-lisp-mode 'normal
                    (nameless-mode +1)
                    (easy-escape-minor-mode +1))
+
+(general-define-key
+ :keymaps 'emacs-lisp-mode-map
+ :major-modes t
+ :prefix my-local-leader-key
+ "c" 'emacs-lisp-byte-compile
+ "C" 'emacs-lisp-byte-compile-and-load
+ "t" 'elisp-test)
+
+(general-define-key
+ :keymaps 'ert-results-mode
+ :states '(normal motion)
+ "q" 'quit-window)
 
 ;;;
 ;; Packages

@@ -240,6 +240,13 @@
 (req-package undo-tree
   :diminish undo-tree-mode
   :demand t
+  :general
+  (:keymaps 'visual
+            "C-u" 'undo-tree-undo
+            "C-r" 'undo-tree-redo)
+  (:keymaps 'normal
+            "u"   'undo-tree-undo
+            "C-r" 'undo-tree-redo)
   :init
   (setq undo-tree-auto-save-history t
         undo-tree-history-directory-alist
@@ -300,6 +307,18 @@
    helpful-callable helpful-command
    helpful-function helpful-key helpful-macro
    helpful-symbol helpful-variable)
+  :general
+  (:keymaps 'helpful-mode-map :states '(normal motion emacs)
+            "[[" 'backward-button
+            "]]" 'forward-button
+            "o" '(ace-link-help :package 'ace-link))
+  (:keymaps 'help-map
+            "C" 'helpful-command
+            "f" 'helpful-callable
+            "F" 'helpful-function
+            "k" 'helpful-key
+            "v" 'helpful-variable
+            "M" 'helpful-macro)
   :config
   (set-evil-state 'helpful-mode 'motion)
   (set-popup-buffer (rx bos "*helpful" (one-or-more anything) "*" eos)))
@@ -352,6 +371,10 @@
   :commands
   (wgrep-ag-setup
    wgrep-change-to-wgrep-mode)
+  :general
+  (:keymaps 'wgrep-mode-map :states 'normal
+            "d"  'wgrep-mark-deletion
+            "ZZ" 'wgrep-finish-edit)
   :init
   (setq wgrep-auto-save-buffer t))
 

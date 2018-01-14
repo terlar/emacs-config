@@ -7,7 +7,8 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;; Recenter after certain jumps
 (add-hooks-pair '(imenu-after-jump
@@ -21,9 +22,13 @@
 
 (req-package dumb-jump
   :commands
-  (dumb-jump-go
-   dumb-jump-quick-look
+  (dumb-jump-quick-look
    dumb-jump-back)
+  :general
+  ("M-g i" 'dumb-jump-go-prompt
+   "M-g o" 'dumb-jump-go-other-window
+   "M-g x" 'dumb-jump-go-prefer-external
+   "M-g z" 'dumb-jump-go-prefer-external-other-window)
   :init
   (setq dumb-jump-default-project user-emacs-directory
         dumb-jump-aggressive nil
@@ -32,10 +37,12 @@
 (req-package smart-jump
   :commands
   (smart-jump-register
-   smart-jump-go
    smart-jump-back
-   smart-jump-references
    smart-jump-simple-find-references)
+  :general
+  ([remap evil-goto-definition] 'smart-jump-go
+   "M-g j" 'smart-jump-go
+   "M-g r" 'smart-jump-references)
   :init
   (setq smart-jump-find-references-fallback-function
         #'+smart-jump-find-references-with-counsel-rg))

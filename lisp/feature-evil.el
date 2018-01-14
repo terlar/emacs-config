@@ -82,29 +82,37 @@ If a hook returns non-nil, all hooks after it are ignored.")
 (req-package evil-magit
   :demand t
   :after (evil magit)
+  :general
+  (:keymaps '(magit-status-mode-map
+              magit-revision-mode-map)
+            :states 'normal
+            "C-j" 'nil
+            "C-k" 'nil)
   :init
   (setq evil-magit-want-horizontal-movement t))
 
 ;; Comment/uncomment lines
 (req-package evil-commentary
   :diminish evil-commentary-mode
-  :commands
-  (evil-commentary
-   evil-commentary-yank
-   evil-commentary-line))
+  :commands evil-commentary-line
+  :general
+  (:keymaps 'normal
+            "gc" 'evil-commentary
+            "gy" 'evil-commentary-yank))
 
 ;; Improved % matching
 (req-package evil-matchit
-  :commands evilmi-jump-items
   :general
   ([remap evil-jump-item] 'evilmi-jump-items))
 
 ;; Quoting/parenthesizing
 (req-package evil-surround
-  :commands
-  (evil-surround-edit
-   evil-Surround-edit
-   evil-surround-region))
+  :general
+  (:keymaps 'visual
+            "S" 'evil-surround-region)
+  (:keymaps 'operator
+            "s" 'evil-surround-edit
+            "S" 'evil-Surround-edit))
 (req-package evil-embrace
   :demand t
   :init

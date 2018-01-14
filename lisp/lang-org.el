@@ -65,13 +65,16 @@ It acts in the same way as `org-meta-return'."
   (org-mode . readable-mode)
   (org-babel-after-execute . org-redisplay-inline-images)
   :general
-  (:keymaps
-   'org-mode-map
-   :states 'normal
-   "o" '+org-evil-open-below
-   "O" '+org-evil-open-above
-   "<<" 'org-metaleft
-   ">>" 'org-metaright)
+  (:keymaps 'org-mode-map :major-modes t
+            "C-c SPC" 'nil)
+  (:keymaps 'org-mode-map :states 'normal
+            "<<" 'org-metaleft
+            ">>" 'org-metaright
+            "RET" 'org-edit-src-code
+            "o" '+org-evil-open-below
+            "O" '+org-evil-open-above)
+  (:keymaps 'org-src-mode-map :states 'normal
+            "ZZ" '+org-edit-src-save-and-exit)
   :preface
   (defun +org-edit-src-save-and-exit ()
     "Save parent buffer with current state source-code buffer and exit."

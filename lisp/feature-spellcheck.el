@@ -7,7 +7,8 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
@@ -24,10 +25,10 @@
         ispell-extr-args '("--dont-tex-check-comments")))
 
 (req-package flyspell-correct-ivy
-  :requires ivy
-  :commands
-  (flyspell-correct-word-generic
-   flyspell-correct-previous-word-generic))
+  :general
+  (:keymaps 'motion
+            "]S" 'flyspell-correct-word-generic
+            "[S" 'flyspell-correct-previous-word-generic))
 
 ;; Automatically infer dictionary
 (req-package auto-dictionary

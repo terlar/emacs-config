@@ -9,7 +9,8 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
@@ -24,6 +25,9 @@
   (enh-ruby-mode . flycheck-mode)
   (enh-ruby-mode . rainbow-identifiers-mode)
   (enh-ruby-mode . +rainbow-identifiers-delayed-refresh)
+  :general
+  (:keymaps 'enh-ruby-mode-map
+            "C-c /" 'nil)
   :init
   ;; Don't indent the parenthesis or bracket based on the previous line.
   (setq enh-ruby-deep-indent-paren nil))

@@ -20,6 +20,15 @@
 
 (req-package nov
   :mode ("\\.epub$" . nov-mode)
+  :general
+  (:keymaps 'nov-mode-map :states 'normal
+            "[p"      'nov-previous-document
+            "]p"      'nov-next-document
+            "<up>"    'nov-scroll-down
+            "<down>"  'nov-scroll-up
+            "<left>"  'nov-previous-document
+            "<right>" 'nov-next-document
+            "q"       'kill-this-buffer)
   :hook
   (nov-mode . centered-window-mode)
   (nov-mode . hide-fringes)
@@ -60,7 +69,18 @@
   :mode ("\\.pdf$" . pdf-view-mode)
   :commands
   (pdf-tools-install
-   pdf-view-bookmark-jump-handler))
+   pdf-view-bookmark-jump-handler)
+  :general
+  (:keymaps 'pdf-view-mode-map
+            "]]"  'pdf-view-scroll-up-or-next-page
+            "[["  'pdf-view-scroll-down-or-previous-page
+            "]p"  'pdf-view-next-page
+            "[p"  'pdf-view-previous-page
+            "h"   'pdf-view-previous-page
+            "j"   'pdf-view-next-line-or-next-page
+            "k"   'pdf-view-previous-line-or-previous-page
+            "l"   'pdf-view-next-page
+            "q"   'kill-this-buffer))
 
 (provide 'lang-ebook)
 ;;; lang-ebook.el ends here

@@ -6,7 +6,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;; pkg-info doesn't get autoloaded when `flycheck-version' needs it.
 (autoload 'pkg-info-version-info "pkg-info")
@@ -21,6 +22,16 @@
   (flycheck-list-errors
    flycheck-buffer
    flycheck-add-next-checker)
+  :general
+  (:keymaps 'flycheck-error-list-mode-map :states '(normal motion emacs)
+            "C-n" 'flycheck-error-list-next-error
+            "C-p" 'flycheck-error-list-previous-error
+            "j"   'flycheck-error-list-next-error
+            "k"   'flycheck-error-list-previous-error
+            "RET" 'flycheck-error-list-goto-error)
+  (:keymaps 'motion
+            "[e" 'previous-error
+            "]e" 'next-error)
   :hook
   (emacs-lisp-mode . flycheck-mode)
   :init

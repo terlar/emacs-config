@@ -205,6 +205,10 @@
   :commands
   (symbol-overlay-put
    symbol-overlay-switch-backward symbol-overlay-switch-forward)
+  :general
+  (:keymaps 'symbol-overlay-map
+            [escape] 'symbol-overlay-remove-all
+            "C-g"    'symbol-overlay-remove-all)
   :hook (prog-mode . symbol-overlay-mode))
 
 ;; Compact whitespace in docstrings
@@ -223,6 +227,10 @@
 
 ;; Highlight TODO inside comments and strings
 (req-package hl-todo
+  :general
+  (:keymaps 'motion
+            "[t" 'hl-todo-previous
+            "]t" 'hl-todo-next)
   :hook (prog-mode . hl-todo-mode))
 
 ;; Clickable links (builtin)

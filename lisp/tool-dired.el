@@ -7,7 +7,8 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
@@ -19,6 +20,13 @@
   :preface
   (defun +dired-mode-setup ()
     (face-remap-add-relative 'hl-line :background "#DDDDDD"))
+  :general
+  (:keymaps 'dired-mode-map
+            :major-modes t
+            :states 'motion
+            "RET" 'dired-find-file
+            "/" 'counsel-grep-or-swiper
+            "?" 'counsel-grep-or-swiper)
   :init
   ;; Always copy/delete recursively
   (setq dired-recursive-copies  'always

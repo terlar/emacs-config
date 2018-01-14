@@ -26,6 +26,13 @@
 (setq shell-file-name "bash")
 
 ;;;
+;; Bindings
+
+(general-define-key
+ :keymaps 'shell-mode-map
+ "C-l" 'comint-clear-buffer)
+
+;;;
 ;; Built-ins
 
 ;; Emacs Shell

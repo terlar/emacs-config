@@ -7,10 +7,20 @@
 
 (eval-when-compile
   (require 'base-package)
-  (require 'base-lib))
+  (require 'base-lib)
+  (require 'base-keybinds))
 
 ;;;
 ;; Packages
+
+(req-package conf-mode
+  :general
+  (:keymaps 'conf-mode-map
+            ;; Disable conflicting keys
+            "C-c \"" 'nil
+            "C-c '" 'nil
+            "C-c :" 'nil
+            "C-c SPC" 'nil))
 
 (req-package nginx-mode
   :mode

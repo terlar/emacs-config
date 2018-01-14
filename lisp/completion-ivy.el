@@ -35,10 +35,25 @@
   :general
   (:keymaps 'ivy-mode-map
             [remap switch-to-buffer] 'ivy-switch-buffer
-            [remap imenu-anywhere]   'ivy-imenu-anywhere)
+            [remap imenu-anywhere]   'ivy-imenu-anywhere
+            "C-o"                    'ivy-dispatching-done)
   (:keymaps 'ivy-occur-grep-mode-map :states 'normal
             "i" 'ivy-wgrep-change-to-wgrep-mode
             "q" 'quit-window)
+
+  (:keymaps 'ivy-minibuffer-map
+            [escape] 'keyboard-escape-quit
+            "M-v"    'yank
+            "M-z"    'undo
+            "C-r"    'evil-paste-from-register
+            "C-e"    'ivy-insert-current
+            "C-k"    'ivy-previous-line
+            "C-j"    'ivy-next-line
+            "C-l"    'ivy-alt-done
+            "C-w"    'ivy-backward-kill-word
+            "C-u"    'ivy-kill-line
+            "C-b"    'backward-word
+            "C-f"    'forward-word)
   :init
   (setq-default projectile-completion-system 'ivy
                 smex-completion-method 'ivy
@@ -86,6 +101,9 @@
             [remap describe-variable]         'counsel-describe-variable
             [remap describe-face]             'counsel-describe-face
             [remap eshell-list-history]       'counsel-esh-history)
+  (:keymaps 'counsel-ag-map
+            [backtab] 'ivy-occur
+            "C-SPC"   'ivy-call-and-recenter)
   :init
   (setq counsel-find-file-ignore-regexp
         "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"
