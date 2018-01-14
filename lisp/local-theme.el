@@ -103,8 +103,8 @@
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#FFDDDD"))))
    ;; spray
-   `(spray-base-face                         ((t (:foreground ,color-11 :family "Noto Serif" :weight normal :underline nil))))
-   `(spray-accent-face                       ((t (:foreground "red" :underline (:color ,color-11) :overline ,color-11))))
+   `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
+   `(spray-accent-face                       ((t (:foreground "red" :underline (:color ,color-10) :overline ,color-10))))
    ;; stripe-buffer
    `(stripe-highlight                        ((t (:background ,color-5))))
    ;; web-mode
@@ -122,18 +122,13 @@
    ;; coverlay
    '(coverlay:untested-line-background-color "#FFDDDD")
    '(coverlay:tested-line-background-color   "#EEFFCC")
-   ;; dired-k
-   '(dired-k-size-colors
-     '((1024 . "grey90") (2048 . "grey85") (3072 . "grey80")
-       (5120 . "grey70") (10240 . "grey65") (20480 . "grey60") (40960 . "grey55")
-       (102400 . "grey25") (262144 . "grey10") (524288 . "grey0")))
    ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
        ("FIXME" . (:box (:line-width 1) :foreground ,theme-color-error))
        ("NOTE"  . (:box (:line-width 1)))))
    ;; lsp-ui
-   `(lsp-ui-doc-background "#E8E8E8")
+   `(lsp-ui-doc-background ,color-5)
    ;; vc-annotate
    `(vc-annotate-color-map
      '(( 20. . ,color-2)
