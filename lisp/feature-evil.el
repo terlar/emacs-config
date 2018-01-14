@@ -28,6 +28,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
   :demand t
   :hook
   (org-src-mode . evil-normalize-keymaps)
+  (git-timemachine-mode . evil-normalize-keymaps)
   :custom
   (evil-want-Y-yank-to-eol t)
   :init
