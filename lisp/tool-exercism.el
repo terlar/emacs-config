@@ -6,7 +6,9 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-vars)
+  (require 'base-package)
+  (require 'base-keybinds))
 
 (defvar exercism-auto-enable nil)
 
@@ -22,6 +24,14 @@
    exercism-unsubmit
    exercism-fetch
    exercism-tracks)
+  :general
+  (:prefix my-leader-key
+           "E f" 'exercism-fetch
+           "E l" 'exercism-list
+           "E o" 'exercism-open
+           "E s" 'exercism-submit
+           "E u" 'exercism-unsubmit
+           "E t" 'exercism-tracks)
   :init
   (setq exercism-dir (expand-file-name "exercism" "~/src/"))
   ;; Fix the auto-mode-alist addition
