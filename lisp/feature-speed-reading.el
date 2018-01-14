@@ -44,7 +44,7 @@
         spray-height 500)
   :config
   (setq spray-unsupported-minor-modes
-        (append '(beacon-mode centered-window-mode)
+        (append '(beacon-mode centered-window-mode visual-fill-column-mode)
                 spray-unsupported-minor-modes)))
 
 (provide 'feature-speed-reading)

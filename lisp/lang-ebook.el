@@ -30,7 +30,7 @@
             "<right>" 'nov-next-document
             "q"       'kill-this-buffer)
   :hook
-  (nov-mode . centered-window-mode)
+  (nov-mode . visual-fill-column-mode)
   (nov-mode . hide-fringes)
   (nov-mode . readable-mode)
   (nov-mode . +nov-mode-delayed-render)

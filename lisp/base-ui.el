@@ -179,6 +179,11 @@
   :commands centered-window-mode
   :init
   (setq cwm-centered-window-width 120))
+(req-package visual-fill-column
+  :commands visual-fill-column-mode
+  :init
+  (setq visual-fill-column-width 120
+        visual-fill-column-center-text t))
 
 ;; Highlight source code identifiers based on their name
 (req-package color-identifiers-mode
