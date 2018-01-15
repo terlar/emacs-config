@@ -73,7 +73,7 @@ It acts in the same way as `org-meta-return'."
             "RET" 'org-edit-src-code
             "o" '+org-evil-open-below
             "O" '+org-evil-open-above)
-  (:keymaps 'org-src-mode-map :states 'normal
+  (:keymaps 'org-src-mode :states 'normal :definer 'minor-mode
             "ZZ" '+org-edit-src-save-and-exit)
   :preface
   (defun +org-edit-src-save-and-exit ()

@@ -72,7 +72,7 @@
   (git-timemachine
    git-timemachine-toggle)
   :general
-  (:keymaps 'git-timemachine-mode-map :states '(normal insert emacs)
+  (:keymaps 'git-timemachine-mode :states '(normal insert emacs) :definer 'minor-mode
             "p" 'git-timemachine-show-previous-revision
             "n" 'git-timemachine-show-next-revision
             "g" 'git-timemachine-show-nth-revision
