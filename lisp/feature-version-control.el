@@ -17,7 +17,7 @@
 ;;;
 ;; Packages
 
-(req-package vc-annotate
+(req-package vc-annotate :ensure nil
   :general
   (:keymaps 'vc-annotate-mode-map :states '(normal motion emacs)
             "d"   'vc-annotate-show-diff-revision-at-line

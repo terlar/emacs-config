@@ -12,7 +12,7 @@
 ;; Packages
 
 (req-package rotate-text
-  :el-get t
+  :el-get t :ensure nil
   :commands (rotate-text rotate-text-backward)
   :config
   (dolist (item '(("true" "false")

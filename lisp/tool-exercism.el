@@ -14,10 +14,9 @@
 
 ;;;
 ;; Packages
-(req-package request)
 
 (req-package exercism
-  :el-get t
+  :el-get t :ensure nil
   :commands
   (exercism
    exercism-submit

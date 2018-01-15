@@ -28,7 +28,7 @@
     ielm-mode lisp-interaction-mode) . paredit-mode))
 
 (req-package eval-in-repl
-  :el-get t
+  :el-get t :ensure nil
   :commands
   (eir-repl-start
    eir-eval-in-repl-lisp

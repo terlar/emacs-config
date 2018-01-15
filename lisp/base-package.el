@@ -28,6 +28,7 @@ This will be nil if you have byte-compiled your configuration.")
  package-gnupghome-dir (expand-file-name "gnupg" package-user-dir)
  package-archives
  '(("gnu"   . "https://elpa.gnu.org/packages/")
+   ("org"   . "https://orgmode.org/elpa/")
    ("melpa" . "https://melpa.org/packages/"))
 
  gnutls-verify-error t
@@ -80,13 +81,7 @@ When base.el is compiled, this function will be avoided to speed up startup."
       (package-install 'use-package))
     (load "use-package" nil t)
 
-    (use-package req-package
-      :demand t
-      :init
-      (if (and (not noninteractive) my-debug-mode)
-          (setq req-package-log-level 'debug)))
-    (use-package el-get
-      :demand t
+    (use-package el-get :demand t
       :init
       (setq el-get-dir my-el-get-dir
             el-get-status-file (expand-file-name ".status.el" el-get-dir)
@@ -94,6 +89,15 @@ When base.el is compiled, this function will be avoided to speed up startup."
       :config
       (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory)))
 
+    (require 'use-package-el-get)
+    (use-package-el-get-setup)
+
+    (use-package req-package :demand t
+      :init
+      (if (and (not noninteractive) my-debug-mode)
+          (setq req-package-log-level 'debug)))
+
+    (setq use-package-always-ensure t)
     (setq my-packages-init-p t)))
 
 (provide 'base-package)

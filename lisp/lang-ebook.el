@@ -13,7 +13,7 @@
 ;; Packages
 
 (req-package justify-kp
-  :el-get t
+  :el-get t :ensure nil
   :commands
   (pj-justify
    pj-line-width))

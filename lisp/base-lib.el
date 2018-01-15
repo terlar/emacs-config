@@ -15,36 +15,26 @@
 ;;;
 ;; Packages
 
-;; Set multiple hooks
-(req-package add-hooks :force t
-  :commands (add-hooks add-hooks-pair))
-
 ;; Enable Emacs minor modes by buffer name and contents
 (req-package auto-minor-mode :force t :demand t)
 
-;; Hide lines based on regexp
-(req-package hide-lines :force t
-  :commands
-  (hide-lines hide-lines-matching hide-lines-not-matching hide-lines-show-all))
-
-;; Show tooltip at point
-(req-package pos-tip :force t)
-
-;; Inline popups
-(req-package quick-peek :force t
-  :commands (quick-peek-show quick-peek-hide))
+;; Set multiple hooks
+(req-package add-hooks :force t :demand t)
 
 ;; Diminish lines
-(req-package diminish :force t
-  :commands diminish)
+(req-package diminish :force t :commands diminish)
 
-(req-package spinner :force t
-  :commands (spinner-start spinner-create spinner-print))
-
-(req-package f    :force t) ; files and paths
-(req-package s    :force t) ; strings
-(req-package dash :force t) ; lists
-(req-package ov   :force t) ; overlays
+(req-package f               :force t) ; files and paths
+(req-package s               :force t) ; strings
+(req-package dash            :force t) ; lists
+(req-package dash-functional :force t) ; combinators
+(req-package loop            :force t) ; loops
+(req-package ov              :force t) ; overlays
+(req-package spinner         :force t) ; spinners
+(req-package pos-tip         :force t) ; popups
+(req-package quick-peek      :force t) ; inline popups
+(req-package hide-lines      :force t) ; hide lines
+(req-package request         :force t) ; requests
 
 (req-package blacklist-minor-modes :force t
   :load-path my-site-lisp-dir

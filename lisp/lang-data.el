@@ -12,7 +12,7 @@
 ;;;
 ;; Packages
 
-(req-package nxml-mode
+(req-package nxml-mode :ensure nil
   :mode "\\.plist$"
   :hook (nxml-mode . flycheck-mode)
   :init

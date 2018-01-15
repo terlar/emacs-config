@@ -13,7 +13,7 @@
 ;;;
 ;; Packages
 
-(req-package dired
+(req-package dired :ensure nil
   :hook
   (dired-mode . hl-line-mode)
   (dired-mode . +dired-mode-setup)

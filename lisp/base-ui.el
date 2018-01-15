@@ -302,7 +302,7 @@
 ;; Built-ins
 
 ;; comint
-(req-package comint
+(req-package comint :ensure nil
   :init
   (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
   (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
@@ -368,7 +368,7 @@
   (show-paren-mode 1))
 
 ;; Major mode for editing source code.
-(req-package prog-mode
+(req-package prog-mode :ensure nil
   :hook (prog-mode . +prog-mode-setup)
   :preface
   (defun +prog-mode-setup ()

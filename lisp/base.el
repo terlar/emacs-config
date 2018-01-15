@@ -45,6 +45,8 @@
  make-backup-files nil
  history-delete-duplicates t
  history-length 500
+ ;; Don't save abbrevs
+ save-abbrevs nil
  ;; Files
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
  auto-save-list-file-name          (concat my-cache-dir "autosave")

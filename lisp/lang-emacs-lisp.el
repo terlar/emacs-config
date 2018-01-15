@@ -13,46 +13,47 @@
   (require 'base-package)
   (require 'base-keybinds))
 
-(autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
-
-(add-to-list 'auto-mode-alist '("recipes/.*$" . emacs-lisp-mode))
-
-(set-repl-command 'emacs-lisp-mode #'elisp-repl)
-(set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
-(set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
-(with-eval-after-load 'smart-jump
-  (smart-jump-register :modes 'emacs-lisp-mode))
-
-(set-prettify-symbols 'emacs-lisp-mode '(("defun"    . ?ƒ)
-                                         ("defmacro" . ?μ)
-                                         ("defvar"   . ?ν)))
-
-(set-evil-state 'checkdoc-output-mode 'motion)
-(set-popup-buffer (rx bos "*ielm*" eos)
-                  (rx bos "*Style Warnings*" eos))
-
-(set-on-evil-state 'emacs-lisp-mode 'insert
-                   (nameless-mode -1)
-                   (easy-escape-minor-mode -1))
-(set-on-evil-state 'emacs-lisp-mode 'normal
-                   (nameless-mode +1)
-                   (easy-escape-minor-mode +1))
-
-(general-define-key
- :keymaps 'emacs-lisp-mode-map
- :major-modes t
- :prefix my-local-leader-key
- "c" 'emacs-lisp-byte-compile
- "C" 'emacs-lisp-byte-compile-and-load
- "t" 'elisp-test)
-
-(general-define-key
- :keymaps 'ert-results-mode
- :states '(normal motion)
- "q" 'quit-window)
-
 ;;;
 ;; Packages
+
+(req-package elisp-mode :ensure nil
+  :mode
+  ("recipes/.*$" . emacs-lisp-mode)
+  :general
+  (:keymaps 'emacs-lisp-mode-map :major-modes t
+            :prefix my-local-leader-key
+            "c" 'emacs-lisp-byte-compile
+            "C" 'emacs-lisp-byte-compile-and-load
+            "t" 'elisp-test)
+  (:keymaps 'ert-results-mode :states '(normal motion)
+            "q" 'quit-window)
+  :hook
+  (emacs-lisp-mode . flycheck-mode)
+  :preface
+  (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
+  :init
+  (set-repl-command 'emacs-lisp-mode #'elisp-repl)
+  (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
+  :config
+  (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
+
+  (with-eval-after-load 'smart-jump
+    (smart-jump-register :modes 'emacs-lisp-mode))
+
+  (set-prettify-symbols 'emacs-lisp-mode '(("defun"    . ?ƒ)
+                                           ("defmacro" . ?μ)
+                                           ("defvar"   . ?ν)))
+
+  (set-evil-state 'checkdoc-output-mode 'motion)
+  (set-popup-buffer (rx bos "*ielm*" eos)
+                    (rx bos "*Style Warnings*" eos))
+
+  (set-on-evil-state 'emacs-lisp-mode 'insert
+                     (nameless-mode -1)
+                     (easy-escape-minor-mode -1))
+  (set-on-evil-state 'emacs-lisp-mode 'normal
+                     (nameless-mode +1)
+                     (easy-escape-minor-mode +1)))
 
 (req-package auto-compile
   :commands auto-compile-byte-compile
@@ -91,7 +92,7 @@ version is loaded."
 
 ;; Discover elisp functions
 (req-package suggest
-  :el-get t
+  :el-get t :ensure nil
   :preface
   (defun +suggest-popup ()
     "Open suggest as a popup."

@@ -53,16 +53,11 @@ It acts in the same way as `org-meta-return'."
 ;;;
 ;; Packages
 
-(req-package ob-elixir)
-(req-package ob-go)
-(req-package ob-http)
-(req-package ob-restclient)
-(req-package ob-rust)
-(req-package ob-translate)
-
 (req-package org
+  :pin org :demand t
   :hook
   (org-mode . readable-mode)
+  (org-mode . +org-setup-babel)
   (org-babel-after-execute . org-redisplay-inline-images)
   :general
   (:keymaps 'org-mode-map :major-modes t
@@ -81,6 +76,26 @@ It acts in the same way as `org-meta-return'."
     (interactive)
     (org-edit-src-save)
     (org-edit-src-exit))
+
+  (defun +org-setup-babel ()
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((calc       . t)
+       (clojure    . t)
+       (css        . t)
+       (dot        . t)
+       (elixir     . t)
+       (emacs-lisp . t)
+       (haskell    . t)
+       (http       . t)
+       (js         . t)
+       (plantuml   . t)
+       (python     . t)
+       (ruby       . t)
+       (rust       . t)
+       (scala      . t)
+       (shell      . t)
+       (translate  . t))))
   :init
   (setq org-confirm-babel-evaluate nil
         org-hide-block-startup t
@@ -103,26 +118,7 @@ It acts in the same way as `org-meta-return'."
   (set-on-evil-state 'org-mode 'normal
                      (setq org-hide-block-startup t
                            org-hide-emphasis-markers t)
-                     (font-lock-fontify-block))
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((calc       . t)
-     (clojure    . t)
-     (css        . t)
-     (dot        . t)
-     (elixir     . t)
-     (emacs-lisp . t)
-     (haskell    . t)
-     (http       . t)
-     (js         . t)
-     (plantuml   . t)
-     (python     . t)
-     (ruby       . t)
-     (rust       . t)
-     (scala      . t)
-     (shell      . t)
-     (translate  . t))))
+                     (font-lock-fontify-block)))
 
 (req-package org-bullets
   :hook (org-mode . org-bullets-mode))
@@ -137,6 +133,13 @@ It acts in the same way as `org-meta-return'."
    :prefix my-leader-key
    "m n" 'org-noter)
   :commands org-noter)
+
+(req-package ob-elixir)
+(req-package ob-go)
+(req-package ob-http)
+(req-package ob-restclient)
+(req-package ob-rust)
+(req-package ob-translate)
 
 (provide 'lang-org)
 ;;; lang-org.el ends here

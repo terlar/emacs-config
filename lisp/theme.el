@@ -13,15 +13,14 @@
 ;; Theme
 
 (req-package tao-theme :force t :demand t
-  :init
-  (setq tao-theme-use-height t))
+  :init (setq tao-theme-use-height t))
 
-(req-package punpun-theme :force t)
-(req-package eziam-theme :force t)
-(req-package flatui-theme :force t)
-(req-package leuven-theme :force t)
+(req-package punpun-theme                   :force t)
+(req-package eziam-theme                    :force t)
+(req-package flatui-theme                   :force t)
+(req-package leuven-theme                   :force t)
 (req-package color-theme-sanityinc-tomorrow :force t)
-(req-package twilight-bright-theme :force t)
+(req-package twilight-bright-theme          :force t)
 
 (load-theme my-theme t)
 (load-theme 'local t)

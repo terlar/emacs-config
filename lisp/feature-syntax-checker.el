@@ -32,8 +32,6 @@
   (:keymaps 'motion
             "[e" 'previous-error
             "]e" 'next-error)
-  :hook
-  (emacs-lisp-mode . flycheck-mode)
   :init
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -44,8 +42,8 @@
 
 ;; Inline error messages
 (req-package flycheck-inline
-  :el-get t
-  :hook (flycheck-mode . flycheck-inline-mode)
+  :el-get t :ensure nil
+  :hook (after-init . flycheck-inline-mode)
   :init
   (setq flycheck-display-errors-delay 0.5))
 
