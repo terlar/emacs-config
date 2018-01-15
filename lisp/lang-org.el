@@ -85,6 +85,7 @@ It acts in the same way as `org-meta-return'."
   (setq org-confirm-babel-evaluate nil
         org-hide-block-startup t
         org-hide-emphasis-markers t
+        org-startup-with-inline-images t
         org-special-ctrl-a/e t
         org-edit-src-content-indentation 0
         org-src-preserve-indentation nil
