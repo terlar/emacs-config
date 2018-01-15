@@ -120,10 +120,11 @@
  "b" '(switch-to-buffer           :wk "Switch buffer")
  "k" '(kill-buffer                :wk "Kill buffer")
  "n" '(evil-buffer-new            :wk "New empty buffer")
+ "m" '(view-echo-area-messages    :wk "Messages buffer")
  "o" '(kill-other-buffers         :wk "Kill other buffers")
  "s" '(save-buffer                :wk "Save buffer")
  "S" '(sudo-edit                  :wk "Sudo edit this file")
- "x" '(toggle-scratch-buffer      :wk "Toggle scratch buffer")
+ "x" '(toggle-scratch-buffer      :wk "Scratch buffer")
  "z" '(bury-buffer                :wk "Bury buffer"))
 
 (general-define-key
