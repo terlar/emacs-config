@@ -392,6 +392,11 @@
   :init
   (defvar winner-dont-bind-my-keys t))
 
+;; Automatic balanced window layout
+(req-package zoom
+  :diminish zoom-mode
+  :hook (after-init . zoom-mode))
+
 ;;;
 ;; Autoloads
 
