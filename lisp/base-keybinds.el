@@ -6,6 +6,7 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-vars)
   (require 'base-package))
 
 ;;;

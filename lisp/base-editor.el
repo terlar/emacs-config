@@ -133,7 +133,7 @@
 
 ;; Keep track of recently opened files
 (req-package recentf
-  :demand t
+  :defer 1
   :init
   (setq recentf-exclude
         (list "/tmp/"           ; Temp-files

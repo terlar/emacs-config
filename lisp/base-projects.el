@@ -13,8 +13,8 @@
 ;; Packages
 
 (req-package projectile
-  :diminish projectile-mode
   :demand t
+  :diminish projectile-mode
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
         projectile-enable-caching nil

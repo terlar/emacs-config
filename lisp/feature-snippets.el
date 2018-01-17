@@ -12,7 +12,7 @@
 ;; Packages
 
 (req-package yasnippet
-  :demand t
+  :defer 2
   :diminish yas-minor-mode
   :mode
   ("\\.snippet$" . snippet-mode)
@@ -33,7 +33,7 @@
     (add-hook 'evil-normal-state-entry-hook #'yas-abort-snippet)))
 
 (req-package yasnippet-snippets
-  :demand t)
+  :defer 2)
 
 (provide 'feature-snippets)
 ;;; feature-snippets.el ends here

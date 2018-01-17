@@ -5,8 +5,7 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-vars))
+(require 'base-vars)
 
 (defvar my-init-time nil
   "The time it took, in seconds, for Emacs to initialize.")
@@ -106,7 +105,9 @@
 
   (eval-when-compile
     (+packages-initialize))
-  (setq load-path (eval-when-compile load-path))
+
+  (setq load-path (eval-when-compile load-path)
+        custom-theme-load-path (eval-when-compile custom-theme-load-path))
 
   (require 'base-lib))
 

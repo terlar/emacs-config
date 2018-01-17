@@ -53,8 +53,7 @@ It acts in the same way as `org-meta-return'."
 ;;;
 ;; Packages
 
-(req-package org
-  :pin org :demand t
+(req-package org :pin org
   :hook
   (org-mode . readable-mode)
   (org-mode . +org-setup-babel)

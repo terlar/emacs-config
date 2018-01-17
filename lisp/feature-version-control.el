@@ -52,7 +52,7 @@
   (diff-hl-flydiff-mode 1))
 
 (req-package magit
-  :demand t
+  :defer 2
   :init
   (setq magit-log-buffer-file-locked t
         magit-refs-show-commit-count 'all

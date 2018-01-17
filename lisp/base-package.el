@@ -16,6 +16,7 @@
 This will be nil if you have byte-compiled your configuration.")
 
 (defvar my-el-get-dir (expand-file-name "el-get" my-packages-dir))
+(defvar my-el-get-recipes (expand-file-name "recipes" user-emacs-directory))
 
 ;;;
 ;; Settings
@@ -34,12 +35,23 @@ This will be nil if you have byte-compiled your configuration.")
  gnutls-verify-error t
  tls-checktrust gnutls-verify-error
 
+ ;; use-package
  use-package-always-defer t
  use-package-always-ensure t
  use-package-debug nil
  use-package-expand-minimally (eval-when-compile (not my-debug-mode))
  use-package-minimum-reported-time (if my-debug-mode 0 0.1)
  use-package-verbose my-debug-mode
+
+ ;; el-get
+ el-get-dir my-el-get-dir
+ el-get-status-file (expand-file-name ".status.el" my-el-get-dir)
+ el-get-autoload-file (expand-file-name ".loaddefs.el" my-el-get-dir)
+ el-get-recipe-path `(,my-el-get-recipes)
+
+ req-package-log-level (if (and (not noninteractive) my-debug-mode)
+                           'debug
+                         'info)
 
  byte-compile-dynamic nil
  byte-compile-verbose my-debug-mode
@@ -53,14 +65,31 @@ This will be nil if you have byte-compiled your configuration.")
   (unless after-init-time
     (add-hook 'after-init-hook #'package--save-selected-packages)))
 
+;;;
+;; Macros
+
+(autoload 'use-package "use-package" nil nil 'macro)
+(autoload 'req-package "req-package" nil nil 'macro)
+
+(autoload 'use-package-normalize/:el-get "use-package-el-get")
+(autoload 'use-package-handler/:el-get "use-package-el-get")
+(with-eval-after-load 'use-package
+  (push :el-get use-package-keywords))
+
+;;;
+;; Functions
+
+(defun +packages-initialize-load-path ()
+  "Initialize load path used by packages."
+  (dolist (dir (list package-user-dir my-el-get-dir))
+    (setq load-path (append load-path (directory-files dir t "^[^.]" t))
+          custom-theme-load-path (append custom-theme-load-path (directory-files dir t "theme" t)))))
+
 (defun +packages-initialize (&optional force-p)
   "Initialize installed packages and ensure they are installed.
 When FORCE-P is provided it will run no matter the preconditions.
 When base.el is compiled, this function will be avoided to speed up startup."
   (when (or (not my-packages-init-p) force-p)
-    (unless noninteractive
-      (message "Emacs initialized"))
-
     (setq package-activated-list nil)
 
     ;; Ensure folders exist
@@ -69,35 +98,17 @@ When base.el is compiled, this function will be avoided to speed up startup."
         (make-directory dir t)))
 
     (package-initialize t)
-    ;; Setup load paths
-    (dolist (dir (list package-user-dir my-el-get-dir))
-      (setq load-path (append load-path (directory-files dir t "^[^.]" t)))
-      (setq custom-theme-load-path (append custom-theme-load-path (directory-files dir t "theme" t))))
-
+    (+packages-initialize-load-path)
     (unless package-archive-contents
       (package-refresh-contents))
 
-    (unless (package-installed-p 'use-package)
-      (package-install 'use-package))
-    (load "use-package" nil t)
+    (dolist (package '(el-get use-package req-package))
+      (unless (package-installed-p package)
+        (package-install package))
+      (load (symbol-name package) nil t))
 
-    (use-package el-get :demand t
-      :init
-      (setq el-get-dir my-el-get-dir
-            el-get-status-file (expand-file-name ".status.el" el-get-dir)
-            el-get-autoload-file (expand-file-name ".loaddefs.el" el-get-dir))
-      :config
-      (add-to-list 'el-get-recipe-path (expand-file-name "recipes" user-emacs-directory)))
+    (load "use-package-el-get" nil t)
 
-    (require 'use-package-el-get)
-    (use-package-el-get-setup)
-
-    (use-package req-package :demand t
-      :init
-      (if (and (not noninteractive) my-debug-mode)
-          (setq req-package-log-level 'debug)))
-
-    (setq use-package-always-ensure t)
     (setq my-packages-init-p t)))
 
 (provide 'base-package)
