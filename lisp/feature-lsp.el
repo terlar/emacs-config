@@ -22,8 +22,9 @@
 (req-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :init
-  (setq lsp-ui-doc-include-signature nil
-        lsp-ui-sideline-show-symbol nil
+  (setq lsp-ui-doc-header nil
+        lsp-ui-doc-include-signature t
+        lsp-ui-sideline-enable nil
         lsp-ui-sideline-ignore-duplicate t))
 
 (req-package company-lsp

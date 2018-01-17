@@ -87,6 +87,15 @@
    `(lsp-face-highlight-textual              ((t (:background nil :box (:line-width 1 :color "dark orange")))))
    `(lsp-face-highlight-read                 ((t (:background nil :box (:line-width 1 :color "tomato")))))
    `(lsp-face-highlight-write                ((t (:background nil :box (:line-width 1 :color "sea green")))))
+   ;; lsp-ui
+   `(lsp-ui-peek-peek                        ((t (:background ,color-1))))
+   `(lsp-ui-peek-list                        ((t (:background ,color-1))))
+   `(lsp-ui-peek-filename                    ((t (:foreground ,color-10))))
+   `(lsp-ui-peek-line-number                 ((t (:foreground ,color-9))))
+   `(lsp-ui-peek-highlight                   ((t (:box (:line-width 1 :color ,color-10)))))
+   `(lsp-ui-peek-selection                   ((t (:background ,color-4))))
+   `(lsp-ui-peek-header                      ((t (:inherit header-line))))
+   `(lsp-ui-peek-footer                      ((t (:inherit header-line))))
    ;; flycheck
    `(flycheck-error                          ((t (:underline (:color ,theme-color-error)))))
    `(flycheck-warning                        ((t (:underline (:color ,theme-color-warning)))))
