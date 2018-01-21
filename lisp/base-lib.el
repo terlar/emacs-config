@@ -269,5 +269,35 @@ The list accepts the following properties:
   (interactive)
   (font-lock-flush))
 
+;;;
+;; Files
+
+;;;### autoload
+(defun test-file-p (file-name)
+  "Check if FILE-NAME is a test file."
+  (string-match-p "-test$" (file-name-sans-extension file-name)))
+
+;;;### autoload
+(defun implementation-or-test-file (file-name)
+  "The alternate file for FILE-NAME.
+Either test file for implementation or implementation for test file."
+  (let ((basename (file-name-sans-extension file-name))
+        (extension (file-name-extension file-name)))
+    (if (test-file-p file-name)
+        (concat (string-remove-suffix "-test" basename) "." extension)
+      (concat basename "-test." extension))))
+
+;;;### autoload
+(defun test-file (file-name)
+  "The test file related to FILE-NAME."
+  (if (test-file-p file-name)
+      file-name
+    (implementation-or-test-file file-name)))
+
+(defun find-implementation-or-test-file ()
+  "Open alternate implementation or test file based current buffer."
+  (interactive)
+  (find-file (implementation-or-test-file (buffer-file-name (current-buffer)))))
+
 (provide 'base-lib)
 ;;; base-lib.el ends here

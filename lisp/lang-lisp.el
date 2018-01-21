@@ -26,7 +26,7 @@
   (interactive)
   (unless (slime-connected-p)
     (slime))
-  (slime-load-file (buffer-file-name (current-buffer))))
+  (slime-load-file (test-file (buffer-file-name (current-buffer)))))
 
 ;;;
 ;; Packages
@@ -39,6 +39,7 @@
   (:keymaps 'lisp-mode-map :major-modes t
             :prefix my-local-leader-key
             "o" 'slime
+            "r" 'lisp-repl
             "t" 'lisp-test)
   (:keymaps
    '(slime-doc-map
@@ -57,16 +58,17 @@
   (set-eval-command 'lisp-mode #'eir-eval-in-slime)
   (set-doc-fn 'lisp-mode #'slime-describe-symbol)
 
-  (set-popup-buffer (rx bos "*slime-" (one-or-more anything) "*" eos))
+  (set-popup-buffer (rx bos "*inferior-lisp*" eos))
 
-  (setq inferior-lisp-program "sbcl")
+  (setq inferior-lisp-program "sbcl"
+        slime-contribs '(slime-fancy slime-repl slime-company))
   :config
   (smart-jump-register :modes 'lisp-mode
                        :jump-fn #'slime-edit-definition
                        :pop-fn #'slime-pop-find-definition-stack
-                       :refs-fn #'slime-who-references)
+                       :refs-fn #'slime-who-references))
 
-  (slime-setup '(slime-fancy)))
+(req-package slime-company)
 
 (provide 'lang-lisp)
 ;;; lang-lisp.el ends here
