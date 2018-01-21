@@ -11,7 +11,10 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
+
+(set-aggressive-indent 'java-mode :disabled t)
 
 ;;;
 ;; Packages
@@ -82,7 +85,11 @@
   :mode "\\.gr\\(adle\\|oovy\\)$")
 
 (req-package gradle-mode
-  :hook (java-mode . gradle-mode))
+  :hook (java-mode . gradle-mode)
+  :general
+  (:keymaps 'gradle-mode-map
+            :prefix my-local-leader-key
+            "t" 'gradle-test))
 
 (req-package log4j-mode
   :mode "\\.log$"

@@ -16,11 +16,9 @@
 (req-package rust-mode
   :mode "\\.rs$"
   :general
-  (:keymaps
-   'rust-mode-map
-   :states 'normal
-   :prefix my-local-leader-key
-   "t a" 'cargo-process-test)
+  (:keymaps 'rust-mode-map :major-modes t
+            :prefix my-local-leader-key
+            "t" 'cargo-process-test)
   :init
   (setq rust-format-on-save (executable-find "rustfmt"))
   :config

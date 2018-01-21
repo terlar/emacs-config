@@ -7,9 +7,26 @@
 ;;; Code:
 
 (eval-when-compile
+  (require 'base-vars)
   (require 'base-package)
   (require 'base-lib)
   (require 'base-keybinds))
+
+;;;
+;; Functions
+(defun lisp-repl ()
+  "Open a Lisp REPL (`slime')."
+  (interactive)
+  (unless (slime-connected-p)
+    (slime))
+  (slime-repl))
+
+(defun lisp-test ()
+  "Test Lisp code."
+  (interactive)
+  (unless (slime-connected-p)
+    (slime))
+  (slime-load-file (buffer-file-name (current-buffer))))
 
 ;;;
 ;; Packages
@@ -19,6 +36,10 @@
   (slime-mode
    slime-describe-symbol)
   :general
+  (:keymaps 'lisp-mode-map :major-modes t
+            :prefix my-local-leader-key
+            "o" 'slime
+            "t" 'lisp-test)
   (:keymaps
    '(slime-doc-map
      slime-popup-buffer-mode-map
@@ -32,20 +53,13 @@
   :init
   (autoload 'eir-eval-in-slime "eval-in-repl-slime" nil t)
 
-  (defun lisp-repl ()
-    "Open a Lisp REPL (`slime')."
-    (interactive)
-    (unless (slime-connected-p)
-      (slime))
-    (slime-repl))
-
   (set-repl-command 'lisp-mode #'lisp-repl)
   (set-eval-command 'lisp-mode #'eir-eval-in-slime)
   (set-doc-fn 'lisp-mode #'slime-describe-symbol)
 
   (set-popup-buffer (rx bos "*slime-" (one-or-more anything) "*" eos))
 
-  (setq inferior-lisp-program "clisp")
+  (setq inferior-lisp-program "sbcl")
   :config
   (smart-jump-register :modes 'lisp-mode
                        :jump-fn #'slime-edit-definition

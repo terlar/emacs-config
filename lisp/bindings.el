@@ -259,6 +259,7 @@
  "i" '(aggressive-indent-mode      :wk "Automatic indentation")
  "l" '(display-line-numbers-mode   :wk "Line numbers")
  "L" '(coverlay-toggle-overlays    :wk "Coverage overlays")
+ "q" '(quickrun-autorun-mode       :wk "Auto-run compilation")
  "r" '(ruler-mode                  :wk "Ruler")
  "s" '(flyspell-mode               :wk "Spell-checking")
  "S" '(subword-mode                :wk "Subword")
@@ -293,6 +294,7 @@
    "<C-return>" 'repl-eval
    "gr" 'eval-region
    "gR" 'eval-buffer
+   "gt" 'quickrun
    "gV" '+evil-reselect-paste
    "+" '(rotate-text :package rotate-text)
    "-" '(rotate-text-backward :package rotate-text))

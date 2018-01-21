@@ -7,7 +7,8 @@
 
 (eval-when-compile
   (require 'base-vars)
-  (require 'base-package))
+  (require 'base-package)
+  (require 'base-keybinds))
 
 ;;;
 ;; Settings
@@ -38,13 +39,19 @@
         eir-repl-placement 'below))
 
 (req-package quickrun
+  :general
+  (:keymaps 'quickrun--mode-map :states '(normal motion)
+            "q" 'quit-window)
   :commands
-  (quickrun
+  (quickrun-autorun-mode
+   quickrun
    quickrun-region
    quickrun-with-arg
    quickrun-shell
    quickrun-compile-only
-   quickrun-replace-region))
+   quickrun-replace-region)
+  :init
+  (set-popup-buffer (rx bos "*quickrun*" eos)))
 
 ;;;
 ;; Autoloads

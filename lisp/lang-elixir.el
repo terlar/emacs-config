@@ -22,10 +22,8 @@
 (req-package alchemist
   :commands alchemist-iex-run
   :general
-  (:keymaps
-   'alchemist-help-minor-mode-map
-   :states 'normal
-   "q" 'quit-window)
+  (:keymaps 'alchemist-help-minor-mode-map :states 'normal
+            "q" 'quit-window)
   :hook (elixir-mode . alchemist-mode)
   :init
   (autoload 'eir-eval-in-iex "eval-in-repl-iex")
