@@ -11,6 +11,13 @@
 ;;;
 ;; Packages
 
+(req-package cakecrumbs
+  :hook
+  ((css-mode
+    nxml-mode
+    pug-mode
+    web-mode) . cakecrumbs-mode))
+
 (req-package web-mode
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
   :hook
