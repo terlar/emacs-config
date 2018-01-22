@@ -65,10 +65,9 @@
   (defun ruby-repl ()
     "Open a Ruby REPL."
     (interactive)
-    (ignore-errors
-      (open-and-switch-to-buffer #'inf-ruby-console-auto "*gem*" t))
-    (unless (get-buffer "*gem*")
-      (open-and-switch-to-buffer #'inf-ruby "*pry*" t)))
+    (if (and (projectile-project-p) (projectile-file-exists-p "Gemfile"))
+        (inf-ruby-console-auto)
+      (inf-ruby)))
 
   (set-repl-command 'enh-ruby-mode #'ruby-repl)
   (set-eval-command 'enh-ruby-mode #'eir-eval-in-ruby)
