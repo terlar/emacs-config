@@ -241,6 +241,7 @@
  :prefix my-leader-key
  :infix "r"
  ""  '(:ignore t :wk "REPL")
+ "c" '(inf-crystal  :wk "Crystal")
  "e" '(elixir-repl  :wk "Elixir")
  "g" '(go-repl      :wk "Golang")
  "h" '(haskell-repl :wk "Haskell")

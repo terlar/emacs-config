@@ -10,12 +10,22 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'base-package))
+
 ;;;
 ;; Packages
 
 (req-package crystal-mode
   :mode "\\.cr$"
   :interpreter "crystal")
+
+(req-package inf-crystal
+  :commands inf-crystal
+  :hook (crystal-mode . inf-crystal-minor-mode)
+  :config
+  (set-evil-state 'inf-crystal-mode 'insert)
+  (set-popup-buffer (rx bos "*inferior-crystal*" eos)))
 
 (provide 'lang-crystal)
 ;;; lang-crystal.el ends here
