@@ -224,6 +224,7 @@
  :prefix my-leader-key
  :infix "o"
  ""  '(:ignore t :wk "open")
+ "b" '(bibliothek                   :wk "Bibliothek")
  "c" '(calendar                     :wk "Calendar")
  "C" '(display-time-world           :wk "World Time")
  "d" '(deft                         :wk "Notes")

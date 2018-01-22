@@ -82,5 +82,12 @@
             "l"   'pdf-view-next-page
             "q"   'kill-this-buffer))
 
+(req-package bibliothek
+  :commands bibliothek
+  :init
+  (setq bibliothek-path '("~/books" "~/documents/research/papers"))
+  :config
+  (set-evil-state 'bibliothek-mode 'motion))
+
 (provide 'lang-ebook)
 ;;; lang-ebook.el ends here
