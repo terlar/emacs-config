@@ -71,11 +71,6 @@ This will be nil if you have byte-compiled your configuration.")
 (autoload 'use-package "use-package" nil nil 'macro)
 (autoload 'req-package "req-package" nil nil 'macro)
 
-(autoload 'use-package-normalize/:el-get "use-package-el-get")
-(autoload 'use-package-handler/:el-get "use-package-el-get")
-(with-eval-after-load 'use-package
-  (push :el-get use-package-keywords))
-
 ;;;
 ;; Functions
 
@@ -106,8 +101,6 @@ When base.el is compiled, this function will be avoided to speed up startup."
       (unless (package-installed-p package)
         (package-install package))
       (load (symbol-name package) nil t))
-
-    (load "use-package-el-get" nil t)
 
     (setq my-packages-init-p t)))
 
