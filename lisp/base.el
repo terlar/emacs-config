@@ -24,6 +24,7 @@
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 (setq-default
+ max-specpdl-size 32000         ; Handle code with excessive variable bindings (mainly lsp-mode)
  ad-redefinition-action 'accept ; Silence advised function warnings
  apropos-do-all t               ; Make `apropos' search for more stuff
  compilation-always-kill t      ; Kill compilation process before starting another
