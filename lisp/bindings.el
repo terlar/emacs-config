@@ -239,6 +239,21 @@
 
 (general-define-key
  :prefix my-leader-key
+ :infix "r"
+ ""  '(:ignore t :wk "REPL")
+ "e" '(elixir-repl  :wk "Elixir")
+ "g" '(go-repl      :wk "Golang")
+ "h" '(haskell-repl :wk "Haskell")
+ "j" '(java-repl    :wk "Java")
+ "l" '(lua-repl     :wk "Lua")
+ "L" '(lisp-repl    :wk "LISP")
+ "n" '(nodejs-repl  :wk "NodeJS")
+ "p" '(python-repl  :wk "Python")
+ "r" '(ruby-repl    :wk "Ruby")
+ "s" '(shell-repl   :wk "Shell"))
+
+(general-define-key
+ :prefix my-leader-key
  :infix "s"
  ""  '(:ignore t :wk "spell")
  "d" '(adict-guess-dictionary  :wk "Guess dictionary")
