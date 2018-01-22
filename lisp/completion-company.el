@@ -140,6 +140,12 @@
           company-oddmuse company-dabbrev)
         company-transformers '(company-sort-by-occurrence)))
 
+(req-package company-childframe
+  :diminish company-childframe-mode
+  :commands company-childframe-mode
+  :init
+  (add-graphic-hook (company-childframe-mode 1)))
+
 (req-package company-try-hard
   :commands company-try-hard)
 
