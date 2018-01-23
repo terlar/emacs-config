@@ -85,7 +85,8 @@
 (req-package bibliothek
   :commands bibliothek
   :init
-  (setq bibliothek-path '("~/books" "~/documents/research/papers"))
+  (setq bibliothek-path '("~/books" "~/documents/research/papers")
+        bibliothek-recursive t)
   :config
   (set-evil-state 'bibliothek-mode 'motion))
 
