@@ -247,6 +247,7 @@
  "g" '(go-repl      :wk "Golang")
  "h" '(haskell-repl :wk "Haskell")
  "j" '(java-repl    :wk "Java")
+ "k" '(kotlin-repl  :wk "Kotlin")
  "l" '(lua-repl     :wk "Lua")
  "L" '(lisp-repl    :wk "LISP")
  "n" '(nodejs-repl  :wk "NodeJS")

@@ -82,17 +82,26 @@
    android-start-emulator))
 
 (req-package groovy-mode
-  :mode "\\.gr\\(adle\\|oovy\\)$")
+  :mode "\\.gr\\(adle\\|oovy\\)\\'")
 
 (req-package gradle-mode
-  :hook (java-mode . gradle-mode)
+  :hook ((java-mode kotlin-mode) . gradle-mode)
   :general
   (:keymaps 'gradle-mode-map
             :prefix my-local-leader-key
             "t" 'gradle-test))
 
+(req-package flycheck-gradle
+  :hook ((java-mode kotlin-mode) . flycheck-gradle-setup))
+
+(req-package kotlin-mode
+  :commands kotlin-repl
+  :mode "\\.kts?\\'"
+  :config
+  (set-popup-buffer (rx bos "*KotlinREPL*" eos)))
+
 (req-package log4j-mode
-  :mode "\\.log$"
+  :mode "\\.log\\'"
   :interpreter "syslog-mode")
 
 (provide 'lang-java)
