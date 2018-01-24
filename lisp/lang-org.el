@@ -119,6 +119,13 @@ It acts in the same way as `org-meta-return'."
                            org-hide-emphasis-markers t)
                      (font-lock-fontify-block)))
 
+(req-package org-cliplink
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix my-local-leader-key
+   "u" 'org-cliplink))
+
 (req-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
@@ -129,8 +136,8 @@ It acts in the same way as `org-meta-return'."
   :general
   (:keymaps
    'org-mode-map
-   :prefix my-leader-key
-   "m n" 'org-noter)
+   :prefix my-local-leader-key
+   "n" 'org-noter)
   :commands org-noter)
 
 (req-package ob-elixir)
