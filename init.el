@@ -47,6 +47,7 @@
 (require 'tool-docsets)            ; Docsets
 (require 'tool-exercism)           ; exercism.io
 (require 'tool-notes)              ; Note taking
+(require 'tool-pomodoro)           ; Pomodoro
 (require 'tool-recording)          ; Screencasting
 (require 'tool-rotate-text)        ; Toggle between different text
 (require 'tool-sidebar)            ; Sidebar
