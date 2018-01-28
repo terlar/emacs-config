@@ -41,14 +41,22 @@
   (set-popup-buffer (rx bos "*Python*" eos))
 
   (set-prettify-symbols 'python-mode
-                        '(("def"    . ?ƒ)
+                        '(("def"    . ?𝒇)
+                          ("class"  . ?𝑪)
+                          ("="      . ?≝)
                           ("sum"    . ?Σ)
+                          ("and"    . ?∧)
+                          ("or"     . ?∨)
+                          ("not"    . ?￢)
+                          ("in"     . ?∈)
+                          ("not in" . ?∉)
+                          ("for"    . ?∀)
                           ("**2"    . ?²)
                           ("**3"    . ?³)
                           ("None"   . ?∅)
-                          ("in"     . ?∈)
-                          ("not in" . ?∉)
-                          ("return" . ?➡)))
+                          ("[]"     . ?⃞)
+                          ("return" . ?⟼)
+                          ("yield"  . ?⟻)))
 
   (setq python-environment-directory my-cache-dir
         python-indent-guess-indent-offset-verbose nil
