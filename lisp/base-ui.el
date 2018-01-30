@@ -336,6 +336,10 @@
 (req-package face-remap
   :diminish buffer-face-mode)
 
+(req-package focus
+  :diminish focus-mode
+  :commands focus-mode)
+
 ;; Code folding
 (req-package hideshow
   :diminish hs-minor-mode

@@ -272,8 +272,8 @@
  "C" '(rainbow-mode                :wk "Colorize color values")
  "d" '(toggle-debug-on-error       :wk "Debug on error")
  "e" '(eldoc-overlay-mode          :wk "Eldoc inline")
- "f" '(hs-minor-mode               :wk "Code folding")
- "F" '(flycheck-mode               :wk "Syntax checker")
+ "f" '(focus-mode                  :wk "Focus")
+ "F" '(hs-minor-mode               :wk "Code folding")
  "g" '(indent-guide-mode           :wk "Indent guides")
  "h" '(hl-line-mode                :wk "Line highlight")
  "i" '(aggressive-indent-mode      :wk "Automatic indentation")
@@ -287,7 +287,8 @@
  "t" '(toggle-truncate-lines       :wk "Truncate lines")
  "v" '(variable-pitch-mode         :wk "Fixed-width/variable-width font")
  "w" '(whitespace-mode             :wk "Display white-space characters")
- "W" '(auto-fill-mode              :wk "Automatic line-wrapping"))
+ "W" '(auto-fill-mode              :wk "Automatic line-wrapping")
+ "x" '(flycheck-mode               :wk "Syntax checker"))
 
 (general-define-key
  :prefix my-leader-key
