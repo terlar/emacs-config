@@ -15,7 +15,21 @@
 (eval-when-compile
   (require 'base-vars)
   (require 'base-package)
-  (require 'base-lib))
+  (require 'base-lib)
+  (require 'base-keybinds))
+
+;;;
+;; Functions
+
+(defun python-repl ()
+  "Open a Python REPL."
+  (interactive)
+  (open-and-switch-to-buffer #'run-python "*Python*" t))
+
+(defun +python-test ()
+  "Test Python code."
+  (interactive)
+  (compile (concat "python " (test-file (buffer-file-name (current-buffer))))))
 
 ;;;
 ;; Packages
@@ -26,14 +40,14 @@
   :interpreter
   ("python" . python-mode)
   :commands python-mode
-  :hook (python-mode . highlight-numbers-mode)
+  :preface
+  (defun +python-setup ()
+    (setq test-suffix "_test"))
+  :hook
+  (python-mode . highlight-numbers-mode)
+  (python-mode . +python-setup)
   :init
   (autoload 'eir-eval-in-python "eval-in-repl-python")
-
-  (defun python-repl ()
-    "Open a Python REPL."
-    (interactive)
-    (open-and-switch-to-buffer #'run-python "*Python*" t))
 
   (set-repl-command 'python-mode #'python-repl)
   (set-eval-command 'python-mode #'eir-eval-in-python)
@@ -85,6 +99,11 @@
   :hook (python-mode . python-x-setup))
 
 (req-package python-test
+  :general
+  (:keymaps 'python-mode-map :major-modes t
+            :prefix my-local-leader-key
+            "r" 'python-repl
+            "t" 'python-test-project)
   :commands
   (python-test
    python-test-class

@@ -23,7 +23,9 @@
   :interpreter
   "runghc"
   "runhaskell"
-  :hook (haskell-mode . rainbow-identifiers-mode)
+  :hook
+  (haskell-mode . rainbow-identifiers-mode)
+  (haskell-interactive-mode . turn-on-comint-history)
   :init
   (autoload 'haskell-doc-current-info "haskell-doc")
   (autoload 'haskell-hoogle-lookup-from-local "haskell-hoogle")
@@ -40,6 +42,7 @@
 
    ;; Use interpreter  `stack ghci'
    haskell-process-type 'stack-ghci
+   haskell-process-args-stack-ghci '("--test")
    haskell-process-auto-import-loaded-modules t
    haskell-process-show-debug-tips nil
    haskell-process-suggest-haskell-docs-imports t
@@ -54,9 +57,8 @@
   :commands intero-repl
   :hook (haskell-mode . intero-mode)
   :general
-  (:keymaps
-   'intero-mode-map
-   "C-c TAB" 'nil)
+  (:keymaps 'intero-mode-map
+            "C-c TAB" 'nil)
   :init
   (defalias 'haskell-repl 'intero-repl)
 
@@ -84,11 +86,9 @@
   (haskell-interactive-mode . structured-haskell-repl-mode)
   (structured-haskell-mode . +shm-setup)
   :general
-  (:keymaps
-   'shm-map
-   :states 'normal
-   "o" '+shm-evil-open-below
-   "O" '+shm-evil-open-above)
+  (:keymaps 'shm-map :states 'normal
+            "o" '+shm-evil-open-below
+            "O" '+shm-evil-open-above)
   :preface
   (defun +shm-setup ()
     (hl-line-mode -1)
@@ -132,10 +132,9 @@ The insertion will be repeated COUNT times."
   :diminish hi2-mode
   :hook (haskell-mode . turn-on-hi2)
   :general
-  (:keymaps
-   'hi2-mode-map
-   "RET" 'nil
-   "TAB" 'hi2-indent-line)
+  (:keymaps 'hi2-mode-map
+            "RET" 'nil
+            "TAB" 'hi2-indent-line)
   :config
   (with-eval-after-load 'editorconfig
     (add-to-list 'editorconfig-indentation-alist

@@ -14,6 +14,7 @@
 
 ;;;
 ;; Functions
+
 (defun lisp-repl ()
   "Open a Lisp REPL (`slime')."
   (interactive)

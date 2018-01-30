@@ -274,20 +274,22 @@ The list accepts the following properties:
 ;;;
 ;; Files
 
+(defvar-local test-suffix "-test")
+
 ;;;### autoload
 (defun test-file-p (file-name)
-  "Check if FILE-NAME is a test file."
-  (string-match-p "-test$" (file-name-sans-extension file-name)))
+  "Check if FILE-NAME is a test file (determined by TEST-SUFFIX)."
+  (string-match-p (concat test-suffix "$") (file-name-sans-extension file-name)))
 
 ;;;### autoload
 (defun implementation-or-test-file (file-name)
   "The alternate file for FILE-NAME.
 Either test file for implementation or implementation for test file."
-  (let ((basename (file-name-sans-extension file-name))
-        (extension (file-name-extension file-name)))
+  (let ((basename    (file-name-sans-extension file-name))
+        (extension   (file-name-extension file-name)))
     (if (test-file-p file-name)
-        (concat (string-remove-suffix "-test" basename) "." extension)
-      (concat basename "-test." extension))))
+        (concat (string-remove-suffix test-suffix basename) "." extension)
+      (concat basename test-suffix "." extension))))
 
 ;;;### autoload
 (defun test-file (file-name)
