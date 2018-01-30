@@ -96,12 +96,14 @@ It acts in the same way as `org-meta-return'."
        (shell      . t)
        (translate  . t))))
   :init
-  (setq org-confirm-babel-evaluate nil
+  (setq org-agenda-files '("~/org")
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 0
         org-hide-block-startup t
         org-hide-emphasis-markers t
+        org-log-done 'time
         org-startup-with-inline-images t
         org-special-ctrl-a/e t
-        org-edit-src-content-indentation 0
         org-src-preserve-indentation nil
         org-src-fontify-natively t
         org-src-tab-acts-natively t
@@ -117,7 +119,9 @@ It acts in the same way as `org-meta-return'."
   (set-on-evil-state 'org-mode 'normal
                      (setq org-hide-block-startup t
                            org-hide-emphasis-markers t)
-                     (font-lock-fontify-block)))
+                     (font-lock-fontify-block))
+
+  (set-popup-buffer (rx bos "*Org Agenda*" eos)))
 
 (req-package org-cliplink
   :general

@@ -300,6 +300,8 @@
  ":"   '(elisp-repl                             :wk "Emacs Lisp REPL")
  ";"   '(counsel-bookmark                       :wk "Jump to bookmark")
  "RET" '(repl                                   :wk "Open REPL")
+ "a"   '(org-agenda     :package org)
+ "l"   '(org-store-link :package org)
  "u"   '(universal-argument                     :wk "Universal argument")
  "v"   '(:keymap symbol-overlay-map
                  :package symbol-overlay :wk "overlays")

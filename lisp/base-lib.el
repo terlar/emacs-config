@@ -267,7 +267,9 @@ The list accepts the following properties:
 (defun refresh ()
   "Refresh buffer."
   (interactive)
-  (font-lock-flush))
+  (font-lock-flush)
+  (when org-inline-image-overlays
+    (org-redisplay-inline-images)))
 
 ;;;
 ;; Files
