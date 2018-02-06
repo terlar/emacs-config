@@ -293,13 +293,6 @@
 (req-package goto-last-change
   :commands goto-last-change)
 
-;; Improved help commands
-(req-package help-fns+
-  :commands
-  (describe-buffer
-   describe-keymap
-   describe-option describe-option-of-type))
-
 ;; A better *help* buffer
 (req-package helpful
   :commands

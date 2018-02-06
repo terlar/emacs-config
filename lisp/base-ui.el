@@ -173,8 +173,8 @@
   :hook
   ((bug-reference-mode bug-reference-prog-mode) . bug-reference-github-set-url-format))
 
-;; Centered window mode
-(req-package centered-window-mode
+;; Centered window
+(req-package centered-window
   :diminish centered-window-mode
   :commands centered-window-mode
   :init
