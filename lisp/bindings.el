@@ -34,6 +34,7 @@
 
  ;; Window navigation
  "C-`" 'window-toggle-side-windows
+ "C-§" 'window-toggle-side-windows
 
  ;; Use counsel/swiper for search
  "C-s" 'counsel-grep-or-swiper
