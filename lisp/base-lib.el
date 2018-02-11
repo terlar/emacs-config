@@ -268,7 +268,7 @@ The list accepts the following properties:
   "Refresh buffer."
   (interactive)
   (font-lock-flush)
-  (when org-inline-image-overlays
+  (when (bound-and-true-p org-inline-image-overlays)
     (org-redisplay-inline-images)))
 
 ;;;
