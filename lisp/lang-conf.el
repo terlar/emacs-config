@@ -22,6 +22,12 @@
             "C-c :" 'nil
             "C-c SPC" 'nil))
 
+(req-package nix-mode
+  :mode "\\.nix\\'"
+  :hook (nix-mode . flycheck-mode)
+  :config
+  (set-aggressive-indent 'nix-mode :disabled t))
+
 (req-package nginx-mode
   :mode
   "nginx\\.conf$"
