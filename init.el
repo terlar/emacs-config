@@ -75,6 +75,7 @@
 (require 'lang-org)
 (require 'lang-pkgbuild)
 (require 'lang-python)
+(require 'lang-racket)
 (require 'lang-rest)
 (require 'lang-rst)
 (require 'lang-ruby)
