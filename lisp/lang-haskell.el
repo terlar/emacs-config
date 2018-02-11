@@ -25,10 +25,16 @@
   "runhaskell"
   :hook
   (haskell-mode . rainbow-identifiers-mode)
-  (haskell-interactive-mode . turn-on-comint-history)
+  (haskell-mode . interactive-haskell-mode)
   :init
+  (autoload 'haskell-interactive-switch "haskell" nil t)
   (autoload 'haskell-doc-current-info "haskell-doc")
   (autoload 'haskell-hoogle-lookup-from-local "haskell-hoogle")
+
+  (set-repl-command 'haskell-mode #'haskell-interactive-switch)
+
+  (set-evil-state 'haskell-interactive-mode 'insert)
+  (set-popup-buffer (rx bos "*haskell*" eos))
 
   (setq
    haskell-notify-p t
@@ -52,7 +58,12 @@
   :config
   (set-aggressive-indent 'haskell-mode :disabled t))
 
+(req-package lsp-haskell
+  :requires lsp-mode
+  :hook (haskell-mode . lsp-haskell-enable))
+
 (req-package intero
+  :disabled t
   :diminish intero-mode
   :commands intero-repl
   :hook (haskell-mode . intero-mode)

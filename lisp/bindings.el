@@ -240,18 +240,19 @@
  :prefix my-leader-key
  :infix "r"
  ""  '(:ignore t :wk "REPL")
- "c" '(inf-crystal  :wk "Crystal")
- "e" '(elixir-repl  :wk "Elixir")
- "g" '(go-repl      :wk "Golang")
- "h" '(haskell-repl :wk "Haskell")
- "j" '(java-repl    :wk "Java")
- "k" '(kotlin-repl  :wk "Kotlin")
- "l" '(lua-repl     :wk "Lua")
- "L" '(lisp-repl    :wk "LISP")
- "n" '(nodejs-repl  :wk "NodeJS")
- "p" '(python-repl  :wk "Python")
- "r" '(ruby-repl    :wk "Ruby")
- "s" '(shell-repl   :wk "Shell"))
+ "c" '(inf-crystal                :wk "Crystal")
+ "e" '(elixir-repl                :wk "Elixir")
+ "g" '(go-repl                    :wk "Golang")
+ "h" '(haskell-interactive-switch :wk "Haskell")
+ "j" '(java-repl                  :wk "Java")
+ "k" '(kotlin-repl                :wk "Kotlin")
+ "l" '(lua-repl                   :wk "Lua")
+ "L" '(lisp-repl                  :wk "LISP")
+ "n" '(nodejs-repl                :wk "NodeJS")
+ "p" '(python-repl                :wk "Python")
+ "r" '(ruby-repl                  :wk "Ruby")
+ "R" '(racket-repl                :wk "Racket")
+ "s" '(shell-repl                 :wk "Shell"))
 
 (general-define-key
  :prefix my-leader-key
