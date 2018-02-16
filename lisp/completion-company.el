@@ -141,7 +141,6 @@
         company-transformers '(company-sort-by-occurrence)))
 
 (req-package company-childframe
-  :disabled t
   :diminish company-childframe-mode
   :commands company-childframe-mode
   :init
