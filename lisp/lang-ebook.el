@@ -80,7 +80,10 @@
             "j"   'pdf-view-next-line-or-next-page
             "k"   'pdf-view-previous-line-or-previous-page
             "l"   'pdf-view-next-page
-            "q"   'kill-this-buffer))
+            "q"   'kill-this-buffer)
+  :init
+  (autoload 'pdf-occur-global-minor-mode "pdf-occur" nil t)
+  (autoload 'pdf-virtual-global-minor-mode "pdf-virtual" nil t))
 
 (req-package bibliothek
   :commands bibliothek
