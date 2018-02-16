@@ -213,6 +213,13 @@
   (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
   (editorconfig-mode 1))
 
+(req-package exec-path-from-shell
+  :commands exec-path-from-shell-initialize
+  :init
+  (when (memq window-system '(mac ns))
+    (setq exec-path-from-shell-shell-name "/usr/local/bin/fish")
+    (exec-path-from-shell-initialize)))
+
 ;; Ignore files
 (req-package ignoramus
   :demand t
