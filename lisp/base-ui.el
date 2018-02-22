@@ -63,6 +63,9 @@
 (setq-default confirm-kill-emacs 'y-or-n-p)
 (fset #'yes-or-no-p #'y-or-n-p)
 
+;; Disable blinking cursor
+(blink-cursor-mode 0)
+
 ;; Tooltips in echo area
 (tooltip-mode 0)
 
