@@ -41,6 +41,9 @@
  "C-r" 'counsel-grep-or-swiper
  "C-x /" 'counsel-abbrev
 
+ ;; Align
+ "C-x \\" 'align-regexp
+
  ;; Text-scaling
  "C-=" 'default-text-scale-reset
  "C--" 'default-text-scale-decrease
