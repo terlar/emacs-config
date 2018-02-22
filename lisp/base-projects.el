@@ -18,9 +18,10 @@
   :hook (find-file . +projectile-relative-buf-name)
   :preface
   (defun +projectile-relative-buf-name ()
-    (when (projectile-project-p)
-      (rename-buffer
-       (file-relative-name buffer-file-name (projectile-project-root)))))
+    (let ((buffer-name (if (projectile-project-p)
+                           (file-relative-name buffer-file-name (projectile-project-root))
+                         (abbreviate-file-name buffer-file-name))))
+      (rename-buffer buffer-name)))
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
         projectile-enable-caching nil
