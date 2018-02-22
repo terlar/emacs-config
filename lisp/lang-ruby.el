@@ -15,47 +15,50 @@
 ;;;
 ;; Packages
 
-(req-package enh-ruby-mode
+(req-package ruby-mode
   :mode
   "\\.rb$"
   "\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$"
   "/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$"
   :interpreter "ruby"
   :hook
-  (enh-ruby-mode . flycheck-mode)
-  (enh-ruby-mode . rainbow-identifiers-mode)
-  (enh-ruby-mode . +rainbow-identifiers-delayed-refresh)
+  (ruby-mode . flycheck-mode)
+  (ruby-mode . rainbow-identifiers-mode)
+  (ruby-mode . +rainbow-identifiers-delayed-refresh)
   :general
-  (:keymaps 'enh-ruby-mode-map
+  (:keymaps 'ruby-mode-map
             "C-c /" 'nil)
   :init
-  ;; Don't indent the parenthesis or bracket based on the previous line.
-  (setq enh-ruby-deep-indent-paren nil))
+  (setq ruby-align-chained-calls t))
 
 (req-package robe
-  :hook (enh-ruby-mode . robe-mode)
+  :hook
+  ((ruby-mode enh-ruby-mode) . robe-mode)
   :config
-  (set-doc-fn 'enh-ruby-mode #'robe-doc)
+  (set-doc-fn '(ruby-mode enh-ruby-mode) #'robe-doc)
   (smart-jump-register :modes 'robe-mode
                        :jump-fn #'robe-jump
                        :pop-fn #'xref-pop-marker-stack
                        :refs-fn #'smart-jump-simple-find-references)
 
-  (set-company-backends 'enh-ruby-mode 'company-robe)
+  (set-company-backends '(ruby-mode enh-ruby-mode) 'company-robe)
   (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
 (req-package yard-mode
   :diminish yard-mode
-  :hook enh-ruby-mode)
+  :hook (ruby-mode enh-ruby-mode))
 
 (req-package ruby-refactor
-  :hook (enh-ruby-mode . ruby-refactor-mode))
+  :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode))
 
 (req-package rspec-mode
   :minor
   "_spec\\.rb$")
 
 (req-package inf-ruby
+  :hook
+  ((ruby-mode enh-ruby-mode) . inf-ruby-minor-mode)
+  (compilation-filter . inf-ruby-auto-enter)
   :commands
   (inf-ruby
    inf-ruby-console-auto)
@@ -69,8 +72,8 @@
         (inf-ruby-console-auto)
       (inf-ruby)))
 
-  (set-repl-command 'enh-ruby-mode #'ruby-repl)
-  (set-eval-command 'enh-ruby-mode #'eir-eval-in-ruby)
+  (set-repl-command '(ruby-mode enh-ruby-mode) #'ruby-repl)
+  (set-eval-command '(ruby-mode enh-ruby-mode) #'eir-eval-in-ruby)
 
   (set-popup-buffer (rx bos "*"
                         (or "ruby" "pry" "gem" "bundle console")
