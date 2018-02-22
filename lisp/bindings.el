@@ -166,6 +166,7 @@
  "c" '(editorconfig-find-current-editorconfig :wk "Open project editorconfig")
  "g" '(counsel-rg                             :wk "Grep files")
  "G" '(counsel-projectile-rg                  :wk "Grep project files")
+ "n" '(deft-find-file                         :wk "Find notes")
  "r" '(recentf                                :wk "Recent files")
  "R" '(projectile-recentf                     :wk "Recent project files")
  "t" '(counsel-tramp                          :wk "Find TRAMP file"))

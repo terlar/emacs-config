@@ -54,6 +54,7 @@ Used when `rst-header-scaling' is non-nil."
   (rst-mode . +rst-mode-setup)
   :preface
   (defun +rst-mode-setup ()
+    (require 'hide-lines)
     (customize-set-variable 'rst-header-scaling t)
     (hide-lines-matching rst-adornment-regexp))
   :config
