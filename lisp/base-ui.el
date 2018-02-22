@@ -37,6 +37,7 @@
  visible-cursor nil
  x-stretch-cursor nil
  uniquify-buffer-name-style 'forward
+ uniquify-ignore-buffers-re "^\\*"
  tooltip-reuse-hidden-frame t
  ;; Scrolling
  hscroll-margin 1

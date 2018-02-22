@@ -148,7 +148,8 @@
         recentf-filename-handlers '(abbreviate-file-name)
         recentf-max-menu-items 0
         recentf-max-saved-items 250
-        recentf-save-file (concat my-cache-dir "recentf"))
+        recentf-save-file (concat my-cache-dir "recentf")
+        recentf-auto-cleanup 'never)
   :config
   (quiet! (recentf-mode 1)))
 
@@ -158,7 +159,7 @@
   :init
   (setq savehist-additional-variables '(search-ring regexp-search-ring)
         ;; Save on kill only
-        savehist-autosave-interval nil
+        savehist-autosave-interval 60
         savehist-file (concat my-cache-dir "savehist")
         savehist-save-minibuffer-history t)
   :config
