@@ -21,6 +21,7 @@
  (rx bos "*Compile-Log*" eos)
  (rx bos "*Pp Eval Output*" eos)
  (rx bos "*Shell Command Output*" eos)
+ (rx bos "*Buffer List*" eos)
  (rx bos "*Process List*" eos)
  (rx bos "*Help*" eos)
  (rx bos "*Man " (one-or-more anything) "*" eos)
