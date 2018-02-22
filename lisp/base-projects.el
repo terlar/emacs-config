@@ -15,6 +15,12 @@
 (req-package projectile
   :demand t
   :diminish projectile-mode
+  :hook (find-file . +projectile-relative-buf-name)
+  :preface
+  (defun +projectile-relative-buf-name ()
+    (when (projectile-project-p)
+      (rename-buffer
+       (file-relative-name buffer-file-name (projectile-project-root)))))
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
         projectile-enable-caching nil
