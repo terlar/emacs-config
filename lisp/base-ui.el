@@ -253,8 +253,7 @@
   :diminish indent-guide-mode
   :commands indent-guide-mode
   :init
-  (setq indent-guide-char "\x2502"
-        indent-guide-recursive t))
+  (setq indent-guide-char "\x2502"))
 
 ;; Flash the line around cursor on large movements
 (req-package beacon
@@ -399,8 +398,7 @@
 
 ;; Automatic balanced window layout
 (req-package zoom
-  :diminish zoom-mode
-  :hook (after-init . zoom-mode))
+  :diminish zoom-mode)
 
 ;;;
 ;; Autoloads
