@@ -55,6 +55,10 @@
                      (nameless-mode +1)
                      (easy-escape-minor-mode +1)))
 
+(req-package ielm :ensure nil
+  :hook
+  (ielm-mode . rainbow-delimiters-mode))
+
 (req-package auto-compile
   :commands auto-compile-byte-compile
   :hook
