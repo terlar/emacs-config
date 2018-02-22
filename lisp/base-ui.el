@@ -251,10 +251,10 @@
 ;; Indentation guides
 (req-package indent-guide
   :diminish indent-guide-mode
-  :hook (prog-mode . indent-guide-mode)
+  :commands indent-guide-mode
   :init
-  (setq indent-guide-delay 0.2
-        indent-guide-char "\x2502"))
+  (setq indent-guide-char "\x2502"
+        indent-guide-recursive t))
 
 ;; Flash the line around cursor on large movements
 (req-package beacon
