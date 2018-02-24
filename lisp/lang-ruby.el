@@ -29,31 +29,54 @@
   (:keymaps 'ruby-mode-map
             "C-c /" 'nil)
   :init
-  (setq ruby-align-chained-calls t))
-
-(req-package robe
-  :hook
-  ((ruby-mode enh-ruby-mode) . robe-mode)
-  :config
-  (set-doc-fn '(ruby-mode enh-ruby-mode) #'robe-doc)
-  (smart-jump-register :modes 'robe-mode
-                       :jump-fn #'robe-jump
-                       :pop-fn #'xref-pop-marker-stack
-                       :refs-fn #'smart-jump-simple-find-references)
-
-  (set-company-backends '(ruby-mode enh-ruby-mode) 'company-robe)
-  (set-popup-buffer (rx bos "*robe-doc*" eos)))
+  (setq ruby-align-chained-calls t
+        ruby-deep-indent-paren t))
 
 (req-package yard-mode
   :diminish yard-mode
   :hook (ruby-mode enh-ruby-mode))
 
 (req-package ruby-refactor
-  :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode))
+  :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode)
+  :general
+  (:keymaps 'ruby-mode-map :major-modes t
+            :prefix my-local-leader-key
+            :infix "r"
+            "b" 'ruby-toggle-block
+            "ec" 'ruby-refactor-extract-constant
+            "el" 'ruby-refactor-extract-to-let
+            "em" 'ruby-refactor-extract-to-method
+            "ev" 'ruby-refactor-extract-local-variable
+            "ad" 'ruby-refactor-add-parameter
+            "cc" 'ruby-refactor-convert-post-conditional))
+
+(req-package ruby-test-mode
+  :hook ruby-mode
+  :general
+  (:keymaps 'ruby-mode-map :major-modes t
+            :prefix my-leader-key
+            :infix "f"
+            "a" 'ruby-test-toggle-implementation-and-specification))
 
 (req-package rspec-mode
   :minor
-  "_spec\\.rb$")
+  "_spec\\.rb$"
+  :commands rspec-mode
+  :general
+  (:keymaps 'ruby-mode-map :major-modes t
+            :prefix my-local-leader-key
+            :infix "t"
+            "r" #'rspec-rerun
+            "a" #'rspec-verify-all
+            "s" #'rspec-verify-single
+            "v" #'rspec-verify)
+  (:keymaps 'ruby-mode-map :major-modes t
+            :prefix my-local-leader-key
+            "a" #'rspec-toggle-spec-and-target)
+  :init
+  (setq rspec-key-command-prefix (kbd "C-c C-t"))
+  :config
+  (set-popup-buffer (rx bos "*rspec-compilation*" eos)))
 
 (req-package inf-ruby
   :hook
@@ -87,6 +110,24 @@
   :commands company-inf-ruby
   :init
   (set-company-backends 'inf-ruby-mode 'company-inf-ruby))
+
+(req-package rake
+  :commands (rake rake-find-task rake-rerun)
+  :config
+  (setq rake-completion-system 'default
+        rake-cache-file (concat my-cache-dir "rake.cache"))
+  (set-popup-buffer (rx bos "*rake-compilation*" eos)))
+
+(req-package robe
+  :config
+  (set-doc-fn '(ruby-mode enh-ruby-mode) #'robe-doc)
+  (smart-jump-register :modes 'robe-mode
+                       :jump-fn #'robe-jump
+                       :pop-fn #'xref-pop-marker-stack
+                       :refs-fn #'smart-jump-simple-find-references)
+
+  (set-company-backends '(ruby-mode enh-ruby-mode) 'company-robe)
+  (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
 (provide 'lang-ruby)
 ;;; lang-ruby.el ends here
