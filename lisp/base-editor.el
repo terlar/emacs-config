@@ -216,6 +216,7 @@
 
 (req-package exec-path-from-shell
   :commands exec-path-from-shell-initialize
+  :hook (projectile-after-switch-project . exec-path-from-shell-initialize)
   :init
   (when (memq window-system '(mac ns))
     (setq exec-path-from-shell-shell-name "/usr/local/bin/fish")
