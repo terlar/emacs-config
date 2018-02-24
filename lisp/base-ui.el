@@ -40,9 +40,6 @@
  uniquify-ignore-buffers-re "^\\*"
  tooltip-reuse-hidden-frame t
  ;; Scrolling
- hscroll-margin 1
- hscroll-step 1
- scroll-conservatively 1001
  scroll-margin 0
  scroll-preserve-screen-position t
  ;; Margins
