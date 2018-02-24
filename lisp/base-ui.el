@@ -306,8 +306,15 @@
 
 ;; comint
 (req-package comint :ensure nil
+  :hook
+  (compilation-mode . +compilation-mode-setup)
+  :preface
+  (defun +compilation-mode-setup ()
+    ;; Disable word wrapping
+    (toggle-truncate-lines 1))
   :init
-  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+  (setq comint-prompt-read-only t)
+  (add-to-list 'comint-output-filter-functions 'ansi-color-for-comint-mode-on)
   (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
 
 ;; Compilation
