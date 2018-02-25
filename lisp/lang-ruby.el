@@ -23,11 +23,6 @@
   :interpreter "ruby"
   :hook
   (ruby-mode . flycheck-mode)
-  (ruby-mode . rainbow-identifiers-mode)
-  (ruby-mode . +rainbow-identifiers-delayed-refresh)
-  :general
-  (:keymaps 'ruby-mode-map
-            "C-c /" 'nil)
   :init
   (setq ruby-align-chained-calls t
         ruby-deep-indent-paren t))
@@ -73,7 +68,6 @@
 (req-package inf-ruby
   :hook
   ((ruby-mode enh-ruby-mode) . inf-ruby-minor-mode)
-  ((ruby-mode enh-ruby-mode) . inf-ruby-switch-setup)
   (compilation-filter . inf-ruby-auto-enter)
   :commands
   (inf-ruby
