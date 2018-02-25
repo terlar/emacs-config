@@ -31,6 +31,15 @@
   :diminish yard-mode
   :hook (ruby-mode enh-ruby-mode))
 
+(req-package yari
+  :commands yari
+  :init
+  (define-key 'help-command (kbd "R") #'yari)
+  (set-doc-fn '(ruby-mode enh-ruby-mode) #'yari)
+  :config
+  (set-evil-state 'yari-mode 'motion)
+  (set-popup-buffer (rx bos "*yari " (one-or-more anything) "*" eos)))
+
 (req-package ruby-refactor
   :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode)
   :general
