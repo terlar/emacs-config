@@ -21,7 +21,8 @@
         deft-default-extension "org"
         deft-recursive t
         deft-use-filename-as-title t
-        deft-use-filter-string-for-filename t)
+        deft-use-filter-string-for-filename t
+        deft-auto-save-interval 0)
   :config
   (set-evil-state 'deft-mode 'emacs))
 
