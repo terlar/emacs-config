@@ -318,9 +318,10 @@
   (general-define-key
    :keymaps 'normal
    "<C-return>" 'repl-eval
-   "gr" 'eval-region
-   "gR" 'eval-buffer
-   "gt" 'quickrun
+   "gr" 'quickrun-region
+   "gR" 'quickrun
+   "gt" 'testrun-at-point
+   "gT" 'testrun-file
    "gV" '+evil-reselect-paste
    "+" '(rotate-text :package rotate-text)
    "-" '(rotate-text-backward :package rotate-text))

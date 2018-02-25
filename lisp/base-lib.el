@@ -12,6 +12,9 @@
 (defvar-local documentation-function nil
   "Function to use for documentation look-ups.")
 
+(defvar-local testrun-functions nil
+  "An alist defining different kind of test functions.")
+
 ;;;
 ;; Packages
 
@@ -95,6 +98,43 @@ The list accepts the following properties:
   (if (commandp documentation-function)
       (call-interactively documentation-function)
     (call-interactively 'source-peek)))
+
+;;;###autoload
+(defmacro set-test-fns (modes &rest plist)
+  "Set MODES test function configuration through PLIST.
+The list accepts the following properties:
+:all FN
+  Define which function runs for `testrun-all'.
+:file FN
+  Define which function runs for `testrun-file'
+:at-point FN
+  Define which function runs for `testrun-at-point'."
+  `(let* ((modes (if (listp ,modes) ,modes (list ,modes)))
+          (fn-name (intern (format "set-test-fns--%s" (mapconcat #'symbol-name modes "-")))))
+     (defalias fn-name
+       (lambda () (setq testrun-functions (list ,@plist))))
+     (add-hooks-pair modes fn-name)))
+
+;;;###autoload
+(defun testrun-all ()
+  "Test all files using function from `testrun-functions'."
+  (interactive)
+  (let ((fn (plist-get testrun-functions :all)))
+    (when (commandp fn) (call-interactively fn))))
+
+;;;###autoload
+(defun testrun-file ()
+  "Test current file using function from `testrun-functions'."
+  (interactive)
+  (let ((fn (plist-get testrun-functions :file)))
+    (when (commandp fn) (call-interactively fn))))
+
+;;;###autoload
+(defun testrun-at-point ()
+  "Test definition at point using function from `testrun-functions'."
+  (interactive)
+  (let ((fn (plist-get testrun-functions :at-point)))
+    (when (commandp fn) (call-interactively fn))))
 
 (defmacro set-company-backends (mode &rest backends)
   "For MODE add BACKENDS to buffer-local version of `company-backends'."

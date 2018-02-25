@@ -13,6 +13,30 @@
   (require 'base-keybinds))
 
 ;;;
+;; Functions
+
+(defun ruby-test-all ()
+  "Test all files using either RSpec or MiniTest."
+  (interactive)
+  (if (bound-and-true-p rspec-mode)
+      (rspec-verify-all)
+    (minitest-verify-all)))
+
+(defun ruby-test-file ()
+  "Test current file using either RSpec or MiniTest."
+  (interactive)
+  (if (bound-and-true-p rspec-mode)
+      (rspec-verify)
+    (minitest-verify)))
+
+(defun ruby-test-at-point ()
+  "Test definition at point using either RSpec or MiniTest."
+  (interactive)
+  (if (bound-and-true-p rspec-mode)
+      (rspec-verify-single)
+    (minitest-verify-single)))
+
+;;;
 ;; Packages
 
 (req-package ruby-mode
@@ -25,7 +49,12 @@
   (ruby-mode . flycheck-mode)
   :init
   (setq ruby-align-chained-calls t
-        ruby-deep-indent-paren t))
+        ruby-deep-indent-paren t)
+
+  (set-test-fns 'ruby-mode
+                :all #'ruby-test-all
+                :file #'ruby-test-file
+                :at-point #'ruby-test-at-point))
 
 (req-package yard-mode
   :diminish yard-mode
@@ -55,8 +84,8 @@
             "cc" 'ruby-refactor-convert-post-conditional))
 
 (req-package minitest
-  :minor
-  ("_test\\.rb$" . minitest-mode)
+  :hook
+  ((ruby-mode enh-ruby-mode) . minitest-enable-appropriate-mode)
   :commands minitest-mode
   :init
   (setq minitest-keymap-prefix (kbd "C-c C-t"))
@@ -64,8 +93,8 @@
   (set-popup-buffer (rx bos "*Minitest" (one-or-more anything) "*" eos)))
 
 (req-package rspec-mode
-  :minor
-  "_spec\\.rb$"
+  :hook
+  ((ruby-mode enh-ruby-mode) . rspec-enable-appropriate-mode)
   :commands rspec-mode
   :init
   (setq rspec-key-command-prefix (kbd "C-c C-t")
