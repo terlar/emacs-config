@@ -310,8 +310,9 @@
     ;; Disable word wrapping
     (toggle-truncate-lines 1))
   :init
-  (setq comint-prompt-read-only t)
-  (add-to-list 'comint-output-filter-functions 'ansi-color-for-comint-mode-on)
+  (setq comint-prompt-read-only t
+        ansi-color-for-comint-mode t)
+  (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
   (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m))
 
 ;; Compilation

@@ -50,37 +50,30 @@
             "ad" 'ruby-refactor-add-parameter
             "cc" 'ruby-refactor-convert-post-conditional))
 
-(req-package ruby-test-mode
-  :hook ruby-mode
-  :general
-  (:keymaps 'ruby-mode-map :major-modes t
-            :prefix my-leader-key
-            :infix "f"
-            "a" 'ruby-test-toggle-implementation-and-specification))
+(req-package minitest
+  :minor
+  ("_test\\.rb$" . minitest-mode)
+  :commands minitest-mode
+  :init
+  (setq minitest-keymap-prefix (kbd "C-c C-t"))
+  :config
+  (set-popup-buffer (rx bos "*Minitest" (one-or-more anything) "*" eos)))
 
 (req-package rspec-mode
   :minor
   "_spec\\.rb$"
   :commands rspec-mode
-  :general
-  (:keymaps 'ruby-mode-map :major-modes t
-            :prefix my-local-leader-key
-            :infix "t"
-            "r" #'rspec-rerun
-            "a" #'rspec-verify-all
-            "s" #'rspec-verify-single
-            "v" #'rspec-verify)
-  (:keymaps 'ruby-mode-map :major-modes t
-            :prefix my-local-leader-key
-            "a" #'rspec-toggle-spec-and-target)
   :init
-  (setq rspec-key-command-prefix (kbd "C-c C-t"))
+  (setq rspec-key-command-prefix (kbd "C-c C-t")
+        rspec-use-opts-file-when-available nil
+        rspec-command-options "--format progress")
   :config
   (set-popup-buffer (rx bos "*rspec-compilation*" eos)))
 
 (req-package inf-ruby
   :hook
   ((ruby-mode enh-ruby-mode) . inf-ruby-minor-mode)
+  ((ruby-mode enh-ruby-mode) . inf-ruby-switch-setup)
   (compilation-filter . inf-ruby-auto-enter)
   :commands
   (inf-ruby
