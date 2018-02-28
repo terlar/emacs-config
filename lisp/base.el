@@ -112,6 +112,10 @@
 
   (require 'base-lib))
 
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;; Startup time
 (add-hook 'emacs-startup-hook
           (lambda ()
