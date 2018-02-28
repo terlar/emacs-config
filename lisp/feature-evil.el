@@ -26,6 +26,9 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 (req-package evil
   :demand t
+  :general
+  (:keymaps 'insert
+            "C-g" 'normal-state-or-keyboard-quit)
   :custom
   (evil-want-Y-yank-to-eol t)
   :init
@@ -159,6 +162,13 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (interactive)
   (when evil-pre-insert-state-variable-pitch-mode
     (variable-pitch-mode 1)))
+
+(defun normal-state-or-keyboard-quit ()
+  "If in evil insert state, force normal state, else run `keyboard-quit'."
+  (interactive)
+  (if (and evil-mode (eq evil-state 'insert))
+      (evil-force-normal-state)
+    (keyboard-quit)))
 
 (provide 'feature-evil)
 ;;; feature-evil.el ends here
