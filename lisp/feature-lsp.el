@@ -11,16 +11,13 @@
 
 (req-package lsp-mode
   :demand t
-  :hook (lsp-mode . flycheck-mode)
   :init
   (setq lsp-enable-eldoc t
-        lsp-inhibit-message t)
-  :config
-  (with-eval-after-load 'flycheck
-    (require 'lsp-flycheck)))
+        lsp-inhibit-message t))
 
 (req-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
+  :hook
+  (lsp-mode . lsp-ui-mode)
   :init
   (setq lsp-ui-doc-header nil
         lsp-ui-doc-include-signature t
