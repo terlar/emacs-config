@@ -85,6 +85,10 @@
   :demand t
   :after (evil anzu))
 
+;; Hide mode line
+(req-package hide-mode-line
+  :commands hide-mode-line-mode)
+
 ;; Display info about indentation current indentation settings
 (req-package indent-info
   :demand t
