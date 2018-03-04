@@ -40,9 +40,14 @@
   (set-popup-buffer (rx bos "*Flycheck errors*" eos)
                     (rx bos "*Flycheck checker*" eos)))
 
+;; Pos-frame error messages
+(req-package flycheck-posframe
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
 ;; Inline error messages
 (req-package flycheck-inline
   :el-get t :ensure nil
+  :disabled t
   :hook (after-init . flycheck-inline-mode)
   :init
   (setq flycheck-display-errors-delay 0.5))
