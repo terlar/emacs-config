@@ -99,6 +99,8 @@
    ;; flycheck
    `(flycheck-error                          ((t (:underline (:color ,theme-color-error)))))
    `(flycheck-warning                        ((t (:underline (:color ,theme-color-warning)))))
+   `(flycheck-fringe-error                   ((t (:foreground ,theme-color-error))))
+   `(flycheck-fringe-warning                 ((t (:foreground ,theme-color-warning))))
    ;; nav-flash
    `(nav-flash-face                          ((t (:background "#FFF7E4"))))
    ;; markdown

@@ -42,7 +42,9 @@
 
 ;; Pos-frame error messages
 (req-package flycheck-posframe
-  :hook (flycheck-mode . flycheck-posframe-mode))
+  :hook (flycheck-mode . flycheck-posframe-mode)
+  :config
+  (flycheck-posframe-configure-pretty-defaults))
 
 ;; Inline error messages
 (req-package flycheck-inline
