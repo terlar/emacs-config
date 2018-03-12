@@ -72,6 +72,7 @@
 (require 'lang-lisp)
 (require 'lang-lua)
 (require 'lang-markdown)
+(require 'lang-ocaml)
 (require 'lang-opengl)
 (require 'lang-org)
 (require 'lang-pkgbuild)
