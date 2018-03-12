@@ -56,6 +56,7 @@
 ;;;
 ;; Language support
 
+(require 'lang-clojure)
 (require 'lang-conf)
 (require 'lang-crystal)
 (require 'lang-data)
