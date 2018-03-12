@@ -37,10 +37,9 @@
             [remap switch-to-buffer] 'ivy-switch-buffer
             [remap imenu-anywhere]   'ivy-imenu-anywhere
             "C-o"                    'ivy-dispatching-done)
-  (:keymaps 'ivy-occur-grep-mode-map :states 'normal
+  (:keymaps 'ivy-occur-grep-mode-map :states '(normal emacs)
             "i" 'ivy-wgrep-change-to-wgrep-mode
             "q" 'quit-window)
-
   (:keymaps 'ivy-minibuffer-map
             [escape] 'keyboard-escape-quit
             "M-v"    'yank
@@ -72,6 +71,7 @@
         ;; disable magic slash on non-match
         ivy-magic-slash-non-match-action nil)
   :config
+  (set-evil-state 'ivy-occur-grep-mode 'normal)
   (set-popup-buffer (rx bos "*ivy-occur " (one-or-more anything) "*" eos)))
 
 (req-package swiper
