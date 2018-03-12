@@ -44,7 +44,9 @@
   (advice-add #'projectile-cache-current-file :around #'+projectile-cache-current-file)
 
   (setq projectile-globally-ignored-directories
-        (append '("_build" "elm-stuff" "tests/elm-stuff")
+        (append '("_build"
+                  "target" "project/target"
+                  "elm-stuff" "tests/elm-stuff")
                 projectile-globally-ignored-directories))
 
   (setq projectile-project-root-files

@@ -51,6 +51,10 @@
   (set-repl-command 'scala-mode #'ensime-inf-switch)
   (set-eval-command 'scala-mode #'eir-eval-in-scala)
 
+  (set-test-fns 'ensime-mode
+                :all #'ensime-sbt-do-test
+                :file #'ensime-sbt-do-test)
+
   (set-company-backends 'scala-mode 'ensime-company)
   (set-doc-fn 'ensime-mode #'ensime-show-doc-for-symbol-at-point)
   (smart-jump-register :modes 'ensime-mode
