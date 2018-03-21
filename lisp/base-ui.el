@@ -359,6 +359,7 @@
        ov 'display (propertize " … " 'face 'font-lock-comment-face))))
 
   (setq hs-hide-comments-when-hiding-all nil
+        hs-allow-nesting t
         hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
 
 ;; Line highlighting (builtin)

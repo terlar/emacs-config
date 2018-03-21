@@ -311,6 +311,14 @@ The list accepts the following properties:
   (when (bound-and-true-p org-inline-image-overlays)
     (org-redisplay-inline-images)))
 
+;;;### autoload
+(defun toggle-fold ()
+  "Toggle folding."
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (hs-toggle-hiding)))
+
 ;;;
 ;; Files
 

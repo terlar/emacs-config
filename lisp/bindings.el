@@ -345,6 +345,8 @@
    "gp" '(source-peek            :wk "Peek definition")
    "gP" (general-predicate-dispatch nil
           (bound-and-true-p lsp-mode) 'lsp-ui-peek-find-references)
+   "TAB" 'toggle-fold
+   "za" 'toggle-fold
    "zM" 'hs-hide-level
    "zx" 'kill-buffer
    "ZX" 'bury-buffer)
