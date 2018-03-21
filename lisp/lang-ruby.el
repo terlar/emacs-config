@@ -51,6 +51,13 @@
   (setq ruby-align-chained-calls t
         ruby-deep-indent-paren t)
 
+  (with-eval-after-load 'hideshow
+    (push `(ruby-mode
+            ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+            ,(rx (or "}" "]" "end"))                       ; Block end
+            ,(rx (or "#" "=begin"))                        ; Comment start
+            ruby-forward-sexp nil) hs-special-modes-alist))
+
   (set-test-fns 'ruby-mode
                 :all #'ruby-test-all
                 :file #'ruby-test-file
