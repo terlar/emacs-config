@@ -26,11 +26,17 @@
             :states 'motion
             "RET" 'dired-find-file
             "/" 'counsel-grep-or-swiper
-            "?" 'counsel-grep-or-swiper)
+            "?" 'counsel-grep-or-swiper
+            "i" 'dired-toggle-read-only
+            "gi" 'dired-maybe-insert-subdir)
+  (:keymaps 'wdired-mode-map :states 'normal
+            "ZZ" 'wdired-finish-edit)
   :init
   ;; Always copy/delete recursively
   (setq dired-recursive-copies  'always
-        dired-recursive-deletes 'top))
+        dired-recursive-deletes 'top)
+
+  (set-evil-state 'wdired-mode 'normal))
 
 ;; Display subtrees
 (req-package dired-subtree
