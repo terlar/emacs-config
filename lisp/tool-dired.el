@@ -30,6 +30,7 @@
             "i" 'dired-toggle-read-only
             "gi" 'dired-maybe-insert-subdir)
   (:keymaps 'wdired-mode-map :states 'normal
+            "ZQ" 'wdired-abort-changes
             "ZZ" 'wdired-finish-edit)
   :init
   ;; Always copy/delete recursively

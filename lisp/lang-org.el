@@ -68,14 +68,9 @@ It acts in the same way as `org-meta-return'."
             "o" '+org-evil-open-below
             "O" '+org-evil-open-above)
   (:keymaps 'org-src-mode :states 'normal :definer 'minor-mode
-            "ZZ" '+org-edit-src-save-and-exit)
+            "ZQ" 'org-edit-src-abort
+            "ZZ" 'org-edit-src-exit)
   :preface
-  (defun +org-edit-src-save-and-exit ()
-    "Save parent buffer with current state source-code buffer and exit."
-    (interactive)
-    (org-edit-src-save)
-    (org-edit-src-exit))
-
   (defun +org-setup-babel ()
     (org-babel-do-load-languages
      'org-babel-load-languages

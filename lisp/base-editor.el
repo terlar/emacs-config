@@ -376,6 +376,7 @@
   :general
   (:keymaps 'wgrep-mode-map :states 'normal
             "d"  'wgrep-mark-deletion
+            "ZQ" 'wgrep-abort-changes
             "ZZ" 'wgrep-finish-edit)
   :init
   (setq wgrep-auto-save-buffer t))
