@@ -24,7 +24,9 @@ It acts in the same way as `org-meta-return'."
     (evil-start-undo-step))
 
   (back-to-indentation)
-  (org-meta-return)
+  (if (org-in-src-block-p)
+      (org-return)
+    (org-meta-return))
   (evil-move-end-of-line)
 
   (setq evil-insert-count count)
@@ -43,7 +45,9 @@ It acts in the same way as `org-meta-return'."
   (push (point) buffer-undo-list)
 
   (evil-move-end-of-line)
-  (org-meta-return)
+  (if (org-in-src-block-p)
+      (org-return)
+    (org-meta-return))
 
   (setq evil-insert-count count)
   (setq evil-insert-lines t)
@@ -110,11 +114,34 @@ It acts in the same way as `org-meta-return'."
   (set-on-evil-state 'org-mode 'insert
                      (setq org-hide-block-startup nil
                            org-hide-emphasis-markers nil)
+                     (org-bullets-mode -1)
                      (font-lock-fontify-block))
   (set-on-evil-state 'org-mode 'normal
                      (setq org-hide-block-startup t
                            org-hide-emphasis-markers t)
+                     (org-bullets-mode 1)
                      (font-lock-fontify-block))
+
+  ;; Pretty task symbols
+  (font-lock-add-keywords
+   'org-mode `(("^\\*+ \\(TODO\\) "
+                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
+               ("^\\*+ \\(DOING\\) "
+                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
+               ("^\\*+ \\(CANCELED\\) "
+                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
+               ("^\\*+ \\(DONE\\) "
+                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
+
+  ;; Pretty bullet lists
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ +\\([-*]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Align indented variable width text.
+  (font-lock-add-keywords
+   'org-mode '(("^\\( +\\)" (0 'fixed-pitch))))
 
   (set-popup-buffer (rx bos "*Org Agenda*" eos)))
 

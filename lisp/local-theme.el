@@ -61,7 +61,7 @@
    `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
    ;; org-mode
    `(org-document-title                      ((t (:foreground ,color-14 :height 1.8 :bold t :underline (:color ,color-7)))))
-   `(org-level-1                             ((t (:foreground ,color-14 :height 1.6 :bold t))))
+   `(org-level-1                             ((t (:foreground ,color-14 :height 1.7 :bold t))))
    `(org-level-2                             ((t (:foreground ,color-14 :height 1.4 :bold nil))))
    `(org-level-3                             ((t (:foreground ,color-14 :height 1.2 :bold nil))))
    `(org-block                               ((t (:inherit fixed-pitch))))
