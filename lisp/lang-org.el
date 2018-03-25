@@ -126,7 +126,8 @@ It acts in the same way as `org-meta-return'."
    "u" 'org-cliplink))
 
 (req-package org-bullets
-  :hook (org-mode . org-bullets-mode))
+  :hook (org-mode . org-bullets-mode)
+  :custom (org-bullets-bullet-list '("◉" "○")))
 
 (req-package org-radiobutton
   :hook (org-mode . org-radiobutton-mode))

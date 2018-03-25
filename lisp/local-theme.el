@@ -60,8 +60,15 @@
    `(ediff-current-diff-Ancestor             ((t (:background "#DDF1F1"))))
    `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
    ;; org-mode
+   `(org-document-title                      ((t (:foreground ,color-14 :height 1.8 :bold t :underline (:color ,color-7)))))
+   `(org-level-1                             ((t (:foreground ,color-14 :height 1.6 :bold t))))
+   `(org-level-2                             ((t (:foreground ,color-14 :height 1.4 :bold nil))))
+   `(org-level-3                             ((t (:foreground ,color-14 :height 1.2 :bold nil))))
    `(org-block                               ((t (:inherit fixed-pitch))))
+   `(org-checkbox                            ((t (:inherit fixed-pitch :height 0.8 :bold t))))
    `(org-formula                             ((t (:inherit fixed-pitch))))
+   `(org-meta-line                           ((t (:inherit fixed-pitch))))
+   `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
 
