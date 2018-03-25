@@ -128,6 +128,9 @@ It acts in the same way as `org-meta-return'."
 (req-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
+(req-package org-radiobutton
+  :hook (org-mode . org-radiobutton-mode))
+
 (req-package org-preview-html
   :commands org-preview-html-mode)
 
