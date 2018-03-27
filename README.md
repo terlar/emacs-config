@@ -1,3 +1,0 @@
-# emacs.d
-
-Emacs configuration

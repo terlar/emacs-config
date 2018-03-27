@@ -1,0 +1,25 @@
+* emacs.d
+
+  This is my Emacs configuration. It is not very well documented right now, but
+  hopefully I will have time to write down some more details later.
+
+  This is the rough details:
+  - theme :: [[https://github.com/11111000000/tao-theme-emacs][tao-theme]] (yang) with [[file:lisp/local-theme.el][some local modifications]]
+  - menu completion :: [[https://github.com/abo-abo/swiper][ivy]]
+  - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]], [[https://github.com/tumashu/company-childframe][company-childframe]]
+  - modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]
+  - key definitions :: [[https://github.com/noctuid/general.el][general]]
+  - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]]
+  - syntax checker :: [[https://github.com/flycheck/flycheck][flycheck]], [[https://github.com/alexmurray/flycheck-posframe][flycheck-posframe]]
+
+** Config
+  - [[file:lisp/base-ui.el][UI]]
+  - [[file:lisp/base-editor.el][Editor]]
+  - [[file:lisp/base-modeline.el][Mode line]]
+  - [[file:lisp/bindings.el][Bindings]]
+  - [[file:lisp/][Other]]
+
+** Look
+*** org-mode
+    #+CAPTION: org-mode
+    [[file:media/org-mode.png]]
