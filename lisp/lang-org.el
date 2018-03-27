@@ -156,7 +156,7 @@ It acts in the same way as `org-meta-return'."
 (req-package org-bullets
   :hook (org-mode . org-bullets-mode)
   :custom
-  (org-bullets-bullet-list '("◉" "○"))
+  (org-bullets-bullet-list '(" "))
   ;; Use default font face (also size)
   (org-bullets-face-name 'default))
 
