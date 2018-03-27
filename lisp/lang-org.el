@@ -136,12 +136,12 @@ It acts in the same way as `org-meta-return'."
   ;; Pretty bullet lists
   (font-lock-add-keywords
    'org-mode
-   '(("^ +\\([-*]\\) "
+   '(("^ +\\([-*+]\\) "
       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
-  ;; Align indented variable width text.
+  ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
   (font-lock-add-keywords
-   'org-mode '(("^\\( +\\)" (0 'fixed-pitch))))
+   'org-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append)
 
   (set-popup-buffer (rx bos "*Org Agenda*" eos)))
 
@@ -152,9 +152,13 @@ It acts in the same way as `org-meta-return'."
    :prefix my-local-leader-key
    "u" 'org-cliplink))
 
+;; Pretty bullets for headings
 (req-package org-bullets
   :hook (org-mode . org-bullets-mode)
-  :custom (org-bullets-bullet-list '("◉" "○")))
+  :custom
+  (org-bullets-bullet-list '("◉" "○"))
+  ;; Use default font face (also size)
+  (org-bullets-face-name 'default))
 
 (req-package org-radiobutton
   :hook (org-mode . org-radiobutton-mode))
