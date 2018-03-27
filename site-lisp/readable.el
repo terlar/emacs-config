@@ -36,7 +36,7 @@
 
 ;;;###autoload
 (defface readable
-  '((t (:family "Noto Serif")))
+  '((t (:family "Noto Serif" :height 1.1)))
   "Face used to increase readability."
   :group 'readable)
 
