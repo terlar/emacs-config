@@ -102,8 +102,8 @@
             "O" '+shm-evil-open-above)
   :preface
   (defun +shm-setup ()
-    (hl-line-mode -1)
-    (haskell-indentation-mode -1))
+    (hl-line-mode 0)
+    (haskell-indentation-mode 0))
   :init
   (setq shm-auto-insert-bangs t
         shm-auto-insert-skeletons t

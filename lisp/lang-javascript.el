@@ -30,6 +30,9 @@
         js2-skip-preprocessor-directives t
         js2-strict-trailing-comma-warning nil)
 
+  (set-prettify-symbols 'js2-mode
+                        '(("function" . ?ƒ)))
+
   (with-eval-after-load 'editorconfig
     (add-to-list 'editorconfig-indentation-alist
                  '(js2-mode js2-basic-offset js-switch-indent-offset))))

@@ -386,6 +386,8 @@
   :preface
   (defun +prog-mode-setup ()
     (setq-local scroll-margin 4))
+  :init
+  (setq prettify-symbols-unprettify-at-point t)
   :config
   (set-prettify-symbols 'prog-mode
                         '(("lambda" . ?λ)

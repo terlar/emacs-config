@@ -308,6 +308,8 @@ The list accepts the following properties:
   "Refresh buffer."
   (interactive)
   (font-lock-flush)
+  (prettify-symbols-mode 0)
+  (prettify-symbols-mode 1)
   (when (bound-and-true-p org-inline-image-overlays)
     (org-redisplay-inline-images)))
 

@@ -49,11 +49,11 @@
                     (rx bos "*Style Warnings*" eos))
 
   (set-on-evil-state 'emacs-lisp-mode 'insert
-                     (nameless-mode -1)
-                     (easy-escape-minor-mode -1))
+                     (nameless-mode 0)
+                     (easy-escape-minor-mode 0))
   (set-on-evil-state 'emacs-lisp-mode 'normal
-                     (nameless-mode +1)
-                     (easy-escape-minor-mode +1)))
+                     (nameless-mode 1)
+                     (easy-escape-minor-mode 1)))
 
 (req-package ielm :ensure nil
   :hook

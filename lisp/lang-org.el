@@ -114,7 +114,7 @@ It acts in the same way as `org-meta-return'."
   (set-on-evil-state 'org-mode 'insert
                      (setq org-hide-block-startup nil
                            org-hide-emphasis-markers nil)
-                     (org-bullets-mode -1)
+                     (org-bullets-mode 0)
                      (font-lock-fontify-block))
   (set-on-evil-state 'org-mode 'normal
                      (setq org-hide-block-startup t
