@@ -163,6 +163,10 @@ It acts in the same way as `org-meta-return'."
 (req-package org-radiobutton
   :hook (org-mode . org-radiobutton-mode))
 
+(req-package org-plus-contrib
+  :init
+  (require 'org-eldoc))
+
 (req-package org-preview-html
   :commands org-preview-html-mode)
 
