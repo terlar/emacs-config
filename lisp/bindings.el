@@ -36,6 +36,9 @@
  "C-`" 'window-toggle-side-windows
  "C-§" 'window-toggle-side-windows
 
+ ;; Terminal
+ "C-!" 'eshell
+
  ;; Use counsel/swiper for search
  "C-s" 'counsel-grep-or-swiper
  "C-r" 'counsel-grep-or-swiper
