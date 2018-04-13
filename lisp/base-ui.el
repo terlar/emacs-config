@@ -85,6 +85,13 @@
   (set-window-fringes (minibuffer-window) 0 0 nil))
 (add-hooks-pair '(emacs-startup minibuffer-setup) '+disable-minibuffer-window-fringes)
 
+;; Window borders
+(when (boundp 'window-divider-mode)
+  (setq window-divider-default-places t
+        window-divider-default-bottom-width 1
+        window-divider-default-right-width 1)
+  (window-divider-mode 1))
+
 ;; Text scaling
 (defadvice text-scale-increase (around all-buffers (arg) activate)
   "Text scale across all buffers."

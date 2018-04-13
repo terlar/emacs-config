@@ -25,9 +25,6 @@
    '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
 
-(defvar mode-line-bar-string " "
-  "The string to use for the mode line bar.")
-
 ;;;
 ;; Settings
 
@@ -75,7 +72,7 @@
             (face (if (and (zerop total) (not (string= isearch-string "")))
                       'anzu-mode-line-no-match
                     'anzu-mode-line)))
-        (propertize (concat mode-line-bar-string status) 'face face))))
+        (propertize (concat " " status) 'face face))))
 
   (setq anzu-mode-line-update-function #'+anzu-update-mode-line
         anzu-minimum-input-length 1
@@ -113,8 +110,8 @@
     (if (stringp tag)
         (progn
           (face-remap-add-relative 'anzu-mode-line :background color)
-          (propertize mode-line-bar-string
-                      'face (list :background color :foreground color :box t)
+          (propertize " "
+                      'face (list :background color :foreground color :box nil)
                       'help-echo (evil-state-property state :name)
                       'mouse-face 'mode-line-highlight))
       tag)))
