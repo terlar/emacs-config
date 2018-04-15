@@ -34,6 +34,7 @@
 
   (custom-theme-set-faces
    'local
+   `(vertical-border                         ((t (:background ,color-8 :foreground ,color-8))))
    `(mode-line                               ((t (:family ,my-variable-pitch-font :foreground ,color-12 :background ,color-6 :box (:line-width 6 :color ,color-6)))))
    `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :foreground ,color-9 :background ,color-7 :box (:line-width 6 :color ,color-7)))))
    `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
@@ -71,6 +72,10 @@
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
+   ;; window-divider
+   `(window-divider                          ((t (:inherit 'vertical-border))))
+   `(window-divider-first-pixel              ((t (:inherit 'window-divider))))
+   `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
 
    ;; anzu
    `(anzu-mode-line                          ((t (:foreground "white" :background ,my-evil-default-mode-color :box nil))))
