@@ -375,12 +375,32 @@
    wgrep-change-to-wgrep-mode)
   :general
   (:keymaps 'wgrep-mode-map :states 'normal
+            "d" 'wgrep-delete
             "ZQ" 'wgrep-abort-changes
             "ZZ" 'wgrep-finish-edit)
-  (:keymaps 'wgrep-mode-map :states 'operator
-            "D" 'wgrep-mark-deletion)
   :init
-  (setq wgrep-auto-save-buffer t))
+  (setq wgrep-auto-save-buffer t)
+  (with-eval-after-load 'evil
+    (evil-define-operator wgrep-delete
+      (beg end type register yank-handler)
+      "Delete text from BEG to END with TYPE.
+Save in REGISTER or in the kill-ring with YANK-HANDLER."
+      (interactive "<R><x><y>")
+      (if (eq type 'line)
+          (progn
+            (unless register
+              (let ((text (filter-buffer-substring beg end)))
+                (unless (string-match-p "\n" text)
+                  (evil-set-register ?- text))))
+            (let ((evil-was-yanked-without-register nil))
+              (evil-yank beg end type register yank-handler))
+            (dotimes (var (count-lines beg end))
+              (wgrep-mark-deletion)
+              (evil-next-line)))
+        (evil-delete beg end type register yank-handler))
+      (when (and (evil-called-interactively-p)
+                 (eq type 'line))
+        (evil-first-non-blank)))))
 
 (req-package zoom-window
   :commands zoom-window-zoom)
