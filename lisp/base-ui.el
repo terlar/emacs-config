@@ -39,6 +39,8 @@
  uniquify-buffer-name-style 'forward
  uniquify-ignore-buffers-re "^\\*"
  tooltip-reuse-hidden-frame t
+ ;; Word-wrapping
+ truncate-lines t
  ;; Scrolling
  scroll-margin 0
  scroll-preserve-screen-position t
@@ -101,7 +103,6 @@
 ;; Visual line wrapping
 (diminish 'visual-line-mode)
 (add-hooks-pair '(text-mode
-                  prog-mode
                   Man-mode)
                 'visual-line-mode)
 
