@@ -21,7 +21,7 @@
     "Color used to indicate error.")
   (defvar theme-color-success "sea green"
     "Color used to indicate success.")
-  (defvar theme-color-warning "dark orange"
+  (defvar theme-color-warning color-11
     "Color used to indicate warning.")
 
   (defvar theme-color-highlight color-14
@@ -96,9 +96,9 @@
    `(js2-error                               ((t (:inherit flycheck-error))))
    `(js2-warning                             ((t (:inherit flycheck-warning))))
    ;; lsp-mode
-   `(lsp-face-highlight-textual              ((t (:background nil :box (:line-width 1 :color "dark orange")))))
-   `(lsp-face-highlight-read                 ((t (:background nil :box (:line-width 1 :color "tomato")))))
-   `(lsp-face-highlight-write                ((t (:background nil :box (:line-width 1 :color "sea green")))))
+   `(lsp-face-highlight-textual              ((t (:background nil :box (:line-width 1 :color ,theme-color-warning)))))
+   `(lsp-face-highlight-read                 ((t (:background nil :box (:line-width 1 :color ,theme-color-error)))))
+   `(lsp-face-highlight-write                ((t (:background nil :box (:line-width 1 :color ,theme-color-success)))))
    ;; lsp-ui
    `(lsp-ui-peek-peek                        ((t (:background nil))))
    `(lsp-ui-peek-list                        ((t (:background nil))))
