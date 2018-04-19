@@ -69,6 +69,7 @@
   :defer 2
   :init
   (setq auto-revert-verbose nil
+        ;; Auto-refresh dired and other non-file buffers
         global-auto-revert-non-file-buffers t)
   :config
   (global-auto-revert-mode 1))
