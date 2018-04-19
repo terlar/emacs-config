@@ -243,7 +243,8 @@
         sp-max-pair-length 3)
   :config
   (require 'smartparens-config)
-  (smartparens-global-mode 1))
+  (smartparens-global-mode 1)
+  (show-smartparens-global-mode 1))
 
 ;; Branching & persistent undo
 (req-package undo-tree

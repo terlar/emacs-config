@@ -125,6 +125,9 @@
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#FFDDDD"))))
+   ;; smartparens
+   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :background ,color-3 :weight bold))))
+   `(sp-show-pair-mismatch-face              ((t (:foreground ,color-1 :background ,color-7 :weight bold))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
    `(spray-accent-face                       ((t (:foreground "red" :underline (:color ,color-10) :overline ,color-10))))

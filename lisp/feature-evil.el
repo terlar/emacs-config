@@ -121,6 +121,10 @@ If a hook returns non-nil, all hooks after it are ignored.")
   :config
   (evil-embrace-enable-evil-surround-integration))
 
+;; Improve smartparens compatibility
+(req-package evil-smartparens
+  :hook (smartparens-enabled . evil-smartparens-mode))
+
 ;;;
 ;; Autoloads
 

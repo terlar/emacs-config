@@ -378,16 +378,6 @@
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil))
 
-;; Highlight matching delimiters
-(req-package paren
-  :defer 2
-  :init
-  (setq show-paren-delay 0.1
-        show-paren-highlight-openparen t
-        show-paren-when-point-inside-paren t)
-  :config
-  (show-paren-mode 1))
-
 ;; Major mode for editing source code.
 (req-package prog-mode :ensure nil
   :hook (prog-mode . +prog-mode-setup)
