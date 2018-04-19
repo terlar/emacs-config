@@ -123,6 +123,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
 
 ;; Improve smartparens compatibility
 (req-package evil-smartparens
+  :diminish evil-smartparens-mode
   :hook (smartparens-enabled . evil-smartparens-mode))
 
 ;;;
