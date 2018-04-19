@@ -46,6 +46,7 @@
   (setq projectile-globally-ignored-directories
         (append '("_build"
                   "target" "project/target"
+                  "vendor/bundle" "vendor/cache"
                   "elm-stuff" "tests/elm-stuff")
                 projectile-globally-ignored-directories))
 
