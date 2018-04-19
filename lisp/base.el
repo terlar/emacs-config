@@ -74,13 +74,24 @@
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil)
 
-;; X
-(setq x-gtk-use-system-tooltips nil
-      ;; Clipboard
-      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
-      ;; Use shared clipboard
-      select-enable-clipboard t
-      select-enable-primary t)
+;; OS-specific
+(when (memq window-system '(mac ns))
+  (dolist (item (list
+                 "/usr/local/bin"
+                 (expand-file-name "~/go/bin")
+                 (expand-file-name "~/.opam/system/bin")
+                 (expand-file-name "~/.local/bin")
+                 ".git/safe/../../bin"))
+    (setenv "PATH" (concat item ":" (getenv "PATH")))
+    (setq exec-path (push item exec-path))))
+
+(when (eq window-system 'x)
+  (setq x-gtk-use-system-tooltips nil
+        ;; Clipboard
+        x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
+        ;; Use shared clipboard
+        select-enable-clipboard t
+        select-enable-primary t))
 
 ;;;
 ;; Initialize

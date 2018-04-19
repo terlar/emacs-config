@@ -66,5 +66,11 @@
 
   (projectile-mode 1))
 
+(req-package direnv
+  :defer 2
+  :config
+  (set-popup-buffer (rx bos " *direnv*" eos))
+  (direnv-mode))
+
 (provide 'base-projects)
 ;;; base-projects.el ends here
