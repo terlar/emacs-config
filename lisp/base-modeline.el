@@ -16,11 +16,14 @@
 
 (defvar flycheck-mode-line "")
 
+(defvar mode-line-space
+  (propertize " " 'display '((space :width 2)))
+  "Space between mode line components.")
+
 (defvar mode-line-right-format
   (list
-   (propertize " " 'display '((space :width 2)))
-   '(:eval flycheck-mode-line)
-   (propertize " " 'display '((space :width 1)))
+   (propertize " "
+               'display `((space :align-to (- (+ right right-fringe right-margin) 20))))
    '(:eval mode-line-position)
    '(:eval mode-line-mule-info))
   "The mode line to display on the right side.")
@@ -37,6 +40,7 @@
 
 (delete 'mode-line-mule-info mode-line-format)
 (delete 'mode-line-position mode-line-format)
+(push '(flycheck-mode (:eval flycheck-mode-line)) mode-line-modes)
 (setq-default mode-line-format
               (append
                mode-line-format
@@ -136,19 +140,22 @@
 (with-eval-after-load 'flycheck
   (setq flycheck-mode-line
         '(:eval
-          (pcase flycheck-last-status-change
-            (`finished (if flycheck-current-errors
-                           (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
-                                          (+ (or .warning 0) (or .error 0)))))
-                             (propertize (format "✖ %s Issue%s" count (if (eq 1 count) "" "s"))
-                                         'face 'error))
-                         (propertize "✔ No Issues" 'face 'success)))
-            (`running     (propertize "⟲ Running" 'face 'warning))
-            (`no-checker  (propertize "⚠ No Checker" 'face 'warning))
-            (`not-checked "✖ Disabled")
-            (`errored     (propertize "⚠ Error" 'face 'error))
-            (`interrupted (propertize "⛔ Interrupted" 'face 'error))
-            (`suspicious  "")))))
+          (let ((text (pcase flycheck-last-status-change
+                        (`not-checked "")
+                        (`no-checker "-")
+                        (`running "⟲")
+                        (`errored "!")
+                        (`finished
+                         (let-alist (flycheck-count-errors flycheck-current-errors)
+                           (propertize (format "☒ %s ⚠%s" (or .error 0) (or .warning 0))
+                                       'face (cond (.error 'error)
+                                                   (.warning 'warning)
+                                                   (t 'unspecified)))))
+                        (`interrupted ".")
+                        (`suspicious "?"))))
+            (concat mode-line-space
+                    text
+                    mode-line-space)))))
 
 (provide 'base-modeline)
 ;;; base-modeline.el ends here
