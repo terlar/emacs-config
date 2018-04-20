@@ -118,6 +118,20 @@
 (with-eval-after-load 'evil
   (defalias 'evil-generate-mode-line-tag #'+mode-line-evil-state-bar))
 
+;; VC
+(defun +shorten-vc-mode-line (string)
+  "Shorten `version-control' STRING in mode-line and add icon."
+  (cond
+   ((string-prefix-p "Git" string)
+    (concat [#xF126]
+            " "
+            (if (> (length string) 30)
+                (concat (substring-no-properties string 4 30) "…")
+              (substring-no-properties string 4))))
+   (t
+    string)))
+(advice-add 'vc-git-mode-line-string :filter-return '+shorten-vc-mode-line)
+
 ;; Flycheck
 (with-eval-after-load 'flycheck
   (setq flycheck-mode-line
