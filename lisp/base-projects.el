@@ -68,6 +68,8 @@
 
 (req-package direnv
   :defer 2
+  :init
+  (setq direnv-always-show-summary nil)
   :config
   (set-popup-buffer (rx bos " *direnv*" eos))
   (direnv-mode))
