@@ -48,7 +48,7 @@
 (defvar my-default-font-height 100
   "The default font height to use.")
 
-(defvar my-font "Fira Mono"
+(defvar my-font "Iosevka Term Slab Light"
   "The monospace font to use.")
 
 (defvar my-variable-pitch-font "Fira Sans Book"
