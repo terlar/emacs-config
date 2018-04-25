@@ -204,5 +204,12 @@
     (erase-buffer)
     (eshell-send-input)))
 
+(defun run-eshell ()
+  "Run Eshell inside project or locally."
+  (interactive)
+  (if (projectile-project-p)
+      (projectile-run-eshell)
+    (eshell)))
+
 (provide 'lang-shell)
 ;;; lang-shell.el ends here

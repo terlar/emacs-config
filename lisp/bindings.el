@@ -37,7 +37,7 @@
  "C-§" 'window-toggle-side-windows
 
  ;; Terminal
- "C-!" 'eshell
+ "C-!" 'run-eshell
 
  ;; Use counsel/swiper for search
  "C-s" 'counsel-grep-or-swiper
@@ -237,7 +237,7 @@
  "P" '(redtick                      :wk "Pomodoro")
  "r" '(camcorder-record             :wk "Record video")
  "s" '(speed-read                   :wk "Speed-reading")
- "t" '(eshell                       :wk "Terminal")
+ "t" '(run-eshell                   :wk "Terminal")
  "T" '(ansi-term                    :wk "ANSI Terminal")
  "u" '(ace-link                     :wk "Open link")
  "w" '(eww                          :wk "Browser")
