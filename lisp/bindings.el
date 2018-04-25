@@ -57,8 +57,6 @@
  "M-=" 'text-scale-reset
  "M--" 'text-scale-decrease
  "M-+" 'text-scale-increase
- "<C-mouse-4>" 'text-scale-decrease
- "<C-mouse-5>" 'text-scale-increase
 
  ;; Screen refresh
  "C-l" 'refresh)
