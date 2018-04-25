@@ -44,6 +44,9 @@
  "C-r" 'counsel-grep-or-swiper
  "C-x /" 'counsel-abbrev
 
+ ;; Buffer
+ "C-x k" 'kill-this-buffer
+
  ;; Align
  "C-x \\" 'align-regexp
 
