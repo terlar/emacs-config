@@ -25,6 +25,7 @@
    exercism-tracks)
   :general
   (:prefix my-leader-key
+           "E" '(:ignore t :wk "exercism")
            "E f" 'exercism-fetch
            "E l" 'exercism-list
            "E o" 'exercism-open
