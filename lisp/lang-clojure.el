@@ -44,6 +44,8 @@
   (setq cider-repl-display-help-banner nil)
 
   (set-repl-command 'clojure-mode #'clojure-repl)
+  (set-eval-command 'clojure-mode #'cider-eval-last-sexp)
+
   (set-test-fns 'clojure-mode
                 :all #'cider-test-run-project-tests
                 :file #'cider-test-run-ns-tests
