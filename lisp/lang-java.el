@@ -82,7 +82,9 @@
    android-start-emulator))
 
 (req-package groovy-mode
-  :mode "\\.gr\\(adle\\|oovy\\)\\'")
+  :mode
+  "\\.gr\\(adle\\|oovy\\)\\'"
+  "Jenkinsfile")
 
 (req-package gradle-mode
   :hook ((java-mode kotlin-mode) . gradle-mode)
