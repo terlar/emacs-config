@@ -21,6 +21,7 @@
         persp-nil-hidden t
         persp-remove-buffers-from-nil-persp-behaviour nil
         persp-autokill-buffer-on-remove 'kill-weak
+        persp-kill-foreign-buffer-behaviour 'kill
         ;; Auto-load on startup
         persp-auto-resume-time (if (daemonp) 2.0 0)
         ;; Auto-save on kill
