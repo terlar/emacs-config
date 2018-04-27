@@ -9,20 +9,18 @@
   (push (expand-file-name "lisp" user-emacs-directory) load-path)
   (push (expand-file-name "site-lisp" user-emacs-directory) load-path))
 
-(defun load-directory-files-with-prefixes (dir types)
-  "Load Elisp files in DIR with TYPES prefix."
-  (let ((prefixes (mapconcat 'symbol-name types "\\|")))
-    (dolist (file (directory-files dir nil (concat "\\(" prefixes "\\)-[[:alnum:]-]*\\.el$")))
-      (load-file (expand-file-name file (file-name-as-directory dir))))))
+(defun load-directory (dir)
+  "Load Elisp files in DIR."
+  (dolist (file (directory-files dir nil (concat "[[:alnum:]-]*\\.el$")))
+    (load-file (expand-file-name file (file-name-as-directory dir)))))
 
 ;;;
 ;; Base
 
 ;; Calls (package-initialize)
 (require 'base)
-(load-directory-files-with-prefixes
- (expand-file-name "lisp" user-emacs-directory)
- '(feature completion tool lang))
+(dolist (type '(feature completion tool lang))
+  (load-directory (expand-file-name (concat "lisp" "/" (symbol-name type)) user-emacs-directory)))
 
 (unless noninteractive
   (require 'bindings)
