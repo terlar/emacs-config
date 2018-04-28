@@ -45,10 +45,10 @@
 (defvar my-theme 'tao-yang
   "The color theme to use.")
 
-(defvar my-default-font-height 100
+(defvar my-default-font-height 120
   "The default font height to use.")
 
-(defvar my-font "Iosevka Term Slab Light"
+(defvar my-font "Iosevka Slab"
   "The monospace font to use.")
 
 (defvar my-variable-pitch-font "Fira Sans Book"
