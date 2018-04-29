@@ -73,9 +73,6 @@
  (tool-bar-mode 0)
  (scroll-bar-mode 0))
 
-;; Maximized frame
-(toggle-frame-fullscreen)
-
 ;; Transparent non-graphic background color
 (add-terminal-hook (set-face-background 'default nil))
 
