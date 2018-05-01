@@ -40,6 +40,8 @@
   :general
   (:keymaps 'cider-mode-map
             "C-c RET" 'nil)
+  :hook
+  (cider-mode . cider-auto-test-mode)
   :init
   (setq cider-repl-display-help-banner nil)
 
@@ -52,8 +54,9 @@
                 :at-point #'cider-test-run-test)
   :config
   (set-evil-state 'cider-repl-mode 'insert)
+  (set-evil-state 'cider-test-report-mode 'insert)
   (set-popup-buffer (rx bos "*cider-repl " (one-or-more anything) "*")
                     (rx bos "*cider-test-report*")))
 
 (provide 'lang-clojure)
-;;; lang-clojure.el ends here
+;;; clojure.el ends here

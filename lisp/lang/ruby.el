@@ -163,4 +163,4 @@
   (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
 (provide 'lang-ruby)
-;;; lang-ruby.el ends here
+;;; ruby.el ends here
