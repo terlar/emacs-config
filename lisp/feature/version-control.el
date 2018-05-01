@@ -61,7 +61,10 @@
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" "")
   :config
-  (set-popup-buffer (rx bos "magit: " (one-or-more anything) eos))
+  (set-popup-buffer
+   (rx bos "*magit-" (one-or-more anything) "-popup*" eos)
+   (rx bos "magit" (one-or-more anything) eos))
+
   (global-magit-file-mode 1))
 
 ;; Popup commit message for current line
