@@ -19,7 +19,7 @@
   (dired-mode . +dired-mode-setup)
   :preface
   (defun +dired-mode-setup ()
-    (face-remap-add-relative 'hl-line :background "#DDDDDD"))
+    (face-remap-add-relative 'hl-line :background (face-background 'isearch)))
   :general
   (:keymaps 'dired-mode-map
             :major-modes t
