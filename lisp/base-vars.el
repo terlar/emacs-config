@@ -51,7 +51,7 @@
 (defvar my-font "Iosevka Slab"
   "The monospace font to use.")
 
-(defvar my-variable-pitch-font "Fira Sans Book"
+(defvar my-variable-pitch-font "Noto Sans"
   "The regular font to use.")
 
 (defvar my-unicode-font "Noto Mono"
