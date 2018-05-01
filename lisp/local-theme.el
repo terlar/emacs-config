@@ -35,8 +35,8 @@
   (custom-theme-set-faces
    'local
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
-   `(mode-line                               ((t (:family ,my-variable-pitch-font :foreground ,color-12 :background ,color-5 :box (:line-width 6 :color ,color-5)))))
-   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :foreground ,color-9 :background ,color-4 :box (:line-width 6 :color ,color-4)))))
+   `(mode-line                               ((t (:family ,my-variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 6 :color ,color-5)))))
+   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 6 :color ,color-4)))))
    `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
    `(line-number-current-line                ((t (:foreground ,theme-color-highlight :weight bold))))
@@ -85,7 +85,7 @@
    `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
 
    ;; anzu
-   `(anzu-mode-line                          ((t (:foreground "white" :background ,my-evil-default-mode-color :box nil))))
+   `(anzu-mode-line                          ((t (:background ,my-evil-default-mode-color :foreground "white" :box nil))))
    ;; cargo
    `(cargo-process--standard-face            ((t (:foreground nil))))
    `(cargo-process--ok-face                  ((t (:foreground ,theme-color-success))))
@@ -96,7 +96,7 @@
    `(company-tooltip-search                  ((t (:weight bold))))
    `(company-tooltip-search-selection        ((t (:weight bold))))
    ;; eros
-   `(eros-result-overlay-face                ((t (:foreground "white" :background "#697D8A" :box nil))))
+   `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
    ;; indent-guide
    `(indent-guide-face                       ((t (:inherit fringe))))
    ;; js2-mode
@@ -131,17 +131,17 @@
    `(perspeen-selected-face                  ((t (:weight bold))))
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))
-   `(shm-quarantine-face                     ((t (:background "#FFDDDD"))))
+   `(shm-quarantine-face                     ((t (:background "#EECCCC"))))
    ;; smartparens
-   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :background ,color-3 :weight bold))))
-   `(sp-show-pair-mismatch-face              ((t (:foreground ,color-1 :background ,color-7 :weight bold))))
+   `(sp-show-pair-match-face                 ((t (:background ,color-3 :foreground ,color-11 :weight bold))))
+   `(sp-show-pair-mismatch-face              ((t (:background ,color-7 :foreground ,color-1 :weight bold))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
-   `(spray-accent-face                       ((t (:foreground "red" :underline (:color ,color-10) :overline ,color-10))))
+   `(spray-accent-face                       ((t (:foreground ,theme-color-error :underline (:color ,color-10) :overline ,color-10))))
    ;; stripe-buffer
    `(stripe-highlight                        ((t (:background ,color-5))))
    ;; web-mode
-   `(web-mode-current-element-highlight-face ((t (:foreground nil :background nil :weight bold))))
+   `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :weight bold))))
    ;; which-key
    `(which-key-local-map-description-face    ((t (:weight bold)))))
 
@@ -153,8 +153,8 @@
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
-   '(coverlay:untested-line-background-color "#FFDDDD")
-   '(coverlay:tested-line-background-color   "#EEFFCC")
+   '(coverlay:untested-line-background-color "#EECCCC")
+   '(coverlay:tested-line-background-color   "#CCEECC")
    ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
