@@ -43,7 +43,7 @@
     (set-face-attribute 'default nil :height my-default-font-height :family my-font)
     (set-face-attribute 'fixed-pitch nil :family my-font)
     (when my-variable-pitch-font
-      (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font :height 1.2))))
+      (set-face-attribute 'variable-pitch nil :family my-variable-pitch-font))))
 
 (provide 'theme)
 ;;; theme.el ends here
