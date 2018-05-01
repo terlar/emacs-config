@@ -372,7 +372,7 @@
 
 ;; Line highlighting (builtin)
 (req-package hl-line
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :hook ((prog-mode conf-mode) . hl-line-mode)
   :init
   ;; Only highlight in selected window
   (setq hl-line-sticky-flag nil
