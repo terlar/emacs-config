@@ -20,13 +20,14 @@
   "Create sepiascale from colors alist SCALE."
   (mapcar (lambda (it)
             (let* ((depth 20)
-                   (r (+ it (* 2 depth)))
+                   (saturation 1.03)
+                   (r (+ it (* depth 2)))
                    (g (+ it depth))
-                   (b it))
+                   (b (* it saturation)))
               (format "#%02X%02X%02X"
                       (if (> r 255) 255 r)
                       (if (> g 255) 255 g)
-                      b))) scale))
+                      (if (> b 255) 255 b)))) scale))
 
 ;; (req-package punpun-theme)
 ;; (req-package eziam-theme)
