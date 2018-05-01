@@ -19,10 +19,10 @@
 (defun tao-theme-scale-to-colors (scale)
   "Create sepiascale from colors alist SCALE."
   (mapcar (lambda (it)
-            (let* ((depth 20)
+            (let* ((depth 10)
                    (saturation 1.03)
-                   (r (+ it (* depth 2)))
-                   (g (+ it depth))
+                   (r (+ it (* depth 1.8)))
+                   (g (+ it (* depth 1.5)))
                    (b (* it saturation)))
               (format "#%02X%02X%02X"
                       (if (> r 255) 255 r)
