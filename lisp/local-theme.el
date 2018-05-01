@@ -61,10 +61,10 @@
    `(ediff-current-diff-Ancestor             ((t (:background "#DDF1F1"))))
    `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
    ;; org-mode
-   `(org-document-title                      ((t (:height 1.8 :bold t :underline (:color ,color-7)))))
-   `(org-level-1                             ((t (:height 1.6 :bold t))))
-   `(org-level-2                             ((t (:height 1.4 :bold nil))))
-   `(org-level-3                             ((t (:height 1.2 :bold nil))))
+   `(org-document-title                      ((t (:height 2.2 :bold nil))))
+   `(org-level-1                             ((t (:height 1.6 :bold nil :italic t))))
+   `(org-level-2                             ((t (:height 1.2 :bold nil :italic t))))
+   `(org-level-3                             ((t (:height 1.2 :bold nil :italic t))))
    `(org-block                               ((t (:inherit fixed-pitch))))
    `(org-checkbox                            ((t (:inherit fixed-pitch :height 0.8 :bold t))))
    `(org-formula                             ((t (:inherit fixed-pitch))))
@@ -114,7 +114,7 @@
    `(flycheck-fringe-error                   ((t (:foreground ,theme-color-error))))
    `(flycheck-fringe-warning                 ((t (:foreground ,theme-color-warning))))
    ;; nav-flash
-   `(nav-flash-face                          ((t (:background "#FFF7E4"))))
+   `(nav-flash-face                          ((t (:background ,color-5))))
    ;; markdown
    `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
    `(markdown-pre-face                       ((t (:inherit fixed-pitch))))
@@ -144,7 +144,7 @@
   (custom-theme-set-variables
    'local
    ;; beacon
-   '(beacon-color "#FFF7E4")
+   `(beacon-color ,color-5)
    ;; coverlay
    '(coverlay:untested-line-background-color "#FFDDDD")
    '(coverlay:tested-line-background-color   "#EEFFCC")
@@ -154,7 +154,7 @@
        ("FIXME" . (:box (:line-width 1) :foreground ,theme-color-error))
        ("NOTE"  . (:box (:line-width 1)))))
    ;; lsp-ui
-   `(lsp-ui-doc-background "#FFF7E4")
+   `(lsp-ui-doc-background ,color-5)
    `(lsp-ui-doc-border     ,color-4)
    ;; vc-annotate
    `(vc-annotate-color-map
