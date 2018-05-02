@@ -306,6 +306,11 @@
   :load-path my-site-lisp-dir
   :commands readable-mode)
 
+;; Pair-programming mode
+(req-package pairable
+  :load-path my-site-lisp-dir
+  :commands global-pairable-mode)
+
 ;;;
 ;; Built-ins
 

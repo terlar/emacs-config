@@ -286,6 +286,7 @@
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
  "L" '(coverlay-toggle-overlays         :wk "Coverage overlays")
  "p" '(redtick-mode                     :wk "Pomodoro")
+ "P" '(global-pairable-mode             :wk "Pair-programming")
  "q" '(quickrun-autorun-mode            :wk "Auto-run compilation")
  "r" '(ruler-mode                       :wk "Ruler")
  "s" '(flyspell-mode                    :wk "Spell-checking")
