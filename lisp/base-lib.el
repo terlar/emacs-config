@@ -99,7 +99,6 @@ The list accepts the following properties:
       (call-interactively documentation-function)
     (call-interactively 'source-peek)))
 
-;;;###autoload
 (defmacro set-test-fns (modes &rest plist)
   "Set MODES test function configuration through PLIST.
 The list accepts the following properties:
@@ -115,21 +114,18 @@ The list accepts the following properties:
        (lambda () (setq testrun-functions (list ,@plist))))
      (add-hooks-pair modes fn-name)))
 
-;;;###autoload
 (defun testrun-all ()
   "Test all files using function from `testrun-functions'."
   (interactive)
   (let ((fn (plist-get testrun-functions :all)))
     (when (commandp fn) (call-interactively fn))))
 
-;;;###autoload
 (defun testrun-file ()
   "Test current file using function from `testrun-functions'."
   (interactive)
   (let ((fn (plist-get testrun-functions :file)))
     (when (commandp fn) (call-interactively fn))))
 
-;;;###autoload
 (defun testrun-at-point ()
   "Test definition at point using function from `testrun-functions'."
   (interactive)
@@ -213,7 +209,6 @@ The list accepts the following properties:
 ;;;
 ;; Buffers
 
-;;;### autoload
 (defun kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
@@ -221,7 +216,6 @@ The list accepts the following properties:
         (delq (current-buffer)
               (cl-remove-if-not 'buffer-file-name (buffer-list)))))
 
-;;;### autoload
 (defun switch-to-minibuffer ()
   "Switch to minibuffer window."
   (interactive)
@@ -229,13 +223,11 @@ The list accepts the following properties:
       (select-window (active-minibuffer-window))
     (error "Minibuffer is not active")))
 
-;;;### autoload
 (defun toggle-scratch-buffer ()
   "Toggle scratch buffer."
   (interactive)
   (open-and-switch-to-buffer #'nil "*scratch*"))
 
-;;;### autoload
 (defun open-and-switch-to-buffer (command buffer &optional do-switch)
   "Open a `COMMAND', and switch to that `BUFFER' when `DO-SWITCH'."
   (interactive)
@@ -246,7 +238,6 @@ The list accepts the following properties:
       (when do-switch
         (switch-to-buffer-other-window buffer)))))
 
-;;;### autoload
 (defun get-buffer-display-time (buffer)
   "Get the display time for BUFFER."
   (with-current-buffer buffer
@@ -255,7 +246,6 @@ The list accepts the following properties:
 ;;;
 ;; Editing
 
-;;;### autoload
 (defun retab-buffer ()
   "Convert tabs to spaces, or spaces to tabs based on `indent-tabs-mode' and `tab-width'."
   (interactive)
@@ -267,13 +257,11 @@ The list accepts the following properties:
 ;;;
 ;; UI
 
-;;;### autoload
 (defun text-scale-reset ()
   "Reset text scale by setting it to 0."
   (interactive)
   (text-scale-set 0))
 
-;;;### autoload
 (defun line-cursor ()
   "Use line cursor instead of regular cursor."
   (interactive)
@@ -285,25 +273,21 @@ The list accepts the following properties:
   (interactive)
   (internal-show-cursor (get-buffer-window) t))
 
-;;;### autoload
 (defun hide-fringes ()
   "Hide fringes for buffer."
   (interactive)
   (set-window-fringes (get-buffer-window) 0 0 nil))
 
-;;;### autoload
 (defun hide-mode-line ()
   "Hide mode line for buffer."
   (interactive)
   (setq mode-line-format nil))
 
-;;;### autoload
 (defun default-text-scale-reset ()
   "Reset the height of the default face to `my-default-font-height'."
   (interactive)
   (set-face-attribute 'default nil :height my-default-font-height))
 
-;;;### autoload
 (defun refresh ()
   "Refresh buffer."
   (interactive)
@@ -313,7 +297,6 @@ The list accepts the following properties:
   (when (bound-and-true-p org-inline-image-overlays)
     (org-redisplay-inline-images)))
 
-;;;### autoload
 (defun toggle-fold ()
   "Toggle folding."
   (interactive)
@@ -326,12 +309,10 @@ The list accepts the following properties:
 
 (defvar-local test-suffix "-test")
 
-;;;### autoload
 (defun test-file-p (file-name)
   "Check if FILE-NAME is a test file (determined by TEST-SUFFIX)."
   (string-match-p (concat test-suffix "$") (file-name-sans-extension file-name)))
 
-;;;### autoload
 (defun implementation-or-test-file (file-name)
   "The alternate file for FILE-NAME.
 Either test file for implementation or implementation for test file."
@@ -341,7 +322,6 @@ Either test file for implementation or implementation for test file."
         (concat (string-remove-suffix test-suffix basename) "." extension)
       (concat basename test-suffix "." extension))))
 
-;;;### autoload
 (defun test-file (file-name)
   "The test file related to FILE-NAME."
   (if (test-file-p file-name)
