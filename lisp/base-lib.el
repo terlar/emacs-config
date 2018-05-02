@@ -260,7 +260,7 @@ The list accepts the following properties:
 (defun text-scale-reset ()
   "Reset text scale by setting it to 0."
   (interactive)
-  (text-scale-set 0))
+  (text-scale-increase 0))
 
 (defun line-cursor ()
   "Use line cursor instead of regular cursor."

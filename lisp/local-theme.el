@@ -39,7 +39,7 @@
    `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 6 :color ,color-4)))))
    `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
-   `(line-number-current-line                ((t (:background ,color-5 :foreground ,theme-color-highlight :weight bold))))
+   `(line-number-current-line                ((t (:inherit line-number :background ,color-5 :foreground ,theme-color-highlight :weight bold))))
    `(hl-line                                 ((t (:background ,color-5))))
 
    `(error                                   ((t (:foreground ,theme-color-error))))
