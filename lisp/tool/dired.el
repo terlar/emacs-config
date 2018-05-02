@@ -16,10 +16,11 @@
 (req-package dired :ensure nil
   :hook
   (dired-mode . hl-line-mode)
-  (dired-mode . +dired-mode-setup)
+  (dired-mode . +dired-mode-faces)
   :preface
-  (defun +dired-mode-setup ()
-    (face-remap-add-relative 'hl-line :background (face-background 'isearch)))
+  (defun +dired-mode-faces ()
+    (face-remap-add-relative 'hl-line
+                             :background (face-background 'isearch)))
   :general
   (:keymaps 'dired-mode-map
             :major-modes t

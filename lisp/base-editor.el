@@ -273,7 +273,7 @@
 (req-package ws-butler
   :diminish ws-butler-mode
   :commands ws-butler-mode
-  :init
+  :preface
   (defun +ws-butler-editorconfig (props)
     "Use ws-butler mode instead of delete-trailing-whitespace."
     (if (equal (gethash 'trim_trailing_whitespace props) "true")
