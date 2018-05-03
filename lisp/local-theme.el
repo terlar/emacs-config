@@ -123,8 +123,16 @@
    ;; nav-flash
    `(nav-flash-face                          ((t (:background ,color-5))))
    ;; markdown
+   `(markdown-header-face                    ((t (:weight normal :italic t))))
+   `(markdown-header-face-1                  ((t (:height 2.2))))
+   `(markdown-header-face-2                  ((t (:height 1.6))))
+   `(markdown-header-face-3                  ((t (:height 1.4))))
+   `(markdown-header-face-4                  ((t (:height 1.2))))
+   `(markdown-header-face-5                  ((t (:height 1.0 :underline nil))))
+   `(markdown-header-face-6                  ((t (:height 1.0 :underline nil))))
    `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
-   `(markdown-pre-face                       ((t (:inherit fixed-pitch))))
+   `(markdown-pre-face                       ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
+   `(markdown-inline-code-face               ((t (:background ,color-5 :foreground ,color-9))))
    ;; rst
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; perspeen

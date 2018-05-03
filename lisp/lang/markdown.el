@@ -36,7 +36,11 @@
   (set-on-evil-state 'markdown-mode 'insert
                      (markdown-toggle-markup-hiding 0))
   (set-on-evil-state 'markdown-mode 'normal
-                     (markdown-toggle-markup-hiding 1)))
+                     (markdown-toggle-markup-hiding 1))
+
+  ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
+  (font-lock-add-keywords
+   'markdown-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append))
 
 (req-package edit-indirect)
 
