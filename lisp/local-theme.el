@@ -131,8 +131,9 @@
    `(markdown-header-face-5                  ((t (:height 1.0 :underline nil))))
    `(markdown-header-face-6                  ((t (:height 1.0 :underline nil))))
    `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
-   `(markdown-pre-face                       ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
-   `(markdown-inline-code-face               ((t (:background ,color-5 :foreground ,color-9))))
+   `(markdown-pre-face                       ((t (:inherit org-verbatim :background ,color-5 :foreground ,color-9))))
+   `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
+   `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
    ;; rst
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; perspeen
