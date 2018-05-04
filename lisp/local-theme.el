@@ -182,6 +182,9 @@
    ;; markdown-mode
    `(markdown-header-scaling-values
      '(2.2 1.6 1.4 1.2 1.0 1.0))
+   ;; rainbow-identifiers
+   `(rainbow-identifiers-cie-l*a*b*-saturation 65)
+   `(rainbow-identifiers-cie-l*a*b*-lightness 45)
    ;; rst-mode
    `(rst-header-scaling-values
      '(2.2 1.6 1.4 1.2 1.0 1.0))
@@ -206,7 +209,15 @@
        (340. . ,color-9)
        (360. . ,color-9)))
    ;; zoom-window
-   `(zoom-window-mode-line-color (face-background 'mode-line))))
+   `(zoom-window-mode-line-color (face-background 'mode-line))
+   ;; custom
+   `(my-evil-default-mode-color "#AB47BC")
+   `(my-evil-mode-color-list
+     '((normal   . "#4CAF50")
+       (emacs    . "#2196F3")
+       (insert   . "#2196F3")
+       (replace  . "#F44336")
+       (visual   . "#FF9800")))))
 
 ;;;###autoload
 (and load-file-name

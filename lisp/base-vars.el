@@ -57,15 +57,15 @@
 (defvar my-unicode-font "Noto Mono"
   "Fallback font for unicode glyphs.")
 
-(defvar my-evil-default-mode-color "#AB47BC"
+(defvar my-evil-default-mode-color "purple"
   "Default mode color for Evil states.")
 
 (defvar my-evil-mode-color-list
-  `((normal   . "#4CAF50")
-    (emacs    . "#2196F3")
-    (insert   . "#2196F3")
-    (replace  . "#F44336")
-    (visual   . "#FF9800"))
+  `((normal   . "green")
+    (emacs    . "blue")
+    (insert   . "blue")
+    (replace  . "red")
+    (visual   . "orange"))
   "Mode color corresponding to Evil state.")
 
 (provide 'base-vars)

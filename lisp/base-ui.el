@@ -209,9 +209,7 @@
   :commands rainbow-identifiers-mode
   :functions rainbow-identifiers-cie-l*a*b*-choose-face
   :init
-  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face
-        rainbow-identifiers-cie-l*a*b*-saturation 65
-        rainbow-identifiers-cie-l*a*b*-lightness 45))
+  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 
 ;; Manual symbol highlight
 (req-package symbol-overlay
