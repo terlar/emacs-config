@@ -134,6 +134,7 @@
    `(markdown-pre-face                       ((t (:inherit org-verbatim :background ,color-5 :foreground ,color-9))))
    `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
    `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
+   `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
    ;; rst
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; perspeen
