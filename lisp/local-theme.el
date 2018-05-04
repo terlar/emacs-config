@@ -123,7 +123,7 @@
    ;; nav-flash
    `(nav-flash-face                          ((t (:background ,color-5))))
    ;; markdown
-   `(markdown-header-face                    ((t (:weight normal :italic t))))
+   `(markdown-header-face                    ((t (:weight normal :italic t :foreground ,color-14))))
    `(markdown-header-face-1                  ((t (:height 2.2))))
    `(markdown-header-face-2                  ((t (:height 1.6))))
    `(markdown-header-face-3                  ((t (:height 1.4 :underline nil))))
