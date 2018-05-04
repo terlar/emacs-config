@@ -10,6 +10,7 @@
   - menu completion :: [[https://github.com/abo-abo/swiper][ivy]]
   - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]], [[https://github.com/tumashu/company-childframe][company-childframe]]
   - modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]
+  - package configuration :: [[https://github.com/edvorg/req-package][req-package]], [[https://github.com/jwiegley/use-package][use-package]]
   - key definitions :: [[https://github.com/noctuid/general.el][general]]
   - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]]
   - syntax checker :: [[https://github.com/flycheck/flycheck][flycheck]], [[https://github.com/alexmurray/flycheck-posframe][flycheck-posframe]]
