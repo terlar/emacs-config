@@ -38,9 +38,15 @@
   (set-on-evil-state 'markdown-mode 'normal
                      (markdown-toggle-markup-hiding 1))
 
+  ;; Pretty checkboxes
+  (font-lock-add-keywords
+   'markdown-mode
+   '(("^ +[-*+] \\[\\([Xx]\\)\\] "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+
   ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
   (font-lock-add-keywords
-   'markdown-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append))
+   'markdown-mode '(("^[[:space:]-*+>]+" 0 'fixed-pitch append)) 'append))
 
 (req-package edit-indirect)
 

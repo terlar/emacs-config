@@ -137,7 +137,9 @@ It acts in the same way as `org-meta-return'."
   (font-lock-add-keywords
    'org-mode
    '(("^ +\\([-*+]\\) "
-      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+     ("^ +[-*+] \\[\\(X\\)\\] "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
 
   ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
   (font-lock-add-keywords
