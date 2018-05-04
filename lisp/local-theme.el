@@ -124,18 +124,24 @@
    `(nav-flash-face                          ((t (:background ,color-5))))
    ;; markdown
    `(markdown-header-face                    ((t (:weight normal :italic t))))
-   `(markdown-header-face-1                  ((t (:height 2.2))))
-   `(markdown-header-face-2                  ((t (:height 1.6))))
-   `(markdown-header-face-3                  ((t (:height 1.4))))
-   `(markdown-header-face-4                  ((t (:height 1.2))))
-   `(markdown-header-face-5                  ((t (:height 1.0 :underline nil))))
-   `(markdown-header-face-6                  ((t (:height 1.0 :underline nil))))
+   `(markdown-header-face-1                  ((t (:underline nil))))
+   `(markdown-header-face-2                  ((t (:underline nil))))
+   `(markdown-header-face-3                  ((t (:underline nil))))
+   `(markdown-header-face-4                  ((t (:underline nil))))
+   `(markdown-header-face-5                  ((t (:underline nil))))
+   `(markdown-header-face-6                  ((t (:underline nil))))
    `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
    `(markdown-pre-face                       ((t (:inherit org-verbatim :background ,color-5 :foreground ,color-9))))
    `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
    `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
    `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
    ;; rst
+   `(rst-level-1                             ((t (:weight normal :italic t))))
+   `(rst-level-2                             ((t (:weight normal :italic t))))
+   `(rst-level-3                             ((t (:weight normal :italic t))))
+   `(rst-level-4                             ((t (:weight normal :italic t))))
+   `(rst-level-5                             ((t (:weight normal :italic t))))
+   `(rst-level-6                             ((t (:weight normal :italic t))))
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; perspeen
    `(perspeen-selected-face                  ((t (:weight bold))))
@@ -163,8 +169,8 @@
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
-   '(coverlay:untested-line-background-color "#EECCCC")
-   '(coverlay:tested-line-background-color   "#CCEECC")
+   `(coverlay:untested-line-background-color "#EECCCC")
+   `(coverlay:tested-line-background-color   "#CCEECC")
    ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
@@ -173,6 +179,12 @@
    ;; lsp-ui
    `(lsp-ui-doc-background ,color-5)
    `(lsp-ui-doc-border     ,color-4)
+   ;; markdown-mode
+   `(markdown-header-scaling-values
+     '(2.2 1.6 1.4 1.2 1.0 1.0))
+   ;; rst-mode
+   `(rst-header-scaling-values
+     '(2.2 1.6 1.4 1.2 1.0 1.0))
    ;; vc-annotate
    `(vc-annotate-color-map
      '(( 20. . ,color-2)

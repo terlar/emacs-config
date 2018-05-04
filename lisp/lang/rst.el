@@ -1,4 +1,4 @@
-;;; lang-rst.el --- reStructuredText -*- lexical-binding: t; -*-
+;;; rst.el --- reStructuredText -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; reStructuredText (sometimes abbreviated as RST, ReST, or reST) is a
@@ -10,6 +10,14 @@
 (eval-when-compile
   (require 'base-package)
   (require 'base-lib))
+
+;; There are no autoload cookie for these faces in the rst.el
+(defface rst-level-1 '((t (:inherit org-level-1))) nil :group 'rst-faces)
+(defface rst-level-2 '((t (:inherit org-level-2))) nil :group 'rst-faces)
+(defface rst-level-3 '((t (:inherit org-level-3))) nil :group 'rst-faces)
+(defface rst-level-4 '((t (:inherit org-level-4))) nil :group 'rst-faces)
+(defface rst-level-5 '((t (:inherit org-level-5))) nil :group 'rst-faces)
+(defface rst-level-6 '((t (:inherit org-level-6))) nil :group 'rst-faces)
 
 (defcustom rst-header-scaling nil
   "Whether to use variable-height faces for headers.
@@ -75,7 +83,17 @@ Used when `rst-header-scaling' is non-nil."
   (set-on-evil-state 'rst-mode 'normal
                      (+evil-insert-state-restore-variable-pitch-mode)
                      (customize-set-variable 'rst-header-scaling t)
-                     (hide-lines-matching rst-adornment-regexp)))
+                     (hide-lines-matching rst-adornment-regexp))
+
+  ;; Pretty bullet lists
+  (font-lock-add-keywords
+   'rst-mode
+   '(("^ *\\([-*+]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
+
+  ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
+  (font-lock-add-keywords
+   'rst-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append))
 
 ;;;
 ;; Autoloads
@@ -91,7 +109,7 @@ size of `rst-header-face'."
                         (scaling-values (float (nth num scaling-values)))
                         (t (float (nth num rst-header-scaling-values))))))
       (unless (get face-name 'saved-face) ; Don't update customized faces
-        (set-face-attribute face-name nil :background nil :weight 'bold :height scale)))))
+        (set-face-attribute face-name nil :height scale)))))
 
 (provide 'lang-rst)
-;;; lang-rst.el ends here
+;;; rst.el ends here
