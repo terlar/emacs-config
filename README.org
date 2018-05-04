@@ -5,6 +5,8 @@
 
   This is the rough details:
   - theme :: [[https://github.com/11111000000/tao-theme-emacs][tao-theme]] (yang) with [[file:lisp/local-theme.el][some local modifications]]
+    - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
+    - semantic highlighting :: [[https://github.com/ankurdave/color-identifiers-mode][color-identifiers-mode]], [[https://github.com/Fanael/rainbow-identifiers][rainbow-identifiers]] (fallback, with wider support)
   - menu completion :: [[https://github.com/abo-abo/swiper][ivy]]
   - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]], [[https://github.com/tumashu/company-childframe][company-childframe]]
   - modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]
@@ -13,6 +15,7 @@
   - syntax checker :: [[https://github.com/flycheck/flycheck][flycheck]], [[https://github.com/alexmurray/flycheck-posframe][flycheck-posframe]]
 
 ** Config
+  - [[file:lisp/base-vars.el][Variables]]
   - [[file:lisp/base-ui.el][UI]]
   - [[file:lisp/base-editor.el][Editor]]
   - [[file:lisp/base-modeline.el][Mode line]]
@@ -23,3 +26,11 @@
 *** org-mode
     #+CAPTION: org-mode
     [[file:media/org-mode.png]]
+
+*** markdown-mode
+    #+CAPTION: markdown-mode
+    [[file:media/markdown-mode.png]]
+
+*** emacs-lisp-mode
+    #+CAPTION: emacs-lisp-mode
+    [[file:media/emacs-lisp-mode.png]]
