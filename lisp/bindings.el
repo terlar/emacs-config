@@ -72,7 +72,7 @@
  "d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
  "t" '(hl-todo-previous                       :wk "Todo")
  "e" '(previous-error                         :wk "Error")
- "w" '(persp-prev                             :wk "Workspace")
+ "w" '(eyebrowse-prev-window-config           :wk "Workspace")
  "h" '(smart-backward                         :wk "Smart jump")
  "s" '(evil-prev-flyspell-error               :wk "Spelling error")
  "S" '(flyspell-correct-previous-word-generic
@@ -87,7 +87,7 @@
  "d" '(diff-hl-next-hunk                      :wk "Diff Hunk")
  "t" '(hl-todo-next                           :wk "Todo")
  "e" '(next-error                             :wk "Error")
- "w" '(persp-next                             :wk "Workspace")
+ "w" '(eyebrowse-next-window-config           :wk "Workspace")
  "h" '(smart-forward                          :wk "Smart jump")
  "s" '(evil-next-flyspell-error               :wk "Spelling error")
  "S" '(flyspell-correct-word-generic
@@ -339,8 +339,8 @@
    "]c" 'eir-next-code-line
    "]e" 'next-error
    "[e" 'previous-error
-   "]w" 'persp-next
-   "[w" 'persp-prev
+   "]w" 'eyebrowse-next-window-config
+   "[w" 'eyebrowse-prev-window-config
    "C-t" 'smart-jump-back
    "K"  '(documentation-at-point :wk "Documentation for symbol")
    "g[" '(smart-backward :package smart-forward)
