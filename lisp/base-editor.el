@@ -375,24 +375,34 @@
   :init
   (setq wgrep-auto-save-buffer t)
   (with-eval-after-load 'evil
-    (evil-define-operator wgrep-delete
-      (beg end type register yank-handler)
+    (evil-define-operator wgrep-delete (beg end type register yank-handler)
       "Delete text from BEG to END with TYPE.
 Save in REGISTER or in the kill-ring with YANK-HANDLER."
       (interactive "<R><x><y>")
-      (if (eq type 'line)
-          (progn
-            (unless register
-              (let ((text (filter-buffer-substring beg end)))
-                (unless (string-match-p "\n" text)
-                  (evil-set-register ?- text))))
-            (let ((evil-was-yanked-without-register nil))
-              (evil-yank beg end type register yank-handler))
-            (dotimes (var (count-lines beg end))
-              (wgrep-mark-deletion)
-              (evil-next-line)))
-        (evil-delete beg end type register yank-handler))
-      (when (and (evil-called-interactively-p)
+      (unless register
+        (let ((text (filter-buffer-substring beg end)))
+          (unless (string-match-p "\n" text)
+            ;; set the small delete register
+            (evil-set-register ?- text))))
+      (let ((evil-was-yanked-without-register nil))
+        (evil-yank beg end type register yank-handler))
+      (cond
+       ((eq type 'block)
+        (evil-apply-on-block #'delete-region beg end nil))
+       ((eq type 'line)
+        (if (and (= end (point-max))
+                 (or (= beg end)
+                     (/= (char-before end) ?\n))
+                 (/= beg (point-min))
+                 (=  (char-before beg) ?\n))
+            (delete-region (1- beg) end)
+          (dotimes (_ (count-lines beg end))
+            (wgrep-mark-deletion)
+            (evil-next-line))))
+       (t
+        (delete-region beg end)))
+      ;; place cursor on beginning of line
+      (when (and (called-interactively-p 'any)
                  (eq type 'line))
         (evil-first-non-blank)))))
 
