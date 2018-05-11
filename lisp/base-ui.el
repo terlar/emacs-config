@@ -62,6 +62,9 @@
 (setq-default confirm-kill-emacs 'y-or-n-p)
 (fset #'yes-or-no-p #'y-or-n-p)
 
+;; Use pixel-based scrolling
+(pixel-scroll-mode 1)
+
 ;; Disable blinking cursor
 (blink-cursor-mode 0)
 
