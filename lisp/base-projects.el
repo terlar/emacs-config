@@ -21,7 +21,7 @@
     (let ((buffer-name (if (projectile-project-p)
                            (file-relative-name buffer-file-name (projectile-project-root))
                          (abbreviate-file-name buffer-file-name))))
-      (rename-buffer buffer-name)))
+      (rename-buffer buffer-name t)))
   :init
   (setq projectile-cache-file (concat my-cache-dir "projectile.cache")
         projectile-enable-caching nil
