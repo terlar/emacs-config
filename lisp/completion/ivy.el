@@ -1,4 +1,4 @@
-;;; completion-ivy.el --- Completion system -*- lexical-binding: t; -*-
+;;; ivy.el --- Completion system -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Completing all your things.
@@ -128,6 +128,12 @@
   :init
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
+;; Snippets with preview
+(req-package ivy-yasnippet
+  :general
+  ("C-c y" 'ivy-yasnippet)
+  :commands ivy-yasnippet)
+
 ;; Icons in ivy buffers
 (req-package all-the-icons-ivy
   :demand t
@@ -136,4 +142,4 @@
   (add-graphic-hook (all-the-icons-ivy-setup)))
 
 (provide 'completion-ivy)
-;;; completion-ivy.el ends here
+;;; ivy.el ends here
