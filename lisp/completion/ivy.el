@@ -117,7 +117,18 @@
             [remap projectile-switch-project]   'counsel-projectile-switch-project
             [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer
             [remap projectile-find-file]        'counsel-projectile-find-file
-            [remap projectile-find-dir]         'counsel-projectile-find-dir))
+            [remap projectile-find-dir]         'counsel-projectile-find-dir)
+  :preface
+  (defun +counsel-projectile-switch-project-action-root-dir (project)
+    "Open PROJECT root directory."
+    (let ((projectile-switch-project-action
+	       (lambda ()
+	         (dired (projectile-project-root)))))
+      (counsel-projectile-switch-project-by-name project)))
+  :config
+  (counsel-projectile-modify-action
+   'counsel-projectile-switch-project-action
+   '((add ("r" +counsel-projectile-switch-project-action-root-dir "jump to a project root dir") 1))))
 
 (req-package counsel-tramp
   :commands counsel-tramp)
