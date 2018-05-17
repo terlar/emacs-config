@@ -1,4 +1,4 @@
-;;; feature-evil.el --- Extensible vi layer -*- lexical-binding: t; -*-
+;;; evil.el --- Extensible vi layer -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; The way of the vi!
@@ -12,12 +12,6 @@
 
   (defvar buffer-face-mode))
 
-;; Escape hooks
-(defvar my-evil-esc-hook '(t)
-  "A hook run after ESC is pressed in normal mode.
-E.g. invoked by `evil-force-normal-state'.
-If a hook returns non-nil, all hooks after it are ignored.")
-
 (defvar-local evil-pre-insert-state-variable-pitch-mode
   "Hold original `variable-pitch-mode'.")
 
@@ -28,7 +22,7 @@ If a hook returns non-nil, all hooks after it are ignored.")
   :demand t
   :general
   (:keymaps 'insert
-            "C-g" 'normal-state-or-keyboard-quit)
+            "C-g" 'evil-normal-state)
   :custom
   (evil-want-Y-yank-to-eol t)
   :init
@@ -168,12 +162,5 @@ If a hook returns non-nil, all hooks after it are ignored.")
   (when evil-pre-insert-state-variable-pitch-mode
     (variable-pitch-mode 1)))
 
-(defun normal-state-or-keyboard-quit ()
-  "If in evil insert state, force normal state, else run `keyboard-quit'."
-  (interactive)
-  (if (and evil-mode (eq evil-state 'insert))
-      (evil-force-normal-state)
-    (keyboard-quit)))
-
 (provide 'feature-evil)
-;;; feature-evil.el ends here
+;;; evil.el ends here
