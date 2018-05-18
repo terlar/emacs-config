@@ -10,6 +10,11 @@
 (defvar my-init-time nil
   "The time it took, in seconds, for Emacs to initialize.")
 
+(eval-when-compile
+  (defvar desktop-dirname)
+  (defvar dired-use-ls-dired)
+  (defvar x-gtk-use-system-tooltips))
+
 ;;;
 ;; Settings
 
@@ -51,6 +56,8 @@
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
  auto-save-list-file-name          (concat my-cache-dir "autosave")
  backup-directory-alist            (list (cons "." (concat my-cache-dir "backup/")))
+ desktop-dirname                   my-data-dir
+ desktop-path                      (list desktop-dirname)
  eshell-directory-name             (concat my-data-dir "eshell/")
  eshell-history-file-name          (concat my-data-dir "eshell-history")
  pcache-directory                  (concat my-cache-dir "pcache/")
@@ -76,6 +83,7 @@
 
 ;; OS-specific
 (when (memq window-system '(mac ns))
+  (setq dired-use-ls-dired nil)
   (dolist (item (list
                  "/usr/local/bin"
                  (expand-file-name "~/go/bin")
