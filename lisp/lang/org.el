@@ -1,4 +1,4 @@
-;;; lang-org.el --- Org mode -*- lexical-binding: t; -*-
+;;; org.el --- Org mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Org mode is for keeping notes, maintaining TODO lists, planning projects, and
@@ -89,6 +89,7 @@ It acts in the same way as `org-meta-return'."
        (js         . t)
        (plantuml   . t)
        (python     . t)
+       (restclient . t)
        (ruby       . t)
        (rust       . t)
        (scala      . t)
@@ -188,4 +189,4 @@ It acts in the same way as `org-meta-return'."
 (req-package ob-translate)
 
 (provide 'lang-org)
-;;; lang-org.el ends here
+;;; org.el ends here
