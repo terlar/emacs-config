@@ -135,6 +135,10 @@
    `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
    `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
    `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
+   ;; org-tree-slide
+   `(org-tree-slide-header-overlay-face      ((t (:inherit header-line :background nil))))
+   ;; perspeen
+   `(perspeen-selected-face                  ((t (:weight bold))))
    ;; rst
    `(rst-level-1                             ((t (:weight normal :italic t))))
    `(rst-level-2                             ((t (:weight normal :italic t))))
@@ -143,8 +147,6 @@
    `(rst-level-5                             ((t (:weight normal :italic t))))
    `(rst-level-6                             ((t (:weight normal :italic t))))
    `(rst-literal                             ((t (:inherit fixed-pitch))))
-   ;; perspeen
-   `(perspeen-selected-face                  ((t (:weight bold))))
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#EECCCC"))))

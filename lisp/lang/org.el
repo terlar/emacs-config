@@ -170,6 +170,21 @@ It acts in the same way as `org-meta-return'."
   :init
   (require 'org-eldoc))
 
+(req-package org-tree-slide
+  :commands org-tree-slide-mode
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix my-local-leader-key
+   "p" 'org-tree-slide-mode)
+  (:keymaps 'org-tree-slide-mode :states '(normal insert emacs) :definer 'minor-mode
+            "n" 'org-tree-slide-move-next-tree
+            "p" 'org-tree-slide-move-previous-tree
+            "q" 'org-tree-slide-mode)
+  :init
+  (setq org-tree-slide-header nil
+        org-tree-slide-slide-in-effect nil))
+
 (req-package org-preview-html
   :commands org-preview-html-mode)
 
