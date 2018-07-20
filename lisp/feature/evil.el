@@ -115,10 +115,9 @@
   :config
   (evil-embrace-enable-evil-surround-integration))
 
-;; Improve smartparens compatibility
-(req-package evil-smartparens
-  :diminish evil-smartparens-mode
-  :hook (smartparens-enabled . evil-smartparens-mode))
+(req-package worf
+  :diminish worf-mode
+  :hook (org-mode . worf-mode))
 
 ;;;
 ;; Autoloads
