@@ -196,6 +196,10 @@
 
   (global-aggressive-indent-mode 1))
 
+;; Search through files
+(req-package deadgrep
+  :commands deadgrep)
+
 ;; Delete selection upon insertion or DEL
 (req-package delsel
   :commands delete-selection-mode
