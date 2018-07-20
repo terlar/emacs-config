@@ -1,14 +1,20 @@
-;;; sessions.el --- Sessions -*- coding: utf-8; lexical-binding: t; -*-
+;;; sessions.el --- Sessions -*- coding: utf-8; -*-
 
 ;;; Commentary:
 ;; Never-ending state.
 
 ;;; Code:
 
-(eval-when-compile
-  (defvar desktop-modes-not-to-save))
+(require 'desktop)
 
-(desktop-save-mode 1)
+(setq desktop-save t)
+
+(defun load-desktop ()
+  "Load the desktop and enable autosaving."
+  (interactive)
+  (let ((desktop-load-locked-desktop "ask"))
+    (desktop-read)
+    (desktop-save-mode 1)))
 
 (add-to-list 'desktop-modes-not-to-save 'pdf-view-mode)
 (add-to-list 'desktop-modes-not-to-save 'image-mode)
