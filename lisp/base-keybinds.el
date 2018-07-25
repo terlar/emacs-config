@@ -53,8 +53,7 @@
 
   (which-key-add-key-based-replacements
     "C-c !"   "flycheck"
-    "C-c @"   "outline"
-    "C-c p"   "project")
+    "C-c @"   "outline")
 
   (which-key-setup-side-window-bottom)
 

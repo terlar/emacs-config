@@ -311,6 +311,8 @@
  "a"   '(org-agenda     :package org)
  "c"   '(org-capture    :package org)
  "l"   '(org-store-link :package org)
+ "p"   '(:keymap projectile-command-map
+                 :package projectile :wk "project")
  "u"   '(universal-argument                     :wk "Universal argument")
  "v"   '(:keymap symbol-overlay-map
                  :package symbol-overlay :wk "overlays")
