@@ -318,8 +318,7 @@
                  :package symbol-overlay :wk "overlays")
  "w"   '(:keymap evil-window-map
                  :package evil :wk "window")
- "x"   '(toggle-scratch-buffer                  :wk "Toggle scratch buffer")
- "W" '(:ignore t :wk "workspace"))
+ "x"   '(toggle-scratch-buffer                  :wk "Toggle scratch buffer"))
 
 (with-eval-after-load 'evil
   ;; Normal state

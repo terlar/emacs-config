@@ -25,7 +25,9 @@
 (req-package eyebrowse
   :demand t
   :general
-  ("C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
+  ("C-c W ;" '+eyebrowse-rename-window-config-to-project-name)
+  :init
+  (setq eyebrowse-keymap-prefix (kbd "C-c W"))
   :config
   (eyebrowse-mode 1))
 
