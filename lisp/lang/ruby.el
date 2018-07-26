@@ -152,6 +152,7 @@
   (set-popup-buffer (rx bos "*rake-compilation*" eos)))
 
 (req-package robe
+  :commands robe-mode
   :config
   (set-doc-fn '(ruby-mode enh-ruby-mode) #'robe-doc)
   (smart-jump-register :modes 'robe-mode
