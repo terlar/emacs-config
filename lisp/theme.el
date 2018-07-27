@@ -13,24 +13,9 @@
 ;; Theme
 
 (req-package tao-theme :force t :demand t
-  :init (setq tao-theme-use-height t))
-
-;; Override grayscale with sepiascale
-(defun tao-theme-scale-to-colors (scale)
-  "Create sepiascale from colors alist SCALE."
-  (mapcar (lambda (it)
-            (let* ((depth 10)
-                   (saturation 1.03)
-                   (r (+ it (* depth 1.8)))
-                   (g (+ it (* depth 1.5)))
-                   (b (* it saturation)))
-              (format "#%02X%02X%02X"
-                      (if (> r 255) 255 r)
-                      (if (> g 255) 255 g)
-                      (if (> b 255) 255 b)))) scale))
-
-;; (req-package punpun-theme)
-;; (req-package eziam-theme)
+  :el-get t :ensure nil
+  :init (setq tao-theme-use-height t
+              tao-theme-use-sepia t))
 
 (load-theme my-theme t)
 (load-theme 'local t)
