@@ -51,7 +51,7 @@
   :commands gxref-xref-backend
   :init
   (with-eval-after-load 'xref
-    (setq xref-backend-functions '(gxref-xref-backend))))
+    (cl-pushnew 'gxref-xref-backend xref-backend-functions)))
 
 ;;;
 ;; Autoloads
