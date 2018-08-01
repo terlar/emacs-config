@@ -12,9 +12,10 @@
 ;; Packages
 
 (req-package coverlay
-  :diminish coverlay-mode
+  :diminish coverlay-minor-mode
   :commands
   (coverlay-mode
+   coverlay-minor-mode
    coverlay-watch-file
    coverlay-load-file
    coverlay-reload-file
@@ -32,7 +33,7 @@
 ;;;### autoload
 (defun +coverlay-mode-enable ()
   "Turn on `coverlay-mode'."
-  (coverlay-mode 1)
+  (coverlay-minor-mode 1)
   (unless (bound-and-true-p coverlay--loaded-filepath)
     (let* ((coverage-file (concat
                            (locate-dominating-file (file-name-directory buffer-file-name) "coverage")
