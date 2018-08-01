@@ -89,26 +89,26 @@
   :commands (skewer-mode run-skewer)
   :general
   (:keymaps 'skewer-mode-map :states 'normal :prefix ","
-            "sE" '(skewer-eval-last-expression)
-            "se" '(skewer-eval-defun)
-            "sf" '(skewer-load-buffer)))
+            "sE" 'skewer-eval-last-expression
+            "se" 'skewer-eval-defun
+            "sf" 'skewer-load-buffer))
 
 (req-package skewer-css :ensure nil
   :require skewer-mode
   :commands skewer-css-mode
   :general
   (:keymaps 'skewer-css-mode-map :states 'normal :prefix ","
-            "se" '(skewer-css-eval-current-declaration)
-            "sr" '(skewer-css-eval-current-rule)
-            "sb" '(skewer-css-eval-buffer)
-            "sc" '(skewer-css-clear-all)))
+            "se" 'skewer-css-eval-current-declaration
+            "sr" 'skewer-css-eval-current-rule
+            "sb" 'skewer-css-eval-buffer
+            "sc" 'skewer-css-clear-all))
 
 (req-package skewer-html :ensure nil
   :require skewer-mode
   :commands skewer-html-mode
   :general
   (:keymaps 'skewer-html-mode-map :states 'normal :prefix ","
-            "se" '(skewer-html-eval-tag)))
+            "se" 'skewer-html-eval-tag))
 
 (provide 'lang-web)
 ;;; lang-web.el ends here

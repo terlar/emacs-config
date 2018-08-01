@@ -52,7 +52,7 @@
   :diminish js2-refactor-mode
   :general
   (:keymaps 'js2-mode-map
-            "C-k" '(js2r-kill))
+            "C-k" 'js2r-kill)
   :commands
   (js2r-add-keybindings-with-prefix
    js2r-kill js2r-extract-function js2r-extract-method js2r-introduce-parameter
@@ -129,11 +129,11 @@
   (web-beautify-js web-beautify-html web-beautify-css)
   :general
   (:keymaps '(js2-mode-map json-mode-map) :states 'normal
-            "gQ" '(web-beautify-js))
+            "gQ" 'web-beautify-js)
   (:keymaps 'html-mode-map :states 'normal
-            "gQ" '(web-beautify-html))
+            "gQ" 'web-beautify-html)
   (:keymaps 'css-mode-map :states 'normal
-            "gQ" '(web-beautify-css)))
+            "gQ" 'web-beautify-css))
 
 (provide 'lang-javascript)
 ;;; lang-javascript.el ends here
