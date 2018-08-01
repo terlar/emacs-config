@@ -58,10 +58,6 @@
   :config
   (set-aggressive-indent 'haskell-mode :disabled t))
 
-(req-package lsp-haskell
-  :requires lsp-mode
-  :hook (haskell-mode . lsp-haskell-enable))
-
 (req-package intero
   :disabled t
   :diminish intero-mode

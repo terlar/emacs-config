@@ -1,4 +1,4 @@
-;;; feature-lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
+;;; lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Servant of languages.
@@ -9,28 +9,13 @@
   (require 'base-vars)
   (require 'base-package))
 
-(req-package lsp-mode
-  :demand t
-  :init
-  (setq lsp-enable-eldoc t
-        lsp-inhibit-message t))
-
-(req-package lsp-ui
+(req-package eglot
   :hook
-  (lsp-mode . lsp-ui-mode)
+  (js2-mode . eglot-ensure)
+  (ruby-mode . eglot-ensure)
+  (sh-mode . eglot-ensure)
   :init
-  (setq lsp-ui-doc-header nil
-        lsp-ui-doc-include-signature t
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-ignore-duplicate t))
-
-(req-package company-lsp
-  :requires company
-  :commands company-lsp
-  :init
-  (setq company-lsp-async t)
-  (with-eval-after-load 'company
-    (push 'company-lsp company-backends)))
+  (set-popup-buffer (rx bos "*EGLOT" (one-or-more anything) "*" eos)))
 
 (provide 'feature-lsp)
-;;; feature-lsp.el ends here
+;;; lsp.el ends here

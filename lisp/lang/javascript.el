@@ -20,7 +20,6 @@
   "node"
   "nodejs"
   :hook
-  (js2-mode . flycheck-mode)
   (js2-mode . rainbow-delimiters-mode)
   (js2-mode . +coverlay-mode-enable)
   (js2-mode . +color-identifiers-delayed-refresh)
@@ -48,19 +47,6 @@
   :mode "\\.json$"
   :hook
   (json-mode . flycheck-mode))
-
-(req-package lsp-javascript-typescript
-  :requires lsp-mode
-  :hook
-  (js2-mode . lsp-javascript-typescript-enable)
-  (rjsx-mode . lsp-javascript-typescript-enable)
-  (typescript-mode . lsp-javascript-typescript-enable)
-  :config
-  (smart-jump-register :modes '(js2-mode
-                                rsjx-mode
-                                typescript-mode))
-  (with-eval-after-load 'flycheck
-    (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)))
 
 (req-package js2-refactor
   :diminish js2-refactor-mode

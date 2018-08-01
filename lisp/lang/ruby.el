@@ -45,8 +45,6 @@
   "\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$"
   "/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$"
   :interpreter "ruby"
-  :hook
-  (ruby-mode . flycheck-mode)
   :init
   (setq ruby-align-chained-calls t
         ruby-deep-indent-paren t)
@@ -150,18 +148,6 @@
   (setq rake-completion-system 'default
         rake-cache-file (concat my-cache-dir "rake.cache"))
   (set-popup-buffer (rx bos "*rake-compilation*" eos)))
-
-(req-package robe
-  :commands robe-mode
-  :config
-  (set-doc-fn '(ruby-mode enh-ruby-mode) #'robe-doc)
-  (smart-jump-register :modes 'robe-mode
-                       :jump-fn #'robe-jump
-                       :pop-fn #'xref-pop-marker-stack
-                       :refs-fn #'smart-jump-simple-find-references)
-
-  (set-company-backends '(ruby-mode enh-ruby-mode) 'company-robe)
-  (set-popup-buffer (rx bos "*robe-doc*" eos)))
 
 (provide 'lang-ruby)
 ;;; ruby.el ends here

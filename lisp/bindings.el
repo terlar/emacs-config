@@ -350,8 +350,6 @@
    "gD" '(smart-jump-references  :wk "Find all references")
    "gh" '(documentation-at-point :wk "Documentation for symbol")
    "gp" '(source-peek            :wk "Peek definition")
-   "gP" (general-predicate-dispatch nil
-          (bound-and-true-p lsp-mode) 'lsp-ui-peek-find-references)
    "za" 'toggle-fold
    "zM" 'hs-hide-level
    "zx" 'kill-buffer

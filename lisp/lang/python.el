@@ -79,12 +79,6 @@
 (req-package pip-requirements
   :mode ("/requirements.txt$" . pip-requirements-mode))
 
-(req-package lsp-python
-  :requires lsp-mode
-  :hook (python-mode . lsp-python-enable)
-  :config
-  (smart-jump-register :modes 'python-mode))
-
 (req-package py-autopep8
   :hook (python-mode . py-autopep8-enable-on-save))
 

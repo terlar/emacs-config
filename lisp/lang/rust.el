@@ -40,12 +40,6 @@
   (rust-mode . flycheck-mode)
   (flycheck-mode . flycheck-rust-setup))
 
-(req-package lsp-rust
-  :requires lsp-mode
-  :hook (rust-mode . lsp-rust-enable)
-  :init
-  (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
-
 (req-package cargo
   :hook (rust-mode . cargo-minor-mode)
   :general

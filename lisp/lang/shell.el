@@ -145,7 +145,6 @@
 
 (req-package sh-script
   :hook
-  (sh-mode . flycheck-mode)
   (sh-mode . highlight-numbers-mode)
   :init
   (set-repl-command 'sh-mode #'shell-repl)

@@ -19,14 +19,6 @@
 ;;;
 ;; Packages
 
-(req-package lsp-java
-  :requires lsp-mode
-  :hook (java-mode . lsp-java-enable)
-  :init
-  (setq lsp-java-server-install-dir "/opt/jdt-language-server/")
-  :config
-  (smart-jump-register :modes 'java-mode))
-
 (req-package java-repl
   :load-path my-site-lisp-dir
   :commands run-java-repl
