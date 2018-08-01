@@ -37,6 +37,9 @@
   :config
   (set-doc-fn 'emacs-lisp-mode #'helpful-at-point)
 
+  (with-eval-after-load 'smart-jump
+    (smart-jump-register :modes 'emacs-lisp-mode))
+
   (set-prettify-symbols 'emacs-lisp-mode '(("defun"    . ?ƒ)
                                            ("defmacro" . ?μ)
                                            ("defvar"   . ?ν)))

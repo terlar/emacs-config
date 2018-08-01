@@ -53,6 +53,7 @@
  ;; Don't save abbrevs
  save-abbrevs 'silently
  ;; Files
+ source-directory                  (expand-file-name "emacs" "~/src/git.sv.gnu.org")
  abbrev-file-name                  (concat my-data-dir "abbrev.el")
  auto-save-list-file-name          (concat my-cache-dir "autosave")
  backup-directory-alist            (list (cons "." (concat my-cache-dir "backup/")))
