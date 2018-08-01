@@ -19,7 +19,7 @@
   :preface
   (defun +projectile-relative-buf-name ()
     (let ((buffer-name (if (projectile-project-p)
-                           (file-relative-name buffer-file-name (projectile-project-root))
+                           (concat (projectile-project-name) "/" (file-relative-name buffer-file-name (projectile-project-root)))
                          (abbreviate-file-name buffer-file-name))))
       (rename-buffer buffer-name t)))
   :init
