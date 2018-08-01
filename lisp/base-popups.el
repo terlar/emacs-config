@@ -34,6 +34,7 @@
  (rx bos "*ert*" eos)
  (rx bos "*eshell*" eos)
  (rx bos "*eshell " (one-or-more anything) "*" eos)
+ (rx bos "*Flymake " (one-or-more anything) "*" eos)
  (rx bos "*scratch*" eos))
 
 (provide 'base-popups)

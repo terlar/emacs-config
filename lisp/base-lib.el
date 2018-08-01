@@ -228,6 +228,13 @@ The list accepts the following properties:
   (interactive)
   (open-and-switch-to-buffer #'nil "*scratch*"))
 
+(defun view-errors ()
+  "View the errors received by the syntax checker."
+  (interactive)
+  (if (bound-and-true-p flycheck-mode)
+      (flycheck-list-errors)
+    (flymake-show-diagnostics-buffer)))
+
 (defun open-and-switch-to-buffer (command buffer &optional do-switch)
   "Open a `COMMAND', and switch to that `BUFFER' when `DO-SWITCH'."
   (interactive)

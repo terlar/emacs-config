@@ -1,4 +1,4 @@
-;;; feature-syntax-checker.el --- Syntax checking -*- lexical-binding: t; -*-
+;;; syntax-checker.el --- Syntax checking -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Catching your errors.
@@ -11,6 +11,37 @@
 
 ;; pkg-info doesn't get autoloaded when `flycheck-version' needs it.
 (autoload 'pkg-info-version-info "pkg-info")
+
+;;;
+;; Built-ins
+
+(use-package flymake
+  :preface
+  (defun flymake-diagnostics-next-error ()
+    (interactive)
+    (next-line)
+    (when (eobp) (previous-line))
+    (flymake-show-diagnostic (point)))
+
+  (defun flymake-diagnostics-prev-error ()
+    (interactive)
+    (previous-line)
+    (flymake-show-diagnostic (point)))
+  :hook
+  (flymake-mode . (lambda () (setq next-error-function 'flymake-goto-next-error)))
+  :custom
+  (help-at-pt-timer-delay 0.1)
+  (help-at-pt-display-when-idle '(flymake-diagnostic))
+  :general
+  (:keymaps 'flymake-diagnostics-buffer-mode-map :states '(normal motion emacs)
+            "C-n" 'flymake-diagnostics-next-error
+            "C-p" 'flymake-diagnostics-prev-error
+            "j"   'flymake-diagnostics-next-error
+            "k"   'flymake-diagnostics-prev-error
+            "RET" 'flymake-goto-diagnostic
+            "TAB" 'flymake-show-diagnostic)
+  :config
+  (set-evil-state 'flymake-diagnostics-buffer-mode 'motion))
 
 ;;;
 ;; Packages
@@ -60,4 +91,4 @@
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 
 (provide 'feature-syntax-checker)
-;;; feature-syntax-checker.el ends here
+;;; syntax-checker.el ends here

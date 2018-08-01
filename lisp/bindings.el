@@ -126,6 +126,7 @@
  "[" '(previous-buffer            :wk "Previous buffer")
  "]" '(next-buffer                :wk "Next buffer")
  "b" '(switch-to-buffer           :wk "Switch buffer")
+ "e" '(view-errors                :wk "Syntax errors")
  "k" '(kill-buffer                :wk "Kill buffer")
  "n" '(evil-buffer-new            :wk "New empty buffer")
  "m" '(view-echo-area-messages    :wk "Messages buffer")
@@ -149,8 +150,7 @@
  "o" '(imenu-list-minor-mode      :wk "Outline")
  "p" '(source-peek                :wk "Peek definition")
  "r" '(repl                       :wk "Open REPL")
- "t" '(retab-buffer               :wk "Retab")
- "x" '(flycheck-list-errors       :wk "List errors"))
+ "t" '(retab-buffer               :wk "Retab"))
 
 (general-define-key
  :prefix my-leader-key
@@ -295,7 +295,7 @@
  "v" '(variable-pitch-mode              :wk "Fixed-width/variable-width font")
  "w" '(whitespace-mode                  :wk "Display white-space characters")
  "W" '(auto-fill-mode                   :wk "Automatic line-wrapping")
- "x" '(flycheck-mode                    :wk "Syntax checker"))
+ "x" '(flymake-mode                     :wk "Syntax checker"))
 
 (general-define-key
  :prefix my-leader-key

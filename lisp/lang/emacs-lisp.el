@@ -28,7 +28,7 @@
   (:keymaps 'ert-results-mode :states '(normal motion)
             "q" 'quit-window)
   :hook
-  (emacs-lisp-mode . flycheck-mode)
+  (emacs-lisp-mode . flymake-mode)
   :preface
   (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
   :init
