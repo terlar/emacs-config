@@ -82,6 +82,9 @@
 ;; Setup border
 (push (cons 'internal-border-width my-fringe-width) default-frame-alist)
 
+;; Maximize
+(push '(fullscreen . maximized) default-frame-alist)
+
 ;; Standardize fringe width
 (push (cons 'left-fringe  my-fringe-width) default-frame-alist)
 (push (cons 'right-fringe my-fringe-width) default-frame-alist)
