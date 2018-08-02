@@ -42,7 +42,8 @@
 
 (defun mode-line-remote-icons ()
   "Icon representation of `mode-line-remote'."
-  (when (file-remote-p  (buffer-file-name))
+  (when (and buffer-file-name
+             (file-remote-p buffer-file-name))
     (concat (all-the-icons-octicon "radio-tower" :v-adjust -0.02) " ")))
 
 (defun mode-line-right ()
