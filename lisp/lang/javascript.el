@@ -27,6 +27,7 @@
   (setq js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil
         js2-skip-preprocessor-directives t
+        js2-strict-missing-semi-warning nil
         js2-strict-trailing-comma-warning nil)
 
   (set-prettify-symbols 'js2-mode
@@ -47,6 +48,13 @@
   :mode "\\.json$"
   :hook
   (json-mode . flycheck-mode))
+
+(req-package add-node-modules-path
+  :hook (js2-mode . add-node-modules-path))
+
+(req-package prettier-js
+  :diminish prettier-js-mode
+  :hook (js2-mode . prettier-js-mode))
 
 (req-package js2-refactor
   :diminish js2-refactor-mode
