@@ -169,21 +169,8 @@
   :init
   (setq company-shell-delete-duplicates t)
   :config
-  (with-eval-after-load 'company
-    (push '(sh-mode "alias" "bg" "bind" "builtin" "caller" "case" "in" "esac"
-                    "command" "compgen" "complete" "continue" "declare" "dirs"
-                    "disown" "do" "done" "echo" "enable" "eval" "exec" "exit"
-                    "export" "false" "fc" "fg" "for" "function" "getopts" "hash"
-                    "help" "history" "if" "elif" "else" "fi" "jobs" "kill" "let"
-                    "local" "logout" "popd" "printf" "pushd" "pwd" "read"
-                    "readonly" "return" "select" "set" "shift" "shopt" "source"
-                    "suspend" "test" "then" "time" "times" "trap" "true" "type"
-                    "typeset" "ulimit" "umask" "unalias" "unset" "until"
-                    "variables" "while") company-keywords-alist))
-
   (set-company-backends 'sh-mode
-                        '(company-keywords
-                          company-shell
+                        '(company-shell
                           company-shell-env
                           company-files
                           company-dabbrev-code))
@@ -211,4 +198,4 @@
     (eshell)))
 
 (provide 'lang-shell)
-;;; lang-shell.el ends here
+;;; shell.el ends here
