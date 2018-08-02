@@ -17,16 +17,37 @@
 (defvar flycheck-mode-line "")
 
 (defvar mode-line-space
-  (propertize " " 'display '((space :width 2)))
+  '(:propertize
+    " " display
+    ((space :width 1)))
   "Space between mode line components.")
 
 (defvar mode-line-right-format
-  (list
-   (propertize " "
-               'display `((space :align-to (- (+ right right-fringe right-margin) 20))))
-   '(:eval mode-line-position)
-   '(:eval mode-line-mule-info))
+  `((flymake-mode (:eval flymake--mode-line-format))
+    (flycheck-mode (:eval flycheck-mode-line))
+    ,mode-line-space
+    (:eval mode-line-mule-info)
+    ,mode-line-space
+    (:eval vc-mode)
+    ,mode-line-space
+    mode-name)
   "The mode line to display on the right side.")
+
+;;;
+;; Functions
+
+(defun mode-line-right ()
+  "Render the `mode-line-right-format'."
+  (let ((formatted-line (format-mode-line mode-line-right-format)))
+    (list
+     (propertize
+      " "
+      'display `((space :align-to
+                        (- (+ right right-fringe right-margin)
+                           ,(+ 1
+                               (* (string-width formatted-line)
+                                  0.75))))))
+     formatted-line)))
 
 ;;;
 ;; Settings
@@ -38,13 +59,14 @@
 (column-number-mode 1)
 (line-number-mode 1)
 
+;; Remove defaults and add right mode line.
 (delete 'mode-line-mule-info mode-line-format)
-(delete 'mode-line-position mode-line-format)
-(push '(flycheck-mode (:eval flycheck-mode-line)) mode-line-modes)
+(delete 'mode-line-modes mode-line-format)
+(delete '(vc-mode vc-mode) mode-line-format)
 (setq-default mode-line-format
               (append
                mode-line-format
-               mode-line-right-format))
+               '((:eval (mode-line-right)))))
 
 ;;;
 ;; Packages
@@ -64,7 +86,7 @@
    [remap isearch-query-replace]        'anzu-isearch-query-replace
    [remap isearch-query-replace-regexp] 'anzu-isearch-query-replace-regexp)
   :defer 2
-  :init
+  :preface
   (defun +anzu-update-mode-line (here total)
     (when anzu--state
       (let ((status (cl-case anzu--state
@@ -77,7 +99,7 @@
                       'anzu-mode-line-no-match
                     'anzu-mode-line)))
         (propertize (concat " " status) 'face face))))
-
+  :init
   (setq anzu-mode-line-update-function #'+anzu-update-mode-line
         anzu-minimum-input-length 1
         anzu-search-threshold 250))
@@ -94,16 +116,11 @@
 (req-package indent-info
   :demand t
   :init
-  (setq indent-info-prefix nil
-        indent-info-suffix " ")
+  (setq indent-info-insert-target 'mode-line-mule-info
+        indent-info-prefix nil
+        indent-info-suffix " ")
   :config
   (global-indent-info-mode 1))
-
-;; Icons in mode-line
-(req-package mode-icons
-  :commands mode-icons-mode
-  :init
-  (add-graphic-hook (mode-icons-mode 1)))
 
 ;; Evil state indicator bar
 (defun +mode-line-evil-state-bar (&optional state)
@@ -113,7 +130,8 @@
     ;; prepare mode-line: add tooltip
     (if (stringp tag)
         (progn
-          (face-remap-add-relative 'anzu-mode-line :background color)
+          (with-eval-after-load 'anzu
+            (face-remap-add-relative 'anzu-mode-line :background color))
           (propertize " "
                       'face (list :background color :foreground color :box nil)
                       'help-echo (evil-state-property state :name)

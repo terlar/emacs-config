@@ -35,8 +35,8 @@
   (custom-theme-set-faces
    'local
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
-   `(mode-line                               ((t (:family ,my-variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 6 :color ,color-5)))))
-   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 6 :color ,color-4)))))
+   `(mode-line                               ((t (:family ,my-variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
+   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
    `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
    `(line-number-current-line                ((t (:inherit line-number :background ,color-5 :foreground ,theme-color-highlight :weight bold))))
