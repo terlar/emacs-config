@@ -14,8 +14,6 @@
 ;;;
 ;; Variables
 
-(defvar flycheck-mode-line "")
-
 (defvar mode-line-space
   '(:propertize
     " " display
@@ -23,18 +21,29 @@
   "Space between mode line components.")
 
 (defvar mode-line-right-format
-  `((flymake-mode (:eval flymake--mode-line-format))
-    (flycheck-mode (:eval flycheck-mode-line))
-    ,mode-line-space
-    (:eval mode-line-mule-info)
+  `((:eval mode-line-mule-info)
     ,mode-line-space
     (:eval vc-mode)
     ,mode-line-space
-    mode-name)
+    (:eval mode-line-modes))
   "The mode line to display on the right side.")
 
 ;;;
 ;; Functions
+(defun mode-line-modified-icons ()
+  "Icon representation of `mode-line-modified'."
+  (cond (buffer-read-only
+         (concat (all-the-icons-octicon "lock" :v-adjust -0.05) " "))
+        ((buffer-modified-p)
+         (concat (all-the-icons-faicon "floppy-o" :v-adjust -0.05) " "))
+        ((and buffer-file-name
+              (not (file-exists-p buffer-file-name)))
+         (concat (all-the-icons-octicon "circle-slash" :v-adjust -0.05) " "))))
+
+(defun mode-line-remote-icons ()
+  "Icon representation of `mode-line-remote'."
+  (when (file-remote-p  (buffer-file-name))
+    (concat (all-the-icons-octicon "radio-tower" :v-adjust -0.02) " ")))
 
 (defun mode-line-right ()
   "Render the `mode-line-right-format'."
@@ -63,6 +72,8 @@
 (delete 'mode-line-mule-info mode-line-format)
 (delete 'mode-line-modes mode-line-format)
 (delete '(vc-mode vc-mode) mode-line-format)
+(setq-default mode-line-modified '((:eval (mode-line-modified-icons))))
+(setq-default mode-line-remote '((:eval (mode-line-remote-icons))))
 (setq-default mode-line-format
               (append
                mode-line-format
@@ -70,6 +81,15 @@
 
 ;;;
 ;; Packages
+
+;; Icons for the mode line
+(req-package all-the-icons
+  :commands
+  (all-the-icons-alltheicon
+   all-the-icons-faicon
+   all-the-icons-fileicon
+   all-the-icons-oction
+   all-the-icons-wicon))
 
 ;; Displays current match and total matches information
 (req-package anzu
@@ -145,7 +165,7 @@
   "Shorten `version-control' STRING in mode-line and add icon."
   (cond
    ((string-prefix-p "Git" string)
-    (concat [#xF126]
+    (concat (all-the-icons-octicon "git-branch" :v-adjust -0.05)
             " "
             (if (> (length string) 30)
                 (concat (substring-no-properties string 4 30) "…")
@@ -153,27 +173,6 @@
    (t
     string)))
 (advice-add 'vc-git-mode-line-string :filter-return '+shorten-vc-mode-line)
-
-;; Flycheck
-(with-eval-after-load 'flycheck
-  (setq flycheck-mode-line
-        '(:eval
-          (let ((text (pcase flycheck-last-status-change
-                        (`not-checked "")
-                        (`no-checker "-")
-                        (`running "⟲")
-                        (`errored "!")
-                        (`finished
-                         (let-alist (flycheck-count-errors flycheck-current-errors)
-                           (propertize (format "☒ %s ⚠%s" (or .error 0) (or .warning 0))
-                                       'face (cond (.error 'error)
-                                                   (.warning 'warning)
-                                                   (t 'unspecified)))))
-                        (`interrupted ".")
-                        (`suspicious "?"))))
-            (concat mode-line-space
-                    text
-                    mode-line-space)))))
 
 (provide 'base-modeline)
 ;;; base-modeline.el ends here
