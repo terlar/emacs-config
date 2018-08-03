@@ -30,8 +30,6 @@
   (set-repl-command 'lua-mode #'lua-repl)
   (set-eval-command 'lua-mode #'eir-eval-in-lua)
 
-  (set-popup-buffer (rx bos "*lua*" eos))
-
   (setq lua-documentation-function 'eww)
   :config
   (set-doc-fn 'lua-mode 'lua-search-documentation))

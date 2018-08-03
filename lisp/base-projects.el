@@ -71,7 +71,6 @@
   :init
   (setq direnv-always-show-summary nil)
   :config
-  (set-popup-buffer (rx bos " *direnv*" eos))
   (direnv-mode))
 
 (provide 'base-projects)

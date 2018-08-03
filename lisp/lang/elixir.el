@@ -46,10 +46,7 @@
                     alchemist-mix-mode
                     alchemist-test-report-mode)
                   'motion)
-  (set-evil-state 'alchemist-iex-mode 'insert)
-  (set-popup-buffer (rx bos "*alchemist " (one-or-more anything) "*" eos)
-                    (rx bos "*alchemist-refcard*" eos)
-                    (rx bos "*Alchemist-IEx*" eos)))
+  (set-evil-state 'alchemist-iex-mode 'insert))
 
 (req-package flycheck-credo
   :requires flycheck

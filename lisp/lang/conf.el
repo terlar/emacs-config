@@ -55,8 +55,7 @@
     (interactive)
     (ansible-doc (thing-at-point 'symbol)))
   (set-doc-fn 'ansible 'ansible-doc-at-point)
-  (set-evil-state 'ansible-doc-module-mode 'motion)
-  (set-popup-buffer (rx bos "*ansible-doc " (one-or-more anything) "*" eos)))
+  (set-evil-state 'ansible-doc-module-mode 'motion))
 (req-package company-ansible
   :commands company-ansible
   :init

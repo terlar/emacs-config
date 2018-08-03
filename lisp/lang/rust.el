@@ -20,9 +20,7 @@
             :prefix my-local-leader-key
             "t" 'cargo-process-test)
   :init
-  (setq rust-format-on-save (executable-find "rustfmt"))
-  :config
-  (set-popup-buffer (rx bos "*rustfmt*" eos)))
+  (setq rust-format-on-save (executable-find "rustfmt")))
 
 (req-package racer
   :hook (rust-mode . racer-mode)
@@ -31,8 +29,7 @@
   ;; jump-fn #'racer-find-definition
   ;; pop-fn #'pop-tag-mark
 
-  (set-evil-state 'racer-help-mode 'motion)
-  (set-popup-buffer (rx bos "*Racer Help*" eos)))
+  (set-evil-state 'racer-help-mode 'motion))
 
 (req-package flycheck-rust
   :requires flycheck
@@ -46,9 +43,7 @@
   (:keymaps
    'cargo-process-mode-map
    :states '(normal motion insert evil)
-   "q" 'quit-window)
-  :config
-  (set-popup-buffer (rx bos "*Cargo " (one-or-more anything) "*" eos)))
+   "q" 'quit-window))
 
 (provide 'lang-rust)
 ;;; lang-rust.el ends here

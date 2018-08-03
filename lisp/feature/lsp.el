@@ -19,8 +19,7 @@
   (sh-mode   . eglot-ensure)
   :init
   (with-eval-after-load 'smart-jump
-    (smart-jump-register :modes '(js2-mode ruby-mode sh-mode)))
-  (set-popup-buffer (rx bos "*EGLOT" (one-or-more anything) "*" eos)))
+    (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
 
 (provide 'feature-lsp)
 ;;; lsp.el ends here

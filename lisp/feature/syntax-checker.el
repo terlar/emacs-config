@@ -66,9 +66,7 @@
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   :config
-  (set-evil-state 'flycheck-error-list-mode 'motion)
-  (set-popup-buffer (rx bos "*Flycheck errors*" eos)
-                    (rx bos "*Flycheck checker*" eos)))
+  (set-evil-state 'flycheck-error-list-mode 'motion))
 
 ;; Pos-frame error messages
 (req-package flycheck-posframe

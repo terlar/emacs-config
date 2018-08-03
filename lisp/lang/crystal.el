@@ -24,8 +24,7 @@
   :commands inf-crystal
   :hook (crystal-mode . inf-crystal-minor-mode)
   :config
-  (set-evil-state 'inf-crystal-mode 'insert)
-  (set-popup-buffer (rx bos "*inferior-crystal*" eos)))
+  (set-evil-state 'inf-crystal-mode 'insert))
 
 (provide 'lang-crystal)
 ;;; lang-crystal.el ends here

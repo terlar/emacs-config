@@ -52,7 +52,6 @@
                          :pop-fn #'xref-pop-marker-stack
                          :refs-fn #'go-guru-referrers))
   :config
-  (set-popup-buffer (rx bos "*go-guru-output*" eos))
   (set-evil-state 'go-guru-output-mode 'motion))
 
 ;; REPL
@@ -75,9 +74,7 @@
       (gorepl-eval-line-goto-next-line)))
 
   (set-repl-command 'go-mode #'go-repl)
-  (set-eval-command 'go-mode #'go-repl-eval)
-
-  (set-popup-buffer (rx bos "*Go REPL*" eos)))
+  (set-eval-command 'go-mode #'go-repl-eval))
 
 ;; Completion
 (req-package company-go

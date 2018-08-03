@@ -150,9 +150,6 @@
   (set-repl-command 'sh-mode #'shell-repl)
   (set-eval-command 'sh-mode #'eir-eval-in-shell)
 
-  (set-popup-buffer (rx bos "*shell*" eos)
-                    (rx bos "*shell [" (one-or-more anything) "]*" eos))
-
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always)
   :config

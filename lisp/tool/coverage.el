@@ -24,8 +24,7 @@
   :init
   (setq coverlay:mark-tested-lines nil)
   :config
-  (set-evil-state 'coverlay-stats-mode 'motion)
-  (set-popup-buffer (rx bos "*coverlay-stats*" eos)))
+  (set-evil-state 'coverlay-stats-mode 'motion))
 
 ;;;
 ;; Autoloads

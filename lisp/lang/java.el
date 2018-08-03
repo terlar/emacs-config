@@ -57,7 +57,6 @@
   (set-repl-command 'java-mode #'java-repl)
   (set-eval-command 'java-mode #'java-repl-eval)
 
-  (set-popup-buffer (rx bos "*java-repl*" eos))
   (set-evil-state 'java-repl-mode 'insert)
 
   (setq java-repl-file-path "/usr/bin/javarepl"))
@@ -90,9 +89,7 @@
 
 (req-package kotlin-mode
   :commands kotlin-repl
-  :mode "\\.kts?\\'"
-  :config
-  (set-popup-buffer (rx bos "*KotlinREPL*" eos)))
+  :mode "\\.kts?\\'")
 
 (req-package log4j-mode
   :mode "\\.log\\'"

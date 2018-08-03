@@ -72,8 +72,7 @@
   (define-key 'help-command (kbd "R") #'yari)
   (set-doc-fn '(ruby-mode enh-ruby-mode) #'yari)
   :config
-  (set-evil-state 'yari-mode 'motion)
-  (set-popup-buffer (rx bos "*yari " (one-or-more anything) "*" eos)))
+  (set-evil-state 'yari-mode 'motion))
 
 (req-package ruby-refactor
   :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode)
@@ -94,9 +93,7 @@
   ((ruby-mode enh-ruby-mode) . minitest-enable-appropriate-mode)
   :commands minitest-mode
   :init
-  (setq minitest-keymap-prefix (kbd "C-c C-t"))
-  :config
-  (set-popup-buffer (rx bos "*Minitest" (one-or-more anything) "*" eos)))
+  (setq minitest-keymap-prefix (kbd "C-c C-t")))
 
 (req-package rspec-mode
   :hook
@@ -105,9 +102,7 @@
   :init
   (setq rspec-key-command-prefix (kbd "C-c C-t")
         rspec-use-opts-file-when-available nil
-        rspec-command-options "--format progress")
-  :config
-  (set-popup-buffer (rx bos "*rspec-compilation*" eos)))
+        rspec-command-options "--format progress"))
 
 (req-package inf-ruby
   :hook
@@ -129,9 +124,6 @@
   (set-repl-command '(ruby-mode enh-ruby-mode) #'ruby-repl)
   (set-eval-command '(ruby-mode enh-ruby-mode) #'eir-eval-in-ruby)
 
-  (set-popup-buffer (rx bos "*"
-                        (or "ruby" "pry" "gem" "bundle console")
-                        "*" eos))
   (set-evil-state 'inf-ruby-mode 'insert)
 
   (setq inf-ruby-default-implementation "pry"))
@@ -146,8 +138,7 @@
   :commands (rake rake-find-task rake-rerun)
   :config
   (setq rake-completion-system 'default
-        rake-cache-file (concat my-cache-dir "rake.cache"))
-  (set-popup-buffer (rx bos "*rake-compilation*" eos)))
+        rake-cache-file (concat my-cache-dir "rake.cache")))
 
 (provide 'lang-ruby)
 ;;; ruby.el ends here

@@ -52,8 +52,6 @@
   (set-repl-command 'python-mode #'python-repl)
   (set-eval-command 'python-mode #'eir-eval-in-python)
 
-  (set-popup-buffer (rx bos "*Python*" eos))
-
   (set-prettify-symbols 'python-mode
                         '(("def"    . ?𝒇)
                           ("class"  . ?𝑪)
@@ -86,8 +84,7 @@
   :commands pydoc-at-point
   :init
   (set-doc-fn 'python-mode #'pydoc-at-point)
-  (set-evil-state 'pydoc-mode 'motion)
-  (set-popup-buffer (rx bos "*pydoc*" eos)))
+  (set-evil-state 'pydoc-mode 'motion))
 
 (req-package python-x
   :hook (python-mode . python-x-setup))
@@ -110,9 +107,7 @@
   :config
   (setq python-test-project-root-files
         (append '("README.md")
-                python-test-project-root-files))
-
-  (set-popup-buffer (rx bos "*python-test*" eos)))
+                python-test-project-root-files)))
 
 (provide 'lang-python)
 ;;; lang-python.el ends here

@@ -45,8 +45,6 @@
                                            ("defvar"   . ?ν)))
 
   (set-evil-state 'checkdoc-output-mode 'motion)
-  (set-popup-buffer (rx bos "*ielm*" eos)
-                    (rx bos "*Style Warnings*" eos))
 
   (set-on-evil-state 'emacs-lisp-mode 'insert
                      (nameless-mode 0)
@@ -105,15 +103,13 @@ version is loaded."
   :commands
   (suggest suggest-update)
   :init
-  (setq suggest-pop-to-buffer t)
-  (set-popup-buffer (rx bos "*suggest*" eos)))
+  (setq suggest-pop-to-buffer t))
 
 ;; Emacs Start Up Profiler
 (req-package esup
   :commands esup
   :config
-  (set-evil-state 'esup-mode 'motion)
-  (set-popup-buffer (rx bos "*esup*" eos)))
+  (set-evil-state 'esup-mode 'motion))
 
 (req-package package-lint
   :commands package-lint-current-buffer)

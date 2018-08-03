@@ -27,7 +27,6 @@
   (set-repl-command 'elm-mode #'elm-repl)
   (set-eval-command 'elm-mode #'eir-eval-in-elm)
 
-  (set-popup-buffer (rx bos "*elm*" eos))
   (set-evil-state 'elm-interactive-mode 'insert)
 
   (setq elm-format-on-save t
@@ -38,10 +37,7 @@
   (smart-jump-register :modes 'elm-mode)
 
   (set-aggressive-indent 'elm-mode :disabled t)
-  (set-company-backends 'elm-mode 'company-elm)
-
-  (set-popup-buffer (rx bos "*elm-make*" eos)
-                    (rx bos "*elm-test*" eos)))
+  (set-company-backends 'elm-mode 'company-elm))
 
 (req-package flycheck-elm
   :requires flycheck

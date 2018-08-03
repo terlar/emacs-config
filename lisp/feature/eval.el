@@ -49,9 +49,7 @@
    quickrun-with-arg
    quickrun-shell
    quickrun-compile-only
-   quickrun-replace-region)
-  :init
-  (set-popup-buffer (rx bos "*quickrun*" eos)))
+   quickrun-replace-region))
 
 ;;;
 ;; Autoloads

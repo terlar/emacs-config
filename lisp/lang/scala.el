@@ -62,8 +62,7 @@
                        :pop-fn #'ensime-pop-find-definition-stack
                        :refs-fn #'ensime-show-uses-of-symbol-at-point)
 
-  (set-evil-state 'ensime-inf-mode 'insert)
-  (set-popup-buffer (rx bos "*Scala REPL*" eos)))
+  (set-evil-state 'ensime-inf-mode 'insert))
 
 (provide 'lang-scala)
 ;;; lang-scala.el ends here

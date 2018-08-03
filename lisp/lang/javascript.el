@@ -99,7 +99,6 @@
   (set-repl-command 'js2-mode #'javascript-repl)
   (set-eval-command 'js2-mode #'javascript-repl-eval)
 
-  (set-popup-buffer (rx bos "*nodejs*" eos))
   (set-evil-state 'nodejs-repl-mode 'insert))
 
 (req-package indium)

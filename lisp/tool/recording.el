@@ -20,9 +20,7 @@
    camcorder-convert-to-gif)
   :init
   (setq camcorder-output-directory (getenv "XDG_VIDEOS_DIR")
-        camcorder-gif-output-directory camcorder-output-directory)
-  :config
-  (set-popup-buffer (rx bos "*camcorder output*" eos)))
+        camcorder-gif-output-directory camcorder-output-directory))
 
 (provide 'tool-recording)
 ;;; tool-recording.el ends here

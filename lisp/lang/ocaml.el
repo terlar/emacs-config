@@ -22,8 +22,7 @@
   :mode ("\\.ml[ilpy]?\\'" . tuareg-mode)
   :config
   (set-repl-command 'tuareg-mode #'run-ocaml)
-  (set-eval-command 'tuareg-mode #'tuareg-eval-phrase)
-  (set-popup-buffer (rx bos "*OCaml*" eos)))
+  (set-eval-command 'tuareg-mode #'tuareg-eval-phrase))
 
 (provide 'lang-ocaml)
 ;;; lang-ocaml.el ends here

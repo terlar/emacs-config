@@ -320,8 +320,7 @@
             "v" 'helpful-variable
             "M" 'helpful-macro)
   :config
-  (set-evil-state 'helpful-mode 'motion)
-  (set-popup-buffer (rx bos "*helpful" (one-or-more anything) "*" eos)))
+  (set-evil-state 'helpful-mode 'motion))
 
 ;; Jump to document locations in any buffer
 (req-package imenu-anywhere

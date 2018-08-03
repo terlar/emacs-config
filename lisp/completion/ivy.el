@@ -70,8 +70,7 @@
         ;; disable magic slash on non-match
         ivy-magic-slash-non-match-action nil)
   :config
-  (set-evil-state 'ivy-occur-grep-mode 'normal)
-  (set-popup-buffer (rx bos "*ivy-occur " (one-or-more anything) "*" eos)))
+  (set-evil-state 'ivy-occur-grep-mode 'normal))
 
 (req-package swiper
   :commands

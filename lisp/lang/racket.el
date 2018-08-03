@@ -18,8 +18,7 @@
   :interpreter "racket"
   :commands racket-repl
   :init
-  (set-repl-command 'racket-mode #'racket-repl)
-  (set-popup-buffer (rx bos "*Racket REPL*" eos)))
+  (set-repl-command 'racket-mode #'racket-repl))
 
 (provide 'lang-racket)
 ;;; lang-racket.el ends here

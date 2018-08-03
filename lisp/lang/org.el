@@ -144,9 +144,7 @@ It acts in the same way as `org-meta-return'."
 
   ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
   (font-lock-add-keywords
-   'org-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append)
-
-  (set-popup-buffer (rx bos "*Org Agenda*" eos)))
+   'org-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append))
 
 (req-package org-cliplink
   :general

@@ -58,8 +58,7 @@
   :init
   (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager"))
   :config
-  (set-evil-state 'sql-interactive-mode 'insert)
-  (set-popup-buffer (rx bos "*SQL: *" eos)))
+  (set-evil-state 'sql-interactive-mode 'insert))
 
 (req-package es-mode
   :mode "\\.es$")

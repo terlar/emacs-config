@@ -34,7 +34,6 @@
   (set-repl-command 'haskell-mode #'haskell-interactive-switch)
 
   (set-evil-state 'haskell-interactive-mode 'insert)
-  (set-popup-buffer (rx bos "*haskell*" eos))
 
   (setq
    haskell-notify-p t
@@ -73,7 +72,6 @@
   (set-eval-command 'haskell-mode #'intero-repl-eval-region)
 
   (set-evil-state 'intero-repl-mode 'insert)
-  (set-popup-buffer (rx bos "*intero:" (one-or-more anything) "*" eos))
   :config
   (set-doc-fn 'haskell-mode #'intero-info)
   (smart-jump-register :modes 'intero-mode
@@ -83,8 +81,7 @@
 
   (set-company-backends 'haskell-mode 'company-intero)
 
-  (set-evil-state 'intero-help-mode 'motion)
-  (set-popup-buffer (rx bos "*Intero-Help*" eos)))
+  (set-evil-state 'intero-help-mode 'motion))
 
 (req-package shm
   :diminish structured-haskell-mode

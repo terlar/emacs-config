@@ -59,8 +59,6 @@
   (set-eval-command 'lisp-mode #'eir-eval-in-slime)
   (set-doc-fn 'lisp-mode #'slime-describe-symbol)
 
-  (set-popup-buffer (rx bos "*inferior-lisp*" eos))
-
   (setq inferior-lisp-program "sbcl"
         slime-contribs '(slime-fancy slime-repl slime-company))
   :config

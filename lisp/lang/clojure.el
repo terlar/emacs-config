@@ -54,9 +54,7 @@
                 :at-point #'cider-test-run-test)
   :config
   (set-evil-state 'cider-repl-mode 'insert)
-  (set-evil-state 'cider-test-report-mode 'insert)
-  (set-popup-buffer (rx bos "*cider-repl " (one-or-more anything) "*")
-                    (rx bos "*cider-test-report*")))
+  (set-evil-state 'cider-test-report-mode 'insert))
 
 (provide 'lang-clojure)
 ;;; clojure.el ends here
