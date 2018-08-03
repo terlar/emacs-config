@@ -55,8 +55,7 @@
                     view-mode)
                   'emacs)
   (set-evil-state 'git-commit-mode 'insert)
-  (set-evil-state '(debugger-mode
-                    dired-mode
+  (set-evil-state '(dired-mode
                     elisp-refs-mode
                     finder-mode
                     help-mode

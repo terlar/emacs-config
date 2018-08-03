@@ -12,13 +12,6 @@
 ;;;
 ;; Packages
 
-(req-package debug
-  :general
-  (:keymaps 'debugger-mode-map
-            :states '(normal motion insert emacs)
-            "RET" 'debug-help-follow
-            "n"   'debugger-step-through))
-
 (req-package realgud
   :commands
   (realgud:gdb
