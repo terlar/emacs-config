@@ -71,6 +71,23 @@
 ;; Tooltips in echo area
 (tooltip-mode 0)
 
+;; Fix all-the-icons font-lock issue
+(defun +font-lock-default-unfontify-region (beg end)
+  "Unfontify from BEG to END, except text with property `font-lock-ignore'."
+  (let ((here  (min beg end))
+        (end1  (max beg end))
+        chg)
+    (while (< here end1)
+      (setq chg  (next-single-property-change here 'font-lock-ignore nil end1))
+      (unless (get-text-property here 'font-lock-ignore)
+        (remove-list-of-text-properties
+         here chg (append font-lock-extra-managed-props
+                          (if font-lock-syntactic-keywords
+                              '(syntax-table face font-lock-multiline)
+                            '(face font-lock-multiline)))))
+      (setq here chg))))
+(advice-add 'font-lock-default-unfontify-region :override #'+font-lock-default-unfontify-region)
+
 (menu-bar-mode 0)
 (add-graphic-hook
  (tool-bar-mode 0)
