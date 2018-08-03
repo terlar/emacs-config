@@ -44,7 +44,6 @@
             [escape] 'keyboard-escape-quit
             "M-v"    'yank
             "M-z"    'undo
-            "C-r"    'evil-paste-from-register
             "C-k"    'ivy-previous-line
             "C-j"    'ivy-next-line
             "C-l"    'ivy-alt-done
@@ -99,6 +98,8 @@
             [remap describe-variable]         'counsel-describe-variable
             [remap describe-face]             'counsel-describe-face
             [remap eshell-list-history]       'counsel-esh-history)
+  (:keymaps '(minibuffer-local-map evil-ex-completion-map)
+            "C-r" 'counsel-minibuffer-history)
   (:keymaps 'counsel-ag-map
             [backtab] 'ivy-occur
             "C-SPC"   'ivy-call-and-recenter)
