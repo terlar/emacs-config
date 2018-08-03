@@ -21,11 +21,10 @@
   "Space between mode line components.")
 
 (defvar mode-line-right-format
-  `((:eval mode-line-mule-info)
+  `(,mode-line-position
+    (:eval mode-line-mule-info)
     ,mode-line-space
-    (:eval vc-mode)
-    ,mode-line-space
-    (:eval mode-line-modes))
+    ,mode-line-modes)
   "The mode line to display on the right side.")
 
 ;;;
@@ -62,17 +61,20 @@
 ;;;
 ;; Settings
 
-;; Disable mode line mouse-overs
-(setq-default mode-line-default-help-echo nil)
+(setq-default
+ ;; Disable mode line mouse-overs
+ mode-line-default-help-echo nil
+ ;; Disable mode line position percent
+ mode-line-percent-position nil)
 
 ;; Show column and line number
 (column-number-mode 1)
 (line-number-mode 1)
 
 ;; Remove defaults and add right mode line.
+(delete 'mode-line-position mode-line-format)
 (delete 'mode-line-mule-info mode-line-format)
 (delete 'mode-line-modes mode-line-format)
-(delete '(vc-mode vc-mode) mode-line-format)
 (setq-default mode-line-modified '((:eval (mode-line-modified-icons))))
 (setq-default mode-line-remote '((:eval (mode-line-remote-icons))))
 (setq-default mode-line-format
