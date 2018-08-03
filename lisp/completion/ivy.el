@@ -13,35 +13,31 @@
 ;;;
 ;; Functions
 
-(defun counsel-abbrev (abbrev-name)
-  "Insert abbreviation matching ABBREV-NAME."
-  (interactive
-   (list
-    (ivy-completing-read "Insert abbrev: "
-                         (cl-loop for table in (abbrev--active-tables)
-                                  unless (abbrev-table-empty-p table)
-                                  append (append (delete 0 table) ())))))
-  (progn
-    (dolist (table (abbrev--active-tables))
-      (when (abbrev-symbol abbrev-name table)
-        (abbrev-insert (abbrev-symbol abbrev-name table))))))
-
 ;;;
 ;; Packages
 
 (req-package ivy
   :diminish ivy-mode
   :hook (after-init . ivy-mode)
+  :custom
+  (ivy-wrap t)
+  (ivy-on-del-error-function #'ignore)
+  (ivy-use-virtual-buffers t)
+  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
+  (ivy-use-selectable-prompt t)
+  ;; Highlight whole line
+  (ivy-format-function #'ivy-format-function-line)
+  (ivy-fixed-height-minibuffer t)
   :general
   (:keymaps 'ivy-mode-map
             [remap switch-to-buffer] 'ivy-switch-buffer
             [remap imenu-anywhere]   'ivy-imenu-anywhere
-            "C-o"                    'ivy-dispatching-done)
+            "C-o"                    'ivy-dispatching-done
+            "C-c C-r"                'ivy-resume)
   (:keymaps 'ivy-occur-grep-mode-map :states '(normal emacs)
             "i" 'ivy-wgrep-change-to-wgrep-mode
             "q" 'quit-window)
   (:keymaps 'ivy-minibuffer-map
-            [escape] 'keyboard-escape-quit
             "M-v"    'yank
             "M-z"    'undo
             "C-k"    'ivy-previous-line
@@ -52,22 +48,12 @@
             "C-b"    'backward-word
             "C-f"    'forward-word)
   :init
+  ;; Don't use ^ as initial input
+  (setq ivy-initial-inputs-alist nil)
+
   (setq-default projectile-completion-system 'ivy
                 smex-completion-method 'ivy
                 magit-completing-read-function #'ivy-completing-read)
-
-  (setq ivy-height 12
-        ivy-fixed-height-minibuffer t
-        ivy-do-completion-in-region t
-        ivy-use-selectable-prompt t
-        ivy-use-virtual-buffers t
-        ivy-wrap t
-        ;; Don't use ^ as initial input
-        ivy-initial-inputs-alist nil
-        ;; highlight til EOL
-        ivy-format-function #'ivy-format-function-line
-        ;; disable magic slash on non-match
-        ivy-magic-slash-non-match-action nil)
   :config
   (set-evil-state 'ivy-occur-grep-mode 'normal))
 
@@ -77,58 +63,47 @@
    swiper-multi
    swiper-all))
 
-;; Used by `counsel-M-x'
+;; Used by `counsel-M-x' for sorting
 (req-package smex
   :init
   (setq smex-auto-update nil
-        smex-save-file (concat my-cache-dir "/smex-items"))
-  :config
-  (smex-initialize))
+        smex-save-file (concat my-cache-dir "/smex-items")))
 
 (req-package counsel
-  :demand t
+  :diminish counsel-mode
+  :hook (ivy-mode . counsel-mode)
+  :custom
+  (counsel-find-file-ignore-regexp
+   "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+  (counsel-grep-base-command
+   "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+  (counsel-mode-override-describe-bindings t)
   :general
-  (:keymaps 'ivy-mode-map
-            [remap find-file]                 'counsel-find-file
-            [remap recentf]                   'counsel-recentf
-            [remap imenu]                     'counsel-imenu
-            [remap bookmark-jump]             'counsel-bookmark
-            [remap execute-extended-command]  'counsel-M-x
-            [remap describe-function]         'counsel-describe-function
-            [remap describe-variable]         'counsel-describe-variable
-            [remap describe-face]             'counsel-describe-face
-            [remap eshell-list-history]       'counsel-esh-history)
-  (:keymaps '(minibuffer-local-map evil-ex-completion-map)
+  (:keymaps 'evil-ex-completion-map
             "C-r" 'counsel-minibuffer-history)
+  (:keymaps 'counsel-mode-map
+            "C-c g" 'counsel-git
+            "C-c j" 'counsel-git-grep
+            "C-c k" 'counsel-rg)
   (:keymaps 'counsel-ag-map
-            [backtab] 'ivy-occur
-            "C-SPC"   'ivy-call-and-recenter)
-  :init
-  (setq counsel-find-file-ignore-regexp
-        "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"
-        counsel-grep-base-command
-        "rg -i -M 120 --no-heading --line-number --color never '%s' %s"))
+            "C-SPC" 'ivy-call-and-recenter)
+  :config
+  (defun counsel-abbrev (abbrev-name)
+    "Insert abbreviation matching ABBREV-NAME."
+    (interactive
+     (list
+      (ivy-completing-read "Insert abbrev: "
+                        (cl-loop for table in (abbrev--active-tables)
+                                 unless (abbrev-table-empty-p table)
+                                 append (append (delete 0 table) ())))))
+    (progn
+      (dolist (table (abbrev--active-tables))
+        (when (abbrev-symbol abbrev-name table)
+          (abbrev-insert (abbrev-symbol abbrev-name table)))))))
 
 (req-package counsel-projectile
-  :demand t
-  :after (counsel projectile)
-  :general
-  (:keymaps 'ivy-mode-map
-            [remap projectile-switch-project]   'counsel-projectile-switch-project
-            [remap projectile-switch-to-buffer] 'counsel-projectile-switch-to-buffer
-            [remap projectile-find-file]        'counsel-projectile-find-file
-            [remap projectile-find-dir]         'counsel-projectile-find-dir)
-  :preface
-  (defun +counsel-projectile-switch-project-action-root-dir (project)
-    "Open PROJECT root directory."
-    (let ((projectile-switch-project-action
-	       (lambda ()
-	         (dired (projectile-project-root)))))
-      (counsel-projectile-switch-project-by-name project)))
-  :config
-  (counsel-projectile-modify-action
-   'counsel-projectile-switch-project-action
-   '((add ("r" +counsel-projectile-switch-project-action-root-dir "jump to a project root dir") 1))))
+  :diminish counsel-projectile-mode
+  :hook (counsel-mode . counsel-projectile-mode))
 
 (req-package counsel-tramp
   :commands counsel-tramp)
@@ -142,15 +117,14 @@
 ;; Snippets with preview
 (req-package ivy-yasnippet
   :general
-  ("C-c y" 'ivy-yasnippet)
-  :commands ivy-yasnippet)
+  ("C-c y" 'ivy-yasnippet))
 
 ;; Icons in ivy buffers
 (req-package all-the-icons-ivy
-  :demand t
   :after (ivy counsel counsel-projectile)
+  :defer 1
   :config
-  (add-graphic-hook (all-the-icons-ivy-setup)))
+  (all-the-icons-ivy-setup))
 
 (provide 'completion-ivy)
 ;;; ivy.el ends here

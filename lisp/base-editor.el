@@ -302,11 +302,6 @@
 
 ;; A better *help* buffer
 (req-package helpful
-  :commands
-  (helpful-at-point
-   helpful-callable helpful-command
-   helpful-function helpful-key helpful-macro
-   helpful-symbol helpful-variable)
   :general
   (:keymaps 'helpful-mode-map :states '(normal motion emacs)
             "[[" 'backward-button
@@ -319,6 +314,11 @@
             "k" 'helpful-key
             "v" 'helpful-variable
             "M" 'helpful-macro)
+  :commands
+  (helpful-at-point
+   helpful-callable helpful-command
+   helpful-function helpful-key helpful-macro
+   helpful-symbol helpful-variable)
   :config
   (set-evil-state 'helpful-mode 'motion))
 

@@ -52,10 +52,7 @@
 ;; Pretty icons
 (req-package all-the-icons-dired
   :diminish all-the-icons-dired-mode
-  :commands all-the-icons-dired-mode
-  :init
-  (add-graphic-hook
-   (add-hooks-pair 'dired-mode 'all-the-icons-dired-mode)))
+  :hook (dired-mode . all-the-icons-dired-mode))
 
 (req-package image-dired
   :init
@@ -70,4 +67,4 @@
   :hook (dired-mode . stripe-buffer-mode))
 
 (provide 'tool-dired)
-;;; tool-dired.el ends here
+;;; dired.el ends here

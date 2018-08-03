@@ -27,6 +27,9 @@
 ;; Diminish lines
 (req-package diminish :force t :commands diminish)
 
+;; Icons
+(req-package all-the-icons :force t :demand t)
+
 (req-package f               :force t) ; files and paths
 (req-package s               :force t) ; strings
 (req-package dash            :force t) ; lists

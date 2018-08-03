@@ -85,15 +85,6 @@
 ;;;
 ;; Packages
 
-;; Icons for the mode line
-(req-package all-the-icons
-  :commands
-  (all-the-icons-alltheicon
-   all-the-icons-faicon
-   all-the-icons-fileicon
-   all-the-icons-oction
-   all-the-icons-wicon))
-
 ;; Displays current match and total matches information
 (req-package anzu
   :diminish anzu-mode

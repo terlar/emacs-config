@@ -27,6 +27,17 @@
  [remap evil-jump-to-tag] 'projectile-find-tag)
 
 ;;;
+;; Help
+
+(general-define-key
+ :keymaps 'help-map
+ "B" 'find-library
+ "g" '+suggest-popup
+ "u" 'describe-face
+ "U" 'list-faces-display
+ "'" 'describe-char)
+
+;;;
 ;; Global
 
 (general-define-key
@@ -199,27 +210,6 @@
 
 (general-define-key
  :prefix my-leader-key
- :infix "h"
- ""  '(:ignore t :wk "help")
- "h" '(:keymap help-map)
- "a" '(apropos                 :wk "Apropos")
- "d" '(counsel-dash            :wk "Documentation")
- "i" '(info                    :wk "Info")
- "l" '(find-library            :wk "Find library")
- "s" '(+suggest-popup          :wk "Suggest functions")
- "c" '(helpful-command         :wk "Describe command")
- "C" '(describe-char           :wk "Describe char")
- "f" '(describe-function       :wk "Describe function")
- "k" '(helpful-key             :wk "Describe key")
- "m" '(helpful-macro           :wk "Describe macro")
- "M" '(describe-mode           :wk "Describe mode")
- "v" '(helpful-variable        :wk "Describe variable")
- "f" '(helpful-function        :wk "Describe function")
- "F" '(describe-face           :wk "Describe face")
- "'" '(what-cursor-position    :wk "What face"))
-
-(general-define-key
- :prefix my-leader-key
  :infix "i"
  ""  '(:ignore t :wk "insert")
  "y" '(counsel-yank-pop   :wk "From kill-ring")
@@ -310,6 +300,7 @@
  "RET" '(repl                                   :wk "Open REPL")
  "a"   '(org-agenda     :package org)
  "c"   '(org-capture    :package org)
+ "h"   '(:keymap help-map :wk "help")
  "l"   '(org-store-link :package org)
  "p"   '(:keymap projectile-command-map
                  :package projectile :wk "project")
