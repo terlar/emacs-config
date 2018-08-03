@@ -17,6 +17,7 @@
   :hook
   (dired-mode . hl-line-mode)
   (dired-mode . +dired-mode-faces)
+  (dired-mode . dired-hide-details-mode)
   :preface
   (defun +dired-mode-faces ()
     (face-remap-add-relative 'hl-line
