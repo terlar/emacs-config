@@ -266,10 +266,7 @@
     (interactive)
     (setq buffer-undo-tree nil))
 
-  (defun +undo-tree-quiet-load (orig-fn &rest args)
-    "Silence undo-tree load errors."
-    (quiet! (apply orig-fn args)))
-  (advice-add #'undo-tree-load-history-hook :around #'+undo-tree-quiet-load)
+  (advice-add #'undo-tree-load-history-hook :around #'quiet-function-advice)
 
   (global-undo-tree-mode 1))
 

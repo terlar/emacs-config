@@ -205,6 +205,14 @@ The list accepts the following properties:
                (save-silently t))
        ,@forms)))
 
+(defun quiet-function-advice (orig-fn &rest args)
+  "Advice used to make a function quiet.
+Call ORIG-FN with ARGS and suppress the output.
+
+Example:
+  (advice-add #'orig-fun :around #'quiet-function-advice)"
+  (quiet! (apply orig-fn args)))
+
 (defun run-prog-mode-hooks ()
   "Run hooks all `prog-mode' hooks."
   (run-hooks 'prog-mode-hook))
