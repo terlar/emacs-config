@@ -37,7 +37,9 @@
         evil-symbol-word-search t
         ;; Column range for ex commands
         evil-ex-visual-char-range t
-        evil-insert-skip-empty-lines t)
+        evil-insert-skip-empty-lines t
+        ;; Fix movements in evil-cleverparens
+        evil-move-beyond-eol t)
   :config
   ;; Use Emacs key-map for insert state.
   (setq evil-insert-state-map (make-sparse-keymap))
@@ -113,6 +115,11 @@
   (setq evil-embrace-show-help-p nil)
   :config
   (evil-embrace-enable-evil-surround-integration))
+
+;; Nicer lisp experience
+(req-package evil-cleverparens
+  :diminish evil-cleverparens-mode
+  :hook (emacs-lisp-mode . evil-cleverparens-mode))
 
 (req-package worf
   :diminish worf-mode

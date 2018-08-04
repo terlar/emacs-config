@@ -75,6 +75,11 @@ version is loaded."
           (load-file buffer-path)))))
   (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
 
+;; Nicer lisp editing experience
+(req-package lispy
+  :diminish lispy-mode
+  :hook (emacs-lisp-mode . lispy-mode))
+
 (req-package highlight-quoted
   :hook (emacs-lisp-mode . highlight-quoted-mode))
 
