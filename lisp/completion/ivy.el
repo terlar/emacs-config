@@ -84,7 +84,11 @@
   (:keymaps 'counsel-mode-map
             "C-c g" 'counsel-git
             "C-c j" 'counsel-git-grep
-            "C-c k" 'counsel-rg)
+            "C-c k" 'counsel-rg
+            ;; Use counsel/swiper for search
+            "C-r"   'counsel-grep-or-swiper
+            "C-s"   'counsel-grep-or-swiper
+            "C-x /" 'counsel-abbrev)
   (:keymaps 'counsel-ag-map
             "C-SPC" 'ivy-call-and-recenter)
   :config
@@ -117,14 +121,14 @@
 ;; Snippets with preview
 (req-package ivy-yasnippet
   :general
-  ("C-c y" 'ivy-yasnippet))
+  ([remap yas-insert-snippet] 'ivy-yasnippet))
 
 ;; Icons in ivy buffers
 (req-package all-the-icons-ivy
   :after (ivy counsel counsel-projectile)
   :defer 1
   :custom
-  (all-the-icons-ivy-file-commands '(counsel-projectile counsel-find-file counsel-projectile-find-file counsel-projectile-find-dir))
+  (all-the-icons-ivy-file-commands '(counsel-projectile counsel-find-file counsel-projectile-find-file counsel-projectile-find-dir counsel-git))
   :config
   (all-the-icons-ivy-setup))
 

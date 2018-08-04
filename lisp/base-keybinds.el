@@ -52,8 +52,11 @@
   (push '(("deletechar" . nil) . ("⌦" . nil)) which-key-replacement-alist)
 
   (which-key-add-key-based-replacements
-    "C-c !"   "flycheck"
-    "C-c @"   "outline")
+    "C-c !" "flycheck"
+    "C-c @" "outline"
+    "C-c &" "snippet"
+    "C-c m" "major-mode"
+    "C-c W" "workspace")
 
   (which-key-setup-side-window-bottom)
 

@@ -50,11 +50,6 @@
  ;; Terminal
  "C-!" 'run-eshell
 
- ;; Use counsel/swiper for search
- "C-s" 'counsel-grep-or-swiper
- "C-r" 'counsel-grep-or-swiper
- "C-x /" 'counsel-abbrev
-
  ;; Buffer
  "C-x k" 'kill-this-buffer
 
@@ -76,6 +71,27 @@
 
 (general-define-key
  :prefix my-leader-key
+ "SPC" 'counsel-projectile
+ "RET" '(repl                       :wk "Open REPL")
+ ","   '(switch-to-buffer           :wk "Switch to buffer")
+ "."   '(find-file                  :wk "Browse files")
+ ";"   '(bookmark-jump              :wk "Jump to bookmark")
+ ":"   '(elisp-repl                 :wk "Emacs Lisp REPL")
+ "~"   '(window-toggle-side-windows :wk "Toggle last popup")
+ "h"   '(:keymap help-map           :wk "help")
+ "u"   '(universal-argument         :wk "Universal argument")
+ "x"   '(toggle-scratch-buffer      :wk "Toggle scratch buffer")
+ "y"   '(yas-insert-snippet         :wk "Insert snippet")
+
+ "a"   '(org-agenda                     :package org)
+ "c"   '(org-capture                    :package org)
+ "l"   '(org-store-link                 :package org)
+ "p"   '(:keymap projectile-command-map :package projectile     :wk "project")
+ "V"   '(:keymap symbol-overlay-map     :package symbol-overlay :wk "overlays")
+ "w"   '(:keymap evil-window-map        :package evil           :wk "window"))
+
+(general-define-key
+ :prefix my-leader-key
  :infix "["
  ""  '(:ignore t :wk "previous...")
  "[" '(text-scale-decrease                    :wk "Text size")
@@ -93,16 +109,16 @@
  :prefix my-leader-key
  :infix "]"
  ""  '(:ignore t :wk "next...")
- "]" '(text-scale-increase                    :wk "Text size")
- "b" '(next-buffer                            :wk "Buffer")
- "d" '(diff-hl-next-hunk                      :wk "Diff Hunk")
- "t" '(hl-todo-next                           :wk "Todo")
- "e" '(next-error                             :wk "Error")
- "w" '(eyebrowse-next-window-config           :wk "Workspace")
- "h" '(smart-forward                          :wk "Smart jump")
- "s" '(evil-next-flyspell-error               :wk "Spelling error")
+ "]" '(text-scale-increase           :wk "Text size")
+ "b" '(next-buffer                   :wk "Buffer")
+ "d" '(diff-hl-next-hunk             :wk "Diff Hunk")
+ "t" '(hl-todo-next                  :wk "Todo")
+ "e" '(next-error                    :wk "Error")
+ "w" '(eyebrowse-next-window-config  :wk "Workspace")
+ "h" '(smart-forward                 :wk "Smart jump")
+ "s" '(evil-next-flyspell-error      :wk "Spelling error")
  "S" '(flyspell-correct-word-generic
-       :package flyspell-correct-ivy          :wk "Spelling correction"))
+       :package flyspell-correct-ivy :wk "Spelling correction"))
 
 (general-define-key
  :prefix my-leader-key
@@ -134,22 +150,31 @@
  :prefix my-leader-key
  :infix "b"
  ""  '(:ignore t :wk "buffer")
- "[" '(previous-buffer            :wk "Previous buffer")
- "]" '(next-buffer                :wk "Next buffer")
- "b" '(switch-to-buffer           :wk "Switch buffer")
- "e" '(view-errors                :wk "Syntax errors")
- "k" '(kill-buffer                :wk "Kill buffer")
- "n" '(evil-buffer-new            :wk "New empty buffer")
- "m" '(view-echo-area-messages    :wk "Messages buffer")
- "o" '(kill-other-buffers         :wk "Kill other buffers")
- "s" '(save-buffer                :wk "Save buffer")
- "S" '(sudo-edit                  :wk "Sudo edit this file")
- "x" '(toggle-scratch-buffer      :wk "Scratch buffer")
- "z" '(bury-buffer                :wk "Bury buffer"))
+ "[" '(previous-buffer         :wk "Previous buffer")
+ "]" '(next-buffer             :wk "Next buffer")
+ "b" '(switch-to-buffer        :wk "Switch buffer")
+ "e" '(view-errors             :wk "Syntax errors")
+ "k" '(kill-buffer             :wk "Kill buffer")
+ "n" '(evil-buffer-new         :wk "New empty buffer")
+ "m" '(view-echo-area-messages :wk "Messages buffer")
+ "o" '(kill-other-buffers      :wk "Kill other buffers")
+ "s" '(save-buffer             :wk "Save buffer")
+ "S" '(sudo-edit               :wk "Sudo edit this file")
+ "x" '(toggle-scratch-buffer   :wk "Scratch buffer")
+ "z" '(bury-buffer             :wk "Bury buffer"))
 
 (general-define-key
  :prefix my-leader-key
- :infix "c"
+ :infix "d"
+ ""  '(:ignore t :wk "docker")
+ "c" '(docker-containers :wk "Docker containers")
+ "i" '(docker-images     :wk "Docker images")
+ "n" '(docker-networks   :wk "Docker networks")
+ "v" '(docker-volumes    :wk "Docker volumes"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "e"
  ""  '(:ignore t :wk "code")
  "." '(editorconfig-apply         :wk "Apply editorconfig")
  "c" '(recompile                  :wk "Recompile")
@@ -165,15 +190,6 @@
 
 (general-define-key
  :prefix my-leader-key
- :infix "d"
- ""  '(:ignore t :wk "docker")
- "c" '(docker-containers :wk "Docker containers")
- "i" '(docker-images     :wk "Docker images")
- "n" '(docker-networks   :wk "Docker networks")
- "v" '(docker-volumes    :wk "Docker volumes"))
-
-(general-define-key
- :prefix my-leader-key
  :infix "f"
  ""  '(:ignore t :wk "file")
  "." '(find-file                              :wk "Find file")
@@ -181,32 +197,13 @@
  "?" '(counsel-file-jump                      :wk "Find file here")
  "a" '(find-implementation-or-test-file       :wk "Find implementation/test file")
  "A" '(projectile-find-other-file             :wk "Find other file")
- "c" '(editorconfig-find-current-editorconfig :wk "Open project editorconfig")
+ "c" '(editorconfig-find-current-editorconfig :wk "Current editorconfig")
  "g" '(counsel-rg                             :wk "Grep files")
  "G" '(counsel-projectile-rg                  :wk "Grep project files")
  "n" '(deft-find-file                         :wk "Find notes")
  "r" '(recentf                                :wk "Recent files")
  "R" '(projectile-recentf                     :wk "Recent project files")
  "t" '(counsel-tramp                          :wk "Find TRAMP file"))
-
-(general-define-key
- :prefix my-leader-key
- :infix "g"
- ""  '(:ignore t :wk "git")
- "[" '(diff-hl-previous-hunk       :wk "Previous hunk")
- "]" '(diff-hl-next-hunk           :wk "Next hunk")
- "b" '(magit-blame                 :wk "Blame")
- "B" '(vcs-git-browse              :wk "Browse")
- "c" '(magit-clone                 :wk "Clone")
- "f" '(magit-file-popup            :wk "File popup")
- "I" '(vcs-git-browse-issues       :wk "Browse issues")
- "l" '(magit-log-buffer-file       :wk "Log")
- "m" '(git-messenger:popup-message :wk "Popup message")
- "p" '(magit-pull                  :wk "Pull")
- "r" '(diff-hl-revert-hunk         :wk "Revert hunk")
- "R" '(vc-revert                   :wk "Revert buffer")
- "s" '(magit-status                :wk "Status")
- "t" '(git-timemachine-toggle      :wk "Time machine"))
 
 (general-define-key
  :prefix my-leader-key
@@ -289,27 +286,22 @@
 
 (general-define-key
  :prefix my-leader-key
- "SPC" (general-predicate-dispatch #'projectile-switch-project
-         :docstring "Find file in project or switch project"
-         (projectile-project-p) #'projectile-find-file)
- ","   '(switch-to-buffer                       :wk "Switch to buffer")
- "."   '(find-file                              :wk "Browse files")
- "~"   '(window-toggle-side-windows             :wk "Toggle last popup")
- ":"   '(elisp-repl                             :wk "Emacs Lisp REPL")
- ";"   '(counsel-bookmark                       :wk "Jump to bookmark")
- "RET" '(repl                                   :wk "Open REPL")
- "a"   '(org-agenda     :package org)
- "c"   '(org-capture    :package org)
- "h"   '(:keymap help-map :wk "help")
- "l"   '(org-store-link :package org)
- "p"   '(:keymap projectile-command-map
-                 :package projectile :wk "project")
- "u"   '(universal-argument                     :wk "Universal argument")
- "v"   '(:keymap symbol-overlay-map
-                 :package symbol-overlay :wk "overlays")
- "w"   '(:keymap evil-window-map
-                 :package evil :wk "window")
- "x"   '(toggle-scratch-buffer                  :wk "Toggle scratch buffer"))
+ :infix "v"
+ ""  '(:ignore t :wk "vcs")
+ "[" '(diff-hl-previous-hunk       :wk "Previous hunk")
+ "]" '(diff-hl-next-hunk           :wk "Next hunk")
+ "b" '(magit-blame                 :wk "Blame")
+ "B" '(vcs-git-browse              :wk "Browse")
+ "c" '(magit-clone                 :wk "Clone")
+ "f" '(magit-file-popup            :wk "File popup")
+ "I" '(vcs-git-browse-issues       :wk "Browse issues")
+ "l" '(magit-log-buffer-file       :wk "Log")
+ "m" '(git-messenger:popup-message :wk "Popup message")
+ "p" '(magit-pull                  :wk "Pull")
+ "r" '(diff-hl-revert-hunk         :wk "Revert hunk")
+ "R" '(vc-revert                   :wk "Revert buffer")
+ "s" '(magit-status                :wk "Status")
+ "t" '(git-timemachine-toggle      :wk "Time machine"))
 
 (with-eval-after-load 'evil
   ;; Normal state
