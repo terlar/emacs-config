@@ -342,7 +342,8 @@
   :preface
   (defun +compilation-mode-setup ()
     ;; Disable word wrapping
-    (toggle-truncate-lines 1))
+    (unless truncate-lines
+      (toggle-truncate-lines 1)))
   :init
   (setq comint-prompt-read-only t
         ansi-color-for-comint-mode t)
