@@ -123,6 +123,8 @@
 (req-package all-the-icons-ivy
   :after (ivy counsel counsel-projectile)
   :defer 1
+  :custom
+  (all-the-icons-ivy-file-commands '(counsel-projectile counsel-find-file counsel-projectile-find-file counsel-projectile-find-dir))
   :config
   (all-the-icons-ivy-setup))
 
