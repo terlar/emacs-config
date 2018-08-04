@@ -13,6 +13,13 @@
 (autoload 'pkg-info-version-info "pkg-info")
 
 ;;;
+;; Functions
+
+;; Silence error functions
+(advice-add #'next-error :around #'quiet-function-advice)
+(advice-add #'previous-error :around #'quiet-function-advice)
+
+;;;
 ;; Built-ins
 
 (use-package flymake
