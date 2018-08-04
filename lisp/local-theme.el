@@ -161,7 +161,10 @@
    ;; web-mode
    `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :weight bold))))
    ;; which-key
-   `(which-key-local-map-description-face    ((t (:weight bold)))))
+   `(which-key-local-map-description-face    ((t (:weight bold))))
+   ;; quick-peek
+   `(quick-peek-border-face                  ((t (:background ,color-5 :height 0.1 :box (:line-width 1 :color ,color-7)))))
+   `(quick-peek-padding-face                 ((t (:height 0.1)))))
 
   ;;;
   ;; Theme Variables
