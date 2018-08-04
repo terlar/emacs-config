@@ -84,7 +84,7 @@
   (:keymaps 'counsel-mode-map
             "C-c g" 'counsel-git
             "C-c j" 'counsel-git-grep
-            "C-c k" 'counsel-rg
+            "C-c J" 'counsel-rg
             ;; Use counsel/swiper for search
             "C-r"   'counsel-grep-or-swiper
             "C-s"   'counsel-grep-or-swiper

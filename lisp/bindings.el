@@ -174,22 +174,6 @@
 
 (general-define-key
  :prefix my-leader-key
- :infix "e"
- ""  '(:ignore t :wk "code")
- "." '(editorconfig-apply         :wk "Apply editorconfig")
- "c" '(recompile                  :wk "Recompile")
- "C" '(projectile-compile-project :wk "Compile")
- "d" '(counsel-dash-at-point      :wk "Lookup documentation at point")
- "D" '(counsel-dash               :wk "Lookup documentation")
- "e" '(repl-eval                  :wk "Evaluate code")
- "f" '(editorconfig-format-buffer :wk "Reformat")
- "o" '(imenu-list-minor-mode      :wk "Outline")
- "p" '(source-peek                :wk "Peek definition")
- "r" '(repl                       :wk "Open REPL")
- "t" '(retab-buffer               :wk "Retab"))
-
-(general-define-key
- :prefix my-leader-key
  :infix "f"
  ""  '(:ignore t :wk "file")
  "." '(find-file                              :wk "Find file")
@@ -211,6 +195,22 @@
  ""  '(:ignore t :wk "insert")
  "y" '(counsel-yank-pop   :wk "From kill-ring")
  "s" '(yas-insert-snippet :wk "From snippet"))
+
+(general-define-key
+ :prefix my-leader-key
+ :infix "k"
+ ""  '(:ignore t :wk "code")
+ "." '(editorconfig-apply         :wk "Apply editorconfig")
+ "c" '(recompile                  :wk "Recompile")
+ "C" '(projectile-compile-project :wk "Compile")
+ "d" '(counsel-dash-at-point      :wk "Lookup documentation at point")
+ "D" '(counsel-dash               :wk "Lookup documentation")
+ "e" '(repl-eval                  :wk "Evaluate code")
+ "f" '(editorconfig-format-buffer :wk "Reformat")
+ "o" '(imenu-list-minor-mode      :wk "Outline")
+ "p" '(source-peek                :wk "Peek definition")
+ "r" '(repl                       :wk "Open REPL")
+ "t" '(retab-buffer               :wk "Retab"))
 
 (general-define-key
  :prefix my-leader-key
