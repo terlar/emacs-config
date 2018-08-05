@@ -119,7 +119,9 @@
 ;; Nicer lisp experience
 (req-package evil-cleverparens
   :diminish evil-cleverparens-mode
-  :hook (emacs-lisp-mode . evil-cleverparens-mode))
+  :hook (emacs-lisp-mode . evil-cleverparens-mode)
+  :custom
+  (evil-cleverparens-use-additional-movement-keys nil))
 
 (req-package worf
   :diminish worf-mode
