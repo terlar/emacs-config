@@ -330,6 +330,15 @@
 (req-package imenu-list
   :commands imenu-list-minor-mode)
 
+;; Edit minibuffer in a temporary buffer
+(req-package miniedit
+  :general
+  (:keymaps '(minibuffer-local-map
+              minibuffer-local-ns-map
+              minibuffer-local-completion-map
+              minibuffer-local-must-match-map)
+            "M-C-e" 'miniedit))
+
 ;; Convert between regexp syntax
 (req-package pcre2el
   :commands rxt-quote-pcre)
