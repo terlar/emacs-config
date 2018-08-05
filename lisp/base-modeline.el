@@ -55,7 +55,7 @@
                         (- (+ right right-fringe right-margin)
                            ,(+ 1
                                (* (string-width formatted-line)
-                                  0.75))))))
+                                  0.8))))))
      formatted-line)))
 
 ;;;
