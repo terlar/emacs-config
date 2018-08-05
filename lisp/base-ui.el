@@ -43,7 +43,13 @@
  truncate-lines t
  ;; Scrolling
  scroll-margin 0
+ scroll-conservatively 101
+ scroll-up-aggressively 0.01
+ scroll-down-aggressively 0.01
  scroll-preserve-screen-position t
+ auto-window-vscroll nil
+ hscroll-margin 5
+ hscroll-step 5
  ;; Margins
  left-margin-width 1
  right-margin-width 1
@@ -410,7 +416,7 @@
   :hook (prog-mode . +prog-mode-setup)
   :preface
   (defun +prog-mode-setup ()
-    (setq-local scroll-margin 4))
+    (setq-local scroll-margin 3))
   :init
   (setq prettify-symbols-unprettify-at-point t)
   :config
