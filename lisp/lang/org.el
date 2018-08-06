@@ -110,9 +110,10 @@ It acts in the same way as `org-meta-return'."
         org-src-preserve-indentation nil
         org-src-fontify-natively t
         org-src-tab-acts-natively t
-        org-tag-alist '(("@work"  . ?w)
-                        ("@home"  . ?h)
-                        ("laptop" . ?l))
+        org-tag-alist
+        '(("@work"  . ?w)
+          ("@home"  . ?h)
+          ("laptop" . ?l))
         org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
   (set-on-evil-state 'org-mode 'insert
@@ -128,14 +129,15 @@ It acts in the same way as `org-meta-return'."
 
   ;; Pretty task symbols
   (font-lock-add-keywords
-   'org-mode `(("^\\*+ \\(TODO\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
-               ("^\\*+ \\(DOING\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
-               ("^\\*+ \\(CANCELED\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
-               ("^\\*+ \\(DONE\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
+   'org-mode
+   `(("^\\*+ \\(TODO\\) "
+      (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
+     ("^\\*+ \\(DOING\\) "
+      (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
+     ("^\\*+ \\(CANCELED\\) "
+      (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
+     ("^\\*+ \\(DONE\\) "
+      (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
 
   ;; Pretty bullet lists
   (font-lock-add-keywords
