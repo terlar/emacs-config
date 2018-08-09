@@ -23,6 +23,23 @@
   (js2-mode . rainbow-delimiters-mode)
   (js2-mode . +coverlay-mode-enable)
   (js2-mode . +color-identifiers-delayed-refresh)
+  :preface
+  (defun javascript-repl ()
+    "Open a JavaScript REPL."
+    (interactive)
+    (if (indium-workspace--project-directory)
+        (indium-switch-to-repl-buffer)
+      (open-and-switch-to-buffer #'nodejs-repl "*nodejs*" t)))
+
+  (defun javascript-repl-eval ()
+    "Evaluate code in JavaScript REPL"
+    (if (indium-workspace--project-directory)
+        (if (use-region-p)
+            (indium-eval-region (region-beginning) (region-end))
+          (indium-eval-last-node))
+      (if (use-region-p)
+          (nodejs-repl-send-region (region-beginning) (region-end))
+        (nodejs-repl-send-line))))
   :init
   (setq js2-highlight-external-variables nil
         js2-mode-show-parse-errors nil
@@ -32,6 +49,9 @@
 
   (set-prettify-symbols 'js2-mode
                         '(("function" . ?ƒ)))
+
+  (set-repl-command 'js2-mode #'javascript-repl)
+  (set-eval-command 'js2-mode #'javascript-repl-eval)
 
   (with-eval-after-load 'editorconfig
     (add-to-list 'editorconfig-indentation-alist
@@ -85,23 +105,47 @@
    nodejs-repl-send-line
    nodejs-repl-load-file)
   :init
-  (defun javascript-repl ()
-    "Open a JavaScript REPL."
-    (interactive)
-    (open-and-switch-to-buffer #'nodejs-repl "*nodejs*" t))
-
-  (defun javascript-repl-eval ()
-    "Evaluate code in JavaScript REPL"
-    (if (use-region-p)
-        (nodejs-repl-send-region (region-beginning) (region-end))
-      (nodejs-repl-send-line)))
-
-  (set-repl-command 'js2-mode #'javascript-repl)
-  (set-eval-command 'js2-mode #'javascript-repl-eval)
-
   (set-evil-state 'nodejs-repl-mode 'insert))
 
-(req-package indium)
+(req-package indium
+  :hook
+  (js-mode . indium-interaction-mode)
+  :general
+  (:keymaps
+   'js2-mode-map
+   :prefix my-local-leader-key
+   "s" 'indium-scratch
+   "i" 'indium-launch
+   "I" 'indium-connect)
+  (:keymaps
+   'indium-debugger-mode :states '(normal motion) :definer 'minor-mode
+   "RET" 'indium-debugger-step-over
+   "i" 'indium-debugger-step-into
+   "o" 'indium-debugger-step-out
+   "c" 'indium-debugger-resume
+   "l" 'indium-debugger-locals
+   "s" 'indium-debugger-stack-frames
+   "q" 'indium-debugger-resume
+   "h" 'indium-debugger-here
+   "e" 'indium-debugger-evaluate
+   "n" 'indium-debugger-next-frame
+   "p" 'indium-debugger-previous-frame)
+  (:keymaps
+   'indium-debugger-mode :states '(insert emacs) :definer 'minor-mode
+   "RET" 'indium-debugger-step-over)
+  :commands
+  (indium-scratch
+   indium-interaction-mode
+   indium-connect
+   indium-launch
+   indium-switch-to-repl-buffer
+   indium-eval-region
+   indium-eval-last-node
+   indium-eval-defun
+   indium-eval-buffer)
+  :init
+  (autoload 'indium-workspace--project-directory "indium-workspace")
+  (set-evil-state 'indium-repl-mode 'insert))
 
 (req-package rjsx-mode
   :mode

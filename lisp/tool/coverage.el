@@ -33,7 +33,7 @@
 (defun +coverlay-mode-enable ()
   "Turn on `coverlay-mode'."
   (coverlay-minor-mode 1)
-  (unless (bound-and-true-p coverlay--loaded-filepath)
+  (when (and buffer-file-name (not (bound-and-true-p coverlay--loaded-filepath)))
     (let* ((coverage-file (concat
                            (locate-dominating-file (file-name-directory buffer-file-name) "coverage")
                            "coverage"
@@ -42,4 +42,4 @@
         (coverlay-watch-file coverage-file)))))
 
 (provide 'tool-coverage)
-;;; tool-coverage.el ends here
+;;; coverage.el ends here
