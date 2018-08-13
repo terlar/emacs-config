@@ -1,9 +1,15 @@
-;;; init.el --- Main init file -*- lexical-binding: t no-byte-compile: t; -*-
+;;; init.el --- Main init file -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; The init file that loads all the components.
+;;; The main init file that starts the whole shebang.
 
 ;;; Code:
+
+(eval-and-compile
+  (defvar +debug-mode
+    (or (getenv "DEBUG") init-file-debug)
+    "Debug mode, enable through DEBUG=1 or use --debug-init.")
+  (setq debug-on-error (and (not noninteractive) +debug-mode)))
 
 ;; Temporarily reduce garbage collection during startup.
 (eval-and-compile
@@ -32,38 +38,64 @@
   (menu-bar-mode 0)
   (tool-bar-mode 0)
   (scroll-bar-mode 0)
-  ;; Show tool-tips in echo-area
-  (tooltip-mode 0))
+  (tooltip-mode 0)
+  (setq use-dialog-box nil))
+
+;; Frame look
+(setq default-frame-alist
+      '((fullscreen . maximized)
+	(internal-border-width . 12)
+	(vertical-scroll-bars . nil)
+        (menu-bar-lines . 0)
+        (tool-bar-lines . 0)))
 
 ;; Quiet startup
-(advice-add #'display-startup-echo-area-message :override #'ignore)
 (setq inhibit-default-init t
       inhibit-startup-screen t
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil)
 
+;; Initialize paths
+(require 'init-paths (expand-file-name "init-paths" user-emacs-directory))
+
+;; Package setup
 (eval-and-compile
-  (push (expand-file-name "lisp" user-emacs-directory) load-path)
-  (push (expand-file-name "site-lisp" user-emacs-directory) load-path))
+  (setq gnutls-verify-error t
+	tls-checktrust t
+	package-enable-at-startup nil
+	package-archives
+	'(("gnu"   . "https://elpa.gnu.org/packages/")
+	  ("org"   . "https://orgmode.org/elpa/")
+	  ("melpa" . "https://melpa.org/packages/"))))
 
-(defun load-directory (dir)
-  "Load Elisp files in DIR."
-  (dolist (file (directory-files dir nil (concat "[[:alnum:]-]*\\.el$")))
-    (load-file (expand-file-name file (file-name-as-directory dir)))))
+(eval-and-compile
+  (require 'package)
+  (package-initialize t))
 
-;;;
-;; Base
+(eval-when-compile
+  (dolist (package '(el-get use-package use-package-el-get))
+    (unless (package-installed-p package)
+      (unless package-archive-contents
+	(package-refresh-contents))
+      (package-install package))))
 
-;; Calls (package-initialize)
-(require 'base)
-(dolist (type '(feature completion tool lang))
-  (load-directory (expand-file-name (concat "lisp" "/" (symbol-name type)) user-emacs-directory)))
+(eval-and-compile
+  (require 'use-package)
+  (setq use-package-always-defer t
+	use-package-expand-minimally (eval-when-compile (not +debug-mode))
+	use-package-minimum-reported-time (if +debug-mode 0 0.1)
+	use-package-verbose +debug-mode)
 
-(unless noninteractive
-  (require 'bindings)
-  (require 'commands)
-  (require 'theme))
+  (require 'use-package-el-get)
+  (push :el-get use-package-keywords))
 
-(req-package-finish)
+(eval-and-compile
+  (require 'cl-lib))
+
+;; Load org based configuration
+(when (file-exists-p +org-config-path)
+  (org-babel-load-file +org-config-path))
+
+(provide 'init)
 
 ;;; init.el ends here

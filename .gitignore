@@ -1,6 +1,9 @@
 # Compiled
 *.elc
 
+# Generated
+config.el
+
 # Packaging
 .cask
 

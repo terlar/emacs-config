@@ -5,9 +5,7 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-vars)
-  (require 'tao-theme))
+(require 'tao-theme)
 
 (deftheme local "Local theme overrides")
 
@@ -34,11 +32,15 @@
 
   (custom-theme-set-faces
    'local
+   `(default                                 ((t (:height ,+default-font-height :family ,+fixed-pitch-font))))
+   `(fixed-pitch                             ((t (:family ,+fixed-pitch-font))))
+   `(variable-pitch                          ((t (:family ,+variable-pitch-font))))
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
-   `(mode-line                               ((t (:family ,my-variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
-   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
+   `(mode-line                               ((t (:family ,+variable-pitch-font :background ,color-6 :foreground ,color-12 :box (:line-width 4 :color ,color-6)))))
+   `(mode-line-inactive                      ((t (:family ,+variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
    `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
+   `(line-number                             ((t (:inherit fixed-pitch))))
    `(line-number-current-line                ((t (:inherit line-number :background ,color-5 :foreground ,theme-color-highlight :weight bold))))
    `(hl-line                                 ((t (:background ,color-5))))
 
@@ -79,20 +81,20 @@
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
+   ;; whitespace
+   `(whitespace-space                        ((t (:background nil :family ,+fixed-pitch-font))))
    ;; window-divider
    `(window-divider                          ((t (:inherit 'vertical-border))))
    `(window-divider-first-pixel              ((t (:inherit 'window-divider))))
    `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
 
-   ;; anzu
-   `(anzu-mode-line                          ((t (:background ,my-evil-default-mode-color :foreground "white" :box nil))))
    ;; cargo
    `(cargo-process--standard-face            ((t (:foreground nil))))
    `(cargo-process--ok-face                  ((t (:foreground ,theme-color-success))))
    `(cargo-process--error-face               ((t (:foreground ,theme-color-error))))
    `(cargo-process--warning-face             ((t (:foreground ,theme-color-warning))))
    ;; company
-   `(company-tooltip                         ((t (:family ,my-font))))
+   `(company-tooltip                         ((t (:family ,+variable-pitch-font))))
    `(company-tooltip-search                  ((t (:weight bold))))
    `(company-tooltip-search-selection        ((t (:weight bold))))
    ;; eros
@@ -130,7 +132,7 @@
    `(markdown-header-face-4                  ((t (:height 1.2 :underline nil))))
    `(markdown-header-face-5                  ((t (:height 1.0 :underline nil))))
    `(markdown-header-face-6                  ((t (:height 1.0 :underline nil))))
-   `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
+   `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,+default-font-height))))
    `(markdown-pre-face                       ((t (:inherit org-verbatim :height 1.0 :background ,color-5 :foreground ,color-9))))
    `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
    `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
@@ -171,6 +173,7 @@
 
   (custom-theme-set-variables
    'local
+   `(line-spacing ,+line-spacing)
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
@@ -214,15 +217,7 @@
        (340. . ,color-9)
        (360. . ,color-9)))
    ;; zoom-window
-   `(zoom-window-mode-line-color (face-background 'mode-line))
-   ;; custom
-   `(my-evil-default-mode-color "#AB47BC")
-   `(my-evil-mode-color-list
-     '((normal   . "#4CAF50")
-       (emacs    . "#2196F3")
-       (insert   . "#2196F3")
-       (replace  . "#F44336")
-       (visual   . "#FF9800")))))
+   `(zoom-window-mode-line-color (face-background 'mode-line))))
 
 ;;;###autoload
 (and load-file-name
