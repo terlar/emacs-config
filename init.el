@@ -97,5 +97,4 @@
   (org-babel-load-file +org-config-path))
 
 (provide 'init)
-
 ;;; init.el ends here

@@ -18,9 +18,6 @@
 ;;;
 ;; Remaps
 
-;; Smarter abbrev completion
-(general-define-key [remap dabbrev-expand] 'hippie-expand)
-
 ;; Consistent jumping
 (general-define-key
  [remap find-tag]         'projectile-find-tag
@@ -42,17 +39,6 @@
 
 (general-define-key
  :keymaps 'global
-
- ;; Window navigation
- "C-`" 'window-toggle-side-windows
- "C-§" 'window-toggle-side-windows
-
- ;; Terminal
- "C-!" 'run-eshell
-
- ;; Buffer
- "C-x k" 'kill-this-buffer
-
  ;; Align
  "C-x \\" 'align-regexp
 
@@ -165,7 +151,7 @@
 
 (general-define-key
  :prefix my-leader-key
- :infix "d"
+ :infix "D"
  ""  '(:ignore t :wk "docker")
  "c" '(docker-containers :wk "Docker containers")
  "i" '(docker-images     :wk "Docker images")

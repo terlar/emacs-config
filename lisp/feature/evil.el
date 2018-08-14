@@ -20,13 +20,15 @@
 
 (req-package evil
   :demand t
+  :preface
   :general
-  (:keymaps 'insert
+  (:keymaps '(insert replace)
             "C-g" 'evil-normal-state)
   :custom
   (evil-want-Y-yank-to-eol t)
   :init
   (setq evil-mode-line-format '(before . mode-line-front-space)
+        evil-want-integration nil
         evil-want-C-u-scroll t
         evil-want-visual-char-semi-exclusive t
         evil-magic t
@@ -37,9 +39,7 @@
         evil-symbol-word-search t
         ;; Column range for ex commands
         evil-ex-visual-char-range t
-        evil-insert-skip-empty-lines t
-        ;; Fix movements in evil-cleverparens
-        evil-move-beyond-eol t)
+        evil-insert-skip-empty-lines t)
   :config
   ;; Use Emacs key-map for insert state.
   (setq evil-insert-state-map (make-sparse-keymap))
@@ -57,7 +57,8 @@
                     view-mode)
                   'emacs)
   (set-evil-state 'git-commit-mode 'insert)
-  (set-evil-state '(dired-mode
+  (set-evil-state '(diff-mode
+                    dired-mode
                     elisp-refs-mode
                     finder-mode
                     help-mode
@@ -73,6 +74,12 @@
   (push '("^\\*Deft\\*") evil-buffer-regexps)
 
   (evil-mode 1))
+
+;; Evil bindings for modes
+(req-package evil-collection
+  :custom
+  (evil-collection-company-use-tng nil)
+  :hook (evil-mode . evil-collection-init))
 
 ;; Magit integration
 (req-package evil-magit

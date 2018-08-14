@@ -7,31 +7,12 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-vars)
-  (require 'base-lib)
-  (require 'base-package)
-  (require 'base-keybinds))
-
 ;;;
 ;; Packages
 
-(req-package elisp-mode :ensure nil
-  :mode
-  ("recipes/.*$" . emacs-lisp-mode)
-  :general
-  (:keymaps 'emacs-lisp-mode-map :major-modes t
-            :prefix my-local-leader-key
-            "c" 'emacs-lisp-byte-compile
-            "C" 'emacs-lisp-byte-compile-and-load
-            "t" 'elisp-test)
-  (:keymaps 'ert-results-mode :states '(normal motion)
-            "q" 'quit-window)
-  :hook
-  (emacs-lisp-mode . flymake-mode)
-  :preface
-  (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
+(use-package elisp-mode :ensure nil
   :init
+  (autoload 'eir-eval-in-ielm "eval-in-repl-ielm")
   (set-repl-command 'emacs-lisp-mode #'elisp-repl)
   (set-eval-command 'emacs-lisp-mode #'eir-eval-in-ielm)
   :config
@@ -53,52 +34,25 @@
                      (nameless-mode 1)
                      (easy-escape-minor-mode 1)))
 
-(req-package ielm :ensure nil
+(use-package ielm :ensure nil
   :hook
   (ielm-mode . rainbow-delimiters-mode))
 
-(req-package auto-compile
-  :commands auto-compile-byte-compile
-  :hook
-  (emacs-lisp-mode . auto-compile-on-load-mode)
-  (emacs-lisp-mode . auto-compile-on-save-mode)
-  :init
-  (setq auto-compile-display-buffer nil
-        auto-compile-use-mode-line nil)
-  :config
-  (defun +emacs-lisp-load-after-compile (success)
-    "Reload the current emacs-lisp file after it's recompiled, if an older
-version is loaded."
-    (when (eq success t)
-      (let ((buffer-path (file-truename buffer-file-name)))
-        (when (assoc buffer-path load-history)
-          (load-file buffer-path)))))
-  (advice-add #'auto-compile-byte-compile :filter-return #'+emacs-lisp-load-after-compile))
-
-;; Nicer lisp editing experience
-(req-package lispy
-  :diminish lispy-mode
-  :hook (emacs-lisp-mode . lispy-mode))
-
-(req-package highlight-quoted
+(use-package highlight-quoted
   :hook (emacs-lisp-mode . highlight-quoted-mode))
 
 ;; Shorten package prefixes
-(req-package nameless
+(use-package nameless
   :diminish nameless-mode
   :hook (emacs-lisp-mode . nameless-mode))
 
 ;; Improve readability of escape characters in regular expressions
-(req-package easy-escape
+(use-package easy-escape
   :diminish easy-escape-minor-mode
   :hook (emacs-lisp-mode . easy-escape-minor-mode))
 
-;; Evaluation result overlays.
-(req-package eros
-  :hook (emacs-lisp-mode . eros-mode))
-
 ;; Discover elisp functions
-(req-package suggest
+(use-package suggest
   :el-get t :ensure nil
   :preface
   (defun +suggest-popup ()
@@ -111,12 +65,12 @@ version is loaded."
   (setq suggest-pop-to-buffer t))
 
 ;; Emacs Start Up Profiler
-(req-package esup
+(use-package esup
   :commands esup
   :config
   (set-evil-state 'esup-mode 'motion))
 
-(req-package package-lint
+(use-package package-lint
   :commands package-lint-current-buffer)
 
 ;;;

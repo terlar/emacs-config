@@ -1,5 +1,7 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Terje Larsen
+* Tasks
+** TODO Support markdown files
 * Base
   For quicker operations it is useful to ensure that the Emacs server
   is running.
@@ -99,7 +101,16 @@
    #+END_SRC
 
 ** Shell
-   Make less work inside shells
+   Ensure PATH is correctly set for macOS.
+   #+BEGIN_SRC emacs-lisp
+   (when (memq window-system '(mac ns))
+     (setenv "PATH" (shell-command-to-string "launchctl getenv PATH"))
+     (use-package exec-path-from-shell :ensure t :defer 1
+       :config
+       (exec-path-from-shell-initialize)))
+   #+END_SRC
+
+   Make less work inside Emacs shells.
    #+BEGIN_SRC emacs-lisp
    (setenv "LESS" "--dumb --prompt=s")
    #+END_SRC
@@ -109,7 +120,7 @@
    (setq shell-file-name "bash")
    #+END_SRC
 
-   Make scripts executable on save
+   Make scripts executable on save.
    #+BEGIN_SRC emacs-lisp
    (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
    #+END_SRC
@@ -131,7 +142,7 @@
 ** Typography
    Configure fonts:
    #+BEGIN_SRC emacs-lisp
-   (defvar +default-font-height 100
+   (defvar +default-font-height 140
      "Default font height.")
 
    (defvar +line-spacing 0.2
@@ -223,10 +234,10 @@
    Display information about the current indentation settings.
    #+BEGIN_SRC emacs-lisp
    (use-package indent-info :ensure t :defer 1
-     :init
-     (setq indent-info-insert-target 'mode-line-mule-info
-           indent-info-prefix nil
-           indent-info-suffix " ")
+     :custom
+     (indent-info-insert-target 'mode-line-mule-info)
+     (indent-info-prefix nil)
+     (indent-info-suffix " ")
      :config
      (global-indent-info-mode 1))
    #+END_SRC
@@ -317,7 +328,11 @@
 
   Change the default text scale across buffers.
   #+BEGIN_SRC emacs-lisp
-  (use-package default-text-scale
+  (use-package default-text-scale :ensure t
+    :general
+    ("C-M-=" 'default-text-scale-increase
+     "C-M--" 'default-text-scale-decrease
+     "C-M-0" 'default-text-scale-reset)
     :commands
     (default-text-scale-increase default-text-scale-decrease))
   #+END_SRC
@@ -414,6 +429,7 @@
       "C-l"    'ivy-alt-done
       "C-w"    'ivy-backward-kill-word
       "C-u"    'ivy-kill-line
+      "C-e"    'ivy-done
       "C-b"    'backward-word
       "C-f"    'forward-word)
      :init
@@ -426,15 +442,13 @@
       magit-completing-read-function #'ivy-completing-read))
     #+END_SRC
 
-   Used by =counsel-M-x= for sorting
+   Replacements for common Emacs commands. =smex= is used by =counsel-M-x= for
+   sorting.
    #+BEGIN_SRC emacs-lisp
    (use-package smex :ensure t
      :custom
      (smex-auto-update nil))
-   #+END_SRC
 
-   Replacements for common Emacs commands
-   #+BEGIN_SRC emacs-lisp
    (use-package counsel :ensure t
      :diminish counsel-mode
      :hook (ivy-mode . counsel-mode)
@@ -446,18 +460,17 @@
      (counsel-mode-override-describe-bindings t)
      :general
      (:keymaps
-      'evil-ex-completion-map
-      "C-r" 'counsel-minibuffer-history)
+      'global
+      ;; Use counsel/swiper for search
+      "C-r"   'counsel-grep-or-swiper
+      "C-s"   'counsel-grep-or-swiper
+      "C-x /" 'counsel-abbrev)
      (:keymaps
       'counsel-mode-map
       "C-c r" 'counsel-recentf
       "C-c g" 'counsel-git
       "C-c j" 'counsel-git-grep
-      "C-c J" 'counsel-rg
-      ;; Use counsel/swiper for search
-      "C-r"   'counsel-grep-or-swiper
-      "C-s"   'counsel-grep-or-swiper
-      "C-x /" 'counsel-abbrev)
+      "C-c J" 'counsel-rg)
      (:keymaps
       'counsel-ag-map
       "C-SPC" 'ivy-call-and-recenter)
@@ -465,12 +478,12 @@
      (defun counsel-abbrev (abbrev-name)
        "Insert abbreviation matching ABBREV-NAME."
        (interactive
-       (list
-       (ivy-completing-read
-         "Insert abbrev: "
-         (cl-loop for table in (abbrev--active-tables)
-                  unless (abbrev-table-empty-p table)
-                  append (append (delete 0 table) ())))))
+        (list
+         (ivy-completing-read
+          "Insert abbrev: "
+          (cl-loop for table in (abbrev--active-tables)
+                   unless (abbrev-table-empty-p table)
+                   append (append (delete 0 table) ())))))
        (progn
          (dolist (table (abbrev--active-tables))
            (when (abbrev-symbol abbrev-name table)
@@ -494,6 +507,32 @@
       'ivy-mode-map
       [remap imenu-anywhere] 'ivy-imenu-anywhere))
    #+END_SRC
+
+   Support =xref= lookups.
+   #+BEGIN_SRC emacs-lisp
+   (use-package ivy-xref :ensure t
+     :commands ivy-xref-show-xrefs
+     :init
+     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+   #+END_SRC
+
+   Navigate tramp files.
+   #+BEGIN_SRC emacs-lisp
+   (use-package counsel-tramp :ensure t
+     :commands counsel-tramp)
+   #+END_SRC
+
+*** Icons
+    #+BEGIN_SRC emacs-lisp
+    (use-package all-the-icons-ivy :ensure t :defer 1
+      :after
+      (ivy counsel)
+      :commands
+      (all-the-icons-ivy-buffer-transformer
+       all-the-icons-ivy-file-transformer)
+      :config
+      (all-the-icons-ivy-setup))
+    #+END_SRC
 
 ** Keys
    Display available keybindings in a popup
@@ -545,6 +584,10 @@
   | =M-z=           | =zap-to-char=             | Delete until character                                       |
   | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once |
   | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                      |
+  | =C-w=           | =kill-region=             | Cut                                                          |
+  | =M-w=           | =kill-ring-save=          | Copy                                                         |
+  | =C-y=           | =yank=                    | Paste                                                        |
+  | =M-y=           | =yank-next=               | Paste (next item)                                            |
 
 *** Leader keys
     #+BEGIN_SRC emacs-lisp
@@ -565,7 +608,8 @@
      "C-§" 'window-toggle-side-windows
      ;; Terminal
      "C-!" 'eshell
-     "C-±" 'eshell)
+     "C-±" 'eshell
+     "M-Z" 'zap-up-to-char)
     #+END_SRC
 
 * Settings
@@ -584,9 +628,8 @@
 
    Default to indentation by spaces, that seems to be what most languages use nowadays.
    #+BEGIN_SRC emacs-lisp
-   (setq-default
-    indent-tabs-mode nil
-    require-final-newline t)
+   (setq require-final-newline t)
+   (setq-default indent-tabs-mode nil)
    #+END_SRC
 
    Convert between tabs and spaces (only tabify initial whitespace)
@@ -594,6 +637,7 @@
    (setq tabify-regexp "^\t* [ \t]+")
    #+END_SRC
 
+   Don't require confirmation when opening a new buffer.
    #+BEGIN_SRC emacs-lisp
    (setq confirm-nonexistent-file-or-buffer t)
    #+END_SRC
@@ -606,9 +650,9 @@
    Preferred line-length when filling and don't require double spaces
    to end a sentance.
    #+BEGIN_SRC emacs-lisp
-   (setq fill-column 80
-         sentence-end-double-space nil
-         word-wrap t)
+   (setq sentence-end-double-space nil)
+   (setq-default fill-column 80
+                 word-wrap t)
    #+END_SRC
 
    Whitespace mode behavior
@@ -630,10 +674,11 @@
          hscroll-margin 5
          hscroll-step 5
          scroll-conservatively 101
-         scroll-down-aggressively 0.01
          scroll-margin 0
-         scroll-preserve-screen-position t
-         scroll-up-aggressively 0.01)
+         scroll-preserve-screen-position t)
+
+   (setq-default scroll-down-aggressively 0.01
+                 scroll-up-aggressively 0.01)
    #+END_SRC
 
    Display indicator for buffer boundaries in the right fringe.
@@ -641,10 +686,15 @@
    (setq-default indicate-buffer-boundaries 'right)
    #+END_SRC
 
+   Auto-insert matching parenthesis.
+   #+BEGIN_SRC emacs-lisp
+   (electric-pair-mode 1)
+   #+END_SRC
+
 ** Performance
    Disable bidirectional text for tiny performance boost
    #+BEGIN_SRC emacs-lisp
-   (setq bidi-display-reordering nil)
+   (setq-default bidi-display-reordering nil)
    #+END_SRC
 
    Update UI less frequently
@@ -718,9 +768,8 @@
 * Buffers
   Remove visual indicators from non-selected windows
   #+BEGIN_SRC emacs-lisp
-  (setq-default
-   cursor-in-non-selected-windows nil
-   highlight-nonselected-windows nil)
+  (setq highlight-nonselected-windows nil)
+  (setq-default cursor-in-non-selected-windows nil)
   #+END_SRC
 
   Writeable grep buffer with ability to apply the changes to all the
@@ -730,6 +779,18 @@
     :custom
     (wgrep-auto-save-buffer t)
     :commands wgrep-change-to-wgrep-mode)
+  #+END_SRC
+
+  Revert buffers when underlying files change.
+  #+BEGIN_SRC emacs-lisp
+  (use-package autorevert :defer 2
+    :diminish auto-revert-mode
+    :custom
+    (auto-revert-verbose nil)
+    ;; Auto-refresh dired and other non-file buffers
+    (global-auto-revert-non-file-buffers t)
+    :config
+    (global-auto-revert-mode 1))
   #+END_SRC
 
 ** Minibuffer
@@ -761,11 +822,10 @@
          history-length 500)
 
    (use-package savehist :defer 1
-     :init
-     (setq savehist-additional-variables '(search-ring regexp-search-ring)
-           ;; Save on kill only
-           savehist-autosave-interval 60
-           savehist-save-minibuffer-history t)
+     :custom
+     (savehist-additional-variables '(search-ring regexp-search-ring))
+     (savehist-autosave-interval 60)
+     (savehist-save-minibuffer-history t)
      :config
      (savehist-mode 1))
    #+END_SRC
@@ -787,21 +847,21 @@
   Keep track of recently opened files
   #+BEGIN_SRC emacs-lisp
   (use-package recentf :defer 1
-    :init
-    (setq recentf-exclude
-          (list "/tmp/"           ; Temp-files
-                "/dev/shm"        ; Potential secrets
-                "/ssh:"           ; Files over SSH
-                "/TAGS$"          ; Tag files
-                "^/\\.git/.+$"    ; Git contents
-                "\\.?ido\\.last$"
-                "\\.revive$"
-                "^/var/folders/.+$"
-                (concat "^" +data-dir ".+$"))
-          recentf-filename-handlers '(abbreviate-file-name)
-          recentf-max-menu-items 0
-          recentf-max-saved-items 250
-          recentf-auto-cleanup 'never)
+    :custom
+    (recentf-exclude
+     (list "/tmp/"                        ; Temp-files
+           "/dev/shm"                     ; Potential secrets
+           "/ssh:"                        ; Files over SSH
+           "/TAGS$"                       ; Tag files
+           "^/\\.git/.+$"                 ; Git contents
+           "\\.?ido\\.last$"
+           "\\.revive$"
+           "^/var/folders/.+$"
+           (concat "^" +data-dir ".+$")))
+    (recentf-filename-handlers '(abbreviate-file-name))
+    (recentf-max-menu-items 0)
+    (recentf-max-saved-items 250)
+    (recentf-auto-cleanup 'never)
     :config
     (quiet! (recentf-mode 1)))
   #+END_SRC
@@ -843,13 +903,21 @@
    #+BEGIN_SRC emacs-lisp
    (use-package projectile :ensure t :demand t
      :diminish projectile-mode
-     :hook (find-file . +projectile-relative-buf-name)
+     :hook
+     (find-file . +projectile-relative-buf-name)
      :custom
-     (projectile-keymap-prefix (kbd "C-c C-p"))
+     (projectile-enable-caching nil)
+     (projectile-file-exists-remote-cache-expire nil)
+     (projectile-globally-ignored-file-suffixes
+      '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
+     (projectile-globally-ignored-files
+      '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
+     (projectile-ignored-projects (list +data-dir))
+     (projectile-indexing-method 'alien)
      :general
      (:keymaps
       'projectile-mode-map
-      "C-c C-p" 'projectile-command-map)
+      "C-c C-p" '(:keymap projectile-command-map :package projectile :wk "project"))
      :init
      (defun +projectile-relative-buf-name ()
        (let ((buffer-name (if (projectile-project-p)
@@ -865,15 +933,6 @@
                         (projectile-ignored-directories))
          (apply orig-fun args)))
      (advice-add #'projectile-cache-current-file :around #'+projectile-cache-current-file)
-
-     (setq projectile-enable-caching nil
-           projectile-file-exists-remote-cache-expire nil
-           projectile-globally-ignored-file-suffixes
-           '(".elc" ".pyc" ".o" ".hi" ".class" ".cache")
-           projectile-globally-ignored-files
-           '("TAGS" "GPATH" "GRTAGS" "GTAGS")
-           projectile-indexing-method 'alien
-           projectile-ignored-projects (list +data-dir))
      :config
      (setq projectile-globally-ignored-directories
            (append '("_build"
@@ -881,10 +940,6 @@
                      "vendor/bundle" "vendor/cache"
                      "elm-stuff" "tests/elm-stuff")
                    projectile-globally-ignored-directories))
-
-     (setq projectile-project-root-files
-           (append '("package.json" "Package.swift" "README.md")
-                   projectile-project-root-files))
      (setq projectile-other-file-alist
            (append '(("less" "css")
                      ("styl" "css")
@@ -895,6 +950,9 @@
                      ("pug" "html")
                      ("html" "jade" "pug" "jsx" "tsx"))
                    projectile-other-file-alist))
+     (setq projectile-project-root-files
+           (append '("package.json" "Package.swift" "README.md")
+                   projectile-project-root-files))
 
      (projectile-mode 1))
    #+END_SRC
@@ -918,8 +976,7 @@
 
     (autoload 'editorconfig-conf-mode "editorconfig-conf-mode" nil t)
     :config
-    (with-eval-after-load 'ws-butler
-      (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig))
+    (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
     (editorconfig-mode 1))
   #+END_SRC
 
@@ -928,6 +985,32 @@
   (use-package ws-butler :ensure t
     :diminish ws-butler-mode
     :commands ws-butler-mode)
+  #+END_SRC
+
+  Common configuration for programming modes
+  #+BEGIN_SRC emacs-lisp
+  (use-package prog-mode
+    :hook
+    (prog-mode . +prog-mode-set-scroll-margin)
+    (prog-mode . +prog-mode-prettify-symbols)
+    (prog-mode . show-paren-mode)
+    :custom
+    (prettify-symbols-unprettify-at-point t)
+    :init
+    (defun +prog-mode-set-scroll-margin ()
+      (setq-local scroll-margin 3))
+
+    (defun +prog-mode-prettify-symbols ()
+      (dolist (symbol '(("lambda" . ?λ)
+                        ("/=" . ?≠)
+                        ("!=" . ?≠)
+                        ("==" . ?＝)
+                        (">=" . ?≥)
+                        ("<=" . ?≤)
+                        ("=>" . ?⇒)))
+        (push symbol prettify-symbols-alist)))
+    :config
+    (global-prettify-symbols-mode 1))
   #+END_SRC
 
   Project-specific environment variables via =direnv=.
@@ -1029,6 +1112,20 @@
          (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer)))))
    #+END_SRC
 
+   Diff indicators in fringe
+   #+BEGIN_SRC emacs-lisp
+   (use-package diff-hl :ensure t :defer 2
+     :hook
+     (dired-mode         . diff-hl-dired-mode)
+     (magit-post-refresh . diff-hl-magit-post-refresh)
+     :init
+     (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
+     (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
+     :config
+     (global-diff-hl-mode 1)
+     (diff-hl-flydiff-mode 1))
+   #+END_SRC
+
 ** Syntax checker
    Silence next/previous error, by default it produces a message every time.
    #+BEGIN_SRC emacs-lisp
@@ -1070,6 +1167,19 @@
        (previous-line)
        (flymake-show-diagnostic (point))))
    #+END_SRC
+** LSP
+   Generic Language Server Protocol integration via =eglot=.
+   #+BEGIN_SRC emacs-lisp
+   (use-package eglot :ensure t
+     :hook
+     ((js-mode
+       ruby-mode
+       sh-mode) . eglot-ensure)
+     :config
+     (with-eval-after-load 'smart-jump
+       (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
+   #+END_SRC
+
 * Major modes
 ** elisp
    #+BEGIN_SRC emacs-lisp
@@ -1078,8 +1188,6 @@
      ("recipes/.*$" . emacs-lisp-mode)
      :hook
      (emacs-lisp-mode . flymake-mode)
-     (emacs-lisp-mode . show-paren-mode)
-     (emacs-lisp-mode . eldoc-mode)
      :general
      (:keymaps
       'emacs-lisp-mode-map
@@ -1100,6 +1208,25 @@
    (use-package lispy :ensure t
      :diminish lispy-mode
      :hook (emacs-lisp-mode . lispy-mode))
+   #+END_SRC
+
+   Evaluation results in overlay.
+   #+BEGIN_SRC emacs-lisp
+   (use-package eros :ensure t
+     :hook
+     (emacs-lisp-mode . eros-mode))
+   #+END_SRC
+
+   Auto-compile Elisp files.
+   #+BEGIN_SRC emacs-lisp
+   (use-package auto-compile :ensure t
+     :hook
+     (emacs-lisp-mode . auto-compile-on-load-mode)
+     (emacs-lisp-mode . auto-compile-on-save-mode)
+     :custom
+     (auto-compile-display-buffer nil)
+     (auto-compile-use-mode-line nil)
+     :commands auto-compile-byte-compile)
    #+END_SRC
 
    Better =*help*= buffer
@@ -1132,6 +1259,21 @@
      :hook
      (org-mode . auto-fill-mode)
      (org-babel-after-execute . org-redisplay-inline-images)
+     :custom
+     (org-agenda-files '("~/org"))
+     (org-confirm-babel-evaluate nil)
+     (org-edit-src-content-indentation 0)
+     (org-hide-emphasis-markers t)
+     (org-log-done 'time)
+     (org-startup-with-inline-images t)
+     (org-special-ctrl-a/e t)
+     (org-src-preserve-indentation nil)
+     (org-src-fontify-natively t)
+     (org-src-tab-acts-natively t)
+     (org-tag-alist
+      '(("@work"  . ?w)
+        ("@home"  . ?h)
+        ("laptop" . ?l)))
      :general
      (:keymaps
       'org-mode-map :major-modes t
@@ -1139,22 +1281,38 @@
       "C-c SPC" 'nil)
      (:keymaps
       'org-src-mode-map
-      "C-c C-c" 'org-edit-src-exit)
-     :init
-     (setq org-agenda-files '("~/org")
-           org-confirm-babel-evaluate nil
-           org-edit-src-content-indentation 0
-           org-hide-emphasis-markers t
-           org-log-done 'time
-           org-startup-with-inline-images t
-           org-special-ctrl-a/e t
-           org-src-preserve-indentation nil
-           org-src-fontify-natively t
-           org-src-tab-acts-natively t
-           org-tag-alist
-           '(("@work"  . ?w)
-             ("@home"  . ?h)
-             ("laptop" . ?l))))
+      "C-c C-c" 'org-edit-src-exit))
+   #+END_SRC
+
+   Paste links from clipboard and automatically fetch title.
+   #+BEGIN_SRC emacs-lisp
+   (use-package org-cliplink :ensure t
+     :general
+     (:keymaps
+      'org-mode-map
+      :prefix +local-leader-key
+      "l" 'org-cliplink))
+   #+END_SRC
+
+   Support for radiobuttons.
+   #+BEGIN_SRC emacs-lisp
+   (use-package org-radiobutton :ensure t
+     :hook
+     (org-mode . org-radiobutton-mode))
+   #+END_SRC
+
+   Presentation mode.
+   #+BEGIN_SRC emacs-lisp
+   (use-package org-tree-slide :ensure t
+     :commands org-tree-slide-mode
+     :custom
+     (org-tree-slide-header nil)
+     (org-tree-slide-slide-in-effect nil)
+     :general
+     (:keymaps
+      'org-mode-map
+      :prefix +local-leader-key
+      "p" 'org-tree-slide-mode))
    #+END_SRC
 
 *** Look

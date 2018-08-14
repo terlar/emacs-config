@@ -12,6 +12,11 @@
 ;;;
 ;; Packages
 
+(req-package debug
+  :general
+  (:keymaps 'debugger-mode-map
+            "K" 'helpful-at-point))
+
 (req-package realgud
   :commands
   (realgud:gdb

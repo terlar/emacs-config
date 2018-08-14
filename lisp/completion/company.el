@@ -5,12 +5,6 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-vars)
-  (require 'base-package)
-  (require 'base-lib)
-  (require 'base-keybinds))
-
 ;;;
 ;; Functions
 
@@ -133,18 +127,15 @@
           company-preview-if-not-tng-frontend
           company-echo-metadata-frontend)
         company-backends
-        '((company-capf company-files :with company-yasnippet)
-          (company-dabbrev-code
-           company-gtags company-etags
-           company-keywords)
-          company-oddmuse company-dabbrev)
+        '(company-files
+          company-capf
+          (company-dabbrev-code company-gtags company-etags company-keywords)
+          company-dabbrev)
         company-transformers '(company-sort-by-occurrence)))
 
-(req-package company-childframe
-  :diminish company-childframe-mode
-  :commands company-childframe-mode
-  :init
-  (add-graphic-hook (company-childframe-mode 1)))
+(req-package company-posframe
+  :diminish company-posframe-mode
+  :hook (company-mode . company-posframe-mode))
 
 (req-package company-try-hard
   :commands company-try-hard)

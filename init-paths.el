@@ -96,5 +96,4 @@
 (push (expand-file-name "site-lisp" user-emacs-directory) load-path)
 
 (provide 'init-paths)
-
 ;;; init-paths.el ends here

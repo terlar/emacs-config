@@ -6,58 +6,7 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-package)
-  (require 'base-lib)
-  (require 'base-keybinds))
-
-;;;
-;; Functions
-
-;;;###autoload
-(defun +org-evil-open-above (count)
-  "Insert a new line above point and switch to Insert state.
-The insertion will be repeated COUNT times.
-It acts in the same way as `org-meta-return'."
-  (interactive "p")
-  (unless (eq evil-want-fine-undo t)
-    (evil-start-undo-step))
-
-  (back-to-indentation)
-  (if (org-in-src-block-p)
-      (org-return)
-    (org-meta-return))
-  (evil-move-end-of-line)
-
-  (setq evil-insert-count count)
-  (setq evil-insert-lines t)
-  (setq evil-insert-vcount nil)
-  (evil-insert-state 1))
-
-;;;###autoload
-(defun +org-evil-open-below (count)
-  "Insert a new line below point and switch to Insert state.
-The insertion will be repeated COUNT times.
-It acts in the same way as `org-meta-return'."
-  (interactive "p")
-  (unless (eq evil-want-fine-undo t)
-    (evil-start-undo-step))
-  (push (point) buffer-undo-list)
-
-  (evil-move-end-of-line)
-  (if (org-in-src-block-p)
-      (org-return)
-    (org-meta-return))
-
-  (setq evil-insert-count count)
-  (setq evil-insert-lines t)
-  (setq evil-insert-vcount nil)
-  (evil-insert-state 1))
-
-;;;
-;; Packages
-
-(req-package org :pin org
+(use-package org :pin org
   :hook
   (org-mode . readable-mode)
   (org-mode . +org-setup-babel)
@@ -68,9 +17,7 @@ It acts in the same way as `org-meta-return'."
   (:keymaps 'org-mode-map :states 'normal
             "<<" 'org-metaleft
             ">>" 'org-metaright
-            "RET" 'org-edit-src-code
-            "o" '+org-evil-open-below
-            "O" '+org-evil-open-above)
+            "RET" 'org-edit-src-code)
   (:keymaps 'org-src-mode-map
             "C-c C-k" 'org-edit-src-abort
             "C-c C-c" 'org-edit-src-exit)
@@ -99,22 +46,7 @@ It acts in the same way as `org-meta-return'."
        (shell      . t)
        (translate  . t))))
   :init
-  (setq org-agenda-files '("~/org")
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 0
-        org-hide-block-startup t
-        org-hide-emphasis-markers t
-        org-log-done 'time
-        org-startup-with-inline-images t
-        org-special-ctrl-a/e t
-        org-src-preserve-indentation nil
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-tag-alist
-        '(("@work"  . ?w)
-          ("@home"  . ?h)
-          ("laptop" . ?l))
-        org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
   (set-on-evil-state 'org-mode 'insert
                      (setq org-hide-block-startup nil
@@ -127,75 +59,32 @@ It acts in the same way as `org-meta-return'."
                      (org-bullets-mode 1)
                      (font-lock-fontify-block))
 
-  ;; Pretty task symbols
-  (font-lock-add-keywords
-   'org-mode
-   `(("^\\*+ \\(TODO\\) "
-      (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
-     ("^\\*+ \\(DOING\\) "
-      (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
-     ("^\\*+ \\(CANCELED\\) "
-      (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
-     ("^\\*+ \\(DONE\\) "
-      (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
+  (defun +org-display-inline-images--with-color-theme-background-color (args)
+    "Specify background color of Org-mode inline image through modify `ARGS'."
+    (let* ((file (car args))
+           (type (cadr args))
+           (data-p (caddr args))
+           (props (cdddr args)))
+      ;; get this return result style from `create-image'
+      (append (list file type data-p)
+              (list :background (face-background 'default))
+              props)))
 
-  ;; Pretty bullet lists
-  (font-lock-add-keywords
-   'org-mode
-   '(("^ +\\([-*+]\\) "
-      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
-     ("^ +[-*+] \\[\\(X\\)\\] "
-      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+  (advice-add 'create-image :filter-args
+              #'+org-display-inline-images--with-color-theme-background-color))
 
-  ;; Use `fixed-pitch' face for alignment in `variable-pitch-mode'
-  (font-lock-add-keywords
-   'org-mode '(("^[[:space:]-*+]+" 0 'fixed-pitch append)) 'append))
-
-(req-package org-cliplink
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix my-local-leader-key
-   "u" 'org-cliplink))
-
-;; Pretty bullets for headings
-(req-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '(" "))
-  ;; Use default font face (also size)
-  (org-bullets-face-name 'default))
-
-(req-package org-radiobutton
-  :hook (org-mode . org-radiobutton-mode))
-
-(req-package org-plus-contrib
+(use-package org-plus-contrib
   :init
   (require 'org-eldoc))
 
-(req-package org-tree-slide
-  :commands org-tree-slide-mode
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix my-local-leader-key
-   "p" 'org-tree-slide-mode)
-  (:keymaps 'org-tree-slide-mode :states '(normal insert emacs) :definer 'minor-mode
-            "n" 'org-tree-slide-move-next-tree
-            "p" 'org-tree-slide-move-previous-tree
-            "q" 'org-tree-slide-mode)
-  :init
-  (setq org-tree-slide-header nil
-        org-tree-slide-slide-in-effect nil))
-
-(req-package org-preview-html
+(use-package org-preview-html
   :commands org-preview-html-mode)
 
-(req-package org-noter
+(use-package org-noter
   :general
   (:keymaps
    'org-mode-map
-   :prefix my-local-leader-key
+   :prefix +local-leader-key
    "n" 'org-noter)
   :commands org-noter)
 
