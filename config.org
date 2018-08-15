@@ -1,7 +1,5 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Terje Larsen
-* Tasks
-** TODO Support markdown files
 * Base
   For quicker operations it is useful to ensure that the Emacs server
   is running.
@@ -137,6 +135,78 @@
    (setq create-lockfiles nil
          make-backup-files nil)
    #+END_SRC
+
+* Editing
+  Default to indentation by spaces, that seems to be what most languages use nowadays.
+  #+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  #+END_SRC
+
+  Convert between tabs and spaces (only tabify initial whitespace)
+  #+BEGIN_SRC emacs-lisp
+  (setq tabify-regexp "^\t* [ \t]+")
+  #+END_SRC
+
+  Don't require confirmation when opening a new buffer.
+  #+BEGIN_SRC emacs-lisp
+  (setq confirm-nonexistent-file-or-buffer t)
+  #+END_SRC
+
+  Save clipboard contents into kill-ring before replacing them
+  #+BEGIN_SRC emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+  #+END_SRC
+
+  Preferred line-length when filling and don't require double spaces
+  to end a sentance.
+  #+BEGIN_SRC emacs-lisp
+  (setq sentence-end-double-space nil)
+  (setq-default fill-column 80
+                word-wrap t)
+  #+END_SRC
+
+  Whitespace mode behavior
+  #+BEGIN_SRC emacs-lisp
+  (use-package whitespace
+    :custom
+    (whitespace-line-column fill-column)
+    (whitespace-style
+     '(face tabs tab-mark spaces space-mark trailing lines-tail))
+    (whitespace-display-mappings
+     '((tab-mark ?\t [?› ?\t])
+       (newline-mark 10 [?¬ 10])
+       (space-mark 32 [183] [46]))))
+  #+END_SRC
+
+  Make scrolling be more procedural.
+  #+BEGIN_SRC emacs-lisp
+  (setq auto-window-vscroll nil
+        hscroll-margin 5
+        hscroll-step 5
+        scroll-conservatively 101
+        scroll-margin 0
+        scroll-preserve-screen-position t)
+
+  (setq-default scroll-down-aggressively 0.01
+                scroll-up-aggressively 0.01)
+  #+END_SRC
+
+  Display indicator for buffer boundaries in the right fringe.
+  #+BEGIN_SRC emacs-lisp
+  (setq-default indicate-buffer-boundaries 'right)
+  #+END_SRC
+
+  Auto-insert matching parenthesis.
+  #+BEGIN_SRC emacs-lisp
+  (electric-pair-mode 1)
+  #+END_SRC
+
+  Cut/copy (=C-w= / =M-w=) the current line if no region is active.
+  #+BEGIN_SRC emacs-lisp
+  (use-package whole-line-or-region :ensure t
+    :diminish whole-line-or-region-local-mode
+    :hook (after-init . whole-line-or-region-mode))
+  #+END_SRC
 
 * Appearance
 ** Typography
@@ -437,9 +507,10 @@
      (setq ivy-initial-inputs-alist nil)
 
      (setq-default
-      projectile-completion-system 'ivy
-      smex-completion-method 'ivy
-      magit-completing-read-function #'ivy-completing-read))
+      dumb-jump-selector             'ivy
+      magit-completing-read-function #'ivy-completing-read
+      projectile-completion-system   'ivy
+      smex-completion-method         'ivy))
     #+END_SRC
 
    Replacements for common Emacs commands. =smex= is used by =counsel-M-x= for
@@ -613,84 +684,6 @@
     #+END_SRC
 
 * Settings
-** Editor
-   Use UTF-8 as the default coding system.
-   #+BEGIN_SRC emacs-lisp
-   (set-charset-priority 'unicode)
-   (prefer-coding-system        'utf-8)
-   (set-terminal-coding-system  'utf-8)
-   (set-keyboard-coding-system  'utf-8)
-   (set-selection-coding-system 'utf-8)
-   (setq locale-coding-system   'utf-8)
-   (setq-default buffer-file-coding-system 'utf-8)
-   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-   #+END_SRC
-
-   Default to indentation by spaces, that seems to be what most languages use nowadays.
-   #+BEGIN_SRC emacs-lisp
-   (setq require-final-newline t)
-   (setq-default indent-tabs-mode nil)
-   #+END_SRC
-
-   Convert between tabs and spaces (only tabify initial whitespace)
-   #+BEGIN_SRC emacs-lisp
-   (setq tabify-regexp "^\t* [ \t]+")
-   #+END_SRC
-
-   Don't require confirmation when opening a new buffer.
-   #+BEGIN_SRC emacs-lisp
-   (setq confirm-nonexistent-file-or-buffer t)
-   #+END_SRC
-
-   Save clipboard contents into kill-ring before replacing them
-   #+BEGIN_SRC emacs-lisp
-   (setq save-interprogram-paste-before-kill t)
-   #+END_SRC
-
-   Preferred line-length when filling and don't require double spaces
-   to end a sentance.
-   #+BEGIN_SRC emacs-lisp
-   (setq sentence-end-double-space nil)
-   (setq-default fill-column 80
-                 word-wrap t)
-   #+END_SRC
-
-   Whitespace mode behavior
-   #+BEGIN_SRC emacs-lisp
-   (use-package whitespace
-     :custom
-     (whitespace-line-column fill-column)
-     (whitespace-style
-      '(face tabs tab-mark spaces space-mark trailing lines-tail))
-     (whitespace-display-mappings
-      '((tab-mark ?\t [?› ?\t])
-        (newline-mark 10 [?¬ 10])
-        (space-mark 32 [183] [46]))))
-   #+END_SRC
-
-   Make scrolling be more procedural.
-   #+BEGIN_SRC emacs-lisp
-   (setq auto-window-vscroll nil
-         hscroll-margin 5
-         hscroll-step 5
-         scroll-conservatively 101
-         scroll-margin 0
-         scroll-preserve-screen-position t)
-
-   (setq-default scroll-down-aggressively 0.01
-                 scroll-up-aggressively 0.01)
-   #+END_SRC
-
-   Display indicator for buffer boundaries in the right fringe.
-   #+BEGIN_SRC emacs-lisp
-   (setq-default indicate-buffer-boundaries 'right)
-   #+END_SRC
-
-   Auto-insert matching parenthesis.
-   #+BEGIN_SRC emacs-lisp
-   (electric-pair-mode 1)
-   #+END_SRC
-
 ** Performance
    Disable bidirectional text for tiny performance boost
    #+BEGIN_SRC emacs-lisp
@@ -1076,7 +1069,8 @@
 
 ** Version control
    #+BEGIN_SRC emacs-lisp
-   (setq vc-follow-symlinks t)
+   (setq vc-follow-symlinks t
+         vc-make-backup-files nil)
    #+END_SRC
 
    Setup Ediff
@@ -1126,6 +1120,32 @@
      (diff-hl-flydiff-mode 1))
    #+END_SRC
 
+   Enhanced git related views and commands.
+   #+BEGIN_SRC emacs-lisp
+   (use-package magit :ensure t :defer 2
+     :custom
+     (magit-log-buffer-file-locked t)
+     (magit-refs-show-commit-count 'all)
+     (magit-save-repository-buffers 'dontask)
+     (git-messenger:use-magit-popup t)
+     :init
+     ;; Unset pager as it is not supported properly inside emacs.
+     (setenv "GIT_PAGER" "")
+     :config
+     (global-magit-file-mode 1))
+   #+END_SRC
+
+   Popup commit message for current line
+   #+BEGIN_SRC emacs-lisp
+   (use-package git-messenger :ensure t
+     :commands
+     (git-messenger:popup-message)
+     :general
+     (:keymaps
+      'global
+      "C-x v p" 'git-messenger:popup-message))
+   #+END_SRC
+
 ** Syntax checker
    Silence next/previous error, by default it produces a message every time.
    #+BEGIN_SRC emacs-lisp
@@ -1167,6 +1187,57 @@
        (previous-line)
        (flymake-show-diagnostic (point))))
    #+END_SRC
+
+** Jump to definition
+   Jump to definition is really useful and I prefer doing so without TAGS which
+   is pretty much the default for most modes. I am using the excellent package
+   =dumb-jump= to jump via grep tools e.g. (=grep=, =rx=, =ag=)
+   #+BEGIN_SRC emacs-lisp
+   (use-package dumb-jump :ensure t
+     :custom
+     (dumb-jump-default-project user-emacs-directory)
+     :commands
+     (dumb-jump-quick-look
+      dumb-jump-back)
+     :general
+     ("M-g i" 'dumb-jump-go-prompt
+      "M-g o" 'dumb-jump-go-other-window
+      "M-g x" 'dumb-jump-go-prefer-external
+      "M-g z" 'dumb-jump-go-prefer-external-other-window))
+   #+END_SRC
+
+   Some modes actually have some good backends, so configure this with
+   =smart-jump= which has nice defaults and also adds configuring completion with
+   a fallback to =dumb-jump=.
+   #+BEGIN_SRC emacs-lisp
+   (use-package smart-jump :ensure t
+     :custom
+     (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
+     :commands
+     (smart-jump-back
+      smart-jump-register
+      smart-jump-simple-find-references)
+     :general
+     ("M-."   'smart-jump-go
+      "M-,"   'smart-jump-back
+      "M-?"   'smart-jump-references
+      "M-g j" 'smart-jump-go
+      "M-g r" 'smart-jump-references)
+     :init
+     (defun +smart-jump-find-references-with-counsel-rg ()
+       "Use `rg' and `counsel' to find references."
+       (interactive)
+       (if (fboundp 'counsel-rg)
+           (counsel-rg
+            (cond ((use-region-p)
+                   (buffer-substring-no-properties (region-beginning)
+                                                   (region-end)))
+                  ((symbol-at-point)
+                   (substring-no-properties
+                    (symbol-name (symbol-at-point))))))
+         (message "Install swiper to use `+smart-jump-simple-find-references-with-counsel-rg'."))))
+   #+END_SRC
+
 ** LSP
    Generic Language Server Protocol integration via =eglot=.
    #+BEGIN_SRC emacs-lisp
@@ -1178,6 +1249,18 @@
      :config
      (with-eval-after-load 'smart-jump
        (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
+   #+END_SRC
+
+** Look
+   Visually separate delimiter pairs.
+   #+BEGIN_SRC emacs-lisp
+   (use-package rainbow-delimiters :ensure t
+     :custom
+     (rainbow-delimiters-max-face-count 3)
+     :hook
+     ((emacs-lisp-mode
+       js2-mode
+       lisp-mode) . rainbow-delimiters-mode))
    #+END_SRC
 
 * Major modes
@@ -1253,6 +1336,118 @@
       "o" '(ace-link-help :package 'ace-link)))
    #+END_SRC
 
+** js
+   #+BEGIN_SRC emacs-lisp
+   (use-package js2-mode :ensure t
+     :mode
+     "\\.js$"
+     :interpreter
+     "node"
+     "nodejs"
+     :hook
+     (js2-mode . +js-mode-prettify-symbols)
+     :custom
+     (js2-highlight-external-variables nil)
+     (js2-mode-show-parse-errors nil)
+     (js2-skip-preprocessor-directives t)
+     (js2-strict-missing-semi-warning nil)
+     (js2-strict-trailing-comma-warning nil)
+     :general
+     (:keymaps
+      'js2-mode-map
+      :major-modes t
+      :prefix +local-leader-key
+      "r" 'js-repl)
+     :init
+     (defun js-repl ()
+       "Open a JavaScript REPL."
+       (interactive)
+       (if (indium-client-process-live-p)
+           (indium-switch-to-repl-buffer)
+         (nodejs-repl-switch-to-repl)))
+
+     (defun js-repl-eval ()
+       "Evaluate code in JavaScript REPL"
+       (if (indium-client-process-live-p)
+           (if (use-region-p)
+               (indium-eval-region (region-beginning) (region-end))
+             (indium-eval-last-node))
+         (if (use-region-p)
+             (nodejs-repl-send-region (region-beginning) (region-end))
+           (nodejs-repl-send-line))))
+
+     (defun +js-mode-prettify-symbols ()
+       (push '("function" . ?ƒ) prettify-symbols-alist))
+
+     (with-eval-after-load 'editorconfig
+       (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist)))
+   #+END_SRC
+
+   REPL for nodejs.
+   #+BEGIN_SRC emacs-lisp
+   (use-package nodejs-repl :ensure t
+     :commands
+     (nodejs-repl
+      nodejs-repl-send-region
+      nodejs-repl-send-line
+      nodejs-repl-load-file
+      nodejs-repl-switch-to-repl))
+   #+END_SRC
+
+   Refactor utils, also a dependecy for =indium= debugger.
+   #+BEGIN_SRC emacs-lisp
+   (use-package js2-refactor :ensure t
+     :diminish js2-refactor-mode
+     :hook
+     (js2-mode . js2-refactor-mode)
+     (js2-mode . +js2r-setup-keybindings)
+     :general
+     (:keymaps
+      'js2-mode-map
+      "C-k" 'js2r-kill)
+     :commands
+     (js2r-add-keybindings-with-prefix
+      js2r-kill js2r-extract-function js2r-extract-method js2r-introduce-parameter
+      js2r-localize-parameter js2r-expand-object js2r-contract-object
+      js2r-expand-function js2r-contract-function js2r-expand-array
+      js2r-contract-array js2r-wrap-buffer-in-iife js2r-inject-global-in-iife
+      js2r-add-to-globals-annotation js2r-extract-var js2r-inline-var
+      js2r-rename-var js2r-var-to-this js2r-arguments-to-object js2r-ternary-to-if
+      js2r-split-var-declaration js2r-split-string js2r-unwrap js2r-log-this
+      js2r-debug-this js2r-forward-slurp js2r-forward-barf)
+     :preface
+     (defun +js2r-setup-keybindings ()
+         (js2r-add-keybindings-with-prefix "C-c m m")))
+   #+END_SRC
+
+   Debugger
+   #+BEGIN_SRC emacs-lisp
+   (use-package indium :ensure t
+     :hook
+     (js-mode . indium-interaction-mode)
+     :general
+     (:keymaps
+      'js2-mode-map
+      :prefix +local-leader-key
+      "s" 'indium-scratch
+      "i" 'indium-launch
+      "I" 'indium-connect)
+     (:keymaps
+      'indium-debugger-mode :definer 'minor-mode
+      "RET" 'indium-debugger-step-over)
+     :commands
+     (indium-scratch
+      indium-interaction-mode
+      indium-connect
+      indium-launch
+      indium-switch-to-repl-buffer
+      indium-eval-region
+      indium-eval-last-node
+      indium-eval-defun
+      indium-eval-buffer
+      indium-client-process-live-p))
+   #+END_SRC
+
 ** org
    #+BEGIN_SRC emacs-lisp
    (use-package org :pin org :ensure t
@@ -1323,7 +1518,7 @@
     (use-package org-bullets :ensure t
       :hook (org-mode . org-bullets-mode)
       :custom
-      (org-bullets-bullet-list '(" "))
+      (org-bullets-bullet-list '(" "))
       ;; Use default font face (also size)
       (org-bullets-face-name 'org-variable-pitch-face))
     #+END_SRC
@@ -1338,7 +1533,9 @@
       :init
       ;; Also align headings and lists
       (font-lock-add-keywords
-       'org-mode '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append)) 'append))
+       'org-mode
+       '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
+       'append))
     #+END_SRC
 
     Pretty bullet lists:
@@ -1355,7 +1552,7 @@
     #+BEGIN_SRC emacs-lisp
     (font-lock-add-keywords
      'org-mode
-     `(("^\\*+ \\(TODO\\) "
+     '(("^\\*+ \\(TODO\\) "
         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
        ("^\\*+ \\(DOING\\) "
         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
@@ -1364,3 +1561,5 @@
        ("^\\*+ \\(DONE\\) "
         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
     #+END_SRC
+* Tasks
+** TODO Support markdown files

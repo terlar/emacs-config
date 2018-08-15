@@ -60,37 +60,34 @@
 
 ;; Package setup
 (eval-and-compile
-  (setq gnutls-verify-error t
-	tls-checktrust t
-	package-enable-at-startup nil
-	package-archives
-	'(("gnu"   . "https://elpa.gnu.org/packages/")
-	  ("org"   . "https://orgmode.org/elpa/")
-	  ("melpa" . "https://melpa.org/packages/"))))
-
-(eval-and-compile
   (require 'package)
+  (require 'tls)
   (package-initialize t))
+
+(setq gnutls-verify-error t
+      tls-checktrust t
+      package-enable-at-startup nil
+      package-archives
+      '(("gnu"   . "https://elpa.gnu.org/packages/")
+	("org"   . "https://orgmode.org/elpa/")
+	("melpa" . "https://melpa.org/packages/")))
 
 (eval-when-compile
   (dolist (package '(el-get use-package use-package-el-get))
     (unless (package-installed-p package)
-      (unless package-archive-contents
-	(package-refresh-contents))
+      (package-refresh-contents)
       (package-install package))))
 
-(eval-and-compile
-  (require 'use-package)
-  (setq use-package-always-defer t
-	use-package-expand-minimally (eval-when-compile (not +debug-mode))
-	use-package-minimum-reported-time (if +debug-mode 0 0.1)
-	use-package-verbose +debug-mode)
+(require 'use-package)
+(setq use-package-always-defer t
+      use-package-expand-minimally (eval-when-compile (not +debug-mode))
+      use-package-minimum-reported-time (if +debug-mode 0 0.1)
+      use-package-verbose +debug-mode)
+(require 'use-package-el-get)
+(push :el-get use-package-keywords)
 
-  (require 'use-package-el-get)
-  (push :el-get use-package-keywords))
-
-(eval-and-compile
-  (require 'cl-lib))
+;; Libraries
+(require 'cl-lib)
 
 ;; Load org based configuration
 (when (file-exists-p +org-config-path)

@@ -77,6 +77,7 @@
    `(org-checkbox                            ((t (:inherit fixed-pitch))))
    `(org-code                                ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
    `(org-formula                             ((t (:inherit fixed-pitch))))
+   `(org-hide                                ((t (:inherit fixed-pitch))))
    `(org-meta-line                           ((t (:inherit fixed-pitch))))
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))

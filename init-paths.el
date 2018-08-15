@@ -6,33 +6,34 @@
 ;;; Code:
 
 ;; Variables
-(defvar +cache-dir
-  (if (getenv "XDG_CACHE_HOME")
-      (concat (getenv "XDG_CACHE_HOME") "/emacs/")
-    (expand-file-name "~/.cache/emacs/"))
-  "Directory for cache.")
+(eval-and-compile
+  (defvar +cache-dir
+    (if (getenv "XDG_CACHE_HOME")
+        (concat (getenv "XDG_CACHE_HOME") "/emacs/")
+      (expand-file-name "~/.cache/emacs/"))
+    "Directory for cache.")
 
-(defvar +data-dir
-  (if (getenv "XDG_DATA_HOME")
-      (concat (getenv "XDG_DATA_HOME") "/emacs/")
-    (expand-file-name "~/.local/share/emacs/"))
-  "Directory for data.")
+  (defvar +data-dir
+    (if (getenv "XDG_DATA_HOME")
+        (concat (getenv "XDG_DATA_HOME") "/emacs/")
+      (expand-file-name "~/.local/share/emacs/"))
+    "Directory for data.")
 
-(defvar +packages-dir
-  (expand-file-name "packages/" +data-dir)
-  "Directory for packages.")
+  (defvar +packages-dir
+    (expand-file-name "packages/" +data-dir)
+    "Directory for packages.")
 
-(defvar +site-lisp-dir
-  (expand-file-name "site-lisp" user-emacs-directory)
-  "Directory for shared files.")
+  (defvar +site-lisp-dir
+    (expand-file-name "site-lisp" user-emacs-directory)
+    "Directory for shared files.")
 
-(defvar +el-get-recipes-dir
-  (expand-file-name "recipes" user-emacs-directory)
-  "Directory for `el-get' recipes.")
+  (defvar +el-get-recipes-dir
+    (expand-file-name "recipes" user-emacs-directory)
+    "Directory for `el-get' recipes.")
 
-(defvar +org-config-path
-  (expand-file-name "config.org" user-emacs-directory)
-  "Path to org config file.")
+  (defvar +org-config-path
+    (expand-file-name "config.org" user-emacs-directory)
+    "Path to org config file."))
 
 ;; Ensure folders exist
 (dolist (dir (list +cache-dir +data-dir +packages-dir))
@@ -81,19 +82,21 @@
  projectile-cache-file          (expand-file-name "projectile.cache" +cache-dir)
  projectile-known-projects-file (expand-file-name "projectile.projects" +data-dir))
 
-;; Custom defs to a separate file
-(setq custom-file (expand-file-name "custom.el" +data-dir))
+;; Custom defs to a temporary file so it doesn't grow over time.
+(setq custom-file
+      (expand-file-name "custom.el" temporary-file-directory))
 
 ;; Initialize load path used by packages
-(setq load-path
-      (append load-path
-	      (directory-files +packages-dir t "^[^.]" t))
-      custom-theme-load-path
-      (append custom-theme-load-path
-	      (directory-files +packages-dir t "theme" t)))
+(eval-and-compile
+  (setq load-path
+        (append load-path
+	        (directory-files +packages-dir t "^[^.]" t)))
+  (push (expand-file-name "lisp" user-emacs-directory) load-path)
+  (push (expand-file-name "site-lisp" user-emacs-directory) load-path)
 
-(push (expand-file-name "lisp" user-emacs-directory) load-path)
-(push (expand-file-name "site-lisp" user-emacs-directory) load-path)
+  (setq custom-theme-load-path
+        (append custom-theme-load-path
+	        (directory-files +packages-dir t "theme" t))))
 
 (provide 'init-paths)
 ;;; init-paths.el ends here
