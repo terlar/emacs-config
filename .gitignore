@@ -2,10 +2,11 @@
 *.elc
 
 # Generated
-config.el
+init.el
 
 # Packaging
 .cask
+straight/
 
 # Backup files
 *~
