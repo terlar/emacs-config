@@ -352,22 +352,6 @@
 ** Functions
    Tangle and byte compile org file.
    #+BEGIN_SRC emacs-lisp
-   (defun org-babel-tangle-elisp ()
-     "Tangle current org file into emacs-lisp."
-     (interactive)
-     (let ((file-source buffer-file-name)
-           (file-target (concat (file-name-sans-extension buffer-file-name) ".el")))
-       (eval-when-compile
-         (require 'org))
-       (org-babel-tangle-file file-source file-target "emacs-lisp")))
-
-   (defun org-babel-tangle-elisp-and-byte-compile ()
-     "Tangle current org file into emacs-lisp and byte compile."
-     (interactive)
-     (org-babel-tangle-elisp)
-     (let ((file-target (concat (file-name-sans-extension buffer-file-name) ".el")))
-       (byte-compile-file file-target)))
-
    (defun async-org-babel-tangle-elisp ()
      "Tangle current org file into emacs-lisp asynchronously."
      (interactive)
@@ -387,7 +371,7 @@
                         ,file-source
                         (float-time (time-subtract (current-time)
                                                    ',init-tangle-start-time)))
-             (message "ERROR: init.org tangle failed."))))))
+             (message "ERROR: %s tangle failed." ,file-source))))))
    #+END_SRC
 
    Prevent forms from producing output or other noise.
@@ -773,6 +757,27 @@
       (after-init . whole-line-or-region-global-mode))
     #+END_SRC
 
+*** yasnippet
+    #+BEGIN_SRC emacs-lisp
+    (use-package yasnippet
+      :defer 2
+      :diminish yas-minor-mode
+      :mode
+      ("\\.snippet$" . snippet-mode)
+      ("\\.yasnippet$" . snippet-mode)
+      :hook (after-init . yas-global-mode)
+      :custom
+      (yas-also-auto-indent-first-line t)
+      ;; Nested snippets
+      (yas-triggers-in-field t)
+      (yas-wrap-around-region t)
+      :init
+      (setq yas-verbosity 0))
+
+    (use-package yasnippet-snippets
+      :defer 2)
+    #+END_SRC
+
 ** Appearance
 *** Page breaks
     Display page breaks as a horizontal line.
@@ -1060,6 +1065,19 @@
      (projectile-mode 1))
    #+END_SRC
 
+** Workspace
+   #+BEGIN_SRC emacs-lisp
+   (use-package eyebrowse
+     :hook (after-init . eyebrowse-mode)
+     :general
+     ("C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
+     :init
+     (defun +eyebrowse-rename-window-config-to-project-name ()
+       "Set window configuration name to project name."
+       (interactive)
+       (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) (projectile-project-name))))
+   #+END_SRC
+
 * Completion
   Enable completion with tab
   #+BEGIN_SRC emacs-lisp
@@ -1130,9 +1148,7 @@
       "C-l"    'ivy-alt-done
       "C-w"    'ivy-backward-kill-word
       "C-u"    'ivy-kill-line
-      "C-e"    'ivy-done
-      "C-b"    'backward-word
-      "C-f"    'forward-word)
+      "C-f"    'ivy-alt-done)
      :init
      ;; Don't use ^ as initial input
      (setq ivy-initial-inputs-alist nil)
@@ -1280,6 +1296,16 @@
      "C-!" 'eshell
      "C-±" 'eshell
      "M-Z" 'zap-up-to-char)
+    #+END_SRC
+
+*** Help
+    #+BEGIN_SRC emacs-lisp
+    (general-define-key
+     :keymaps 'help-map
+     "B" 'find-library
+     "u" 'describe-face
+     "U" 'list-faces-display
+     "'" 'describe-char)
     #+END_SRC
 
 * Development
@@ -1532,8 +1558,7 @@
               (ws-butler-mode 1))
           (ws-butler-mode 0)))
       :config
-      (with-eval-after-load 'ws-butler
-        (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig))
+      (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
       (editorconfig-mode 1))
     #+END_SRC
 
@@ -1813,10 +1838,13 @@
 
 ** org
    #+BEGIN_SRC emacs-lisp
+   (require 'auto-tangle)
    (use-package org
      :hook
      (org-mode . auto-fill-mode)
      (org-babel-after-execute . org-redisplay-inline-images)
+     :minor
+     ("init\\.org$" . auto-tangle-mode)
      :custom
      (org-agenda-files '("~/org"))
      (org-confirm-babel-evaluate nil)
@@ -1939,3 +1967,5 @@
 
 * Tasks
 ** TODO Support markdown files
+** TODO Support snippets
+** TODO Auto-tangle emacs.d
