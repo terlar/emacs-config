@@ -452,7 +452,7 @@
 *** Local overrides
     No theme is perfect, also this is a good place to put my own experiments.
     #+BEGIN_SRC emacs-lisp
-    (require 'local-theme (expand-file-name "local-theme" user-emacs-directory))
+    (require 'local-theme)
     (load-theme 'local t)
     #+END_SRC
 
@@ -2216,6 +2216,27 @@
         ("^\\*+ \\(DONE\\) "
          (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
      #+END_SRC
+
+* Tools
+** Pomodoro
+   #+BEGIN_SRC emacs-lisp
+   (use-package redtick
+     :commands
+     (redtick-mode
+      redtick
+      redtick-with-description))
+   #+END_SRC
+
+** Recording
+   #+BEGIN_SRC emacs-lisp
+   (use-package camcorder
+     :commands
+     (camcorder-record
+      camcorder-convert-to-gif)
+     :custom
+     (camcorder-output-directory (getenv "XDG_VIDEOS_DIR"))
+     (camcorder-gif-output-directory camcorder-output-directory))
+   #+END_SRC
 
 * The end
   #+BEGIN_SRC emacs-lisp
