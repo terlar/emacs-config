@@ -744,6 +744,23 @@
         lisp-interaction-mode) . paredit-mode))
     #+END_SRC
 
+*** rotate-text
+    Cycle through words, symbols and patterns.
+    #+BEGIN_SRC emacs-lisp
+    (use-package rotate-text
+      :commands
+      (rotate-text rotate-text-backward)
+      :general
+      (:keymaps
+       'global
+       "M-n" 'rotate-text
+       "M-p" 'rotate-text-backward)
+      :config
+      (dolist (item '(("true" "false")
+                      ("assert" "refute")))
+        (push item rotate-text-words)))
+    #+END_SRC
+
 *** whitespace
     Display whitespace
     #+BEGIN_SRC emacs-lisp
@@ -983,6 +1000,66 @@
     #+END_SRC
 
 * Navigation
+** Dired
+   #+BEGIN_SRC emacs-lisp
+   (use-package dired
+     :straight nil
+     :hook
+     (dired-mode . hl-line-mode)
+     (dired-mode . dired-hide-details-mode)
+     (dired-mode . +dired-mode-faces)
+     :custom
+     ;; Always copy/delete recursively
+     (dired-recursive-copies  'always)
+     (dired-recursive-deletes 'top)
+     :init
+     (defun +dired-mode-faces ()
+       (face-remap-add-relative 'hl-line
+                                :background (face-background 'isearch))))
+   #+END_SRC
+
+*** Sidebar
+    #+BEGIN_SRC emacs-lisp
+    (use-package dired-sidebar
+      :commands
+      dired-sidebar-toggle-sidebar
+      :hook
+      (dired-sidebar-mode . hide-mode-line-mode)
+      (dired-sidebar-mode . hl-line-mode)
+      (dired-sidebar-mode . +dired-sidebar-setup)
+      :init
+      (defun +dired-sidebar-setup ()
+        (setq cursor-type nil)
+        (stripe-buffer-mode 0)))
+    #+END_SRC
+
+*** Subtree
+    Display subtrees in dired view.
+    #+BEGIN_SRC emacs-lisp
+    (use-package dired-subtree
+      :commands
+      (dired-subtree-toggle
+       dired-subtree-cycle)
+      :custom
+      (dired-subtree-use-backgrounds nil))
+    #+END_SRC
+
+*** Stripes
+    Striped dired buffers.
+    #+BEGIN_SRC emacs-lisp
+    (use-package stripe-buffer
+      :hook
+      (dired-mode . stripe-buffer-mode))
+    #+END_SRC
+
+*** Icons
+    #+BEGIN_SRC emacs-lisp
+    (use-package all-the-icons-dired
+      :diminish all-the-icons-dired-mode
+      :hook
+      (dired-mode . all-the-icons-dired-mode))
+    #+END_SRC
+
 ** Packages
 *** ace-link
     Hint mode for links.
@@ -1002,6 +1079,20 @@
     (use-package bookmark
       :custom
       (bookmark-save-flag 1))
+    #+END_SRC
+
+*** deft
+    #+BEGIN_SRC emacs-lisp
+    (use-package deft
+      :commands
+      (deft deft-find-file)
+      :custom
+      (deft-auto-save-interval 0)
+      (deft-directory (expand-file-name "~/org/"))
+      (deft-extensions '("org" "md" "rst" "txt" "tex"))
+      (deft-recursive t)
+      (deft-use-filename-as-title t)
+      (deft-use-filter-string-for-filename t))
     #+END_SRC
 
 *** goto-last-change
@@ -1363,6 +1454,77 @@
          compilation-scroll-output t)
    #+END_SRC
 
+** Containers
+*** Docker
+     #+BEGIN_SRC emacs-lisp
+     (use-package docker
+       :init
+       (autoload 'docker-images "docker-images" nil t)
+       (autoload 'docker-containers "docker-containers" nil t)
+       (autoload 'docker-volumes "docker-volumes" nil t)
+       (autoload 'docker-networks "docker-networks" nil t))
+    #+END_SRC
+
+**** Files
+     Support for Docker related files.
+     #+BEGIN_SRC emacs-lisp
+     (use-package dockerfile-mode
+       :mode "Dockerfile$")
+
+     (use-package docker-compose-mode
+       :mode "docker-compose\\.yml")
+     #+END_SRC
+
+**** Tramp
+     #+BEGIN_SRC emacs-lisp
+     (use-package docker-tramp
+       :defer 2
+       :custom
+       (docker-tramp-use-names t))
+     #+END_SRC
+
+*** Kubernetes
+    #+BEGIN_SRC emacs-lisp
+    (use-package kubernetes
+      :commands
+      (kubernetes-overview
+       kubernetes-display-pods
+       kubernetes-display-configmaps))
+    #+END_SRC
+
+**** Tramp
+     #+BEGIN_SRC emacs-lisp
+     (use-package kubernetes-tramp
+       :defer 2)
+     #+END_SRC
+
+** Coverage
+   #+BEGIN_SRC emacs-lisp
+   (use-package coverlay
+     :diminish coverlay-minor-mode
+     :commands
+     (coverlay-mode
+      coverlay-minor-mode
+      coverlay-watch-file
+      coverlay-load-file
+      coverlay-reload-file
+      coverlay-display-stats
+      coverlay-toggle-overlays)
+     :custom
+     (coverlay:mark-tested-lines nil)
+     :init
+     (defun +coverlay-mode-enable ()
+       "Turn on `coverlay-mode'."
+       (coverlay-minor-mode 1)
+       (when (and (buffer-file-name) (not (bound-and-true-p coverlay--loaded-filepath)))
+         (let* ((coverage-file (concat
+                                (locate-dominating-file (file-name-directory (buffer-file-name)) "coverage")
+                                "coverage"
+                                "/lcov.info")))
+           (when (file-exists-p coverage-file)
+             (coverlay-watch-file coverage-file))))))
+   #+END_SRC
+
 ** Eval
 *** eval-in-repl
     #+BEGIN_SRC emacs-lisp
@@ -1640,6 +1802,35 @@
       :config
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
+    #+END_SRC
+
+*** exercism
+    #+BEGIN_SRC emacs-lisp
+    (use-package exercism
+      :straight
+      (:host github :repo "canweriotnow/exercism-emacs")
+      :commands
+      (exercism
+       exercism-submit
+       exercism-unsubmit
+       exercism-fetch
+       exercism-tracks)
+      :general
+      (:prefix
+       +leader-key
+       "E" '(:ignore t :wk "exercism")
+       "E f" 'exercism-fetch
+       "E l" 'exercism-list
+       "E o" 'exercism-open
+       "E s" 'exercism-submit
+       "E u" 'exercism-unsubmit
+       "E t" 'exercism-tracks)
+      :custom
+      (exercism-auto-enable nil)
+      (exercism-dir (expand-file-name "exercism" "~/src/"))
+      :init
+      ;; Fix the auto-mode-alist addition
+      (push `(,exercism-dir . exercism-mode) auto-minor-mode-alist))
     #+END_SRC
 
 *** hl-todo
