@@ -1,5 +1,0 @@
-(:name source-peek
-       :description "Display function definition inline"
-       :type github
-       :pkgname "iqbalansari/emacs-source-peek"
-       :features source-peek)

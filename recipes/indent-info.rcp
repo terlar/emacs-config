@@ -1,5 +1,0 @@
-(:name indent-info
-       :description "Show indentation information in status bar"
-       :type github
-       :pkgname "terlar/indent-info.el"
-       :features indent-info)

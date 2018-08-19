@@ -734,6 +734,16 @@
       (prog-mode . goto-address-prog-mode))
     #+END_SRC
 
+*** paredit
+    #+BEGIN_SRC emacs-lisp
+    (use-package paredit
+      :commands paredit-mode
+      :hook
+      ((eval-expression-minibuffer-setup
+        ielm-mode
+        lisp-interaction-mode) . paredit-mode))
+    #+END_SRC
+
 *** whitespace
     Display whitespace
     #+BEGIN_SRC emacs-lisp
@@ -765,7 +775,8 @@
       :mode
       ("\\.snippet$" . snippet-mode)
       ("\\.yasnippet$" . snippet-mode)
-      :hook (after-init . yas-global-mode)
+      :hook
+      (after-init . yas-global-mode)
       :custom
       (yas-also-auto-indent-first-line t)
       ;; Nested snippets
@@ -776,6 +787,21 @@
 
     (use-package yasnippet-snippets
       :defer 2)
+    #+END_SRC
+
+*** yatemplate
+    #+BEGIN_SRC emacs-lisp
+    (use-package autoinsert
+      :defer 1
+      :custom
+      (auto-insert-query nil)
+      (auto-insert-alist nil)
+      :config
+      (auto-insert-mode 1))
+
+    (use-package yatemplate
+      :hook
+      (yas-global-mode . yatemplate-fill-alist))
     #+END_SRC
 
 ** Appearance
@@ -932,6 +958,19 @@
       (global-auto-revert-non-file-buffers t)
       :config
       (global-auto-revert-mode 1))
+    #+END_SRC
+
+*** spray
+    #+BEGIN_SRC emacs-lisp
+    (use-package spray
+      :commands spray-mode
+      :custom
+      (spray-height 500)
+      (spray-margin-left 2)
+      :config
+      (setq spray-unsupported-minor-modes
+            (append '(beacon-mode centered-window-mode visual-fill-column-mode)
+                    spray-unsupported-minor-modes)))
     #+END_SRC
 
 *** wgrep-ag
@@ -1323,6 +1362,34 @@
          compilation-ask-about-save nil
          compilation-scroll-output t)
    #+END_SRC
+
+** Eval
+*** eval-in-repl
+    #+BEGIN_SRC emacs-lisp
+    (use-package eval-in-repl
+      :straight
+      (:host github :repo "terlar/eval-in-repl" :branch "add-sh-shell-support")
+      :commands
+      (eir-repl-start
+       eir-eval-in-repl-lisp
+       eir-next-code-line)
+      :custom
+      (eir-jump-after-eval t)
+      (eir-repl-placement 'below))
+    #+END_SRC
+
+*** quickrun
+    #+BEGIN_SRC emacs-lisp
+    (use-package quickrun
+      :commands
+      (quickrun-autorun-mode
+       quickrun
+       quickrun-region
+       quickrun-with-arg
+       quickrun-shell
+       quickrun-compile-only
+       quickrun-replace-region))
+    #+END_SRC
 
 ** Jump to definition
    Jump to definition is really useful and I prefer doing so without TAGS which is pretty

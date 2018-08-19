@@ -1,6 +1,0 @@
-(:name eval-in-repl
-       :description "Consistent ESS-like eval interface for various REPLs"
-       :type github
-       :pkgname "terlar/eval-in-repl"
-       :branch "add-sh-shell-support"
-       :features eval-in-repl)

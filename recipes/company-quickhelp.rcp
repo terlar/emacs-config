@@ -1,6 +1,0 @@
-(:name company-quickhelp
-       :description "Documentation popup for Company"
-       :type github
-       :pkgname "terlar/company-quickhelp"
-       :branch "use-system-tooltips"
-       :features company-quickhelp)
