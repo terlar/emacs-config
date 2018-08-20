@@ -725,6 +725,15 @@
    #+END_SRC
 
 ** Packages
+*** avy
+    #+BEGIN_SRC emacs-lisp
+    (use-package avy
+      :general
+      (:keymaps
+       'global
+       "C-;" 'avy-goto-char-timer))
+    #+END_SRC
+
 *** goto-addr
     Buttonize URLs and e-mail addresses in the current buffer.
     #+BEGIN_SRC emacs-lisp
