@@ -980,6 +980,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package readable
       :straight nil
+      :diminish readable-mode
       :commands readable-mode
       :hook
       (org-mode . readable-mode))
