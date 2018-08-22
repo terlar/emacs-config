@@ -1601,6 +1601,24 @@
        quickrun-replace-region))
     #+END_SRC
 
+** Folding
+   Code folding.
+   #+BEGIN_SRC emacs-lisp
+   (use-package hideshow
+     :diminish hs-minor-mode
+     :hook (prog-mode . hs-minor-mode)
+     :custom
+     (hs-hide-comments-when-hiding-all nil)
+     :init
+     (defun +hs-fold-overlay-ellipsis (ov)
+       (when (eq 'code (overlay-get ov 'hs))
+         (overlay-put
+          ov 'display (propertize " … " 'face 'font-lock-comment-face))))
+
+     (setq hs-allow-nesting t
+           hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
+   #+END_SRC
+
 ** Jump to definition
    Jump to definition is really useful and I prefer doing so without TAGS which is pretty
    much the default for most modes. I am using the excellent package =dumb-jump= to jump via
