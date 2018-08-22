@@ -1444,6 +1444,32 @@
      "M-Z" 'zap-up-to-char)
     #+END_SRC
 
+**** Next
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix "M-]"
+      ""  '(:ignore t :wk "next...")
+      "]" '(text-scale-increase           :wk "Text size")
+      "b" '(next-buffer                   :wk "Buffer")
+      "d" '(diff-hl-next-hunk             :wk "Diff Hunk")
+      "e" '(next-error                    :wk "Error")
+      "t" '(hl-todo-next                  :wk "Todo")
+      "w" '(eyebrowse-next-window-config  :wk "Workspace"))
+     #+END_SRC
+
+**** Previous
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix "M-["
+      ""  '(:ignore t :wk "previous...")
+      "[" '(text-scale-decrease                    :wk "Text size")
+      "b" '(previous-buffer                        :wk "Buffer")
+      "d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
+      "e" '(previous-error                         :wk "Error")
+      "t" '(hl-todo-previous                       :wk "Todo")
+      "w" '(eyebrowse-prev-window-config           :wk "Workspace"))
+     #+END_SRC
+
 *** Help
     #+BEGIN_SRC emacs-lisp
     (general-define-key
