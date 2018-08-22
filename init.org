@@ -984,7 +984,8 @@
       :diminish readable-mode
       :commands readable-mode
       :hook
-      (org-mode . readable-mode))
+      ((eww-mode
+        org-mode) . readable-mode))
     #+END_SRC
 
 *** spray
