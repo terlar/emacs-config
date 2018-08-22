@@ -2211,6 +2211,7 @@
       "r" 'js-repl)
      (:keymaps
       'js2-mode-map
+      "M-." 'nil
       "<C-return>" 'js-repl)
      :init
      (defun js-repl ()
