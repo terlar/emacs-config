@@ -692,6 +692,11 @@
    (setq-default word-wrap t)
    #+END_SRC
 
+   Disable line wrapping.
+   #+BEGIN_SRC emacs-lisp
+   (setq-default truncate-lines t)
+   #+END_SRC
+
 ** Kill-ring
    Save clipboard contents into kill-ring before replacing them
    #+BEGIN_SRC emacs-lisp
