@@ -304,7 +304,7 @@
 *** diminish
     Hide mode-line modes, more room for important stuff.
     #+BEGIN_SRC emacs-lisp
-    (use-package diminish :commands diminish)
+    (use-package diminish)
     #+END_SRC
 
 *** general
@@ -331,9 +331,6 @@
       (which-key-add-column-padding 1)
       (which-key-min-display-lines 5)
       (which-key-idle-delay 0.5)
-      :commands
-      (which-key-mode
-       which-key-key-order-alpha)
       :config
       (push '(("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil)) which-key-replacement-alist)
       (push '(("\\`\\?\\?\\'" . nil)          . ("λ" . nil)) which-key-replacement-alist)
@@ -549,8 +546,7 @@
     Support hiding the mode line, this can be useful for different modes displaying
     documents or presentation.
     #+BEGIN_SRC emacs-lisp
-    (use-package hide-mode-line
-      :commands hide-mode-line-mode)
+    (use-package hide-mode-line)
     #+END_SRC
 
 *** Diminished modes
@@ -624,9 +620,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package winner
       :hook
-      (window-setup . winner-mode)
-      :commands
-      (winner-undo winner-redo))
+      (window-setup . winner-mode))
     #+END_SRC
 
 *** Navigation
@@ -636,10 +630,6 @@
       (aw-background nil)
       (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
       (aw-scope 'frame)
-      :commands
-      (ace-window
-       ace-swap-window ace-delete-window
-       ace-select-window ace-delete-other-window)
       :general
       ([remap other-window] 'ace-window))
     #+END_SRC
@@ -648,7 +638,6 @@
     Zoom a window to display as a single window temporarily.
     #+BEGIN_SRC emacs-lisp
     (use-package zoom-window
-      :commands zoom-window-zoom
       :general
       ("C-x C-z" 'zoom-window-zoom))
     #+END_SRC
@@ -714,9 +703,6 @@
     Jump to things.
     #+BEGIN_SRC emacs-lisp
     (use-package avy
-      :commands
-      (avy-goto-char-2
-       avy-goto-line)
       :custom
       (avy-all-windows nil)
       :general
@@ -737,7 +723,6 @@
 *** paredit
     #+BEGIN_SRC emacs-lisp
     (use-package paredit
-      :commands paredit-mode
       :hook
       ((eval-expression-minibuffer-setup
         ielm-mode
@@ -748,8 +733,6 @@
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
     (use-package rotate-text
-      :commands
-      (rotate-text rotate-text-backward)
       :general
       (:keymaps
        'global
@@ -787,11 +770,7 @@
 *** yasnippet
     #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
-      :defer 2
       :diminish yas-minor-mode
-      :mode
-      ("\\.snippet$" . snippet-mode)
-      ("\\.yasnippet$" . snippet-mode)
       :hook
       (after-init . yas-global-mode)
       :custom
@@ -828,9 +807,6 @@
     (use-package page-break-lines
       :defer 1
       :diminish page-break-lines-mode
-      :commands
-      (page-break-lines-mode
-       global-page-break-lines-mode)
       :config
       (global-page-break-lines-mode 1))
     #+END_SRC
@@ -957,9 +933,7 @@
        'global
        "C-M-=" 'default-text-scale-increase
        "C-M--" 'default-text-scale-decrease
-       "C-M-0" 'default-text-scale-reset)
-      :commands
-      (default-text-scale-increase default-text-scale-decrease))
+       "C-M-0" 'default-text-scale-reset))
     #+END_SRC
 
 ** Packages
@@ -982,7 +956,6 @@
     (use-package readable
       :straight nil
       :diminish readable-mode
-      :commands readable-mode
       :hook
       ((eww-mode
         org-mode) . readable-mode))
@@ -991,7 +964,6 @@
 *** spray
     #+BEGIN_SRC emacs-lisp
     (use-package spray
-      :commands spray-mode
       :custom
       (spray-height 500)
       (spray-margin-left 2)
@@ -1006,8 +978,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package wgrep-ag
       :custom
-      (wgrep-auto-save-buffer t)
-      :commands wgrep-change-to-wgrep-mode)
+      (wgrep-auto-save-buffer t))
     #+END_SRC
 
 * Navigation
@@ -1032,8 +1003,6 @@
 *** Sidebar
     #+BEGIN_SRC emacs-lisp
     (use-package dired-sidebar
-      :commands
-      dired-sidebar-toggle-sidebar
       :hook
       (dired-sidebar-mode . hide-mode-line-mode)
       (dired-sidebar-mode . hl-line-mode)
@@ -1048,9 +1017,6 @@
     Display subtrees in dired view.
     #+BEGIN_SRC emacs-lisp
     (use-package dired-subtree
-      :commands
-      (dired-subtree-toggle
-       dired-subtree-cycle)
       :custom
       (dired-subtree-use-backgrounds nil))
     #+END_SRC
@@ -1075,13 +1041,7 @@
 *** ace-link
     Hint mode for links.
     #+BEGIN_SRC emacs-lisp
-    (use-package ace-link
-      :commands
-      (ace-link
-       ace-link-info
-       ace-link-help
-       ace-link-eww
-       ace-link-org))
+    (use-package ace-link)
     #+END_SRC
 
 *** bookmark
@@ -1095,8 +1055,6 @@
 *** deft
     #+BEGIN_SRC emacs-lisp
     (use-package deft
-      :commands
-      (deft deft-find-file)
       :custom
       (deft-auto-save-interval 0)
       (deft-directory (expand-file-name "~/org/"))
@@ -1109,8 +1067,7 @@
 *** goto-last-change
     Move point through buffer-undo-list positions.
     #+BEGIN_SRC emacs-lisp
-    (use-package goto-last-change
-      :commands goto-last-change)
+    (use-package goto-last-change)
     #+END_SRC
 
 *** recentf
@@ -1353,11 +1310,7 @@
 **** swiper
      I-search replacement with overview
      #+BEGIN_SRC emacs-lisp
-     (use-package swiper
-       :commands
-       (swiper
-        swiper-multi
-        swiper-all))
+     (use-package swiper)
      #+END_SRC
 
 **** imenu-anywhere
@@ -1374,7 +1327,6 @@
      Support =xref= lookups.
      #+BEGIN_SRC emacs-lisp
      (use-package ivy-xref
-       :commands ivy-xref-show-xrefs
        :init
        (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
      #+END_SRC
@@ -1390,8 +1342,7 @@
 **** counsel-tramp
      Navigate tramp files.
      #+BEGIN_SRC emacs-lisp
-     (use-package counsel-tramp
-       :commands counsel-tramp)
+     (use-package counsel-tramp)
      #+END_SRC
 
 *** Icons
@@ -1400,9 +1351,6 @@
       :defer 1
       :after
       (ivy counsel)
-      :commands
-      (all-the-icons-ivy-buffer-transformer
-       all-the-icons-ivy-file-transformer)
       :config
       (all-the-icons-ivy-setup))
     #+END_SRC
@@ -1516,11 +1464,8 @@
 **** Files
      Support for Docker related files.
      #+BEGIN_SRC emacs-lisp
-     (use-package dockerfile-mode
-       :mode "Dockerfile$")
-
-     (use-package docker-compose-mode
-       :mode "docker-compose\\.yml")
+     (use-package dockerfile-mode)
+     (use-package docker-compose-mode)
      #+END_SRC
 
 **** Tramp
@@ -1533,11 +1478,7 @@
 
 *** Kubernetes
     #+BEGIN_SRC emacs-lisp
-    (use-package kubernetes
-      :commands
-      (kubernetes-overview
-       kubernetes-display-pods
-       kubernetes-display-configmaps))
+    (use-package kubernetes)
     #+END_SRC
 
 **** Tramp
@@ -1550,14 +1491,6 @@
    #+BEGIN_SRC emacs-lisp
    (use-package coverlay
      :diminish coverlay-minor-mode
-     :commands
-     (coverlay-mode
-      coverlay-minor-mode
-      coverlay-watch-file
-      coverlay-load-file
-      coverlay-reload-file
-      coverlay-display-stats
-      coverlay-toggle-overlays)
      :custom
      (coverlay:mark-tested-lines nil)
      :init
@@ -1579,10 +1512,6 @@
     (use-package eval-in-repl
       :straight
       (:host github :repo "terlar/eval-in-repl" :branch "add-sh-shell-support")
-      :commands
-      (eir-repl-start
-       eir-eval-in-repl-lisp
-       eir-next-code-line)
       :custom
       (eir-jump-after-eval t)
       (eir-repl-placement 'below))
@@ -1590,15 +1519,7 @@
 
 *** quickrun
     #+BEGIN_SRC emacs-lisp
-    (use-package quickrun
-      :commands
-      (quickrun-autorun-mode
-       quickrun
-       quickrun-region
-       quickrun-with-arg
-       quickrun-shell
-       quickrun-compile-only
-       quickrun-replace-region))
+    (use-package quickrun)
     #+END_SRC
 
 ** Folding
@@ -1629,9 +1550,6 @@
     (use-package dumb-jump
       :custom
       (dumb-jump-default-project user-emacs-directory)
-      :commands
-      (dumb-jump-quick-look
-       dumb-jump-back)
       :general
       ("M-g i" 'dumb-jump-go-prompt
        "M-g o" 'dumb-jump-go-other-window
@@ -1646,10 +1564,6 @@
     (use-package smart-jump
       :custom
       (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
-      :commands
-      (smart-jump-back
-       smart-jump-register
-       smart-jump-simple-find-references)
       :general
       (:keymaps
        'global
@@ -1736,10 +1650,6 @@
       (ediff-merge-split-window-function #'split-window-horizontally)
       (ediff-split-window-function #'split-window-horizontally)
       (ediff-window-setup-function #'ediff-setup-windows-plain)
-      :commands
-      (ediff-copy-diff
-       ediff-get-region-contents
-       ediff-setup-windows-plain)
       :init
       (defun ediff-copy-both-to-C ()
         "Copy change from both A and B to C."
@@ -1796,8 +1706,6 @@
     Popup commit message for current line
     #+BEGIN_SRC emacs-lisp
     (use-package git-messenger
-      :commands
-      (git-messenger:popup-message)
       :general
       (:keymaps
        'global
@@ -1813,9 +1721,6 @@
     (use-package aggressive-indent
       :defer 2
       :diminish aggressive-indent-mode
-      :commands
-      (aggressive-indent-mode
-       global-aggressive-indent-mode)
       :config
       ;; Disabled modes
       (dolist (mode '(diff-auto-refine-mode))
@@ -1840,10 +1745,7 @@
     (use-package editorconfig
       :defer 1
       :diminish editorconfig-mode
-      :mode ("\\.?editorconfig$" . editorconfig-conf-mode)
       :init
-      (autoload 'editorconfig-conf-mode "editorconfig-conf-mode" nil t)
-
       (defun +ws-butler-editorconfig (props)
         "Use ws-butler mode instead of delete-trailing-whitespace."
         (if (equal (gethash 'trim_trailing_whitespace props) "true")
@@ -1875,12 +1777,6 @@
     (use-package exercism
       :straight
       (:host github :repo "canweriotnow/exercism-emacs")
-      :commands
-      (exercism
-       exercism-submit
-       exercism-unsubmit
-       exercism-fetch
-       exercism-tracks)
       :general
       (:prefix
        +leader-key
@@ -1909,10 +1805,7 @@
 *** imenu-list
     Document locations in a sidebar.
     #+BEGIN_SRC emacs-lisp
-    (use-package imenu-list
-      :commands
-      (imenu-list-minor-mode
-       imenu-list-smart-toggle))
+    (use-package imenu-list)
     #+END_SRC
 
 *** source-peek
@@ -1920,16 +1813,14 @@
     #+BEGIN_SRC emacs-lisp
     (use-package source-peek
       :straight
-      (:host github :repo "iqbalansari/emacs-source-peek")
-      :commands source-peek)
+      (:host github :repo "iqbalansari/emacs-source-peek"))
     #+END_SRC
 
 *** ws-butler
     Delete trailing white-space before save, but *only* for edited lines.
     #+BEGIN_SRC emacs-lisp
     (use-package ws-butler
-      :diminish ws-butler-mode
-      :commands ws-butler-mode)
+      :diminish ws-butler-mode)
     #+END_SRC
 
 ** Appearance
@@ -1951,17 +1842,11 @@
     (use-package color-identifiers-mode
       :defer 2
       :diminish color-identifiers-mode
-      :commands
-      (color-identifiers-mode
-       global-color-identifiers-mode
-       color-identifiers:refresh)
       :config
       (global-color-identifiers-mode 1))
 
     (use-package rainbow-identifiers
       :diminish rainbow-identifiers-mode
-      :commands rainbow-identifiers-mode
-      :functions rainbow-identifiers-cie-l*a*b*-choose-face
       :custom
       (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
     #+END_SRC
@@ -2035,19 +1920,13 @@
        (emacs-lisp-mode . auto-compile-on-save-mode)
        :custom
        (auto-compile-display-buffer nil)
-       (auto-compile-use-mode-line nil)
-       :commands auto-compile-byte-compile)
+       (auto-compile-use-mode-line nil))
      #+END_SRC
 
 **** helpful
      Better =*help*= buffer
      #+BEGIN_SRC emacs-lisp
      (use-package helpful
-       :commands
-       (helpful-at-point
-        helpful-callable helpful-command
-        helpful-function helpful-key helpful-macro
-        helpful-symbol helpful-variable)
        :general
        (:keymaps
         'help-map
@@ -2123,7 +2002,6 @@
      Presentation mode.
      #+BEGIN_SRC emacs-lisp
      (use-package org-tree-slide
-       :commands org-tree-slide-mode
        :custom
        (org-tree-slide-header nil)
        (org-tree-slide-slide-in-effect nil)
@@ -2142,7 +2020,8 @@
      #+BEGIN_SRC emacs-lisp
      (use-package org-variable-pitch
        :diminish org-variable-pitch-minor-mode
-       :hook (org-mode . org-variable-pitch-minor-mode)
+       :hook
+       (org-mode . org-variable-pitch-minor-mode)
        :custom
        (org-variable-pitch-fixed-font +fixed-pitch-font)
        :init
@@ -2156,7 +2035,8 @@
 **** Heading bullets
      #+BEGIN_SRC emacs-lisp
      (use-package org-bullets
-       :hook (org-mode . org-bullets-mode)
+       :hook
+       (org-mode . org-bullets-mode)
        :custom
        (org-bullets-bullet-list '(" "))
        ;; Use default font face (also size)
@@ -2187,14 +2067,14 @@
          (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
      #+END_SRC
 
+** fish
+   #+BEGIN_SRC emacs-lisp
+   (use-package fish-mode)
+   #+END_SRC
+
 ** js
    #+BEGIN_SRC emacs-lisp
    (use-package js2-mode
-     :mode
-     "\\.js$"
-     :interpreter
-     "node"
-     "nodejs"
      :hook
      (js2-mode . +js-mode-prettify-symbols)
      :custom
@@ -2256,18 +2136,7 @@
        (:keymaps
         'indium-debugger-mode
         :definer 'minor-mode
-        "RET" 'indium-debugger-step-over)
-       :commands
-       (indium-scratch
-        indium-interaction-mode
-        indium-connect
-        indium-launch
-        indium-switch-to-repl-buffer
-        indium-eval-region
-        indium-eval-last-node
-        indium-eval-defun
-        indium-eval-buffer
-        indium-client-process-live-p))
+        "RET" 'indium-debugger-step-over))
      #+END_SRC
 
 **** js2-refactor
@@ -2282,17 +2151,7 @@
        (:keymaps
         'js2-mode-map
         "C-k" 'js2r-kill)
-       :commands
-       (js2r-add-keybindings-with-prefix
-        js2r-kill js2r-extract-function js2r-extract-method js2r-introduce-parameter
-        js2r-localize-parameter js2r-expand-object js2r-contract-object
-        js2r-expand-function js2r-contract-function js2r-expand-array
-        js2r-contract-array js2r-wrap-buffer-in-iife js2r-inject-global-in-iife
-        js2r-add-to-globals-annotation js2r-extract-var js2r-inline-var
-        js2r-rename-var js2r-var-to-this js2r-arguments-to-object js2r-ternary-to-if
-        js2r-split-var-declaration js2r-split-string js2r-unwrap js2r-log-this
-        js2r-debug-this js2r-forward-slurp js2r-forward-barf)
-       :preface
+       :init
        (defun +js2r-setup-keybindings ()
          (js2r-add-keybindings-with-prefix "C-c m m")))
      #+END_SRC
@@ -2300,13 +2159,7 @@
 **** nodejs-repl
      REPL for nodejs.
      #+BEGIN_SRC emacs-lisp
-     (use-package nodejs-repl
-       :commands
-       (nodejs-repl
-        nodejs-repl-send-region
-        nodejs-repl-send-line
-        nodejs-repl-load-file
-        nodejs-repl-switch-to-repl))
+     (use-package nodejs-repl)
      #+END_SRC
 
 **** prettier-js
@@ -2352,19 +2205,12 @@
 * Tools
 ** Pomodoro
    #+BEGIN_SRC emacs-lisp
-   (use-package redtick
-     :commands
-     (redtick-mode
-      redtick
-      redtick-with-description))
+   (use-package redtick)
    #+END_SRC
 
 ** Recording
    #+BEGIN_SRC emacs-lisp
    (use-package camcorder
-     :commands
-     (camcorder-record
-      camcorder-convert-to-gif)
      :custom
      (camcorder-output-directory (getenv "XDG_VIDEOS_DIR"))
      (camcorder-gif-output-directory camcorder-output-directory))
