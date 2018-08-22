@@ -2095,16 +2095,35 @@
    #+END_SRC
 
 *** Packages
-**** nodejs-repl
-     REPL for nodejs.
+**** indium
+     Debugger
      #+BEGIN_SRC emacs-lisp
-     (use-package nodejs-repl
+     (use-package indium
+       :diminish indium-interaction-mode
+       :hook
+       (js-mode . indium-interaction-mode)
+       :general
+       (:keymaps
+        'js2-mode-map
+        :prefix +local-leader-key
+        "s" 'indium-scratch
+        "i" 'indium-launch
+        "I" 'indium-connect)
+       (:keymaps
+        'indium-debugger-mode
+        :definer 'minor-mode
+        "RET" 'indium-debugger-step-over)
        :commands
-       (nodejs-repl
-        nodejs-repl-send-region
-        nodejs-repl-send-line
-        nodejs-repl-load-file
-        nodejs-repl-switch-to-repl))
+       (indium-scratch
+        indium-interaction-mode
+        indium-connect
+        indium-launch
+        indium-switch-to-repl-buffer
+        indium-eval-region
+        indium-eval-last-node
+        indium-eval-defun
+        indium-eval-buffer
+        indium-client-process-live-p))
      #+END_SRC
 
 **** js2-refactor
@@ -2134,34 +2153,24 @@
          (js2r-add-keybindings-with-prefix "C-c m m")))
      #+END_SRC
 
-**** indium
-     Debugger
+**** nodejs-repl
+     REPL for nodejs.
      #+BEGIN_SRC emacs-lisp
-     (use-package indium
-       :hook
-       (js-mode . indium-interaction-mode)
-       :general
-       (:keymaps
-        'js2-mode-map
-        :prefix +local-leader-key
-        "s" 'indium-scratch
-        "i" 'indium-launch
-        "I" 'indium-connect)
-       (:keymaps
-        'indium-debugger-mode
-        :definer 'minor-mode
-        "RET" 'indium-debugger-step-over)
+     (use-package nodejs-repl
        :commands
-       (indium-scratch
-        indium-interaction-mode
-        indium-connect
-        indium-launch
-        indium-switch-to-repl-buffer
-        indium-eval-region
-        indium-eval-last-node
-        indium-eval-defun
-        indium-eval-buffer
-        indium-client-process-live-p))
+       (nodejs-repl
+        nodejs-repl-send-region
+        nodejs-repl-send-line
+        nodejs-repl-load-file
+        nodejs-repl-switch-to-repl))
+     #+END_SRC
+
+**** prettier-js
+     #+BEGIN_SRC emacs-lisp
+     (use-package prettier-js
+       :diminish prettier-js-mode
+       :hook
+       (js2-mode . prettier-js-mode))
      #+END_SRC
 
 ** org
