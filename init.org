@@ -1887,6 +1887,27 @@
         lisp-mode) . rainbow-delimiters-mode))
     #+END_SRC
 
+*** Highlight identifiers
+    Highlight source code identifiers based on their name.
+    #+BEGIN_SRC emacs-lisp
+    (use-package color-identifiers-mode
+      :defer 2
+      :diminish color-identifiers-mode
+      :commands
+      (color-identifiers-mode
+       global-color-identifiers-mode
+       color-identifiers:refresh)
+      :config
+      (global-color-identifiers-mode 1))
+
+    (use-package rainbow-identifiers
+      :diminish rainbow-identifiers-mode
+      :commands rainbow-identifiers-mode
+      :functions rainbow-identifiers-cie-l*a*b*-choose-face
+      :custom
+      (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+    #+END_SRC
+
 *** Prettify symbols
     #+BEGIN_SRC emacs-lisp
     (custom-set-variables
