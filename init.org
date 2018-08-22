@@ -118,6 +118,20 @@
                    (list (expand-file-name "lisp" user-emacs-directory)))))
    #+END_SRC
 
+** OS
+*** macOS
+    Setup PATH correctly.
+    #+BEGIN_SRC emacs-lisp
+    (when (eq system-type 'darwin)
+      (setenv "PATH" (shell-command-to-string "launchctl getenv PATH")))
+    #+END_SRC
+
+** Shell
+   Set shell to bash as fish is not compatible with all packages using the shell.
+   #+BEGIN_SRC emacs-lisp
+   (setq shell-file-name "bash")
+   #+END_SRC
+
 ** Package management
    Don't use defualt =package.el=:
    #+BEGIN_SRC emacs-lisp
@@ -178,7 +192,7 @@
 *** exec-path-from-shell
     #+BEGIN_SRC emacs-lisp
     (use-package exec-path-from-shell
-      :defer 5
+      :demand t
       :custom
       (exec-path-from-shell-check-startup-files nil)
       :config
@@ -248,12 +262,6 @@
    #+END_SRC
 
 ** Terminal
-*** Shell
-    Set shell to bash as fish is not compatible with all packages using the shell.
-    #+BEGIN_SRC emacs-lisp
-    (setq shell-file-name "bash")
-    #+END_SRC
-
 *** Less
     Make less work inside Emacs shells.
     #+BEGIN_SRC emacs-lisp
