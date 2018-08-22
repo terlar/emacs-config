@@ -976,6 +976,15 @@
       (global-auto-revert-mode 1))
     #+END_SRC
 
+*** readable
+    #+BEGIN_SRC emacs-lisp
+    (use-package readable
+      :straight nil
+      :commands readable-mode
+      :hook
+      (org-mode . readable-mode))
+    #+END_SRC
+
 *** spray
     #+BEGIN_SRC emacs-lisp
     (use-package spray
