@@ -1441,6 +1441,9 @@
      ;; Terminal
      "C-!" 'eshell
      "C-±" 'eshell
+     ;; REPL
+     "<C-return>" 'ielm
+     ;; Editing
      "M-Z" 'zap-up-to-char)
     #+END_SRC
 
@@ -2062,6 +2065,9 @@
       :major-modes t
       :prefix +local-leader-key
       "r" 'js-repl)
+     (:keymaps
+      'js2-mode-map
+      "<C-return>" 'js-repl)
      :init
      (defun js-repl ()
        "Open a JavaScript REPL."
