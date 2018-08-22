@@ -1355,6 +1355,16 @@
      (use-package swiper)
      #+END_SRC
 
+**** flyspell-correct-ivy
+     #+BEGIN_SRC emacs-lisp
+     (use-package flyspell-correct-ivy
+       :general
+       (:keymaps
+        'global
+        "M-] S" 'flyspell-correct-word-generic
+        "M-[ S" 'flyspell-correct-previous-word-generic))
+     #+END_SRC
+
 **** imenu-anywhere
      Jump to document locations in current buffer
      #+BEGIN_SRC emacs-lisp
@@ -1449,6 +1459,7 @@
       "b" '(next-buffer                   :wk "Buffer")
       "d" '(diff-hl-next-hunk             :wk "Diff Hunk")
       "e" '(next-error                    :wk "Error")
+      "s" '(flyspell-goto-next-error      :wk "Spell error")
       "t" '(hl-todo-next                  :wk "Todo")
       "w" '(eyebrowse-next-window-config  :wk "Workspace"))
      #+END_SRC
@@ -2344,6 +2355,21 @@
      :custom
      (camcorder-output-directory (getenv "XDG_VIDEOS_DIR"))
      (camcorder-gif-output-directory camcorder-output-directory))
+   #+END_SRC
+
+** Spell checking
+   #+BEGIN_SRC emacs-lisp
+   (use-package flyspell
+     :diminish flyspell-mode
+     :hook
+     ((text-mode
+       message-mode) . flyspell-mode)
+     (prog-mode . flyspell-prog-mode))
+   #+END_SRC
+
+   Automatically infer dictionary.
+   #+BEGIN_SRC emacs-lisp
+   (use-package auto-dictionary)
    #+END_SRC
 
 * The end
