@@ -1,4 +1,0 @@
-alias e 'find-file-other-window $1'
-alias gd 'magit-diff-unstaged'
-alias gds 'magit-diff-staged'
-alias d 'dired $1'

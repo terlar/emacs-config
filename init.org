@@ -1128,6 +1128,9 @@
      :general
      (:keymaps
       'projectile-mode-map
+      [remap eshell] (general-predicate-dispatch #'eshell
+                       :docstring "Creat an interactive Eshell buffer (project aware)"
+                       (projectile-project-p) #'projectile-run-eshell)
       "C-c p" '(:keymap projectile-command-map :package projectile :wk "project"))
      :init
      (defun +projectile-relative-buf-name ()
@@ -1946,6 +1949,79 @@
         "[[" 'backward-button
         "]]" 'forward-button
         "o" '(ace-link-help :package 'ace-link)))
+     #+END_SRC
+
+** eshell
+   #+BEGIN_SRC emacs-lisp
+   (use-package eshell
+     :hook
+     (eshell-mode . abbrev-mode)
+     (eshell-mode . eshell-smart-initialize)
+     (eshell-mode . +eshell-define-keys)
+     (eshell-mode . +eshell-set-visual-commands)
+     :custom
+     (eshell-buffer-maximum-lines 20000)
+     (eshell-history-size 1000)
+     (eshell-hist-ignoredups t)
+     (eshell-error-if-no-glob t)
+     (eshell-destroy-buffer-when-process-dies t)
+     :init
+     (autoload 'eshell-smart-initialize "em-smart")
+
+     (defun +eshell-define-keys ()
+       (general-define-key
+        :keymaps 'eshell-mode-map
+        "<tab>" 'completion-at-point
+        "C-r" 'counsel-esh-history))
+
+     (defun +eshell-set-visual-commands ()
+       (setq eshell-visual-commands
+             (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands)))
+
+     (define-abbrev-table 'eshell-mode-abbrev-table
+       '(("base64" "base64 -w0")
+         ("d" "docker")
+         ("dim" "docker images")
+         ("dp" "docker ps")
+         ("dc" "docker-compose")
+         ("dcl" "docker-compose logs")
+         ("e" "find-file-other-window")
+         ("E" "dired")
+         ("gd" "magit-diff-unstaged")
+         ("gds" "magit-diff-staged")
+         ("gs" "magit-status")
+         ("time" "time -p")
+         ("tree" "tree -a")
+         ("week" "date '+%V'"))))
+   #+END_SRC
+
+*** Packages
+**** eshell-fringe-status
+     Command execution status indicator in the fringe.
+     #+BEGIN_SRC emacs-lisp
+     (use-package eshell-fringe-status
+       :hook
+       (eshell-mode . eshell-fringe-status-mode))
+     #+END_SRC
+
+**** esh-autosuggest
+     Autosuggestions from history similar to fish.
+     #+BEGIN_SRC emacs-lisp
+     (use-package esh-autosuggest
+       :hook
+       (eshell-mode . esh-autosuggest-mode)
+       :general
+       (:keymaps
+        'esh-autosuggest-active-map
+        "C-e" 'company-complete-selection))
+     #+END_SRC
+
+**** fish-completion
+     Populate auto-completions from fish.
+     #+BEGIN_SRC emacs-lisp
+     (use-package fish-completion
+       :hook
+       (eshell-mode . fish-completion-mode))
      #+END_SRC
 
 ** org
