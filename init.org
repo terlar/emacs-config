@@ -2044,6 +2044,129 @@
         "o" '(ace-link-help :package 'ace-link)))
      #+END_SRC
 
+** org
+   #+BEGIN_SRC emacs-lisp
+   (require 'auto-tangle)
+   (use-package org
+     :hook
+     (org-mode . auto-fill-mode)
+     (org-babel-after-execute . org-redisplay-inline-images)
+     :minor
+     ("init\\.org$" . auto-tangle-mode)
+     :custom
+     (org-agenda-files '("~/org"))
+     (org-confirm-babel-evaluate nil)
+     (org-edit-src-content-indentation 0)
+     (org-hide-emphasis-markers t)
+     (org-log-done 'time)
+     (org-startup-with-inline-images t)
+     (org-special-ctrl-a/e t)
+     (org-src-preserve-indentation nil)
+     (org-src-fontify-natively t)
+     (org-src-tab-acts-natively t)
+     (org-tag-alist
+      '(("@work"  . ?w)
+        ("@home"  . ?h)
+        ("laptop" . ?l)))
+     :general
+     (:keymaps
+      'org-mode-map
+      :major-modes t
+      "C-c RET" 'goto-address-at-point
+      "C-c SPC" 'nil)
+     (:keymaps
+      'org-src-mode-map
+      "C-c C-c" 'org-edit-src-exit))
+   #+END_SRC
+
+*** Packages
+**** org-cliplink
+     Paste links from clipboard and automatically fetch title.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-cliplink
+       :general
+       (:keymaps
+        'org-mode-map
+        :prefix +local-leader-key
+        "l" 'org-cliplink))
+     #+END_SRC
+
+**** org-radiobutton
+     Support for radiobuttons.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-radiobutton
+       :hook
+       (org-mode . org-radiobutton-mode))
+     #+END_SRC
+
+**** org-tree-slide
+     Presentation mode.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-tree-slide
+       :commands org-tree-slide-mode
+       :custom
+       (org-tree-slide-header nil)
+       (org-tree-slide-slide-in-effect nil)
+       :general
+       (:keymaps
+        'org-mode-map
+        :prefix +local-leader-key
+        "p" 'org-tree-slide-mode))
+     #+END_SRC
+
+*** Appearance
+    This sections makes =org-mode= look more beautiful and appealing.
+
+**** Variable pitch
+     Use variable-pitch font but still make sure everything aligns.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-variable-pitch
+       :diminish org-variable-pitch-minor-mode
+       :hook (org-mode . org-variable-pitch-minor-mode)
+       :custom
+       (org-variable-pitch-fixed-font +fixed-pitch-font)
+       :init
+       ;; Also align headings and lists
+       (font-lock-add-keywords
+        'org-mode
+        '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
+        'append))
+     #+END_SRC
+
+**** Heading bullets
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :hook (org-mode . org-bullets-mode)
+       :custom
+       (org-bullets-bullet-list '(" "))
+       ;; Use default font face (also size)
+       (org-bullets-face-name 'org-variable-pitch-face))
+     #+END_SRC
+
+**** Bullet lists
+     #+BEGIN_SRC emacs-lisp
+     (font-lock-add-keywords
+      'org-mode
+      '(("^ +\\([-*+]\\) "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+        ("^ +[-*+] \\[\\(X\\)\\] "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+     #+END_SRC
+
+**** Task lists
+     #+BEGIN_SRC emacs-lisp
+     (font-lock-add-keywords
+      'org-mode
+      '(("^\\*+ \\(TODO\\) "
+         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
+        ("^\\*+ \\(DOING\\) "
+         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
+        ("^\\*+ \\(CANCELED\\) "
+         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
+        ("^\\*+ \\(DONE\\) "
+         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
+     #+END_SRC
+
 ** js
    #+BEGIN_SRC emacs-lisp
    (use-package js2-mode
@@ -2171,129 +2294,6 @@
        :diminish prettier-js-mode
        :hook
        (js2-mode . prettier-js-mode))
-     #+END_SRC
-
-** org
-   #+BEGIN_SRC emacs-lisp
-   (require 'auto-tangle)
-   (use-package org
-     :hook
-     (org-mode . auto-fill-mode)
-     (org-babel-after-execute . org-redisplay-inline-images)
-     :minor
-     ("init\\.org$" . auto-tangle-mode)
-     :custom
-     (org-agenda-files '("~/org"))
-     (org-confirm-babel-evaluate nil)
-     (org-edit-src-content-indentation 0)
-     (org-hide-emphasis-markers t)
-     (org-log-done 'time)
-     (org-startup-with-inline-images t)
-     (org-special-ctrl-a/e t)
-     (org-src-preserve-indentation nil)
-     (org-src-fontify-natively t)
-     (org-src-tab-acts-natively t)
-     (org-tag-alist
-      '(("@work"  . ?w)
-        ("@home"  . ?h)
-        ("laptop" . ?l)))
-     :general
-     (:keymaps
-      'org-mode-map
-      :major-modes t
-      "C-c RET" 'goto-address-at-point
-      "C-c SPC" 'nil)
-     (:keymaps
-      'org-src-mode-map
-      "C-c C-c" 'org-edit-src-exit))
-   #+END_SRC
-
-*** Packages
-**** org-cliplink
-     Paste links from clipboard and automatically fetch title.
-     #+BEGIN_SRC emacs-lisp
-     (use-package org-cliplink
-       :general
-       (:keymaps
-        'org-mode-map
-        :prefix +local-leader-key
-        "l" 'org-cliplink))
-     #+END_SRC
-
-**** org-radiobutton
-     Support for radiobuttons.
-     #+BEGIN_SRC emacs-lisp
-     (use-package org-radiobutton
-       :hook
-       (org-mode . org-radiobutton-mode))
-     #+END_SRC
-
-**** org-tree-slide
-     Presentation mode.
-     #+BEGIN_SRC emacs-lisp
-     (use-package org-tree-slide
-       :commands org-tree-slide-mode
-       :custom
-       (org-tree-slide-header nil)
-       (org-tree-slide-slide-in-effect nil)
-       :general
-       (:keymaps
-        'org-mode-map
-        :prefix +local-leader-key
-        "p" 'org-tree-slide-mode))
-     #+END_SRC
-
-*** Appearance
-    This sections makes =org-mode= look more beautiful and appealing.
-
-**** Variable pitch
-     Use variable-pitch font but still make sure everything aligns.
-     #+BEGIN_SRC emacs-lisp
-     (use-package org-variable-pitch
-       :diminish org-variable-pitch-minor-mode
-       :hook (org-mode . org-variable-pitch-minor-mode)
-       :custom
-       (org-variable-pitch-fixed-font +fixed-pitch-font)
-       :init
-       ;; Also align headings and lists
-       (font-lock-add-keywords
-        'org-mode
-        '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
-        'append))
-     #+END_SRC
-
-**** Heading bullets
-     #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :hook (org-mode . org-bullets-mode)
-       :custom
-       (org-bullets-bullet-list '(" "))
-       ;; Use default font face (also size)
-       (org-bullets-face-name 'org-variable-pitch-face))
-     #+END_SRC
-
-**** Bullet lists
-     #+BEGIN_SRC emacs-lisp
-     (font-lock-add-keywords
-      'org-mode
-      '(("^ +\\([-*+]\\) "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
-        ("^ +[-*+] \\[\\(X\\)\\] "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
-     #+END_SRC
-
-**** Task lists
-     #+BEGIN_SRC emacs-lisp
-     (font-lock-add-keywords
-      'org-mode
-      '(("^\\*+ \\(TODO\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
-        ("^\\*+ \\(DOING\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
-        ("^\\*+ \\(CANCELED\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
-        ("^\\*+ \\(DONE\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
      #+END_SRC
 
 * Tools
