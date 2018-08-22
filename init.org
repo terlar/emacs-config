@@ -562,7 +562,7 @@
       :defer 2
       :custom
       (indent-info-insert-target 'mode-line-mule-info)
-      (indent-info-prefix nil)
+      (indent-info-prefix " ")
       (indent-info-suffix " ")
       :config
       (global-indent-info-mode 1))
@@ -980,6 +980,14 @@
       (global-auto-revert-non-file-buffers t)
       :config
       (global-auto-revert-mode 1))
+    #+END_SRC
+
+*** rainbow-mode
+    Display colors inline.
+    #+BEGIN_SRC emacs-lisp
+    (use-package rainbow-mode
+      :minor
+      "-theme\\.el$")
     #+END_SRC
 
 *** readable
@@ -1806,6 +1814,13 @@
         (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
     #+END_SRC
 
+*** eldoc-overlay
+    Display eldoc inline.
+    #+BEGIN_SRC emacs-lisp
+    (use-package eldoc-overlay
+      :diminish eldoc-overlay-mode)
+    #+END_SRC
+
 *** exercism
     #+BEGIN_SRC emacs-lisp
     (use-package exercism
@@ -1883,6 +1898,14 @@
       :diminish rainbow-identifiers-mode
       :custom
       (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+    #+END_SRC
+
+*** Highlight numbers
+    For modes that don't adequately highlight numbers.
+    #+BEGIN_SRC emacs-lisp
+    (use-package highlight-numbers
+      :hook
+      (prog-mode . highlight-numbers-mode))
     #+END_SRC
 
 *** Prettify symbols
