@@ -358,30 +358,6 @@
     #+END_SRC
 
 ** Functions
-   Tangle and byte compile org file.
-   #+BEGIN_SRC emacs-lisp
-   (defun async-org-babel-tangle-elisp ()
-     "Tangle current org file into emacs-lisp asynchronously."
-     (interactive)
-     (let ((init-tangle-start-time (current-time))
-           (file-source buffer-file-name)
-           (file-target (concat (file-name-sans-extension buffer-file-name) ".el")))
-       (eval-when-compile
-         (require 'async))
-       (async-start
-        `(lambda ()
-           (eval-when-compile
-             (require 'org))
-           (org-babel-tangle-file ,file-source ,file-target "emacs-lisp"))
-        `(lambda (result)
-           (if result
-               (message "SUCCESS: %s successfully tangled. (%.3fs)"
-                        ,file-source
-                        (float-time (time-subtract (current-time)
-                                                   ',init-tangle-start-time)))
-             (message "ERROR: %s tangle failed." ,file-source))))))
-   #+END_SRC
-
    Prevent forms from producing output or other noise.
    #+BEGIN_SRC emacs-lisp
    (defmacro quiet! (&rest forms)
@@ -2264,4 +2240,3 @@
 * Tasks
 ** TODO Support markdown files
 ** TODO Support snippets
-** TODO Auto-tangle emacs.d

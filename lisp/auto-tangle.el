@@ -29,8 +29,6 @@
 
 ;;; Code:
 
-(autoload 'org-babel-tangle-file "ob-tangle" nil t)
-(autoload 'byte-compile-file "bytecomp" nil t)
 (autoload 'async-start "async")
 
 (defgroup auto-tangle nil
@@ -63,20 +61,47 @@
   :group 'auto-tangle
   :type 'boolean)
 
+(defcustom auto-tangle-async t
+  "Do the tangle async."
+  :group 'auto-tangle
+  :type 'boolean)
+
 (defun auto-tangle-org-babel-tangle (&optional file)
   "Perform tangle for Auto-Tangle Mode.
 Optionally provide FILE or the buffer file name will be used."
   (unless file
     (setq file (buffer-file-name)))
 
-  (let ((target (concat (file-name-sans-extension file) ".el")))
+  (let ((tangle-start-time (current-time))
+        (target (concat (file-name-sans-extension file) ".el")))
     (when (or (not (file-exists-p target))
               (file-newer-than-file-p file target))
-      (org-babel-tangle-file file target "emacs-lisp")
-      (when auto-tangle-byte-compile
-        (byte-compile-file target))
-      (when auto-tangle-load
-        (load-file target)))))
+      (if auto-tangle-async
+          (async-start
+           `(lambda ()
+              (autoload 'org-babel-tangle-file "ob-tangle" nil t)
+              (org-babel-tangle-file ,file ,target "emacs-lisp")
+              (when ,auto-tangle-byte-compile
+                (autoload 'byte-compile-file "bytecomp" nil t)
+                (byte-compile-file ,target))
+              (when ,auto-tangle-load
+                (load-file ,target))
+              t)
+           `(lambda (result)
+              (if result
+                  (message "SUCCESS: %s successfully tangled. (%.3fs)"
+                           ,file
+                           (float-time (time-subtract (current-time)
+                                                      ',tangle-start-time)))
+                (message "ERROR: %s tangle failed." ,file))))
+        (progn
+          (autoload 'org-babel-tangle-file "ob-tangle" nil t)
+          (org-babel-tangle-file file target "emacs-lisp")
+          (when auto-tangle-byte-compile
+            (autoload 'byte-compile-file "bytecomp" nil t)
+            (byte-compile-file target))
+          (when auto-tangle-load
+            (load-file target)))))))
 
 (provide 'auto-tangle)
 ;;; auto-tangle.el ends here
