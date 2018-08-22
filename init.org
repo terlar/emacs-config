@@ -1376,6 +1376,14 @@
        (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
      #+END_SRC
 
+**** ivy-yasnippet
+     Snippets with preview.
+     #+BEGIN_SRC emacs-lisp
+     (use-package ivy-yasnippet
+       :general
+       ([remap yas-insert-snippet] 'ivy-yasnippet))
+     #+END_SRC
+
 **** counsel-tramp
      Navigate tramp files.
      #+BEGIN_SRC emacs-lisp
