@@ -2333,6 +2333,22 @@
                ruby-forward-sexp nil) hs-special-modes-alist)))
    #+END_SRC
 
+*** Packages
+**** inf-ruby
+     #+BEGIN_SRC emacs-lisp
+     (use-package inf-ruby
+       :hook
+       (ruby-mode . inf-ruby-minor-mode)
+       ;; Auto breakpoint
+       (compilation-filter . inf-ruby-auto-enter)
+       :custom
+       (inf-ruby-default-implementation "pry")
+       :general
+       (:keymaps
+        'ruby-mode-map
+        "<C-return>" 'inf-ruby))
+     #+END_SRC
+
 * Tools
 ** Pomodoro
    #+BEGIN_SRC emacs-lisp

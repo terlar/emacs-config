@@ -39,34 +39,16 @@
 ;;;
 ;; Packages
 
-(req-package ruby-mode
-  :mode
-  "\\.rb$"
-  "\\.\\(rake\\|gemspec\\|ru\\|thor\\|pryrc\\)$"
-  "/\\(Gem\\|Cap\\|Vagrant\\|Rake\\|Pod\\|Puppet\\|Berks\\)file$"
-  :interpreter "ruby"
-  :init
-  (setq ruby-align-chained-calls t
-        ruby-deep-indent-paren t)
+(set-test-fns 'ruby-mode
+              :all #'ruby-test-all
+              :file #'ruby-test-file
+              :at-point #'ruby-test-at-point)
 
-  (with-eval-after-load 'hideshow
-    (push `(ruby-mode
-            ,(rx (or "def" "class" "module" "do" "{" "["))   ; Block start
-            ,(rx (or "}" "]" "end"))                         ; Block end
-            ,(rx bol
-                 (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
-            ruby-forward-sexp nil) hs-special-modes-alist))
-
-  (set-test-fns 'ruby-mode
-                :all #'ruby-test-all
-                :file #'ruby-test-file
-                :at-point #'ruby-test-at-point))
-
-(req-package yard-mode
+(use-package yard-mode
   :diminish yard-mode
   :hook (ruby-mode enh-ruby-mode))
 
-(req-package yari
+(use-package yari
   :commands yari
   :init
   (define-key 'help-command (kbd "R") #'yari)
@@ -74,7 +56,7 @@
   :config
   (set-evil-state 'yari-mode 'motion))
 
-(req-package ruby-refactor
+(use-package ruby-refactor
   :hook ((ruby-mode enh-ruby-mode) . ruby-refactor-mode)
   :general
   (:keymaps 'ruby-mode-map :major-modes t
@@ -88,14 +70,14 @@
             "ad" 'ruby-refactor-add-parameter
             "cc" 'ruby-refactor-convert-post-conditional))
 
-(req-package minitest
+(use-package minitest
   :hook
   ((ruby-mode enh-ruby-mode) . minitest-enable-appropriate-mode)
   :commands minitest-mode
   :init
   (setq minitest-keymap-prefix (kbd "C-c C-t")))
 
-(req-package rspec-mode
+(use-package rspec-mode
   :hook
   ((ruby-mode enh-ruby-mode) . rspec-enable-appropriate-mode)
   :commands rspec-mode
@@ -104,37 +86,15 @@
         rspec-use-opts-file-when-available nil
         rspec-command-options "--format progress"))
 
-(req-package inf-ruby
-  :hook
-  ((ruby-mode enh-ruby-mode) . inf-ruby-minor-mode)
-  (compilation-filter . inf-ruby-auto-enter)
-  :commands
-  (inf-ruby
-   inf-ruby-console-auto)
-  :init
-  (autoload 'eir-eval-in-ruby "eval-in-repl-ruby")
 
-  (defun ruby-repl ()
-    "Open a Ruby REPL."
-    (interactive)
-    (if (and (projectile-project-p) (projectile-file-exists-p "Gemfile"))
-        (inf-ruby-console-auto)
-      (inf-ruby)))
 
-  (set-repl-command '(ruby-mode enh-ruby-mode) #'ruby-repl)
-  (set-eval-command '(ruby-mode enh-ruby-mode) #'eir-eval-in-ruby)
-
-  (set-evil-state 'inf-ruby-mode 'insert)
-
-  (setq inf-ruby-default-implementation "pry"))
-
-(req-package company-inf-ruby
+(use-package company-inf-ruby
   :requires company
   :commands company-inf-ruby
   :init
   (set-company-backends 'inf-ruby-mode 'company-inf-ruby))
 
-(req-package rake
+(use-package rake
   :commands (rake rake-find-task rake-rerun)
   :config
   (setq rake-completion-system 'default
