@@ -710,8 +710,14 @@
 
 ** Packages
 *** avy
+    Jump to things.
     #+BEGIN_SRC emacs-lisp
     (use-package avy
+      :commands
+      (avy-goto-char-2
+       avy-goto-line)
+      :custom
+      (avy-all-windows nil)
       :general
       (:keymaps
        'global
