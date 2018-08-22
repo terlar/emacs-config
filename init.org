@@ -2316,6 +2316,22 @@
        (js2-mode . prettier-js-mode))
      #+END_SRC
 
+** ruby
+   #+BEGIN_SRC emacs-lisp
+   (use-package ruby-mode
+     :custom
+     (ruby-align-chained-calls t)
+     (ruby-deep-indent-paren t)
+     :config
+     (with-eval-after-load 'hideshow
+       (push `(ruby-mode
+               ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+               ,(rx (or "}" "]" "end"))                       ; Block end
+               ,(rx bol
+                    (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
+               ruby-forward-sexp nil) hs-special-modes-alist)))
+   #+END_SRC
+
 * Tools
 ** Pomodoro
    #+BEGIN_SRC emacs-lisp
