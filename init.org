@@ -653,7 +653,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package ace-window
       :custom
-      (aw-background nil)
+      (aw-ignore-current t)
       (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
       (aw-scope 'frame)
       :general
