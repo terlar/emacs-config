@@ -2225,6 +2225,11 @@ ARG lines can be used."
 ** js
    #+BEGIN_SRC emacs-lisp
    (use-package js2-mode
+     :mode
+     "\\.js$"
+     :interpreter
+     "node"
+     "nodejs"
      :hook
      (js2-mode . +js-mode-prettify-symbols)
      :custom
