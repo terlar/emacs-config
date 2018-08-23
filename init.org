@@ -2353,6 +2353,21 @@ ARG lines can be used."
      #+END_SRC
 
 * Tools
+** Focus
+   Dim out the surrounding text except the current focused paragraph or expression.
+   #+BEGIN_SRC emacs-lisp
+   (use-package focus
+     :diminish focus-mode)
+   #+END_SRC
+
+** Indentation guides
+   #+BEGIN_SRC emacs-lisp
+   (use-package indent-guide
+     :diminish indent-guide-mode
+     :custom
+     (indent-guide-char "\x2502"))
+   #+END_SRC
+
 ** Pomodoro
    #+BEGIN_SRC emacs-lisp
    (use-package redtick)
