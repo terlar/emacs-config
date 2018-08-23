@@ -236,15 +236,17 @@
     #+END_SRC
 
 *** savehist
+    Persist history.
     #+BEGIN_SRC emacs-lisp
     (use-package savehist
-      :defer 5
+      :hook
+      (after-init . savehist-mode)
       :custom
-      (savehist-additional-variables '(search-ring regexp-search-ring))
+      (savehist-additional-variables '(kill-ring
+                                       search-ring
+                                       regexp-search-ring))
       (savehist-autosave-interval 60)
-      (savehist-save-minibuffer-history t)
-      :config
-      (savehist-mode 1))
+      (savehist-save-minibuffer-history t))
     #+END_SRC
 
 *** saveplace
@@ -1965,6 +1967,28 @@ ARG lines can be used."
     '(enable-local-eval nil)
     '(enable-local-variables :safe))
    #+END_SRC
+
+*** ielm
+    Persist ielm history.
+    #+BEGIN_SRC emacs-lisp
+    (defvar +ielm-comint-input-ring nil)
+    (with-eval-after-load 'savehist
+      (push '+ielm-comint-input-ring savehist-additional-variables))
+
+    (with-eval-after-load 'ielm
+      (defun +ielm-set-comint-input-ring ()
+        "Restore `ielm' history."
+        (setq-local comint-input-ring-size 200)
+        (add-hook 'kill-buffer-hook #'+ielm-save-comint-input-ring nil t)
+        (when +ielm-comint-input-ring
+          (setq comint-input-ring +ielm-comint-input-ring)))
+
+      (defun +ielm-save-comint-input-ring ()
+        "Save `ielm' history."
+        (setq +ielm-comint-input-ring comint-input-ring))
+
+      (add-hook 'inferior-emacs-lisp-mode-hook #'+ielm-set-comint-input-ring))
+    #+END_SRC
 
 *** Packages
 **** lispy
