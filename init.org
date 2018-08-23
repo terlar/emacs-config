@@ -1288,8 +1288,17 @@
       "C-l"    'ivy-alt-done
       "C-w"    'ivy-backward-kill-word
       "C-u"    'ivy-kill-line
+      "C-e"    '+ivy-move-end-of-line-or-done
       "C-f"    'ivy-alt-done)
      :init
+     (defun +ivy-move-end-of-line-or-done (arg)
+       "Move to end of current line or consider ivy operation done.
+ARG lines can be used."
+       (interactive "p")
+       (if (eolp)
+           (ivy-alt-done)
+         (move-end-of-line arg)))
+
      ;; Don't use ^ as initial input
      (setq ivy-initial-inputs-alist nil)
 
