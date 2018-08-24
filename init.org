@@ -2407,6 +2407,11 @@ ARG lines can be used."
          (js2r-add-keybindings-with-prefix "C-c m m")))
      #+END_SRC
 
+**** js-lookup
+     #+BEGIN_SRC emacs-lisp
+     (use-package js-lookup)
+     #+END_SRC
+
 **** nodejs-repl
      REPL for nodejs.
      #+BEGIN_SRC emacs-lisp
