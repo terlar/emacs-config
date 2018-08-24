@@ -1967,13 +1967,20 @@ ARG lines can be used."
      '(prettify-symbols-unprettify-at-point t))
 
     (defun +prog-mode-prettify-symbols ()
-      (dolist (symbol '(("lambda" . ?λ)
-                        ("/=" . ?≠)
-                        ("!=" . ?≠)
+      "Add generic programming symbols."
+      (dolist (symbol '(("&&" . ?∧)
+                        ("||" . ?∨)
+                        ("="  . ?≔)
                         ("==" . ?＝)
                         (">=" . ?≥)
                         ("<=" . ?≤)
-                        ("=>" . ?⇒)))
+                        ("/=" . ?≠)
+                        ("!=" . ?≠)
+                        ("<-" . ?←)
+                        ("->" . ?→)
+                        ("<=" . ?⇐)
+                        ("=>" . ?⇒)
+                        ("lambda" . ?λ)))
         (push symbol prettify-symbols-alist)))
     (add-hook 'prog-mode-hook #'+prog-mode-prettify-symbols)
 
@@ -2286,23 +2293,27 @@ ARG lines can be used."
      (font-lock-add-keywords
       'org-mode
       '(("^ +\\([-*+]\\) "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
-        ("^ +[-*+] \\[\\(X\\)\\] "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "⚫"))))))
+
+     (defun +org-mode-prettify-checkbox-symbols ()
+       "Prettify checkbox symbols."
+       (dolist (symbol '(("[ ]" . ?□)
+                         ("[X]" . ?▣)))
+         (push symbol prettify-symbols-alist)))
+     (add-hook 'org-mode-hook #'+org-mode-prettify-checkbox-symbols)
+
      #+END_SRC
 
 **** Task lists
      #+BEGIN_SRC emacs-lisp
-     (font-lock-add-keywords
-      'org-mode
-      '(("^\\*+ \\(TODO\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑") nil)))
-        ("^\\*+ \\(DOING\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐") nil)))
-        ("^\\*+ \\(CANCELED\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘") nil)))
-        ("^\\*+ \\(DONE\\) "
-         (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
+     (defun +org-mode-prettify-task-symbols ()
+       "Prettify task list symbols."
+       (dolist (symbol '(("TODO"     . ?⚑)
+                         ("DOING"    . ?⚐)
+                         ("CANCELED" . ?✘)
+                         ("DONE"     . ?✔)))
+         (push symbol prettify-symbols-alist)))
+     (add-hook 'org-mode-hook #'+org-mode-prettify-task-symbols)
      #+END_SRC
 
 ** csv
@@ -2364,7 +2375,15 @@ ARG lines can be used."
            (nodejs-repl-send-line))))
 
      (defun +js-mode-prettify-symbols ()
-       (push '("function" . ?ƒ) prettify-symbols-alist))
+       (dolist (symbol '(("=="        . ?≈)
+                         ("!=="       . ?≠)
+                         ("==="       . ?＝)
+                         ("=>"        . ?→)
+                         ("from"      . ?←)
+                         ("function"  . ?ƒ)
+                         ("undefined" . ?∅)
+                         ("Infinity"  . ?∞)))
+         (push symbol prettify-symbols-alist)))
 
      (with-eval-after-load 'editorconfig
        (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist)))
@@ -2430,10 +2449,17 @@ ARG lines can be used."
 ** ruby
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
+     :hook
+     (ruby-mode . +ruby-mode-prettify-symbols)
      :custom
      (ruby-align-chained-calls t)
      (ruby-deep-arglist nil)
      (ruby-deep-indent-paren nil)
+     :init
+     (defun +ruby-mode-prettify-symbols ()
+       (dolist (symbol '(("def"             . ?ƒ)
+                         ("Float::INFINITY" . ?∞)))
+         (push symbol prettify-symbols-alist)))
      :config
      (with-eval-after-load 'hideshow
        (push `(ruby-mode
