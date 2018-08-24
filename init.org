@@ -2354,7 +2354,8 @@ ARG lines can be used."
    (use-package ruby-mode
      :custom
      (ruby-align-chained-calls t)
-     (ruby-deep-indent-paren t)
+     (ruby-deep-arglist nil)
+     (ruby-deep-indent-paren nil)
      :config
      (with-eval-after-load 'hideshow
        (push `(ruby-mode
@@ -2364,6 +2365,37 @@ ARG lines can be used."
                     (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
                ruby-forward-sexp nil) hs-special-modes-alist)))
    #+END_SRC
+
+*** Testing
+    #+BEGIN_SRC emacs-lisp
+    (defun ruby-test-all ()
+      "Test all files using either RSpec or MiniTest."
+      (interactive)
+      (if (bound-and-true-p rspec-mode)
+          (rspec-verify-all)
+        (minitest-verify-all)))
+
+    (defun ruby-test-file ()
+      "Test current file using either RSpec or MiniTest."
+      (interactive)
+      (if (bound-and-true-p rspec-mode)
+          (rspec-verify)
+        (minitest-verify)))
+
+    (defun ruby-test-at-point ()
+      "Test definition at point using either RSpec or MiniTest."
+      (interactive)
+      (if (bound-and-true-p rspec-mode)
+          (rspec-verify-single)
+        (minitest-verify-single)))
+
+    (general-define-key
+     :keymaps 'ruby-mode-map
+     :prefix +local-leader-key
+     "t" 'ruby-test-at-point
+     "T" 'ruby-test-file
+     "s" 'ruby-test-all)
+    #+END_SRC
 
 *** Packages
 **** inf-ruby
@@ -2379,6 +2411,69 @@ ARG lines can be used."
        (:keymaps
         'ruby-mode-map
         "<C-return>" 'inf-ruby))
+     #+END_SRC
+
+**** minitest
+     #+BEGIN_SRC emacs-lisp
+     (use-package minitest
+       :hook
+       (ruby-mode . minitest-enable-appropriate-mode))
+     #+END_SRC
+
+**** rake
+     #+BEGIN_SRC emacs-lisp
+     (use-package rake
+       :custom
+       (rake-completion-system 'default)
+       (rake-cache-file (expand-file-name "rake.cache" +cache-dir)))
+     #+END_SRC
+
+**** rspec-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package rspec-mode
+       :hook
+       (ruby-mode . rspec-enable-appropriate-mode)
+       :custom
+       (rspec-use-relative-path t)
+       (rspec-use-opts-file-when-available nil)
+       (rspec-command-options "--format progress"))
+     #+END_SRC
+
+**** ruby-refactor
+     #+BEGIN_SRC emacs-lisp
+     (use-package ruby-refactor
+       :diminish ruby-refactor-mode
+       :hook
+       (ruby-mode . ruby-refactor-mode)
+       :general
+       (:keymaps
+        'ruby-mode-map
+        :prefix +local-leader-key
+        "r" '(:ignore t :wk "refactor")
+        "rb" 'ruby-toggle-block
+        "rc" 'ruby-refactor-convert-post-conditional
+        "re" '(:ignore t :wk "extract")
+        "rec" '(ruby-refactor-extract-constant       :wk "constant")
+        "rel" '(ruby-refactor-extract-to-let         :wk "to let")
+        "rem" '(ruby-refactor-extract-to-method      :wk "to method")
+        "rev" '(ruby-refactor-extract-local-variable :wk "variable")
+        "rp" 'ruby-refactor-add-parameter))
+     #+END_SRC
+
+**** yard-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package yard-mode
+       :diminish yard-mode
+       :hook ruby-mode)
+     #+END_SRC
+
+**** yari
+     #+BEGIN_SRC emacs-lisp
+     (use-package yari
+       :general
+       (:keymaps
+        'help-command-map
+        "R" 'yari))
      #+END_SRC
 
 * Tools
