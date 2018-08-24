@@ -1892,7 +1892,11 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (use-package source-peek
       :straight
-      (:host github :repo "iqbalansari/emacs-source-peek"))
+      (:host github :repo "iqbalansari/emacs-source-peek")
+      :general
+      (:keymaps
+       'global
+       "M-g SPC" 'source-peek))
     #+END_SRC
 
 *** ws-butler
