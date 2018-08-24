@@ -1,18 +1,6 @@
 ;;; lang-data.el --- Data formats -*- lexical-binding: t; -*-
 
-;;; Commentary:
-;; Data, data, data.
-
-;;; Code:
-
-(eval-when-compile
-  (require 'base-package)
-  (require 'base-lib))
-
-;;;
-;; Packages
-
-(req-package nxml-mode :ensure nil
+(use-package nxml-mode :ensure nil
   :mode "\\.plist$"
   :hook (nxml-mode . flycheck-mode)
   :init
@@ -22,30 +10,20 @@
   (with-eval-after-load 'smartparens
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
 
-(req-package csv-mode
-  :mode "\\.[ct]sv$"
-  :hook
-  (csv-mode . +csv-mode-setup)
-  :preface
-  (defun +csv-mode-setup ()
-    (visual-line-mode 0)
-    (centered-window-mode 0)))
 
-(req-package json-mode
-  :mode "\\.js\\(on\\|[hl]int\\(rc\\)?\\)$")
 
-(req-package yaml-mode
+(use-package yaml-mode
   :mode "\\.ya?ml$"
   :hook (yaml-mode . indent-guide-mode))
 
-(req-package flycheck-yamllint
+(use-package flycheck-yamllint
   :requires flycheck
   :init
   :hook
   (flycheck-mode . flycheck-yamllint-setup)
   (yaml-mode . flycheck-mode))
 
-(req-package sql
+(use-package sql
   :mode ("\\.sql$" . sql-mode)
   :commands
   (sql-connect
@@ -60,13 +38,13 @@
   :config
   (set-evil-state 'sql-interactive-mode 'insert))
 
-(req-package es-mode
+(use-package es-mode
   :mode "\\.es$")
 
-(req-package protobuf-mode
+(use-package protobuf-mode
   :mode "\\.proto$")
 
-(req-package thrift
+(use-package thrift
   :mode ("\\.thrift$" . thrift-mode))
 
 (provide 'lang-data)

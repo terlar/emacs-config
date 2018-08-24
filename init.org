@@ -2304,6 +2304,13 @@ ARG lines can be used."
          (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔") nil)))))
      #+END_SRC
 
+** csv
+   #+BEGIN_SRC emacs-lisp
+   (use-package csv-mode
+     :custom
+     (csv-separators '("," "\t" ";")))
+   #+END_SRC
+
 ** fish
    #+BEGIN_SRC emacs-lisp
    (use-package fish-mode)
