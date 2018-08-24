@@ -1474,9 +1474,10 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (general-define-key
      :keymaps 'global
-     ;; Toggle popups
+     ;; Window
      "C-`" 'window-toggle-side-windows
      "C-§" 'window-toggle-side-windows
+     "C-x C-Z" 'maximize-window
      ;; Terminal
      "C-!" 'eshell
      "C-±" 'eshell
