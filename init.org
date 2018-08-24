@@ -2582,6 +2582,11 @@ ARG lines can be used."
      (camcorder-gif-output-directory camcorder-output-directory))
    #+END_SRC
 
+** Session
+   #+BEGIN_SRC emacs-lisp
+   (desktop-save-mode 1)
+   #+END_SRC
+
 ** Spell checking
    #+BEGIN_SRC emacs-lisp
    (use-package flyspell
