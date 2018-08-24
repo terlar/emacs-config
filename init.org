@@ -450,7 +450,7 @@
 
 *** Face
     #+BEGIN_SRC emacs-lisp
-    (defvar +fixed-pitch-font "Iosevka Slab"
+    (defvar +fixed-pitch-font "Iosevka T Slab"
       "Font used for fixed-pitch faces.")
 
     (defvar +variable-pitch-font "Noto Sans"

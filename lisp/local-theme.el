@@ -32,8 +32,8 @@
 
   (custom-theme-set-faces
    'local
-   `(default                                 ((t (:height ,+default-font-height :family ,+fixed-pitch-font))))
-   `(fixed-pitch                             ((t (:family ,+fixed-pitch-font))))
+   `(default                                 ((t (:height ,+default-font-height :family ,+fixed-pitch-font :weight light))))
+   `(fixed-pitch                             ((t (:family ,+fixed-pitch-font :weight light))))
    `(variable-pitch                          ((t (:family ,+variable-pitch-font))))
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
    `(mode-line                               ((t (:family ,+variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
@@ -72,7 +72,7 @@
    `(org-level-6                             ((t (:height 1.0 :bold nil :italic t))))
    `(org-level-7                             ((t (:height 1.0 :bold nil :italic t))))
    `(org-level-8                             ((t (:height 1.0 :bold nil :italic t))))
-   `(org-block                               ((t (:height 1.0 :inherit fixed-pitch))))
+   `(org-block                               ((t (:height 1.0 :inherit fixed-pitch :weight light))))
    `(org-block-background                    ((t (:height 1.0 :inherit fixed-pitch))))
    `(org-block-begin-line                    ((t (:foreground ,color-7))))
    `(org-checkbox                            ((t (:inherit fixed-pitch))))
