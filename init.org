@@ -413,6 +413,22 @@
      (quiet! (apply orig-fn args)))
    #+END_SRC
 
+*** Process
+    #+BEGIN_SRC emacs-lisp
+    (defun send-buffer-to-ssh ()
+      "Send the whole buffer to the *ssh* process."
+      (interactive)
+      (process-send-region "*ssh*" (point-min) (point-max)))
+
+    (defun send-to-ssh ()
+      "Send selected region or current line to the *ssh* process."
+      (interactive)
+      (let ((procbuf "*ssh*"))
+        (if (use-region-p)
+            (process-send-region procbuf (region-beginning) (region-end))
+          (process-send-string procbuf (thing-at-point 'line t)))))
+    #+END_SRC
+
 *** Window
     #+BEGIN_SRC emacs-lisp
     (defun toggle-dedicated-window ()
