@@ -2517,6 +2517,14 @@ ARG lines can be used."
        (rspec-command-options "--format progress"))
      #+END_SRC
 
+**** rubocopfmt
+     #+BEGIN_SRC emacs-lisp
+     (use-package rubocopfmt
+       :diminish rubocopfmt-mode
+       :hook
+       (ruby-mode . rubocopfmt-mode))
+     #+END_SRC
+
 **** ruby-refactor
      #+BEGIN_SRC emacs-lisp
      (use-package ruby-refactor
