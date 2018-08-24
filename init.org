@@ -2034,6 +2034,9 @@ ARG lines can be used."
      (use-package helpful
        :general
        (:keymaps
+        'emacs-lisp-mode-map
+        "M-g h" 'helpful-at-point)
+       (:keymaps
         'help-map
         "C" 'helpful-command
         "f" 'helpful-function
