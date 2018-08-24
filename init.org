@@ -1975,6 +1975,14 @@ ARG lines can be used."
     '(apropos-do-all t)
     '(enable-local-eval nil)
     '(enable-local-variables :safe))
+
+   (defun +emacs-lisp-mode-prettify-symbols ()
+     "Prettify `emacs-lisp-mode' specific symbols."
+     (dolist (symbol '(("defun"    . ?ƒ)
+                       ("defmacro" . ?μ)
+                       ("defvar"   . ?ν)))
+       (push symbol prettify-symbols-alist)))
+   (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
    #+END_SRC
 
 *** ielm
