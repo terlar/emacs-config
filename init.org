@@ -413,6 +413,14 @@
      (quiet! (apply orig-fn args)))
    #+END_SRC
 
+*** Window
+    #+BEGIN_SRC emacs-lisp
+    (defun toggle-dedicated-window ()
+      (interactive)
+      (set-window-dedicated-p (selected-window)
+                              (not (window-dedicated-p (selected-window)))))
+    #+END_SRC
+
 * Appearance
 ** Typography
 *** Size
@@ -1903,6 +1911,7 @@ ARG lines can be used."
       (rainbow-delimiters-max-face-count 3)
       :hook
       ((emacs-lisp-mode
+        ielm-mode
         js2-mode
         lisp-mode) . rainbow-delimiters-mode))
     #+END_SRC
@@ -1991,27 +2000,6 @@ ARG lines can be used."
     #+END_SRC
 
 *** Packages
-**** lispy
-     Nicer lisp editing experience
-     #+BEGIN_SRC emacs-lisp
-     (use-package lispy
-       :diminish lispy-mode
-       :hook (emacs-lisp-mode . lispy-mode)
-       :general
-       (:keymaps
-        'emacs-lisp-mode-map
-        :prefix +local-leader-key
-        "l" 'lispy-mode))
-     #+END_SRC
-
-**** eros
-     Evaluation results in overlay.
-     #+BEGIN_SRC emacs-lisp
-     (use-package eros
-       :hook
-       (emacs-lisp-mode . eros-mode))
-     #+END_SRC
-
 **** auto-compile
      Auto-compile Elisp files.
      #+BEGIN_SRC emacs-lisp
@@ -2022,6 +2010,14 @@ ARG lines can be used."
        :custom
        (auto-compile-display-buffer nil)
        (auto-compile-use-mode-line nil))
+     #+END_SRC
+
+**** eros
+     Evaluation results in overlay.
+     #+BEGIN_SRC emacs-lisp
+     (use-package eros
+       :hook
+       (emacs-lisp-mode . eros-mode))
      #+END_SRC
 
 **** helpful
@@ -2042,6 +2038,41 @@ ARG lines can be used."
         "[[" 'backward-button
         "]]" 'forward-button
         "o" '(ace-link-help :package 'ace-link)))
+     #+END_SRC
+
+**** highlight-quoted
+     #+BEGIN_SRC emacs-lisp
+     (use-package highlight-quoted
+       :hook
+       (emacs-lisp-mode . highlight-quoted-mode))
+     #+END_SRC
+
+**** lispy
+     Nicer lisp editing experience
+     #+BEGIN_SRC emacs-lisp
+     (use-package lispy
+       :diminish lispy-mode
+       :hook (emacs-lisp-mode . lispy-mode)
+       :general
+       (:keymaps
+        'emacs-lisp-mode-map
+        :prefix +local-leader-key
+        "l" 'lispy-mode))
+     #+END_SRC
+
+**** suggest
+     Discover functions.
+     #+BEGIN_SRC emacs-lisp
+     (use-package suggest
+       :init
+       (defun +suggest-popup ()
+         "Open suggest as a popup."
+         (interactive)
+         (let* ((window         (selected-window))
+                (dedicated-flag (window-dedicated-p window)))
+           (set-window-dedicated-p window t)
+           (suggest)
+           (set-window-dedicated-p window dedicated-flag))))
      #+END_SRC
 
 ** eshell

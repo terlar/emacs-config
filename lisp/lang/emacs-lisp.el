@@ -34,13 +34,6 @@
                      (nameless-mode 1)
                      (easy-escape-minor-mode 1)))
 
-(use-package ielm :ensure nil
-  :hook
-  (ielm-mode . rainbow-delimiters-mode))
-
-(use-package highlight-quoted
-  :hook (emacs-lisp-mode . highlight-quoted-mode))
-
 ;; Shorten package prefixes
 (use-package nameless
   :diminish nameless-mode
@@ -50,19 +43,6 @@
 (use-package easy-escape
   :diminish easy-escape-minor-mode
   :hook (emacs-lisp-mode . easy-escape-minor-mode))
-
-;; Discover elisp functions
-(use-package suggest
-  :el-get t :ensure nil
-  :preface
-  (defun +suggest-popup ()
-    "Open suggest as a popup."
-    (interactive)
-    (open-and-switch-to-buffer #'suggest "*suggest*"))
-  :commands
-  (suggest suggest-update)
-  :init
-  (setq suggest-pop-to-buffer t))
 
 ;; Emacs Start Up Profiler
 (use-package esup
