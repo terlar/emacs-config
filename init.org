@@ -608,6 +608,7 @@
     (diminish 'auto-fill-function)
     (diminish 'eldoc-mode)
     (with-eval-after-load 'face-remap (diminish 'buffer-face-mode))
+    (with-eval-after-load 'with-editor (diminish 'with-editor-mode))
     #+END_SRC
 
 *** Icons
