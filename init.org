@@ -2202,6 +2202,7 @@ ARG lines can be used."
      (org-confirm-babel-evaluate nil)
      (org-babel-load-languages
       '((emacs-lisp . t)
+        (js         . t)
         (shell      . t)))
      (org-edit-src-content-indentation 0)
      (org-hide-emphasis-markers t)
@@ -2400,7 +2401,9 @@ ARG lines can be used."
          (push symbol prettify-symbols-alist)))
 
      (with-eval-after-load 'editorconfig
-       (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist)))
+       (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist))
+     (with-eval-after-load 'org
+       (push '("js" . js2) org-src-lang-modes )))
    #+END_SRC
 
 *** Packages
