@@ -1776,12 +1776,18 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (use-package magit
       :defer 2
+      :hook
+      (git-commit-mode . +git-commit-set-fill-column)
       :custom
       (magit-log-buffer-file-locked t)
       (magit-refs-show-commit-count 'all)
       (magit-save-repository-buffers 'dontask)
       (git-messenger:use-magit-popup t)
       :init
+      (defun +git-commit-set-fill-column ()
+        "Set `fill-column' for git commit."
+        (setq fill-column 72))
+
       ;; Unset pager as it is not supported properly inside emacs.
       (setenv "GIT_PAGER" "")
       :config
