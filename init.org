@@ -1543,12 +1543,7 @@ ARG lines can be used."
 ** Containers
 *** Docker
      #+BEGIN_SRC emacs-lisp
-     (use-package docker
-       :init
-       (autoload 'docker-images "docker-images" nil t)
-       (autoload 'docker-containers "docker-containers" nil t)
-       (autoload 'docker-volumes "docker-volumes" nil t)
-       (autoload 'docker-networks "docker-networks" nil t))
+     (use-package docker)
     #+END_SRC
 
 **** Files
