@@ -2200,6 +2200,9 @@ ARG lines can be used."
      :custom
      (org-agenda-files '("~/org"))
      (org-confirm-babel-evaluate nil)
+     (org-babel-load-languages
+      '((emacs-lisp . t)
+        (shell      . t)))
      (org-edit-src-content-indentation 0)
      (org-hide-emphasis-markers t)
      (org-log-done 'time)
@@ -2220,7 +2223,11 @@ ARG lines can be used."
       "C-c SPC" 'nil)
      (:keymaps
       'org-src-mode-map
-      "C-c C-c" 'org-edit-src-exit))
+      "C-c C-c" 'org-edit-src-exit)
+     :config
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      org-babel-load-languages))
    #+END_SRC
 
 *** Packages
@@ -2255,6 +2262,13 @@ ARG lines can be used."
         'org-mode-map
         :prefix +local-leader-key
         "p" 'org-tree-slide-mode))
+     #+END_SRC
+
+**** ob-http
+     #+BEGIN_SRC emacs-lisp
+     (use-package ob-http
+       :init
+       (cl-pushnew '(http . t) org-babel-load-languages :test #'equal))
      #+END_SRC
 
 *** Appearance
