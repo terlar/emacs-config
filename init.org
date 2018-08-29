@@ -513,7 +513,8 @@
 *** Frame
     Add some padding around the whole window (=internal-border-width=) to provide some air.
     Remove GUI elements as well as maximize the window; A maximized window ensures macOS
-    won't waste extra space all-though it is technically not maximized.
+    won't waste extra space all-though it is technically not maximized. Make the title-bar
+    transparent on macOS.
     #+BEGIN_SRC emacs-lisp
     (setq default-frame-alist
           '((internal-border-width . 12)
@@ -521,6 +522,12 @@
             (fullscreen . maximized)
             (menu-bar-lines . 0)
             (tool-bar-lines . 0)))
+
+    (when (eq system-type 'darwin)
+      (setq frame-title-format nil)
+      (dolist (filter '((ns-transparent-titlebar . t)
+                        (ns-appearance . unbound)))
+        (push filter default-frame-alist)))
     #+END_SRC
 
 ** Mode line
