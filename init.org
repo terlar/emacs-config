@@ -1438,7 +1438,11 @@ ARG lines can be used."
 **** counsel-tramp
      Navigate tramp files.
      #+BEGIN_SRC emacs-lisp
-     (use-package counsel-tramp)
+     (use-package counsel-tramp
+       :general
+       (:keymaps
+        'global
+        "C-c s" 'counsel-tramp))
      #+END_SRC
 
 *** Icons
