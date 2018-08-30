@@ -1928,6 +1928,14 @@ ARG lines can be used."
       :hook (prog-mode . hl-todo-mode))
     #+END_SRC
 
+*** idle-highlight
+    Highlight symbol at point on idle.
+    #+BEGIN_SRC emacs-lisp
+    (use-package idle-highlight-mode
+      :hook
+      prog-mode)
+    #+END_SRC
+
 *** imenu-list
     Document locations in a sidebar.
     #+BEGIN_SRC emacs-lisp
