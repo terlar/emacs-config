@@ -2642,6 +2642,15 @@ ARG lines can be used."
         "R" 'yari))
      #+END_SRC
 
+** sh
+*** Packages
+**** flymake-shellcheck
+     #+BEGIN_SRC emacs-lisp
+     (use-package flymake-shellcheck
+       :hook
+       (sh-mode . flymake-shellcheck-load))
+     #+END_SRC
+
 * Tools
 ** Focus
    Dim out the surrounding text except the current focused paragraph or expression.
