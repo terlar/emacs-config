@@ -1612,6 +1612,13 @@ ARG lines can be used."
              (coverlay-watch-file coverage-file))))))
    #+END_SRC
 
+** Docs
+*** DevDocs
+    Lookup documentation via DevDocs.
+    #+BEGIN_SRC emacs-lisp
+    (use-package devdocs)
+    #+END_SRC
+
 ** Eval
 *** eval-in-repl
     #+BEGIN_SRC emacs-lisp
