@@ -1065,6 +1065,7 @@
      (dired-mode . dired-hide-details-mode)
      (dired-mode . +dired-mode-faces)
      :custom
+     (dired-listing-switches "-al --group-directories-first")
      ;; Always copy/delete recursively
      (dired-recursive-copies  'always)
      (dired-recursive-deletes 'top)
@@ -1080,11 +1081,18 @@
       :hook
       (dired-sidebar-mode . hide-mode-line-mode)
       (dired-sidebar-mode . hl-line-mode)
+      (dired-sidebar-mode . variable-pitch-mode)
       (dired-sidebar-mode . +dired-sidebar-setup)
+      :general
+      (:keymaps
+       'global
+       "C-x C-n" 'dired-sidebar-toggle-sidebar)
       :init
       (defun +dired-sidebar-setup ()
         (setq cursor-type nil)
-        (stripe-buffer-mode 0)))
+        (stripe-buffer-mode 0)
+        ;; Disable conflicting icons
+        (all-the-icons-dired-mode 0)))
     #+END_SRC
 
 *** Subtree
@@ -1092,7 +1100,8 @@
     #+BEGIN_SRC emacs-lisp
     (use-package dired-subtree
       :custom
-      (dired-subtree-use-backgrounds nil))
+      (dired-subtree-use-backgrounds nil)
+      (dired-subtree-line-prefix "     "))
     #+END_SRC
 
 *** Stripes
