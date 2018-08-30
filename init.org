@@ -329,6 +329,12 @@
     (use-package auto-minor-mode :demand t)
     #+END_SRC
 
+*** defrepeater
+    Support defining repeating commands by repeating the last key.
+    #+BEGIN_SRC emacs-lisp
+    (use-package defrepeater)
+    #+END_SRC
+
 *** diminish
     Hide mode-line modes, more room for important stuff.
     #+BEGIN_SRC emacs-lisp
@@ -681,7 +687,13 @@
     #+BEGIN_SRC emacs-lisp
     (use-package winner
       :hook
-      (window-setup . winner-mode))
+      (window-setup . winner-mode)
+      :preface
+      (defrepeater 'winner-redo-repeat #'winner-redo)
+      (defrepeater 'winner-undo-repeat #'winner-undo)
+      :general
+      ([remap winner-redo] #'winner-redo-repeat
+       [remap winner-undo] #'winner-undo-repeat))
     #+END_SRC
 
 *** Navigation
