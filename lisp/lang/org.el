@@ -33,20 +33,13 @@
        (css        . t)
        (dot        . t)
        (elixir     . t)
-       (emacs-lisp . t)
        (haskell    . t)
-       (http       . t)
-       (js         . t)
-       (plantuml   . t)
        (python     . t)
        (restclient . t)
        (ruby       . t)
        (rust       . t)
        (scala      . t)
-       (shell      . t)
        (translate  . t))))
-  :init
-  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
   :config
   (set-on-evil-state 'org-mode 'insert
                      (setq org-hide-block-startup nil

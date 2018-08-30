@@ -2252,10 +2252,12 @@ ARG lines can be used."
      (org-babel-load-languages
       '((emacs-lisp . t)
         (js         . t)
+        (plantuml   . t)
         (shell      . t)))
      (org-edit-src-content-indentation 0)
      (org-hide-emphasis-markers t)
      (org-log-done 'time)
+     (org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
      (org-startup-with-inline-images t)
      (org-special-ctrl-a/e t)
      (org-src-preserve-indentation nil)
@@ -2511,6 +2513,14 @@ ARG lines can be used."
        :hook
        (js2-mode . prettier-js-mode))
      #+END_SRC
+
+** plantuml
+   #+BEGIN_SRC emacs-lisp
+   (use-package plantuml-mode
+     :custom
+     (plantuml-java-command "java-headless")
+     (plantuml-jar-path "/opt/plantuml/plantuml.jar"))
+   #+END_SRC
 
 ** ruby
    #+BEGIN_SRC emacs-lisp
