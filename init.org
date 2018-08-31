@@ -1102,9 +1102,7 @@
       :init
       (defun +dired-sidebar-setup ()
         (setq cursor-type nil)
-        (stripe-buffer-mode 0)
-        ;; Disable conflicting icons
-        (all-the-icons-dired-mode 0)))
+        (stripe-buffer-mode 0)))
     #+END_SRC
 
 *** Subtree
