@@ -2524,7 +2524,13 @@ ARG lines can be used."
      (markdown-header-scaling t)
      (markdown-hide-markup t)
      (markdown-italic-underscore t)
-     (markdown-make-gfm-checkboxes-buttons t))
+     (markdown-make-gfm-checkboxes-buttons t)
+     :general
+     (:keymaps
+      'markdown-mode-map
+      :major-modes t
+      :prefix +local-leader-key
+      "h" 'markdown-toggle-markup-hiding))
    #+END_SRC
 
 *** Packages
