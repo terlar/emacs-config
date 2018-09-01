@@ -2838,5 +2838,42 @@ ARG lines can be used."
   #+END_SRC
 
 * Tasks
-** TODO Support markdown files
-** TODO Support snippets
+** TODO Add toggle hide/show binding for emacs-lisp-mode
+** TODO Add nameless
+** TODO Add easy-escape
+** TODO Add package-lint
+** TODO Add ESUP
+** TODO Add toggle hide/show binding for org-mode
+** TODO Add org-eldoc (show current path)
+** TODO Add org-preview-html
+** TODO Add org-noter
+** TODO Add bats-mode
+** TODO Add REPL support for sh-mode
+** TODO Add improved completion for sh-mode/fish-mode
+** TODO Add shx-mode?
+** TODO Migrate clojure config
+** TODO Migrate crystal config
+** TODO Migrate elixir config
+** TODO Migrate elm config
+** TODO Migrate erlang config
+** TODO Migrate go config
+** TODO Migrate haskell config
+** TODO Migrate java config
+** TODO Migrate lisp config
+** TODO Migrate lua config
+** TODO Migrate ocaml config
+** TODO Migrate opengl config
+** TODO Migrate python config
+** TODO Migrate racket config
+** TODO Migrate rst config
+** TODO Migrate rust config
+** TODO Migrate scala config
+** TODO Migrate nix config
+** TODO Migrate ansible config
+** TODO Migrate salt config
+** TODO Migrate nxml config
+** TODO Migrate yaml config
+** TODO Migrate sql config
+** TODO Migrate es config
+** TODO Migrate protobuf/thrift config
+** TODO Migrate web config
