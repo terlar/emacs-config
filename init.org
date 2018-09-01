@@ -1079,6 +1079,13 @@
     #+END_SRC
 
 * Navigation
+   Allow repeated mark popping. This behavior is similar to Vim's =C-o=. With this
+   configuration you can press =C-u= and continuously =C-SPC= to jump to previous entries in
+   the mark ring.
+   #+BEGIN_SRC emacs-lisp
+   (setq set-mark-command-repeat-pop t)
+   #+END_SRC
+
 ** Dired
    #+BEGIN_SRC emacs-lisp
    (use-package dired
