@@ -735,6 +735,15 @@
           display-buffer-alist)
     #+END_SRC
 
+*** Visual Fill Column
+    #+BEGIN_SRC emacs-lisp
+    (use-package visual-fill-column
+      :hook
+      (nov-mode . visual-fill-column-mode)
+      :custom
+      (visual-fill-column-width fill-column))
+    #+END_SRC
+
 * Editing
 ** Indentation
    Default to indentation by spaces, that seems to be what most languages use nowadays.
@@ -1045,6 +1054,7 @@
       :hook
       ((eww-mode
         markdown-mode
+        nov-mode
         org-mode) . readable-mode))
     #+END_SRC
 
@@ -1138,6 +1148,15 @@
     (use-package ace-link)
     #+END_SRC
 
+*** bibliothek
+    Management tool for a library of PDFs.
+    #+BEGIN_SRC emacs-lisp
+    (use-package bibliothek
+      :custom
+      (bibliothek-path '("~/books" "~/documents/research/papers"))
+      (bibliothek-recursive t))
+    #+END_SRC
+
 *** bookmark
     Keep track of bookmarks
     #+BEGIN_SRC emacs-lisp
@@ -1223,10 +1242,11 @@
       "C-c p" '(:keymap projectile-command-map :package projectile :wk "project"))
      :init
      (defun +projectile-relative-buf-name ()
-       (let ((buffer-name (if (projectile-project-p)
-                              (concat (projectile-project-name) "/" (file-relative-name buffer-file-name (projectile-project-root)))
-                            (abbreviate-file-name buffer-file-name))))
-         (rename-buffer buffer-name t)))
+       (when (buffer-file-name)
+         (let ((buffer-name (if (projectile-project-p)
+                                (concat (projectile-project-name) "/" (file-relative-name (buffer-file-name) (projectile-project-root)))
+                              (abbreviate-file-name (buffer-file-name)))))
+           (rename-buffer buffer-name t))))
 
      (defun +projectile-cache-current-file (orig-fun &rest args)
        "Don't cache ignored files."
@@ -2388,6 +2408,27 @@ ARG lines can be used."
      (csv-separators '("," "\t" ";")))
    #+END_SRC
 
+** epub
+*** Packages
+**** nov
+     #+BEGIN_SRC emacs-lisp
+     (use-package nov
+       :mode
+       ("\\.epub$" . nov-mode)
+       :hook
+       (nov-mode . +nov-mode-delayed-render)
+       (nov-mode . +nov-mode-hide-fringes)
+       :custom
+       (nov-save-place-file (concat +data-dir "nov-places"))
+       :init
+       (defun +nov-mode-delayed-render ()
+         (run-with-idle-timer 0.2 nil 'nov-render-document))
+
+       (defun +nov-mode-hide-fringes ()
+         "Hide the fringes for `nov-mode'."
+         (set-window-fringes (get-buffer-window) 0 0 nil)))
+     #+END_SRC
+
 ** fish
    #+BEGIN_SRC emacs-lisp
    (use-package fish-mode)
@@ -2565,6 +2606,14 @@ ARG lines can be used."
                          ("[X]" . ?▣)))
          (push symbol prettify-symbols-alist)))
      (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
+     #+END_SRC
+
+** pdf
+*** Packages
+**** pdf-tools
+     #+BEGIN_SRC emacs-lisp
+     (use-package pdf-tools
+       :mode ("\\.pdf$" . pdf-view-mode))
      #+END_SRC
 
 ** plantuml
