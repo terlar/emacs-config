@@ -1044,6 +1044,7 @@
       :diminish readable-mode
       :hook
       ((eww-mode
+        markdown-mode
         org-mode) . readable-mode))
     #+END_SRC
 
@@ -2510,6 +2511,54 @@ ARG lines can be used."
        :diminish prettier-js-mode
        :hook
        (js2-mode . prettier-js-mode))
+     #+END_SRC
+
+** markdown
+   #+BEGIN_SRC emacs-lisp
+   (use-package markdown-mode
+     :hook
+     (markdown-mode . auto-fill-mode)
+     :custom
+     (markdown-enable-wiki-links t)
+     (markdown-fontify-code-blocks-natively t)
+     (markdown-header-scaling t)
+     (markdown-hide-markup t)
+     (markdown-italic-underscore t)
+     (markdown-make-gfm-checkboxes-buttons t))
+   #+END_SRC
+
+*** Packages
+**** edit-indirect
+     Editing regions in separate buffers.
+     #+BEGIN_SRC emacs-lisp
+     (use-package edit-indirect)
+     #+END_SRC
+
+**** markdown-toc
+     Generate Table of Contents.
+     #+BEGIN_SRC emacs-lisp
+     (use-package markdown-toc)
+     #+END_SRC
+
+*** Appearance
+**** Variable pitch
+     Use variable-pitch font but still make sure everything aligns.
+     #+BEGIN_SRC emacs-lisp
+     (font-lock-add-keywords
+      'markdown-mode
+      '(("^[[:space:]-*+>]+" 0 'fixed-pitch append))
+      'append)
+     #+END_SRC
+
+**** Bullet lists
+     Pretty check-boxes
+     #+BEGIN_SRC emacs-lisp
+     (defun +markdown-mode-prettify-checkbox-symbols ()
+       "Prettify checkbox symbols."
+       (dolist (symbol '(("[ ]" . ?□)
+                         ("[X]" . ?▣)))
+         (push symbol prettify-symbols-alist)))
+     (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
      #+END_SRC
 
 ** plantuml
