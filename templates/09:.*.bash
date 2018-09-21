@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-[[ "\${TRACE}" ]] && set -x
-set -eou pipefail
+[[ "\${TRACE}" ]] && set -o xtrace
+set -o errexit -o pipefail -o nounset
 shopt -s nullglob
 
 main() {
