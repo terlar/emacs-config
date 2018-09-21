@@ -2479,7 +2479,6 @@ ARG lines can be used."
                          ("!=="       . ?≠)
                          ("==="       . ?＝)
                          ("=>"        . ?→)
-                         ("from"      . ?←)
                          ("function"  . ?ƒ)
                          ("undefined" . ?∅)
                          ("Infinity"  . ?∞)))
