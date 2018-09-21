@@ -1301,7 +1301,7 @@
 * Completion
   Enable completion with tab
   #+BEGIN_SRC emacs-lisp
-  (setq tab-always-indent 'complete)
+  (setq tab-always-indent t)
   #+END_SRC
 
 ** Hippie
