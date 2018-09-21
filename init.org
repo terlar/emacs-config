@@ -791,9 +791,7 @@
       :custom
       (avy-all-windows nil)
       :general
-      (:keymaps
-       'global
-       "C-;" 'avy-goto-char-timer))
+      ("M-g f" 'avy-goto-char-timer))
     #+END_SRC
 
 *** goto-addr
