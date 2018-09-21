@@ -821,6 +821,10 @@
       (smartparens-mode smartparens-strict-mode)
       :hook
       (after-init . smartparens-global-strict-mode)
+      :general
+      (:keymaps
+       'smartparens-mode-map
+       "M-D" 'sp-unwrap-sexp)
       :config
       (require 'smartparens-config))
     #+END_SRC
