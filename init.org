@@ -479,8 +479,6 @@
     An excellent, light, uncoloured theme.
     #+BEGIN_SRC emacs-lisp
     (use-package tao-theme
-      :straight
-      (:host github :repo "terlar/tao-theme-emacs" :branch "add-sepia-scale")
       :demand t
       :custom
       (tao-theme-use-height t)
