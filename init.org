@@ -755,11 +755,6 @@
    #+END_SRC
 
 ** Parenthesis
-   Auto-insert matching parenthesis.
-   #+BEGIN_SRC emacs-lisp
-   (electric-pair-mode 1)
-   #+END_SRC
-
    Highlight matching parenthesis.
    #+BEGIN_SRC emacs-lisp
    (show-paren-mode 1)
@@ -803,15 +798,6 @@
       (prog-mode . goto-address-prog-mode))
     #+END_SRC
 
-*** paredit
-    #+BEGIN_SRC emacs-lisp
-    (use-package paredit
-      :hook
-      ((eval-expression-minibuffer-setup
-        ielm-mode
-        lisp-interaction-mode) . paredit-mode))
-    #+END_SRC
-
 *** rotate-text
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
@@ -825,6 +811,18 @@
       (dolist (item '(("true" "false")
                       ("assert" "refute")))
         (push item rotate-text-words)))
+    #+END_SRC
+
+*** smartparens
+    Auto-insert matching parenthesis.
+    #+BEGIN_SRC emacs-lisp
+    (use-package smartparens
+      :diminish
+      (smartparens-mode smartparens-strict-mode)
+      :hook
+      (after-init . smartparens-global-strict-mode)
+      :config
+      (require 'smartparens-config))
     #+END_SRC
 
 *** whitespace
@@ -2162,19 +2160,6 @@ ARG lines can be used."
      (use-package highlight-quoted
        :hook
        (emacs-lisp-mode . highlight-quoted-mode))
-     #+END_SRC
-
-**** lispy
-     Nicer lisp editing experience
-     #+BEGIN_SRC emacs-lisp
-     (use-package lispy
-       :diminish lispy-mode
-       :hook (emacs-lisp-mode . lispy-mode)
-       :general
-       (:keymaps
-        'emacs-lisp-mode-map
-        :prefix +local-leader-key
-        "l" 'lispy-mode))
      #+END_SRC
 
 **** suggest
