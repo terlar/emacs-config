@@ -1193,18 +1193,20 @@
       :defer 2
       :custom
       (recentf-exclude
-       (list "/tmp/"         ; Temp-files
-             "/dev/shm"      ; Potential secrets
-             "/ssh:"         ; Files over SSH
-             "/TAGS$"        ; Tag files
-             "^/\\.git/.+$"   ; Git contents
+       (list "/tmp/"                        ; Temp-files
+             "/dev/shm"                     ; Potential secrets
+             "/ssh:"                        ; Files over SSH
+             "/TAGS$"                       ; Tag files
+             "^/\\.git/.+$"                 ; Git contents
              "\\.?ido\\.last$"
              "\\.revive$"
              "^/var/folders/.+$"
-             (concat "^" +data-dir ".+$")))
+             (concat "^" +cache-dir ".+$")
+             (concat "^" +data-dir ".+$")
+             (concat "^" user-emacs-directory "straight/.+$")))
       (recentf-filename-handlers '(abbreviate-file-name))
       (recentf-max-menu-items 0)
-      (recentf-max-saved-items 250)
+      (recentf-max-saved-items 100)
       (recentf-auto-cleanup 'never)
       :config
       (quiet! (recentf-mode 1)))
