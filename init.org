@@ -2375,7 +2375,7 @@ ARG lines can be used."
      (font-lock-add-keywords
       'org-mode
       '(("^ +\\([-*+]\\) "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "⚫"))))))
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
 
      (defun +org-mode-prettify-checkbox-symbols ()
        "Prettify checkbox symbols."
