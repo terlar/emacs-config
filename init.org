@@ -2045,8 +2045,11 @@ ARG lines can be used."
       "Add generic programming symbols."
       (dolist (symbol '(("&&"  . ?∧)
                         ("||"  . ?∨)
-                        ("="   . ?≔)
-                        ("=="  . ?＝)
+                        ("="   . ?≝)
+                        (":="  . ?≔)
+                        ("=="  . ?=)
+                        ("===" . ?≡)
+                        ("!==" . ?≢)
                         (">="  . ?≥)
                         ("<="  . ?≤)
                         ("/="  . ?≠)
@@ -2476,8 +2479,6 @@ ARG lines can be used."
 
      (defun +js-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
-                         ("!=="       . ?≠)
-                         ("==="       . ?＝)
                          ("=>"        . ?→)
                          ("function"  . ?ƒ)
                          ("undefined" . ?∅)
