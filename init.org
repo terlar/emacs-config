@@ -2780,6 +2780,7 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package flymake-shellcheck
        :hook
+       (sh-mode . flymake-mode)
        (sh-mode . flymake-shellcheck-load))
      #+END_SRC
 
