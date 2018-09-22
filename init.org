@@ -739,12 +739,6 @@
    (setq tabify-regexp "^\t* [ \t]+")
    #+END_SRC
 
-** Parenthesis
-   Highlight matching parenthesis.
-   #+BEGIN_SRC emacs-lisp
-   (show-paren-mode 1)
-   #+END_SRC
-
 ** Text flow
    Wrap at words and don't require double spaces to end a sentence.
    #+BEGIN_SRC emacs-lisp
@@ -799,13 +793,14 @@
     #+END_SRC
 
 *** smartparens
-    Auto-insert matching parenthesis.
+    Auto-insert matching parenthesis and highlight matching parenthesis.
     #+BEGIN_SRC emacs-lisp
     (use-package smartparens
       :diminish
       (smartparens-mode smartparens-strict-mode)
       :hook
       (after-init . smartparens-global-strict-mode)
+      (after-init . show-smartparens-global-mode)
       (eval-expression-minibuffer-setup . smartparens-strict-mode)
       :general
       (:keymaps
