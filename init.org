@@ -301,7 +301,10 @@
 *** all-the-icons
     Support functions for displaying icons. I am trying to use icons where possible.
     #+BEGIN_SRC emacs-lisp
-    (use-package all-the-icons :demand t)
+    (use-package all-the-icons
+      :demand t
+      :straight
+      (:host github :repo "ubolonton/all-the-icons.el" :branch "font-lock-fix" :files (:defaults "data")))
     #+END_SRC
 
 *** auto-minor-mode
