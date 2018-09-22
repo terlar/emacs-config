@@ -2575,6 +2575,7 @@ ARG lines can be used."
      (defun +markdown-mode-prettify-checkbox-symbols ()
        "Prettify checkbox symbols."
        (dolist (symbol '(("[ ]" . ?□)
+                         ("[x]" . ?▣)
                          ("[X]" . ?▣)))
          (push symbol prettify-symbols-alist)))
      (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
