@@ -821,6 +821,7 @@
       (smartparens-mode smartparens-strict-mode)
       :hook
       (after-init . smartparens-global-strict-mode)
+      (eval-expression-minibuffer-setup . smartparens-strict-mode)
       :general
       (:keymaps
        'smartparens-mode-map
