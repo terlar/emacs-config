@@ -856,9 +856,6 @@
 *** yasnippet
     #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
-      :diminish yas-minor-mode
-      :hook
-      (after-init . yas-global-mode)
       :custom
       (yas-also-auto-indent-first-line t)
       ;; Nested snippets
