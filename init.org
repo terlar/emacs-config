@@ -2637,8 +2637,6 @@ ARG lines can be used."
      (ruby-mode . +ruby-mode-prettify-symbols)
      :custom
      (ruby-align-chained-calls t)
-     (ruby-deep-arglist nil)
-     (ruby-deep-indent-paren nil)
      :init
      (defun +ruby-mode-prettify-symbols ()
        (dolist (symbol '(("def"             . ?ƒ)
