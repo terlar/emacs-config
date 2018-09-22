@@ -1906,11 +1906,7 @@ ARG lines can be used."
         sh-mode) . eglot-ensure)
       :config
       (with-eval-after-load 'smart-jump
-        (smart-jump-register :modes '(js2-mode enh-ruby-mode ruby-mode sh-mode)))
-
-      (push '(enh-ruby-mode
-              . ("solargraph" "socket" "--port"
-                 :autoport)) eglot-server-programs))
+        (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
     #+END_SRC
 
 *** eldoc-overlay
@@ -2604,16 +2600,6 @@ ARG lines can be used."
 
 ** ruby
    #+BEGIN_SRC emacs-lisp
-   (use-package enh-ruby-mode
-     :hook
-     (enh-ruby-mode . +enh-ruby-mode-run-ruby-mode-hooks)
-     :custom
-     (enh-ruby-deep-indent-paren nil)
-     :init
-     (defun +enh-ruby-mode-run-ruby-mode-hooks ()
-       "Run hooks all `ruby-mode' hooks."
-       (run-hooks 'ruby-mode-hook)))
-
    (use-package ruby-mode
      :hook
      (ruby-mode . +ruby-mode-prettify-symbols)
@@ -2658,7 +2644,7 @@ ARG lines can be used."
         (minitest-verify-single)))
 
     (general-define-key
-     :keymaps '(enh-ruby-mode-map ruby-mode-map)
+     :keymaps 'ruby-mode-map
      :prefix +local-leader-key
      "t" 'ruby-test-at-point
      "T" 'ruby-test-file
