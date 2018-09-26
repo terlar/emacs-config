@@ -2069,14 +2069,6 @@ ARG lines can be used."
     '(apropos-do-all t)
     '(enable-local-eval nil)
     '(enable-local-variables :safe))
-
-   (defun +emacs-lisp-mode-prettify-symbols ()
-     "Prettify `emacs-lisp-mode' specific symbols."
-     (dolist (symbol '(("defun"    . ?ƒ)
-                       ("defmacro" . ?μ)
-                       ("defvar"   . ?ν)))
-       (push symbol prettify-symbols-alist)))
-   (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
    #+END_SRC
 
 *** ielm
@@ -2122,6 +2114,12 @@ ARG lines can be used."
        (emacs-lisp-mode . eros-mode))
      #+END_SRC
 
+**** esup
+     Emacs Start Up Profiler.
+     #+BEGIN_SRC emacs-lisp
+     (use-package esup)
+     #+END_SRC
+
 **** helpful
      Better =*help*= buffer
      #+BEGIN_SRC emacs-lisp
@@ -2152,6 +2150,11 @@ ARG lines can be used."
        (emacs-lisp-mode . highlight-quoted-mode))
      #+END_SRC
 
+**** package-lint
+     #+BEGIN_SRC emacs-lisp
+     (use-package package-lint)
+     #+END_SRC
+
 **** suggest
      Discover functions.
      #+BEGIN_SRC emacs-lisp
@@ -2165,6 +2168,35 @@ ARG lines can be used."
            (set-window-dedicated-p window t)
            (suggest)
            (set-window-dedicated-p window dedicated-flag))))
+     #+END_SRC
+*** Appearance
+**** Package prefixes
+     Shorten package prefixes.
+     #+BEGIN_SRC emacs-lisp
+     (use-package nameless
+       :diminish nameless-mode
+       :hook
+       (emacs-lisp-mode . nameless-mode))
+     #+END_SRC
+
+**** Prettify symbols
+     #+BEGIN_SRC emacs-lisp
+     (defun +emacs-lisp-mode-prettify-symbols ()
+       "Prettify `emacs-lisp-mode' specific symbols."
+       (dolist (symbol '(("defun"    . ?ƒ)
+                         ("defmacro" . ?μ)
+                         ("defvar"   . ?ν)))
+         (push symbol prettify-symbols-alist)))
+     (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
+     #+END_SRC
+
+**** Regular expression escapes
+     Improve readability of escape characters in regular expressions.
+     #+BEGIN_SRC emacs-lisp
+     (use-package easy-escape
+       :diminish easy-escape-minor-mode
+       :hook
+       (emacs-lisp-mode . easy-escape-minor-mode))
      #+END_SRC
 
 ** eshell
@@ -2812,12 +2844,6 @@ ARG lines can be used."
   #+END_SRC
 
 * Tasks
-** TODO Add toggle hide/show binding for emacs-lisp-mode
-** TODO Add nameless
-** TODO Add easy-escape
-** TODO Add package-lint
-** TODO Add ESUP
-** TODO Add toggle hide/show binding for org-mode
 ** TODO Add org-eldoc (show current path)
 ** TODO Add org-preview-html
 ** TODO Add org-noter
