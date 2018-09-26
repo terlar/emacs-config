@@ -795,7 +795,8 @@
        "M-p" 'rotate-text-backward)
       :config
       (dolist (item '(("true" "false")
-                      ("assert" "refute")))
+                      ("assert" "refute")
+                      ("yes" "no")))
         (push item rotate-text-words)))
     #+END_SRC
 
