@@ -1404,6 +1404,7 @@ ARG lines can be used."
         'counsel-mode-map
         "C-c r" 'counsel-recentf
         "C-c g" 'counsel-git
+        "C-c i" 'counsel-imenu
         "C-c j" 'counsel-git-grep
         "C-c J" 'counsel-rg)
        (:keymaps
@@ -1448,7 +1449,8 @@ ARG lines can be used."
        :general
        (:keymaps
         'ivy-mode-map
-        [remap imenu-anywhere] 'ivy-imenu-anywhere))
+        [remap imenu-anywhere] 'ivy-imenu-anywhere
+        "C-c I" 'ivy-imenu-anywhere))
      #+END_SRC
 
 **** ivy-xref
