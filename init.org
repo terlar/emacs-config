@@ -332,6 +332,13 @@
     (use-package general :demand t)
     #+END_SRC
 
+*** minions
+    #+BEGIN_SRC emacs-lisp
+    (use-package minions
+      :general
+      ([C-S-mouse-1] 'minions-minor-modes-menu))
+    #+END_SRC
+
 *** quick-peek
     Library to display inline popups; used by =source-peek=.
      #+BEGIN_SRC emacs-lisp
