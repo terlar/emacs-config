@@ -844,11 +844,19 @@
 *** yasnippet
     #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
+      :diminish yas-minor-mode
+      :hook
+      (after-init . yas-global-mode)
       :custom
       (yas-also-auto-indent-first-line t)
       ;; Nested snippets
       (yas-triggers-in-field t)
       (yas-wrap-around-region t)
+      :general
+      (:keymaps
+       'yas-minor-mode-map
+       [tab] 'nil
+       "TAB" 'nil)
       :init
       (setq yas-verbosity 0))
 
@@ -1467,7 +1475,8 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package ivy-yasnippet
        :general
-       ([remap yas-insert-snippet] 'ivy-yasnippet))
+       ([remap yas-insert-snippet] 'ivy-yasnippet
+        "C-c y" 'ivy-yasnippet))
      #+END_SRC
 
 **** counsel-tramp
