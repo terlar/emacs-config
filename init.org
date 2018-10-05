@@ -427,6 +427,15 @@
           (process-send-string procbuf (thing-at-point 'line t)))))
     #+END_SRC
 
+*** Utils
+    #+BEGIN_SRC emacs-lisp
+    (defun work-log-file ()
+      "Open today's work log file."
+      (interactive)
+      (let ((daily-name (format-time-string "%Y-%m-%d")))
+        (find-file (expand-file-name (concat "~/org/worklog-" daily-name ".org")))))
+    #+END_SRC
+
 *** Window
     #+BEGIN_SRC emacs-lisp
     (defun toggle-dedicated-window ()
