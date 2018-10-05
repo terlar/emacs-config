@@ -813,7 +813,8 @@
       :general
       (:keymaps
        'smartparens-mode-map
-       "M-D" 'sp-unwrap-sexp)
+       "M-D" 'sp-unwrap-sexp
+       "M-R" 'sp-rewrap-sexp)
       :config
       (require 'smartparens-config))
     #+END_SRC
