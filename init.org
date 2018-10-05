@@ -2754,6 +2754,8 @@ ARG lines can be used."
 **** rspec-mode
      #+BEGIN_SRC emacs-lisp
      (use-package rspec-mode
+       :straight
+       (:host github :repo "terlar/rspec-mode" :files ("rspec-mode.el" "snippets"))
        :hook
        (ruby-mode . rspec-enable-appropriate-mode)
        :custom
