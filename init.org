@@ -2456,6 +2456,15 @@ ARG lines can be used."
          (set-window-fringes (get-buffer-window) 0 0 nil)))
      #+END_SRC
 
+** git
+*** Packages
+**** gitignore-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package gitignore-mode
+       :mode
+       ("/\\.dockerignore$" . gitignore-mode))
+     #+END_SRC
+
 ** fish
    #+BEGIN_SRC emacs-lisp
    (use-package fish-mode)
