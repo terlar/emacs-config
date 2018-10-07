@@ -524,7 +524,6 @@
     (setq default-frame-alist
           '((internal-border-width . 12)
             (vertical-scroll-bars . nil)
-            (fullscreen . maximized)
             (menu-bar-lines . 0)
             (tool-bar-lines . 0)))
 
