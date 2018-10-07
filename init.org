@@ -865,6 +865,7 @@
       (after-init . yas-global-mode)
       :custom
       (yas-also-auto-indent-first-line t)
+      (yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
       ;; Nested snippets
       (yas-triggers-in-field t)
       (yas-wrap-around-region t)
