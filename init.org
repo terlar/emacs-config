@@ -2832,6 +2832,16 @@ ARG lines can be used."
    #+END_SRC
 
 ** sh
+   #+BEGIN_SRC emacs-lisp
+   (use-package sh-script
+     :custom
+     ;; Use regular indentation for line-continuation
+     (sh-indent-after-continuation 'always)
+     :general
+     (:keymaps
+      'sh-mode-map
+      "M-g k" 'man))
+   #+END_SRC
 *** Packages
 **** flymake-shellcheck
      #+BEGIN_SRC emacs-lisp
@@ -2839,6 +2849,13 @@ ARG lines can be used."
        :hook
        (sh-mode . flymake-mode)
        (sh-mode . flymake-shellcheck-load))
+     #+END_SRC
+
+**** shx
+     Extended shell/comint mode.
+     #+BEGIN_SRC emacs-lisp
+     (use-package shx
+       :hook (after-init . shx-global-mode))
      #+END_SRC
 
 * Tools
@@ -2900,10 +2917,6 @@ ARG lines can be used."
 ** TODO Add org-eldoc (show current path)
 ** TODO Add org-preview-html
 ** TODO Add org-noter
-** TODO Add bats-mode
-** TODO Add REPL support for sh-mode
-** TODO Add improved completion for sh-mode/fish-mode
-** TODO Add shx-mode?
 ** TODO Migrate clojure config
 ** TODO Migrate crystal config
 ** TODO Migrate elixir config
