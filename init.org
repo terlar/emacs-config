@@ -1934,7 +1934,8 @@ ARG lines can be used."
     (use-package eglot
       :hook
       ((js-mode
-        ruby-mode) . eglot-ensure)
+        ruby-mode
+        rustic-mode) . eglot-ensure)
       :config
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
@@ -2812,6 +2813,18 @@ ARG lines can be used."
         'help-command-map
         "R" 'yari))
      #+END_SRC
+
+** rust
+   #+BEGIN_SRC emacs-lisp
+   (use-package rustic
+     :custom
+     (rustic-rls-pkg 'eglot)
+     :init
+     (with-eval-after-load 'org
+       (push '("rust" . rustic) org-src-lang-modes ))
+     :config
+     (require 'eglot))
+   #+END_SRC
 
 ** sh
 *** Packages
