@@ -2819,6 +2819,11 @@ ARG lines can be used."
    (use-package rustic
      :custom
      (rustic-rls-pkg 'eglot)
+     :general
+     (:keymaps
+      'rustic-mode-map
+      :prefix +local-leader-key
+      "t" 'rustic-cargo-test)
      :init
      (with-eval-after-load 'org
        (push '("rust" . rustic) org-src-lang-modes ))
@@ -2914,7 +2919,6 @@ ARG lines can be used."
 ** TODO Migrate python config
 ** TODO Migrate racket config
 ** TODO Migrate rst config
-** TODO Migrate rust config
 ** TODO Migrate scala config
 ** TODO Migrate nix config
 ** TODO Migrate ansible config
