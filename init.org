@@ -434,6 +434,12 @@
       (interactive)
       (let ((daily-name (format-time-string "%Y-%m-%d")))
         (find-file (expand-file-name (concat "~/org/worklog-" daily-name ".org")))))
+
+    (defun sprint-file ()
+      "Open current sprint log file."
+      (interactive)
+      (let ((sprint-name (format-time-string "%Y-W%W")))
+        (find-file (expand-file-name (concat "~/org/sprint-" sprint-name ".org")))))
     #+END_SRC
 
 *** Window
