@@ -1934,8 +1934,7 @@ ARG lines can be used."
     (use-package eglot
       :hook
       ((js-mode
-        ruby-mode
-        sh-mode) . eglot-ensure)
+        ruby-mode) . eglot-ensure)
       :config
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
