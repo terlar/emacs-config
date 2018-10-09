@@ -2482,6 +2482,11 @@ ARG lines can be used."
        ("/\\.dockerignore$" . gitignore-mode))
      #+END_SRC
 
+** groovy
+   #+BEGIN_SRC emacs-lisp
+   (use-package groovy-mode)
+   #+END_SRC
+
 ** fish
    #+BEGIN_SRC emacs-lisp
    (use-package fish-mode)

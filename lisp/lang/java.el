@@ -67,29 +67,21 @@
   (set-doc-fn 'java-mode #'javadoc-lookup))
 
 (req-package android-mode
-  :commands
-  (android-mode
-   android-create-project
-   android-start-emulator))
-
-(req-package groovy-mode
-  :mode
-  "\\.gr\\(adle\\|oovy\\)\\'"
-  "Jenkinsfile")
+             :commands
+             (android-mode
+              android-create-project
+              android-start-emulator))
 
 (req-package gradle-mode
-  :hook ((java-mode kotlin-mode) . gradle-mode)
-  :general
-  (:keymaps 'gradle-mode-map
-            :prefix my-local-leader-key
-            "t" 'gradle-test))
-
-(req-package flycheck-gradle
-  :hook ((java-mode kotlin-mode) . flycheck-gradle-setup))
+             :hook ((java-mode kotlin-mode) . gradle-mode)
+             :general
+             (:keymaps 'gradle-mode-map
+                       :prefix my-local-leader-key
+                       "t" 'gradle-test))
 
 (req-package kotlin-mode
-  :commands kotlin-repl
-  :mode "\\.kts?\\'")
+             :commands kotlin-repl
+             :mode "\\.kts?\\'")
 
 (req-package log4j-mode
   :mode "\\.log\\'"
