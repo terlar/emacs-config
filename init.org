@@ -1520,18 +1520,20 @@ ARG lines can be used."
   I am trying to reduce the amount of keybindings, therefore I present a table of default
   keybindings in case I would forget them.
 
-  | Keybinding    | Function                | Description                                                  |
-  |---------------+-------------------------+--------------------------------------------------------------|
-  | =M-SPC=         | =just-one-space=          | Ensures just one space                                       |
-  | =M-\=           | =delete-horizontal-space= | Delete all space                                             |
-  | =M-^=           | =delete-indentation=      | Join current line with previous line                         |
-  | =M-z=           | =zap-to-char=             | Delete until character                                       |
-  | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once |
-  | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                      |
-  | =C-w=           | =kill-region=             | Cut                                                          |
-  | =M-w=           | =kill-ring-save=          | Copy                                                         |
-  | =C-y=           | =yank=                    | Paste                                                        |
-  | =M-y=           | =yank-next=               | Paste (next item)                                            |
+  | Keybinding    | Function                | Description                                                                      |
+  |---------------+-------------------------+----------------------------------------------------------------------------------|
+  | =M-SPC=         | =just-one-space=          | Ensures just one space                                                           |
+  | =M-\=           | =delete-horizontal-space= | Delete all space                                                                 |
+  | =M-^=           | =delete-indentation=      | Join current line with previous line                                             |
+  | =M-z=           | =zap-to-char=             | Delete until character                                                           |
+  | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once                     |
+  | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                                          |
+  | =C-w=           | =kill-region=             | Cut                                                                              |
+  | =M-w=           | =kill-ring-save=          | Copy                                                                             |
+  | =C-y=           | =yank=                    | Paste                                                                            |
+  | =M-y=           | =yank-next=               | Paste (next item)                                                                |
+  | =C-x SPC=       | =rectangle-mark-mode=     | Rectangular selection                                                            |
+  | =C-x r t=       | =string-rectangle=        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
 
 *** Leader keys
     #+BEGIN_SRC emacs-lisp
