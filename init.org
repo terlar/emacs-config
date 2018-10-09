@@ -1811,7 +1811,7 @@ ARG lines can be used."
     (use-package ediff
       :hook
       (ediff-quit . winner-undo)
-      (ediff-mode . +ediff-mode-define-keys)
+      (ediff-keymap-setup . +ediff-mode-define-keys)
       :custom
       (ediff-diff-options "-w")
       (ediff-merge-split-window-function #'split-window-horizontally)
@@ -1828,7 +1828,6 @@ ARG lines can be used."
           (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 
       (defun +ediff-mode-define-keys ()
-        (require 'ediff-util)
         (general-define-key
          :keymaps 'ediff-mode-map
          "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
