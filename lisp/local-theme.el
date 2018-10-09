@@ -57,14 +57,14 @@
    `(compilation-error                       ((t (:foreground ,theme-color-error))))
    `(compilation-warning                     ((t (:foreground ,theme-color-warning))))
    ;; ediff
-   `(ediff-current-diff-A                    ((t (:background "#EECCCC"))))
-   `(ediff-fine-diff-A                       ((t (:background "#AA2222"))))
-   `(ediff-current-diff-B                    ((t (:background "#CCEECC"))))
-   `(ediff-fine-diff-B                       ((t (:background "#22AA22"))))
-   `(ediff-current-diff-C                    ((t (:background "#CCFFFF"))))
-   `(ediff-fine-diff-C                       ((t (:background "#4488BB"))))
-   `(ediff-current-diff-Ancestor             ((t (:background "#DDF1F1"))))
-   `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
+   `(ediff-current-diff-A                    ((t (:background "#FFEEF0"))))
+   `(ediff-fine-diff-A                       ((t (:background "#EECCCC"))))
+   `(ediff-current-diff-B                    ((t (:background "#E6FFED"))))
+   `(ediff-fine-diff-B                       ((t (:background "#CCEECC"))))
+   `(ediff-current-diff-C                    ((t (:background "#F1F8FF"))))
+   `(ediff-fine-diff-C                       ((t (:background "#DDEEFF"))))
+   `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
+   `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
    ;; hl-line-mode
    `(hl-line                                 ((t (:foreground nil))))
    ;; org-mode
@@ -160,7 +160,7 @@
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))
-   `(shm-quarantine-face                     ((t (:background "#EECCCC"))))
+   `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
    ;; smartparens
    `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :bold t))))
    `(sp-show-pair-mismatch-face              ((t (:foreground ,theme-color-error :bold t))))
@@ -186,8 +186,8 @@
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
-   `(coverlay:untested-line-background-color "#EECCCC")
-   `(coverlay:tested-line-background-color   "#CCEECC")
+   `(coverlay:untested-line-background-color "#FFEEF0")
+   `(coverlay:tested-line-background-color   "#E6FFED")
    ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
