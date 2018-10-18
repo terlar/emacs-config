@@ -88,6 +88,10 @@
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
+   ;; smerge
+   `(smerge-upper                            ((t (:background "#E6FFED"))))
+   `(smerge-lower                            ((t (:background "#FFEEF0"))))
+   `(smerge-base                             ((t (:background ,color-5))))
    ;; whitespace
    `(whitespace-space                        ((t (:background nil :family ,+fixed-pitch-font))))
    ;; window-divider
