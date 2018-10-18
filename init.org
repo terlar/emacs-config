@@ -2546,7 +2546,6 @@ ARG lines can be used."
       "M-." 'nil)
      (:keymaps
       'js2-mode-map
-      :major-modes t
       :prefix +local-leader-key
       "r" 'js-repl)
      (:keymaps
@@ -2638,7 +2637,12 @@ ARG lines can be used."
      (use-package prettier-js
        :diminish prettier-js-mode
        :hook
-       (js2-mode . prettier-js-mode))
+       (js2-mode . prettier-js-mode)
+       :general
+       (:keymaps
+        'js2-mode-map
+        :prefix +local-leader-key
+        "f" 'prettier-js-mode))
      #+END_SRC
 
 ** markdown
@@ -2656,7 +2660,6 @@ ARG lines can be used."
      :general
      (:keymaps
       'markdown-mode-map
-      :major-modes t
       :prefix +local-leader-key
       "h" 'markdown-toggle-markup-hiding))
    #+END_SRC
@@ -2816,7 +2819,12 @@ ARG lines can be used."
        :hook
        (ruby-mode . rubocopfmt-mode)
        :custom
-       (rubocopfmt-use-bundler-when-possible nil))
+       (rubocopfmt-use-bundler-when-possible nil)
+       :general
+       (:keymaps
+        'ruby-mode-map
+        :prefix +local-leader-key
+        "f" 'rubocopfmt-mode))
      #+END_SRC
 
 **** ruby-refactor
