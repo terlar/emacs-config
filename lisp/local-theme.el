@@ -187,6 +187,15 @@
   (custom-theme-set-variables
    'local
    `(line-spacing ,+line-spacing)
+   ;; ansi-color
+   `(ansi-color-names-vector [,color-5
+                              ,theme-color-error
+                              ,color-9
+                              ,color-13
+                              ,color-11
+                              ,color-10
+                              ,color-12
+                              ,color-13])
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
