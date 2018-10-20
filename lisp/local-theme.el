@@ -21,11 +21,8 @@
     "Color used to indicate success.")
   (defvar theme-color-warning color-11
     "Color used to indicate warning.")
-
-  (defvar theme-color-highlight color-14
+  (defvar theme-color-highlight "#FEF9E1"
     "Color used to highlight elements.")
-  (defvar theme-color-lighter color-3
-    "Color used for less visible elements.")
 
   ;;;
   ;; Theme Faces
@@ -41,7 +38,7 @@
    `(mode-line-buffer-id                     ((t (:foreground nil :bold t))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
    `(line-number                             ((t (:inherit fixed-pitch))))
-   `(line-number-current-line                ((t (:inherit line-number :background ,color-5 :foreground ,theme-color-highlight :bold t))))
+   `(line-number-current-line                ((t (:inherit line-number :background ,theme-color-highlight :foreground ,color-14 :bold t))))
 
    `(error                                   ((t (:foreground ,theme-color-error))))
    `(success                                 ((t (:foreground ,theme-color-success))))
@@ -66,7 +63,7 @@
    `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
    `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
    ;; hl-line-mode
-   `(hl-line                                 ((t (:foreground nil))))
+   `(hl-line                                 ((t (:background ,theme-color-highlight :foreground nil))))
    ;; org-mode
    `(org-document-title                      ((t (:height 2.2 :bold nil))))
    `(org-level-1                             ((t (:height 1.6 :bold nil :italic t))))
@@ -112,6 +109,8 @@
    `(company-tooltip-search-selection        ((t (:bold t))))
    ;; eros
    `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
+   ;; idle-highlight
+   `(idle-highlight                          ((t (:background ,theme-color-highlight))))
    ;; indent-guide
    `(indent-guide-face                       ((t (:inherit fringe))))
    ;; js2-mode
