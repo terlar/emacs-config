@@ -170,7 +170,7 @@
     initialize (epkgs I'm looking at you) it lets me avoid all the mess that is
     require to get an efficient startup with the built-in =package.el=.
     #+BEGIN_SRC emacs-lisp
-    (setq straight-recipes-gnu-elpa-use-mirror t)
+    (defvar straight-recipes-gnu-elpa-use-mirror t)
     (eval-and-compile
       (defvar bootstrap-version)
       (let ((bootstrap-file
@@ -229,6 +229,7 @@
 *** server
     #+BEGIN_SRC emacs-lisp
     (use-package server
+      :straight nil
       :defer 3
       :config
       (unless (server-running-p)
@@ -239,6 +240,7 @@
     Persist history.
     #+BEGIN_SRC emacs-lisp
     (use-package savehist
+      :straight nil
       :hook
       (after-init . savehist-mode)
       :custom
@@ -253,6 +255,7 @@
     Keep track of last point place to resume editing in the same file.
     #+BEGIN_SRC emacs-lisp
     (use-package saveplace
+      :straight nil
       :defer 5
       :config
       (save-place-mode 1))
@@ -690,11 +693,14 @@
 *** Manage layouts
     #+BEGIN_SRC emacs-lisp
     (use-package winner
+      :straight nil
       :hook
       (window-setup . winner-mode)
       :preface
-      (defrepeater 'winner-redo-repeat #'winner-redo)
-      (defrepeater 'winner-undo-repeat #'winner-undo)
+      (unless (fboundp 'winner-redo-repeat)
+        (defrepeater 'winner-redo-repeat #'winner-redo))
+      (unless (fboundp 'winner-undo-repeat)
+        (defrepeater 'winner-undo-repeat #'winner-undo))
       :general
       ([remap winner-redo] #'winner-redo-repeat
        [remap winner-undo] #'winner-undo-repeat))
@@ -793,6 +799,7 @@
     Buttonize URLs and e-mail addresses in the current buffer.
     #+BEGIN_SRC emacs-lisp
     (use-package goto-addr
+      :straight nil
       :hook
       (text-mode . goto-address-mode)
       (prog-mode . goto-address-prog-mode))
@@ -838,6 +845,7 @@
     Display whitespace
     #+BEGIN_SRC emacs-lisp
     (use-package whitespace
+      :straight nil
       :custom
       (whitespace-line-column fill-column)
       (whitespace-style
@@ -884,6 +892,7 @@
 *** yatemplate
     #+BEGIN_SRC emacs-lisp
     (use-package autoinsert
+      :straight nil
       :defer 1
       :custom
       (auto-insert-query nil)
@@ -910,6 +919,7 @@
 *** Line highlight
     #+BEGIN_SRC emacs-lisp
     (use-package hl-line
+      :straight nil
       :hook
       ((prog-mode conf-mode) . hl-line-mode)
       :custom
@@ -1037,6 +1047,7 @@
     Revert buffers when underlying files change.
     #+BEGIN_SRC emacs-lisp
     (use-package autorevert
+      :straight nil
       :defer 2
       :diminish auto-revert-mode
       :custom
@@ -1108,7 +1119,7 @@
      ;; Always copy/delete recursively
      (dired-recursive-copies  'always)
      (dired-recursive-deletes 'top)
-     :init
+     :preface
      (defun +dired-mode-faces ()
        (face-remap-add-relative 'hl-line
                                 :background (face-background 'isearch))))
@@ -1126,7 +1137,7 @@
       (:keymaps
        'global
        "C-x C-n" 'dired-sidebar-toggle-sidebar)
-      :init
+      :preface
       (defun +dired-sidebar-setup ()
         (setq cursor-type nil)
         (stripe-buffer-mode 0)))
@@ -1177,6 +1188,7 @@
     Keep track of bookmarks
     #+BEGIN_SRC emacs-lisp
     (use-package bookmark
+      :straight nil
       :custom
       (bookmark-save-flag 1))
     #+END_SRC
@@ -1203,6 +1215,7 @@
     Keep track of recently opened files.
     #+BEGIN_SRC emacs-lisp
     (use-package recentf
+      :straight nil
       :defer 2
       :custom
       (recentf-exclude
@@ -1229,6 +1242,7 @@
     Keep track of last point place to resume editing in the same file.
     #+BEGIN_SRC emacs-lisp
     (use-package saveplace
+      :straight nil
       :defer 2
       :config
       (save-place-mode 1))
@@ -1258,14 +1272,14 @@
                        :docstring "Creat an interactive Eshell buffer (project aware)"
                        (projectile-project-p) #'projectile-run-eshell)
       "C-c p" '(:keymap projectile-command-map :package projectile :wk "project"))
-     :init
+     :preface
      (defun +projectile-relative-buf-name ()
        (when (buffer-file-name)
          (let ((buffer-name (if (projectile-project-p)
                                 (concat (projectile-project-name) "/" (file-relative-name (buffer-file-name) (projectile-project-root)))
                               (abbreviate-file-name (buffer-file-name)))))
            (rename-buffer buffer-name t))))
-
+     :init
      (defun +projectile-cache-current-file (orig-fun &rest args)
        "Don't cache ignored files."
        (unless (cl-some (lambda (path)
@@ -1304,7 +1318,7 @@
      :hook (after-init . eyebrowse-mode)
      :general
      ("C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
-     :init
+     :preface
      (defun +eyebrowse-rename-window-config-to-project-name ()
        "Set window configuration name to project name."
        (interactive)
@@ -1383,7 +1397,7 @@
       "C-u"    'ivy-kill-line
       "C-e"    '+ivy-move-end-of-line-or-done
       "C-f"    'ivy-alt-done)
-     :init
+     :preface
      (defun +ivy-move-end-of-line-or-done (arg)
        "Move to end of current line or consider ivy operation done.
 ARG lines can be used."
@@ -1391,7 +1405,7 @@ ARG lines can be used."
        (if (eolp)
            (ivy-alt-done)
          (move-end-of-line arg)))
-
+     :init
      ;; Don't use ^ as initial input
      (setq ivy-initial-inputs-alist nil)
 
@@ -1695,6 +1709,7 @@ ARG lines can be used."
    Code folding.
    #+BEGIN_SRC emacs-lisp
    (use-package hideshow
+     :straight nil
      :diminish hs-minor-mode
      :hook (prog-mode . hs-minor-mode)
      :custom
@@ -1741,7 +1756,7 @@ ARG lines can be used."
        "M-?"   'smart-jump-references
        "M-g j" 'smart-jump-go
        "M-g r" 'smart-jump-references)
-      :init
+      :preface
       (defun +smart-jump-find-references-with-counsel-rg ()
         "Use `rg' and `counsel' to find references."
         (interactive)
@@ -1783,7 +1798,7 @@ ARG lines can be used."
        "k"   '+flymake-diagnostics-prev-error
        "RET" 'flymake-goto-diagnostic
        "TAB" 'flymake-show-diagnostic)
-      :init
+      :preface
       (defun +flymake-setup-next-error-function ()
         (setq next-error-function 'flymake-goto-next-error))
 
@@ -1811,6 +1826,7 @@ ARG lines can be used."
     - Add a third resolution option, copy both A and B to C
     #+BEGIN_SRC emacs-lisp
     (use-package ediff
+      :straight nil
       :hook
       (ediff-quit . winner-undo)
       (ediff-keymap-setup . +ediff-mode-define-keys)
@@ -1819,7 +1835,7 @@ ARG lines can be used."
       (ediff-merge-split-window-function #'split-window-horizontally)
       (ediff-split-window-function #'split-window-horizontally)
       (ediff-window-setup-function #'ediff-setup-windows-plain)
-      :init
+      :preface
       (defun ediff-copy-both-to-C ()
         "Copy change from both A and B to C."
         (interactive)
@@ -1865,14 +1881,13 @@ ARG lines can be used."
       (magit-refs-show-commit-count 'all)
       (magit-save-repository-buffers 'dontask)
       (git-messenger:use-magit-popup t)
-      :init
+      :preface
       (defun +git-commit-set-fill-column ()
         "Set `fill-column' for git commit."
         (setq fill-column 72))
-
+      :config
       ;; Unset pager as it is not supported properly inside emacs.
       (setenv "GIT_PAGER" "")
-      :config
       (global-magit-file-mode 1))
     #+END_SRC
 
@@ -1919,7 +1934,7 @@ ARG lines can be used."
     (use-package editorconfig
       :defer 1
       :diminish editorconfig-mode
-      :init
+      :config
       (defun +ws-butler-editorconfig (props)
         "Use ws-butler mode instead of delete-trailing-whitespace."
         (if (equal (gethash 'trim_trailing_whitespace props) "true")
@@ -1928,7 +1943,6 @@ ARG lines can be used."
                     (delete 'delete-trailing-whitespace write-file-functions))
               (ws-butler-mode 1))
           (ws-butler-mode 0)))
-      :config
       (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
       (editorconfig-mode 1))
     #+END_SRC
@@ -2108,19 +2122,18 @@ ARG lines can be used."
     (with-eval-after-load 'savehist
       (push '+ielm-comint-input-ring savehist-additional-variables))
 
-    (with-eval-after-load 'ielm
-      (defun +ielm-set-comint-input-ring ()
-        "Restore `ielm' history."
-        (setq-local comint-input-ring-size 200)
-        (add-hook 'kill-buffer-hook #'+ielm-save-comint-input-ring nil t)
-        (when +ielm-comint-input-ring
-          (setq comint-input-ring +ielm-comint-input-ring)))
+    (defun +ielm-set-comint-input-ring ()
+      "Restore `ielm' history."
+      (setq-local comint-input-ring-size 200)
+      (add-hook 'kill-buffer-hook #'+ielm-save-comint-input-ring nil t)
+      (when +ielm-comint-input-ring
+        (setq comint-input-ring +ielm-comint-input-ring)))
 
-      (defun +ielm-save-comint-input-ring ()
-        "Save `ielm' history."
-        (setq +ielm-comint-input-ring comint-input-ring))
+    (defun +ielm-save-comint-input-ring ()
+      "Save `ielm' history."
+      (setq +ielm-comint-input-ring comint-input-ring))
 
-      (add-hook 'inferior-emacs-lisp-mode-hook #'+ielm-set-comint-input-ring))
+    (add-hook 'inferior-emacs-lisp-mode-hook #'+ielm-set-comint-input-ring)
     #+END_SRC
 
 *** Packages
@@ -2189,7 +2202,12 @@ ARG lines can be used."
      Discover functions.
      #+BEGIN_SRC emacs-lisp
      (use-package suggest
-       :init
+       :general
+       (:keymaps
+        'emacs-lisp-mode-map
+        :prefix +local-leader-key
+        "s" '+suggest-popup)
+       :preface
        (defun +suggest-popup ()
          "Open suggest as a popup."
          (interactive)
@@ -2232,6 +2250,7 @@ ARG lines can be used."
 ** eshell
    #+BEGIN_SRC emacs-lisp
    (use-package eshell
+     :straight nil
      :hook
      (eshell-mode . abbrev-mode)
      (eshell-mode . eshell-smart-initialize)
@@ -2243,9 +2262,8 @@ ARG lines can be used."
      (eshell-hist-ignoredups t)
      (eshell-error-if-no-glob t)
      (eshell-destroy-buffer-when-process-dies t)
-     :init
-     (autoload 'eshell-smart-initialize "em-smart")
-
+     :preface
+     (defvar eshell-visual-commands)
      (defun +eshell-define-keys ()
        (general-define-key
         :keymaps 'eshell-mode-map
@@ -2255,6 +2273,8 @@ ARG lines can be used."
      (defun +eshell-set-visual-commands ()
        (setq eshell-visual-commands
              (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands)))
+     :init
+     (autoload 'eshell-smart-initialize "em-smart")
 
      (define-abbrev-table 'eshell-mode-abbrev-table
        '(("base64" "base64 -w0")
@@ -2482,6 +2502,7 @@ ARG lines can be used."
 ** csv
    #+BEGIN_SRC emacs-lisp
    (use-package csv-mode
+     :straight nil
      :custom
      (csv-separators '("," "\t" ";")))
    #+END_SRC
@@ -2498,7 +2519,7 @@ ARG lines can be used."
        (nov-mode . +nov-mode-hide-fringes)
        :custom
        (nov-save-place-file (concat +data-dir "nov-places"))
-       :init
+       :preface
        (defun +nov-mode-delayed-render ()
          (run-with-idle-timer 0.2 nil 'nov-render-document))
 
@@ -2553,7 +2574,15 @@ ARG lines can be used."
      (:keymaps
       'js2-mode-map
       "<C-return>" 'js-repl)
-     :init
+     :preface
+     (defun +js-mode-prettify-symbols ()
+       (dolist (symbol '(("=="        . ?≈)
+                         ("=>"        . ?→)
+                         ("function"  . ?ƒ)
+                         ("undefined" . ?∅)
+                         ("Infinity"  . ?∞)))
+         (push symbol prettify-symbols-alist)))
+
      (defun js-repl ()
        "Open a JavaScript REPL."
        (interactive)
@@ -2563,22 +2592,15 @@ ARG lines can be used."
 
      (defun js-repl-eval ()
        "Evaluate code in JavaScript REPL"
+       (interactive)
        (if (indium-client-process-live-p)
            (if (use-region-p)
                (indium-eval-region (region-beginning) (region-end))
-             (indium-eval-last-node))
+             (indium-eval-last-node ""))
          (if (use-region-p)
              (nodejs-repl-send-region (region-beginning) (region-end))
            (nodejs-repl-send-line))))
-
-     (defun +js-mode-prettify-symbols ()
-       (dolist (symbol '(("=="        . ?≈)
-                         ("=>"        . ?→)
-                         ("function"  . ?ƒ)
-                         ("undefined" . ?∅)
-                         ("Infinity"  . ?∞)))
-         (push symbol prettify-symbols-alist)))
-
+     :init
      (with-eval-after-load 'editorconfig
        (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist))
      (with-eval-after-load 'org
@@ -2618,7 +2640,7 @@ ARG lines can be used."
        (:keymaps
         'js2-mode-map
         "C-k" 'js2r-kill)
-       :init
+       :preface
        (defun +js2r-setup-keybindings ()
          (js2r-add-keybindings-with-prefix "C-c m m")))
      #+END_SRC
@@ -2720,11 +2742,12 @@ ARG lines can be used."
 ** ruby
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
+     :straight nil
      :hook
      (ruby-mode . +ruby-mode-prettify-symbols)
      :custom
      (ruby-align-chained-calls t)
-     :init
+     :preface
      (defun +ruby-mode-prettify-symbols ()
        (dolist (symbol '(("def"             . ?ƒ)
                          ("Float::INFINITY" . ?∞)))
@@ -2886,6 +2909,7 @@ ARG lines can be used."
 ** sh
    #+BEGIN_SRC emacs-lisp
    (use-package sh-script
+     :straight nil
      :custom
      ;; Use regular indentation for line-continuation
      (sh-indent-after-continuation 'always)
@@ -2947,6 +2971,7 @@ ARG lines can be used."
 ** Spell checking
    #+BEGIN_SRC emacs-lisp
    (use-package flyspell
+     :straight nil
      :diminish flyspell-mode
      :hook
      ((text-mode
