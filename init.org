@@ -1025,10 +1025,13 @@
    Text scaling works across all buffers. I rarely find that I only want to change the
    text scale only for one buffer.
    #+BEGIN_SRC emacs-lisp
-   (defadvice text-scale-increase (around all-buffers (arg) activate)
-     "Text scale across all buffers."
+   (defun +text-scale-increase-across-all-buffers (orig &rest args)
+     "Text scale across all buffers.
+   Calls ORIG function with ARGS."
      (dolist (buffer (buffer-list))
-       (with-current-buffer buffer ad-do-it)))
+       (with-current-buffer buffer
+         (apply orig args))))
+   (advice-add 'text-scale-increase :around #'+text-scale-increase-across-all-buffers)
    #+END_SRC
 
 *** default-text-scale
