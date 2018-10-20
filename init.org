@@ -1116,16 +1116,11 @@
      :hook
      (dired-mode . hl-line-mode)
      (dired-mode . dired-hide-details-mode)
-     (dired-mode . +dired-mode-faces)
      :custom
      (dired-listing-switches "-al --group-directories-first")
      ;; Always copy/delete recursively
      (dired-recursive-copies  'always)
-     (dired-recursive-deletes 'top)
-     :preface
-     (defun +dired-mode-faces ()
-       (face-remap-add-relative 'hl-line
-                                :background (face-background 'isearch))))
+     (dired-recursive-deletes 'top))
    #+END_SRC
 
 *** Sidebar
