@@ -92,6 +92,8 @@
    `(smerge-upper                            ((t (:background "#E6FFED"))))
    `(smerge-lower                            ((t (:background "#FFEEF0"))))
    `(smerge-base                             ((t (:background ,color-5))))
+   ;; term
+   `(term-color-red                          ((t (:foreground ,theme-color-error :background nil))))
    ;; whitespace
    `(whitespace-space                        ((t (:background nil :family ,+fixed-pitch-font))))
    ;; window-divider

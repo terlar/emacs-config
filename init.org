@@ -1569,7 +1569,7 @@ ARG lines can be used."
      "C-x C-Z" 'maximize-window
      ;; Terminal
      "C-!" 'eshell
-     "C-M-!" '(lambda () (interactive) (term "fish"))
+     "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
      ;; REPL
      "<C-return>" 'ielm
      ;; Editing
