@@ -6,6 +6,7 @@
 ;; URL: https://github.com/terlar/auto-tangle
 ;; Keywords: convenience, lisp
 ;; Version: 0.1.0
+;; Package-Requires: ((emacs "25.1") (async "1.9.4"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -29,7 +30,9 @@
 
 ;;; Code:
 
+(autoload 'org-babel-tangle-file "ob-tangle" nil t)
 (autoload 'async-start "async")
+(autoload 'async-byte-compile-file "async-bytecomp" nil t)
 
 (defgroup auto-tangle nil
   "Automatically tangle Org files."
@@ -72,36 +75,43 @@ Optionally provide FILE or the buffer file name will be used."
   (unless file
     (setq file (buffer-file-name)))
 
-  (let ((tangle-start-time (current-time))
-        (target (concat (file-name-sans-extension file) ".el")))
+  (let ((target (concat (file-name-sans-extension file) ".el")))
     (when (or (not (file-exists-p target))
               (file-newer-than-file-p file target))
       (if auto-tangle-async
-          (async-start
-           `(lambda ()
-              (autoload 'org-babel-tangle-file "ob-tangle" nil t)
-              (org-babel-tangle-file ,file ,target "emacs-lisp")
-              (when ,auto-tangle-byte-compile
-                (autoload 'byte-compile-file "bytecomp" nil t)
-                (byte-compile-file ,target))
-              (when ,auto-tangle-load
-                (load-file ,target))
-              t)
-           `(lambda (result)
-              (if result
+          (auto-tangle-async-babel-tangle file target)
+        (auto-tangle-sync-babel-tangle file target)))))
+
+(defun auto-tangle-sync-babel-tangle (file target)
+  "Tangle FILE into TARGET synchronously."
+  (org-babel-tangle-file file target "emacs-lisp")
+  (when auto-tangle-byte-compile
+    (autoload 'byte-compile-file "bytecomp" nil t)
+    (byte-compile-file target))
+  (when auto-tangle-load
+    (load-file target)))
+
+(defun auto-tangle-async-babel-tangle (file target)
+  "Tangle FILE into TARGET asynchronously."
+  (let ((call-back
+         `(lambda (result)
+            (if result
+                (progn
                   (message "SUCCESS: %s successfully tangled. (%.3fs)"
                            ,file
                            (float-time (time-subtract (current-time)
-                                                      ',tangle-start-time)))
-                (message "ERROR: %s tangle failed." ,file))))
-        (progn
-          (autoload 'org-babel-tangle-file "ob-tangle" nil t)
-          (org-babel-tangle-file file target "emacs-lisp")
-          (when auto-tangle-byte-compile
-            (autoload 'byte-compile-file "bytecomp" nil t)
-            (byte-compile-file target))
-          (when auto-tangle-load
-            (load-file target)))))))
+                                                      ',(current-time))))
+                  (when ,auto-tangle-byte-compile
+                    (async-byte-compile-file ,target))
+                  (when ,auto-tangle-load
+                    (load-file ,target)))
+              (message "ERROR: %s tangle failed." ,file)))))
+    (async-start
+     `(lambda ()
+        (autoload 'org-babel-tangle-file "ob-tangle" nil t)
+        (org-babel-tangle-file ,file ,target "emacs-lisp")
+        t)
+     call-back)))
 
 (provide 'auto-tangle)
 ;;; auto-tangle.el ends here

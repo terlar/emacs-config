@@ -95,9 +95,9 @@
 ** Quiet startup
    #+BEGIN_SRC emacs-lisp
    (setq inhibit-default-init t
-          inhibit-startup-screen t
-          initial-major-mode 'fundamental-mode
-          initial-scratch-message nil)
+         inhibit-startup-screen t
+         initial-major-mode 'fundamental-mode
+         initial-scratch-message nil)
    #+END_SRC
 
 ** Disable GUI components
@@ -290,7 +290,7 @@
 
 ** Localization
    #+BEGIN_SRC emacs-lisp
-   (setq calendar-week-start-day 1)
+   (setq-default calendar-week-start-day 1)
    #+END_SRC
 
 ** Terminal
@@ -457,26 +457,28 @@
 ** Typography
 *** Size
     #+BEGIN_SRC emacs-lisp
-    (defvar +line-spacing 0.25
-      "Spacing between lines.")
+    (eval-and-compile
+      (defvar +line-spacing 0.25
+        "Spacing between lines.")
 
-    (defvar +default-font-height 140
-      "Default font height.")
+      (defvar +default-font-height 140
+        "Default font height."))
     #+END_SRC
 
 *** Face
     #+BEGIN_SRC emacs-lisp
-    (defvar +fixed-pitch-font "Iosevka T Slab"
-      "Font used for fixed-pitch faces.")
+    (eval-and-compile
+      (defvar +fixed-pitch-font "Iosevka T Slab"
+        "Font used for fixed-pitch faces.")
 
-    (defvar +variable-pitch-font "Noto Sans"
-      "Font used for variable-pitch faces.")
+      (defvar +variable-pitch-font "Noto Sans"
+        "Font used for variable-pitch faces.")
 
-    (defvar +serif-font "Noto Serif"
-      "Font used for serif faces.")
+      (defvar +serif-font "Noto Serif"
+        "Font used for serif faces.")
 
-    (defvar +unicode-font "Noto Mono"
-      "Fallback font used for unicode glyphs.")
+      (defvar +unicode-font "Noto Mono"
+        "Fallback font used for unicode glyphs."))
     #+END_SRC
 
 *** Line length
@@ -763,7 +765,7 @@
 
    Convert between tabs and spaces (only tabify initial whitespace)
    #+BEGIN_SRC emacs-lisp
-   (setq tabify-regexp "^\t* [ \t]+")
+   (setq-default tabify-regexp "^\t* [ \t]+")
    #+END_SRC
 
 ** Text flow
@@ -1932,7 +1934,7 @@ ARG lines can be used."
     (use-package editorconfig
       :defer 1
       :diminish editorconfig-mode
-      :config
+      :preface
       (defun +ws-butler-editorconfig (props)
         "Use ws-butler mode instead of delete-trailing-whitespace."
         (if (equal (gethash 'trim_trailing_whitespace props) "true")
@@ -1941,6 +1943,7 @@ ARG lines can be used."
                     (delete 'delete-trailing-whitespace write-file-functions))
               (ws-butler-mode 1))
           (ws-butler-mode 0)))
+      :config
       (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
       (editorconfig-mode 1))
     #+END_SRC
@@ -2391,6 +2394,7 @@ ARG lines can be used."
      (:keymaps
       'org-src-mode-map
       "C-c C-c" 'org-edit-src-exit)
+     :defines org-babel-load-languages
      :config
      (org-babel-do-load-languages
       'org-babel-load-languages
