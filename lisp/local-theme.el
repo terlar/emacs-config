@@ -167,7 +167,7 @@
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
    ;; smartparens
-   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :bold t))))
+   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :bold t :underline t :box nil))))
    `(sp-show-pair-mismatch-face              ((t (:foreground ,theme-color-error :bold t))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
