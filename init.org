@@ -2960,7 +2960,14 @@ ARG lines can be used."
 
 ** Session
    #+BEGIN_SRC emacs-lisp
-   (desktop-save-mode 1)
+   (use-package desktop
+     :straight nil
+     :demand t
+     :custom
+     (desktop-restore-eager 5)
+     :config
+     (push 'buffer-undo-list desktop-locals-to-save)
+     (desktop-save-mode 1))
    #+END_SRC
 
 ** Spell checking
