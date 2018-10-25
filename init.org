@@ -2134,7 +2134,7 @@ ARG lines can be used."
       "Save `ielm' history."
       (setq +ielm-comint-input-ring comint-input-ring))
 
-    (add-hook 'inferior-emacs-lisp-mode-hook #'+ielm-set-comint-input-ring)
+    (add-hook 'ielm-mode-hook #'+ielm-set-comint-input-ring)
     #+END_SRC
 
 *** Packages
@@ -2927,13 +2927,6 @@ ARG lines can be used."
        :hook
        (sh-mode . flymake-mode)
        (sh-mode . flymake-shellcheck-load))
-     #+END_SRC
-
-**** shx
-     Extended shell/comint mode.
-     #+BEGIN_SRC emacs-lisp
-     (use-package shx
-       :hook (after-init . shx-global-mode))
      #+END_SRC
 
 * Tools
