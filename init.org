@@ -2588,6 +2588,41 @@ ARG lines can be used."
          "Hide the fringes for `nov-mode'."
          (set-window-fringes (get-buffer-window) 0 0 nil)))
      #+END_SRC
+** erlang
+   #+BEGIN_SRC emacs-lisp
+   (use-package erlang
+     :hook
+     (erlang-mode . +erlang-mode-setup)
+     (erlang-mode . flymake-mode)
+     :general
+     (:keymaps
+      'erlang-mode-map
+      "M-g k" 'erlang-man-function)
+     (:keymaps
+      'erlang-mode-map
+      :prefix +local-leader-key
+      "t" 'erlang-eunit-compile-and-run-current-test
+      "T" 'erlang-eunit-compile-and-run-module-tests
+      "r" 'erlang-shell-display)
+     :preface
+     (defun +erlang-mode-setup ()
+       "Setup `erlang-mode'."
+       (require 'erlang-eunit)
+       (require 'erlang-flymake)))
+   #+END_SRC
+
+*** Packages
+**** ivy-erlang-complete
+     #+BEGIN_SRC emacs-lisp
+     (use-package ivy-erlang-complete
+       :hook
+       (erlang-mode . ivy-erlang-complete-init)
+       (erlang-mode . +erlang-mode-setup-ivy-erlang-complete)
+       :preface
+       (defun +erlang-mode-setup-ivy-erlang-complete ()
+         "Setup `ivy-erlang-complete' for `erlang-mode'."
+         (add-hook 'after-save-hook #'ivy-erlang-complete-reparse nil t)))
+     #+END_SRC
 
 ** git
 *** Packages
