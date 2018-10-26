@@ -2535,6 +2535,31 @@ ARG lines can be used."
             (call-interactively 'cider-jack-in)))))
      #+END_SRC
 
+** crystal
+   #+BEGIN_SRC emacs-lisp
+   (use-package crystal-mode
+     :general
+     (:keymaps
+      'crystal-mode-map
+      :prefix +local-leader-key
+      "t" 'crystal-spec-line
+      "T" 'crystal-spec-buffer
+      "s" 'crystal-spec-all))
+   #+END_SRC
+
+*** Packages
+**** inf-crystal
+     #+BEGIN_SRC emacs-lisp
+     (use-package inf-crystal
+       :hook
+       (crystal-mode . inf-crystal-minor-mode)
+       :general
+       (:keymaps
+        'crystal-mode-map
+        :prefix +local-leader-key
+        "r" 'inf-crystal))
+     #+END_SRC
+
 ** csv
    #+BEGIN_SRC emacs-lisp
    (use-package csv-mode
