@@ -2107,7 +2107,7 @@ ARG lines can be used."
     :prefix +local-leader-key
     "c" 'emacs-lisp-byte-compile
     "C" 'emacs-lisp-byte-compile-and-load
-    "t" 'elisp-test)
+    "r" 'ielm)
 
    (custom-set-variables
     '(ad-redefinition-action 'accept)
@@ -2499,6 +2499,40 @@ ARG lines can be used."
                          ("DONE"     . ?✔)))
          (push symbol prettify-symbols-alist)))
      (add-hook 'org-mode-hook #'+org-mode-prettify-task-symbols)
+     #+END_SRC
+
+** clojure
+   #+BEGIN_SRC emacs-lisp
+   (use-package clojure-mode)
+   #+END_SRC
+
+*** Packages
+**** cider
+     #+BEGIN_SRC emacs-lisp
+     (use-package cider
+       :hook
+       (cider-mode . cider-auto-test-mode)
+       :custom
+       (cider-repl-display-help-banner nil)
+       :general
+       (:keymaps
+        'clojure-mode-map
+        :prefix +local-leader-key
+        "r" 'clojure-repl)
+       (:keymaps
+        'cider-mode-map
+        :prefix +local-leader-key
+        "t" 'cider-test-run-test
+        "T" 'cider-test-run-ns-tests
+        "s" 'cider-test-run-project-tests)
+       :preface
+       (defun clojure-repl ()
+         "Open a Clojure REPL."
+         (interactive)
+         (condition-case nil
+             (call-interactively 'cider-switch-to-repl-buffer)
+           (user-error
+            (call-interactively 'cider-jack-in)))))
      #+END_SRC
 
 ** csv
