@@ -738,7 +738,7 @@
     Always display pop up buffers at the bottom and regard all star buffers as such
     buffers.
     #+BEGIN_SRC emacs-lisp
-    (push `(,(rx bos "*" (one-or-more anything) "*" eos)
+    (push `(,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
             (display-buffer-reuse-window
              display-buffer-in-side-window)
             (reusable-frames . visible)
@@ -2958,7 +2958,6 @@ ARG lines can be used."
        (:keymaps
         'ruby-mode-map
         :prefix +local-leader-key
-        "r" '(:ignore t :wk "refactor")
         "rb" 'ruby-toggle-block
         "rc" 'ruby-refactor-convert-post-conditional
         "re" '(:ignore t :wk "extract")
@@ -3002,6 +3001,45 @@ ARG lines can be used."
      (require 'eglot))
    #+END_SRC
 
+** scala
+   #+BEGIN_SRC emacs-lisp
+   (use-package scala-mode
+     :hook
+     (scala-mode . +scala-mode-prettify-symbols)
+     :custom
+     (scala-indent:align-parameters t)
+     :preface
+     (defun +scala-mode-prettify-symbols ()
+       (setq prettify-symbols-alist scala-prettify-symbols-alist)))
+   #+END_SRC
+
+*** Packages
+**** ensime
+     #+BEGIN_SRC emacs-lisp
+     (use-package ensime
+       :hook
+       (scala-mode . ensime-mode)
+       :custom
+       (ensime-eldoc-hints 'all)
+       (ensime-search-interface 'ivy)
+       (ensime-startup-notification nil)
+       :general
+       (:keymaps
+        'ensime-mode-map
+        "M-g k" 'ensime-show-doc-for-symbol-at-point)
+       (:keymaps
+        'ensime-mode-map
+        :prefix +local-leader-key
+        "c" 'ensime-sbt-do-compile
+        "r" 'ensime-inf-switch
+        "t" 'ensime-sbt-do-test))
+     #+END_SRC
+
+**** sbt-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package sbt-mode)
+     #+END_SRC
+
 ** sh
    #+BEGIN_SRC emacs-lisp
    (use-package sh-script
@@ -3014,6 +3052,7 @@ ARG lines can be used."
       'sh-mode-map
       "M-g k" 'man))
    #+END_SRC
+
 *** Packages
 **** flymake-shellcheck
      #+BEGIN_SRC emacs-lisp
@@ -3090,11 +3129,8 @@ ARG lines can be used."
 ** TODO Add org-eldoc (show current path)
 ** TODO Add org-preview-html
 ** TODO Add org-noter
-** TODO Migrate clojure config
-** TODO Migrate crystal config
 ** TODO Migrate elixir config
 ** TODO Migrate elm config
-** TODO Migrate erlang config
 ** TODO Migrate go config
 ** TODO Migrate haskell config
 ** TODO Migrate java config
@@ -3105,7 +3141,6 @@ ARG lines can be used."
 ** TODO Migrate python config
 ** TODO Migrate racket config
 ** TODO Migrate rst config
-** TODO Migrate scala config
 ** TODO Migrate nix config
 ** TODO Migrate ansible config
 ** TODO Migrate salt config
