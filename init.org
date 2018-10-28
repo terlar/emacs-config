@@ -1944,7 +1944,7 @@ ARG lines can be used."
               (ws-butler-mode 1))
           (ws-butler-mode 0)))
       :config
-      (add-hook 'editorconfig-custom-hooks #'+ws-butler-editorconfig)
+      (add-hook 'editorconfig-after-apply-functions #'+ws-butler-editorconfig)
       (editorconfig-mode 1))
     #+END_SRC
 
