@@ -2821,6 +2821,19 @@ ARG lines can be used."
      (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
      #+END_SRC
 
+** ocaml
+   #+BEGIN_SRC emacs-lisp
+   (use-package tuareg
+     :general
+     (:keymaps
+      'tuareg-mode-map
+      "C-x C-e" 'tuareg-eval-phrase)
+     (:keymaps
+      'tuareg-mode-map
+      :prefix +local-leader-key
+      "r" 'run-ocaml))
+   #+END_SRC
+
 ** pdf
 *** Packages
 **** pdf-tools
@@ -3138,7 +3151,6 @@ ARG lines can be used."
 ** TODO Migrate java config
 ** TODO Migrate lisp config
 ** TODO Migrate lua config
-** TODO Migrate ocaml config
 ** TODO Migrate opengl config
 ** TODO Migrate python config
 ** TODO Migrate racket config
