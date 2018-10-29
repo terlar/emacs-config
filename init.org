@@ -1634,7 +1634,10 @@ ARG lines can be used."
 ** Containers
 *** Docker
      #+BEGIN_SRC emacs-lisp
-     (use-package docker)
+     (use-package docker
+       :general
+       ("C-c d d" 'docker
+        "C-c d c" 'docker-compose))
     #+END_SRC
 
 **** Files
