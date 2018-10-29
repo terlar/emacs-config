@@ -2850,6 +2850,20 @@ ARG lines can be used."
      (plantuml-jar-path "/opt/plantuml/plantuml.jar"))
    #+END_SRC
 
+** racket
+   #+BEGIN_SRC emacs-lisp
+   (use-package racket-mode
+     :general
+     (:keymaps
+      'racket-mode-map
+      "M-g k" 'racket-doc)
+     (:keymaps
+      'racket-mode-map
+      :prefix +local-leader-key
+      "r" 'racket-repl
+      "t" 'racket-test))
+   #+END_SRC
+
 ** ruby
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
