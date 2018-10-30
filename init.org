@@ -506,6 +506,15 @@
     (load-theme 'local t)
     #+END_SRC
 
+*** Echo area
+    Adjust the font face used for the echo area.
+    #+BEGIN_SRC emacs-lisp
+    (dolist (buffer '(" *Echo Area 0*"
+                      " *Echo Area 1*"))
+      (with-current-buffer (get-buffer buffer)
+        (setq-local face-remapping-alist '((default (:height 0.9) variable-pitch)))))
+    #+END_SRC
+
 ** Layout
 *** Padding
     Add some margins to make text feel less crowded. Put fringes on the outside for the
