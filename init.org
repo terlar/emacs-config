@@ -1057,8 +1057,6 @@
       :diminish auto-revert-mode
       :custom
       (auto-revert-verbose nil)
-      ;; Auto-refresh dired and other non-file buffers
-      (global-auto-revert-non-file-buffers t)
       :config
       (global-auto-revert-mode 1))
     #+END_SRC
@@ -1116,6 +1114,7 @@
    (use-package dired
      :straight nil
      :hook
+     (dired-mode . auto-revert-mode)
      (dired-mode . hl-line-mode)
      (dired-mode . dired-hide-details-mode)
      :custom
