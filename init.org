@@ -1727,6 +1727,16 @@ ARG lines can be used."
            hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
    #+END_SRC
 
+** Formatting
+   Manually or auto-format buffers with various tools.
+   #+BEGIN_SRC emacs-lisp
+   (use-package format-all
+     :hook
+     (js2-mode . format-all-mode)
+     :general
+     ("C-c f" 'format-all-buffer))
+   #+END_SRC
+
 ** Jump to definition
    Jump to definition is really useful and I prefer doing so without TAGS which is pretty
    much the default for most modes. I am using the excellent package =dumb-jump= to jump via
@@ -2755,19 +2765,6 @@ ARG lines can be used."
      REPL for nodejs.
      #+BEGIN_SRC emacs-lisp
      (use-package nodejs-repl)
-     #+END_SRC
-
-**** prettier-js
-     #+BEGIN_SRC emacs-lisp
-     (use-package prettier-js
-       :diminish prettier-js-mode
-       :hook
-       (js2-mode . prettier-js-mode)
-       :general
-       (:keymaps
-        'js2-mode-map
-        :prefix +local-leader-key
-        "f" 'prettier-js-mode))
      #+END_SRC
 
 ** markdown
