@@ -685,7 +685,7 @@
                    (substring-no-properties string 4))))
         (t
          string)))
-     (advice-add 'vc-git-mode-line-string :filter-return '+shorten-vc-mode-line)
+     (advice-add 'vc-git-mode-line-string :filter-return #'+shorten-vc-mode-line)
      #+END_SRC
 
 * Display
@@ -2508,6 +2508,16 @@ ARG lines can be used."
      (add-hook 'org-mode-hook #'+org-mode-prettify-task-symbols)
      #+END_SRC
 
+**** Breadcrumbs
+     Remove style from heading breadcrumbs.
+     #+BEGIN_SRC emacs-lisp
+     (defun +org-eldoc-get-breadcrumb-no-properties (string)
+       "Remove properties from STRING."
+       (when string
+         (substring-no-properties string)))
+     (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
+     #+END_SRC
+
 ** clojure
    #+BEGIN_SRC emacs-lisp
    (use-package clojure-mode)
@@ -3155,7 +3165,6 @@ ARG lines can be used."
   #+END_SRC
 
 * Tasks
-** TODO Add org-eldoc (show current path)
 ** TODO Add org-preview-html
 ** TODO Add org-noter
 ** TODO Migrate elixir config
@@ -3167,7 +3176,6 @@ ARG lines can be used."
 ** TODO Migrate lua config
 ** TODO Migrate opengl config
 ** TODO Migrate python config
-** TODO Migrate racket config
 ** TODO Migrate rst config
 ** TODO Migrate nix config
 ** TODO Migrate ansible config
