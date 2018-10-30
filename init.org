@@ -1980,29 +1980,6 @@ ARG lines can be used."
       :diminish eldoc-overlay-mode)
     #+END_SRC
 
-*** exercism
-    #+BEGIN_SRC emacs-lisp
-    (use-package exercism
-      :straight
-      (:host github :repo "canweriotnow/exercism-emacs")
-      :general
-      (:prefix
-       +leader-key
-       "E" '(:ignore t :wk "exercism")
-       "E f" 'exercism-fetch
-       "E l" 'exercism-list
-       "E o" 'exercism-open
-       "E s" 'exercism-submit
-       "E u" 'exercism-unsubmit
-       "E t" 'exercism-tracks)
-      :custom
-      (exercism-auto-enable nil)
-      (exercism-dir (expand-file-name "exercism" "~/src/"))
-      :init
-      ;; Fix the auto-mode-alist addition
-      (push `(,exercism-dir . exercism-mode) auto-minor-mode-alist))
-    #+END_SRC
-
 *** hl-todo
     Highlight *TODO* inside comments and strings.
     #+BEGIN_SRC emacs-lisp
