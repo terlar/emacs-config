@@ -1192,6 +1192,15 @@
       (bookmark-save-flag 1))
     #+END_SRC
 
+*** deadgrep
+    #+BEGIN_SRC emacs-lisp
+    (use-package deadgrep
+      :general
+      (:keymaps
+       'global
+       "C-c J" 'deadgrep))
+    #+END_SRC
+
 *** deft
     #+BEGIN_SRC emacs-lisp
     (use-package deft
@@ -1444,8 +1453,8 @@ ARG lines can be used."
         "C-c r" 'counsel-recentf
         "C-c g" 'counsel-git
         "C-c i" 'counsel-imenu
-        "C-c j" 'counsel-git-grep
-        "C-c J" 'counsel-rg)
+        "C-c G" 'counsel-git-grep
+        "C-c j" 'counsel-rg)
        (:keymaps
         'counsel-ag-map
         "C-SPC" 'ivy-call-and-recenter)
