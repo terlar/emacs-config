@@ -2822,6 +2822,10 @@ ARG lines can be used."
 
 ** ocaml
    #+BEGIN_SRC emacs-lisp
+   (use-package caml
+     :straight
+     (:host github :repo "ocaml/ocaml" :branch "trunk" :files ("emacs/*.el")))
+
    (use-package tuareg
      :general
      (:keymaps
@@ -3045,6 +3049,8 @@ ARG lines can be used."
 **** ensime
      #+BEGIN_SRC emacs-lisp
      (use-package ensime
+       :straight
+       (:host github :repo "ensime/ensime-emacs" :branch "2.0")
        :hook
        (scala-mode . ensime-mode)
        :custom
