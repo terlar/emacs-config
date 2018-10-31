@@ -1070,6 +1070,14 @@
       (global-auto-revert-mode 1))
     #+END_SRC
 
+*** eldoc
+    #+BEGIN_SRC emacs-lisp
+    (use-package eldoc
+      :straight nil
+      :config
+      (global-eldoc-mode 1))
+    #+END_SRC
+
 *** rainbow-mode
     Display colors inline.
     #+BEGIN_SRC emacs-lisp
