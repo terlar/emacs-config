@@ -509,10 +509,13 @@
 *** Echo area
     Adjust the font face used for the echo area.
     #+BEGIN_SRC emacs-lisp
-    (dolist (buffer '(" *Echo Area 0*"
-                      " *Echo Area 1*"))
-      (with-current-buffer (get-buffer buffer)
-        (setq-local face-remapping-alist '((default (:height 0.9) variable-pitch)))))
+    (defun +setup-echo-area-face ()
+      "Setup faces for Echo Area."
+      (dolist (buffer '(" *Echo Area 0*"
+                        " *Echo Area 1*"))
+        (with-current-buffer (get-buffer buffer)
+          (setq-local face-remapping-alist '((default (:height 0.9) variable-pitch))))))
+    (add-hook 'after-init-hook #'+setup-echo-area-face)
     #+END_SRC
 
 ** Layout
