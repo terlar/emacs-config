@@ -1760,7 +1760,8 @@ ARG lines can be used."
    #+BEGIN_SRC emacs-lisp
    (use-package format-all
      :hook
-     (js2-mode . format-all-mode)
+     ((js2-mode
+       python-mode) . format-all-mode)
      :general
      ("C-c f" 'format-all-buffer))
    #+END_SRC
@@ -2950,6 +2951,68 @@ ARG lines can be used."
    (use-package protobuf-mode)
    #+END_SRC
 
+** python
+   #+BEGIN_SRC emacs-lisp
+   (use-package python
+     :straight nil
+     :hook
+     (python-mode . +python-mode-prettify-symbols)
+     :general
+     (:keymaps
+      'python-mode-map
+      :prefix +local-leader-key
+      "r" 'run-python)
+     :preface
+     (defun +python-mode-prettify-symbols ()
+       (dolist (symbol '(("def"   . ?ƒ)
+                         ("sum"   . ?Σ)
+                         ("not"   . ?￢)
+                         ("in"    . ?∈)
+                         ("for"   . ?∀)
+                         ("**2"   . ?²)
+                         ("**3"   . ?³)
+                         ("None"  . ?∅)))
+         (push symbol prettify-symbols-alist))))
+   #+END_SRC
+
+*** Packages
+**** pip-requirements
+     Editing pip requirements files.
+     #+BEGIN_SRC emacs-lisp
+     (use-package pip-requirements)
+     #+END_SRC
+
+**** pydoc
+     #+BEGIN_SRC emacs-lisp
+     (use-package pydoc
+       :general
+       (:keymaps
+        'python-mode-map
+        "M-g k" 'pydoc-at-point))
+     #+END_SRC
+
+**** python-test
+     #+BEGIN_SRC emacs-lisp
+     (use-package python-test
+       :custom
+       (python-test-backend 'pytest)
+       :general
+       (:keymaps
+        'python-mode-map
+        :prefix +local-leader-key
+        "t" 'python-test-project)
+       :config
+       (setq python-test-project-root-files
+             (append '("README.md") python-test-project-root-files)))
+     #+END_SRC
+
+**** python-x
+     #+BEGIN_SRC emacs-lisp
+     (use-package python-x
+       :hook
+       (python-mode . python-x-setup))
+     #+END_SRC
+
 ** racket
    #+BEGIN_SRC emacs-lisp
    (use-package racket-mode
@@ -3289,6 +3352,5 @@ ARG lines can be used."
 ** TODO Migrate haskell config
 ** TODO Migrate java config
 ** TODO Migrate lisp config
-** TODO Migrate python config
 ** TODO Migrate rst config
 ** TODO Migrate web config
