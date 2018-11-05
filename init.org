@@ -2529,6 +2529,29 @@ ARG lines can be used."
      (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
      #+END_SRC
 
+** ansible
+   #+BEGIN_SRC emacs-lisp
+   (use-package ansible
+     :minor
+     "site\\.yml$"
+     "roles/.+\\.yml$"
+     :magic-minor
+     "^\\(---\n\\)?\\(#.*\n\\)* *-? \\(environment\\|h\\(?:\\(?:andler\\|ost\\)s\\)\\|i\\(?:mport_tasks\\|nclude\\(?:_tasks\\)?\\)\\|p\\(?:\\(?:ost\\|re\\)_tasks\\)\\|roles?\\|tasks\\|vars\\(?:_\\(?:files\\|prompt\\)\\)?\\):")
+
+   (use-package ansible-doc
+     :diminish ansible-doc-mode
+     :hook (ansible . ansible-doc-mode)
+     :preface
+     (defun ansible-doc-at-point ()
+       "Ansible doc with selected point"
+       (interactive)
+       (ansible-doc (thing-at-point 'symbol)))
+     :general
+     (:keymaps
+      'ansible::key-map
+      "M-g k" 'ansible-doc-at-point))
+   #+END_SRC
+
 ** clojure
    #+BEGIN_SRC emacs-lisp
    (use-package clojure-mode)
@@ -2836,6 +2859,21 @@ ARG lines can be used."
      (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
      #+END_SRC
 
+** nginx
+   #+BEGIN_SRC emacs-lisp
+   (use-package nginx-mode)
+   #+END_SRC
+
+** nix
+   #+BEGIN_SRC emacs-lisp
+   (use-package nix-mode
+     :general
+     (:keymaps
+      'nix-mode-map
+      :prefix +local-leader-key
+      "r" 'nix-repl))
+   #+END_SRC
+
 ** ocaml
    #+BEGIN_SRC emacs-lisp
    (use-package caml
@@ -3049,6 +3087,15 @@ ARG lines can be used."
      (require 'eglot))
    #+END_SRC
 
+** salt
+   #+BEGIN_SRC emacs-lisp
+   (use-package salt-mode
+     :general
+     (:keymaps
+      'salt-mode-map
+      "M-g k" 'salt-mode-browse-doc))
+   #+END_SRC
+
 ** scala
    #+BEGIN_SRC emacs-lisp
    (use-package scala-mode
@@ -3185,12 +3232,8 @@ ARG lines can be used."
 ** TODO Migrate java config
 ** TODO Migrate lisp config
 ** TODO Migrate lua config
-** TODO Migrate opengl config
 ** TODO Migrate python config
 ** TODO Migrate rst config
-** TODO Migrate nix config
-** TODO Migrate ansible config
-** TODO Migrate salt config
 ** TODO Migrate nxml config
 ** TODO Migrate yaml config
 ** TODO Migrate sql config
