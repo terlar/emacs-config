@@ -2810,6 +2810,27 @@ ARG lines can be used."
      (use-package nodejs-repl)
      #+END_SRC
 
+** lua
+   #+BEGIN_SRC emacs-lisp
+   (use-package lua-mode
+     :custom
+     (lua-documentation-function 'eww)
+     :general
+     (:keymaps
+      'lua-mode-map
+      "M-g k" 'lua-search-documentation)
+     (:keymaps
+      'lua-mode-map
+      :prefix +local-leader-key
+      "r" 'lua-repl)
+     :preface
+     (defun lua-repl ()
+       "Open a Lua REPL."
+       (interactive)
+       (lua-start-process)
+       (pop-to-buffer lua-process-buffer)))
+   #+END_SRC
+
 ** markdown
    #+BEGIN_SRC emacs-lisp
    (use-package markdown-mode
@@ -3268,7 +3289,6 @@ ARG lines can be used."
 ** TODO Migrate haskell config
 ** TODO Migrate java config
 ** TODO Migrate lisp config
-** TODO Migrate lua config
 ** TODO Migrate python config
 ** TODO Migrate rst config
 ** TODO Migrate web config
