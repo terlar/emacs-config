@@ -2621,6 +2621,11 @@ ARG lines can be used."
      (csv-separators '("," "\t" ";")))
    #+END_SRC
 
+** elasticsearch
+   #+BEGIN_SRC emacs-lisp
+   (use-package es-mode)
+   #+END_SRC
+
 ** epub
 *** Packages
 **** nov
@@ -2874,6 +2879,18 @@ ARG lines can be used."
       "r" 'nix-repl))
    #+END_SRC
 
+** nxml
+   #+BEGIN_SRC emacs-lisp
+   (use-package nxml-mode
+     :straight nil
+     :mode "\\.plist$"
+     :custom
+     (nxml-slash-auto-complete-flag t)
+     :config
+     (with-eval-after-load 'smartparens
+       (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
+   #+END_SRC
+
 ** ocaml
    #+BEGIN_SRC emacs-lisp
    (use-package caml
@@ -2905,6 +2922,11 @@ ARG lines can be used."
      :custom
      (plantuml-java-command "java-headless")
      (plantuml-jar-path "/opt/plantuml/plantuml.jar"))
+   #+END_SRC
+
+** protobuf
+   #+BEGIN_SRC emacs-lisp
+   (use-package protobuf-mode)
    #+END_SRC
 
 ** racket
@@ -3159,6 +3181,21 @@ ARG lines can be used."
        (sh-mode . flymake-shellcheck-load))
      #+END_SRC
 
+** sql
+   #+BEGIN_SRC emacs-lisp
+   (use-package sql
+     :straight nil
+     :custom
+     (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
+   #+END_SRC
+
+** yaml
+   #+BEGIN_SRC emacs-lisp
+   (use-package yaml-mode
+     :straight nil
+     :hook (yaml-mode . indent-guide-mode))
+   #+END_SRC
+
 * Tools
 ** Focus
    Dim out the surrounding text except the current focused paragraph or expression.
@@ -3234,9 +3271,4 @@ ARG lines can be used."
 ** TODO Migrate lua config
 ** TODO Migrate python config
 ** TODO Migrate rst config
-** TODO Migrate nxml config
-** TODO Migrate yaml config
-** TODO Migrate sql config
-** TODO Migrate es config
-** TODO Migrate protobuf/thrift config
 ** TODO Migrate web config
