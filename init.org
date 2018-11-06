@@ -2964,14 +2964,15 @@ ARG lines can be used."
       "r" 'run-python)
      :preface
      (defun +python-mode-prettify-symbols ()
-       (dolist (symbol '(("def"   . ?ƒ)
-                         ("sum"   . ?Σ)
-                         ("not"   . ?￢)
-                         ("in"    . ?∈)
-                         ("for"   . ?∀)
-                         ("**2"   . ?²)
-                         ("**3"   . ?³)
-                         ("None"  . ?∅)))
+       (dolist (symbol '(("def"      . ?ƒ)
+                         ("sum"      . ?Σ)
+                         ("not"      . ?￢)
+                         ("in"       . ?∈)
+                         ("for"      . ?∀)
+                         ("**2"      . ?²)
+                         ("**3"      . ?³)
+                         ("None"     . ?∅)
+                         ("math.inf" . ?∞)))
          (push symbol prettify-symbols-alist))))
    #+END_SRC
 
