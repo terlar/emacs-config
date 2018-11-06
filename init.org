@@ -1359,6 +1359,23 @@
   (setq tab-always-indent t)
   #+END_SRC
 
+** Company
+   #+BEGIN_SRC emacs-lisp
+   (use-package company
+     :custom
+     (company-show-numbers t)
+     :general
+     (:keymaps
+      'company-active-map
+      ;; No interference with return key
+      [return]  'nil
+      "RET"     'nil
+      "C-e" 'company-complete-selection
+      "C-f" 'company-complete-selection
+      "C-n" 'company-select-next
+      "C-p" 'company-select-previous))
+   #+END_SRC
+
 ** Hippie
    Smart expansion completions, excellent for completing lines.
    Replace abbrev completion (=M-/=) with hippie expand.
@@ -1954,7 +1971,8 @@ ARG lines can be used."
       :diminish aggressive-indent-mode
       :config
       ;; Disabled modes
-      (dolist (mode '(diff-auto-refine-mode))
+      (dolist (mode '(diff-auto-refine-mode
+                      scala-mode))
         (push mode aggressive-indent-excluded-modes))
       (global-aggressive-indent-mode 1))
     #+END_SRC
@@ -3230,6 +3248,9 @@ ARG lines can be used."
        :general
        (:keymaps
         'ensime-mode-map
+        ;; No interference with tab key
+        [tab] 'nil
+        "TAB" 'nil
         "M-g k" 'ensime-show-doc-for-symbol-at-point)
        (:keymaps
         'ensime-mode-map
