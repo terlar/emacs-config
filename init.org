@@ -1827,7 +1827,9 @@ ARG lines can be used."
                    ((symbol-at-point)
                     (substring-no-properties
                      (symbol-name (symbol-at-point))))))
-          (message "Install swiper to use `+smart-jump-simple-find-references-with-counsel-rg'."))))
+          (message "Install swiper to use `+smart-jump-simple-find-references-with-counsel-rg'.")))
+      :config
+      (smart-jump-setup-default-registers))
     #+END_SRC
 
 ** Syntax checker
