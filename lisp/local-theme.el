@@ -106,7 +106,6 @@
    ;; cider
    `(cider-test-failure-face                 ((t (:background ,theme-color-error))))
    ;; company
-   `(company-tooltip                         ((t (:family ,+variable-pitch-font))))
    `(company-tooltip-search                  ((t (:bold t))))
    `(company-tooltip-search-selection        ((t (:bold t))))
    ;; eros
