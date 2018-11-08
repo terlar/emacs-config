@@ -2867,6 +2867,8 @@ ARG lines can be used."
 ** lua
    #+BEGIN_SRC emacs-lisp
    (use-package lua-mode
+     :hook
+     (lua-mode . +lua-mode-prettify-symbols)
      :custom
      (lua-documentation-function 'eww)
      :general
@@ -2882,7 +2884,13 @@ ARG lines can be used."
        "Open a Lua REPL."
        (interactive)
        (lua-start-process)
-       (pop-to-buffer lua-process-buffer)))
+       (pop-to-buffer lua-process-buffer))
+
+     (defun +lua-mode-prettify-symbols ()
+       (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
+                         ("function"  . ?ƒ)
+                         ("math.huge" . ?∞)))
+         (push symbol prettify-symbols-alist))))
    #+END_SRC
 
 ** markdown
