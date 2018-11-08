@@ -1260,7 +1260,7 @@
              (concat "^" user-emacs-directory "straight/.+$")))
       (recentf-filename-handlers '(abbreviate-file-name))
       (recentf-max-menu-items 0)
-      (recentf-max-saved-items 100)
+      (recentf-max-saved-items 300)
       (recentf-auto-cleanup 'never)
       :config
       (quiet! (recentf-mode 1)))
