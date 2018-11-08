@@ -2051,6 +2051,8 @@ ARG lines can be used."
       ((js-mode
         ruby-mode
         rustic-mode) . eglot-ensure)
+      :custom
+      (eglot-sync-connect nil)
       :config
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
