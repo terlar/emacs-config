@@ -736,7 +736,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package zoom-window
       :general
-      ("C-x C-z" 'zoom-window-zoom))
+      ("C-c t z" '(zoom-window-zoom :wk "Zoom")))
     #+END_SRC
 
 ** Buffer
@@ -1648,6 +1648,29 @@ ARG lines can be used."
       "e" '(previous-error                         :wk "Error")
       "t" '(hl-todo-previous                       :wk "Todo")
       "w" '(eyebrowse-prev-window-config           :wk "Workspace"))
+     #+END_SRC
+
+**** Toggle
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix "C-c t"
+      "d" '(toggle-debug-on-error            :wk "Debug on error")
+      "f" '(hs-minor-mode                    :wk "Code folding")
+      "h" '(hl-line-mode                     :wk "Line highlight")
+      "l" '(global-display-line-numbers-mode :wk "Line numbers")
+      "t" '(toggle-truncate-lines            :wk "Truncate lines")
+      "v" '(variable-pitch-mode              :wk "Variable-pitch")
+      "w" '(whitespace-mode                  :wk "White-space")
+      "x" '(flymake-mode                     :wk "Syntax checker"))
+     #+END_SRC
+
+**** Launch
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix "C-c l"
+      "c" 'compile
+      "C" 'recompile
+      "w" 'eww)
      #+END_SRC
 
 *** Help
