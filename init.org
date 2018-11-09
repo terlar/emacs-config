@@ -2866,6 +2866,27 @@ ARG lines can be used."
      (use-package nodejs-repl)
      #+END_SRC
 
+** lisp
+*** Packages
+**** slime
+     #+BEGIN_SRC emacs-lisp
+     (use-package slime
+       :hook
+       (lisp-mode . slime-mode)
+       :custom
+       (inferior-lisp-program "sbcl")
+       (slime-contribs '(slime-fancy slime-repl))
+       :general
+       (:keymaps
+        'slime-mode-map
+        "M-g k" 'slime-describe-symbol)
+       (:keymaps
+        'slime-mode-map
+        :prefix +local-leader-key
+        "o" 'slime
+        "r" 'slime-repl))
+     #+END_SRC
+
 ** lua
    #+BEGIN_SRC emacs-lisp
    (use-package lua-mode
@@ -3418,6 +3439,5 @@ ARG lines can be used."
 ** TODO Migrate go config
 ** TODO Migrate haskell config
 ** TODO Migrate java config
-** TODO Migrate lisp config
 ** TODO Migrate rst config
 ** TODO Migrate web config
