@@ -1810,7 +1810,8 @@ ARG lines can be used."
    #+BEGIN_SRC emacs-lisp
    (use-package format-all
      :hook
-     ((js2-mode
+     ((elixir-mode
+       js2-mode
        python-mode) . format-all-mode)
      :general
      ("C-c f" 'format-all-buffer))
@@ -2681,6 +2682,30 @@ ARG lines can be used."
    #+BEGIN_SRC emacs-lisp
    (use-package es-mode)
    #+END_SRC
+
+** elixir
+   #+BEGIN_SRC emacs-lisp
+   (use-package elixir-mode)
+   #+END_SRC
+
+*** Packages
+**** alchemist
+     #+BEGIN_SRC emacs-lisp
+     (use-package alchemist
+       :hook
+       (elixir-mode . alchemist-mode)
+       :general
+       (:keymaps
+        'alchemist-mode-map
+        "M-g k" 'alchemist-help-search-at-point)
+       (:keymaps
+        'alchemist-mode-map
+        :prefix +local-leader-key
+        "r" 'alchemist-iex-run
+        "s" 'alchemist-mix-test
+        "t" 'alchemist-mix-test-at-point
+        "T" 'alchemist-mix-test-this-buffer))
+     #+END_SRC
 
 ** epub
 *** Packages
