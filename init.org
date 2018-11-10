@@ -1656,6 +1656,7 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (general-define-key
       :prefix "C-c t"
+      "c" '(highlight-changes-mode           :wk "Changes")
       "d" '(toggle-debug-on-error            :wk "Debug on error")
       "f" '(hs-minor-mode                    :wk "Code folding")
       "h" '(hl-line-mode                     :wk "Line highlight")
