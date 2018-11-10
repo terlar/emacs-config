@@ -1670,6 +1670,7 @@ ARG lines can be used."
       :prefix "C-c l"
       "c" 'compile
       "C" 'recompile
+      "p" 'list-processes
       "w" 'eww)
      #+END_SRC
 
@@ -1783,7 +1784,10 @@ ARG lines can be used."
 
 *** quickrun
     #+BEGIN_SRC emacs-lisp
-    (use-package quickrun)
+    (use-package quickrun
+      :general
+      ("C-c m q" 'quickrun
+       "C-c t q" '(quickrun-autorun-mode :wk "Quickrun")))
     #+END_SRC
 
 ** Folding
