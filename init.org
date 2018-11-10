@@ -3495,7 +3495,20 @@ ARG lines can be used."
      :demand t
      :custom
      (desktop-restore-eager 5)
+     :preface
+     (defun +append-buffer-undo-list-to-buffer-local-variables-advice (orig-fn &rest args)
+       "Override `buffer-local-variables' and call ORIG-FN with ARGS.
+     There is a bug in Emacs where the `buffer-undo-list' data is
+     missing from the output of `buffer-local-variables'. This
+     advice temporarily overrides the function and appends the
+     missing data."
+       (let ((orig-buffer-local-variables-fn (symbol-function 'buffer-local-variables)))
+         (cl-letf (((symbol-function 'buffer-local-variables)
+                    #'(lambda () (append (funcall orig-buffer-local-variables-fn)
+                                    `(,(cons 'buffer-undo-list buffer-undo-list))))))
+           (apply orig-fn args))))
      :config
+     (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
      (push 'buffer-undo-list desktop-locals-to-save)
      (desktop-save-mode 1))
    #+END_SRC
