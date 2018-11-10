@@ -2012,6 +2012,7 @@ ARG lines can be used."
       :config
       ;; Disabled modes
       (dolist (mode '(diff-auto-refine-mode
+                      elm-mode
                       scala-mode))
         (push mode aggressive-indent-excluded-modes))
       (global-aggressive-indent-mode 1))
@@ -2060,7 +2061,10 @@ ARG lines can be used."
       (eglot-sync-connect nil)
       :config
       (with-eval-after-load 'smart-jump
-        (smart-jump-register :modes '(js2-mode ruby-mode sh-mode))))
+        (smart-jump-register :modes '(elm-mode
+                                      js2-mode
+                                      ruby-mode
+                                      sh-mode))))
     #+END_SRC
 
 *** eldoc-overlay
@@ -2118,10 +2122,12 @@ ARG lines can be used."
       :custom
       (rainbow-delimiters-max-face-count 3)
       :hook
-      ((emacs-lisp-mode
+      ((elm-mode
+        emacs-lisp-mode
         ielm-mode
         js2-mode
-        lisp-mode) . rainbow-delimiters-mode))
+        lisp-mode
+        racket-mode) . rainbow-delimiters-mode))
     #+END_SRC
 
 *** Highlight identifiers
@@ -2710,6 +2716,22 @@ ARG lines can be used."
         "t" 'alchemist-mix-test-at-point
         "T" 'alchemist-mix-test-this-buffer))
      #+END_SRC
+
+** elm
+   #+BEGIN_SRC emacs-lisp
+   (use-package elm-mode
+     :custom
+     (elm-format-on-save t)
+     (elm-package-json "elm.json")
+     (elm-tags-exclude-elm-stuff nil)
+     (elm-tags-on-save t)
+     :general
+     (:keymaps
+      'elm-mode-map
+      :prefix +local-leader-key
+      "r" 'elm-repl-load
+      "t" 'elm-test-project))
+   #+END_SRC
 
 ** epub
 *** Packages
@@ -3463,8 +3485,6 @@ ARG lines can be used."
 * Tasks
 ** TODO Add org-preview-html
 ** TODO Add org-noter
-** TODO Migrate elixir config
-** TODO Migrate elm config
 ** TODO Migrate go config
 ** TODO Migrate haskell config
 ** TODO Migrate java config
