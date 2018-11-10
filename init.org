@@ -1608,17 +1608,19 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (general-define-key
      :keymaps 'global
-     ;; Window
-     "C-`" 'window-toggle-side-windows
-     "C-§" 'window-toggle-side-windows
-     "C-x C-Z" 'maximize-window
+     ;; Editing
+     "M-Z" 'zap-up-to-char
+     ;; Files
+     "C-c o" 'ff-find-other-file
+     ;; REPL
+     "<C-return>" 'ielm
      ;; Terminal
      "C-!" 'eshell
      "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
-     ;; REPL
-     "<C-return>" 'ielm
-     ;; Editing
-     "M-Z" 'zap-up-to-char)
+     ;; Window
+     "C-`" 'window-toggle-side-windows
+     "C-§" 'window-toggle-side-windows
+     "C-x C-Z" 'maximize-window)
     #+END_SRC
 
 **** Next
