@@ -2066,6 +2066,7 @@ ARG lines can be used."
     (use-package eglot
       :hook
       ((haskell-mode
+        java-mode
         js-mode
         ruby-mode
         rustic-mode) . eglot-ensure)
@@ -2074,6 +2075,7 @@ ARG lines can be used."
       :config
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(haskell-mode
+                                      java-mode
                                       js2-mode
                                       ruby-mode
                                       sh-mode))))
@@ -2371,7 +2373,7 @@ ARG lines can be used."
 
      (defun +eshell-set-visual-commands ()
        (setq eshell-visual-commands
-             (append '("fish" "most" "ssh" "tail" "watch") eshell-visual-commands)))
+             (append '("fish" "jshell" "most" "ssh" "tail" "watch") eshell-visual-commands)))
      :init
      (autoload 'eshell-smart-initialize "em-smart")
 
@@ -2892,6 +2894,28 @@ ARG lines can be used."
         "t" 'hasky-stack-test))
      #+END_SRC
 
+** java
+*** Packages
+**** gradle-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package gradle-mode
+       :hook ((java-mode kotlin-mode) . gradle-mode)
+       :general
+       (:keymaps
+        'gradle-mode-map
+        :prefix +local-leader-key
+        "t" 'gradle-test))
+     #+END_SRC
+
+**** java-lookup
+     #+BEGIN_SRC emacs-lisp
+     (use-package javadoc-lookup
+       :general
+       (:keymaps
+        'java-mode-map
+        "M-g k" 'javadoc-lookup))
+     #+END_SRC
+
 ** js
    #+BEGIN_SRC emacs-lisp
    (use-package js2-mode
@@ -3000,6 +3024,11 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package nodejs-repl)
      #+END_SRC
+
+** kotlin
+   #+BEGIN_SRC emacs-lisp
+   (use-package kotlin-mode)
+   #+END_SRC
 
 ** lisp
    #+BEGIN_SRC emacs-lisp
@@ -3602,6 +3631,5 @@ ARG lines can be used."
 * Tasks
 ** TODO Add org-preview-html
 ** TODO Add org-noter
-** TODO Migrate java config
 ** TODO Migrate rst config
 ** TODO Migrate web config
