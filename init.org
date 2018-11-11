@@ -858,6 +858,9 @@
       (eval-expression-minibuffer-setup . smartparens-strict-mode)
       :general
       (:keymaps
+       'global
+       "C-c t p" 'smartparens-strict-mode)
+      (:keymaps
        'smartparens-mode-map
        "M-D" 'sp-unwrap-sexp
        "M-R" 'sp-rewrap-sexp)
