@@ -159,12 +159,12 @@
    ;; rainbow-delimiters
    `(rainbow-delimiters-unmatched-face       ((t (:foreground ,theme-color-error :bold t))))
    ;; rst
-   `(rst-level-1                             ((t (:weight normal :italic t))))
-   `(rst-level-2                             ((t (:weight normal :italic t))))
-   `(rst-level-3                             ((t (:weight normal :italic t))))
-   `(rst-level-4                             ((t (:weight normal :italic t))))
-   `(rst-level-5                             ((t (:weight normal :italic t))))
-   `(rst-level-6                             ((t (:weight normal :italic t))))
+   `(rst-level-1                             ((t (:inherit org-level-1))))
+   `(rst-level-2                             ((t (:inherit org-level-2))))
+   `(rst-level-3                             ((t (:inherit org-level-3))))
+   `(rst-level-4                             ((t (:inherit org-level-4))))
+   `(rst-level-5                             ((t (:inherit org-level-5))))
+   `(rst-level-6                             ((t (:inherit org-level-6))))
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))

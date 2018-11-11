@@ -335,6 +335,11 @@
     (use-package general :demand t)
     #+END_SRC
 
+*** hide-lines
+    #+BEGIN_SRC emacs-lisp
+    (use-package hide-lines)
+    #+END_SRC
+
 *** minions
     #+BEGIN_SRC emacs-lisp
     (use-package minions
@@ -1098,7 +1103,8 @@
       ((eww-mode
         markdown-mode
         nov-mode
-        org-mode) . readable-mode))
+        org-mode
+        rst-mode) . readable-mode))
     #+END_SRC
 
 *** spray
@@ -3307,6 +3313,48 @@ ARG lines can be used."
       "r" 'racket-repl
       "t" 'racket-test))
    #+END_SRC
+
+** rst
+   #+BEGIN_SRC emacs-lisp
+   (use-package rst
+     :straight nil
+     :hook
+     (rst-mode . auto-fill-mode)
+     :preface
+     (defvar rst-adornment-regexp nil
+       "Regular expression to match adornments.")
+     :config
+     (setq rst-adornment-regexp
+           (concat "^[" rst-adornment-chars "]\\{3,\\}$")))
+   #+END_SRC
+
+*** Appearance
+**** Heading
+     Hide heading adornments.
+     #+BEGIN_SRC emacs-lisp
+     (defun +rst-hide-heading-adornment ()
+       "Hide heading adornment for `rst-mode'."
+       (interactive)
+       (hide-lines-matching rst-adornment-regexp))
+     (add-hook 'rst-mode-hook #'+rst-hide-heading-adornment)
+     #+END_SRC
+
+**** Bullet lists
+     Pretty check-boxes as well as bullet lists.
+     #+BEGIN_SRC emacs-lisp
+     (font-lock-add-keywords
+      'rst-mode
+      '(("^ *\\([-*+]\\) "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
+
+     (defun +rst-mode-prettify-checkbox-symbols ()
+       "Prettify checkbox symbols."
+       (dolist (symbol '(("[ ]" . ?□)
+                         ("[x]" . ?▣)
+                         ("[X]" . ?▣)))
+         (push symbol prettify-symbols-alist)))
+     (add-hook 'rst-mode-hook #'+rst-mode-prettify-checkbox-symbols)
+     #+END_SRC
 
 ** ruby
    #+BEGIN_SRC emacs-lisp
