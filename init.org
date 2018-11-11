@@ -1482,8 +1482,8 @@ ARG lines can be used."
        (:keymaps
         'global
         ;; Use counsel/swiper for search
-        "C-r"   'counsel-grep-or-swiper
-        "C-s"   'counsel-grep-or-swiper
+        "C-r"   'swiper
+        "C-s"   'swiper
         "C-x /" 'counsel-abbrev)
        (:keymaps
         'counsel-mode-map
