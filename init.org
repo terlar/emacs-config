@@ -2513,6 +2513,18 @@ ARG lines can be used."
         "l" 'org-cliplink))
      #+END_SRC
 
+**** org-noter
+     Annotate documents with =org-mode=.
+     #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package org-noter)
+     #+END_SRC
+
+**** org-preview-html
+     Preview org-file in an =eww= buffer.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-preview-html)
+     #+END_SRC
+
 **** org-radiobutton
      Support for radiobuttons.
      #+BEGIN_SRC emacs-lisp
@@ -3629,7 +3641,5 @@ ARG lines can be used."
   #+END_SRC
 
 * Tasks
-** TODO Add org-preview-html
-** TODO Add org-noter
 ** TODO Migrate rst config
 ** TODO Migrate web config
