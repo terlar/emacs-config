@@ -2017,6 +2017,7 @@ ARG lines can be used."
       ;; Disabled modes
       (dolist (mode '(diff-auto-refine-mode
                       elm-mode
+                      haskell-mode
                       scala-mode))
         (push mode aggressive-indent-excluded-modes))
       (global-aggressive-indent-mode 1))
@@ -2058,14 +2059,15 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (use-package eglot
       :hook
-      ((js-mode
+      ((haskell-mode
+        js-mode
         ruby-mode
         rustic-mode) . eglot-ensure)
       :custom
       (eglot-sync-connect nil)
       :config
       (with-eval-after-load 'smart-jump
-        (smart-jump-register :modes '(elm-mode
+        (smart-jump-register :modes '(haskell-mode
                                       js2-mode
                                       ruby-mode
                                       sh-mode))))
@@ -2849,6 +2851,39 @@ ARG lines can be used."
    (use-package fish-mode)
    #+END_SRC
 
+** haskell
+   #+BEGIN_SRC emacs-lisp
+   (use-package haskell-mode
+     :hook
+     (haskell-mode . interactive-haskell-mode)
+     :custom
+     (haskell-font-lock-symbols t)
+     (haskell-process-show-debug-tips nil)
+     (haskell-process-use-presentation-mode t)
+     ;; Use interpreter `stack ghci'
+     (haskell-process-type 'stack-ghci)
+     (haskell-process-args-stack-ghci '("--test"))
+     :general
+     (:keymaps
+      'interactive-haskell-mode-map
+      "M-." 'nil)
+     (:keymaps
+      'haskell-mode-map
+      :prefix +local-leader-key
+      "r" 'haskell-interactive-switch))
+   #+END_SRC
+
+*** Packages
+**** hasky-stack
+     #+BEGIN_SRC emacs-lisp
+     (use-package hasky-stack
+       :general
+       (:keymaps
+        'haskell-mode-map
+        :prefix +local-leader-key
+        "t" 'hasky-stack-test))
+     #+END_SRC
+
 ** js
    #+BEGIN_SRC emacs-lisp
    (use-package js2-mode
@@ -3539,7 +3574,6 @@ ARG lines can be used."
 * Tasks
 ** TODO Add org-preview-html
 ** TODO Add org-noter
-** TODO Migrate haskell config
 ** TODO Migrate java config
 ** TODO Migrate rst config
 ** TODO Migrate web config

@@ -110,6 +110,8 @@
    `(company-tooltip-search-selection        ((t (:bold t))))
    ;; eros
    `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
+   ;; haskell-mode
+   `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
    ;; idle-highlight
    `(idle-highlight                          ((t (:background ,theme-color-highlight))))
    ;; indent-guide
