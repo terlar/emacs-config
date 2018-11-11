@@ -710,6 +710,7 @@
     #+END_SRC
 
 *** Manage layouts
+    Undo/redo between window layouts.
     #+BEGIN_SRC emacs-lisp
     (use-package winner
       :straight nil
@@ -723,6 +724,11 @@
       :general
       ([remap winner-redo] #'winner-redo-repeat
        [remap winner-undo] #'winner-undo-repeat))
+    #+END_SRC
+
+    Transpose window arrangement.
+    #+BEGIN_SRC emacs-lisp
+    (use-package transpose-frame)
     #+END_SRC
 
 *** Navigation
