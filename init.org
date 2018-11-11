@@ -1233,6 +1233,12 @@
       (deft-use-filter-string-for-filename t))
     #+END_SRC
 
+*** find-file
+    #+BEGIN_SRC emacs-lisp
+    (use-package find-file
+      :straight nil)
+    #+END_SRC
+
 *** goto-last-change
     Move point through buffer-undo-list positions.
     #+BEGIN_SRC emacs-lisp
@@ -2309,6 +2315,7 @@ ARG lines can be used."
            (suggest)
            (set-window-dedicated-p window dedicated-flag))))
      #+END_SRC
+
 *** Appearance
 **** Package prefixes
      Shorten package prefixes.
@@ -2759,6 +2766,7 @@ ARG lines can be used."
          "Hide the fringes for `nov-mode'."
          (set-window-fringes (get-buffer-window) 0 0 nil)))
      #+END_SRC
+
 ** erlang
    #+BEGIN_SRC emacs-lisp
    (use-package erlang
@@ -2994,6 +3002,18 @@ ARG lines can be used."
      #+END_SRC
 
 ** lisp
+   #+BEGIN_SRC emacs-lisp
+   (use-package lisp-mode
+     :straight nil
+     :hook
+     (lisp-mode . +lisp-mode-setup)
+     :preface
+     (defun +lisp-mode-setup ()
+       "Setup `lisp-mode'."
+       (setq ff-other-file-alist '(("-test\\.lisp\\'" (".lisp"))
+                                   ("\\.lisp\\'" ("-test.lisp"))))))
+   #+END_SRC
+
 *** Packages
 **** slime
      #+BEGIN_SRC emacs-lisp
@@ -3011,7 +3031,15 @@ ARG lines can be used."
         'slime-mode-map
         :prefix +local-leader-key
         "o" 'slime
-        "r" 'slime-repl))
+        "r" 'slime-repl
+        "t" 'slime-load-file-and-other-file)
+       :preface
+       (defun slime-load-file-and-other-file ()
+         "Load buffer file and then load other (test) file."
+         (interactive)
+         (dolist (file `(,buffer-file-name ,(ff-other-file-name)))
+           (when (and file (file-exists-p file))
+             (slime-load-file file)))))
      #+END_SRC
 
 ** lua
