@@ -1257,7 +1257,12 @@
 *** goto-last-change
     Move point through buffer-undo-list positions.
     #+BEGIN_SRC emacs-lisp
-    (use-package goto-last-change)
+    (use-package goto-chg
+      :general
+      (:keymaps
+       'global
+       "M-] l" 'goto-last-change
+       "M-[ l" 'goto-last-change-reverse))
     #+END_SRC
 
 *** recentf
