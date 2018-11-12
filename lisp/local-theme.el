@@ -5,9 +5,7 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'base-vars)
-  (require 'tao-theme))
+(require 'tao-theme)
 
 (deftheme local "Local theme overrides")
 
@@ -23,28 +21,32 @@
     "Color used to indicate success.")
   (defvar theme-color-warning color-11
     "Color used to indicate warning.")
-
-  (defvar theme-color-highlight color-14
+  (defvar theme-color-highlight "#FEF9E1"
     "Color used to highlight elements.")
-  (defvar theme-color-lighter color-3
-    "Color used for less visible elements.")
 
   ;;;
   ;; Theme Faces
 
   (custom-theme-set-faces
    'local
+   `(default                                 ((t (:height ,+default-font-height :family ,+fixed-pitch-font :weight light))))
+   `(fixed-pitch                             ((t (:family ,+fixed-pitch-font :weight light))))
+   `(variable-pitch                          ((t (:family ,+variable-pitch-font))))
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
-   `(mode-line                               ((t (:family ,my-variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
-   `(mode-line-inactive                      ((t (:family ,my-variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
-   `(mode-line-buffer-id                     ((t (:foreground nil :weight bold))))
+   `(mode-line                               ((t (:height 0.8 :family ,+variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
+   `(mode-line-inactive                      ((t (:height 0.8 :family ,+variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
+   `(mode-line-buffer-id                     ((t (:foreground nil :bold t))))
    `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
-   `(line-number-current-line                ((t (:inherit line-number :background ,color-5 :foreground ,theme-color-highlight :weight bold))))
-   `(hl-line                                 ((t (:background ,color-5))))
+   `(line-number                             ((t (:inherit fixed-pitch))))
+   `(line-number-current-line                ((t (:inherit line-number :background ,theme-color-highlight :foreground ,color-14 :bold t))))
 
    `(error                                   ((t (:foreground ,theme-color-error))))
    `(success                                 ((t (:foreground ,theme-color-success))))
-   `(warning                                 ((t (:foreground ,theme-color-warning :weight bold))))
+   `(warning                                 ((t (:foreground ,theme-color-warning :bold t))))
+
+   `(font-lock-keyword-face                  ((t (:foreground ,color-13))))
+   `(font-lock-constant-face                 ((t (:foreground ,color-13 :weight normal))))
+   `(font-lock-type-face                     ((t (:foreground ,color-10))))
 
    ;; comint
    `(comint-highlight-prompt                 ((t (:height 1.0))))
@@ -52,14 +54,16 @@
    `(compilation-error                       ((t (:foreground ,theme-color-error))))
    `(compilation-warning                     ((t (:foreground ,theme-color-warning))))
    ;; ediff
-   `(ediff-current-diff-A                    ((t (:background "#EECCCC"))))
-   `(ediff-fine-diff-A                       ((t (:background "#AA2222"))))
-   `(ediff-current-diff-B                    ((t (:background "#CCEECC"))))
-   `(ediff-fine-diff-B                       ((t (:background "#22AA22"))))
-   `(ediff-current-diff-C                    ((t (:background "#CCFFFF"))))
-   `(ediff-fine-diff-C                       ((t (:background "#4488BB"))))
-   `(ediff-current-diff-Ancestor             ((t (:background "#DDF1F1"))))
-   `(ediff-fine-diff-Ancestor                ((t (:background "#66CCCC"))))
+   `(ediff-current-diff-A                    ((t (:background "#FFEEF0"))))
+   `(ediff-fine-diff-A                       ((t (:background "#EECCCC"))))
+   `(ediff-current-diff-B                    ((t (:background "#E6FFED"))))
+   `(ediff-fine-diff-B                       ((t (:background "#CCEECC"))))
+   `(ediff-current-diff-C                    ((t (:background "#F1F8FF"))))
+   `(ediff-fine-diff-C                       ((t (:background "#DDEEFF"))))
+   `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
+   `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
+   ;; hl-line-mode
+   `(hl-line                                 ((t (:background ,theme-color-highlight :foreground nil))))
    ;; org-mode
    `(org-document-title                      ((t (:height 2.2 :bold nil))))
    `(org-level-1                             ((t (:height 1.6 :bold nil :italic t))))
@@ -70,33 +74,48 @@
    `(org-level-6                             ((t (:height 1.0 :bold nil :italic t))))
    `(org-level-7                             ((t (:height 1.0 :bold nil :italic t))))
    `(org-level-8                             ((t (:height 1.0 :bold nil :italic t))))
-   `(org-block                               ((t (:height 1.0 :inherit fixed-pitch))))
+   `(org-block                               ((t (:height 1.0 :inherit fixed-pitch :weight light))))
    `(org-block-background                    ((t (:height 1.0 :inherit fixed-pitch))))
+   `(org-block-begin-line                    ((t (:foreground ,color-7))))
    `(org-checkbox                            ((t (:inherit fixed-pitch))))
    `(org-code                                ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
    `(org-formula                             ((t (:inherit fixed-pitch))))
+   `(org-hide                                ((t (:inherit fixed-pitch))))
    `(org-meta-line                           ((t (:inherit fixed-pitch))))
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
+   ;; smerge
+   `(smerge-upper                            ((t (:background "#E6FFED"))))
+   `(smerge-lower                            ((t (:background "#FFEEF0"))))
+   `(smerge-base                             ((t (:background ,color-5))))
+   ;; term
+   `(term-color-red                          ((t (:foreground ,theme-color-error :background nil))))
+   ;; whitespace
+   `(whitespace-space                        ((t (:background nil :family ,+fixed-pitch-font))))
    ;; window-divider
    `(window-divider                          ((t (:inherit 'vertical-border))))
    `(window-divider-first-pixel              ((t (:inherit 'window-divider))))
    `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
 
-   ;; anzu
-   `(anzu-mode-line                          ((t (:background ,my-evil-default-mode-color :foreground "white" :box nil))))
+   ;; cakecrumbs
+   `(cakecrumbs-tag                          ((t (:inherit font-lock-keyword-face))))
    ;; cargo
    `(cargo-process--standard-face            ((t (:foreground nil))))
    `(cargo-process--ok-face                  ((t (:foreground ,theme-color-success))))
    `(cargo-process--error-face               ((t (:foreground ,theme-color-error))))
    `(cargo-process--warning-face             ((t (:foreground ,theme-color-warning))))
+   ;; cider
+   `(cider-test-failure-face                 ((t (:background ,theme-color-error))))
    ;; company
-   `(company-tooltip                         ((t (:family ,my-font))))
-   `(company-tooltip-search                  ((t (:weight bold))))
-   `(company-tooltip-search-selection        ((t (:weight bold))))
+   `(company-tooltip-search                  ((t (:bold t))))
+   `(company-tooltip-search-selection        ((t (:bold t))))
    ;; eros
    `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
+   ;; haskell-mode
+   `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
+   ;; idle-highlight
+   `(idle-highlight                          ((t (:background ,theme-color-highlight))))
    ;; indent-guide
    `(indent-guide-face                       ((t (:inherit fringe))))
    ;; js2-mode
@@ -130,7 +149,7 @@
    `(markdown-header-face-4                  ((t (:height 1.2 :underline nil))))
    `(markdown-header-face-5                  ((t (:height 1.0 :underline nil))))
    `(markdown-header-face-6                  ((t (:height 1.0 :underline nil))))
-   `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,my-default-font-height))))
+   `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,+default-font-height))))
    `(markdown-pre-face                       ((t (:inherit org-verbatim :height 1.0 :background ,color-5 :foreground ,color-9))))
    `(markdown-code-face                      ((t (:inherit org-code :background ,color-5 :foreground ,color-9))))
    `(markdown-inline-code-face               ((t (:inherit fixed-pitch :background ,color-5 :foreground ,color-9))))
@@ -138,30 +157,32 @@
    ;; org-tree-slide
    `(org-tree-slide-header-overlay-face      ((t (:inherit header-line :background nil))))
    ;; perspeen
-   `(perspeen-selected-face                  ((t (:weight bold))))
+   `(perspeen-selected-face                  ((t (:bold t))))
+   ;; rainbow-delimiters
+   `(rainbow-delimiters-unmatched-face       ((t (:foreground ,theme-color-error :bold t))))
    ;; rst
-   `(rst-level-1                             ((t (:weight normal :italic t))))
-   `(rst-level-2                             ((t (:weight normal :italic t))))
-   `(rst-level-3                             ((t (:weight normal :italic t))))
-   `(rst-level-4                             ((t (:weight normal :italic t))))
-   `(rst-level-5                             ((t (:weight normal :italic t))))
-   `(rst-level-6                             ((t (:weight normal :italic t))))
+   `(rst-level-1                             ((t (:inherit org-level-1))))
+   `(rst-level-2                             ((t (:inherit org-level-2))))
+   `(rst-level-3                             ((t (:inherit org-level-3))))
+   `(rst-level-4                             ((t (:inherit org-level-4))))
+   `(rst-level-5                             ((t (:inherit org-level-5))))
+   `(rst-level-6                             ((t (:inherit org-level-6))))
    `(rst-literal                             ((t (:inherit fixed-pitch))))
    ;; shm
    `(shm-current-face                        ((t (:inherit hl-line))))
-   `(shm-quarantine-face                     ((t (:background "#EECCCC"))))
+   `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
    ;; smartparens
-   `(sp-show-pair-match-face                 ((t (:background ,color-3 :foreground ,color-11 :weight bold))))
-   `(sp-show-pair-mismatch-face              ((t (:background ,color-7 :foreground ,color-1 :weight bold))))
+   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :bold t :underline t :box nil))))
+   `(sp-show-pair-mismatch-face              ((t (:foreground ,theme-color-error :bold t))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
    `(spray-accent-face                       ((t (:foreground ,theme-color-error :underline (:color ,color-10) :overline ,color-10))))
    ;; stripe-buffer
    `(stripe-highlight                        ((t (:background ,color-5))))
    ;; web-mode
-   `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :weight bold))))
+   `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :bold t))))
    ;; which-key
-   `(which-key-local-map-description-face    ((t (:weight bold))))
+   `(which-key-local-map-description-face    ((t (:bold t))))
    ;; quick-peek
    `(quick-peek-border-face                  ((t (:background ,color-5 :height 0.1 :box (:line-width 1 :color ,color-7)))))
    `(quick-peek-padding-face                 ((t (:height 0.1)))))
@@ -171,11 +192,21 @@
 
   (custom-theme-set-variables
    'local
+   `(line-spacing ,+line-spacing)
+   ;; ansi-color
+   `(ansi-color-names-vector [,color-5
+                              ,theme-color-error
+                              ,color-9
+                              ,color-13
+                              ,color-11
+                              ,color-10
+                              ,color-12
+                              ,color-13])
    ;; beacon
    `(beacon-color ,color-5)
    ;; coverlay
-   `(coverlay:untested-line-background-color "#EECCCC")
-   `(coverlay:tested-line-background-color   "#CCEECC")
+   `(coverlay:untested-line-background-color "#FFEEF0")
+   `(coverlay:tested-line-background-color   "#E6FFED")
    ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:box (:line-width 1) :foreground ,theme-color-warning))
@@ -214,15 +245,7 @@
        (340. . ,color-9)
        (360. . ,color-9)))
    ;; zoom-window
-   `(zoom-window-mode-line-color (face-background 'mode-line))
-   ;; custom
-   `(my-evil-default-mode-color "#AB47BC")
-   `(my-evil-mode-color-list
-     '((normal   . "#4CAF50")
-       (emacs    . "#2196F3")
-       (insert   . "#2196F3")
-       (replace  . "#F44336")
-       (visual   . "#FF9800")))))
+   `(zoom-window-mode-line-color (face-background 'mode-line))))
 
 ;;;###autoload
 (and load-file-name

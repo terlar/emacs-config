@@ -1,11 +1,15 @@
 # Compiled
 *.elc
 
+# Generated
+init.el
+
 # Packaging
 .cask
+straight/
 
 # Backup files
 *~
 
-# Undo-tree save-files
-*.~undo-tree
+# Eglot
+eglot-eclipse-jdt-cache/

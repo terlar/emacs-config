@@ -1,6 +1,0 @@
-(:name justify-kp
-       :description "Paragraph justification for emacs using Knuth/Plass algorithm"
-       :type github
-       :branch "master"
-       :pkgname "Fuco1/justify-kp"
-       :features justify-kp)

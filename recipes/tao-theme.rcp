@@ -1,6 +1,0 @@
-(:name tao-theme
-       :description "This package provides two parametrized uncoloured color themes for Emacs: tao-yin and tao-yang."
-       :type github
-       :pkgname "terlar/tao-theme-emacs"
-       :branch "add-sepia-scale"
-       :features tao-theme)
