@@ -98,6 +98,8 @@
    `(window-divider-first-pixel              ((t (:inherit 'window-divider))))
    `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
 
+   ;; cakecrumbs
+   `(cakecrumbs-tag                          ((t (:inherit font-lock-keyword-face))))
    ;; cargo
    `(cargo-process--standard-face            ((t (:foreground nil))))
    `(cargo-process--ok-face                  ((t (:foreground ,theme-color-success))))

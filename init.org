@@ -2039,7 +2039,9 @@ ARG lines can be used."
       (dolist (mode '(diff-auto-refine-mode
                       elm-mode
                       haskell-mode
-                      scala-mode))
+                      pug-mode
+                      scala-mode
+                      slim-mode))
         (push mode aggressive-indent-excluded-modes))
       (global-aggressive-indent-mode 1))
     #+END_SRC
@@ -3614,6 +3616,57 @@ ARG lines can be used."
      (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
    #+END_SRC
 
+** web
+*** Packages
+**** cakecrumbs
+     Display current path for HTML/XML/CSS.
+     #+BEGIN_SRC emacs-lisp
+     (use-package cakecrumbs
+       :config
+       (cakecrumbs-auto-setup))
+     #+END_SRC
+
+**** emmet-mode
+     Snippets and Zen Coding for HTML.
+     #+BEGIN_SRC emacs-lisp
+     (use-package emmet-mode
+       :hook
+       (css-mode
+        haml-mode
+        html-mode
+        nxml-mode
+        rsjx-mode
+        web-mode)
+       :custom
+       (emmet-move-cursor-between-quotes t)
+       :preface
+       (defvar emmet-mode-keymap (make-sparse-keymap)))
+     #+END_SRC
+
+**** pug-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package pug-mode)
+     #+END_SRC
+
+**** slim-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package slim-mode)
+     #+END_SRC
+
+**** web-mode
+     #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :mode
+       "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
+       :custom
+       (web-mode-enable-html-entities-fontification t)
+       ;; Highlight enclosing tags of the element under cursor
+       (web-mode-enable-current-element-highlight t)
+       ;; No extra indentation for blocks.
+       (web-mode-script-padding 0)
+       (web-mode-style-padding 0))
+     #+END_SRC
+
 ** yaml
    #+BEGIN_SRC emacs-lisp
    (use-package yaml-mode
@@ -3698,5 +3751,4 @@ ARG lines can be used."
   #+END_SRC
 
 * Tasks
-** TODO Migrate rst config
-** TODO Migrate web config
+** TODO Look into skewer packages
