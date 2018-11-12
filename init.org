@@ -273,6 +273,12 @@
       :demand t)
     #+END_SRC
 
+** Tangling
+   Support auto-tangling via =auto-tangle-mode=.
+   #+BEGIN_SRC emacs-lisp
+   (require 'auto-tangle)
+   #+END_SRC
+
 * Base
 ** Performance
    Disable bidirectional text for tiny performance boost
@@ -456,6 +462,140 @@
       (interactive)
       (set-window-dedicated-p (selected-window)
                               (not (window-dedicated-p (selected-window)))))
+    #+END_SRC
+
+* Keybindings
+  I am trying to reduce the amount of keybindings, therefore I present a table of default
+  keybindings in case I would forget them.
+
+  | Keybinding    | Function                | Description                                                                      |
+  |---------------+-------------------------+----------------------------------------------------------------------------------|
+  | =M-SPC=         | =just-one-space=          | Ensures just one space                                                           |
+  | =M-\=           | =delete-horizontal-space= | Delete all space                                                                 |
+  | =M-^=           | =delete-indentation=      | Join current line with previous line                                             |
+  | =M-z=           | =zap-to-char=             | Delete until character                                                           |
+  | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once                     |
+  | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                                          |
+  | =C-w=           | =kill-region=             | Cut                                                                              |
+  | =M-w=           | =kill-ring-save=          | Copy                                                                             |
+  | =C-y=           | =yank=                    | Paste                                                                            |
+  | =M-y=           | =yank-next=               | Paste (next item)                                                                |
+  | =C-x SPC=       | =rectangle-mark-mode=     | Rectangular selection                                                            |
+  | =C-x r t=       | =string-rectangle=        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
+
+*** Leader keys
+    #+BEGIN_SRC emacs-lisp
+    (defvar +leader-key "C-c"
+      "The key used for most custom operations.")
+    (defvar +local-leader-key "C-c m"
+      "The key used for major mode operations.")
+    (defvar +evil-normal-state-leader-key "SPC"
+      "The key used for most custom operations in `evil-normal-state'.")
+    #+END_SRC
+
+*** Prefixes
+    #+BEGIN_SRC emacs-lisp
+    (defvar +launch-prefix "C-c l"
+      "Key prefix for commands related to launching.")
+
+    (defvar +toggle-prefix "C-x t"
+      "Key prefix for commands related to toggling.")
+    (defvar +window-prefix "C-x w"
+      "Key prefix used for commands related to window operations.")
+
+    (defvar +nav-prefix "M-g"
+      "Key prefix used for commands related to navigation.")
+    (defvar +search-prefix "M-s"
+      "Key prefix used for commands related to search.")
+
+    (defvar +next-prefix "M-]"
+      "Key prefix used for commands doing a next operation.")
+    (defvar +prev-prefix "M-["
+      "Key prefix used for commands doing a previous operation.")
+
+    #+END_SRC
+
+*** Global
+    #+BEGIN_SRC emacs-lisp
+    (general-define-key
+     :keymaps 'global
+     ;; Editing
+     "M-Z" 'zap-up-to-char
+     ;; Files
+     "C-c o" 'ff-find-other-file
+     ;; REPL
+     "<C-return>" 'ielm
+     ;; Terminal
+     "C-!" 'eshell
+     "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
+     ;; Window
+     "C-`" 'window-toggle-side-windows
+     "C-§" 'window-toggle-side-windows
+     "C-x C-Z" 'maximize-window)
+    #+END_SRC
+
+**** Next
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix +next-prefix
+      ""  '(:ignore t :wk "next...")
+      "]" '(text-scale-increase           :wk "Text size")
+      "b" '(next-buffer                   :wk "Buffer")
+      "c" '(smerge-next                   :wk "Conflict")
+      "d" '(diff-hl-next-hunk             :wk "Diff Hunk")
+      "e" '(next-error                    :wk "Error")
+      "s" '(flyspell-goto-next-error      :wk "Spell error")
+      "t" '(hl-todo-next                  :wk "Todo")
+      "w" '(eyebrowse-next-window-config  :wk "Workspace"))
+     #+END_SRC
+
+**** Previous
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix +prev-prefix
+      ""  '(:ignore t :wk "previous...")
+      "[" '(text-scale-decrease                    :wk "Text size")
+      "b" '(previous-buffer                        :wk "Buffer")
+      "c" '(smerge-prev                            :wk "Conflict")
+      "d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
+      "e" '(previous-error                         :wk "Error")
+      "t" '(hl-todo-previous                       :wk "Todo")
+      "w" '(eyebrowse-prev-window-config           :wk "Workspace"))
+     #+END_SRC
+
+**** Toggle
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix +toggle-prefix
+      "c" '(highlight-changes-mode           :wk "Changes")
+      "d" '(toggle-debug-on-error            :wk "Debug on error")
+      "f" '(hs-minor-mode                    :wk "Code folding")
+      "h" '(hl-line-mode                     :wk "Line highlight")
+      "l" '(global-display-line-numbers-mode :wk "Line numbers")
+      "t" '(toggle-truncate-lines            :wk "Truncate lines")
+      "v" '(variable-pitch-mode              :wk "Variable-pitch")
+      "w" '(whitespace-mode                  :wk "White-space")
+      "x" '(flymake-mode                     :wk "Syntax checker"))
+     #+END_SRC
+
+**** Launch
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :prefix +launch-prefix
+      "c" 'compile
+      "C" 'recompile
+      "p" 'list-processes
+      "w" 'eww)
+     #+END_SRC
+
+*** Help
+    #+BEGIN_SRC emacs-lisp
+    (general-define-key
+     :keymaps 'help-map
+     "B" 'find-library
+     "u" 'describe-face
+     "U" 'list-faces-display
+     "'" 'describe-char)
     #+END_SRC
 
 * Appearance
@@ -716,14 +856,10 @@
       :straight nil
       :hook
       (window-setup . winner-mode)
-      :preface
-      (unless (fboundp 'winner-redo-repeat)
-        (defrepeater 'winner-redo-repeat #'winner-redo))
-      (unless (fboundp 'winner-undo-repeat)
-        (defrepeater 'winner-undo-repeat #'winner-undo))
-      :general
-      ([remap winner-redo] #'winner-redo-repeat
-       [remap winner-undo] #'winner-undo-repeat))
+      :config
+      (general-define-key
+       [remap winner-redo] (defrepeater #'winner-redo)
+       [remap winner-undo] (defrepeater #'winner-undo)))
     #+END_SRC
 
     Transpose window arrangement.
@@ -747,7 +883,9 @@
     #+BEGIN_SRC emacs-lisp
     (use-package zoom-window
       :general
-      ("C-c t z" '(zoom-window-zoom :wk "Zoom")))
+      (:prefix
+       +window-prefix
+       "z" 'zoom-window-zoom))
     #+END_SRC
 
 ** Buffer
@@ -817,7 +955,12 @@
       :custom
       (avy-all-windows nil)
       :general
-      ("M-g f" 'avy-goto-char-timer))
+      (:prefix
+       +search-prefix
+       "SPC" 'avy-goto-word-or-subword-1
+       "s" 'avy-goto-char
+       "l" 'avy-goto-line
+       "m" 'avy-pop-mark))
     #+END_SRC
 
 *** goto-addr
@@ -835,10 +978,8 @@
     #+BEGIN_SRC emacs-lisp
     (use-package rotate-text
       :general
-      (:keymaps
-       'global
-       "M-n" 'rotate-text
-       "M-p" 'rotate-text-backward)
+      ("M-n" 'rotate-text)
+      ("M-p" 'rotate-text-backward)
       :config
       (dolist (item '(("true" "false")
                       ("assert" "refute")
@@ -857,9 +998,9 @@
       (after-init . show-smartparens-global-mode)
       (eval-expression-minibuffer-setup . smartparens-strict-mode)
       :general
-      (:keymaps
-       'global
-       "C-c t p" 'smartparens-strict-mode)
+      (:prefix
+       +toggle-prefix
+       "p" 'smartparens-strict-mode)
       (:keymaps
        'smartparens-mode-map
        "M-D" 'sp-unwrap-sexp
@@ -1023,7 +1164,7 @@
     #+END_SRC
 
 *** Miniedit
-    Edit minibuffer in a new temporary buffer by pressing =M-C-e=.
+    Edit minibuffer in a new temporary buffer by pressing =C-c '=.
     #+BEGIN_SRC emacs-lisp
     (use-package miniedit
       :general
@@ -1032,7 +1173,7 @@
          minibuffer-local-ns-map
          minibuffer-local-completion-map
          minibuffer-local-must-match-map)
-       "M-C-e" 'miniedit))
+       "C-c '" 'miniedit))
     #+END_SRC
 
 ** Scrolling
@@ -1066,11 +1207,9 @@
     #+BEGIN_SRC emacs-lisp
     (use-package default-text-scale
       :general
-      (:keymaps
-       'global
-       "C-M-=" 'default-text-scale-increase
-       "C-M--" 'default-text-scale-decrease
-       "C-M-0" 'default-text-scale-reset))
+      ("C-M-=" 'default-text-scale-increase)
+      ("C-M--" 'default-text-scale-decrease)
+      ("C-M-0" 'default-text-scale-reset))
     #+END_SRC
 
 ** Packages
@@ -1168,9 +1307,7 @@
       (dired-sidebar-mode . variable-pitch-mode)
       (dired-sidebar-mode . +dired-sidebar-setup)
       :general
-      (:keymaps
-       'global
-       "C-x C-n" 'dired-sidebar-toggle-sidebar)
+      ("C-x C-n" 'dired-sidebar-toggle-sidebar)
       :preface
       (defun +dired-sidebar-setup ()
         (setq cursor-type nil)
@@ -1206,7 +1343,11 @@
 *** ace-link
     Hint mode for links.
     #+BEGIN_SRC emacs-lisp
-    (use-package ace-link)
+    (use-package ace-link
+      :general
+      (:prefix
+       +search-prefix
+       "o" 'ace-link))
     #+END_SRC
 
 *** bibliothek
@@ -1231,9 +1372,9 @@
     #+BEGIN_SRC emacs-lisp
     (use-package deadgrep
       :general
-      (:keymaps
-       'global
-       "C-c J" 'deadgrep))
+      (:prefix
+       +search-prefix
+       "G" 'deadgrep))
     #+END_SRC
 
 *** deft
@@ -1259,10 +1400,12 @@
     #+BEGIN_SRC emacs-lisp
     (use-package goto-chg
       :general
-      (:keymaps
-       'global
-       "M-] l" 'goto-last-change
-       "M-[ l" 'goto-last-change-reverse))
+      (:prefix
+       +next-prefix
+       "l" '(goto-last-change :wk "Change"))
+      (:prefix
+       +prev-prefix
+       "l" '(goto-last-change-reverse :wk "Change")))
     #+END_SRC
 
 *** recentf
@@ -1325,7 +1468,7 @@
       [remap eshell] (general-predicate-dispatch #'eshell
                        :docstring "Creat an interactive Eshell buffer (project aware)"
                        (projectile-project-p) #'projectile-run-eshell)
-      "C-c p" '(:keymap projectile-command-map :package projectile :wk "project"))
+      "C-x p" '(:keymap projectile-command-map :package projectile :wk "project"))
      :preface
      (defun +projectile-relative-buf-name ()
        (when (buffer-file-name)
@@ -1371,7 +1514,9 @@
    (use-package eyebrowse
      :hook (after-init . eyebrowse-mode)
      :general
-     ("C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
+     (:keymaps
+      'eyebrowse-mode-map
+      "C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
      :preface
      (defun +eyebrowse-rename-window-config-to-project-name ()
        "Set window configuration name to project name."
@@ -1505,19 +1650,19 @@ ARG lines can be used."
         "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
        (counsel-mode-override-describe-bindings t)
        :general
-       (:keymaps
-        'global
-        ;; Use counsel/swiper for search
-        "C-r"   'swiper
-        "C-s"   'swiper
-        "C-x /" 'counsel-abbrev)
+       ;; Use counsel/swiper for search
+       ("C-r" 'swiper)
+       ("C-s" 'swiper)
+       ("C-x /" 'counsel-abbrev)
        (:keymaps
         'counsel-mode-map
-        "C-c r" 'counsel-recentf
-        "C-c g" 'counsel-git
-        "C-c i" 'counsel-imenu
-        "C-c G" 'counsel-git-grep
-        "C-c j" 'counsel-rg)
+        "C-c p" 'counsel-git
+        "C-c r" 'counsel-recentf)
+       (:keymaps
+        'counsel-mode-map
+        :prefix +search-prefix
+        "g" 'counsel-rg
+        "i" 'counsel-imenu)
        (:keymaps
         'counsel-ag-map
         "C-SPC" 'ivy-call-and-recenter)
@@ -1547,10 +1692,12 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package flyspell-correct-ivy
        :general
-       (:keymaps
-        'global
-        "M-] S" 'flyspell-correct-word-generic
-        "M-[ S" 'flyspell-correct-previous-word-generic))
+       (:prefix
+        +next-prefix
+        "S" '(flyspell-correct-word-generic :wk "Spell fix"))
+       (:prefix
+        +prev-prefix
+        "S" '(flyspell-correct-previous-word-generic :wk "Spell fix")))
      #+END_SRC
 
 **** imenu-anywhere
@@ -1560,8 +1707,11 @@ ARG lines can be used."
        :general
        (:keymaps
         'ivy-mode-map
-        [remap imenu-anywhere] 'ivy-imenu-anywhere
-        "C-c I" 'ivy-imenu-anywhere))
+        [remap imenu-anywhere] 'ivy-imenu-anywhere)
+       (:keymaps
+        'ivy-mode-map
+        :prefix +search-prefix
+        "I" 'ivy-imenu-anywhere))
      #+END_SRC
 
 **** ivy-xref
@@ -1586,9 +1736,7 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package counsel-tramp
        :general
-       (:keymaps
-        'global
-        "C-c s" 'counsel-tramp))
+       ("C-c s" 'counsel-tramp))
      #+END_SRC
 
 *** Icons
@@ -1599,118 +1747,6 @@ ARG lines can be used."
       (ivy counsel)
       :config
       (all-the-icons-ivy-setup))
-    #+END_SRC
-
-* Keybindings
-  I am trying to reduce the amount of keybindings, therefore I present a table of default
-  keybindings in case I would forget them.
-
-  | Keybinding    | Function                | Description                                                                      |
-  |---------------+-------------------------+----------------------------------------------------------------------------------|
-  | =M-SPC=         | =just-one-space=          | Ensures just one space                                                           |
-  | =M-\=           | =delete-horizontal-space= | Delete all space                                                                 |
-  | =M-^=           | =delete-indentation=      | Join current line with previous line                                             |
-  | =M-z=           | =zap-to-char=             | Delete until character                                                           |
-  | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once                     |
-  | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                                          |
-  | =C-w=           | =kill-region=             | Cut                                                                              |
-  | =M-w=           | =kill-ring-save=          | Copy                                                                             |
-  | =C-y=           | =yank=                    | Paste                                                                            |
-  | =M-y=           | =yank-next=               | Paste (next item)                                                                |
-  | =C-x SPC=       | =rectangle-mark-mode=     | Rectangular selection                                                            |
-  | =C-x r t=       | =string-rectangle=        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
-
-*** Leader keys
-    #+BEGIN_SRC emacs-lisp
-    (defvar +leader-key "C-c"
-      "The key used for most custom operations.")
-    (defvar +local-leader-key "C-c m"
-      "The key used for major mode operations.")
-    (defvar +evil-normal-state-leader-key "SPC"
-      "The key used for most custom operations in `evil-normal-state'.")
-    #+END_SRC
-
-*** Global
-    #+BEGIN_SRC emacs-lisp
-    (general-define-key
-     :keymaps 'global
-     ;; Editing
-     "M-Z" 'zap-up-to-char
-     ;; Files
-     "C-c o" 'ff-find-other-file
-     ;; REPL
-     "<C-return>" 'ielm
-     ;; Terminal
-     "C-!" 'eshell
-     "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
-     ;; Window
-     "C-`" 'window-toggle-side-windows
-     "C-§" 'window-toggle-side-windows
-     "C-x C-Z" 'maximize-window)
-    #+END_SRC
-
-**** Next
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix "M-]"
-      ""  '(:ignore t :wk "next...")
-      "]" '(text-scale-increase           :wk "Text size")
-      "b" '(next-buffer                   :wk "Buffer")
-      "c" '(smerge-next                   :wk "Conflict")
-      "d" '(diff-hl-next-hunk             :wk "Diff Hunk")
-      "e" '(next-error                    :wk "Error")
-      "s" '(flyspell-goto-next-error      :wk "Spell error")
-      "t" '(hl-todo-next                  :wk "Todo")
-      "w" '(eyebrowse-next-window-config  :wk "Workspace"))
-     #+END_SRC
-
-**** Previous
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix "M-["
-      ""  '(:ignore t :wk "previous...")
-      "[" '(text-scale-decrease                    :wk "Text size")
-      "b" '(previous-buffer                        :wk "Buffer")
-      "c" '(smerge-prev                            :wk "Conflict")
-      "d" '(diff-hl-previous-hunk                  :wk "Diff Hunk")
-      "e" '(previous-error                         :wk "Error")
-      "t" '(hl-todo-previous                       :wk "Todo")
-      "w" '(eyebrowse-prev-window-config           :wk "Workspace"))
-     #+END_SRC
-
-**** Toggle
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix "C-c t"
-      "c" '(highlight-changes-mode           :wk "Changes")
-      "d" '(toggle-debug-on-error            :wk "Debug on error")
-      "f" '(hs-minor-mode                    :wk "Code folding")
-      "h" '(hl-line-mode                     :wk "Line highlight")
-      "l" '(global-display-line-numbers-mode :wk "Line numbers")
-      "t" '(toggle-truncate-lines            :wk "Truncate lines")
-      "v" '(variable-pitch-mode              :wk "Variable-pitch")
-      "w" '(whitespace-mode                  :wk "White-space")
-      "x" '(flymake-mode                     :wk "Syntax checker"))
-     #+END_SRC
-
-**** Launch
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix "C-c l"
-      "c" 'compile
-      "C" 'recompile
-      "p" 'list-processes
-      "w" 'eww)
-     #+END_SRC
-
-*** Help
-    #+BEGIN_SRC emacs-lisp
-    (general-define-key
-     :keymaps 'help-map
-     "B" 'find-library
-     "u" 'describe-face
-     "U" 'list-faces-display
-     "'" 'describe-char)
     #+END_SRC
 
 * Development
@@ -1744,8 +1780,10 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package docker
        :general
-       ("C-c d d" 'docker
-        "C-c d c" 'docker-compose))
+       (:prefix
+        "C-c d"
+        "d" 'docker
+        "c" 'docker-compose))
     #+END_SRC
 
 **** Files
@@ -1815,8 +1853,10 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (use-package quickrun
       :general
-      ("C-c m q" 'quickrun
-       "C-c t q" '(quickrun-autorun-mode :wk "Quickrun")))
+      (:prefix
+       +local-leader-key
+       "q" 'quickrun
+       "Q" 'quickrun-autorun-mode))
     #+END_SRC
 
 ** Folding
@@ -1828,6 +1868,16 @@ ARG lines can be used."
      :hook (prog-mode . hs-minor-mode)
      :custom
      (hs-hide-comments-when-hiding-all nil)
+     :general
+     (:prefix
+      "C-c z"
+      "c"     'hs-hide-block
+      "o"     'hs-show-block
+      "C"     'hs-hide-all
+      "O"     'hs-show-all
+      "l"     'hs-hide-level
+      "z"     'hs-toggle-hiding
+      "<tab>" 'hs-toggle-hiding)
      :init
      (defun +hs-fold-overlay-ellipsis (ov)
        (when (eq 'code (overlay-get ov 'hs))
@@ -1848,7 +1898,9 @@ ARG lines can be used."
        js2-mode
        python-mode) . format-all-mode)
      :general
-     ("C-c f" 'format-all-buffer))
+     (:prefix
+      +local-leader-key
+      "f" 'format-all-buffer))
    #+END_SRC
 
 ** Jump to definition
@@ -1862,10 +1914,12 @@ ARG lines can be used."
       :custom
       (dumb-jump-default-project user-emacs-directory)
       :general
-      ("M-g i" 'dumb-jump-go-prompt
-       "M-g o" 'dumb-jump-go-other-window
-       "M-g x" 'dumb-jump-go-prefer-external
-       "M-g z" 'dumb-jump-go-prefer-external-other-window))
+      (:prefix
+       +nav-prefix
+       "i" 'dumb-jump-go-prompt
+       "o" 'dumb-jump-go-other-window
+       "x" 'dumb-jump-go-prefer-external
+       "z" 'dumb-jump-go-prefer-external-other-window))
     #+END_SRC
 
 *** smart-jump
@@ -1876,13 +1930,13 @@ ARG lines can be used."
       :custom
       (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
       :general
-      (:keymaps
-       'global
-       "M-."   'smart-jump-go
-       "M-,"   'smart-jump-back
-       "M-?"   'smart-jump-references
-       "M-g j" 'smart-jump-go
-       "M-g r" 'smart-jump-references)
+      ("M-." 'smart-jump-go)
+      ("M-," 'smart-jump-back)
+      ("M-?" 'smart-jump-references)
+      (:prefix
+       +nav-prefix
+       "j" 'smart-jump-go
+       "r" 'smart-jump-references)
       :preface
       (defun +smart-jump-find-references-with-counsel-rg ()
         "Use `rg' and `counsel' to find references."
@@ -1923,8 +1977,8 @@ ARG lines can be used."
        'flymake-diagnostics-buffer-mode-map
        "n" '+flymake-diagnostics-next-error
        "p" '+flymake-diagnostics-prev-error
-       "j"   '+flymake-diagnostics-next-error
-       "k"   '+flymake-diagnostics-prev-error
+       "j" '+flymake-diagnostics-next-error
+       "k" '+flymake-diagnostics-prev-error
        "RET" 'flymake-goto-diagnostic
        "TAB" 'flymake-show-diagnostic)
       :preface
@@ -2025,9 +2079,7 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (use-package git-messenger
       :general
-      (:keymaps
-       'global
-       "C-x v p" 'git-messenger:popup-message))
+      ("C-x v p" 'git-messenger:popup-message))
     #+END_SRC
 
 ** Packages
@@ -2138,9 +2190,9 @@ ARG lines can be used."
       :straight
       (:host github :repo "iqbalansari/emacs-source-peek")
       :general
-      (:keymaps
-       'global
-       "M-g SPC" 'source-peek))
+      (:prefix
+       +nav-prefix
+       "SPC" 'source-peek))
     #+END_SRC
 
 *** ws-butler
@@ -2292,7 +2344,8 @@ ARG lines can be used."
        :general
        (:keymaps
         'emacs-lisp-mode-map
-        "M-g h" 'helpful-at-point)
+        :prefix +nav-prefix
+        "h" 'helpful-at-point)
        (:keymaps
         'help-map
         "C" 'helpful-command
@@ -2478,8 +2531,6 @@ ARG lines can be used."
 
    (provide 'org-version)
 
-   (require 'auto-tangle)
-
    (use-package org-plus-contrib
      :hook
      (org-mode . auto-fill-mode)
@@ -2509,11 +2560,6 @@ ARG lines can be used."
         ("laptop" . ?l)))
      :general
      (:keymaps
-      'org-mode-map
-      :major-modes t
-      "C-c RET" 'goto-address-at-point
-      "C-c SPC" 'nil)
-     (:keymaps
       'org-src-mode-map
       "C-c C-c" 'org-edit-src-exit)
      :defines org-babel-load-languages
@@ -2532,7 +2578,7 @@ ARG lines can be used."
        (:keymaps
         'org-mode-map
         :prefix +local-leader-key
-        "l" 'org-cliplink))
+        "u" 'org-cliplink))
      #+END_SRC
 
 **** org-noter
@@ -2974,9 +3020,6 @@ ARG lines can be used."
       'js2-mode-map
       :prefix +local-leader-key
       "r" 'js-repl)
-     (:keymaps
-      'js2-mode-map
-      "<C-return>" 'js-repl)
      :preface
      (defun +js-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
@@ -3023,8 +3066,8 @@ ARG lines can be used."
         'js2-mode-map
         :prefix +local-leader-key
         "s" 'indium-scratch
-        "i" 'indium-launch
-        "I" 'indium-connect)
+        "o" 'indium-launch
+        "O" 'indium-connect)
        (:keymaps
         'indium-debugger-mode
         :definer 'minor-mode
@@ -3150,7 +3193,7 @@ ARG lines can be used."
      (:keymaps
       'markdown-mode-map
       :prefix +local-leader-key
-      "h" 'markdown-toggle-markup-hiding))
+      "v" 'markdown-toggle-markup-hiding))
    #+END_SRC
 
 *** Packages
@@ -3439,7 +3482,8 @@ ARG lines can be used."
        :general
        (:keymaps
         'ruby-mode-map
-        "<C-return>" 'inf-ruby))
+        :prefix +local-leader-key
+        "r" 'inf-ruby))
      #+END_SRC
 
 **** minitest
@@ -3495,14 +3539,15 @@ ARG lines can be used."
        (:keymaps
         'ruby-mode-map
         :prefix +local-leader-key
-        "rb" 'ruby-toggle-block
-        "rc" 'ruby-refactor-convert-post-conditional
-        "re" '(:ignore t :wk "extract")
-        "rec" '(ruby-refactor-extract-constant       :wk "constant")
-        "rel" '(ruby-refactor-extract-to-let         :wk "to let")
-        "rem" '(ruby-refactor-extract-to-method      :wk "to method")
-        "rev" '(ruby-refactor-extract-local-variable :wk "variable")
-        "rp" 'ruby-refactor-add-parameter))
+        "R" '(:ignore t :wk "refactor...")
+        "Rb" 'ruby-toggle-block
+        "Rc" 'ruby-refactor-convert-post-conditional
+        "Re" '(:ignore t :wk "extract...")
+        "Rec" '(ruby-refactor-extract-constant       :wk "constant")
+        "Rel" '(ruby-refactor-extract-to-let         :wk "to let")
+        "Rem" '(ruby-refactor-extract-to-method      :wk "to method")
+        "Rev" '(ruby-refactor-extract-local-variable :wk "variable")
+        "Rp" 'ruby-refactor-add-parameter))
      #+END_SRC
 
 **** yard-mode
@@ -3757,3 +3802,5 @@ ARG lines can be used."
 
 * Tasks
 ** TODO Look into skewer packages
+** TODO Better key for ivy-yasnippet?
+** TODO Better key for counsel-tramp
