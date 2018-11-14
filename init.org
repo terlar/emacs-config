@@ -2094,11 +2094,14 @@ ARG lines can be used."
       :config
       ;; Disabled modes
       (dolist (mode '(diff-auto-refine-mode
+                      dockerfile-mode
                       elm-mode
                       haskell-mode
+                      makefile-mode
                       pug-mode
                       scala-mode
-                      slim-mode))
+                      slim-mode
+                      yaml-mode))
         (push mode aggressive-indent-excluded-modes))
       (global-aggressive-indent-mode 1))
     #+END_SRC
