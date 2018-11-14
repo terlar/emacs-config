@@ -459,6 +459,7 @@
 *** Window
     #+BEGIN_SRC emacs-lisp
     (defun toggle-dedicated-window ()
+      "Toggle selected window as dedicated window."
       (interactive)
       (set-window-dedicated-p (selected-window)
                               (not (window-dedicated-p (selected-window)))))
@@ -1835,7 +1836,9 @@ ARG lines can be used."
 *** DevDocs
     Lookup documentation via DevDocs.
     #+BEGIN_SRC emacs-lisp
-    (use-package devdocs)
+    (use-package devdocs
+      :general
+      ("M-g K" 'devdocs-search))
     #+END_SRC
 
 ** Eval
@@ -3589,6 +3592,9 @@ ARG lines can be used."
      #+BEGIN_SRC emacs-lisp
      (use-package yari
        :general
+       (:keymaps
+        'ruby-mode-map
+        "M-g k" 'yari)
        (:keymaps
         'help-command-map
         "R" 'yari))
