@@ -2446,6 +2446,7 @@ ARG lines can be used."
      (defun +eshell-define-keys ()
        (general-define-key
         :keymaps 'eshell-mode-map
+        "RET" '+eshell-expand-abbrev-and-send-input
         "<tab>" 'completion-at-point
         "C-r" 'counsel-esh-history))
 
@@ -2453,24 +2454,48 @@ ARG lines can be used."
        (setq eshell-visual-commands
              (append '("fish" "jshell" "most" "ssh" "tail" "watch") eshell-visual-commands)))
      :init
-     (autoload 'eshell-smart-initialize "em-smart")
-
-     (define-abbrev-table 'eshell-mode-abbrev-table
-       '(("base64" "base64 -w0")
-         ("d" "docker")
-         ("dim" "docker images")
-         ("dp" "docker ps")
-         ("dc" "docker-compose")
-         ("dcl" "docker-compose logs")
-         ("e" "find-file-other-window")
-         ("E" "dired")
-         ("gd" "magit-diff-unstaged")
-         ("gds" "magit-diff-staged")
-         ("gs" "magit-status")
-         ("time" "time -p")
-         ("tree" "tree -a")
-         ("week" "date '+%V'"))))
+     (autoload 'eshell-smart-initialize "em-smart"))
    #+END_SRC
+
+*** Abbreviations
+    Fish-like abbreviations that expand on space or enter.
+    #+BEGIN_SRC emacs-lisp
+    (defun +eshell-expand-abbrev-and-send-input ()
+      "Expand abbreviation and send input to `eshell'."
+      (interactive)
+      (expand-abbrev)
+      (call-interactively #'eshell-send-input))
+
+    (defun +eshell-abbrev-expand-p ()
+      "Return t if abbreviation should be expanded.
+    Expansion should happen when abbreviation is at the beginning of
+    the line or after an eshell operator."
+      (let* ((end (point-marker))
+             (begin (save-excursion (eshell-bol) (point)))
+             (args (eshell-parse-arguments begin end)))
+        (or (= 1 (length args))
+            (let ((last-two-args (last args 2)))
+              (and (consp (car last-two-args))
+                   (eq (caar last-two-args)
+                       'eshell-operator))))))
+
+    (define-abbrev-table 'eshell-mode-abbrev-table
+      '(("base64" "base64 -w0")
+        ("d" "docker")
+        ("dim" "docker images")
+        ("dp" "docker ps")
+        ("dc" "docker-compose")
+        ("dcl" "docker-compose logs")
+        ("e" "find-file-other-window")
+        ("E" "dired")
+        ("gd" "magit-diff-unstaged")
+        ("gds" "magit-diff-staged")
+        ("gs" "magit-status")
+        ("time" "time -p")
+        ("tree" "tree -a")
+        ("week" "date '+%V'"))
+      :enable-function #'+eshell-abbrev-expand-p)
+    #+END_SRC
 
 *** Packages
 **** eshell-fringe-status
