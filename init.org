@@ -583,8 +583,6 @@
      #+BEGIN_SRC emacs-lisp
      (general-define-key
       :prefix +launch-prefix
-      "c" 'compile
-      "C" 'recompile
       "p" 'list-processes
       "w" 'eww)
      #+END_SRC
@@ -1761,9 +1759,19 @@ ARG lines can be used."
 ** Compilation
    Kill compilation process before stating another and save all buffers on =compile.=
    #+BEGIN_SRC emacs-lisp
-   (setq compilation-always-kill t
-         compilation-ask-about-save nil
-         compilation-scroll-output t)
+   (use-package compile
+     :straight nil
+     :custom
+     (compilation-always-kill t)
+     (compilation-ask-about-save nil)
+     (compilation-scroll-output t)
+     :general
+     (:keymaps
+      'global
+      :prefix
+      +local-leader-key
+      "c" 'compile
+      "C" 'recompile))
    #+END_SRC
 
 *** ANSI escape
@@ -3718,11 +3726,7 @@ ARG lines can be used."
        :general
        (:keymaps
         'typescript-mode-map
-        "C-x C-e" 'ts-send-last-sexp
-        "C-M-x" 'ts-send-last-sexp-and-go
-        "C-c b" 'ts-send-buffer
-        "C-c C-b" 'ts-send-buffer-and-go
-        "C-c l" 'ts-load-file-and-go)
+        "C-x C-e" 'ts-send-last-sexp)
        (:keymaps
         'typescript-mode-map
         :prefix +local-leader-key
