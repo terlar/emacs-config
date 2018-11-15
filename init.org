@@ -2149,16 +2149,22 @@ ARG lines can be used."
         java-mode
         js-mode
         ruby-mode
-        rustic-mode) . eglot-ensure)
+        rustic-mode
+        typescript-mode) . eglot-ensure)
       :custom
       (eglot-sync-connect nil)
       :config
+      (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
+                  eglot-server-programs
+                  :test #'equal)
+
       (with-eval-after-load 'smart-jump
         (smart-jump-register :modes '(haskell-mode
                                       java-mode
                                       js2-mode
                                       ruby-mode
-                                      sh-mode))))
+                                      sh-mode
+                                      typescript-mode))))
     #+END_SRC
 
 *** eldoc-overlay
@@ -3699,6 +3705,29 @@ ARG lines can be used."
      :custom
      (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
    #+END_SRC
+
+** typescript
+   #+BEGIN_SRC emacs-lisp
+   (use-package typescript-mode)
+   #+END_SRC
+
+*** Packages
+**** ts-comint
+     #+BEGIN_SRC emacs-lisp
+     (use-package ts-comint
+       :general
+       (:keymaps
+        'typescript-mode-map
+        "C-x C-e" 'ts-send-last-sexp
+        "C-M-x" 'ts-send-last-sexp-and-go
+        "C-c b" 'ts-send-buffer
+        "C-c C-b" 'ts-send-buffer-and-go
+        "C-c l" 'ts-load-file-and-go)
+       (:keymaps
+        'typescript-mode-map
+        :prefix +local-leader-key
+        "r" 'run-ts))
+     #+END_SRC
 
 ** web
 *** Packages
