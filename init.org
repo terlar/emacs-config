@@ -1770,8 +1770,8 @@ ARG lines can be used."
       'global
       :prefix
       +local-leader-key
-      "c" 'compile
-      "C" 'recompile))
+      "c" 'recompile
+      "C" 'compile))
    #+END_SRC
 
 *** ANSI escape
