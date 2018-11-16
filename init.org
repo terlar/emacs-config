@@ -2330,6 +2330,12 @@ ARG lines can be used."
     (add-hook 'ielm-mode-hook #'+ielm-set-comint-input-ring)
     #+END_SRC
 
+*** eval-expression
+    Highlight parenthesis.
+    #+BEGIN_SRC emacs-lisp
+    (add-hook 'eval-expression-minibuffer-setup-hook #'show-paren-mode)
+    #+END_SRC
+
 *** Packages
 **** auto-compile
      Auto-compile Elisp files.

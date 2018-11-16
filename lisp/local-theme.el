@@ -85,6 +85,9 @@
    `(org-property-value                      ((t (:inherit fixed-pitch))))
    `(org-table                               ((t (:inherit fixed-pitch))))
    `(org-verbatim                            ((t (:inherit fixed-pitch))))
+   ;; show-paren-mode
+   `(show-paren-match                        ((t (:foreground ,color-11 :bold t :underline t :box nil))))
+   `(show-paren-mismatch                     ((t (:foreground ,theme-color-error :bold t))))
    ;; smerge
    `(smerge-upper                            ((t (:background "#E6FFED"))))
    `(smerge-lower                            ((t (:background "#FFEEF0"))))
@@ -172,8 +175,8 @@
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
    ;; smartparens
-   `(sp-show-pair-match-face                 ((t (:foreground ,color-11 :bold t :underline t :box nil))))
-   `(sp-show-pair-mismatch-face              ((t (:foreground ,theme-color-error :bold t))))
+   `(sp-show-pair-match-face                 ((t (:inherit show-paren-match))))
+   `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
    `(spray-accent-face                       ((t (:foreground ,theme-color-error :underline (:color ,color-10) :overline ,color-10))))
