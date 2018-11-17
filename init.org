@@ -2135,16 +2135,17 @@ ARG lines can be used."
       :defer 1
       :diminish editorconfig-mode
       :preface
-      (defun +ws-butler-editorconfig (props)
-        "Use ws-butler mode instead of delete-trailing-whitespace."
-        (if (equal (gethash 'trim_trailing_whitespace props) "true")
-            (progn
-              (setq write-file-functions
-                    (delete 'delete-trailing-whitespace write-file-functions))
-              (ws-butler-mode 1))
+      (defun +editorconfig-set-trailing-ws-use-ws-butler-advice (orig trim-trailing-ws)
+        "Use ws-butler mode instead of delete-trailing-whitespace.
+        Never calls ORIG function with TRIM-TRAILING-WS."
+        (when (and (equal trim-trailing-ws "true")
+                   (not buffer-read-only))
+          (ws-butler-mode 1))
+        (when (or (equal trim-trailing-ws "false")
+                  buffer-read-only)
           (ws-butler-mode 0)))
       :config
-      (add-hook 'editorconfig-after-apply-functions #'+ws-butler-editorconfig)
+      (advice-add 'editorconfig-set-trailing-ws :around #'+editorconfig-set-trailing-ws-use-ws-butler-advice)
       (editorconfig-mode 1))
     #+END_SRC
 
