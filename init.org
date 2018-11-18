@@ -3098,8 +3098,6 @@ ARG lines can be used."
              (nodejs-repl-send-region (region-beginning) (region-end))
            (nodejs-repl-send-line))))
      :init
-     (with-eval-after-load 'editorconfig
-       (push '(js2-mode js2-basic-offset js-switch-indent-offset) editorconfig-indentation-alist))
      (with-eval-after-load 'org
        (push '("js" . js2) org-src-lang-modes )))
    #+END_SRC
