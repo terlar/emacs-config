@@ -2495,7 +2495,7 @@ ARG lines can be used."
     the line or after an eshell operator."
       (let* ((end (point-marker))
              (begin (save-excursion (eshell-bol) (point)))
-             (args (eshell-parse-arguments begin end)))
+             (args (catch 'eshell-incomplete (eshell-parse-arguments begin end))))
         (or (= 1 (length args))
             (let ((last-two-args (last args 2)))
               (and (consp (car last-two-args))
