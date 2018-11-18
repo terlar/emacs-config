@@ -2552,13 +2552,15 @@ ARG lines can be used."
      #+END_SRC
 
 ** org
+   Ensure correct Org version is installed with =straight.el=. See [[https://github.com/raxod502/straight.el#installing-org-with-straightel][this link]] for further
+   information.
    #+BEGIN_SRC emacs-lisp
    (require 'subr-x)
    (use-package git)
 
    (defun org-git-version ()
      "The Git version of org-mode.
-            Inserted by installing org-mode or when a release is made."
+      Inserted by installing org-mode or when a release is made."
      (require 'git)
      (let ((git-repo (expand-file-name
                       "straight/repos/org/" user-emacs-directory)))
@@ -2570,7 +2572,7 @@ ARG lines can be used."
 
    (defun org-release ()
      "The release version of org-mode.
-            Inserted by installing org-mode or when a release is made."
+      Inserted by installing org-mode or when a release is made."
      (require 'git)
      (let ((git-repo (expand-file-name
                       "straight/repos/org/" user-emacs-directory)))
@@ -2583,7 +2585,9 @@ ARG lines can be used."
                   "HEAD")))))
 
    (provide 'org-version)
+   #+END_SRC
 
+   #+BEGIN_SRC emacs-lisp
    (use-package org-plus-contrib
      :hook
      (org-mode . auto-fill-mode)
