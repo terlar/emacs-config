@@ -2221,7 +2221,9 @@ ARG lines can be used."
     Delete trailing white-space before save, but *only* for edited lines.
     #+BEGIN_SRC emacs-lisp
     (use-package ws-butler
-      :diminish ws-butler-mode)
+      :diminish ws-butler-mode
+      :custom
+      (ws-butler-convert-leading-tabs-or-spaces t))
     #+END_SRC
 
 ** Appearance
