@@ -1,6 +1,6 @@
 ;;; blacklist-minor-modes.el --- Blacklist minor modes -*- coding: utf-8; lexical-binding: t -*-
 
-;; Copyright (C) 2017 Terje Larsen
+;; Copyright (C) 2018 Terje Larsen
 ;; All rights reserved.
 
 ;; Author: Terje Larsen <terlar@gmail.com>
@@ -9,12 +9,12 @@
 
 ;; This file is NOT part of GNU Emacs.
 
-;; indent-info is free software: you can redistribute it and/or modify
+;; blacklist-minor-modes is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
 
-;; indent-info is distributed in the hope that it will be useful,
+;; blacklist-minor-modes is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
