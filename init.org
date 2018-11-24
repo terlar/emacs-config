@@ -573,6 +573,7 @@
      (general-define-key
       :prefix +launch-prefix
       "p" 'list-processes
+      "r" 'regexp-builder
       "w" 'eww)
      #+END_SRC
 
