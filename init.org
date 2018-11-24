@@ -17,6 +17,7 @@
   - key definitions :: [[https://github.com/noctuid/general.el][general]]
   - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]]
   - syntax checker :: flymake
+  - persistent undo :: via built-in =desktop-save-mode=
 
 ** Screenshots
 *** org-mode
@@ -3825,11 +3826,17 @@ ARG lines can be used."
    #+END_SRC
 
 ** Session
+   Support for restoring previous session on Emacs restart. This adds a few tweaks that
+   makes it really useful.
+   - Support for persistent undo history via =buffer-indo-list=.
+   - Ignore saving of =gz= files as it seems not to properly load those.
+   - Only restore 5 files to begin with to avoid slow starts with huge sessions.
    #+BEGIN_SRC emacs-lisp
    (use-package desktop
      :straight nil
      :demand t
      :custom
+     (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
      (desktop-restore-eager 5)
      :preface
      (defun +append-buffer-undo-list-to-buffer-local-variables-advice (orig-fn &rest args)
