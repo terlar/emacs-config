@@ -773,7 +773,6 @@
     #+BEGIN_SRC emacs-lisp
     (diminish 'abbrev-mode)
     (diminish 'auto-fill-function)
-    (diminish 'eldoc-mode)
     (with-eval-after-load 'face-remap (diminish 'buffer-face-mode))
     (with-eval-after-load 'with-editor (diminish 'with-editor-mode))
     #+END_SRC
@@ -1223,6 +1222,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package eldoc
       :straight nil
+      :diminish eldoc-mode
       :config
       (global-eldoc-mode 1))
     #+END_SRC
