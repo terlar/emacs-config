@@ -373,24 +373,25 @@
       (which-key-min-display-lines 5)
       (which-key-idle-delay 2)
       :config
-      (push '(("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil)) which-key-replacement-alist)
-      (push '(("\\`\\?\\?\\'" . nil)          . ("λ" . nil)) which-key-replacement-alist)
-      (push '(("<up>"    . nil)               . ("↑" . nil)) which-key-replacement-alist)
-      (push '(("<right>" . nil)               . ("→" . nil)) which-key-replacement-alist)
-      (push '(("<down>"  . nil)               . ("↓" . nil)) which-key-replacement-alist)
-      (push '(("<left>"  . nil)               . ("←" . nil)) which-key-replacement-alist)
-      (push '(("SPC" . nil)                   . ("␣" . nil)) which-key-replacement-alist)
-      (push '(("TAB" . nil)                   . ("↹" . nil)) which-key-replacement-alist)
-      (push '(("RET" . nil)                   . ("⏎" . nil)) which-key-replacement-alist)
-      (push '(("DEL" . nil)                   . ("⌫" . nil)) which-key-replacement-alist)
-      (push '(("deletechar" . nil)            . ("⌦" . nil)) which-key-replacement-alist)
+      (dolist (item '((("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil))
+                      (("\\`\\?\\?\\'" . nil) . ("λ" . nil))
+                      (("<up>" . nil) . ("↑" . nil))
+                      (("<right>" . nil) . ("→" . nil))
+                      (("<down>" . nil) . ("↓" . nil))
+                      (("<left>" . nil) . ("←" . nil))
+                      (("SPC" . nil) . ("␣" . nil))
+                      (("TAB" . nil) . ("↹" . nil))
+                      (("RET" . nil) . ("⏎" . nil))
+                      (("DEL" . nil) . ("⌫" . nil))
+                      (("deletechar" . nil) . ("⌦" . nil))))
+        (cl-pushnew item which-key-replacement-alist :test #'equal))
 
       (which-key-add-key-based-replacements
         "C-c !" "check"
         "C-c @" "outline"
         "C-c &" "snippet"
         "C-c m" "major-mode"
-        "C-c W" "workspace")
+        "C-c C-w" "workspace")
       (which-key-setup-side-window-bottom)
 
       (which-key-mode 1))
@@ -689,7 +690,7 @@
       (setq frame-title-format nil)
       (dolist (filter '((ns-transparent-titlebar . t)
                         (ns-appearance . unbound)))
-        (push filter default-frame-alist)))
+        (cl-pushnew filter default-frame-alist :test #'equal)))
     #+END_SRC
 
 ** Mode line
@@ -880,21 +881,22 @@
 ** Buffer
 *** Hide async shell command buffers
     #+BEGIN_SRC emacs-lisp
-    (push '("^*Async Shell Command*" . (display-buffer-no-window))
-          display-buffer-alist)
+    (cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
+                display-buffer-alist
+                :test #'equal)
     #+END_SRC
 
 *** Popups
     Always display pop up buffers at the bottom and regard all star buffers as such
     buffers.
     #+BEGIN_SRC emacs-lisp
-    (push `(,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
-            (display-buffer-reuse-window
-             display-buffer-in-side-window)
-            (reusable-frames . visible)
-            (side            . bottom)
-            (window-height   . 0.4))
-          display-buffer-alist)
+    (let ((rule `(,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
+                  (display-buffer-reuse-window
+                   display-buffer-in-side-window)
+                  (reusable-frames . visible)
+                  (side . bottom)
+                  (window-height . 0.4))))
+      (cl-pushnew rule display-buffer-alist :test #'equal))
     #+END_SRC
 
 *** Visual Fill Column
@@ -973,7 +975,7 @@
       (dolist (item '(("true" "false")
                       ("assert" "refute")
                       ("yes" "no")))
-        (push item rotate-text-words)))
+        (cl-pushnew item rotate-text-words :test #'equal)))
     #+END_SRC
 
 *** smartparens
@@ -2110,7 +2112,7 @@ ARG lines can be used."
                       scala-mode
                       slim-mode
                       yaml-mode))
-        (push mode aggressive-indent-excluded-modes))
+        (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))
       (global-aggressive-indent-mode 1))
     #+END_SRC
 
@@ -2282,7 +2284,7 @@ ARG lines can be used."
                         ("<==" . ?⇐)
                         ("==>" . ?⇒)
                         ("lambda" . ?λ)))
-        (push symbol prettify-symbols-alist)))
+        (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
     (add-hook 'prog-mode-hook #'+prog-mode-prettify-symbols)
 
     (global-prettify-symbols-mode 1)
@@ -2312,7 +2314,7 @@ ARG lines can be used."
     #+BEGIN_SRC emacs-lisp
     (defvar +ielm-comint-input-ring nil)
     (with-eval-after-load 'savehist
-      (push '+ielm-comint-input-ring savehist-additional-variables))
+      (cl-pushnew '+ielm-comint-input-ring savehist-additional-variables :test #'equal))
 
     (defun +ielm-set-comint-input-ring ()
       "Restore `ielm' history."
@@ -2434,7 +2436,7 @@ ARG lines can be used."
        (dolist (symbol '(("defun"    . ?ƒ)
                          ("defmacro" . ?μ)
                          ("defvar"   . ?ν)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
      #+END_SRC
 
@@ -2716,7 +2718,7 @@ ARG lines can be used."
        "Prettify checkbox symbols."
        (dolist (symbol '(("[ ]" . ?□)
                          ("[X]" . ?▣)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'org-mode-hook #'+org-mode-prettify-checkbox-symbols)
 
      #+END_SRC
@@ -2729,7 +2731,7 @@ ARG lines can be used."
                          ("DOING"    . ?⚐)
                          ("CANCELED" . ?✘)
                          ("DONE"     . ?✔)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'org-mode-hook #'+org-mode-prettify-task-symbols)
      #+END_SRC
 
@@ -2960,7 +2962,7 @@ ARG lines can be used."
      :preface
      (defun +go-mode-prettify-symbols ()
        (dolist (symbol '(("funct"  . ?ƒ)))
-         (push symbol prettify-symbols-alist))))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
 
 *** Packages
@@ -3079,7 +3081,7 @@ ARG lines can be used."
                          ("function"  . ?ƒ)
                          ("undefined" . ?∅)
                          ("Infinity"  . ?∞)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
 
      (defun js-repl ()
        "Open a JavaScript REPL."
@@ -3100,7 +3102,7 @@ ARG lines can be used."
            (nodejs-repl-send-line))))
      :init
      (with-eval-after-load 'org
-       (push '("js" . js2) org-src-lang-modes )))
+       (cl-pushnew '("js" . js2) org-src-lang-modes :test #'equal)))
    #+END_SRC
 
 *** Packages
@@ -3224,7 +3226,7 @@ ARG lines can be used."
        (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
                          ("function"  . ?ƒ)
                          ("math.huge" . ?∞)))
-         (push symbol prettify-symbols-alist))))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
 
 ** markdown
@@ -3277,7 +3279,7 @@ ARG lines can be used."
        (dolist (symbol '(("[ ]" . ?□)
                          ("[x]" . ?▣)
                          ("[X]" . ?▣)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
      #+END_SRC
 
@@ -3368,7 +3370,7 @@ ARG lines can be used."
                          ("**3"      . ?³)
                          ("None"     . ?∅)
                          ("math.inf" . ?∞)))
-         (push symbol prettify-symbols-alist))))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
 
 *** Packages
@@ -3461,7 +3463,7 @@ ARG lines can be used."
        (dolist (symbol '(("[ ]" . ?□)
                          ("[x]" . ?▣)
                          ("[X]" . ?▣)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'rst-mode-hook #'+rst-mode-prettify-checkbox-symbols)
      #+END_SRC
 
@@ -3477,15 +3479,17 @@ ARG lines can be used."
      (defun +ruby-mode-prettify-symbols ()
        (dolist (symbol '(("def"             . ?ƒ)
                          ("Float::INFINITY" . ?∞)))
-         (push symbol prettify-symbols-alist)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      :config
      (with-eval-after-load 'hideshow
-       (push `(ruby-mode
-               ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
-               ,(rx (or "}" "]" "end"))                       ; Block end
-               ,(rx bol
-                    (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
-               ruby-forward-sexp nil) hs-special-modes-alist)))
+       (cl-pushnew `(ruby-mode
+                     ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
+                     ,(rx (or "}" "]" "end"))                       ; Block end
+                     ,(rx bol
+                          (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
+                     ruby-forward-sexp nil)
+                   hs-special-modes-alist
+                   :test #'equal)))
    #+END_SRC
 
 *** Testing
@@ -3631,7 +3635,7 @@ ARG lines can be used."
       "t" 'rustic-cargo-test)
      :init
      (with-eval-after-load 'org
-       (push '("rust" . rustic) org-src-lang-modes ))
+       (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal))
      :config
      (require 'eglot))
    #+END_SRC
@@ -3852,7 +3856,7 @@ ARG lines can be used."
            (apply orig-fn args))))
      :config
      (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
-     (push 'buffer-undo-list desktop-locals-to-save)
+     (cl-pushnew 'buffer-undo-list desktop-locals-to-save :test #'equal)
      (desktop-save-mode 1))
    #+END_SRC
 
