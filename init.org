@@ -2596,6 +2596,7 @@ ARG lines can be used."
    (use-package org-plus-contrib
      :hook
      (org-mode . auto-fill-mode)
+     (org-mode . eldoc-mode)
      (org-babel-after-execute . org-redisplay-inline-images)
      :minor
      ("init\\.org$" . auto-tangle-mode)
@@ -2622,10 +2623,6 @@ ARG lines can be used."
       '(("@work"  . ?w)
         ("@home"  . ?h)
         ("laptop" . ?l)))
-     :general
-     (:keymaps
-      'org-src-mode-map
-      "C-c C-c" 'org-edit-src-exit)
      :defines org-babel-load-languages
      :config
      (org-babel-do-load-languages
