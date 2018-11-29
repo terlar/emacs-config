@@ -64,7 +64,7 @@
   :group 'auto-tangle
   :type 'boolean)
 
-(defcustom auto-tangle-async t
+(defcustom auto-tangle-async (featurep 'async)
   "Do the tangle async."
   :group 'auto-tangle
   :type 'boolean)
