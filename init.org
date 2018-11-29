@@ -1192,28 +1192,6 @@
                  scroll-up-aggressively 0.01)
    #+END_SRC
 
-** Text scale
-   Text scaling works across all buffers. I rarely find that I only want to change the
-   text scale only for one buffer.
-   #+BEGIN_SRC emacs-lisp
-   (defun +text-scale-increase-across-all-buffers (orig &rest args)
-     "Text scale across all buffers.
-   Calls ORIG function with ARGS."
-     (dolist (buffer (buffer-list))
-       (with-current-buffer buffer
-         (apply orig args))))
-   (advice-add 'text-scale-increase :around #'+text-scale-increase-across-all-buffers)
-   #+END_SRC
-
-*** default-text-scale
-    #+BEGIN_SRC emacs-lisp
-    (use-package default-text-scale
-      :general
-      ("C-M-=" 'default-text-scale-increase)
-      ("C-M--" 'default-text-scale-decrease)
-      ("C-M-0" 'default-text-scale-reset))
-    #+END_SRC
-
 ** Packages
 *** autorevert
     Revert buffers when underlying files change.
@@ -1226,6 +1204,15 @@
       (auto-revert-verbose nil)
       :config
       (global-auto-revert-mode 1))
+    #+END_SRC
+
+*** default-text-scale
+    #+BEGIN_SRC emacs-lisp
+    (use-package default-text-scale
+      :general
+      ("C-M-=" 'default-text-scale-increase)
+      ("C-M--" 'default-text-scale-decrease)
+      ("C-M-0" 'default-text-scale-reset))
     #+END_SRC
 
 *** eldoc
