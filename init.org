@@ -472,7 +472,7 @@
   | =M-\=           | =delete-horizontal-space= | Delete all space                                                                 |
   | =M-^=           | =delete-indentation=      | Join current line with previous line                                             |
   | =M-z=           | =zap-to-char=             | Delete until character                                                           |
-  | =C-S-backspace= | kill-whole-line         | Kill entire lines, can be used to move several lines at once                     |
+  | =C-S-backspace= | =kill-whole-line=         | Kill entire lines, can be used to move several lines at once                     |
   | =M-/=           | =dabbrev-expand=          | Abbreviation completion                                                          |
   | =C-w=           | =kill-region=             | Cut                                                                              |
   | =M-w=           | =kill-ring-save=          | Copy                                                                             |
@@ -616,7 +616,7 @@
       (defvar +variable-pitch-font "Noto Sans"
         "Font used for variable-pitch faces.")
 
-      (defvar +serif-font "Noto Serif"
+      (defvar +serif-font "ETBembo"
         "Font used for serif faces.")
 
       (defvar +unicode-font "Noto Mono"
@@ -666,8 +666,8 @@
     same reason.
     #+BEGIN_SRC emacs-lisp
     (setq-default fringes-outside-margins t
-                  left-margin-width 1
-                  right-margin-width 1)
+                  left-margin-width 2
+                  right-margin-width 2)
     #+END_SRC
 
 *** Borders
@@ -687,7 +687,7 @@
     transparent on macOS.
     #+BEGIN_SRC emacs-lisp
     (setq default-frame-alist
-          '((internal-border-width . 12)
+          '((internal-border-width . 20)
             (vertical-scroll-bars . nil)
             (menu-bar-lines . 0)
             (tool-bar-lines . 0)))
@@ -2607,6 +2607,7 @@ ARG lines can be used."
      :hook
      (org-mode . auto-fill-mode)
      (org-mode . eldoc-mode)
+     (org-mode . hide-mode-line-mode)
      (org-babel-after-execute . org-redisplay-inline-images)
      :minor
      ("init\\.org$" . auto-tangle-mode)
@@ -2619,9 +2620,14 @@ ARG lines can be used."
         (plantuml   . t)
         (shell      . t)))
      (org-edit-src-content-indentation 0)
+     (org-ellipsis "  ")
+     (org-fontify-whole-heading-line t)
+     (org-fontify-done-headline t)
+     (org-fontify-quote-and-verse-blocks t)
      (org-hide-emphasis-markers t)
      (org-log-done 'time)
      (org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+     (org-pretty-entities t)
      (org-startup-folded nil)
      (org-startup-with-inline-images t)
      (org-special-ctrl-a/e t)
@@ -2760,6 +2766,15 @@ ARG lines can be used."
        (when string
          (substring-no-properties string)))
      (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
+     #+END_SRC
+
+**** Tables
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-pretty-table
+       :straight
+       (:host github :repo "fuco1/org-pretty-table")
+       :hook
+       (org-mode . org-pretty-table-mode))
      #+END_SRC
 
 ** ansible
