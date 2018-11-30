@@ -2627,6 +2627,7 @@ ARG lines can be used."
      (org-fontify-done-headline t)
      (org-fontify-quote-and-verse-blocks t)
      (org-hide-emphasis-markers t)
+     (org-image-actual-width 800)
      (org-log-done 'time)
      (org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
      (org-pretty-entities t)
