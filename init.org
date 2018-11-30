@@ -1361,7 +1361,10 @@
       :general
       (:prefix
        +search-prefix
-       "o" 'ace-link))
+       "o" 'ace-link)
+      (:keymaps
+       '(help-mode-map helpful-mode-map)
+       "o" 'ace-link-help))
     #+END_SRC
 
 *** bibliothek
@@ -2400,8 +2403,7 @@ ARG lines can be used."
        (:keymaps
         'helpful-mode-map
         "[[" 'backward-button
-        "]]" 'forward-button
-        "o" '(ace-link-help :package 'ace-link)))
+        "]]" 'forward-button))
      #+END_SRC
 
 **** highlight-quoted
