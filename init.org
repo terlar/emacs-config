@@ -518,7 +518,6 @@
      "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
      ;; Window
      "C-`" 'window-toggle-side-windows
-     "C-§" 'window-toggle-side-windows
      "C-x C-Z" 'maximize-window)
     #+END_SRC
 
