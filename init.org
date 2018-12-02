@@ -252,16 +252,6 @@
       (savehist-save-minibuffer-history t))
     #+END_SRC
 
-*** saveplace
-    Keep track of last point place to resume editing in the same file.
-    #+BEGIN_SRC emacs-lisp
-    (use-package saveplace
-      :straight nil
-      :defer 5
-      :config
-      (save-place-mode 1))
-    #+END_SRC
-
 ** Libraries
 *** cl-lib
     #+BEGIN_SRC emacs-lisp
