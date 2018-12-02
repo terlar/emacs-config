@@ -2601,6 +2601,7 @@ ARG lines can be used."
      (org-mode . auto-fill-mode)
      (org-mode . eldoc-mode)
      (org-mode . hide-mode-line-mode)
+     (org-mode . +org-mode-set-bar-cursor)
      (org-babel-after-execute . org-redisplay-inline-images)
      :minor
      ("init\\.org$" . auto-tangle-mode)
@@ -2634,6 +2635,10 @@ ARG lines can be used."
         ("@home"  . ?h)
         ("laptop" . ?l)))
      :defines org-babel-load-languages
+     :preface
+     (defun +org-mode-set-bar-cursor ()
+       "Set bar cursor for `org-mode'."
+       (setq cursor-type 'bar))
      :config
      (org-babel-do-load-languages
       'org-babel-load-languages
