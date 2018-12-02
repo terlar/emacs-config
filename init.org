@@ -146,14 +146,6 @@
                    (list (expand-file-name "lisp" user-emacs-directory)))))
    #+END_SRC
 
-** OS
-*** macOS
-    Setup PATH correctly.
-    #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'darwin)
-      (setenv "PATH" (shell-command-to-string "launchctl getenv PATH")))
-    #+END_SRC
-
 ** Shell
    Set shell to bash as fish is not compatible with all packages using the shell.
    #+BEGIN_SRC emacs-lisp
