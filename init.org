@@ -1229,7 +1229,9 @@
     #+BEGIN_SRC emacs-lisp
     (use-package rainbow-mode
       :minor
-      "-theme\\.el$")
+      "-theme\\.el$"
+      :hook
+      help-mode)
     #+END_SRC
 
 *** readable
