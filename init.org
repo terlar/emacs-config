@@ -1187,12 +1187,8 @@
     #+BEGIN_SRC emacs-lisp
     (use-package autorevert
       :straight nil
-      :defer 2
-      :diminish auto-revert-mode
       :custom
-      (auto-revert-verbose nil)
-      :config
-      (global-auto-revert-mode 1))
+      (auto-revert-verbose nil))
     #+END_SRC
 
 *** default-text-scale
