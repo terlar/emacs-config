@@ -30,8 +30,8 @@
   (custom-theme-set-faces
    'local
    `(default                                 ((t (:height ,+default-font-height :family ,+fixed-pitch-font :weight light))))
-   `(fixed-pitch                             ((t (:family ,+fixed-pitch-font :weight light))))
-   `(variable-pitch                          ((t (:family ,+variable-pitch-font))))
+   `(fixed-pitch                             ((t (:height 1.0 :family ,+fixed-pitch-font :weight light))))
+   `(variable-pitch                          ((t (:height 1.1 :family ,+variable-pitch-font))))
    `(vertical-border                         ((t (:background ,color-7 :foreground ,color-7))))
    `(mode-line                               ((t (:height 0.8 :family ,+variable-pitch-font :background ,color-5 :foreground ,color-12 :box (:line-width 4 :color ,color-5)))))
    `(mode-line-inactive                      ((t (:height 0.8 :family ,+variable-pitch-font :background ,color-4 :foreground ,color-9 :box (:line-width 4 :color ,color-4)))))
@@ -74,14 +74,16 @@
    `(org-level-6                             ((t (:height 1.1 :bold nil :italic t))))
    `(org-level-7                             ((t (:height 1.1 :bold nil :italic t))))
    `(org-level-8                             ((t (:height 1.1 :bold nil :italic t))))
-   `(org-link                                ((t (:foreground ,color-12))))
    `(org-block                               ((t (:weight light))))
    `(org-block-begin-line                    ((t (:foreground ,color-7))))
    `(org-checkbox                            ((t (:inherit fixed-pitch))))
-   `(org-code                                ((t (:inherit org-block))))
+   `(org-code                                ((t (:inherit fixed-pitch :background ,color-3))))
+   `(org-formula                             ((t (:height 0.8))))
    `(org-hide                                ((t (:inherit fixed-pitch))))
    `(org-indent                              ((t (:inherit org-hide))))
-   `(org-verbatim                            ((t (:inherit org-block))))
+   `(org-link                                ((t (:foreground ,color-12))))
+   `(org-table                               ((t (:height 0.8))))
+   `(org-verbatim                            ((t (:inherit fixed-pitch :background ,color-3))))
    ;; show-paren-mode
    `(show-paren-match                        ((t (:foreground ,color-11 :bold t :underline t :box nil))))
    `(show-paren-mismatch                     ((t (:foreground ,theme-color-error :bold t))))
@@ -161,7 +163,7 @@
    ;; rainbow-delimiters
    `(rainbow-delimiters-unmatched-face       ((t (:foreground ,theme-color-error :bold t))))
    ;; readable
-   `(readable                                ((t (:height 1.3 :family ,+serif-font))))
+   `(readable                                ((t (:height 1.2 :family ,+serif-font))))
    ;; rst
    `(rst-level-1                             ((t (:inherit org-level-1))))
    `(rst-level-2                             ((t (:inherit org-level-2))))
