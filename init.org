@@ -616,8 +616,8 @@
     same reason.
     #+BEGIN_SRC emacs-lisp
     (setq-default fringes-outside-margins t
-                  left-margin-width 2
-                  right-margin-width 2)
+                  left-margin-width 1
+                  right-margin-width 1)
     #+END_SRC
 
 *** Borders
@@ -637,7 +637,7 @@
     transparent on macOS.
     #+BEGIN_SRC emacs-lisp
     (setq default-frame-alist
-          '((internal-border-width . 20)
+          '((internal-border-width . 16)
             (vertical-scroll-bars . nil)
             (menu-bar-lines . 0)
             (tool-bar-lines . 0)))
