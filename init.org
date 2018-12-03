@@ -13,7 +13,7 @@
   - menu completion :: [[https://github.com/abo-abo/swiper][ivy]]
   - +buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]], [[https://github.com/tumashu/company-childframe][company-childframe]]+
   - +modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]+
-  - package configuration :: [[https://github.com/raxod502/straight.el][straight.el]], [[https://github.com/jwiegley/use-package][use-package]]
+  - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
   - key definitions :: [[https://github.com/noctuid/general.el][general]]
   - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]]
   - syntax checker :: flymake
@@ -158,36 +158,9 @@
    (setq package-enable-at-startup nil)
    #+END_SRC
 
-*** straight.el
-    Install =straight.el= to manage packages. Although it is horribly slow to
-    initialize (epkgs I'm looking at you) it lets me avoid all the mess that is
-    require to get an efficient startup with the built-in =package.el=.
-    #+BEGIN_SRC emacs-lisp
-    (defvar straight-recipes-gnu-elpa-use-mirror t)
-    (eval-and-compile
-      (defvar bootstrap-version)
-      (let ((bootstrap-file
-             (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-            (bootstrap-version 5))
-        (unless (file-exists-p bootstrap-file)
-          (with-current-buffer
-              (url-retrieve-synchronously
-               "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-               'silent 'inhibit-cookies)
-            (goto-char (point-max))
-            (eval-print-last-sexp)))
-        (load bootstrap-file nil 'nomessage)))
-
-    (setq straight-cache-autoloads t
-          straight-use-package-by-default t
-          straight-vc-git-default-protocol 'https
-          straight-vc-git-force-protocol t)
-    #+END_SRC
-
 *** use-package
     #+BEGIN_SRC emacs-lisp
     (eval-and-compile
-      (straight-use-package 'use-package)
       (require 'use-package)
       (setq use-package-always-defer t)
       (if +debug-mode
@@ -222,7 +195,6 @@
 *** server
     #+BEGIN_SRC emacs-lisp
     (use-package server
-      :straight nil
       :defer 3
       :config
       (unless (server-running-p)
@@ -233,7 +205,6 @@
     Persist history.
     #+BEGIN_SRC emacs-lisp
     (use-package savehist
-      :straight nil
       :hook
       (after-init . savehist-mode)
       :custom
@@ -294,9 +265,7 @@
     Support functions for displaying icons. I am trying to use icons where possible.
     #+BEGIN_SRC emacs-lisp
     (use-package all-the-icons
-      :demand t
-      :straight
-      (:host github :repo "ubolonton/all-the-icons.el" :branch "font-lock-fix" :files (:defaults "data")))
+      :demand t)
     #+END_SRC
 
 *** auto-minor-mode
@@ -830,7 +799,6 @@
     Undo/redo between window layouts.
     #+BEGIN_SRC emacs-lisp
     (use-package winner
-      :straight nil
       :hook
       (window-setup . winner-mode)
       :config
@@ -945,7 +913,6 @@
     Buttonize URLs and e-mail addresses in the current buffer.
     #+BEGIN_SRC emacs-lisp
     (use-package goto-addr
-      :straight nil
       :hook
       (text-mode . goto-address-mode)
       (prog-mode . goto-address-prog-mode))
@@ -992,7 +959,6 @@
     Display whitespace
     #+BEGIN_SRC emacs-lisp
     (use-package whitespace
-      :straight nil
       :custom
       (whitespace-line-column fill-column)
       (whitespace-style
@@ -1039,7 +1005,6 @@
 *** yatemplate
     #+BEGIN_SRC emacs-lisp
     (use-package autoinsert
-      :straight nil
       :defer 1
       :custom
       (auto-insert-query nil)
@@ -1066,7 +1031,6 @@
 *** Line highlight
     #+BEGIN_SRC emacs-lisp
     (use-package hl-line
-      :straight nil
       :hook
       ((prog-mode conf-mode) . hl-line-mode)
       :custom
@@ -1173,7 +1137,6 @@
     Revert buffers when underlying files change.
     #+BEGIN_SRC emacs-lisp
     (use-package autorevert
-      :straight nil
       :custom
       (auto-revert-verbose nil))
     #+END_SRC
@@ -1190,7 +1153,6 @@
 *** eldoc
     #+BEGIN_SRC emacs-lisp
     (use-package eldoc
-      :straight nil
       :diminish eldoc-mode
       :config
       (global-eldoc-mode 1))
@@ -1209,7 +1171,6 @@
 *** readable
     #+BEGIN_SRC emacs-lisp
     (use-package readable
-      :straight nil
       :diminish readable-mode
       :hook
       ((eww-mode
@@ -1250,7 +1211,6 @@
 ** Dired
    #+BEGIN_SRC emacs-lisp
    (use-package dired
-     :straight nil
      :hook
      (dired-mode . auto-revert-mode)
      (dired-mode . hl-line-mode)
@@ -1265,7 +1225,6 @@
 *** Editable
     #+BEGIN_SRC emacs-lisp
     (use-package wdired
-      :straight nil
       :preface
       (defvar-local +wdired-icons-enabled nil)
       (defun +wdired-before-start-advice ()
@@ -1354,7 +1313,6 @@
     Keep track of bookmarks
     #+BEGIN_SRC emacs-lisp
     (use-package bookmark
-      :straight nil
       :custom
       (bookmark-save-flag 1))
     #+END_SRC
@@ -1382,8 +1340,7 @@
 
 *** find-file
     #+BEGIN_SRC emacs-lisp
-    (use-package find-file
-      :straight nil)
+    (use-package find-file)
     #+END_SRC
 
 *** goto-last-change
@@ -1403,7 +1360,6 @@
     Keep track of recently opened files.
     #+BEGIN_SRC emacs-lisp
     (use-package recentf
-      :straight nil
       :defer 2
       :custom
       (recentf-exclude
@@ -1416,8 +1372,7 @@
              "\\.revive$"
              "^/var/folders/.+$"
              (concat "^" +cache-dir ".+$")
-             (concat "^" +data-dir ".+$")
-             (concat "^" user-emacs-directory "straight/.+$")))
+             (concat "^" +data-dir ".+$")))
       (recentf-filename-handlers '(abbreviate-file-name))
       (recentf-max-menu-items 0)
       (recentf-max-saved-items 300)
@@ -1430,7 +1385,6 @@
     Keep track of last point place to resume editing in the same file.
     #+BEGIN_SRC emacs-lisp
     (use-package saveplace
-      :straight nil
       :defer 2
       :config
       (save-place-mode 1))
@@ -1744,6 +1698,7 @@ ARG lines can be used."
    Reduce scroll margin.
    #+BEGIN_SRC emacs-lisp
    (defun +prog-mode-set-scroll-margin ()
+     "Set `scroll-margin' for `prog-mode'."
      (setq-local scroll-margin 3))
    (add-hook 'prog-mode-hook #'+prog-mode-set-scroll-margin)
    #+END_SRC
@@ -1752,7 +1707,6 @@ ARG lines can be used."
    Kill compilation process before stating another and save all buffers on =compile.=
    #+BEGIN_SRC emacs-lisp
    (use-package compile
-     :straight nil
      :custom
      (compilation-always-kill t)
      (compilation-ask-about-save nil)
@@ -1845,8 +1799,6 @@ ARG lines can be used."
 *** eval-in-repl
     #+BEGIN_SRC emacs-lisp
     (use-package eval-in-repl
-      :straight
-      (:host github :repo "terlar/eval-in-repl" :branch "add-sh-shell-support")
       :custom
       (eir-jump-after-eval t)
       (eir-repl-placement 'below))
@@ -1866,7 +1818,6 @@ ARG lines can be used."
    Code folding.
    #+BEGIN_SRC emacs-lisp
    (use-package hideshow
-     :straight nil
      :diminish hs-minor-mode
      :hook (prog-mode . hs-minor-mode)
      :custom
@@ -2013,7 +1964,6 @@ ARG lines can be used."
     - Add a third resolution option, copy both A and B to C
     #+BEGIN_SRC emacs-lisp
     (use-package ediff
-      :straight nil
       :hook
       (ediff-quit . winner-undo)
       (ediff-keymap-setup . +ediff-mode-define-keys)
@@ -2201,8 +2151,6 @@ ARG lines can be used."
     Peek definition (Display the function source inline).
     #+BEGIN_SRC emacs-lisp
     (use-package source-peek
-      :straight
-      (:host github :repo "iqbalansari/emacs-source-peek")
       :general
       (:prefix
        +nav-prefix
@@ -2445,7 +2393,6 @@ ARG lines can be used."
 ** eshell
    #+BEGIN_SRC emacs-lisp
    (use-package eshell
-     :straight nil
      :hook
      (eshell-mode . abbrev-mode)
      (eshell-mode . eshell-smart-initialize)
@@ -2543,41 +2490,6 @@ ARG lines can be used."
      #+END_SRC
 
 ** org
-   Ensure correct Org version is installed with =straight.el=. See [[https://github.com/raxod502/straight.el#installing-org-with-straightel][this link]] for further
-   information.
-   #+BEGIN_SRC emacs-lisp
-   (require 'subr-x)
-   (use-package git)
-
-   (defun org-git-version ()
-     "The Git version of org-mode.
-      Inserted by installing org-mode or when a release is made."
-     (require 'git)
-     (let ((git-repo (expand-file-name
-                      "straight/repos/org/" user-emacs-directory)))
-       (string-trim
-        (git-run "describe"
-                 "--match=release\*"
-                 "--abbrev=6"
-                 "HEAD"))))
-
-   (defun org-release ()
-     "The release version of org-mode.
-      Inserted by installing org-mode or when a release is made."
-     (require 'git)
-     (let ((git-repo (expand-file-name
-                      "straight/repos/org/" user-emacs-directory)))
-       (string-trim
-        (string-remove-prefix
-         "release_"
-         (git-run "describe"
-                  "--match=release\*"
-                  "--abbrev=0"
-                  "HEAD")))))
-
-   (provide 'org-version)
-   #+END_SRC
-
    #+BEGIN_SRC emacs-lisp
    (use-package org-plus-contrib
      :hook
@@ -2753,8 +2665,6 @@ ARG lines can be used."
 **** Tables
      #+BEGIN_SRC emacs-lisp
      (use-package org-pretty-table
-       :straight
-       (:host github :repo "fuco1/org-pretty-table")
        :hook
        (org-mode . org-pretty-table-mode))
      #+END_SRC
@@ -2846,7 +2756,6 @@ ARG lines can be used."
 ** csv
    #+BEGIN_SRC emacs-lisp
    (use-package csv-mode
-     :straight nil
      :custom
      (csv-separators '("," "\t" ";")))
    #+END_SRC
@@ -3157,11 +3066,6 @@ ARG lines can be used."
          (js2r-add-keybindings-with-prefix "C-c m m")))
      #+END_SRC
 
-**** js-lookup
-     #+BEGIN_SRC emacs-lisp
-     (use-package js-lookup)
-     #+END_SRC
-
 **** nodejs-repl
      REPL for nodejs.
      #+BEGIN_SRC emacs-lisp
@@ -3176,7 +3080,6 @@ ARG lines can be used."
 ** lisp
    #+BEGIN_SRC emacs-lisp
    (use-package lisp-mode
-     :straight nil
      :hook
      (lisp-mode . +lisp-mode-setup)
      :preface
@@ -3317,7 +3220,6 @@ ARG lines can be used."
 ** nxml
    #+BEGIN_SRC emacs-lisp
    (use-package nxml-mode
-     :straight nil
      :mode "\\.plist$"
      :custom
      (nxml-slash-auto-complete-flag t)
@@ -3328,9 +3230,7 @@ ARG lines can be used."
 
 ** ocaml
    #+BEGIN_SRC emacs-lisp
-   (use-package caml
-     :straight
-     (:host github :repo "ocaml/ocaml" :branch "trunk" :files ("emacs/*.el")))
+   (use-package caml)
 
    (use-package tuareg
      :general
@@ -3367,7 +3267,6 @@ ARG lines can be used."
 ** python
    #+BEGIN_SRC emacs-lisp
    (use-package python
-     :straight nil
      :hook
      (python-mode . +python-mode-prettify-symbols)
      :general
@@ -3444,7 +3343,6 @@ ARG lines can be used."
 ** rst
    #+BEGIN_SRC emacs-lisp
    (use-package rst
-     :straight nil
      :hook
      (rst-mode . auto-fill-mode)
      :preface
@@ -3486,7 +3384,6 @@ ARG lines can be used."
 ** ruby
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
-     :straight nil
      :hook
      (ruby-mode . +ruby-mode-prettify-symbols)
      :custom
@@ -3574,8 +3471,6 @@ ARG lines can be used."
 **** rspec-mode
      #+BEGIN_SRC emacs-lisp
      (use-package rspec-mode
-       :straight
-       (:host github :repo "terlar/rspec-mode" :files ("rspec-mode.el" "snippets"))
        :hook
        (ruby-mode . rspec-enable-appropriate-mode)
        :custom
@@ -3681,8 +3576,6 @@ ARG lines can be used."
 **** ensime
      #+BEGIN_SRC emacs-lisp
      (use-package ensime
-       :straight
-       (:host github :repo "ensime/ensime-emacs" :branch "2.0")
        :hook
        (scala-mode . ensime-mode)
        :custom
@@ -3712,7 +3605,6 @@ ARG lines can be used."
 ** sh
    #+BEGIN_SRC emacs-lisp
    (use-package sh-script
-     :straight nil
      :custom
      ;; Use regular indentation for line-continuation
      (sh-indent-after-continuation 'always)
@@ -3734,7 +3626,6 @@ ARG lines can be used."
 ** sql
    #+BEGIN_SRC emacs-lisp
    (use-package sql
-     :straight nil
      :custom
      (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
    #+END_SRC
@@ -3812,7 +3703,6 @@ ARG lines can be used."
 ** yaml
    #+BEGIN_SRC emacs-lisp
    (use-package yaml-mode
-     :straight nil
      :hook (yaml-mode . indent-guide-mode))
    #+END_SRC
 
@@ -3853,7 +3743,6 @@ ARG lines can be used."
    - Only restore 5 files to begin with to avoid slow starts with huge sessions.
    #+BEGIN_SRC emacs-lisp
    (use-package desktop
-     :straight nil
      :demand t
      :custom
      (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
@@ -3879,7 +3768,6 @@ ARG lines can be used."
 ** Spell checking
    #+BEGIN_SRC emacs-lisp
    (use-package flyspell
-     :straight nil
      :diminish flyspell-mode
      :hook
      ((text-mode
