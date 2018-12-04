@@ -131,13 +131,6 @@
          (expand-file-name "custom.el" temporary-file-directory))
    #+END_SRC
 
-** Emacs source
-   Provide a location for the Emacs source in case I want to look up the
-   function definitions of some of the C functions.
-   #+BEGIN_SRC emacs-lisp
-   (setq source-directory (expand-file-name "emacs" "~/src/git.sv.gnu.org"))
-   #+END_SRC
-
 ** Load path
    #+BEGIN_SRC emacs-lisp
    (eval-and-compile
