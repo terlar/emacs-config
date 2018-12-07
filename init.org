@@ -3175,6 +3175,18 @@ ARG lines can be used."
       "r" 'nix-repl))
    #+END_SRC
 
+*** Packages
+**** nix-update
+     #+BEGIN_SRC emacs-lisp
+     (use-package nix-update
+       :general
+       (:keymaps
+        'nix-mode-map
+        :prefix +local-leader-key
+        "u" 'nix-update-fetch))
+     #+END_SRC
+
+
 ** nxml
    #+BEGIN_SRC emacs-lisp
    (use-package nxml-mode
