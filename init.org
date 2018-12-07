@@ -394,7 +394,7 @@
     #+BEGIN_SRC emacs-lisp
     (defvar +leader-key "C-c"
       "The key used for most custom operations.")
-    (defvar +local-leader-key "C-c m"
+    (defvar +local-leader-key "C-."
       "The key used for major mode operations.")
     (defvar +evil-normal-state-leader-key "SPC"
       "The key used for most custom operations in `evil-normal-state'.")
@@ -3730,7 +3730,11 @@ ARG lines can be used."
      :hook
      ((text-mode
        message-mode) . flyspell-mode)
-     (prog-mode . flyspell-prog-mode))
+     (prog-mode . flyspell-prog-mode)
+     :general
+     (:keymaps
+      'flyspell-mode-map
+      "C-." 'nil))
    #+END_SRC
 
    Automatically infer dictionary.
