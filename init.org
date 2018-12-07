@@ -486,6 +486,7 @@
      #+BEGIN_SRC emacs-lisp
      (general-define-key
       :prefix +launch-prefix
+      "m" 'gnus
       "p" 'list-processes
       "r" 'regexp-builder
       "w" 'eww)
