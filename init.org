@@ -2926,6 +2926,8 @@
    (use-package js2-mode
      :mode
      "\\.js$"
+     :magic
+     ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . js2-jsx-mode)
      :interpreter
      "node"
      "nodejs"
