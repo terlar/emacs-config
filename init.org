@@ -451,8 +451,7 @@
       "d" `(,(defrepeater #'diff-hl-next-hunk)            :wk "Diff Hunk")
       "e" `(,(defrepeater #'next-error)                   :wk "Error")
       "s" `(,(defrepeater #'flyspell-goto-next-error)     :wk "Spell error")
-      "t" `(,(defrepeater #'hl-todo-next)                 :wk "Todo")
-      "w" `(,(defrepeater #'eyebrowse-next-window-config) :wk "Workspace"))
+      "t" `(,(defrepeater #'hl-todo-next)                 :wk "Todo"))
      #+END_SRC
 
 **** Previous
@@ -465,8 +464,7 @@
       "c" `(,(defrepeater #'smerge-prev)                  :wk "Conflict")
       "d" `(,(defrepeater #'diff-hl-previous-hunk)        :wk "Diff Hunk")
       "e" `(,(defrepeater #'previous-error)               :wk "Error")
-      "t" `(,(defrepeater #'hl-todo-previous)             :wk "Todo")
-      "w" `(,(defrepeater #'eyebrowse-prev-window-config) :wk "Workspace"))
+      "t" `(,(defrepeater #'hl-todo-previous)             :wk "Todo"))
      #+END_SRC
 
 **** Toggle
@@ -1412,21 +1410,6 @@
      (projectile-mode 1))
    #+END_SRC
 
-** Workspace
-   #+BEGIN_SRC emacs-lisp
-   (use-package eyebrowse
-     :hook (after-init . eyebrowse-mode)
-     :general
-     (:keymaps
-      'eyebrowse-mode-map
-      "C-c C-w ;" '+eyebrowse-rename-window-config-to-project-name)
-     :preface
-     (defun +eyebrowse-rename-window-config-to-project-name ()
-       "Set window configuration name to project name."
-       (interactive)
-       (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) (projectile-project-name))))
-   #+END_SRC
-
 * Completion
   Enable completion with tab
   #+BEGIN_SRC emacs-lisp
@@ -1503,6 +1486,13 @@
       "C-o"                    'ivy-dispatching-done
       "C-c C-r"                'ivy-resume)
      (:keymaps
+      'ivy-mode-map
+      :prefix
+      +window-prefix
+      "s" 'ivy-push-view
+      "S" 'ivy-pop-view
+      "v" 'ivy-switch-view)
+     (:keymaps
       'ivy-occur-grep-mode-map
       "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
      (:keymaps
@@ -1519,7 +1509,7 @@
      :preface
      (defun +ivy-move-end-of-line-or-done (arg)
        "Move to end of current line or consider ivy operation done.
-ARG lines can be used."
+   ARG lines can be used."
        (interactive "p")
        (if (eolp)
            (ivy-alt-done)
