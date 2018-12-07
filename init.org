@@ -39,32 +39,6 @@
   ;;; init.el --- Emacs Initialization -*- lexical-binding: t; -*-
   #+END_SRC
 
-** Startup
-   Time the startup.
-   #+BEGIN_SRC emacs-lisp
-   (add-hook 'emacs-startup-hook
-             (lambda ()
-               (message "Loaded Emacs in %.03fs"
-                        (float-time (time-subtract after-init-time before-init-time)))))
-   #+END_SRC
-
-   Temporarily reduce garbage collection to gain some performance boost.
-   #+BEGIN_SRC emacs-lisp
-   (let ((normal-gc-cons-threshold 800000)
-         (normal-gc-cons-percentage 0.1)
-         (normal-file-name-handler-alist file-name-handler-alist)
-         (init-gc-cons-threshold 402653184)
-         (init-gc-cons-percentage 0.6))
-     (setq gc-cons-threshold init-gc-cons-threshold
-           gc-cons-percentage init-gc-cons-percentage
-           file-name-handler-alist nil)
-     (add-hook 'after-init-hook
-               (lambda ()
-                 (setq gc-cons-threshold normal-gc-cons-threshold
-                       gc-cons-percentage normal-gc-cons-percentage
-                       file-name-handler-alist normal-file-name-handler-alist))))
-   #+END_SRC
-
 ** Variables
    Provide an easy way to toggle debug mode which will set certain variables to produce
    more informative output. It can be set either by providing the environment variable
@@ -99,16 +73,6 @@
          inhibit-startup-screen t
          initial-major-mode 'fundamental-mode
          initial-scratch-message nil)
-   #+END_SRC
-
-** Disable GUI components
-   #+BEGIN_SRC emacs-lisp
-   (when window-system
-     (setq use-dialog-box nil)
-     (menu-bar-mode 0)
-     (scroll-bar-mode 0)
-     (tool-bar-mode 0)
-     (tooltip-mode 0))
    #+END_SRC
 
 ** UX
@@ -153,15 +117,16 @@
 
 *** use-package
     #+BEGIN_SRC emacs-lisp
-    (eval-and-compile
-      (require 'use-package)
-      (setq use-package-always-defer t)
-      (if +debug-mode
-          (setq use-package-verbose t
-                use-package-expand-minimally nil
-                use-package-compute-statistics t)
-        (setq use-package-verbose nil
-              use-package-expand-minimally t)))
+    (eval-when-compile
+      (require 'use-package))
+    (setq use-package-always-defer t)
+
+    (if +debug-mode
+        (setq use-package-verbose t
+              use-package-expand-minimally nil
+              use-package-compute-statistics t)
+      (setq use-package-verbose nil
+            use-package-expand-minimally t))
     #+END_SRC
 
 ** Packages
