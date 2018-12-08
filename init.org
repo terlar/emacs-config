@@ -2578,15 +2578,9 @@
      (font-lock-add-keywords
       'org-mode
       '(("^ +\\([-*+]\\) "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
-
-     (defun +org-mode-prettify-checkbox-symbols ()
-       "Prettify checkbox symbols."
-       (dolist (symbol '(("[ ]" . ?□)
-                         ("[X]" . ?▣)))
-         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'org-mode-hook #'+org-mode-prettify-checkbox-symbols)
-
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+        ("^ *[-*+] \\[\\(X\\)\\] "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
      #+END_SRC
 
 **** Task lists
@@ -3150,13 +3144,10 @@
 **** Bullet lists
      Pretty check-boxes
      #+BEGIN_SRC emacs-lisp
-     (defun +markdown-mode-prettify-checkbox-symbols ()
-       "Prettify checkbox symbols."
-       (dolist (symbol '(("[ ]" . ?□)
-                         ("[x]" . ?▣)
-                         ("[X]" . ?▣)))
-         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'markdown-mode-hook #'+markdown-mode-prettify-checkbox-symbols)
+     (font-lock-add-keywords
+      'markdown-mode
+      '(("^ *[-*+] \\[\\([Xx]\\)\\] "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
      #+END_SRC
 
 ** nginx
@@ -3325,6 +3316,15 @@
    #+END_SRC
 
 *** Appearance
+**** Variable pitch
+     Use variable-pitch font but still make sure everything aligns.
+     #+BEGIN_SRC emacs-lisp
+     (font-lock-add-keywords
+      'rst-mode
+      '(("^[[:space:]-*+]+\\(\\[.\\]\\)?" 0 'fixed-pitch append))
+      'append)
+     #+END_SRC
+
 **** Heading
      Hide heading adornments.
      #+BEGIN_SRC emacs-lisp
@@ -3341,15 +3341,9 @@
      (font-lock-add-keywords
       'rst-mode
       '(("^ *\\([-*+]\\) "
-         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))))
-
-     (defun +rst-mode-prettify-checkbox-symbols ()
-       "Prettify checkbox symbols."
-       (dolist (symbol '(("[ ]" . ?□)
-                         ("[x]" . ?▣)
-                         ("[X]" . ?▣)))
-         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'rst-mode-hook #'+rst-mode-prettify-checkbox-symbols)
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+        ("^ *[-*+] \\[\\([Xx]\\)\\] "
+         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
      #+END_SRC
 
 ** ruby
