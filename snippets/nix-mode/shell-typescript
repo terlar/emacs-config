@@ -2,7 +2,8 @@ let
   nodejs = nodejs-10_x;
 in mkShell {
   buildInputs = [
-    nodePackages.tslint
+    nodePackages.javascript-typescript-langserver
+    nodePackages.prettier
     nodePackages.typescript
     nodejs
   ];
