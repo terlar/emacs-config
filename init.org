@@ -3770,3 +3770,5 @@
 ** TODO Better key for counsel-tramp
 ** TODO Group view/window commands together and better key
    E.g. =winner-undo=, =winner-redo=, =ivy-switch-view=, =ivy-push-view=, =ivy-pop-view=.
+** TODO Look into modal editing with =objed=
+** TODO Look into generic code execution via =isend-mode=
