@@ -2927,8 +2927,6 @@
    (use-package js2-mode
      :mode
      "\\.js$"
-     :magic
-     ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . js2-jsx-mode)
      :interpreter
      "node"
      "nodejs"
@@ -3022,6 +3020,16 @@
      #+BEGIN_SRC emacs-lisp
      (use-package nodejs-repl)
      #+END_SRC
+
+** jsx
+   React JSX support.
+   #+BEGIN_SRC emacs-lisp
+   (use-package rjsx-mode
+     :mode
+     "\\.jsx$"
+     :magic
+     ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode))
+   #+END_SRC
 
 ** kotlin
    #+BEGIN_SRC emacs-lisp
