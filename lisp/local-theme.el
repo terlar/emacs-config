@@ -74,6 +74,8 @@
    `(org-level-6                             ((t (:height 1.1 :bold nil :italic t :foreground ,color-14))))
    `(org-level-7                             ((t (:height 1.1 :bold nil :italic t :foreground ,color-14))))
    `(org-level-8                             ((t (:height 1.1 :bold nil :italic t :foreground ,color-14))))
+   `(org-todo                                ((t (:background nil :foreground nil))))
+   `(org-done                                ((t (:background nil :foreground nil))))
    `(org-block                               ((t (:height 1.0 :weight light))))
    `(org-block-background                    ((t (:height 1.0))))
    `(org-block-begin-line                    ((t (:foreground ,color-7))))
