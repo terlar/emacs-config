@@ -3280,13 +3280,6 @@
              (append '("README.md") python-test-project-root-files)))
      #+END_SRC
 
-**** python-x
-     #+BEGIN_SRC emacs-lisp
-     (use-package python-x
-       :hook
-       (python-mode . python-x-setup))
-     #+END_SRC
-
 ** racket
    #+BEGIN_SRC emacs-lisp
    (use-package racket-mode
