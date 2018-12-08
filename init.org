@@ -542,7 +542,6 @@
     (use-package tao-theme
       :demand t
       :custom
-      (tao-theme-use-height t)
       (tao-theme-use-sepia t))
 
     (load-theme 'tao-yang t)
