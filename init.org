@@ -3678,6 +3678,23 @@
    #+END_SRC
 
 * Tools
+** E-mail
+*** Packages
+**** bbdb
+     Store contacts.
+     #+BEGIN_SRC emacs-lisp
+     (use-package bbdb)
+     #+END_SRC
+
+**** gmail2bbdb
+     Import contacts from Gmail vCard data.
+     #+BEGIN_SRC emacs-lisp
+     (use-package gmail2bbdb
+       :config
+       (setq gmail2bbdb-bbdb-file bbdb-file
+             gmail2bbdb-exclude-people-without-name t))
+     #+END_SRC
+
 ** Focus
    Dim out the surrounding text except the current focused paragraph or expression.
    #+BEGIN_SRC emacs-lisp
