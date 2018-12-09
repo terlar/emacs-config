@@ -523,7 +523,7 @@
       (defvar +variable-pitch-font "Noto Sans"
         "Font used for variable-pitch faces.")
 
-      (defvar +serif-font "ETBembo"
+      (defvar +serif-font "Noto Serif"
         "Font used for serif faces.")
 
       (defvar +unicode-font "Noto Mono"

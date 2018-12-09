@@ -35,9 +35,15 @@
   :group 'faces)
 
 ;;;###autoload
-(defface readable
+(defface readable-fixed-pitch
+  '((t (:inherit fixed-pitch-serif)))
+  "Face used to increase readability for `fixed-pitch' face."
+  :group 'readable)
+
+;;;###autoload
+(defface readable-variable-pitch
   '((t (:family "serif")))
-  "Face used to increase readability."
+  "Face used to increase readability for `variable-pitch' face."
   :group 'readable)
 
 ;;;###autoload
@@ -59,8 +65,11 @@ Contains following state:
   :line-spacing NUMBER
   :variable-pitch BOOLEAN")
 
-(defvar-local readable-mode-remapping nil
-  "Readable `face-remap' cookie.")
+(defvar-local readable-mode-fixed-pitch-remapping nil
+  "Readable `face-remap' cookie for `fixed-pitch' face.")
+
+(defvar-local readable-mode-variable-pitch-remapping nil
+  "Readable `face-remap' cookie for `variable-pitch' face.")
 
 (autoload 'face-remap-add-relative "face-remap")
 (autoload 'face-remap-remove-relative "face-remap")
@@ -76,9 +85,13 @@ The face used is `readable' and `line-spacing' is configured by
 `readable-line-spacing'."
   :lighter readable-lighter
   :group 'readable
-  (when readable-mode-remapping
-    (face-remap-remove-relative readable-mode-remapping)
-    (setq readable-mode-remapping nil))
+  (when readable-mode-fixed-pitch-remapping
+    (face-remap-remove-relative readable-mode-fixed-pitch-remapping)
+    (setq readable-mode-fixed-pitch-remapping nil))
+
+  (when readable-mode-variable-pitch-remapping
+    (face-remap-remove-relative readable-mode-variable-pitch-remapping)
+    (setq readable-mode-variable-pitch-remapping nil))
 
   (if readable-mode
       (progn
@@ -90,8 +103,10 @@ The face used is `readable' and `line-spacing' is configured by
         ;; Configure readability
         (variable-pitch-mode 1)
         (setq line-spacing readable-line-spacing
-              readable-mode-remapping
-              (face-remap-add-relative 'variable-pitch 'readable)))
+              readable-mode-fixed-pitch-remapping
+              (face-remap-add-relative 'fixed-pitch 'readable-fixed-pitch)
+              readable-mode-variable-pitch-remapping
+              (face-remap-add-relative 'variable-pitch 'readable-variable-pitch)))
     (progn
       (variable-pitch-mode (plist-get readable-mode-saved-state-plist :variable-pitch))
       (setq line-spacing (plist-get readable-mode-saved-state-plist :line-spacing)
