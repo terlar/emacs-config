@@ -517,7 +517,7 @@
 *** Face
     #+BEGIN_SRC emacs-lisp
     (eval-and-compile
-      (defvar +fixed-pitch-font "Iosevka T Slab"
+      (defvar +fixed-pitch-font "Iosevka Slab"
         "Font used for fixed-pitch faces.")
 
       (defvar +variable-pitch-font "Noto Sans"
@@ -526,7 +526,7 @@
       (defvar +serif-font "Noto Serif"
         "Font used for serif faces.")
 
-      (defvar +unicode-font "Noto Mono"
+      (defvar +unicode-font "Noto Sans Mono"
         "Fallback font used for unicode glyphs."))
     #+END_SRC
 
