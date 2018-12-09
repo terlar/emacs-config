@@ -1,0 +1,9 @@
+let
+  nodejs = nodejs-10_x;
+in mkShell {
+  buildInputs = [
+    nodePackages.javascript-typescript-langserver
+    nodePackages.prettier
+    nodejs
+  ];
+}
