@@ -2025,18 +2025,9 @@
     (use-package editorconfig
       :defer 1
       :diminish editorconfig-mode
-      :preface
-      (defun +editorconfig-set-trailing-ws-use-ws-butler-advice (orig trim-trailing-ws)
-        "Use ws-butler mode instead of delete-trailing-whitespace.
-        Never calls ORIG function with TRIM-TRAILING-WS."
-        (when (and (equal trim-trailing-ws "true")
-                   (not buffer-read-only))
-          (ws-butler-mode 1))
-        (when (or (equal trim-trailing-ws "false")
-                  buffer-read-only)
-          (ws-butler-mode 0)))
+      :custom
+      (editorconfig-use-ws-butler t)
       :config
-      (advice-add 'editorconfig-set-trailing-ws :around #'+editorconfig-set-trailing-ws-use-ws-butler-advice)
       (editorconfig-mode 1))
     #+END_SRC
 
