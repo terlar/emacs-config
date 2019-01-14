@@ -2026,7 +2026,7 @@
       :defer 1
       :diminish editorconfig-mode
       :custom
-      (editorconfig-use-ws-butler t)
+      (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
       :config
       (editorconfig-mode 1))
     #+END_SRC
