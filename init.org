@@ -2860,9 +2860,6 @@
      (haskell-font-lock-symbols t)
      (haskell-process-show-debug-tips nil)
      (haskell-process-use-presentation-mode t)
-     ;; Use interpreter `stack ghci'
-     (haskell-process-type 'stack-ghci)
-     (haskell-process-args-stack-ghci '("--test"))
      :general
      (:keymaps
       'interactive-haskell-mode-map
