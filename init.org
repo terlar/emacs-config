@@ -510,7 +510,7 @@
       (defvar +line-spacing 0.25
         "Spacing between lines.")
 
-      (defvar +default-font-height 140
+      (defvar +default-font-height 120
         "Default font height."))
     #+END_SRC
 
