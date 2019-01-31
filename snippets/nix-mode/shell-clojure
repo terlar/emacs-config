@@ -1,0 +1,6 @@
+mkShell {
+  buildInputs = [
+    leiningen
+    openjdk
+  ];
+}
