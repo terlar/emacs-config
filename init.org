@@ -2047,15 +2047,7 @@
       :config
       (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
                   eglot-server-programs
-                  :test #'equal)
-
-      (with-eval-after-load 'smart-jump
-        (smart-jump-register :modes '(haskell-mode
-                                      java-mode
-                                      js2-mode
-                                      ruby-mode
-                                      sh-mode
-                                      typescript-mode))))
+                  :test #'equal))
     #+END_SRC
 
 *** eldoc-overlay
