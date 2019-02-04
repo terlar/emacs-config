@@ -2050,11 +2050,14 @@
                   :test #'equal))
     #+END_SRC
 
-*** eldoc-overlay
-    Display eldoc inline.
+*** eldoc-box
+    Display eldoc in a child frame.
     #+BEGIN_SRC emacs-lisp
-    (use-package eldoc-overlay
-      :diminish eldoc-overlay-mode)
+    (use-package eldoc-box
+      :diminish eldoc-box-hover-mode
+      :hook
+      (prog-mode . eldoc-box-hover-mode)
+      (eldoc-box-hover-mode . eldoc-box-hover-at-point-mode))
     #+END_SRC
 
 *** hl-todo
