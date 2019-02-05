@@ -2044,6 +2044,13 @@
         typescript-mode) . eglot-ensure)
       :custom
       (eglot-sync-connect nil)
+      :general
+      (:keymaps
+       'eglot-mode-map
+       :prefix +local-leader-key
+       "ea" 'eglot-code-actions
+       "er" 'eglot-rename
+       "ef" 'eglot-format)
       :config
       (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
                   eglot-server-programs
