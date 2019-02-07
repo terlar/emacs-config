@@ -2134,7 +2134,9 @@
     (use-package rainbow-identifiers
       :diminish rainbow-identifiers-mode
       :custom
-      (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+      (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face)
+      :hook
+      (typescript-mode . rainbow-identifiers-mode))
     #+END_SRC
 
 *** Highlight numbers
