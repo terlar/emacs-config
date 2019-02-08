@@ -2096,10 +2096,16 @@
     Display eldoc in a child frame.
     #+BEGIN_SRC emacs-lisp
     (use-package eldoc-box
-      :diminish eldoc-box-hover-mode
+      :diminish eldoc-box-hover-mode)
+    #+END_SRC
+
+*** eldoc-overlay
+    Display eldoc inline.
+    #+BEGIN_SRC emacs-lisp
+    (use-package eldoc-overlay
+      :diminish eldoc-overlay-mode
       :hook
-      (prog-mode . eldoc-box-hover-mode)
-      (eldoc-box-hover-mode . eldoc-box-hover-at-point-mode))
+      (prog-mode . eldoc-overlay-mode))
     #+END_SRC
 
 *** hl-todo
