@@ -924,6 +924,15 @@
       (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil))
     #+END_SRC
 
+*** visual-regexp
+    Visually highlight regular expression searches as you type. Also supports replace.
+    #+BEGIN_SRC emacs-lisp
+    (use-package visual-regexp
+      :general
+      ("M-s r" 'vr/query-replace
+       "M-s R" 'vr/replace))
+    #+END_SRC
+
 *** whitespace
     Display whitespace
     #+BEGIN_SRC emacs-lisp
