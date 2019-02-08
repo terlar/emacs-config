@@ -3776,8 +3776,10 @@
            (apply orig-fn args))))
      :config
      (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
-     (dolist (var '(buffer-undo-list ivy-views))
-       (cl-pushnew var desktop-locals-to-save :test #'equal))
+
+     (cl-pushnew 'buffer-undo-list desktop-locals-to-save :test #'equal)
+     (cl-pushnew 'ivy-views desktop-globals-to-save :test #'equal)
+
      (desktop-save-mode 1))
    #+END_SRC
 
