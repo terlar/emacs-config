@@ -1655,6 +1655,16 @@
         "I" 'ivy-imenu-anywhere))
      #+END_SRC
 
+**** ivy-posframe
+     Display inline completion in a posframe.
+     #+BEGIN_SRC emacs-lisp
+     (use-package ivy-posframe
+       :defer 2
+       :config
+       (cl-pushnew '(ivy-completion-in-region . ivy-posframe-display-at-point) ivy-display-functions-alist :test #'equal)
+       (ivy-posframe-enable))
+     #+END_SRC
+
 **** ivy-xref
      Support =xref= lookups.
      #+BEGIN_SRC emacs-lisp

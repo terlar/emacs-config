@@ -122,6 +122,8 @@
    `(idle-highlight                          ((t (:background ,theme-color-highlight))))
    ;; indent-guide
    `(indent-guide-face                       ((t (:inherit fringe))))
+   ;; ivy-posframe
+   `(ivy-posframe                            ((t (:background ,color-5 :foreground ,color-11))))
    ;; js2-mode
    `(js2-error                               ((t (:inherit flycheck-error))))
    `(js2-warning                             ((t (:inherit flycheck-warning))))
