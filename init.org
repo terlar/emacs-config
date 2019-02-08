@@ -3742,12 +3742,12 @@
    #+BEGIN_SRC emacs-lisp
    (use-package camcorder
      :custom
-     (camcorder-output-directory (getenv "XDG_VIDEOS_DIR"))
-     (camcorder-gif-output-directory camcorder-output-directory)
+     (output-directory (getenv "XDG_VIDEOS_DIR"))
+     (gif-output-directory (getenv "XDG_VIDEOS_DIR"))
      :general
      (:prefix
       +launch-prefix
-      "c" 'camcorder))
+      "c" 'camcorder-record))
    #+END_SRC
 
 ** Session
