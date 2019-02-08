@@ -1517,7 +1517,7 @@
       'ivy-mode-map
       :prefix
       +window-prefix
-      "v'" 'ivy-push-view
+      "v" 'ivy-push-view
       "V" 'ivy-pop-view
       "'" 'ivy-switch-view)
      (:keymaps
@@ -1804,7 +1804,7 @@
      (hs-hide-comments-when-hiding-all nil)
      :general
      (:prefix
-      (concat +leader-key " z")
+      (concat +leader-key " " "z")
       ""      '(:ignore t :wk "hide")
       "c"     'hs-hide-block
       "o"     'hs-show-block
