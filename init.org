@@ -230,7 +230,8 @@
     Enable minor modes by buffer name and contents. It provides the =use-package= keyword
     =:minor= and =:magic-minor= where you can specify these rules.
     #+BEGIN_SRC emacs-lisp
-    (use-package auto-minor-mode :demand t)
+    (use-package auto-minor-mode
+      :demand t)
     #+END_SRC
 
 *** defrepeater
@@ -248,7 +249,8 @@
 *** general
     More convenient key definitions. I provides the =use-package= keyword =:general=.
     #+BEGIN_SRC emacs-lisp
-    (use-package general :demand t)
+    (use-package general
+      :demand t)
     #+END_SRC
 
 *** hide-lines
@@ -301,12 +303,6 @@
                       (("deletechar" . nil) . ("⌦" . nil))))
         (cl-pushnew item which-key-replacement-alist :test #'equal))
 
-      (which-key-add-key-based-replacements
-        "C-c !" "check"
-        "C-c @" "outline"
-        "C-c &" "snippet"
-        "C-c m" "major-mode"
-        "C-c C-w" "workspace")
       (which-key-setup-side-window-bottom)
 
       (which-key-mode 1))
@@ -392,7 +388,7 @@
 
 *** Leader keys
     #+BEGIN_SRC emacs-lisp
-    (defvar +leader-key "C-c"
+    (defvar +leader-key "C-,"
       "The key used for most custom operations.")
     (defvar +local-leader-key "C-."
       "The key used for major mode operations.")
@@ -407,7 +403,7 @@
 
     (defvar +toggle-prefix "C-x t"
       "Key prefix for commands related to toggling.")
-    (defvar +window-prefix "C-x w"
+    (defvar +window-prefix "C-'"
       "Key prefix used for commands related to window operations.")
 
     (defvar +nav-prefix "M-g"
@@ -436,9 +432,17 @@
      "C-!" 'eshell
      "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
      ;; Window
-     "C-`" 'window-toggle-side-windows
-     "C-x C-Z" 'maximize-window)
+     "C-`" 'window-toggle-side-windows)
     #+END_SRC
+
+**** Window
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :keymaps 'global
+      :prefix +window-prefix
+      +window-prefix 'window-toggle-side-windows
+      "m" 'maximize-window)
+     #+END_SRC
 
 **** Next
      #+BEGIN_SRC emacs-lisp
@@ -757,15 +761,24 @@
     (use-package winner
       :hook
       (window-setup . winner-mode)
+      :custom
+      (winner-dont-bind-my-keys t)
       :config
       (general-define-key
-       [remap winner-redo] (defrepeater #'winner-redo)
-       [remap winner-undo] (defrepeater #'winner-undo)))
+       :prefix +next-prefix
+       +next-prefix (defrepeater #'winner-redo))
+      (general-define-key
+       :prefix +prev-prefix
+       +prev-prefix (defrepeater #'winner-undo)))
     #+END_SRC
 
     Transpose window arrangement.
     #+BEGIN_SRC emacs-lisp
-    (use-package transpose-frame)
+    (use-package transpose-frame
+      :general
+      (:prefix
+       +window-prefix
+       "t" 'transpose-frame))
     #+END_SRC
 
 *** Navigation
@@ -1210,7 +1223,9 @@
       (dired-sidebar-mode . variable-pitch-mode)
       (dired-sidebar-mode . +dired-sidebar-setup)
       :general
-      ("C-x C-n" 'dired-sidebar-toggle-sidebar)
+      (:prefix
+       +leader-key
+       "n" 'dired-sidebar-toggle-sidebar)
       :preface
       (defun +dired-sidebar-setup ()
         (setq cursor-type nil)
@@ -1262,7 +1277,11 @@
     (use-package bibliothek
       :custom
       (bibliothek-path '("~/books" "~/documents/research/papers"))
-      (bibliothek-recursive t))
+      (bibliothek-recursive t)
+      :general
+      (:prefix
+       +launch-prefix
+       "b" 'bibliothek))
     #+END_SRC
 
 *** bookmark
@@ -1291,7 +1310,11 @@
       (deft-extensions '("org" "md" "rst" "txt" "tex"))
       (deft-recursive t)
       (deft-use-filename-as-title t)
-      (deft-use-filter-string-for-filename t))
+      (deft-use-filter-string-for-filename t)
+      :general
+      (:prefix
+       +launch-prefix
+       "n" 'deft))
     #+END_SRC
 
 *** find-file
@@ -1368,8 +1391,12 @@
       'projectile-mode-map
       [remap eshell] (general-predicate-dispatch #'eshell
                        :docstring "Creat an interactive Eshell buffer (project aware)"
-                       (projectile-project-p) #'projectile-run-eshell)
-      "C-x p" '(:keymap projectile-command-map :package projectile :wk "project"))
+                       (projectile-project-p) #'projectile-run-eshell))
+     (:keymaps
+      'projectile-mode-map
+      :prefix
+      +leader-key
+      "p" '(:keymap projectile-command-map :package projectile :wk "project"))
      :preface
      (defun +projectile-relative-buf-name ()
        (when (buffer-file-name)
@@ -1490,9 +1517,9 @@
       'ivy-mode-map
       :prefix
       +window-prefix
-      "s" 'ivy-push-view
-      "S" 'ivy-pop-view
-      "v" 'ivy-switch-view)
+      "v'" 'ivy-push-view
+      "V" 'ivy-pop-view
+      "'" 'ivy-switch-view)
      (:keymaps
       'ivy-occur-grep-mode-map
       "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
@@ -1621,8 +1648,10 @@
      #+BEGIN_SRC emacs-lisp
      (use-package ivy-yasnippet
        :general
-       ([remap yas-insert-snippet] 'ivy-yasnippet
-        "C-c y" 'ivy-yasnippet))
+       ([remap yas-insert-snippet] 'ivy-yasnippet)
+       (:prefix
+        +leader-key
+        "y" 'ivy-yasnippet))
      #+END_SRC
 
 **** counsel-tramp
@@ -1630,7 +1659,9 @@
      #+BEGIN_SRC emacs-lisp
      (use-package counsel-tramp
        :general
-       ("C-c s" 'counsel-tramp))
+       (:prefix
+        +leader-key
+        "t" 'counsel-tramp))
      #+END_SRC
 
 *** Icons
@@ -1685,7 +1716,7 @@
      (use-package docker
        :general
        (:prefix
-        "C-c d"
+        +leader-key
         "d" 'docker
         "c" 'docker-compose))
     #+END_SRC
@@ -1773,7 +1804,8 @@
      (hs-hide-comments-when-hiding-all nil)
      :general
      (:prefix
-      "C-c z"
+      (concat +leader-key " z")
+      ""      '(:ignore t :wk "hide")
       "c"     'hs-hide-block
       "o"     'hs-show-block
       "C"     'hs-hide-all
@@ -1876,7 +1908,9 @@
       :general
       (:keymaps
        'flymake-mode-map
-       "C-c !" 'flymake-show-diagnostics-buffer)
+       :prefix
+       +local-leader-key
+       "e" 'flymake-show-diagnostics-buffer)
       (:keymaps
        'flymake-diagnostics-buffer-mode-map
        "n" '+flymake-diagnostics-next-error
@@ -2086,7 +2120,11 @@
 *** imenu-list
     Document locations in a sidebar.
     #+BEGIN_SRC emacs-lisp
-    (use-package imenu-list)
+    (use-package imenu-list
+      :general
+      (:prefix
+       +leader-key
+       "i" 'imenu-list-smart-toggle))
     #+END_SRC
 
 *** source-peek
@@ -2474,6 +2512,11 @@
         ("@home"  . ?h)
         ("laptop" . ?l)))
      :defines org-babel-load-languages
+     :general
+     (:keymaps
+      'org-mode-map
+      "C-'" 'nil
+      "C-," 'nil)
      :preface
      (defun +org-mode-set-bar-cursor ()
        "Set bar cursor for `org-mode'."
@@ -2493,7 +2536,7 @@
        (:keymaps
         'org-mode-map
         :prefix +local-leader-key
-        "u" 'org-cliplink))
+        "l" 'org-cliplink))
      #+END_SRC
 
 **** org-noter
@@ -3691,7 +3734,11 @@
 
 ** Pomodoro
    #+BEGIN_SRC emacs-lisp
-   (use-package redtick)
+   (use-package redtick
+     :general
+     (:prefix
+      +launch-prefix
+      "r" 'redtick))
    #+END_SRC
 
 ** Recording
@@ -3699,7 +3746,11 @@
    (use-package camcorder
      :custom
      (camcorder-output-directory (getenv "XDG_VIDEOS_DIR"))
-     (camcorder-gif-output-directory camcorder-output-directory))
+     (camcorder-gif-output-directory camcorder-output-directory)
+     :general
+     (:prefix
+      +launch-prefix
+      "c" 'camcorder))
    #+END_SRC
 
 ** Session
@@ -3743,6 +3794,7 @@
      :general
      (:keymaps
       'flyspell-mode-map
+      "C-," 'nil
       "C-." 'nil))
    #+END_SRC
 
@@ -3759,9 +3811,7 @@
 
 * Tasks
 ** TODO Look into skewer packages
-** TODO Better key for ivy-yasnippet?
-** TODO Better key for counsel-tramp
-** TODO Group view/window commands together and better key
-   E.g. =winner-undo=, =winner-redo=, =ivy-switch-view=, =ivy-push-view=, =ivy-pop-view=.
 ** TODO Look into modal editing with =objed=
 ** TODO Look into generic code execution via =isend-mode=
+** TODO Add binding for org-noter
+** TODO Use js2-refactor kill in TypeScript?
