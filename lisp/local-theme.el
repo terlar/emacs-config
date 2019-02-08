@@ -112,6 +112,8 @@
    ;; company
    `(company-tooltip-search                  ((t (:bold t))))
    `(company-tooltip-search-selection        ((t (:bold t))))
+   ;; eldoc-posframe
+   `(eldoc-posframe-background-face          ((t (:background ,color-5 :foreground ,color-9))))
    ;; eros
    `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
    ;; haskell-mode

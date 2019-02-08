@@ -1136,6 +1136,17 @@
       (global-eldoc-mode 1))
     #+END_SRC
 
+*** eldoc-posframe
+    Display eldoc in a child frame.
+    #+BEGIN_SRC emacs-lisp
+    (use-package eldoc-posframe
+      :diminish eldoc-posframe-mode
+      :custom
+      (eldoc-posframe-display-at-point t)
+      :config
+      (global-eldoc-posframe-mode 1))
+    #+END_SRC
+
 *** rainbow-mode
     Display colors inline.
     #+BEGIN_SRC emacs-lisp
@@ -2099,13 +2110,6 @@
       (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
                   eglot-server-programs
                   :test #'equal))
-    #+END_SRC
-
-*** eldoc-box
-    Display eldoc in a child frame.
-    #+BEGIN_SRC emacs-lisp
-    (use-package eldoc-box
-      :diminish eldoc-box-hover-mode)
     #+END_SRC
 
 *** hl-todo
