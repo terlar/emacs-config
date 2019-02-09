@@ -153,7 +153,7 @@
 *** server
     #+BEGIN_SRC emacs-lisp
     (use-package server
-      :defer 3
+      :defer 5
       :config
       (unless (server-running-p)
         (server-start)))
@@ -163,14 +163,15 @@
     Persist history.
     #+BEGIN_SRC emacs-lisp
     (use-package savehist
-      :hook
-      (after-init . savehist-mode)
       :custom
-      (savehist-additional-variables '(kill-ring
-                                       search-ring
-                                       regexp-search-ring))
+      (savehist-additional-variables
+       '(kill-ring
+         search-ring
+         regexp-search-ring))
       (savehist-autosave-interval 60)
-      (savehist-save-minibuffer-history t))
+      (savehist-save-minibuffer-history t)
+      :init
+      (savehist-mode 1))
     #+END_SRC
 
 ** Libraries
@@ -325,6 +326,25 @@
    Example:
      (advice-add #'orig-fun :around #'quiet-function-advice)"
      (quiet! (apply orig-fn args)))
+   #+END_SRC
+
+   Run forms when graphical frame is created.
+   #+BEGIN_SRC emacs-lisp
+   (defmacro eval-after-make-graphic-frame (hook-id &rest forms)
+     "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
+      Add a hook to `after-make-frame-functions' with form wrapped in a
+      `display-graphic-p' condition."
+     (let ((hook-name (intern
+                       (concat
+                        "+eval-after-make-graphic-frame--"
+                        hook-id
+                        "-hook"))))
+       `(progn
+          (defun ,hook-name (frame)
+            (with-selected-frame frame
+              (when (display-graphic-p frame)
+                ,@forms)))
+          (add-hook 'after-make-frame-functions #',hook-name))))
    #+END_SRC
 
 *** Process
@@ -536,8 +556,10 @@
       (defvar +emoji-font "Noto Emoji"
         "Font used for symbol/emoji faces."))
 
-    (set-fontset-font "fontset-default" '(#x1F600 . #x1F64F)
-                      (font-spec :family +emoji-font) nil 'prepend)
+    (eval-after-make-graphic-frame
+     "setup-emoji-font"
+     (set-fontset-font "fontset-default" 'symbol
+                       (font-spec :family +emoji-font) nil 'prepend))
     #+END_SRC
 
 *** Line length
@@ -567,13 +589,11 @@
 *** Echo area
     Adjust the font face used for the echo area.
     #+BEGIN_SRC emacs-lisp
-    (defun +setup-echo-area-face ()
-      "Setup faces for Echo Area."
-      (dolist (buffer '(" *Echo Area 0*"
-                        " *Echo Area 1*"))
-        (with-current-buffer (get-buffer buffer)
-          (setq-local face-remapping-alist '((default (:height 0.9) variable-pitch))))))
-    (add-hook 'after-init-hook #'+setup-echo-area-face)
+    (dolist (buffer-name '(" *Echo Area 0*"
+                           " *Echo Area 1*"))
+      (with-current-buffer (get-buffer-create buffer-name)
+        (setq-local face-remapping-alist
+                    '((default (:height 0.9) variable-pitch)))))
     #+END_SRC
 
 ** Layout
@@ -589,11 +609,13 @@
 *** Borders
     Add window dividers, mainly to add a border below the mode line.
     #+BEGIN_SRC emacs-lisp
-    (when (boundp 'window-divider-mode)
-      (setq window-divider-default-places t
-            window-divider-default-bottom-width 1
-            window-divider-default-right-width 1)
-      (window-divider-mode 1))
+    (setq window-divider-default-places t
+          window-divider-default-bottom-width 1
+          window-divider-default-right-width 1)
+
+    (eval-after-make-graphic-frame
+     "setup-window-divider"
+     (window-divider-mode 1))
     #+END_SRC
 
 *** Frame
@@ -640,10 +662,14 @@
          (propertize
           " "
           'display `((space :align-to
-                            (- (+ right right-fringe right-margin)
-                               ,(+ 1
-                                   (* (string-width formatted-line)
-                                      0.8))))))
+                            (- (+ right
+                                  right-fringe
+                                  right-margin
+                                  right-margin-width
+                                  left-fringe
+                                  left-margin-width)
+                               ,(* (string-width formatted-line)
+                                   0.8)))))
          formatted-line)))
 
     (setq-default mode-line-format
@@ -914,8 +940,6 @@
       :diminish
       (smartparens-mode smartparens-strict-mode)
       :hook
-      (after-init . smartparens-global-strict-mode)
-      (after-init . show-smartparens-global-mode)
       (eval-expression-minibuffer-setup . smartparens-strict-mode)
       :general
       (:prefix
@@ -925,6 +949,9 @@
        'smartparens-mode-map
        "M-D" 'sp-unwrap-sexp
        "M-R" 'sp-rewrap-sexp)
+      :init
+      (smartparens-global-strict-mode 1)
+      (show-smartparens-global-mode 1)
       :config
       (require 'smartparens-config)
       (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil))
@@ -958,16 +985,14 @@
     #+BEGIN_SRC emacs-lisp
     (use-package whole-line-or-region
       :diminish whole-line-or-region-local-mode
-      :hook
-      (after-init . whole-line-or-region-global-mode))
+      :init
+      (whole-line-or-region-global-mode 1))
     #+END_SRC
 
 *** yasnippet
     #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
       :diminish yas-minor-mode
-      :hook
-      (after-init . yas-global-mode)
       :custom
       (yas-also-auto-indent-first-line t)
       (yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
@@ -980,7 +1005,8 @@
        [tab] 'nil
        "TAB" 'nil)
       :init
-      (setq yas-verbosity 0))
+      (setq yas-verbosity 0)
+      (yas-global-mode 1))
 
     (use-package yasnippet-snippets
       :defer 2)
@@ -1075,10 +1101,12 @@
 *** No fringes
     Don't show fringes in the minibuffer.
     #+BEGIN_SRC emacs-lisp
-    (defun +disable-minibuffer-window-fringes ()
+    (defun +disable-minibuffer-window-fringes (&optional frame)
       "Disable the window fringes for minibuffer window."
-      (set-window-fringes (minibuffer-window) 0 0 nil))
-    (add-hook 'emacs-startup-hook #'+disable-minibuffer-window-fringes)
+      (let ((target (if frame frame (selected-frame))))
+        (with-selected-frame target
+          (set-window-fringes (minibuffer-window) 0 0 nil))))
+    (add-hook 'after-make-frame-functions #'+disable-minibuffer-window-fringes)
     (add-hook 'minibuffer-setup-hook #'+disable-minibuffer-window-fringes)
     #+END_SRC
 
@@ -1150,8 +1178,10 @@
       :custom
       (eldoc-posframe-left-fringe 0)
       (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
-      :config
-      (global-eldoc-posframe-mode 1))
+      :init
+      (eval-after-make-graphic-frame
+       "setup-eldoc-posframe"
+       (global-eldoc-posframe-mode 1)))
     #+END_SRC
 
 *** rainbow-mode
@@ -1526,7 +1556,6 @@
    #+BEGIN_SRC emacs-lisp
    (use-package ivy
      :diminish ivy-mode
-     :hook (after-init . ivy-mode)
      :custom
      (ivy-wrap t)
      (ivy-on-del-error-function #'ignore)
@@ -1566,7 +1595,7 @@
      :preface
      (defun +ivy-move-end-of-line-or-done (arg)
        "Move to end of current line or consider ivy operation done.
-   ARG lines can be used."
+      ARG lines can be used."
        (interactive "p")
        (if (eolp)
            (ivy-alt-done)
@@ -1579,7 +1608,9 @@
       dumb-jump-selector             'ivy
       magit-completing-read-function #'ivy-completing-read
       projectile-completion-system   'ivy
-      smex-completion-method         'ivy))
+      smex-completion-method         'ivy)
+
+     (ivy-mode 1))
     #+END_SRC
 
 *** Packages
