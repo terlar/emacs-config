@@ -470,6 +470,7 @@
       :keymaps 'global
       :prefix +window-prefix
       +window-prefix 'window-toggle-side-windows
+      "d" 'toggle-dedicated-window
       "m" 'maximize-window)
      #+END_SRC
 
