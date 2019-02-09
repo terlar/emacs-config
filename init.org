@@ -1878,6 +1878,13 @@
    much the default for most modes. I am using the excellent package =dumb-jump= to jump via
    grep tools e.g. (=grep=, =rx=, =ag=)
 
+   Don't ask about keeping current list of tags tables.
+   #+BEGIN_SRC emacs-lisp
+   (use-package etags
+     :custom
+     (tags-add-tables nil))
+   #+END_SRC
+
 *** dumb-jump
     #+BEGIN_SRC emacs-lisp
     (use-package dumb-jump
