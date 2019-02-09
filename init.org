@@ -1142,7 +1142,8 @@
     (use-package eldoc-posframe
       :diminish eldoc-posframe-mode
       :custom
-      (eldoc-posframe-display-at-point t)
+      (eldoc-posframe-left-fringe 0)
+      (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
       :config
       (global-eldoc-posframe-mode 1))
     #+END_SRC
