@@ -531,7 +531,18 @@
         "Font used for serif faces.")
 
       (defvar +unicode-font "Noto Sans Mono"
-        "Fallback font used for unicode glyphs."))
+        "Fallback font used for unicode glyphs.")
+
+      (defvar +emoji-font "Noto Emoji"
+        "Font used for symbol/emoji faces."))
+
+    (defun +setup-fonts (frame)
+      "Adjust the font settings of FRAME so Emacs can display emoji properly."
+      (set-fontset-font t 'unicode (font-spec :family +unicode-font) frame 'prepend)
+      (set-fontset-font t 'symbol (font-spec :family +emoji-font) frame 'prepend))
+
+    (+setup-fonts nil)
+    (add-hook 'after-make-frame-functions #'+setup-fonts)
     #+END_SRC
 
 *** Line length
