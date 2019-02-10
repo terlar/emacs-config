@@ -153,10 +153,15 @@
 *** server
     #+BEGIN_SRC emacs-lisp
     (use-package server
-      :defer 5
-      :config
-      (unless (server-running-p)
-        (server-start)))
+      :commands server-running-p
+      :preface
+      (defun +server-ensure-running (frame)
+        "Ensure server is running when launching FRAME."
+        (with-selected-frame frame
+          (unless (server-running-p)
+            (server-start))))
+      :init
+      (add-hook 'after-make-frame-functions #'+server-ensure-running))
     #+END_SRC
 
 *** savehist
@@ -3831,6 +3836,8 @@
      :custom
      (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
      (desktop-restore-eager 5)
+     (desktop-save (daemonp))
+     (desktop-load-locked-desktop (daemonp))
      :preface
      (defun +append-buffer-undo-list-to-buffer-local-variables-advice (orig-fn &rest args)
        "Override `buffer-local-variables' and call ORIG-FN with ARGS.
@@ -3841,7 +3848,7 @@
        (let ((orig-buffer-local-variables-fn (symbol-function 'buffer-local-variables)))
          (cl-letf (((symbol-function 'buffer-local-variables)
                     #'(lambda () (append (funcall orig-buffer-local-variables-fn)
-                                    `(,(cons 'buffer-undo-list buffer-undo-list))))))
+                                         `(,(cons 'buffer-undo-list buffer-undo-list))))))
            (apply orig-fn args))))
      :config
      (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
