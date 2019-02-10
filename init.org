@@ -1566,6 +1566,7 @@
    #+BEGIN_SRC emacs-lisp
    (use-package ivy
      :diminish ivy-mode
+     :hook (after-init . ivy-mode)
      :custom
      (ivy-wrap t)
      (ivy-on-del-error-function #'ignore)
@@ -1618,9 +1619,7 @@
       dumb-jump-selector             'ivy
       magit-completing-read-function #'ivy-completing-read
       projectile-completion-system   'ivy
-      smex-completion-method         'ivy)
-
-     (ivy-mode 1))
+      smex-completion-method         'ivy))
     #+END_SRC
 
 *** Packages
