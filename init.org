@@ -612,9 +612,38 @@
     #+END_SRC
 
 ** Layout
+*** Frame
+    - Add some padding around the whole window (=internal-border-width=) to provide some air.
+    - Set the width of the fringes.
+    - Remove GUI elements.
+    - Maximize the window; A maximized window ensures macOS won't waste extra space
+      all-though it is technically not maximized.
+    - Make the title-bar transparent on macOS.
+    #+BEGIN_SRC emacs-lisp
+    (setq default-frame-alist
+          '((internal-border-width . 16)
+            (left-fringe . 8)
+            (right-fringe . 8)
+            (vertical-scroll-bars . nil)
+            (menu-bar-lines . 0)
+            (tool-bar-lines . 0)))
+
+    (when (eq system-type 'darwin)
+      (setq frame-title-format nil)
+      (dolist (filter '((ns-transparent-titlebar . t)
+                        (ns-appearance . unbound)))
+        (cl-pushnew filter default-frame-alist :test #'equal)))
+    #+END_SRC
+
+   Display indicator for buffer boundaries in the right fringe.
+   #+BEGIN_SRC emacs-lisp
+   (setq-default indicate-buffer-boundaries 'right)
+   #+END_SRC
+
 *** Padding
-    Add some margins to make text feel less crowded. Put fringes on the outside for the
-    same reason.
+    Add margins inside windows to make text feel less crowded. Put fringes on the outside
+    for the same reason. Padding around the frame is configured via the
+    =internal-border-width= in the [[Frame][Frame]] section.
     #+BEGIN_SRC emacs-lisp
     (setq-default fringes-outside-margins t
                   left-margin-width 1
@@ -631,25 +660,6 @@
     (eval-after-make-graphic-frame
      "setup-window-divider"
      (window-divider-mode 1))
-    #+END_SRC
-
-*** Frame
-    Add some padding around the whole window (=internal-border-width=) to provide some air.
-    Remove GUI elements as well as maximize the window; A maximized window ensures macOS
-    won't waste extra space all-though it is technically not maximized. Make the title-bar
-    transparent on macOS.
-    #+BEGIN_SRC emacs-lisp
-    (setq default-frame-alist
-          '((internal-border-width . 16)
-            (vertical-scroll-bars . nil)
-            (menu-bar-lines . 0)
-            (tool-bar-lines . 0)))
-
-    (when (eq system-type 'darwin)
-      (setq frame-title-format nil)
-      (dolist (filter '((ns-transparent-titlebar . t)
-                        (ns-appearance . unbound)))
-        (cl-pushnew filter default-frame-alist :test #'equal)))
     #+END_SRC
 
 ** Mode line
@@ -1091,12 +1101,6 @@
 ** Auto executable scripts
    #+BEGIN_SRC emacs-lisp
    (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
-   #+END_SRC
-
-** Fringe
-   Display indicator for buffer boundaries in the right fringe.
-   #+BEGIN_SRC emacs-lisp
-   (setq-default indicate-buffer-boundaries 'right)
    #+END_SRC
 
 ** Minibuffer
