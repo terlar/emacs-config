@@ -613,8 +613,8 @@
 
 ** Layout
 *** Frame
+    See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and terminology.
     - Add some padding around the whole window (=internal-border-width=) to provide some air.
-    - Set the width of the fringes.
     - Remove GUI elements.
     - Maximize the window; A maximized window ensures macOS won't waste extra space
       all-though it is technically not maximized.
@@ -622,8 +622,6 @@
     #+BEGIN_SRC emacs-lisp
     (setq default-frame-alist
           '((internal-border-width . 16)
-            (left-fringe . 8)
-            (right-fringe . 8)
             (vertical-scroll-bars . nil)
             (menu-bar-lines . 0)
             (tool-bar-lines . 0)))
@@ -635,18 +633,21 @@
         (cl-pushnew filter default-frame-alist :test #'equal)))
     #+END_SRC
 
-   Display indicator for buffer boundaries in the right fringe.
-   #+BEGIN_SRC emacs-lisp
-   (setq-default indicate-buffer-boundaries 'right)
-   #+END_SRC
+*** Fringe
+    Setup fringes on both sides and display an indicator for buffer boundaries on the
+    right side. Display fringes outside margins to have the [[Padding][padding]] on the inside.
+    #+BEGIN_SRC emacs-lisp
+   (setq-default fringes-outside-margins t
+                 left-fringe-width 8
+                 right-fringe-width 8
+                 indicate-buffer-boundaries 'right)
+    #+END_SRC
 
 *** Padding
-    Add margins inside windows to make text feel less crowded. Put fringes on the outside
-    for the same reason. Padding around the frame is configured via the
-    =internal-border-width= in the [[Frame][Frame]] section.
+    Add margins inside windows to make text feel less crowded. Padding around the frame is
+    configured via the =internal-border-width= in the [[Frame][Frame]] section.
     #+BEGIN_SRC emacs-lisp
-    (setq-default fringes-outside-margins t
-                  left-margin-width 1
+    (setq-default left-margin-width 1
                   right-margin-width 1)
     #+END_SRC
 
