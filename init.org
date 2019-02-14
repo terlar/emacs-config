@@ -2008,7 +2008,7 @@
        'flymake-mode-map
        :prefix
        +local-leader-key
-       "e" 'flymake-show-diagnostics-buffer)
+       "!" 'flymake-show-diagnostics-buffer)
       (:keymaps
        'flymake-diagnostics-buffer-mode-map
        "n" '+flymake-diagnostics-next-error
@@ -2030,7 +2030,9 @@
       (defun +flymake-diagnostics-prev-error ()
         (interactive)
         (forward-line -1)
-        (flymake-show-diagnostic (point))))
+        (flymake-show-diagnostic (point)))
+      :init
+      (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
     #+END_SRC
 
 ** Version control
