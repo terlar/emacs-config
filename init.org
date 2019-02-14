@@ -1951,6 +1951,18 @@
     (use-package smart-jump
       :custom
       (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
+      (smart-jump-default-mode-list
+       '(clojure-mode
+         eglot
+         elisp-mode
+         elixir-mode
+         elm-mode
+         erlang-mode
+         go-mode
+         lisp-mode
+         lua-mode
+         python
+         scala-mode))
       :general
       ("M-." 'smart-jump-go)
       ("M-," 'smart-jump-back)
