@@ -2180,10 +2180,15 @@
       :general
       (:keymaps
        'eglot-mode-map
+       "M-g k" 'eglot-help-at-point)
+      (:keymaps
+       'eglot-mode-map
        :prefix +local-leader-key
+       "e" '(:ignore t :wk "eglot")
        "ea" 'eglot-code-actions
-       "er" 'eglot-rename
-       "ef" 'eglot-format)
+       "ef" 'eglot-format
+       "eh" 'eglot-help-at-point
+       "er" 'eglot-rename)
       :config
       (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
                   eglot-server-programs
