@@ -3003,6 +3003,8 @@
      (haskell-font-lock-symbols t)
      (haskell-process-show-debug-tips nil)
      (haskell-process-use-presentation-mode t)
+     (haskell-stylish-on-save t)
+     (haskell-mode-stylish-haskell-path "brittany")
      :general
      (:keymaps
       'interactive-haskell-mode-map
