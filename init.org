@@ -2249,7 +2249,8 @@
       :custom
       (rainbow-delimiters-max-face-count 3)
       :hook
-      ((emacs-lisp-mode
+      ((clojure-mode
+        emacs-lisp-mode
         ielm-mode
         lisp-mode
         racket-mode) . rainbow-delimiters-mode))
