@@ -1018,6 +1018,7 @@
 *** yasnippet
     #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
+      :defer 1
       :diminish yas-minor-mode
       :custom
       (yas-also-auto-indent-first-line t)
@@ -1032,6 +1033,7 @@
        "TAB" 'nil)
       :init
       (setq yas-verbosity 0)
+      :config
       (yas-global-mode 1))
 
     (use-package yasnippet-snippets
@@ -1049,8 +1051,8 @@
       (auto-insert-mode 1))
 
     (use-package yatemplate
-      :hook
-      (yas-global-mode . yatemplate-fill-alist))
+      :init
+      (yatemplate-fill-alist))
     #+END_SRC
 
 ** Appearance
