@@ -54,7 +54,7 @@ Takes any number of ARGS as some hooks will run the function with ARGS."
     (defalias disable-fn-name
       `(lambda (&rest args)
          (dolist (mode ',modes)
-           (when (and (boundp mode) (eval mode))
+           (when (bound-and-true-p (eval mode))
              (funcall mode 0)
              (push mode blacklisted-minor-modes)))))
 
