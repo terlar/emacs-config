@@ -2805,6 +2805,9 @@
         "t" 'cider-test-run-test
         "T" 'cider-test-run-ns-tests
         "s" 'cider-test-run-project-tests)
+       :commands
+       (cider-switch-to-repl-buffer
+        cider-jack-in)
        :preface
        (defun clojure-repl ()
          "Open a Clojure REPL."
