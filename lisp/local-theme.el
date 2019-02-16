@@ -44,8 +44,9 @@
    `(success                                 ((t (:foreground ,theme-color-success))))
    `(warning                                 ((t (:foreground ,theme-color-warning :bold t))))
 
-   `(font-lock-keyword-face                  ((t (:foreground ,color-13))))
+   `(font-lock-comment-face                  ((t (:foreground ,color-8))))
    `(font-lock-constant-face                 ((t (:foreground ,color-13 :weight normal))))
+   `(font-lock-keyword-face                  ((t (:foreground ,color-13))))
    `(font-lock-type-face                     ((t (:foreground ,color-10))))
 
    ;; comint
