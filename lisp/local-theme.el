@@ -109,6 +109,7 @@
    `(cargo-process--warning-face             ((t (:foreground ,theme-color-warning))))
    ;; cider
    `(cider-test-failure-face                 ((t (:background ,theme-color-error))))
+   `(cider-result-overlay-face               ((t (:background ,color-5 :foreground ,color-9 :box nil))))
    ;; company
    `(company-tooltip-search                  ((t (:bold t))))
    `(company-tooltip-search-selection        ((t (:bold t))))
