@@ -63,7 +63,7 @@
    `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
    `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
    ;; hl-line-mode
-   `(hl-line                                 ((t (:background ,theme-color-highlight :foreground nil))))
+   `(hl-line                                 ((t (:background ,color-1 :foreground nil))))
    ;; org-mode
    `(org-document-title                      ((t (:height 1.8 :bold nil))))
    `(org-level-1                             ((t (:height 1.6 :bold nil :foreground ,color-14))))
