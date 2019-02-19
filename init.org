@@ -882,12 +882,18 @@
     #+END_SRC
 
 *** Visual Fill Column
+    Wrap lines according to =fill-column= in =visual-line-mode=.
     #+BEGIN_SRC emacs-lisp
     (use-package visual-fill-column
       :hook
-      (nov-mode . visual-fill-column-mode)
+      ((apropos-mode
+        help-mode
+        helpful-mode
+        Info-mode
+        Man-mode
+        nov-mode) . visual-fill-column-mode)
       :custom
-      (visual-fill-column-width fill-column))
+      (visual-fill-column-center-text t))
     #+END_SRC
 
 * Editing
@@ -909,8 +915,10 @@
    (setq-default word-wrap t)
    #+END_SRC
 
-   Disable line wrapping.
+   Disable line wrapping. But enable =visual-line-mode= by default to be able to use
+   =global-visual-fill-column-mode=.
    #+BEGIN_SRC emacs-lisp
+   (global-visual-line-mode 1)
    (setq-default truncate-lines t)
    #+END_SRC
 
