@@ -918,8 +918,13 @@
    Disable line wrapping. But enable =visual-line-mode= by default to be able to use
    =global-visual-fill-column-mode=.
    #+BEGIN_SRC emacs-lisp
-   (global-visual-line-mode 1)
    (setq-default truncate-lines t)
+
+   (defun +truncate-lines-on ()
+     "Truncate long lines for the current buffer."
+     (setq truncate-lines t))
+   (add-hook 'visual-line-mode-hook #'+truncate-lines-on)
+   (global-visual-line-mode 1)
    #+END_SRC
 
 ** Kill-ring
