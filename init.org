@@ -527,7 +527,7 @@
       :prefix +launch-prefix
       "m" 'gnus
       "p" 'list-processes
-      "r" 'regexp-builder
+      "x" 'regexp-builder
       "w" 'eww)
      #+END_SRC
 
