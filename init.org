@@ -458,7 +458,7 @@
     (general-define-key
      :keymaps 'global
      ;; Editing
-     "M-Z" 'zap-up-to-char
+     "C-z" 'zap-up-to-char
      ;; Files
      "C-c o" 'ff-find-other-file
      ;; REPL
