@@ -218,10 +218,11 @@
    #+END_SRC
 
 ** Terminal
-*** Less
-    Make less work inside Emacs shells.
+*** Pager
+    Make less work inside Emacs shells. But disable it as the default pager.
     #+BEGIN_SRC emacs-lisp
     (setenv "LESS" "--dumb --prompt=s")
+    (setenv "PAGER" "")
     #+END_SRC
 
 ** Packages
