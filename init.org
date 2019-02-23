@@ -2497,7 +2497,6 @@
    (use-package eshell
      :hook
      (eshell-mode . abbrev-mode)
-     (eshell-mode . eshell-smart-initialize)
      (eshell-mode . +eshell-define-keys)
      (eshell-mode . +eshell-set-visual-commands)
      :custom
