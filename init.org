@@ -2517,7 +2517,7 @@
      (defun +eshell-set-visual-commands ()
        (setq eshell-visual-commands
              (append
-              '("fish" "ghcid" "jshell" "most" "ssh" "tail" "watch")
+              '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
               eshell-visual-commands)))
      :init
      (autoload 'eshell-smart-initialize "em-smart"))
