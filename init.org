@@ -1879,14 +1879,6 @@
     #+END_SRC
 
 ** Eval
-*** eval-in-repl
-    #+BEGIN_SRC emacs-lisp
-    (use-package eval-in-repl
-      :custom
-      (eir-jump-after-eval t)
-      (eir-repl-placement 'below))
-    #+END_SRC
-
 *** quickrun
     #+BEGIN_SRC emacs-lisp
     (use-package quickrun
@@ -2010,6 +2002,38 @@
           (message "Install swiper to use `+smart-jump-simple-find-references-with-counsel-rg'.")))
       :config
       (smart-jump-setup-default-registers))
+    #+END_SRC
+
+** REPL
+*** eval-in-repl
+    #+BEGIN_SRC emacs-lisp
+    (use-package eval-in-repl
+      :custom
+      (eir-jump-after-eval t)
+      (eir-repl-placement 'below))
+    #+END_SRC
+
+*** Persistent history in comint
+    #+BEGIN_SRC emacs-lisp
+    (defun +comint-history-write-on-exit (process event)
+      "Write `comint' history on exit.
+    Receives PROCESS and EVENT."
+      (comint-write-input-ring)
+      (let ((buf (process-buffer process)))
+        (when (buffer-live-p buf)
+          (with-current-buffer buf
+            (insert (format "\nProcess %s %s" process event))))))
+
+    (defun +comint-history-enable ()
+      "Enable `comint' history."
+      (let ((process (get-buffer-process (current-buffer))))
+        (when process
+          (setq comint-input-ring-file-name
+                (expand-file-name
+                 (format "comint-%s-history" (process-name process))
+                 +cache-dir))
+          (comint-read-input-ring)
+          (set-process-sentinel process #'+comint-history-write-on-exit))))
     #+END_SRC
 
 ** Syntax checker
@@ -3041,8 +3065,29 @@
      (:keymaps
       'haskell-mode-map
       :prefix +local-leader-key
-      "r" 'haskell-interactive-switch))
+      "r" 'haskell-interactive-switch
+      "R" 'haskell-session-change-target))
    #+END_SRC
+
+*** REPL
+    Persist REPL history.
+    #+BEGIN_SRC emacs-lisp
+    (defvar +haskell-interactive-mode-global-history nil)
+    (with-eval-after-load 'savehist
+      (cl-pushnew '+haskell-interactive-mode-global-history savehist-additional-variables :test #'equal))
+
+    (defun +haskell-interactive-mode-load-history ()
+      "Restore `haskell-interactive-mode' history."
+      (add-hook 'kill-buffer-hook #'+haskell-interactive-mode-save-history nil t)
+      (when +haskell-interactive-mode-global-history
+        (setq haskell-interactive-mode-history +haskell-interactive-mode-global-history)))
+
+    (defun +haskell-interactive-mode-save-history ()
+      "Save `haskell-interactive-mode' history."
+      (setq +haskell-interactive-mode-global-history haskell-interactive-mode-history))
+
+    (add-hook 'haskell-interactive-mode-hook #'+haskell-interactive-mode-load-history)
+    #+END_SRC
 
 *** Packages
 **** hasky-stack
