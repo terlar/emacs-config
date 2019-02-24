@@ -3758,6 +3758,8 @@
 **** ts-comint
      #+BEGIN_SRC emacs-lisp
      (use-package ts-comint
+       :custom
+       (ts-comint-program-command "ts-node")
        :general
        (:keymaps
         'typescript-mode-map
