@@ -2051,6 +2051,7 @@
       :custom
       (help-at-pt-timer-delay 0.1)
       (help-at-pt-display-when-idle '(flymake-diagnostic))
+      (flymake-proc-ignored-file-name-regexps '("\\.l?hs\\'"))
       :general
       (:keymaps
        'flymake-mode-map
@@ -3054,6 +3055,8 @@
      (haskell-mode . interactive-haskell-mode)
      :custom
      (haskell-font-lock-symbols t)
+     (haskell-process-auto-import-loaded-modules t)
+     (haskell-process-log t)
      (haskell-process-show-debug-tips nil)
      (haskell-process-use-presentation-mode t)
      (haskell-stylish-on-save t)
