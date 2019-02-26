@@ -2337,21 +2337,20 @@
 
     (defun +prog-mode-prettify-symbols ()
       "Add generic programming symbols."
-      (dolist (symbol '(("&&"  . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
-                        ("||"  . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
-                        ("="   . ?≝)
-                        (":="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≔))
-                        ("=="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?=))
-                        ("===" . ?≡)
-                        ("!==" . ?≢)
+      (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
+                        ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
+                        (":=" . (?: (Br . Bc) ?= (Br . Bc) ?=))
+                        ("==" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
+                        ("===" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
+                        ("!==" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
                         (">="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥))
                         ("<="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤))
-                        ("/="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
-                        ("!="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
-                        ("<-"  . (?\s (Br . Bl) ?\s (Bc . Bc) ?←))
-                        ("->"  . (?\s (Br . Bl) ?\s (Bc . Bc) ?→))
-                        ("<==" . ?⇐)
-                        ("==>" . ?⇒)
+                        ("/=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
+                        ("!=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
+                        ("<-" . (?< (Br . Bc) ?- (Br . Bc) ?-))
+                        ("->" . (?- (Br . Bc) ?- (Br . Bc) ?>))
+                        ("<==" . (?< (Br . Bc) ?= (Br . Bc) ?=))
+                        ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
                         ("lambda" . ?λ)))
         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
     (add-hook 'prog-mode-hook #'+prog-mode-prettify-symbols)
@@ -2503,7 +2502,8 @@
        "Prettify `emacs-lisp-mode' specific symbols."
        (dolist (symbol '(("defun"    . ?ƒ)
                          ("defmacro" . ?μ)
-                         ("defvar"   . ?ν)))
+                         ("defvar"   . ?ν)
+                         ("defconst" . "ν_")))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
      (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
      #+END_SRC
@@ -3152,8 +3152,10 @@
      :preface
      (defun +js-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
-                         ("=>"        . ?→)
+                         ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
                          ("function"  . ?ƒ)
+                         ("let"       . ?ν)
+                         ("const"     . "ν_")
                          ("undefined" . ?∅)
                          ("Infinity"  . ?∞)))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
@@ -3799,7 +3801,19 @@
 
 ** typescript
    #+BEGIN_SRC emacs-lisp
-   (use-package typescript-mode)
+   (use-package typescript-mode
+     :hook
+     (typescript-mode . +typescript-mode-prettify-symbols)
+     :preface
+     (defun +typescript-mode-prettify-symbols ()
+       (dolist (symbol '(("=="        . ?≈)
+                         ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
+                         ("function"  . ?ƒ)
+                         ("let"       . ?ν)
+                         ("const"     . "ν_")
+                         ("null"      . ?∅)
+                         ("Infinity"  . ?∞)))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
 
 *** Packages
