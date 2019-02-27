@@ -2312,14 +2312,17 @@
       :defer 2
       :diminish color-identifiers-mode
       :config
+      (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
+                                       "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                                       (nil font-lock-variable-name-face)))
+                  color-identifiers:modes-alist
+                  :test #'equal)
       (global-color-identifiers-mode 1))
 
     (use-package rainbow-identifiers
       :diminish rainbow-identifiers-mode
       :custom
-      (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face)
-      :hook
-      (typescript-mode . rainbow-identifiers-mode))
+      (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
     #+END_SRC
 
 *** Highlight numbers
