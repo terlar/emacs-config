@@ -3072,7 +3072,10 @@
       'haskell-mode-map
       :prefix +local-leader-key
       "r" 'haskell-interactive-switch
-      "R" 'haskell-session-change-target))
+      "R" 'haskell-session-change-target)
+     :config
+     ;; Allow configuring project local cabal repl commands.
+     (put 'haskell-process-args-cabal-repl 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
    #+END_SRC
 
 *** REPL
