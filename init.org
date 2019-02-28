@@ -3806,6 +3806,17 @@
      (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
    #+END_SRC
 
+** term
+    #+BEGIN_SRC emacs-lisp
+    (use-package term
+      :hook
+      (ansi-term . +ansi-term-setup)
+      :preface
+      (defun +ansi-term-setup ()
+        "Setup for `ansi-term'."
+        (setq truncate-lines nil)))
+    #+END_SRC
+
 ** typescript
    #+BEGIN_SRC emacs-lisp
    (use-package typescript-mode
