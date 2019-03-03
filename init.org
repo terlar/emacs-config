@@ -4062,6 +4062,16 @@
    (use-package auto-dictionary)
    #+END_SRC
 
+** Undo
+   Navigate through undo history.
+   #+BEGIN_SRC emacs-lisp
+   (use-package undo-propose
+     :general
+     (:prefix
+      +launch-prefix
+      "u" 'undo-propose))
+   #+END_SRC
+
 * The end
   #+BEGIN_SRC emacs-lisp
   (provide 'init)
