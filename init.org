@@ -1422,6 +1422,8 @@
 *** find-file
     #+BEGIN_SRC emacs-lisp
     (use-package find-file)
+    (use-package ff-test
+      :demand t)
     #+END_SRC
 
 *** goto-last-change
@@ -2372,7 +2374,8 @@
     :prefix +local-leader-key
     "c" 'emacs-lisp-byte-compile
     "C" 'emacs-lisp-byte-compile-and-load
-    "r" 'ielm)
+    "r" 'ielm
+    "t" 'ert)
 
    (custom-set-variables
     '(ad-redefinition-action 'accept)
@@ -2380,6 +2383,16 @@
     '(enable-local-eval nil)
     '(enable-local-variables :safe))
    #+END_SRC
+
+*** Other file
+    Find other file e.g. test/implementation.
+    #+BEGIN_SRC emacs-lisp
+    (defun +emacs-lisp-mode-setup-find-file ()
+      "Setup `ff-find-other-file' for `emacs-lisp-mode'."
+      (setq ff-other-file-alist '(("-test\\.el$" (".el"))
+                                  ("\\.el$" ("-test.el")))))
+    (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-setup-find-file)
+    #+END_SRC
 
 *** ielm
     Persist ielm history.
@@ -3141,6 +3154,7 @@
      "node"
      "nodejs"
      :hook
+     (js2-mode . +js-mode-setup-find-file)
      (js2-mode . +js-mode-prettify-symbols)
      :custom
      (js2-highlight-external-variables nil)
@@ -3157,6 +3171,18 @@
       :prefix +local-leader-key
       "r" 'js-repl)
      :preface
+     (defun +js-mode-setup-find-file ()
+       "Setup `ff-find-other-file' for `js2-mode'."
+       (setq ff-other-file-alist
+             '(("\\.\\(test\\|spec\\)\\.js$" ff-test-converter)
+               ("\\.js$" ff-test-converter))
+             ff-search-directories
+             (append '(".") (ff-test-project-dirs '("src"
+                                                    "test" "test/*"
+                                                    "tests" "tests/*"
+                                                    "spec" "spec/*"
+                                                    "specs" "specs/*")))))
+
      (defun +js-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
@@ -3252,12 +3278,12 @@
    #+BEGIN_SRC emacs-lisp
    (use-package lisp-mode
      :hook
-     (lisp-mode . +lisp-mode-setup)
+     (lisp-mode . +lisp-mode-setup-find-file)
      :preface
-     (defun +lisp-mode-setup ()
-       "Setup `lisp-mode'."
-       (setq ff-other-file-alist '(("-test\\.lisp\\'" (".lisp"))
-                                   ("\\.lisp\\'" ("-test.lisp"))))))
+     (defun +lisp-mode-setup-find-file ()
+       "Setup `ff-find-other-file' for `lisp-mode'."
+       (setq ff-other-file-alist '(("-test\\.lisp$" (".lisp"))
+                                   ("\\.lisp$" ("-test.lisp"))))))
    #+END_SRC
 
 *** Packages
@@ -3821,8 +3847,20 @@
    #+BEGIN_SRC emacs-lisp
    (use-package typescript-mode
      :hook
+     (typescript-mode . +typescript-mode-setup-find-file)
      (typescript-mode . +typescript-mode-prettify-symbols)
      :preface
+     (defun +typescript-mode-setup-find-file ()
+       "Setup `ff-find-other-file' for `typescript-mode'."
+       (setq ff-other-file-alist
+             '(("\\.\\(test\\|spec\\)\\.ts$" ff-test-converter)
+               ("\\.ts$" ff-test-converter))
+             ff-search-directories
+             (append '(".") (ff-test-project-dirs '("src"
+                                                    "test" "test/*"
+                                                    "tests" "tests/*"
+                                                    "spec" "spec/*"
+                                                    "specs" "specs/*")))))
      (defun +typescript-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
@@ -3836,6 +3874,7 @@
 
 *** Packages
 **** ts-comint
+     TypeScript REPL.
      #+BEGIN_SRC emacs-lisp
      (use-package ts-comint
        :custom
