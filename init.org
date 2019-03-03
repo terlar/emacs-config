@@ -1439,6 +1439,13 @@
        "l" '(goto-last-change-reverse :wk "Change")))
     #+END_SRC
 
+*** goto-line-preview
+    #+BEGIN_SRC emacs-lisp
+    (use-package goto-line-preview
+      :general
+      ([remap goto-line] 'goto-line-preview))
+    #+END_SRC
+
 *** recentf
     Keep track of recently opened files.
     #+BEGIN_SRC emacs-lisp
