@@ -3191,6 +3191,9 @@
       'js2-mode-map
       :prefix +local-leader-key
       "r" 'js-repl)
+     (:keymaps
+      'js2-mode-map
+      "C-x C-e" 'js-repl-eval)
      :preface
      (defun +js-mode-setup-find-file ()
        "Setup `ff-find-other-file' for `js2-mode'."
@@ -3255,6 +3258,19 @@
         'indium-debugger-mode
         :definer 'minor-mode
         "RET" 'indium-debugger-step-over))
+     #+END_SRC
+
+**** jest
+     Test framework execution.
+     #+BEGIN_SRC emacs-lisp
+     (use-package jest
+       :general
+       (:keymaps
+        'js2-mode-map
+        :prefix +local-leader-key
+        "t" 'jest-function
+        "T" 'jest-file
+        "s" 'jest))
      #+END_SRC
 
 **** js2-refactor
@@ -3904,6 +3920,19 @@
         'typescript-mode-map
         :prefix +local-leader-key
         "r" 'run-ts))
+     #+END_SRC
+
+**** jest
+     Test framework execution.
+     #+BEGIN_SRC emacs-lisp
+     (use-package jest
+       :general
+       (:keymaps
+        'typescript-mode-map
+        :prefix +local-leader-key
+        "t" 'jest-function
+        "T" 'jest-file
+        "s" 'jest))
      #+END_SRC
 
 ** web
