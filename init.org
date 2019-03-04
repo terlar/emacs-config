@@ -416,6 +416,7 @@
   | =C-M-b=         | =backward-sexp=                   | Move backward inside a balanced expression                                       |
   | =C-M-n=         | =forward-list=                    | Move forward across one balanced group of parenthesis                            |
   | =C-M-p=         | =backward-list=                   | Move backward across one balanced group of parenthesis                           |
+  | =M-m=           | =back-to-indentation=             | Move to the first non-whitespace character                                       |
   | =M-e=           | =forward-sentence=                | End of sentence                                                                  |
   | =M-a=           | =backward-sentence=               | Start of sentence                                                                |
   | =C-M-d=         | =down-list=                       | Move forward down one level of parenthesis                                       |
