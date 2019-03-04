@@ -353,6 +353,17 @@
           (add-hook 'after-make-frame-functions #',hook-name))))
    #+END_SRC
 
+*** Editing
+    #+BEGIN_SRC emacs-lisp
+    (defun turn-on-truncate-lines ()
+      "Enable `truncate-lines' for the current buffer."
+      (setq truncate-lines t))
+
+    (defun turn-off-truncate-lines ()
+      "Disable `truncate-lines' for the current buffer."
+      (setq truncate-lines nil))
+    #+END_SRC
+
 *** Process
     #+BEGIN_SRC emacs-lisp
     (defun send-buffer-to-ssh ()
@@ -895,6 +906,12 @@
         Info-mode
         Man-mode
         nov-mode) . visual-fill-column-mode)
+      ((apropos-mode
+        help-mode
+        helpful-mode
+        Info-mode
+        Man-mode
+        nov-mode) . turn-off-truncate-lines)
       :custom
       (visual-fill-column-center-text t))
     #+END_SRC
@@ -922,11 +939,7 @@
    =global-visual-fill-column-mode=.
    #+BEGIN_SRC emacs-lisp
    (setq-default truncate-lines t)
-
-   (defun +truncate-lines-on ()
-     "Truncate long lines for the current buffer."
-     (setq truncate-lines t))
-   (add-hook 'visual-line-mode-hook #'+truncate-lines-on)
+   (add-hook 'visual-line-mode-hook #'turn-on-truncate-lines)
    (global-visual-line-mode 1)
    #+END_SRC
 
@@ -3844,11 +3857,7 @@
     #+BEGIN_SRC emacs-lisp
     (use-package term
       :hook
-      (ansi-term . +ansi-term-setup)
-      :preface
-      (defun +ansi-term-setup ()
-        "Setup for `ansi-term'."
-        (setq truncate-lines nil)))
+      (ansi-term . turn-off-truncate-lines))
     #+END_SRC
 
 ** typescript
