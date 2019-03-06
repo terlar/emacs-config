@@ -2338,7 +2338,8 @@
       :config
       (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
                                        "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
-                                       (nil font-lock-variable-name-face)))
+                                       (nil font-lock-variable-name-face)
+                                       "[a-zA-Z_$]+[(:]"))
                   color-identifiers:modes-alist
                   :test #'equal)
       (global-color-identifiers-mode 1))
