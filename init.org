@@ -3210,6 +3210,7 @@
 
      (defun +js-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
+                         ("!="        . "≈/")
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
                          ("function"  . ?ƒ)
                          ("let"       . ?ν)
@@ -3897,6 +3898,7 @@
                                                     "specs" "specs/*")))))
      (defun +typescript-mode-prettify-symbols ()
        (dolist (symbol '(("=="        . ?≈)
+                         ("!="        . "≈/")
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
                          ("function"  . ?ƒ)
                          ("let"       . ?ν)
