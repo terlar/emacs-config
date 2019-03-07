@@ -899,19 +899,6 @@
     Wrap lines according to =fill-column= in =visual-line-mode=.
     #+BEGIN_SRC emacs-lisp
     (use-package visual-fill-column
-      :hook
-      ((apropos-mode
-        help-mode
-        helpful-mode
-        Info-mode
-        Man-mode
-        nov-mode) . visual-fill-column-mode)
-      ((apropos-mode
-        help-mode
-        helpful-mode
-        Info-mode
-        Man-mode
-        nov-mode) . turn-off-truncate-lines)
       :custom
       (visual-fill-column-center-text t))
     #+END_SRC
