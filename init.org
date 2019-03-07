@@ -2467,6 +2467,8 @@
      Better =*help*= buffer
      #+BEGIN_SRC emacs-lisp
      (use-package helpful
+       :hook
+       (helpful-mode . turn-off-truncate-lines)
        :general
        (:keymaps
         'emacs-lisp-mode-map
