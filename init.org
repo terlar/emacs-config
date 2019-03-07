@@ -2323,6 +2323,12 @@
       :defer 2
       :diminish color-identifiers-mode
       :config
+      (cl-pushnew '(js2-mode . ("[^.][[:space:]]*"
+                                "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                                (nil font-lock-variable-name-face js2-function-param)
+                                "[a-zA-Z_$]+[(:]"))
+                  color-identifiers:modes-alist
+                  :test #'equal)
       (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
                                        "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
                                        (nil font-lock-variable-name-face)
