@@ -2257,6 +2257,20 @@
                   :test #'equal))
     #+END_SRC
 
+*** helm-make
+    Execute make tasks.
+    #+BEGIN_SRC emacs-lisp
+    (use-package helm-make
+      :custom
+      (helm-make-completion-method 'ivy)
+      :general
+      (:prefix
+       +leader-key
+       "m" (general-predicate-dispatch #'helm-make
+             :docstring "Run make task (project aware)"
+             (projectile-project-p) #'helm-make-projectile)))
+    #+END_SRC
+
 *** hl-todo
     Highlight *TODO* inside comments and strings.
     #+BEGIN_SRC emacs-lisp
