@@ -1936,7 +1936,7 @@
      :hook
      ((elixir-mode
        go-mode
-       js2-mode
+       js-mode
        python-mode
        typescript-mode) . format-all-mode)
      :general
@@ -2337,7 +2337,7 @@
       :defer 2
       :diminish color-identifiers-mode
       :config
-      (cl-pushnew '(js2-mode . ("[^.][[:space:]]*"
+      (cl-pushnew '(js-mode . ("[^.][[:space:]]*"
                                 "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
                                 (nil font-lock-variable-name-face js2-function-param)
                                 "[a-zA-Z_$]+[(:]"))
@@ -3178,32 +3178,19 @@
 
 ** js
    #+BEGIN_SRC emacs-lisp
-   (use-package js2-mode
-     :mode
-     "\\.js$"
-     :interpreter
-     "node"
-     "nodejs"
+   (use-package js-mode
      :hook
-     (js2-mode . +js-mode-setup-find-file)
-     (js2-mode . +js-mode-prettify-symbols)
-     :custom
-     (js2-highlight-external-variables nil)
-     (js2-mode-show-parse-errors nil)
-     (js2-skip-preprocessor-directives t)
-     (js2-strict-missing-semi-warning nil)
-     (js2-strict-trailing-comma-warning nil)
+     (js-mode . +js-mode-setup-find-file)
+     (js-mode . +js-mode-prettify-symbols)
      :general
      (:keymaps
       'js-mode-map
-      "M-." 'nil)
+      "M-." 'nil
+      "C-x C-e" 'js-repl-eval)
      (:keymaps
-      'js2-mode-map
+      'js-mode-map
       :prefix +local-leader-key
       "r" 'js-repl)
-     (:keymaps
-      'js2-mode-map
-      "C-x C-e" 'js-repl-eval)
      :preface
      (defun +js-mode-setup-find-file ()
        "Setup `ff-find-other-file' for `js2-mode'."
@@ -3244,10 +3231,7 @@
              (indium-eval-last-node ""))
          (if (use-region-p)
              (nodejs-repl-send-region (region-beginning) (region-end))
-           (nodejs-repl-send-line))))
-     :init
-     (with-eval-after-load 'org
-       (cl-pushnew '("js" . js2) org-src-lang-modes :test #'equal)))
+           (nodejs-repl-send-line)))))
    #+END_SRC
 
 *** Packages
@@ -3284,21 +3268,30 @@
         "s" 'jest))
      #+END_SRC
 
+**** js2
+     #+BEGIN_SRC emacs-lisp
+     (use-package js2-mode
+       :hook
+       (js-mode . js2-minor-mode)
+       :custom
+       (js2-highlight-external-variables nil)
+       (js2-mode-show-parse-errors nil)
+       (js2-skip-preprocessor-directives t)
+       (js2-strict-missing-semi-warning nil)
+       (js2-strict-trailing-comma-warning nil))
+     #+END_SRC
+
 **** js2-refactor
      Refactor utils, also a dependecy for =indium= debugger.
      #+BEGIN_SRC emacs-lisp
      (use-package js2-refactor
        :diminish js2-refactor-mode
        :hook
-       (js2-mode . js2-refactor-mode)
-       (js2-mode . +js2r-setup-keybindings)
-       :general
-       (:keymaps
-        'js2-mode-map
-        "C-k" 'js2r-kill)
+       (js2-minor-mode . js2-refactor-mode)
+       (js2-minor-mode . +js2r-setup-keybindings)
        :preface
        (defun +js2r-setup-keybindings ()
-         (js2r-add-keybindings-with-prefix "C-c m m")))
+         (js2r-add-keybindings-with-prefix (string-join `(,+local-leader-key "m") " "))))
      #+END_SRC
 
 **** nodejs-repl
