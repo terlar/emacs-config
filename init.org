@@ -473,8 +473,6 @@
      "C-z" 'zap-up-to-char
      ;; Files
      "C-c o" 'ff-find-other-file
-     ;; REPL
-     "<C-return>" 'ielm
      ;; Terminal
      "C-!" 'eshell
      "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
@@ -3959,12 +3957,15 @@
         haml-mode
         html-mode
         nxml-mode
-        rsjx-mode
+        rjsx-mode
         web-mode)
+       (rjsx-mode . +emmet-use-jsx-className)
        :custom
        (emmet-move-cursor-between-quotes t)
        :preface
-       (defvar emmet-mode-keymap (make-sparse-keymap)))
+       (defun +emmet-use-jsx-className ()
+         "Set `emmet-expand-jsx-className?' as local variable."
+         (setq-local emmet-expand-jsx-className? t)))
      #+END_SRC
 
 **** pug-mode
