@@ -2568,12 +2568,20 @@
    #+BEGIN_SRC emacs-lisp
    (use-package erc
      :hook
-     (erc-mode . turn-off-truncate-lines)
-     (erc-mode . +erc-mode-setup)
+     (erc-mode . +erc-line-setup)
+     (erc-mode . +erc-parens-setup)
+     :custom
+     (erc-prompt-for-password nil)
      :preface
-     (defun +erc-mode-setup ()
-       "Setup for `erc-mode'."
-       (smartparens-strict-mode 0)))
+     (defun +erc-line-setup ()
+       "Line configuration for `erc-mode'."
+       (visual-line-mode 0)
+       (turn-off-truncate-lines))
+
+     (defun +erc-parens-setup ()
+       "Parenthesis configuration for `erc-mode'."
+       (smartparens-strict-mode 0)
+       (smartparens-mode 1)))
    #+END_SRC
 
 ** eshell
