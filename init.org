@@ -950,6 +950,16 @@
        "m" 'avy-pop-mark))
     #+END_SRC
 
+*** cycle-quotes
+    #+BEGIN_SRC emacs-lisp
+    (use-package cycle-quotes
+      :general
+      ("C-x C-'" (defrepeater #'cycle-quotes))
+      :config
+      (dolist (entry '((:rot ("assert" "refute"))))
+        (cl-pushnew entry parrot-rotate-dict :test #'equal)))
+    #+END_SRC
+
 *** goto-addr
     Buttonize URLs and e-mail addresses in the current buffer.
     #+BEGIN_SRC emacs-lisp
@@ -959,18 +969,17 @@
       (prog-mode . goto-address-prog-mode))
     #+END_SRC
 
-*** rotate-text
+*** parrot
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
-    (use-package rotate-text
+    (use-package parrot
       :general
-      ("M-n" 'rotate-text)
-      ("M-p" 'rotate-text-backward)
-      :config
-      (dolist (item '(("true" "false")
-                      ("assert" "refute")
-                      ("yes" "no")))
-        (cl-pushnew item rotate-text-words :test #'equal)))
+      (:prefix
+       +next-prefix
+       "r" `(,(defrepeater #'parrot-rotate-next-word-at-point) :wk "Rotate word"))
+      (:prefix
+       +prev-prefix
+       "r" `(,(defrepeater #'parrot-rotate-prev-word-at-point) :wk "Rotate word")))
     #+END_SRC
 
 *** smartparens
