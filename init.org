@@ -1790,10 +1790,10 @@
 * Development
    Reduce scroll margin.
    #+BEGIN_SRC emacs-lisp
-   (defun +prog-mode-set-scroll-margin ()
-     "Set `scroll-margin' for `prog-mode'."
+   (defun +prog-scroll-margin-setup ()
+     "Setup `scroll-margin' for `prog-mode'."
      (setq-local scroll-margin 3))
-   (add-hook 'prog-mode-hook #'+prog-mode-set-scroll-margin)
+   (add-hook 'prog-mode-hook #'+prog-scroll-margin-setup)
    #+END_SRC
 
 ** Compilation
@@ -2108,7 +2108,7 @@
     (use-package ediff
       :hook
       (ediff-quit . winner-undo)
-      (ediff-keymap-setup . +ediff-mode-define-keys)
+      (ediff-keymap-setup . +ediff-keys-setup)
       :custom
       (ediff-diff-options "-w")
       (ediff-merge-split-window-function #'split-window-horizontally)
@@ -2124,7 +2124,8 @@
           (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
           (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 
-      (defun +ediff-mode-define-keys ()
+      (defun +ediff-keys-setup ()
+        "Setup keybindings for `ediff-mode'."
         (general-define-key
          :keymaps 'ediff-mode-map
          "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
@@ -2369,7 +2370,7 @@
     (custom-set-variables
      '(prettify-symbols-unprettify-at-point t))
 
-    (defun +prog-mode-prettify-symbols ()
+    (defun +prog-prettify-symbols-setup ()
       "Add generic programming symbols."
       (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
                         ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
@@ -2387,7 +2388,7 @@
                         ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
                         ("lambda" . ?λ)))
         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-    (add-hook 'prog-mode-hook #'+prog-mode-prettify-symbols)
+    (add-hook 'prog-mode-hook #'+prog-prettify-symbols-setup)
 
     (global-prettify-symbols-mode 1)
     #+END_SRC
@@ -2415,11 +2416,11 @@
 *** Other file
     Find other file e.g. test/implementation.
     #+BEGIN_SRC emacs-lisp
-    (defun +emacs-lisp-mode-setup-find-file ()
-      "Setup `ff-find-other-file' for `emacs-lisp-mode'."
+    (defun +emacs-lisp-find-file-setup ()
+      "Setup `ff-find-other-file' support for `emacs-lisp-mode'."
       (setq ff-other-file-alist '(("-test\\.el$" (".el"))
                                   ("\\.el$" ("-test.el")))))
-    (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-setup-find-file)
+    (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-find-file-setup)
     #+END_SRC
 
 *** ielm
@@ -2545,14 +2546,14 @@
 
 **** Prettify symbols
      #+BEGIN_SRC emacs-lisp
-     (defun +emacs-lisp-mode-prettify-symbols ()
+     (defun +emacs-lisp-prettify-symbols-setup ()
        "Prettify `emacs-lisp-mode' specific symbols."
        (dolist (symbol '(("defun"    . ?ƒ)
                          ("defmacro" . ?μ)
                          ("defvar"   . ?ν)
                          ("defconst" . "ν_")))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-mode-prettify-symbols)
+     (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-prettify-symbols-setup)
      #+END_SRC
 
 **** Regular expression escapes
@@ -2691,7 +2692,7 @@
      (org-mode . auto-fill-mode)
      (org-mode . eldoc-mode)
      (org-mode . hide-mode-line-mode)
-     (org-mode . +org-mode-set-bar-cursor)
+     (org-mode . +org-cursor-setup)
      (org-babel-after-execute . org-redisplay-inline-images)
      :minor
      ("init\\.org$" . auto-tangle-mode)
@@ -2731,8 +2732,8 @@
       "C-'" 'nil
       "C-," 'nil)
      :preface
-     (defun +org-mode-set-bar-cursor ()
-       "Set bar cursor for `org-mode'."
+     (defun +org-cursor-setup ()
+       "Setup bar cursor for `org-mode'."
        (setq cursor-type 'bar))
      :config
      (org-babel-do-load-languages
@@ -2836,14 +2837,14 @@
 
 **** Task lists
      #+BEGIN_SRC emacs-lisp
-     (defun +org-mode-prettify-task-symbols ()
+     (defun +org-prettify-task-symbols-setup ()
        "Prettify task list symbols."
        (dolist (symbol '(("TODO"     . ?⚑)
                          ("DOING"    . ?⚐)
                          ("CANCELED" . ?✘)
                          ("DONE"     . ?✔)))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'org-mode-hook #'+org-mode-prettify-task-symbols)
+     (add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
      #+END_SRC
 
 **** Breadcrumbs
@@ -3010,15 +3011,15 @@
        :mode
        ("\\.epub$" . nov-mode)
        :hook
-       (nov-mode . +nov-mode-delayed-render)
-       (nov-mode . +nov-mode-hide-fringes)
+       (nov-mode . +nov-delayed-render-setup)
+       (nov-mode . +nov-fringes-setup)
        :custom
        (nov-save-place-file (concat +data-dir "nov-places"))
        :preface
-       (defun +nov-mode-delayed-render ()
+       (defun +nov-delayed-render-setup ()
          (run-with-idle-timer 0.2 nil 'nov-render-document))
 
-       (defun +nov-mode-hide-fringes ()
+       (defun +nov-fringes-setup ()
          "Hide the fringes for `nov-mode'."
          (set-window-fringes (get-buffer-window) 0 0 nil)))
      #+END_SRC
@@ -3027,8 +3028,8 @@
    #+BEGIN_SRC emacs-lisp
    (use-package erlang
      :hook
-     (erlang-mode . +erlang-mode-setup)
-     (erlang-mode . flymake-mode)
+     (erlang-mode . +erlang-eunit-setup)
+     (erlang-mode . +erlang-flymake-setup)
      :general
      (:keymaps
       'erlang-mode-map
@@ -3040,10 +3041,13 @@
       "T" 'erlang-eunit-compile-and-run-module-tests
       "r" 'erlang-shell-display)
      :preface
-     (defun +erlang-mode-setup ()
-       "Setup `erlang-mode'."
-       (require 'erlang-eunit)
-       (require 'erlang-flymake)))
+     (defun +erlang-eunit-setup ()
+       "Setup EUnit support for `erlang-mode'."
+       (require 'erlang-eunit))
+     (defun +erlang-flymake-setup ()
+       "Setup `flymake' support for `erlang-mode'."
+       (require 'erlang-flymake)
+       (flymake-mode 1)))
    #+END_SRC
 
 *** Packages
@@ -3052,10 +3056,10 @@
      (use-package ivy-erlang-complete
        :hook
        (erlang-mode . ivy-erlang-complete-init)
-       (erlang-mode . +erlang-mode-setup-ivy-erlang-complete)
+       (erlang-mode . +erlang-ivy-completion-setup)
        :preface
-       (defun +erlang-mode-setup-ivy-erlang-complete ()
-         "Setup `ivy-erlang-complete' for `erlang-mode'."
+       (defun +erlang-ivy-completion-setup ()
+         "Setup completion via `ivy' for `erlang-mode'."
          (add-hook 'after-save-hook #'ivy-erlang-complete-reparse nil t)))
      #+END_SRC
 
@@ -3072,7 +3076,7 @@
    #+BEGIN_SRC emacs-lisp
    (use-package go-mode
      :hook
-     (go-mode . +go-mode-prettify-symbols)
+     (go-mode . +go-prettify-symbols-setup)
      :custom
      (gofmt-command "goimports")
      :general
@@ -3080,7 +3084,7 @@
       'go-mode-map
       "M-g k" 'godoc-at-point)
      :preface
-     (defun +go-mode-prettify-symbols ()
+     (defun +go-prettify-symbols-setup ()
        (dolist (symbol '(("funct"  . ?ƒ)))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
@@ -3145,21 +3149,21 @@
 *** REPL
     Persist REPL history.
     #+BEGIN_SRC emacs-lisp
-    (defvar +haskell-interactive-mode-global-history nil)
+    (defvar +haskell-interactive-global-history nil)
     (with-eval-after-load 'savehist
-      (cl-pushnew '+haskell-interactive-mode-global-history savehist-additional-variables :test #'equal))
+      (cl-pushnew '+haskell-interactive-global-history savehist-additional-variables :test #'equal))
 
-    (defun +haskell-interactive-mode-load-history ()
+    (defun +haskell-interactive-load-history ()
       "Restore `haskell-interactive-mode' history."
-      (add-hook 'kill-buffer-hook #'+haskell-interactive-mode-save-history nil t)
-      (when +haskell-interactive-mode-global-history
-        (setq haskell-interactive-mode-history +haskell-interactive-mode-global-history)))
+      (add-hook 'kill-buffer-hook #'+haskell-interactive-save-history nil t)
+      (when +haskell-interactive-global-history
+        (setq haskell-interactive-mode-history +haskell-interactive-global-history)))
 
-    (defun +haskell-interactive-mode-save-history ()
+    (defun +haskell-interactive-save-history ()
       "Save `haskell-interactive-mode' history."
-      (setq +haskell-interactive-mode-global-history haskell-interactive-mode-history))
+      (setq +haskell-interactive-global-history haskell-interactive-mode-history))
 
-    (add-hook 'haskell-interactive-mode-hook #'+haskell-interactive-mode-load-history)
+    (add-hook 'haskell-interactive-mode-hook #'+haskell-interactive-load-history)
     #+END_SRC
 
 *** Packages
@@ -3199,8 +3203,8 @@
    #+BEGIN_SRC emacs-lisp
    (use-package js-mode
      :hook
-     (js-mode . +js-mode-setup-find-file)
-     (js-mode . +js-mode-prettify-symbols)
+     (js-mode . +js-find-file-setup)
+     (js-mode . +js-prettify-symbols-setup)
      :general
      (:keymaps
       'js-mode-map
@@ -3211,8 +3215,8 @@
       :prefix +local-leader-key
       "r" 'js-repl)
      :preface
-     (defun +js-mode-setup-find-file ()
-       "Setup `ff-find-other-file' for `js2-mode'."
+     (defun +js-find-file-setup ()
+       "Setup `ff-find-other-file' support for `js-mode'."
        (setq ff-other-file-alist
              '(("\\.\\(test\\|spec\\)\\.js$" ff-test-converter)
                ("\\.js$" ff-test-converter))
@@ -3223,7 +3227,7 @@
                                                     "spec" "spec/*"
                                                     "specs" "specs/*")))))
 
-     (defun +js-mode-prettify-symbols ()
+     (defun +js-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
                          ("!="        . "≈/")
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
@@ -3338,10 +3342,10 @@
    #+BEGIN_SRC emacs-lisp
    (use-package lisp-mode
      :hook
-     (lisp-mode . +lisp-mode-setup-find-file)
+     (lisp-mode . +lisp-find-file-setup)
      :preface
-     (defun +lisp-mode-setup-find-file ()
-       "Setup `ff-find-other-file' for `lisp-mode'."
+     (defun +lisp-find-file-setup ()
+       "Setup `ff-find-other-file' support for `lisp-mode'."
        (setq ff-other-file-alist '(("-test\\.lisp$" (".lisp"))
                                    ("\\.lisp$" ("-test.lisp"))))))
    #+END_SRC
@@ -3378,7 +3382,7 @@
    #+BEGIN_SRC emacs-lisp
    (use-package lua-mode
      :hook
-     (lua-mode . +lua-mode-prettify-symbols)
+     (lua-mode . +lua-prettify-symbols-setup)
      :custom
      (lua-documentation-function 'eww)
      :general
@@ -3396,7 +3400,7 @@
        (lua-start-process)
        (pop-to-buffer lua-process-buffer))
 
-     (defun +lua-mode-prettify-symbols ()
+     (defun +lua-prettify-symbols-setup ()
        (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
                          ("function"  . ?ƒ)
                          ("math.huge" . ?∞)))
@@ -3534,14 +3538,14 @@
    #+BEGIN_SRC emacs-lisp
    (use-package python
      :hook
-     (python-mode . +python-mode-prettify-symbols)
+     (python-mode . +python-prettify-symbols-setup)
      :general
      (:keymaps
       'python-mode-map
       :prefix +local-leader-key
       "r" 'run-python)
      :preface
-     (defun +python-mode-prettify-symbols ()
+     (defun +python-prettify-symbols-setup ()
        (dolist (symbol '(("def"      . ?ƒ)
                          ("sum"      . ?Σ)
                          ("not"      . ?￢)
@@ -3647,11 +3651,11 @@
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
      :hook
-     (ruby-mode . +ruby-mode-prettify-symbols)
+     (ruby-mode . +ruby-prettify-symbols-setup)
      :custom
      (ruby-align-chained-calls t)
      :preface
-     (defun +ruby-mode-prettify-symbols ()
+     (defun +ruby-prettify-symbols-setup ()
        (dolist (symbol '(("def"             . ?ƒ)
                          ("Float::INFINITY" . ?∞)))
          (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
@@ -3826,11 +3830,11 @@
    #+BEGIN_SRC emacs-lisp
    (use-package scala-mode
      :hook
-     (scala-mode . +scala-mode-prettify-symbols)
+     (scala-mode . +scala-prettify-symbols-setup)
      :custom
      (scala-indent:align-parameters t)
      :preface
-     (defun +scala-mode-prettify-symbols ()
+     (defun +scala-prettify-symbols-setup ()
        (setq prettify-symbols-alist scala-prettify-symbols-alist)))
    #+END_SRC
 
@@ -3903,11 +3907,11 @@
    #+BEGIN_SRC emacs-lisp
    (use-package typescript-mode
      :hook
-     (typescript-mode . +typescript-mode-setup-find-file)
-     (typescript-mode . +typescript-mode-prettify-symbols)
+     (typescript-mode . +typescript-find-file-setup)
+     (typescript-mode . +typescript-prettify-symbols-setup)
      :preface
-     (defun +typescript-mode-setup-find-file ()
-       "Setup `ff-find-other-file' for `typescript-mode'."
+     (defun +typescript-find-file-setup ()
+       "Setup `ff-find-other-file' support for `typescript-mode'."
        (setq ff-other-file-alist
              '(("\\.\\(test\\|spec\\)\\.ts$" ff-test-converter)
                ("\\.ts$" ff-test-converter))
@@ -3917,7 +3921,7 @@
                                                     "tests" "tests/*"
                                                     "spec" "spec/*"
                                                     "specs" "specs/*")))))
-     (defun +typescript-mode-prettify-symbols ()
+     (defun +typescript-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
                          ("!="        . "≈/")
                          ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
