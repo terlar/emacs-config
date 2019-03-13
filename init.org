@@ -2578,6 +2578,7 @@
      (erc-mode . +erc-line-setup)
      (erc-mode . +erc-parens-setup)
      :custom
+     (erc-hide-list '("JOIN" "PART" "QUIT"))
      (erc-prompt-for-password nil)
      :preface
      (defun +erc-line-setup ()
