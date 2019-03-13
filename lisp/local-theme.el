@@ -63,6 +63,8 @@
    `(ediff-fine-diff-C                       ((t (:background "#DDEEFF"))))
    `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
    `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
+   ;; erc
+   `(erc-current-nick-face                   ((t (:foreground ,theme-color-error))))
    ;; hl-line-mode
    `(hl-line                                 ((t (:background ,color-1 :foreground nil))))
    ;; org-mode
