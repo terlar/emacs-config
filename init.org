@@ -2564,6 +2564,18 @@
        (emacs-lisp-mode . easy-escape-minor-mode))
      #+END_SRC
 
+** erc
+   #+BEGIN_SRC emacs-lisp
+   (use-package erc
+     :hook
+     (erc-mode . turn-off-truncate-lines)
+     (erc-mode . +erc-mode-setup)
+     :preface
+     (defun +erc-mode-setup ()
+       "Setup for `erc-mode'."
+       (smartparens-strict-mode 0)))
+   #+END_SRC
+
 ** eshell
    #+BEGIN_SRC emacs-lisp
    (use-package eshell
