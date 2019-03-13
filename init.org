@@ -2343,6 +2343,12 @@
                                 "[a-zA-Z_$]+[(:]"))
                   color-identifiers:modes-alist
                   :test #'equal)
+      (cl-pushnew '(rjsx-mode . ("[^.][[:space:]]*"
+                                "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                                (nil font-lock-variable-name-face js2-function-param)
+                                "[a-zA-Z_$]+[(:]"))
+                  color-identifiers:modes-alist
+                  :test #'equal)
       (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
                                        "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
                                        (nil font-lock-variable-name-face)
@@ -3330,7 +3336,12 @@
      :mode
      "\\.jsx$"
      :magic
-     ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode))
+     ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode)
+     :general
+     (:keymaps
+      'rjsx-mode-map
+      :prefix +local-leader-key
+      "R" 'rjsx-rename-tag-at-point))
    #+END_SRC
 
 ** kotlin
