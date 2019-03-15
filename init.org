@@ -2717,6 +2717,7 @@
      (org-confirm-babel-evaluate nil)
      (org-babel-load-languages
       '((emacs-lisp . t)
+        (clojure    . t)
         (js         . t)
         (plantuml   . t)
         (shell      . t)))
@@ -2917,6 +2918,7 @@
        :custom
        (cider-prompt-for-symbol nil)
        (cider-repl-display-help-banner nil)
+       (org-babel-clojure-backend 'cider)
        :general
        (:keymaps
         'clojure-mode-map
