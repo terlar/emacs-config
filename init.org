@@ -961,13 +961,8 @@
 *** cycle-quotes
     #+BEGIN_SRC emacs-lisp
     (use-package cycle-quotes
-      :commands
-      (cycle-quotes)
       :general
-      ("C-x C-'" (defrepeater #'cycle-quotes))
-      :config
-      (dolist (entry '((:rot ("assert" "refute"))))
-        (cl-pushnew entry parrot-rotate-dict :test #'equal)))
+      ("C-x C-'" (defrepeater #'cycle-quotes)))
     #+END_SRC
 
 *** goto-addr
@@ -983,16 +978,16 @@
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
     (use-package parrot
-      :commands
-      (parrot-rotate-next-word-at-point
-       parrot-rotate-prev-word-at-point)
       :general
       (:prefix
        +next-prefix
        "r" `(,(defrepeater #'parrot-rotate-next-word-at-point) :wk "Rotate word"))
       (:prefix
        +prev-prefix
-       "r" `(,(defrepeater #'parrot-rotate-prev-word-at-point) :wk "Rotate word")))
+       "r" `(,(defrepeater #'parrot-rotate-prev-word-at-point) :wk "Rotate word"))
+      :config
+      (dolist (entry '((:rot ("assert" "refute"))))
+        (cl-pushnew entry parrot-rotate-dict :test #'equal)))
     #+END_SRC
 
 *** smartparens
