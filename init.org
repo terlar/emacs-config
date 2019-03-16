@@ -978,6 +978,9 @@
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
     (use-package parrot
+      :commands
+      (parrot-rotate-next-word-at-point
+       parrot-rotate-prev-word-at-point)
       :general
       (:prefix
        +next-prefix
