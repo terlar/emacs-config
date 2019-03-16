@@ -480,6 +480,14 @@
      "C-`" 'window-toggle-side-windows)
     #+END_SRC
 
+**** Navigation
+     #+BEGIN_SRC emacs-lisp
+     (general-define-key
+      :keymaps 'global
+      :prefix +nav-prefix
+      "u" 'browse-url)
+     #+END_SRC
+
 **** Window
      #+BEGIN_SRC emacs-lisp
      (general-define-key
@@ -953,6 +961,8 @@
 *** cycle-quotes
     #+BEGIN_SRC emacs-lisp
     (use-package cycle-quotes
+      :commands
+      (cycle-quotes)
       :general
       ("C-x C-'" (defrepeater #'cycle-quotes))
       :config
@@ -973,6 +983,9 @@
     Cycle through words, symbols and patterns.
     #+BEGIN_SRC emacs-lisp
     (use-package parrot
+      :commands
+      (parrot-rotate-next-word-at-point
+       parrot-rotate-prev-word-at-point)
       :general
       (:prefix
        +next-prefix
