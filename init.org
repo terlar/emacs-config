@@ -1417,7 +1417,10 @@
       :general
       (:prefix
        +search-prefix
-       "G" 'deadgrep))
+       "G" 'deadgrep)
+      (:keymaps
+       'deadgrep-mode-map
+       "C-c '" 'deadgrep-edit-mode))
     #+END_SRC
 
 *** deft
