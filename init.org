@@ -1062,6 +1062,8 @@
     (use-package yasnippet
       :defer 1
       :diminish yas-minor-mode
+      :commands
+      (yas--templates-for-key-at-point)
       :custom
       (yas-also-auto-indent-first-line t)
       (yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
