@@ -2091,6 +2091,9 @@
    #+END_SRC
 
 *** flymake
+    Connect flymake to =next-error-function= and add some navigation bindings. Disable the
+    legacy diagnostic functions as some of them have bugs and cause instability (mainly
+    the Haskell one).
     #+BEGIN_SRC emacs-lisp
     (use-package flymake
       :hook
@@ -4205,3 +4208,6 @@
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Add binding for org-noter
 ** TODO Group editing bindings under some logical prefix
+** TODO Override =M-o= with something useful?
+** TODO Override =M-n= with something useful?
+** TODO Override =M-p= with something useful?
