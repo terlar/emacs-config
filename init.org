@@ -1663,7 +1663,6 @@
      (:keymaps
       'ivy-mode-map
       [remap switch-to-buffer] 'ivy-switch-buffer
-      "C-o"                    'ivy-dispatching-done
       "C-c C-r"                'ivy-resume)
      (:keymaps
       'ivy-mode-map
@@ -1724,7 +1723,6 @@
        (counsel-mode-override-describe-bindings t)
        :general
        ;; Use counsel/swiper for search
-       ("C-r" 'swiper)
        ("C-s" 'swiper)
        ("C-x /" 'counsel-abbrev)
        (:keymaps
