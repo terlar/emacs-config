@@ -1000,6 +1000,13 @@
         (cl-pushnew entry parrot-rotate-dict :test #'equal)))
     #+END_SRC
 
+*** string-inflection-cycle
+    #+BEGIN_SRC emacs-lisp
+    (use-package string-inflection
+      :general
+      ("M-'" 'string-inflection-all-cycle))
+    #+END_SRC
+
 *** smartparens
     Auto-insert matching parenthesis and highlight matching parenthesis.
     #+BEGIN_SRC emacs-lisp
@@ -4199,4 +4206,4 @@
 ** TODO Look into modal editing with =objed=
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Add binding for org-noter
-** TODO Use js2-refactor kill in TypeScript?
+** TODO Group editing bindings under some logical prefix
