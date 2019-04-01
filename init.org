@@ -1750,7 +1750,19 @@
          (progn
            (dolist (table (abbrev--active-tables))
              (when (abbrev-symbol abbrev-name table)
-               (abbrev-insert (abbrev-symbol abbrev-name table)))))))
+               (abbrev-insert (abbrev-symbol abbrev-name table))))))
+
+       (defun counsel-git-expanded-cands ()
+         (let ((root (counsel--git-root)))
+           (when root
+             (mapcar
+              (lambda (f) (expand-file-name f root))
+              (counsel-git-cands)))))
+
+       (ivy-set-sources
+        'counsel-recentf
+        '((original-source)
+          (counsel-git-expanded-cands))))
      #+END_SRC
 
 **** swiper
