@@ -2121,6 +2121,14 @@
        +local-leader-key
        "!" 'flymake-show-diagnostics-buffer)
       (:keymaps
+       'flymake-mode-map
+       :prefix +next-prefix
+       "E" 'flymake-goto-next-error)
+      (:keymaps
+       'flymake-mode-map
+       :prefix +prev-prefix
+       "E" 'flymake-goto-prev-error)
+      (:keymaps
        'flymake-diagnostics-buffer-mode-map
        "n" '+flymake-diagnostics-next-error
        "p" '+flymake-diagnostics-prev-error
