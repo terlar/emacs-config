@@ -1990,7 +1990,9 @@
      :general
      (:prefix
       +local-leader-key
-      "f" 'format-all-buffer))
+      "f" 'format-all-buffer)
+     :init
+     (put 'format-all-mode 'safe-local-variable 'booleanp))
    #+END_SRC
 
 ** Jump to definition
@@ -3327,6 +3329,14 @@
    #+END_SRC
 
 *** Packages
+**** eslintd-fix
+     Auto-fix eslint errors via =eslint_d=.
+     #+BEGIN_SRC emacs-lisp
+     (use-package eslintd-fix
+       :init
+       (put 'eslintd-fix-mode 'safe-local-variable 'booleanp))
+     #+END_SRC
+
 **** indium
      Debugger
      #+BEGIN_SRC emacs-lisp
