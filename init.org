@@ -1995,6 +1995,18 @@
      (put 'format-all-mode 'safe-local-variable 'booleanp))
    #+END_SRC
 
+   Custom formatters.
+   #+BEGIN_SRC emacs-lisp
+   (use-package reformatter
+     :demand t
+     :config
+     (reformatter-define eslint-format
+       :program "eslint_d"
+       :args '("--stdin" "--fix-to-stdout")
+       :lighter 'ELF)
+     (put 'eslint-format-on-save-mode 'safe-local-variable 'booleanp))
+   #+END_SRC
+
 ** Jump to definition
    Jump to definition is really useful and I prefer doing so without TAGS which is pretty
    much the default for most modes. I am using the excellent package =dumb-jump= to jump via
@@ -3329,14 +3341,6 @@
    #+END_SRC
 
 *** Packages
-**** eslintd-fix
-     Auto-fix eslint errors via =eslint_d=.
-     #+BEGIN_SRC emacs-lisp
-     (use-package eslintd-fix
-       :init
-       (put 'eslintd-fix-mode 'safe-local-variable 'booleanp))
-     #+END_SRC
-
 **** indium
      Debugger
      #+BEGIN_SRC emacs-lisp
