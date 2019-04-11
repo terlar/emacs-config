@@ -3304,11 +3304,13 @@
              '(("\\.\\(test\\|spec\\)\\.js$" ff-test-converter)
                ("\\.js$" ff-test-converter))
              ff-search-directories
-             (append '(".") (ff-test-project-dirs '("src"
-                                                    "test" "test/*"
-                                                    "tests" "tests/*"
-                                                    "spec" "spec/*"
-                                                    "specs" "specs/*")))))
+             (append '("." "__tests__")
+                     (ff-test-project-dirs
+                      '("src"
+                        "test" "test/*"
+                        "tests" "tests/*"
+                        "spec" "spec/*"
+                        "specs" "specs/*")))))
 
      (defun +js-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
@@ -4004,11 +4006,14 @@
              '(("\\.\\(test\\|spec\\)\\.ts$" ff-test-converter)
                ("\\.ts$" ff-test-converter))
              ff-search-directories
-             (append '(".") (ff-test-project-dirs '("src"
-                                                    "test" "test/*"
-                                                    "tests" "tests/*"
-                                                    "spec" "spec/*"
-                                                    "specs" "specs/*")))))
+             (append '("." "__tests__")
+                     (ff-test-project-dirs
+                      '("src"
+                        "test" "test/*"
+                        "tests" "tests/*"
+                        "spec" "spec/*"
+                        "specs" "specs/*")))))
+
      (defun +typescript-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
                          ("!="        . "≈/")
