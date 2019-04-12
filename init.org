@@ -1732,7 +1732,7 @@
        (counsel-mode-override-describe-bindings t)
        :general
        ;; Use counsel/swiper for search
-       ("C-s" 'swiper)
+       ("C-s" 'swiper-isearch)
        ("C-x /" 'counsel-abbrev)
        (:keymaps
         'counsel-mode-map
