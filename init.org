@@ -353,6 +353,15 @@
           (add-hook 'after-make-frame-functions #',hook-name))))
    #+END_SRC
 
+*** Display
+    #+BEGIN_SRC emacs-lisp
+    (defun display-ctrl-M-as-newline ()
+      "Display `^M' as newline."
+      (interactive)
+      (setq buffer-display-table (make-display-table))
+      (aset buffer-display-table ?\^M [?\n]))
+    #+END_SRC
+
 *** Editing
     #+BEGIN_SRC emacs-lisp
     (defun turn-on-truncate-lines ()
@@ -1941,6 +1950,8 @@
 *** quickrun
     #+BEGIN_SRC emacs-lisp
     (use-package quickrun
+      :hook
+      (quickrun--mode . display-ctrl-M-as-newline)
       :general
       (:prefix
        +local-leader-key
