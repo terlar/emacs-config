@@ -3745,10 +3745,24 @@
    #+BEGIN_SRC emacs-lisp
    (use-package ruby-mode
      :hook
+     (ruby-mode . +ruby-find-file-setup)
      (ruby-mode . +ruby-prettify-symbols-setup)
      :custom
      (ruby-align-chained-calls t)
      :preface
+     (defun +ruby-find-file-setup ()
+       "Setup `ff-find-other-file' support for `ruby-mode'."
+       (setq ff-test-suffixes '("_test" "_spec")
+             ff-other-file-alist
+             '(("_\\(test\\|spec\\)\\.rb$" ff-test-converter)
+               ("\\.rb$" ff-test-converter))
+             ff-search-directories
+             (append '(".")
+                     (ff-test-project-dirs
+                      '("app" "lib"
+                        "test" "test/*"
+                        "spec" "spec/*")))))
+
      (defun +ruby-prettify-symbols-setup ()
        (dolist (symbol '(("def"             . ?ƒ)
                          ("Float::INFINITY" . ?∞)))
