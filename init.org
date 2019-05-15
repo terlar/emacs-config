@@ -2013,7 +2013,7 @@
      :config
      (reformatter-define eslint-format
        :program "eslint_d"
-       :args '("--stdin" "--fix-to-stdout")
+       :args '("--stdin" "--fix-to-stdout" "--cache")
        :lighter 'ELF)
      (put 'eslint-format-on-save-mode 'safe-local-variable 'booleanp))
    #+END_SRC
