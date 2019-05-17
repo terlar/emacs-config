@@ -4222,7 +4222,7 @@
      :demand t
      :custom
      (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
-     (desktop-restore-eager 5)
+     (desktop-restore-eager 0)
      (desktop-save (daemonp))
      (desktop-load-locked-desktop (daemonp))
      :preface
