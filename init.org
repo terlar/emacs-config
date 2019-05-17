@@ -1993,13 +1993,17 @@
    #+BEGIN_SRC emacs-lisp
    (use-package format-all
      :hook
-     ((elixir-mode
-       go-mode
-       python-mode) . format-all-mode)
+     ((go-mode
+       python-mode
+       elixir-mode
+       js-mode
+       typescript-mode) . format-all-mode)
      :general
      (:prefix
       +local-leader-key
-      "f" 'format-all-buffer))
+      "f" 'format-all-buffer)
+     :init
+     (cl-pushnew '(format-all-mode 0) safe-local-eval-forms :test #'equal))
    #+END_SRC
 
    Custom formatters.
@@ -2499,9 +2503,14 @@
    (custom-set-variables
     '(ad-redefinition-action 'accept)
     '(apropos-do-all t)
-    '(enable-local-eval nil)
+    '(enable-local-eval 'maybe)
     '(enable-local-variables :safe))
    #+END_SRC
+
+   Specific safe local code can be specified via:
+   - =safe-local-variable-values=
+   - =safe-local-eval-forms=
+   - =safe-local-eval-function=
 
 *** Other file
     Find other file e.g. test/implementation.
@@ -3357,7 +3366,8 @@
      #+BEGIN_SRC emacs-lisp
      (use-package flymake-eslint
        :init
-       (put 'flymake-eslint-executable-name 'safe-local-variable 'stringp)
+       (cl-pushnew '(flymake-eslint-enable) safe-local-eval-forms :test #'equal)
+       (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
        (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
      #+END_SRC
 
