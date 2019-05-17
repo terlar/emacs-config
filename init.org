@@ -2296,9 +2296,11 @@
     Project-specific environment variables via =direnv=.
     #+BEGIN_SRC emacs-lisp
     (use-package direnv
-      :hook (after-init . direnv-mode)
+      :demand t
       :custom
-      (direnv-always-show-summary nil))
+      (direnv-always-show-summary nil)
+      :config
+      (direnv-mode 1))
     #+END_SRC
 
 *** editorconfig
@@ -2317,6 +2319,7 @@
     Generic Language Server Protocol integration via =eglot=.
     #+BEGIN_SRC emacs-lisp
     (use-package eglot
+      :defer 3
       :hook
       ((haskell-mode
         java-mode
