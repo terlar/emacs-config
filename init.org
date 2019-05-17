@@ -2052,6 +2052,7 @@
     has nice defaults and also adds configuring completion with a fallback to =dumb-jump=.
     #+BEGIN_SRC emacs-lisp
     (use-package smart-jump
+      :defer 2
       :custom
       (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
       (smart-jump-default-mode-list
@@ -2295,11 +2296,9 @@
     Project-specific environment variables via =direnv=.
     #+BEGIN_SRC emacs-lisp
     (use-package direnv
-      :defer 2
+      :hook (after-init . direnv-mode)
       :custom
-      (direnv-always-show-summary nil)
-      :config
-      (direnv-mode 1))
+      (direnv-always-show-summary nil))
     #+END_SRC
 
 *** editorconfig
