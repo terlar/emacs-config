@@ -3354,6 +3354,14 @@
    #+END_SRC
 
 *** Packages
+**** flymake-eslint
+     #+BEGIN_SRC emacs-lisp
+     (use-package flymake-eslint
+       :init
+       (put 'flymake-eslint-executable-name 'safe-local-variable 'stringp)
+       (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
+     #+END_SRC
+
 **** indium
      Debugger
      #+BEGIN_SRC emacs-lisp
