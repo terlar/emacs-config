@@ -2007,11 +2007,14 @@
    (use-package reformatter
      :demand t
      :config
-     (reformatter-define eslint-format
+     (reformatter-define javascript-format
        :program "eslint_d"
-       :args '("--stdin" "--fix-to-stdout" "--cache")
-       :lighter 'ELF)
-     (put 'eslint-format-on-save-mode 'safe-local-variable 'booleanp))
+       :args '("--stdin" "--fix-to-stdout" "--cache" "--stdin-filename=f.js")
+       :lighter 'JF)
+     (reformatter-define typescript-format
+       :program "eslint_d"
+       :args '("--stdin" "--fix-to-stdout" "--cache" "--stdin-filename=f.ts")
+       :lighter 'TF))
    #+END_SRC
 
 ** Jump to definition
