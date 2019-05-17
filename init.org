@@ -1995,15 +1995,11 @@
      :hook
      ((elixir-mode
        go-mode
-       js-mode
-       python-mode
-       typescript-mode) . format-all-mode)
+       python-mode) . format-all-mode)
      :general
      (:prefix
       +local-leader-key
-      "f" 'format-all-buffer)
-     :init
-     (put 'format-all-mode 'safe-local-variable 'booleanp))
+      "f" 'format-all-buffer))
    #+END_SRC
 
    Custom formatters.
