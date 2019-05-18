@@ -1873,7 +1873,10 @@
       :prefix
       +local-leader-key
       "c" 'recompile
-      "C" 'compile))
+      "C" 'compile)
+     :config
+     (make-variable-buffer-local 'compile-command)
+     (put 'compile-command 'safe-local-variable 'stringp))
    #+END_SRC
 
 *** ANSI escape
