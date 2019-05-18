@@ -449,7 +449,12 @@
   | =C-M-d=         | =down-list=                       | Move forward down one level of parenthesis                                       |
   | =C-M-u=         | =backward-up-list=                | Move backward out of one level of parenthesis                                    |
 
-*** Leader keys
+** Ivy
+  | Keybinding | Function           | Description                                              |
+  |------------+--------------------+----------------------------------------------------------|
+  | =C-M-j=      | =ivy-immediate-done= | Accept input without selecting, (e.g. for new file name) |
+
+** Leader keys
     #+BEGIN_SRC emacs-lisp
     (defvar +leader-key "C-,"
       "The key used for most custom operations.")
@@ -459,7 +464,7 @@
       "The key used for most custom operations in `evil-normal-state'.")
     #+END_SRC
 
-*** Prefixes
+** Prefixes
     #+BEGIN_SRC emacs-lisp
     (defvar +launch-prefix "C-c l"
       "Key prefix for commands related to launching.")
@@ -481,7 +486,7 @@
 
     #+END_SRC
 
-*** Global
+** Global
     #+BEGIN_SRC emacs-lisp
     (general-define-key
      :keymaps 'global
@@ -496,86 +501,86 @@
      "C-`" 'window-toggle-side-windows)
     #+END_SRC
 
-**** Navigation
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :keymaps 'global
-      :prefix +nav-prefix
-      "u" 'browse-url)
-     #+END_SRC
+** Navigation
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :keymaps 'global
+    :prefix +nav-prefix
+    "u" 'browse-url)
+   #+END_SRC
 
-**** Window
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :keymaps 'global
-      :prefix +window-prefix
-      +window-prefix 'window-toggle-side-windows
-      "d" 'toggle-dedicated-window
-      "m" 'maximize-window)
-     #+END_SRC
+** Window
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :keymaps 'global
+    :prefix +window-prefix
+    +window-prefix 'window-toggle-side-windows
+    "d" 'toggle-dedicated-window
+    "m" 'maximize-window)
+   #+END_SRC
 
-**** Next
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix +next-prefix
-      ""  '(:ignore t :wk "next...")
-      "]" `(,(defrepeater #'text-scale-increase)          :wk "Text size")
-      "b" `(,(defrepeater #'next-buffer)                  :wk "Buffer")
-      "c" `(,(defrepeater #'smerge-next)                  :wk "Conflict")
-      "d" `(,(defrepeater #'diff-hl-next-hunk)            :wk "Diff Hunk")
-      "e" `(,(defrepeater #'next-error)                   :wk "Error")
-      "s" `(,(defrepeater #'flyspell-goto-next-error)     :wk "Spell error")
-      "t" `(,(defrepeater #'hl-todo-next)                 :wk "Todo"))
-     #+END_SRC
+** Next
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :prefix +next-prefix
+    ""  '(:ignore t :wk "next...")
+    "]" `(,(defrepeater #'text-scale-increase)          :wk "Text size")
+    "b" `(,(defrepeater #'next-buffer)                  :wk "Buffer")
+    "c" `(,(defrepeater #'smerge-next)                  :wk "Conflict")
+    "d" `(,(defrepeater #'diff-hl-next-hunk)            :wk "Diff Hunk")
+    "e" `(,(defrepeater #'next-error)                   :wk "Error")
+    "s" `(,(defrepeater #'flyspell-goto-next-error)     :wk "Spell error")
+    "t" `(,(defrepeater #'hl-todo-next)                 :wk "Todo"))
+   #+END_SRC
 
-**** Previous
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix +prev-prefix
-      ""  '(:ignore t :wk "previous...")
-      "[" `(,(defrepeater #'text-scale-decrease)          :wk "Text size")
-      "b" `(,(defrepeater #'previous-buffer)              :wk "Buffer")
-      "c" `(,(defrepeater #'smerge-prev)                  :wk "Conflict")
-      "d" `(,(defrepeater #'diff-hl-previous-hunk)        :wk "Diff Hunk")
-      "e" `(,(defrepeater #'previous-error)               :wk "Error")
-      "t" `(,(defrepeater #'hl-todo-previous)             :wk "Todo"))
-     #+END_SRC
+** Previous
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :prefix +prev-prefix
+    ""  '(:ignore t :wk "previous...")
+    "[" `(,(defrepeater #'text-scale-decrease)          :wk "Text size")
+    "b" `(,(defrepeater #'previous-buffer)              :wk "Buffer")
+    "c" `(,(defrepeater #'smerge-prev)                  :wk "Conflict")
+    "d" `(,(defrepeater #'diff-hl-previous-hunk)        :wk "Diff Hunk")
+    "e" `(,(defrepeater #'previous-error)               :wk "Error")
+    "t" `(,(defrepeater #'hl-todo-previous)             :wk "Todo"))
+   #+END_SRC
 
-**** Toggle
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix +toggle-prefix
-      "c" '(highlight-changes-mode           :wk "Changes")
-      "d" '(toggle-debug-on-error            :wk "Debug on error")
-      "f" '(hs-minor-mode                    :wk "Code folding")
-      "h" '(hl-line-mode                     :wk "Line highlight")
-      "l" '(global-display-line-numbers-mode :wk "Line numbers")
-      "s" '(subword-mode                     :wk "Sub-word")
-      "t" '(toggle-truncate-lines            :wk "Truncate lines")
-      "v" '(variable-pitch-mode              :wk "Variable-pitch")
-      "w" '(whitespace-mode                  :wk "White-space")
-      "x" '(flymake-mode                     :wk "Syntax checker"))
-     #+END_SRC
+** Toggle
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :prefix +toggle-prefix
+    "c" '(highlight-changes-mode           :wk "Changes")
+    "d" '(toggle-debug-on-error            :wk "Debug on error")
+    "f" '(hs-minor-mode                    :wk "Code folding")
+    "h" '(hl-line-mode                     :wk "Line highlight")
+    "l" '(global-display-line-numbers-mode :wk "Line numbers")
+    "s" '(subword-mode                     :wk "Sub-word")
+    "t" '(toggle-truncate-lines            :wk "Truncate lines")
+    "v" '(variable-pitch-mode              :wk "Variable-pitch")
+    "w" '(whitespace-mode                  :wk "White-space")
+    "x" '(flymake-mode                     :wk "Syntax checker"))
+   #+END_SRC
 
-**** Launch
-     #+BEGIN_SRC emacs-lisp
-     (general-define-key
-      :prefix +launch-prefix
-      "m" 'gnus
-      "p" 'list-processes
-      "x" 'regexp-builder
-      "w" 'eww)
-     #+END_SRC
+** Launch
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key
+    :prefix +launch-prefix
+    "m" 'gnus
+    "p" 'list-processes
+    "x" 'regexp-builder
+    "w" 'eww)
+   #+END_SRC
 
-*** Help
-    #+BEGIN_SRC emacs-lisp
-    (general-define-key
-     :keymaps 'help-map
-     "B" 'find-library
-     "u" 'describe-face
-     "U" 'list-faces-display
-     "'" 'describe-char)
-    #+END_SRC
+* Help
+  #+BEGIN_SRC emacs-lisp
+  (general-define-key
+   :keymaps 'help-map
+   "B" 'find-library
+   "u" 'describe-face
+   "U" 'list-faces-display
+   "'" 'describe-char)
+  #+END_SRC
 
 * Appearance
 ** Typography
@@ -1208,7 +1213,7 @@
     #+END_SRC
 
 *** History
-    Persist minibuffer history
+    Track minibuffer history
     #+BEGIN_SRC emacs-lisp
     (setq history-delete-duplicates t
           history-length 500)
@@ -4291,6 +4296,13 @@
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Add binding for org-noter
 ** TODO Group editing bindings under some logical prefix
+** TODO Improve window keys
+** TODO Improve find char keys
 ** TODO Override =M-o= with something useful?
 ** TODO Override =M-n= with something useful?
 ** TODO Override =M-p= with something useful?
+** TODO Easier way to toggle =subword-mode=
+** TODO Extract history persistance code (persistory)
+   - comint
+   - ielm (via comint and savehist)
+   - haskell-interactive (via savehist)
