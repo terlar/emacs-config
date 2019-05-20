@@ -2019,14 +2019,15 @@
    (use-package reformatter
      :demand t
      :config
+     (reformatter-define prettier-typescript-format
+       :program "prettier"
+       :args '("--stdin" "--stdin-filepath=f.ts"))
      (reformatter-define javascript-format
        :program "eslint_d"
-       :args '("--stdin" "--fix-to-stdout" "--cache" "--stdin-filename=f.js")
-       :lighter 'JF)
+       :args '("--stdin" "--stdin-filename=f.js" "--fix-to-stdout"))
      (reformatter-define typescript-format
        :program "eslint_d"
-       :args '("--stdin" "--fix-to-stdout" "--cache" "--stdin-filename=f.ts")
-       :lighter 'TF))
+       :args '("--stdin"  "--stdin-filename=f.ts" "--fix-to-stdout")))
    #+END_SRC
 
 ** Jump to definition
