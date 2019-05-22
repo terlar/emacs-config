@@ -494,6 +494,7 @@
      "C-z" 'zap-up-to-char
      ;; Files
      "C-c o" 'ff-find-other-file
+     "C-c O" 'ff-test-find-other-file
      ;; Terminal
      "C-!" 'eshell
      "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
@@ -1481,7 +1482,11 @@
 
 *** find-file
     #+BEGIN_SRC emacs-lisp
-    (use-package find-file)
+    (use-package find-file
+      :init
+      (setq-default ff-quiet-mode t)
+      (put 'ff-search-directories 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
+
     (use-package ff-test
       :demand t)
     #+END_SRC
@@ -2523,16 +2528,6 @@
    - =safe-local-eval-forms=
    - =safe-local-eval-function=
 
-*** Other file
-    Find other file e.g. test/implementation.
-    #+BEGIN_SRC emacs-lisp
-    (defun +emacs-lisp-find-file-setup ()
-      "Setup `ff-find-other-file' support for `emacs-lisp-mode'."
-      (setq ff-other-file-alist '(("-test\\.el$" (".el"))
-                                  ("\\.el$" ("-test.el")))))
-    (add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-find-file-setup)
-    #+END_SRC
-
 *** ielm
     Persist ielm history.
     #+BEGIN_SRC emacs-lisp
@@ -3329,18 +3324,10 @@
       "r" 'js-repl)
      :preface
      (defun +js-find-file-setup ()
-       "Setup `ff-find-other-file' support for `js-mode'."
-       (setq ff-other-file-alist
-             '(("\\.\\(test\\|spec\\)\\.js$" ff-test-converter)
-               ("\\.js$" ff-test-converter))
-             ff-search-directories
-             (append '("." "__tests__")
-                     (ff-test-project-dirs
-                      '("src"
-                        "test" "test/*"
-                        "tests" "tests/*"
-                        "spec" "spec/*"
-                        "specs" "specs/*")))))
+       "Setup `ff-test-find-other-file' support for `js-mode'."
+       (setq ff-test-search-implementation-project-directories '("src")
+             ff-test-search-test-directories '("." "__tests__")
+             ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
      (defun +js-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
@@ -3468,17 +3455,6 @@
    #+END_SRC
 
 ** lisp
-   #+BEGIN_SRC emacs-lisp
-   (use-package lisp-mode
-     :hook
-     (lisp-mode . +lisp-find-file-setup)
-     :preface
-     (defun +lisp-find-file-setup ()
-       "Setup `ff-find-other-file' support for `lisp-mode'."
-       (setq ff-other-file-alist '(("-test\\.lisp$" (".lisp"))
-                                   ("\\.lisp$" ("-test.lisp"))))))
-   #+END_SRC
-
 *** Packages
 **** slime
      #+BEGIN_SRC emacs-lisp
@@ -3502,7 +3478,7 @@
        (defun slime-load-file-and-other-file ()
          "Load buffer file and then load other (test) file."
          (interactive)
-         (dolist (file `(,buffer-file-name ,(ff-other-file-name)))
+         (dolist (file `(,buffer-file-name ,(ff-test-other-file-name)))
            (when (and file (file-exists-p file))
              (slime-load-file file)))))
      #+END_SRC
@@ -3786,17 +3762,10 @@
      (ruby-align-chained-calls t)
      :preface
      (defun +ruby-find-file-setup ()
-       "Setup `ff-find-other-file' support for `ruby-mode'."
+       "Setup `ff-test-find-other-file' support for `ruby-mode'."
        (setq ff-test-suffixes '("_test" "_spec")
-             ff-other-file-alist
-             '(("_\\(test\\|spec\\)\\.rb$" ff-test-converter)
-               ("\\.rb$" ff-test-converter))
-             ff-search-directories
-             (append '(".")
-                     (ff-test-project-dirs
-                      '("app" "lib"
-                        "test" "test/*"
-                        "spec" "spec/*")))))
+             ff-test-search-implementation-project-directories '("app" "lib")
+             ff-test-search-test-project-directories '("test" "spec")))
 
      (defun +ruby-prettify-symbols-setup ()
        (dolist (symbol '(("def"             . ?ƒ)
@@ -4054,18 +4023,10 @@
      (typescript-mode . +typescript-prettify-symbols-setup)
      :preface
      (defun +typescript-find-file-setup ()
-       "Setup `ff-find-other-file' support for `typescript-mode'."
-       (setq ff-other-file-alist
-             '(("\\.\\(test\\|spec\\)\\.ts$" ff-test-converter)
-               ("\\.ts$" ff-test-converter))
-             ff-search-directories
-             (append '("." "__tests__")
-                     (ff-test-project-dirs
-                      '("src"
-                        "test" "test/*"
-                        "tests" "tests/*"
-                        "spec" "spec/*"
-                        "specs" "specs/*")))))
+       "Setup `ff-test-find-other-file' support for `typescript-mode'."
+       (setq ff-test-search-implementation-project-directories '("src")
+             ff-test-search-test-directories '("." "__tests__")
+             ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
      (defun +typescript-prettify-symbols-setup ()
        (dolist (symbol '(("=="        . ?≈)
