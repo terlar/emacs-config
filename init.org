@@ -4271,3 +4271,7 @@
    - comint
    - ielm (via comint and savehist)
    - haskell-interactive (via savehist)
+** TODO Enable auto-revert/save again?
+** TODO Wrap lines by default?
+     When writing code on a single line, to later let it be expanded by the formatter.
+** TODO Better key to toggle =subword-mode=
