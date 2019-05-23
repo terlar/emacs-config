@@ -185,7 +185,7 @@
    `(shm-current-face                        ((t (:inherit hl-line))))
    `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
    ;; smartparens
-   `(sp-show-pair-match-face                 ((t (:inherit show-paren-match))))
+   `(sp-show-pair-match-face                 ((t (:inherit show-paren-match :box nil))))
    `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
    ;; spray
    `(spray-base-face                         ((t (:foreground ,color-10 :family "Noto Serif" :weight normal :underline nil))))
