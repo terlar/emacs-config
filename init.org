@@ -3397,7 +3397,7 @@
        (:keymaps
         'js2-mode-map
         :prefix +local-leader-key
-        "t" 'jest-function
+        "t" 'jest-file
         "T" 'jest-file
         "s" 'jest))
      #+END_SRC
@@ -4065,7 +4065,7 @@
        (:keymaps
         'typescript-mode-map
         :prefix +local-leader-key
-        "t" 'jest-function
+        "t" 'jest-file
         "T" 'jest-file
         "s" 'jest))
      #+END_SRC
