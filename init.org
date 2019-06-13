@@ -497,7 +497,7 @@
      "C-c O" 'ff-test-find-other-file
      ;; Terminal
      "C-!" 'eshell
-     "C-M-!" '(lambda () (interactive) (ansi-term "fish"))
+     "C-M-!" '(lambda () (interactive) (term "fish"))
      ;; Window
      "C-`" 'window-toggle-side-windows)
     #+END_SRC
@@ -1560,7 +1560,10 @@
       'projectile-mode-map
       [remap eshell] (general-predicate-dispatch #'eshell
                        :docstring "Creat an interactive Eshell buffer (project aware)"
-                       (projectile-project-p) #'projectile-run-eshell))
+                       (projectile-project-p) #'projectile-run-eshell)
+      [remap term] (general-predicate-dispatch #'term
+                     :docstring "Create an interactive terminal buffer (project aware)"
+                     (projectile-project-p) #'projectile-run-term))
      (:keymaps
       'projectile-mode-map
       :prefix
@@ -2704,6 +2707,10 @@
      (eshell-hist-ignoredups t)
      (eshell-error-if-no-glob t)
      (eshell-destroy-buffer-when-process-dies t)
+     :general
+     (:prefix
+      +launch-prefix
+      "t" 'eshell)
      :preface
      (defvar eshell-visual-commands)
      (defun +eshell-define-keys ()
@@ -4012,7 +4019,13 @@
     #+BEGIN_SRC emacs-lisp
     (use-package term
       :hook
-      (ansi-term . turn-off-truncate-lines))
+      (term . turn-off-truncate-lines)
+      :custom
+      (explicit-shell-file-name "fish")
+      :general
+      (:prefix
+       +launch-prefix
+       "T" 'term))
     #+END_SRC
 
 ** typescript
