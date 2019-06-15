@@ -83,7 +83,6 @@
    `(org-checkbox                            ((t (:inherit fixed-pitch))))
    `(org-code                                ((t (:inherit org-verbatim))))
    `(org-hide                                ((t (:inherit fixed-pitch))))
-   `(org-indent                              ((t (:inherit org-hide))))
    `(org-link                                ((t (:foreground ,color-12))))
    `(org-verbatim                            ((t (:background ,color-3))))
 
