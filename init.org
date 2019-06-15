@@ -3578,8 +3578,6 @@
 ** nix
    #+BEGIN_SRC emacs-lisp
    (use-package nix-mode
-     :custom
-     (nix-indent-function #'nix-indent-line)
      :general
      (:keymaps
       'nix-mode-map
