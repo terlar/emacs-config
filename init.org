@@ -426,6 +426,7 @@
 
   | Keybinding    | Function                        | Description                                                                      |
   |---------------+---------------------------------+----------------------------------------------------------------------------------|
+  | =C-o=           | =open-line=                       | Open line below                                                               |
   | =M-SPC=         | =just-one-space=                  | Ensures just one space                                                           |
   | =M-\=           | =delete-horizontal-space=         | Delete all space                                                                 |
   | =M-^=           | =delete-indentation=              | Join current line with previous line                                             |
@@ -1729,6 +1730,8 @@
 *** Packages
 **** counsel
      Replacements for common Emacs commands. =smex= is used by =counsel-M-x= for sorting.
+     Tips:
+     - =counsel-rg= can be used with =C-u= to search in a specific directory.
      #+BEGIN_SRC emacs-lisp
      (use-package smex
        :custom
