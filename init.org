@@ -2115,7 +2115,7 @@
       :custom
       (rtog/goto-buffer-fun 'pop-to-buffer)
       (rtog/mode-repl-alist '((emacs-lisp-mode . ielm)
-                              (clojure-mode . cider-switch-to-repl-buffer)
+                              (clojure-mode . clojure-repl)
                               (elm-mode . elm-repl-load)
                               (go-mode . gorepl-run)
                               (js-mode . js-repl)
@@ -2128,7 +2128,22 @@
       (:keymaps
        'prog-mode-map
        :prefix +local-leader-key
-       "r" 'rtog/toggle-repl))
+       "r" 'rtog/toggle-repl)
+      :preface
+      (defun clojure-repl ()
+        "Open a Clojure REPL."
+        (interactive)
+        (pop-to-buffer (cider-current-repl nil 'ensure)))
+
+      (defun js-repl ()
+        "Open a JavaScript REPL."
+        (interactive)
+        (if (indium-client-process-live-p) (indium-switch-to-repl-buffer) (nodejs-repl)))
+
+      (defun lua-repl ()
+        "Open a Lua REPL."
+        (interactive)
+        (pop-to-buffer (process-buffer (lua-get-create-process)))))
     #+END_SRC
 
 *** Persistent history in comint
@@ -3327,14 +3342,7 @@
                          ("const"     . "ν_")
                          ("undefined" . ?∅)
                          ("Infinity"  . ?∞)))
-         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-
-     (defun js-repl ()
-       "Open a JavaScript REPL."
-       (interactive)
-       (if (indium-client-process-live-p)
-           (indium-switch-to-repl-buffer)
-         (nodejs-repl))))
+         (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
    #+END_SRC
 
 *** Packages
@@ -3472,12 +3480,6 @@
       'lua-mode-map
       "M-g k" 'lua-search-documentation)
      :preface
-     (defun lua-repl ()
-       "Open a Lua REPL."
-       (interactive)
-       (lua-start-process)
-       (pop-to-buffer lua-process-buffer))
-
      (defun +lua-prettify-symbols-setup ()
        (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
                          ("function"  . ?ƒ)
