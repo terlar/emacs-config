@@ -1281,11 +1281,7 @@
       :diminish eldoc-posframe-mode
       :custom
       (eldoc-posframe-left-fringe 0)
-      (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
-      :init
-      (eval-after-make-graphic-frame
-       "setup-eldoc-posframe"
-       (global-eldoc-posframe-mode 1)))
+      (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner))
     #+END_SRC
 
 *** rainbow-mode
