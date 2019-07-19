@@ -2110,12 +2110,26 @@
     #+END_SRC
 
 ** REPL
-*** eval-in-repl
+*** repl-toggle
     #+BEGIN_SRC emacs-lisp
-    (use-package eval-in-repl
+    (use-package repl-toggle
       :custom
-      (eir-jump-after-eval t)
-      (eir-repl-placement 'below))
+      (rtog/goto-buffer-fun 'pop-to-buffer)
+      (rtog/mode-repl-alist '((emacs-lisp-mode . ielm)
+                              (clojure-mode . cider-switch-to-repl-buffer)
+                              (elm-mode . elm-repl-load)
+                              (go-mode . gorepl-run)
+                              (js-mode . js-repl)
+                              (lisp-mode . slime)
+                              (lua-mode . lua-repl)
+                              (nix-mode . nix-repl)
+                              (racket-mode . racket-repl)
+                              (typescript-mode . run-ts)))
+      :general
+      (:keymaps
+       'prog-mode-map
+       :prefix +local-leader-key
+       "r" 'rtog/toggle-repl))
     #+END_SRC
 
 *** Persistent history in comint
@@ -2516,7 +2530,6 @@
     :prefix +local-leader-key
     "c" 'emacs-lisp-byte-compile
     "C" 'emacs-lisp-byte-compile-and-load
-    "r" 'ielm
     "t" 'ert)
 
    (custom-set-variables
@@ -3018,27 +3031,12 @@
        (org-babel-clojure-backend 'cider)
        :general
        (:keymaps
-        'clojure-mode-map
-        :prefix +local-leader-key
-        "r" 'clojure-repl)
-       (:keymaps
         'cider-mode-map
         :prefix +local-leader-key
         "c" 'cider-refresh
         "t" 'cider-test-run-test
         "T" 'cider-test-run-ns-tests
-        "s" 'cider-test-run-project-tests)
-       :commands
-       (cider-switch-to-repl-buffer
-        cider-jack-in)
-       :preface
-       (defun clojure-repl ()
-         "Open a Clojure REPL."
-         (interactive)
-         (condition-case nil
-             (call-interactively 'cider-switch-to-repl-buffer)
-           (user-error
-            (call-interactively 'cider-jack-in)))))
+        "s" 'cider-test-run-project-tests))
      #+END_SRC
 
 ** crystal
@@ -3114,7 +3112,6 @@
      (:keymaps
       'elm-mode-map
       :prefix +local-leader-key
-      "r" 'elm-repl-load
       "t" 'elm-test-project))
    #+END_SRC
 
@@ -3216,12 +3213,7 @@
      #+BEGIN_SRC emacs-lisp
      (use-package gorepl-mode
        :hook
-       (go-mode . gorepl-mode)
-       :general
-       (:keymaps
-        'gorepl-mode-map
-        :prefix +local-leader-key
-        "r" 'gorepl-run))
+       (go-mode . gorepl-mode))
      #+END_SRC
 
 ** groovy
@@ -3320,15 +3312,6 @@
      :hook
      (js-mode . +js-find-file-setup)
      (js-mode . +js-prettify-symbols-setup)
-     :general
-     (:keymaps
-      'js-mode-map
-      "M-." 'nil
-      "C-x C-e" 'js-repl-eval)
-     (:keymaps
-      'js-mode-map
-      :prefix +local-leader-key
-      "r" 'js-repl)
      :preface
      (defun +js-find-file-setup ()
        "Setup `ff-test-find-other-file' support for `js-mode'."
@@ -3352,18 +3335,7 @@
        (interactive)
        (if (indium-client-process-live-p)
            (indium-switch-to-repl-buffer)
-         (nodejs-repl-switch-to-repl)))
-
-     (defun js-repl-eval ()
-       "Evaluate code in JavaScript REPL"
-       (interactive)
-       (if (indium-client-process-live-p)
-           (if (use-region-p)
-               (indium-eval-region (region-beginning) (region-end))
-             (indium-eval-last-node ""))
-         (if (use-region-p)
-             (nodejs-repl-send-region (region-beginning) (region-end))
-           (nodejs-repl-send-line)))))
+         (nodejs-repl))))
    #+END_SRC
 
 *** Packages
@@ -3479,7 +3451,6 @@
         'slime-mode-map
         :prefix +local-leader-key
         "o" 'slime
-        "r" 'slime-repl
         "t" 'slime-load-file-and-other-file)
        :preface
        (defun slime-load-file-and-other-file ()
@@ -3501,10 +3472,6 @@
      (:keymaps
       'lua-mode-map
       "M-g k" 'lua-search-documentation)
-     (:keymaps
-      'lua-mode-map
-      :prefix +local-leader-key
-      "r" 'lua-repl)
      :preface
      (defun lua-repl ()
        "Open a Lua REPL."
@@ -3577,12 +3544,7 @@
 
 ** nix
    #+BEGIN_SRC emacs-lisp
-   (use-package nix-mode
-     :general
-     (:keymaps
-      'nix-mode-map
-      :prefix +local-leader-key
-      "r" 'nix-repl))
+   (use-package nix-mode)
    #+END_SRC
 
 *** Packages
@@ -3709,7 +3671,6 @@
      (:keymaps
       'racket-mode-map
       :prefix +local-leader-key
-      "r" 'racket-repl
       "t" 'racket-test))
    #+END_SRC
 
@@ -4057,15 +4018,7 @@
      #+BEGIN_SRC emacs-lisp
      (use-package ts-comint
        :custom
-       (ts-comint-program-command "ts-node")
-       :general
-       (:keymaps
-        'typescript-mode-map
-        "C-x C-e" 'ts-send-last-sexp)
-       (:keymaps
-        'typescript-mode-map
-        :prefix +local-leader-key
-        "r" 'run-ts))
+       (ts-comint-program-command "ts-node"))
      #+END_SRC
 
 **** jest
