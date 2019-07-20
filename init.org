@@ -2004,38 +2004,45 @@
    #+END_SRC
 
 ** Formatting
-   Manually or auto-format buffers with various tools.
-   #+BEGIN_SRC emacs-lisp
-   (use-package format-all
-     :hook
-     ((go-mode
-       python-mode
-       elixir-mode
-       js-mode
-       typescript-mode) . format-all-mode)
-     :general
-     (:prefix
-      +local-leader-key
-      "f" 'format-all-buffer)
-     :init
-     (cl-pushnew '(format-all-mode 0) safe-local-eval-forms :test #'equal))
-   #+END_SRC
+*** aggressive-indent
+    Automatic indentation as you type. It is a bit more robust than =electric-indent-mode=,
+    but perhaps I should look into using that for those modes that are not compatible with
+    =aggressive-indent-mode=.
+    #+BEGIN_SRC emacs-lisp
+    (use-package aggressive-indent
+      :diminish aggressive-indent-mode
+      :hook
+      ((emacs-lisp-mode
+        lisp-mode
+        nix-mode) . aggressive-indent-mode))
+    #+END_SRC
 
-   Custom formatters.
-   #+BEGIN_SRC emacs-lisp
-   (use-package reformatter
-     :demand t
-     :config
-     (reformatter-define prettier-typescript-format
-       :program "prettier"
-       :args '("--stdin" "--stdin-filepath=f.ts"))
-     (reformatter-define javascript-format
-       :program "eslint_d"
-       :args '("--stdin" "--stdin-filename=f.js" "--fix-to-stdout"))
-     (reformatter-define typescript-format
-       :program "eslint_d"
-       :args '("--stdin"  "--stdin-filename=f.ts" "--fix-to-stdout")))
-   #+END_SRC
+*** apheleia
+    Reformat buffer without moving point.
+    #+BEGIN_SRC emacs-lisp
+    (use-package apheleia
+      :defer 2
+      :config
+      (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal)
+      (apheleia-global-mode 1))
+    #+END_SRC
+
+*** reformatter
+    Custom formatters.
+    #+BEGIN_SRC emacs-lisp
+    (use-package reformatter
+      :demand t
+      :config
+      (reformatter-define prettier-typescript-format
+        :program "prettier"
+        :args '("--stdin" "--stdin-filepath=f.ts"))
+      (reformatter-define javascript-format
+        :program "eslint_d"
+        :args '("--stdin" "--stdin-filename=f.js" "--fix-to-stdout"))
+      (reformatter-define typescript-format
+        :program "eslint_d"
+        :args '("--stdin"  "--stdin-filename=f.ts" "--fix-to-stdout")))
+    #+END_SRC
 
 ** Jump to definition
    Jump to definition is really useful and I prefer doing so without TAGS which is pretty
@@ -2314,29 +2321,6 @@
     #+END_SRC
 
 ** Packages
-*** aggressive-indent
-    Automatic indentation as you type. It is a bit more robust than =electric-indent-mode=,
-    but perhaps I should look into using that for those modes that are not compatible with
-    =aggressive-indent-mode=.
-    #+BEGIN_SRC emacs-lisp
-    (use-package aggressive-indent
-      :defer 2
-      :diminish aggressive-indent-mode
-      :config
-      ;; Disabled modes
-      (dolist (mode '(diff-auto-refine-mode
-                      dockerfile-mode
-                      elm-mode
-                      haskell-mode
-                      makefile-mode
-                      pug-mode
-                      scala-mode
-                      slim-mode
-                      yaml-mode))
-        (cl-pushnew mode aggressive-indent-excluded-modes :test #'equal))
-      (global-aggressive-indent-mode 1))
-    #+END_SRC
-
 *** direnv
     Project-specific environment variables via =direnv=.
     #+BEGIN_SRC emacs-lisp
