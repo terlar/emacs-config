@@ -1881,7 +1881,7 @@
       +local-leader-key
       "c" 'recompile
       "C" 'compile)
-     :config
+     :init
      (make-variable-buffer-local 'compile-command)
      (put 'compile-command 'safe-local-variable 'stringp))
    #+END_SRC
@@ -2022,8 +2022,9 @@
     #+BEGIN_SRC emacs-lisp
     (use-package apheleia
       :defer 2
-      :config
+      :init
       (put 'apheleia-formatter 'safe-local-variable 'symbolp)
+      :config
       (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal)
       (apheleia-global-mode 1))
     #+END_SRC
@@ -3247,7 +3248,7 @@
       :prefix +local-leader-key
       "r" 'haskell-interactive-switch
       "R" 'haskell-session-change-target)
-     :config
+     :init
      ;; Allow configuring project local cabal repl commands.
      (put 'haskell-process-args-cabal-repl 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
    #+END_SRC
