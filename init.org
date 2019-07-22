@@ -302,7 +302,7 @@
       (which-key-sort-uppercase-first nil)
       (which-key-add-column-padding 1)
       (which-key-min-display-lines 5)
-      (which-key-idle-delay 2)
+      (which-key-idle-delay 1)
       :config
       (dolist (item '((("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil))
                       (("\\`\\?\\?\\'" . nil) . ("λ" . nil))
