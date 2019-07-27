@@ -168,6 +168,8 @@
    `(org-tree-slide-header-overlay-face      ((t (:inherit header-line :background nil))))
    ;; perspeen
    `(perspeen-selected-face                  ((t (:bold t))))
+   ;; popup
+   `(popup-tip-face                          ((t (:background ,color-5 :foreground ,color-9))))
    ;; rainbow-delimiters
    `(rainbow-delimiters-unmatched-face       ((t (:foreground ,theme-color-error :bold t))))
    ;; readable

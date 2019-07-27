@@ -2237,6 +2237,15 @@
       (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
     #+END_SRC
 
+**** Diagnostics at point
+     #+BEGIN_SRC emacs-lisp
+     (use-package flymake-diagnostic-at-point
+       :hook
+       (flymake-mode-hook . flymake-diagnostic-at-point-mode)
+       :custom
+       (flymake-diagnostic-at-point-error-prefix nil))
+     #+END_SRC
+
 ** Version control
    #+BEGIN_SRC emacs-lisp
    (setq vc-follow-symlinks t
@@ -2816,7 +2825,6 @@
    (use-package org-plus-contrib
      :hook
      (org-mode . auto-fill-mode)
-     (org-mode . eldoc-mode)
      (org-mode . hide-mode-line-mode)
      (org-mode . +org-cursor-setup)
      (org-babel-after-execute . org-redisplay-inline-images)
