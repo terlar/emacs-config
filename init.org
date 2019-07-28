@@ -3036,6 +3036,7 @@
        :custom
        (cider-prompt-for-symbol nil)
        (cider-repl-display-help-banner nil)
+       (cider-repl-history-file (concat +data-dir "cider-history"))
        (org-babel-clojure-backend 'cider)
        :general
        (:keymaps
