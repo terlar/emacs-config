@@ -1,6 +1,6 @@
 let
   ruby = ruby_2_5;
-  rubygems = (pkgs.rubygems.override { ruby = ruby; });
+  rubygems = (rubygems.override { ruby = ruby; });
 in mkShell {
   buildInputs = [
     ruby

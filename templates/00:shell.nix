@@ -1,4 +1,6 @@
-with (import <nixpkgs> {});
+{ nixpkgs ? import <nixpkgs> {} }:
+
+with nixpkgs;
 
 mkShell {
   buildInputs = [$0];
