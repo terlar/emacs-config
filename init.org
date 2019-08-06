@@ -3415,6 +3415,18 @@
      (use-package nodejs-repl)
      #+END_SRC
 
+** json
+*** Packages
+**** json-navigator
+     #+BEGIN_SRC emacs-lisp
+     (use-package json-navigator
+       :general
+       (:keymaps
+        'json-mode-map
+        :prefix +local-leader-key
+        "n" 'json-navigator-navigate-region))
+     #+END_SRC
+
 ** jsx
    React JSX support.
    #+BEGIN_SRC emacs-lisp
@@ -3553,7 +3565,6 @@
         :prefix +local-leader-key
         "u" 'nix-update-fetch))
      #+END_SRC
-
 
 ** nxml
    #+BEGIN_SRC emacs-lisp
