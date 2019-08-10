@@ -2242,8 +2242,14 @@
      (use-package flymake-diagnostic-at-point
        :hook
        (flymake-mode . flymake-diagnostic-at-point-mode)
+       :preface
+       (defun flymake-diagnostic-at-point-quick-peek (text)
+         "Display the flymake diagnostic TEXT with `quick-peek'`."
+         (quick-peek-show (concat flymake-diagnostic-at-point-error-prefix text)))
        :custom
-       (flymake-diagnostic-at-point-error-prefix nil))
+       (flymake-diagnostic-at-point-error-prefix nil)
+       (flymake-diagnostic-at-point-display-diagnostic-function #'flymake-diagnostic-at-point-quick-peek)
+       (flymake-diagnostic-at-point-hide-diagnostic-function #'quick-peek-hide))
      #+END_SRC
 
 ** Version control
