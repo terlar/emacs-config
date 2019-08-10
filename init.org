@@ -2241,7 +2241,7 @@
      #+BEGIN_SRC emacs-lisp
      (use-package flymake-diagnostic-at-point
        :hook
-       (flymake-mode-hook . flymake-diagnostic-at-point-mode)
+       (flymake-mode . flymake-diagnostic-at-point-mode)
        :custom
        (flymake-diagnostic-at-point-error-prefix nil))
      #+END_SRC
