@@ -2028,7 +2028,11 @@
       :init
       (put 'apheleia-formatter 'safe-local-variable 'symbolp)
       :config
-      (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal)
+      (progn ;; JavaScript/TypeScript
+        (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
+      (progn ;; Terraform
+        (cl-pushnew '(terraform . ("terraform" "fmt" "-")) apheleia-formatters :test #'equal)
+        (cl-pushnew '(terraform-mode . terraform) apheleia-mode-alist :test #'equal))
       (apheleia-global-mode 1))
     #+END_SRC
 
