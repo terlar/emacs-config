@@ -191,6 +191,11 @@
       :demand t)
     #+END_SRC
 
+*** flymake-quickdef
+    #+BEGIN_SRC emacs-lisp
+    (use-package flymake-quickdef)
+    #+END_SRC
+
 *** posframe
     #+BEGIN_SRC emacs-lisp
     (use-package posframe
@@ -3430,6 +3435,13 @@
 
 ** json
 *** Packages
+**** flymake-json
+     #+BEGIN_SRC emacs-lisp
+     (use-package flymake-json
+       :hook
+       (json-mode . flymake-json-load))
+     #+END_SRC
+
 **** json-navigator
      #+BEGIN_SRC emacs-lisp
      (use-package json-navigator
@@ -3693,6 +3705,14 @@
       :prefix +local-leader-key
       "t" 'racket-test))
    #+END_SRC
+
+*** Packages
+**** flymake-racket
+     #+BEGIN_SRC emacs-lisp
+     (use-package flymake-racket
+       :hook
+       (racket-mode . flymake-racket-add-hook))
+     #+END_SRC
 
 ** rst
    #+BEGIN_SRC emacs-lisp
