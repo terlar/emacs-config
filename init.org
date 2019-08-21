@@ -3434,14 +3434,36 @@
      #+END_SRC
 
 ** json
-*** Packages
-**** flymake-json
-     #+BEGIN_SRC emacs-lisp
-     (use-package flymake-json
-       :hook
-       (json-mode . flymake-json-load))
-     #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+   (use-package json-mode
+     :preface
+     (defun +json-mode-add-flymake-hook ()
+       "Add `flymake-diagnostic-functions' for `json-mode'."
+       (cl-pushnew 'flymake-check-jsonlint flymake-diagnostic-functions :test #'equal))
+     :hook
+     (json-mode . +json-mode-add-flymake-hook))
+   #+END_SRC
 
+*** Syntax checker
+    #+BEGIN_SRC emacs-lisp
+    (flymake-quickdef-backend flymake-check-jsonlint
+      :pre-let ((jsonlint-exec (executable-find "jsonlint")))
+      :pre-check (unless jsonlint-exec (error "Cannot find jsonlint executable"))
+      :write-type 'file
+      :proc-form (list jsonlint-exec "-c" "-q" fmqd-temp-file)
+      :search-regexp "^\\(.+\\)\: line \\([0-9]+\\), col \\([0-9]+\\), \\(.+\\)$"
+      :prep-diagnostic
+      (let* ((lnum (string-to-number (match-string 2)))
+             (col (string-to-number (match-string 3)))
+             (msg (match-string 4))
+             (pos (flymake-diag-region fmqd-source lnum col))
+             (beg (car pos))
+             (end (cdr pos))
+             (type :error))
+        (list fmqd-source beg end type msg)))
+    #+END_SRC
+
+*** Packages
 **** json-navigator
      #+BEGIN_SRC emacs-lisp
      (use-package json-navigator
