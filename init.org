@@ -3651,7 +3651,9 @@
    #+BEGIN_SRC emacs-lisp
    (use-package plantuml-mode
      :custom
-     (plantuml-jar-path "~/.local/lib/plantuml.jar"))
+     (plantuml-jar-path "~/.local/lib/plantuml.jar")
+     (plantuml-jar-args '("-charset" "UTF-8"
+                          "-SbackgroundColor=transparent")))
    #+END_SRC
 
 ** protobuf
