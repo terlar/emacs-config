@@ -2865,7 +2865,7 @@
      (org-hide-emphasis-markers t)
      (org-image-actual-width 800)
      (org-log-done 'time)
-     (org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+     (org-plantuml-jar-path "~/.local/lib/plantuml.jar")
      (org-pretty-entities t)
      (org-startup-folded nil)
      (org-startup-with-inline-images t)
@@ -3651,8 +3651,7 @@
    #+BEGIN_SRC emacs-lisp
    (use-package plantuml-mode
      :custom
-     (plantuml-java-command "java-headless")
-     (plantuml-jar-path "/opt/plantuml/plantuml.jar"))
+     (plantuml-jar-path "~/.local/lib/plantuml.jar"))
    #+END_SRC
 
 ** protobuf
