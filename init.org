@@ -3437,11 +3437,12 @@
    #+BEGIN_SRC emacs-lisp
    (use-package json-mode
      :preface
-     (defun +json-mode-add-flymake-hook ()
-       "Add `flymake-diagnostic-functions' for `json-mode'."
-       (cl-pushnew 'flymake-check-jsonlint flymake-diagnostic-functions :test #'equal))
+     (defun +json-mode-setup-flymake ()
+       "Setup `json-mode' integration with Flymake."
+       (add-hook 'flymake-diagnostic-functions #'flymake-check-jsonlint nil t)
+       (flymake-mode))
      :hook
-     (json-mode . +json-mode-add-flymake-hook))
+     (json-mode . +json-mode-setup-flymake))
    #+END_SRC
 
 *** Syntax checker
