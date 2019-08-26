@@ -153,7 +153,8 @@
 *** server
     #+BEGIN_SRC emacs-lisp
     (use-package server
-      :commands server-running-p
+      :commands
+      (server-running-p)
       :preface
       (defun +server-ensure-running (frame)
         "Ensure server is running when launching FRAME."
@@ -2355,6 +2356,8 @@
     #+BEGIN_SRC emacs-lisp
     (use-package direnv
       :demand t
+      :hook
+      (before-hack-local-variables . direnv-update-environment)
       :custom
       (direnv-always-show-summary nil)
       :config
