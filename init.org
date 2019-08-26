@@ -2659,7 +2659,9 @@
 
 **** package-lint
      #+BEGIN_SRC emacs-lisp
-     (use-package package-lint)
+     (use-package package-lint
+       :hook
+       (emacs-lisp-mode . package-lint-setup-flymake))
      #+END_SRC
 
 **** suggest
