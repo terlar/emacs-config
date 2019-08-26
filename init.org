@@ -2381,10 +2381,13 @@
       :hook
       ((haskell-mode
         java-mode
-        js-mode
         ruby-mode
         rustic-mode
         typescript-mode) . eglot-ensure)
+      (js-mode . +eglot-ensure-unless-json-mode)
+      :preface
+      (defun +eglot-ensure-unless-json-mode ()
+        (unless (derived-mode-p 'json-mode) (eglot-ensure)))
       :custom
       (eglot-sync-connect nil)
       :general
@@ -3376,7 +3379,10 @@
      (use-package indium
        :diminish indium-interaction-mode
        :hook
-       (js-mode . indium-interaction-mode)
+       (js-mode . +indium-interaction-unless-json-mode)
+       :preface
+       (defun +indium-interaction-unless-json-mode ()
+         (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
        :general
        (:keymaps
         'js2-mode-map
