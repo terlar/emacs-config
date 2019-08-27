@@ -2672,9 +2672,9 @@
        (emacs-lisp-mode . highlight-quoted-mode))
      #+END_SRC
 
-**** package-lint
+**** package-lint-flymake
      #+BEGIN_SRC emacs-lisp
-     (use-package package-lint
+     (use-package package-lint-flymake
        :hook
        (emacs-lisp-mode . package-lint-setup-flymake))
      #+END_SRC
