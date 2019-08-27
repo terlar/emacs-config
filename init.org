@@ -430,31 +430,37 @@
   I am trying to reduce the amount of keybindings, therefore I present a table of default
   keybindings in case I would forget them.
 
-  | Keybinding    | Function                        | Description                                                                      |
-  |---------------+---------------------------------+----------------------------------------------------------------------------------|
-  | =C-o=           | =open-line=                       | Open line below                                                               |
-  | =M-SPC=         | =just-one-space=                  | Ensures just one space                                                           |
-  | =M-\=           | =delete-horizontal-space=         | Delete all space                                                                 |
-  | =M-^=           | =delete-indentation=              | Join current line with previous line                                             |
-  | =M-z=           | =zap-to-char=                     | Delete until character                                                           |
-  | =C-S-backspace= | =kill-whole-line=                 | Kill entire lines, can be used to move several lines at once                     |
-  | =M-/=           | =dabbrev-expand=                  | Abbreviation completion                                                          |
-  | =M-tab=         | =completion-at-point= / =pcomplete= | More context aware completion                                                    |
-  | =C-w=           | =kill-region=                     | Cut                                                                              |
-  | =M-w=           | =kill-ring-save=                  | Copy                                                                             |
-  | =C-y=           | =yank=                            | Paste                                                                            |
-  | =M-y=           | =yank-next=                       | Paste (next item)                                                                |
-  | =C-x SPC=       | =rectangle-mark-mode=             | Rectangular selection                                                            |
-  | =C-x r t=       | =string-rectangle=                | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
-  | =C-M-f=         | =forward-sexp=                    | Move forward inside a balanced expression                                        |
-  | =C-M-b=         | =backward-sexp=                   | Move backward inside a balanced expression                                       |
-  | =C-M-n=         | =forward-list=                    | Move forward across one balanced group of parenthesis                            |
-  | =C-M-p=         | =backward-list=                   | Move backward across one balanced group of parenthesis                           |
-  | =M-m=           | =back-to-indentation=             | Move to the first non-whitespace character                                       |
-  | =M-e=           | =forward-sentence=                | End of sentence                                                                  |
-  | =M-a=           | =backward-sentence=               | Start of sentence                                                                |
-  | =C-M-d=         | =down-list=                       | Move forward down one level of parenthesis                                       |
-  | =C-M-u=         | =backward-up-list=                | Move backward out of one level of parenthesis                                    |
+  | Keybinding | Alternative |
+  |------------+-------------|
+  | =M-=         | =C-[=         |
+  | =TAB=        | =C-i=         |
+  | =RET=        | =C-j=        |
+
+  | Keybinding      | Function                        | Description                                                                      |
+  |-----------------+---------------------------------+----------------------------------------------------------------------------------|
+  | =C-o=             | =open-line=                       | Open line below                                                                  |
+  | =M-SPC=           | =just-one-space=                  | Ensures just one space                                                           |
+  | =M-\=             | =delete-horizontal-space=         | Delete all space                                                                 |
+  | =M-^=             | =delete-indentation=              | Join current line with previous line                                             |
+  | =M-z=             | =zap-to-char=                     | Delete until character                                                           |
+  | =C-S-backspace=   | =kill-whole-line=                 | Kill entire lines, can be used to move several lines at once                     |
+  | =M-/=             | =dabbrev-expand=                  | Abbreviation completion                                                          |
+  | =M-tab= / =C-[ C-i= | =completion-at-point= / =pcomplete= | More context aware completion                                                    |
+  | =C-w=             | =kill-region=                     | Cut                                                                              |
+  | =M-w=             | =kill-ring-save=                  | Copy                                                                             |
+  | =C-y=             | =yank=                            | Paste                                                                            |
+  | =M-y=             | =yank-next=                       | Paste (next item)                                                                |
+  | =C-x SPC=         | =rectangle-mark-mode=             | Rectangular selection                                                            |
+  | =C-x r t=         | =string-rectangle=                | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
+  | =C-M-f=           | =forward-sexp=                    | Move forward inside a balanced expression                                        |
+  | =C-M-b=           | =backward-sexp=                   | Move backward inside a balanced expression                                       |
+  | =C-M-n=           | =forward-list=                    | Move forward across one balanced group of parenthesis                            |
+  | =C-M-p=           | =backward-list=                   | Move backward across one balanced group of parenthesis                           |
+  | =M-m=             | =back-to-indentation=             | Move to the first non-whitespace character                                       |
+  | =M-e=             | =forward-sentence=                | End of sentence                                                                  |
+  | =M-a=             | =backward-sentence=               | Start of sentence                                                                |
+  | =C-M-d=           | =down-list=                       | Move forward down one level of parenthesis                                       |
+  | =C-M-u=           | =backward-up-list=                | Move backward out of one level of parenthesis                                    |
 
 ** Ivy
   | Keybinding | Function           | Description                                              |
