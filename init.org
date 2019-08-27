@@ -3398,7 +3398,7 @@
          (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
        :general
        (:keymaps
-        'js2-mode-map
+        'js-mode-map
         :prefix +local-leader-key
         "s" 'indium-scratch
         "o" 'indium-launch
@@ -3415,11 +3415,11 @@
      (use-package jest
        :general
        (:keymaps
-        'js2-mode-map
+        'js-mode-map
         :prefix +local-leader-key
-        "t" 'jest-file
+        "t" 'jest-funcion-dwim
         "T" 'jest-file
-        "s" 'jest))
+        "s" 'jest-popup))
      #+END_SRC
 
 **** js2
