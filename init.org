@@ -4316,6 +4316,7 @@
 ** TODO Override =M-n= with something useful?
 ** TODO Override =M-p= with something useful?
 ** TODO Easier way to toggle =subword-mode=
+** TODO Easier way to toggle =glasses-mode=
 ** TODO Extract history persistance code (persistory)
    - comint
    - ielm (via comint and savehist)
@@ -4323,4 +4324,3 @@
 ** TODO Enable auto-revert/save again?
 ** TODO Wrap lines by default?
      When writing code on a single line, to later let it be expanded by the formatter.
-** TODO Better key to toggle =subword-mode=
