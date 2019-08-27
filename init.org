@@ -4114,9 +4114,9 @@
        (:keymaps
         'typescript-mode-map
         :prefix +local-leader-key
-        "t" 'jest-file
+        "t" 'jest-function-dwim
         "T" 'jest-file
-        "s" 'jest))
+        "s" 'jest-popup))
      #+END_SRC
 
 ** web
