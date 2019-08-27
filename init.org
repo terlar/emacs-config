@@ -1631,9 +1631,16 @@
    (use-package company
      :custom
      (company-show-numbers t)
+     (company-backends
+      '((company-files
+         company-keywords
+         company-capf)))
      :hook
      (prog-mode . company-mode)
      :general
+     (:keymaps
+      'company-mode-map
+      "C-?" 'company-complete)
      (:keymaps
       'company-active-map
       ;; No interference with return key
