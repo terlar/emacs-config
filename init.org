@@ -1317,6 +1317,14 @@
         rst-mode) . readable-mode))
     #+END_SRC
 
+*** relative-buffers
+    #+BEGIN_SRC emacs-lisp
+    (use-package relative-buffers
+      :demand t
+      :config
+      (global-relative-buffers-mode 1))
+    #+END_SRC
+
 *** spray
     #+BEGIN_SRC emacs-lisp
     (use-package spray
@@ -1552,8 +1560,6 @@
    (use-package projectile
      :demand t
      :diminish projectile-mode
-     :hook
-     (find-file . +projectile-relative-buf-name)
      :custom
      (projectile-enable-caching nil)
      (projectile-file-exists-remote-cache-expire nil)
@@ -1577,13 +1583,6 @@
       :prefix
       +leader-key
       "p" '(:keymap projectile-command-map :package projectile :wk "project"))
-     :preface
-     (defun +projectile-relative-buf-name ()
-       (when (buffer-file-name)
-         (let ((buffer-name (if (projectile-project-p)
-                                (concat (projectile-project-name) "/" (file-relative-name (buffer-file-name) (projectile-project-root)))
-                              (abbreviate-file-name (buffer-file-name)))))
-           (rename-buffer buffer-name t))))
      :init
      (defun +projectile-cache-current-file (orig-fun &rest args)
        "Don't cache ignored files."
