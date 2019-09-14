@@ -1321,6 +1321,8 @@
     #+BEGIN_SRC emacs-lisp
     (use-package relative-buffers
       :demand t
+      :custom
+      (relative-buffers-project-prefix t)
       :config
       (global-relative-buffers-mode 1))
     #+END_SRC
