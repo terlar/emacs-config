@@ -4017,30 +4017,6 @@
    #+END_SRC
 
 *** Packages
-**** ensime
-     #+BEGIN_SRC emacs-lisp
-     (use-package ensime
-       :hook
-       (scala-mode . ensime-mode)
-       :custom
-       (ensime-eldoc-hints 'all)
-       (ensime-search-interface 'ivy)
-       (ensime-startup-notification nil)
-       :general
-       (:keymaps
-        'ensime-mode-map
-        ;; No interference with tab key
-        [tab] 'nil
-        "TAB" 'nil
-        "M-g k" 'ensime-show-doc-for-symbol-at-point)
-       (:keymaps
-        'ensime-mode-map
-        :prefix +local-leader-key
-        "c" 'ensime-sbt-do-compile
-        "r" 'ensime-inf-switch
-        "t" 'ensime-sbt-do-test))
-     #+END_SRC
-
 **** sbt-mode
      #+BEGIN_SRC emacs-lisp
      (use-package sbt-mode)
