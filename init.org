@@ -1435,6 +1435,15 @@
       (dired-mode . all-the-icons-dired-mode))
     #+END_SRC
 
+*** Git
+    #+BEGIN_SRC emacs-lisp
+    (use-package dired-git-info
+      :general
+      (:keymaps
+       'dired-mode-map
+       ")" 'dired-git-info-mode))
+    #+END_SRC
+
 ** Packages
 *** ace-link
     Hint mode for links.
