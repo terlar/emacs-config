@@ -1630,6 +1630,17 @@
      (projectile-mode 1))
    #+END_SRC
 
+   Manage project repositories.
+   #+BEGIN_SRC emacs-lisp
+   (use-package ivy-ghq
+     :commands
+     (ivy-ghq-open
+      ivy-ghq-add-repo
+      ivy-ghq-delete-repo
+      ivy-ghq-add-org-link
+      ivy-ghq-clone-and-fork-repo))
+   #+END_SRC
+
 * Completion
   Enable completion with tab
   #+BEGIN_SRC emacs-lisp
