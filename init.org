@@ -1716,6 +1716,8 @@
      (ivy-fixed-height-minibuffer t)
      ;; Highlight whole line
      (ivy-format-function #'ivy-format-function-line)
+     ;; Don't use ^ as initial input.
+     (ivy-initial-inputs-alist nil)
      :general
      (:keymaps
       'ivy-mode-map
@@ -1751,9 +1753,6 @@
            (ivy-alt-done)
          (move-end-of-line arg)))
      :init
-     ;; Don't use ^ as initial input
-     (setq ivy-initial-inputs-alist nil)
-
      (setq-default
       dumb-jump-selector             'ivy
       magit-completing-read-function #'ivy-completing-read
@@ -1797,6 +1796,8 @@
         'counsel-ag-map
         "C-SPC" 'ivy-call-and-recenter)
        :config
+       (setq ivy-initial-inputs-alist nil)
+
        (defun counsel-abbrev (abbrev-name)
          "Insert abbreviation matching ABBREV-NAME."
          (interactive
