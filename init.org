@@ -100,7 +100,8 @@
    (eval-and-compile
      (setq load-path
            (append (delete-dups load-path)
-                   (list (expand-file-name "lisp" user-emacs-directory)))))
+                   (list (expand-file-name "lisp" user-emacs-directory)
+                         (expand-file-name "private" user-emacs-directory)))))
    #+END_SRC
 
 ** Shell
@@ -4289,6 +4290,11 @@
       +launch-prefix
       "u" 'undo-propose))
    #+END_SRC
+
+* Private
+  #+BEGIN_SRC emacs-lisp
+  (require 'private nil t)
+  #+END_SRC
 
 * The end
   #+BEGIN_SRC emacs-lisp
