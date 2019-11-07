@@ -917,24 +917,25 @@
     #+END_SRC
 
 ** Buffer
+*** Popups
+    Always display pop up buffers at the bottom and regard all star buffers as such
+    buffers.
+    #+BEGIN_SRC emacs-lisp
+    (dolist (rule `((,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
+                     (display-buffer-reuse-window
+                      display-buffer-in-side-window)
+                     (reusable-frames . visible)
+                     (side . bottom)
+                     (window-height . 0.4))
+                    ("^*Warn about privacy*" display-buffer-pop-up-window)))
+      (cl-pushnew rule display-buffer-alist :test #'equal))
+    #+END_SRC
+
 *** Hide async shell command buffers
     #+BEGIN_SRC emacs-lisp
     (cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
                 display-buffer-alist
                 :test #'equal)
-    #+END_SRC
-
-*** Popups
-    Always display pop up buffers at the bottom and regard all star buffers as such
-    buffers.
-    #+BEGIN_SRC emacs-lisp
-    (let ((rule `(,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
-                  (display-buffer-reuse-window
-                   display-buffer-in-side-window)
-                  (reusable-frames . visible)
-                  (side . bottom)
-                  (window-height . 0.4))))
-      (cl-pushnew rule display-buffer-alist :test #'equal))
     #+END_SRC
 
 *** Visual Fill Column
