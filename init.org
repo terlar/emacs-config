@@ -2903,7 +2903,7 @@
      (org-hide-emphasis-markers t)
      (org-image-actual-width 800)
      (org-log-done 'time)
-     (org-plantuml-jar-path "~/.local/lib/plantuml.jar")
+     (org-plantuml-exec-mode 'plantuml)
      (org-pretty-entities t)
      (org-startup-folded nil)
      (org-startup-with-inline-images t)
