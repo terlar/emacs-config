@@ -1737,15 +1737,12 @@
       "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
      (:keymaps
       'ivy-minibuffer-map
-      "M-v"    'yank
-      "M-z"    'undo
-      "C-k"    'ivy-previous-line
-      "C-j"    'ivy-next-line
-      "C-l"    'ivy-alt-done
-      "C-w"    'ivy-backward-kill-word
-      "C-u"    'ivy-kill-line
-      "C-e"    '+ivy-move-end-of-line-or-done
-      "C-f"    'ivy-alt-done)
+      "C-<return>" 'ivy-immediate-done
+      "C-e"        '+ivy-move-end-of-line-or-done
+      "C-f"        '+ivy-forward-or-done
+      "C-l"        'ivy-alt-done
+      "C-u"        'ivy-kill-line
+      "C-w"        'ivy-backward-kill-word)
      :preface
      (defun +ivy-move-end-of-line-or-done (arg)
        "Move to end of current line or consider ivy operation done.
@@ -1754,6 +1751,13 @@
        (if (eolp)
            (ivy-alt-done)
          (move-end-of-line arg)))
+     (defun +ivy-forward-or-done (n)
+       "Move point forward or consider ivy operation done.
+         N characters can be used."
+       (interactive "p")
+       (if (eolp)
+           (ivy-alt-done)
+         (forward-char n)))
      :init
      (setq-default
       dumb-jump-selector             'ivy
