@@ -2937,6 +2937,30 @@
    #+END_SRC
 
 *** Packages
+**** org-babel-eval-in-repl
+     Evaluation of source code blocks in REPL.
+     #+BEGIN_SRC emacs-lisp
+     (use-package org-babel-eval-in-repl
+       :general
+       (:keymaps
+        'org-mode-map
+        "C-<return>" '+org-ctrl-return
+        "M-<return>" '+org-meta-return)
+       :preface
+       (defun +org-ctrl-return ()
+         "Run `ober-eval-in-repl' if in source code block and `org-insert-heading-respect-content' otherwise."
+         (interactive)
+         (if (org-in-block-p '("src" "example"))
+             (ober-eval-in-repl)
+           (call-interactively #'org-insert-heading-respect-content)))
+       (defun +org-meta-return ()
+         "Run `ober-eval-block-in-repl' if in source code block or example block and `org-meta-return' otherwise."
+         (interactive)
+         (if (org-in-block-p '("src" "example"))
+             (ober-eval-block-in-repl)
+           (call-interactively #'org-meta-return))))
+     #+END_SRC
+
 **** org-cliplink
      Paste links from clipboard and automatically fetch title.
      #+BEGIN_SRC emacs-lisp
