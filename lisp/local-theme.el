@@ -74,6 +74,7 @@
  `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background "#E2E3E8" :box (:line-width 4 :color "#E2E3E8")))))
  `(mode-line-inactive                      ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background "#FAFAFA" :box (:line-width 4 :color "#FAFAFA")))))
  `(mode-line-buffer-id                     ((t (:foreground nil :bold t))))
+ `(header-line                             ((t (:inherit mode-line))))
  `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
  `(line-number                             ((t (:inherit fixed-pitch))))
  `(line-number-current-line                ((t (:inherit (line-number hl-line) :bold t))))
@@ -108,14 +109,13 @@
  `(org-level-6                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(org-level-7                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(org-level-8                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
- `(org-todo                                ((t (:height 1))))
- `(org-done                                ((t (:height 1))))
+ `(org-todo                                ((t (:height ,local-theme-default-font-height))))
+ `(org-done                                ((t (:height ,local-theme-default-font-height))))
  `(org-block                               ((t (:weight light))))
  `(org-checkbox                            ((t (:inherit fixed-pitch))))
  `(org-code                                ((t (:inherit org-verbatim))))
  `(org-hide                                ((t (:inherit fixed-pitch))))
- ;; `(org-link                                ((t (:foreground ,color-12))))
- ;; `(org-verbatim                            ((t (:background ,color-3))))
+ `(org-verbatim                            ((t (:inherit fixed-pitch))))
 
  ;; show-paren-mode
  `(show-paren-match                        ((t (:bold t :underline t :box nil))))
@@ -149,7 +149,7 @@
  ;; eldoc-posframe
  ;; `(eldoc-posframe-background-face          ((t (:background ,color-5 :foreground ,color-9))))
  ;; eros
- ;; `(eros-result-overlay-face                ((t (:background ,color-5 :foreground ,color-9 :box nil))))
+ `(eros-result-overlay-face                ((t (:inherit highlight :box nil))))
  ;; haskell-mode
  `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
  ;; idle-highlight
