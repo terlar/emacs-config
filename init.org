@@ -1842,7 +1842,11 @@ Tips:
 **** swiper
 I-search replacement with overview
 #+BEGIN_SRC emacs-lisp
-(use-package swiper)
+(use-package swiper
+  :general
+  (:keymaps
+   'swiper-isearch-map
+   "M-n" 'ivy-next-history-element))
 #+END_SRC
 
 **** flyspell-correct-ivy
