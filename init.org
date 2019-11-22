@@ -1637,7 +1637,11 @@
    (use-package ivy-ghq
      :defer 2
      :custom
-     (ivy-ghq-short-list t))
+     (ivy-ghq-short-list t)
+     :general
+     (:keymaps
+      'counsel-mode-map
+      "C-c P" 'ivy-ghq-open))
    #+END_SRC
 
 * Completion
@@ -1724,7 +1728,7 @@
      (:keymaps
       'ivy-mode-map
       [remap switch-to-buffer] 'ivy-switch-buffer
-      "C-c C-r"                'ivy-resume)
+      "C-c SPC"                'ivy-resume)
      (:keymaps
       'ivy-mode-map
       :prefix
