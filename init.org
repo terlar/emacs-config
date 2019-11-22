@@ -640,20 +640,31 @@
 
 ** Theme
 *** tao-theme (tao-yang)
-    An excellent, light, uncoloured theme.
+    An excellent, light, uncolored theme.
     #+BEGIN_SRC emacs-lisp
     (use-package tao-theme
       :demand t
       :custom
       (tao-theme-use-sepia t))
 
-    (load-theme 'tao-yang t)
+    (use-package berrys-theme
+      :demand t)
+
+    (load-theme 'berrys t)
     #+END_SRC
 
 *** Local overrides
     No theme is perfect, also this is a good place to put my own experiments.
     #+BEGIN_SRC emacs-lisp
-    (require 'local-theme)
+    (use-package local-theme
+      :demand t
+      :custom
+      (local-theme-default-font-height +default-font-height)
+      (local-theme-line-spacing +line-spacing)
+      (local-theme-fixed-pitch-font +fixed-pitch-font)
+      (local-theme-variable-pitch-font +variable-pitch-font)
+      (local-theme-serif-font +serif-font))
+
     (load-theme 'local t)
     #+END_SRC
 
