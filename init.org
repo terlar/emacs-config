@@ -2889,9 +2889,6 @@
    (use-package org-plus-contrib
      :hook
      (org-mode . auto-fill-mode)
-     (org-mode . hide-mode-line-mode)
-     (org-mode . +org-cursor-setup)
-     (org-babel-after-execute . org-redisplay-inline-images)
      :minor
      ("init\\.org$" . auto-tangle-mode)
      :custom
@@ -2904,20 +2901,11 @@
         (plantuml   . t)
         (shell      . t)))
      (org-edit-src-content-indentation 0)
-     (org-ellipsis "  ")
-     (org-fontify-whole-heading-line t)
-     (org-fontify-done-headline t)
-     (org-fontify-quote-and-verse-blocks t)
-     (org-hide-emphasis-markers t)
-     (org-image-actual-width 800)
      (org-log-done 'time)
      (org-plantuml-exec-mode 'plantuml)
-     (org-pretty-entities t)
      (org-startup-folded nil)
-     (org-startup-with-inline-images t)
      (org-special-ctrl-a/e t)
      (org-src-preserve-indentation nil)
-     (org-src-fontify-natively t)
      (org-src-tab-acts-natively t)
      (org-src-window-setup 'current-window)
      (org-tag-alist
@@ -2930,10 +2918,6 @@
       'org-mode-map
       "C-'" 'nil
       "C-," 'nil)
-     :preface
-     (defun +org-cursor-setup ()
-       "Setup bar cursor for `org-mode'."
-       (setq cursor-type 'bar))
      :config
      (org-babel-do-load-languages
       'org-babel-load-languages
@@ -2978,7 +2962,7 @@
 
 **** org-noter
      Annotate documents with =org-mode=.
-     #+BEGIN_SRC emacs-lisp :tangle yes
+     #+BEGIN_SRC emacs-lisp
      (use-package org-noter)
      #+END_SRC
 
@@ -3020,6 +3004,39 @@
 *** Appearance
     This sections makes =org-mode= look more beautiful and appealing.
 
+    #+BEGIN_SRC emacs-lisp
+    (use-package org-plus-contrib
+      :hook
+      (org-babel-after-execute . org-redisplay-inline-images)
+      (org-mode . +org-cursor-setup)
+      (org-mode . +org-prettify-syntax-setup)
+      (org-mode . hide-mode-line-mode)
+      (org-mode . org-indent-mode)
+      :custom
+      (org-fontify-quote-and-verse-blocks t)
+      (org-hide-emphasis-markers t)
+      (org-image-actual-width 800)
+      (org-pretty-entities t)
+      (org-src-fontify-natively t)
+      (org-startup-with-inline-images t)
+      :preface
+      (defun +org-cursor-setup ()
+        "Setup bar cursor for `org-mode'."
+        (setq cursor-type 'bar))
+      (defun +org-prettify-syntax-setup ()
+        "Prettify syntax with symbols."
+        (dolist (symbol '(("#+TITLE:"    . ?⋮)
+                          ("#+begin_src" . ?λ)
+                          ("#+BEGIN_SRC" . ?λ)
+                          ("#+end_src" . ?≋)
+                          ("#+END_SRC" . ?≋)
+                          ("#+begin_quote" . ?“)
+                          ("#+BEGIN_QUOTE" . ?“)
+                          ("#+end_quote" . ?”)
+                          ("#+END_QUOTE" . ?”)))
+          (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+    #+END_SRC
+
 **** Variable pitch
      Use variable-pitch font but still make sure everything aligns.
      #+BEGIN_SRC emacs-lisp
@@ -3028,25 +3045,28 @@
        :hook
        (org-mode . org-variable-pitch-minor-mode)
        :custom
-       (org-variable-pitch-fixed-font +fixed-pitch-font)
-       :init
-       ;; Also align headings and lists
-       (font-lock-add-keywords
-        'org-mode
-        '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
-        'append))
+       (org-variable-pitch-fixed-font +fixed-pitch-font))
      #+END_SRC
 
-**** Heading bullets
+**** Headings
      #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :hook
-       (org-mode . org-bullets-mode)
+     (use-package org-plus-contrib
+       :custom
+       (org-ellipsis "  ")
+       (org-fontify-whole-heading-line t)
+       (org-fontify-done-headline t))
+     #+END_SRC
+
+***** Bullets
+      #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :hook
+        (org-mode . org-bullets-mode)
        :custom
        (org-bullets-bullet-list '(" "))
        ;; Use default font face (also size)
        (org-bullets-face-name 'org-variable-pitch-face))
-     #+END_SRC
+      #+END_SRC
 
 **** Bullet lists
      #+BEGIN_SRC emacs-lisp
@@ -3075,8 +3095,7 @@
      #+BEGIN_SRC emacs-lisp
      (defun +org-eldoc-get-breadcrumb-no-properties (string)
        "Remove properties from STRING."
-       (when string
-         (substring-no-properties string)))
+       (when string (substring-no-properties string)))
      (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
      #+END_SRC
 
