@@ -111,6 +111,7 @@
  `(org-level-8                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(org-todo                                ((t (:height ,local-theme-default-font-height))))
  `(org-done                                ((t (:height ,local-theme-default-font-height))))
+ `(org-headline-done                       ((t (:inherit nil))))
  `(org-block                               ((t (:weight light))))
  `(org-checkbox                            ((t (:inherit fixed-pitch))))
  `(org-code                                ((t (:inherit org-verbatim))))
