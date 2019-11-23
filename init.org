@@ -2150,8 +2150,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
      go-mode
      lisp-mode
      lua-mode
-     python
-     scala-mode))
+     python))
   :general
   ("M-." 'smart-jump-go)
   ("M-," 'smart-jump-back)
