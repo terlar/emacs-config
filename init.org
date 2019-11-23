@@ -3001,10 +3001,10 @@ Presentation mode.
      #+END_SRC
 
 **** ob-http
-     #+BEGIN_SRC emacs-lisp
-     (use-package ob-http
-       :init
-       (cl-pushnew '(http . t) org-babel-load-languages :test #'equal))
+#+BEGIN_SRC emacs-lisp
+(use-package ob-http
+  :init
+  (cl-pushnew '(http . t) org-babel-load-languages :test #'equal))
 #+END_SRC
 
 *** Appearance
@@ -3051,7 +3051,9 @@ Use variable-pitch font but still make sure everything aligns.
   :hook
   (org-mode . org-variable-pitch-minor-mode)
   :custom
-  (org-variable-pitch-fixed-font +fixed-pitch-font))
+  (org-variable-pitch-fixed-font +fixed-pitch-font)
+  :init
+  (require 'org-indent))
 #+END_SRC
 
 **** Headings
@@ -4374,9 +4376,10 @@ Navigate through undo history.
 ** TODO Easier way to toggle =subword-mode=
 ** TODO Easier way to toggle =glasses-mode=
 ** TODO Extract history persistance code (persistory)
-- comint
-- ielm (via comint and savehist)
-- haskell-interactive (via savehist)
+  - comint
+  - ielm (via comint and savehist)
+  - haskell-interactive (via savehist)
 ** TODO Enable auto-revert/save again?
 ** TODO Wrap lines by default?
-When writing code on a single line, to later let it be expanded by the formatter.
+  When writing code on a single line, to later let it be expanded by the formatter.
+** TODO Only scale images that are larger than size X in org mode

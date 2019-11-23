@@ -210,7 +210,7 @@
  ;; `(quick-peek-border-face                  ((t (:background ,color-5 :height 0.1 :box (:line-width 1 :color ,color-7)))))
  `(quick-peek-padding-face                 ((t (:height 0.1)))))
 
-  ;;;
+;;;
 ;; Theme Variables
 
 (custom-theme-set-variables
