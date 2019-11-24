@@ -1718,6 +1718,7 @@ Complete in the following order:
   :hook
   (after-init . ivy-mode)
   :custom
+  (ivy-hooks-alist '((t . hl-line-mode)))
   (ivy-wrap t)
   (ivy-on-del-error-function #'ignore)
   (ivy-use-virtual-buffers t)
@@ -3087,15 +3088,15 @@ Use variable-pitch font but still make sure everything aligns.
      #+END_SRC
 
 **** Task lists
-     #+BEGIN_SRC emacs-lisp
-     (defun +org-prettify-task-symbols-setup ()
-       "Prettify task list symbols."
-       (dolist (symbol '(("TODO"     . ?⚑)
-                         ("DOING"    . ?⚐)
-                         ("CANCELED" . ?✘)
-                         ("DONE"     . ?✔)))
-         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-     (add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
+#+BEGIN_SRC emacs-lisp
+(defun +org-prettify-task-symbols-setup ()
+  "Prettify task list symbols."
+  (dolist (symbol '(("TODO"     . ?⚑)
+                    ("DOING"    . ?⚐)
+                    ("CANCELED" . ?✘)
+                    ("DONE"     . ?✔)))
+    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
+(add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
 #+END_SRC
 
 **** Breadcrumbs
