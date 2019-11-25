@@ -507,7 +507,9 @@ keybindings in case I would forget them.
  "C-!" 'eshell
  "C-M-!" '(lambda () (interactive) (term "fish"))
  ;; Window
- "C-`" 'window-toggle-side-windows)
+ "C-`" 'window-toggle-side-windows
+ ;; Files
+ "M-o" 'work-log-file)
 #+END_SRC
 
 ** Navigation
@@ -4371,7 +4373,6 @@ Navigate through undo history.
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
 ** TODO Improve find char keys
-** TODO Override =M-o= with something useful?
 ** TODO Override =M-n= with something useful?
 ** TODO Override =M-p= with something useful?
 ** TODO Easier way to toggle =subword-mode=
