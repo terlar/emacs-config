@@ -2179,6 +2179,16 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
   (smart-jump-setup-default-registers))
 #+END_SRC
 
+** Refactor
+Refactoring commands for various languages.
+#+BEGIN_SRC emacs-lisp
+(use-package emr
+  :general
+  (:keymaps
+   'prog-mode-map
+   "M-<return>" 'emr-show-refactor-menu))
+#+END_SRC
+
 ** REPL
 *** repl-toggle
 #+BEGIN_SRC emacs-lisp
@@ -3546,11 +3556,7 @@ Refactor utils, also a dependecy for =indium= debugger.
 (use-package js2-refactor
   :diminish js2-refactor-mode
   :hook
-  (js2-minor-mode . js2-refactor-mode)
-  (js2-minor-mode . +js2r-setup-keybindings)
-  :preface
-  (defun +js2r-setup-keybindings ()
-    (js2r-add-keybindings-with-prefix (string-join `(,+local-leader-key "m") " "))))
+  (js2-minor-mode . js2-refactor-mode))
 #+END_SRC
 
 **** nodejs-repl
@@ -4031,20 +4037,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package ruby-refactor
   :diminish ruby-refactor-mode
   :hook
-  (ruby-mode . ruby-refactor-mode)
-  :general
-  (:keymaps
-   'ruby-mode-map
-   :prefix +local-leader-key
-   "R" '(:ignore t :wk "refactor...")
-   "Rb" 'ruby-toggle-block
-   "Rc" 'ruby-refactor-convert-post-conditional
-   "Re" '(:ignore t :wk "extract...")
-   "Rec" '(ruby-refactor-extract-constant       :wk "constant")
-   "Rel" '(ruby-refactor-extract-to-let         :wk "to let")
-   "Rem" '(ruby-refactor-extract-to-method      :wk "to method")
-   "Rev" '(ruby-refactor-extract-local-variable :wk "variable")
-   "Rp" 'ruby-refactor-add-parameter))
+  (ruby-mode . ruby-refactor-mode))
 #+END_SRC
 
 **** yard-mode
@@ -4407,3 +4400,4 @@ Navigate through undo history.
 ** TODO Wrap lines by default?
   When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
+** TODO Add support for special =TODO= face in org
