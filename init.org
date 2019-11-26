@@ -400,11 +400,57 @@ Example:
 
 *** Utils
 #+BEGIN_SRC emacs-lisp
-(defun work-log-file ()
+(defcustom work-log-directory "~/org"
+  "Directory where work log files are stored."
+  :type 'file-name-directory
+  :group 'local)
+
+(defcustom work-log-file-name-pattern "worklog-%s.org"
+  "File name pattern for work log files."
+  :type 'string
+  :group 'local)
+
+(defun time-from-work-log-file ()
+  "Extract time from work-log file."
+  (let ((file-name (when-let* ((f (buffer-file-name)))
+                          (file-truename f)))
+        (regexp (concat
+                 "^"
+                 (expand-file-name
+                  (concat
+                   (regexp-quote (file-truename work-log-directory))
+                   "/"
+                   (format (regexp-quote work-log-file-name-pattern)
+                           "\\([0-9]\\{4\\}-\\(0[0-9]\\|1[0-2]\\)-\\([0-2][0-9]\\|3[01]\\)\\)")))
+                 "$")))
+    (when (and file-name (string-match regexp file-name))
+      (apply 'encode-time (org-parse-time-string (match-string 1 file-name))))))
+
+(defun work-log-file (&optional time)
   "Open today's work log file."
   (interactive)
-  (let ((daily-name (format-time-string "%Y-%m-%d")))
-    (find-file (expand-file-name (concat "~/org/worklog-" daily-name ".org")))))
+  (let ((target-date (format-time-string "%Y-%m-%d" time)))
+    (find-file (expand-file-name (concat (file-truename work-log-directory)
+                                         "/"
+                                         (format work-log-file-name-pattern target-date))))))
+
+(defun work-log-file-previous ()
+  "Open previous work log file. If not work log file, open today's work log file."
+  (interactive)
+  (let ((time (time-from-work-log-file))
+        (day-in-seconds (* 24 3600)))
+    (if time
+        (work-log-file (time-subtract time day-in-seconds))
+      (work-log-file))))
+
+(defun work-log-file-next ()
+  "Open next work log file. If not work log file, open today's work log file."
+  (interactive)
+  (let ((time (time-from-work-log-file))
+        (day-in-seconds (* 24 3600)))
+    (if time
+        (work-log-file (time-add time day-in-seconds))
+      (work-log-file))))
 
 (defun sprint-file ()
   "Open current sprint log file."
@@ -535,13 +581,14 @@ keybindings in case I would forget them.
 (general-define-key
  :prefix +next-prefix
  ""  '(:ignore t :wk "next...")
- "]" `(,(defrepeater #'text-scale-increase)          :wk "Text size")
- "b" `(,(defrepeater #'next-buffer)                  :wk "Buffer")
- "c" `(,(defrepeater #'smerge-next)                  :wk "Conflict")
- "d" `(,(defrepeater #'diff-hl-next-hunk)            :wk "Diff Hunk")
- "e" `(,(defrepeater #'next-error)                   :wk "Error")
- "s" `(,(defrepeater #'flyspell-goto-next-error)     :wk "Spell error")
- "t" `(,(defrepeater #'hl-todo-next)                 :wk "Todo"))
+ "]" `(,(defrepeater #'text-scale-increase)      :wk "Text size")
+ "b" `(,(defrepeater #'next-buffer)              :wk "Buffer")
+ "c" `(,(defrepeater #'smerge-next)              :wk "Conflict")
+ "d" `(,(defrepeater #'diff-hl-next-hunk)        :wk "Diff Hunk")
+ "e" `(,(defrepeater #'next-error)               :wk "Error")
+ "s" `(,(defrepeater #'flyspell-goto-next-error) :wk "Spell error")
+ "t" `(,(defrepeater #'hl-todo-next)             :wk "Todo")
+ "w" `(,(defrepeater #'work-log-file-next)       :wk "Work Log"))
 #+END_SRC
 
 ** Previous
@@ -549,12 +596,13 @@ keybindings in case I would forget them.
 (general-define-key
  :prefix +prev-prefix
  ""  '(:ignore t :wk "previous...")
- "[" `(,(defrepeater #'text-scale-decrease)          :wk "Text size")
- "b" `(,(defrepeater #'previous-buffer)              :wk "Buffer")
- "c" `(,(defrepeater #'smerge-prev)                  :wk "Conflict")
- "d" `(,(defrepeater #'diff-hl-previous-hunk)        :wk "Diff Hunk")
- "e" `(,(defrepeater #'previous-error)               :wk "Error")
- "t" `(,(defrepeater #'hl-todo-previous)             :wk "Todo"))
+ "[" `(,(defrepeater #'text-scale-decrease)    :wk "Text size")
+ "b" `(,(defrepeater #'previous-buffer)        :wk "Buffer")
+ "c" `(,(defrepeater #'smerge-prev)            :wk "Conflict")
+ "d" `(,(defrepeater #'diff-hl-previous-hunk)  :wk "Diff Hunk")
+ "e" `(,(defrepeater #'previous-error)         :wk "Error")
+ "t" `(,(defrepeater #'hl-todo-previous)       :wk "Todo")
+ "w" `(,(defrepeater #'work-log-file-previous) :wk "Work Log"))
 #+END_SRC
 
 ** Toggle
@@ -4401,3 +4449,7 @@ Navigate through undo history.
   When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
 ** TODO Add support for special =TODO= face in org
+** TODO Work Log next/previous with =]w= and =[w=.
+** TODO Fix e-mail address
+** TODO Bind =sp-wrap-around=
+** TODO Use =ielm= as REPL for org-mode

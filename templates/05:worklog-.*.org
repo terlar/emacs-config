@@ -4,10 +4,14 @@
 #+DATE:   `(format-time-string "%Y-%m-%d")`
 
 * Tasks
-  $0
+$0
 
 * Meeting Notes
 
 * Retrospective
 
-* Notes for Next Day
+* Notes
+
+* Links
+- Yesterday: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-subtract (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-subtract (current-time) (* 24 3600)))`]]
+- Tomorrow: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-add (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-add (current-time) (* 24 3600)))`]]
