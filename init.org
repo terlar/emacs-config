@@ -553,9 +553,7 @@ keybindings in case I would forget them.
  "C-!" 'eshell
  "C-M-!" '(lambda () (interactive) (term "fish"))
  ;; Window
- "C-`" 'window-toggle-side-windows
- ;; Files
- "M-o" 'work-log-file)
+ "C-`" 'window-toggle-side-windows)
 #+END_SRC
 
 ** Navigation
@@ -1177,7 +1175,8 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   (:keymaps
    'yas-minor-mode-map
    [tab] 'nil
-   "TAB" 'nil)
+   "TAB" 'nil
+   "M-o" 'yas-insert-snippet)
   :init
   (setq yas-verbosity 0)
   :config
@@ -1940,7 +1939,9 @@ Snippets with preview.
 (use-package ivy-yasnippet
   :general
   ([remap yas-insert-snippet] 'ivy-yasnippet)
-  (:prefix
+  (:keymaps
+   'yas-minor-mode-map
+   :prefix
    +leader-key
    "y" 'ivy-yasnippet))
 #+END_SRC
@@ -4449,7 +4450,8 @@ Navigate through undo history.
   When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
 ** TODO Add support for special =TODO= face in org
-** TODO Work Log next/previous with =]w= and =[w=.
 ** TODO Fix e-mail address
 ** TODO Bind =sp-wrap-around=
 ** TODO Use =ielm= as REPL for org-mode
+** TODO Use file-name as base for work-log date
+** TODO Daily tasks

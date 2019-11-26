@@ -3,6 +3,10 @@
 #+EMAIL:  `user-mail-address`
 #+DATE:   `(format-time-string "%Y-%m-%d")`
 
+* Daily [0/0]
+- [ ] Check e-mail
+- [ ] Check calendar
+
 * Tasks
 $0
 
