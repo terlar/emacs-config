@@ -410,10 +410,15 @@ Example:
   :type 'string
   :group 'local)
 
-(defun time-from-work-log-file ()
-  "Extract time from work-log file."
+(defcustom work-log-daily-tasks nil
+  "Daily tasks that will be added to each new work log file."
+  :type '(repeat string)
+  :group 'local)
+
+(defun work-log-time-from-file-name ()
+  "Returns the time from the time string in the buffer file name."
   (let ((file-name (when-let* ((f (buffer-file-name)))
-                          (file-truename f)))
+                     (file-truename f)))
         (regexp (concat
                  "^"
                  (expand-file-name
@@ -426,31 +431,44 @@ Example:
     (when (and file-name (string-match regexp file-name))
       (apply 'encode-time (org-parse-time-string (match-string 1 file-name))))))
 
+(defun work-log-file-name (&optional time)
+  "Returns file name of the work log corresponding to TIME.
+When TIME is nil the target is today's work log."
+  (expand-file-name
+   (concat (file-truename work-log-directory)
+           "/"
+           (format work-log-file-name-pattern (format-time-string "%Y-%m-%d" time)))))
+
 (defun work-log-file (&optional time)
-  "Open today's work log file."
+  "Edit work log file.
+
+Switch to a buffer visiting work log file,
+creating one if none already exists.
+
+Today's work log, or if TIME is non-nil a work log corresponding
+to TIME."
   (interactive)
-  (let ((target-date (format-time-string "%Y-%m-%d" time)))
-    (find-file (expand-file-name (concat (file-truename work-log-directory)
-                                         "/"
-                                         (format work-log-file-name-pattern target-date))))))
+  (find-file (work-log-file-name time)))
 
 (defun work-log-file-previous ()
-  "Open previous work log file. If not work log file, open today's work log file."
+  "Edit previous work log file.
+
+Switch to a buffer visiting previous work log file,
+fall-back to today's work log file if none already exists."
   (interactive)
-  (let ((time (time-from-work-log-file))
+  (let ((time (work-log-time-from-file-name))
         (day-in-seconds (* 24 3600)))
-    (if time
-        (work-log-file (time-subtract time day-in-seconds))
-      (work-log-file))))
+    (work-log-file (when time (time-subtract time day-in-seconds)))))
 
 (defun work-log-file-next ()
-  "Open next work log file. If not work log file, open today's work log file."
+  "Edit next work log file.
+
+Switch to a buffer visiting next work log file,
+fall-back to today's work log file if none already exists."
   (interactive)
-  (let ((time (time-from-work-log-file))
+  (let ((time (work-log-time-from-file-name))
         (day-in-seconds (* 24 3600)))
-    (if time
-        (work-log-file (time-add time day-in-seconds))
-      (work-log-file))))
+    (work-log-file (when time (time-add time day-in-seconds)))))
 
 (defun sprint-file ()
   "Open current sprint log file."

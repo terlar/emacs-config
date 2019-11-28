@@ -1,11 +1,10 @@
-#+TITLE: Work Log `(format-time-string "%Y-%m-%d")`
+#+TITLE: Work Log `(format-time-string "%Y-%m-%d" (work-log-time-from-file-name))`
 #+AUTHOR: `user-full-name`
 #+EMAIL:  `user-mail-address`
 #+DATE:   `(format-time-string "%Y-%m-%d")`
 
 * Daily [0/0]
-- [ ] Check e-mail
-- [ ] Check calendar
+`(string-join (mapcar (lambda (task) (concat "- [ ] " task)) work-log-daily-tasks) "\n")`
 
 * Tasks
 $0
@@ -17,5 +16,5 @@ $0
 * Notes
 
 * Links
-- Yesterday: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-subtract (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-subtract (current-time) (* 24 3600)))`]]
-- Tomorrow: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-add (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-add (current-time) (* 24 3600)))`]]
+- Yesterday: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-subtract (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-subtract (work-log-time-from-file-name) (* 24 3600)))`]]
+- Tomorrow: [[file:worklog-`(format-time-string "%Y-%m-%d" (time-add (current-time) (* 24 3600)))`.org][`(format-time-string "%Y-%m-%d" (time-add (work-log-time-from-file-name) (* 24 3600)))`]]
