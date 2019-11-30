@@ -1128,7 +1128,8 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   (:keymaps
    'smartparens-mode-map
    "M-D" 'sp-unwrap-sexp
-   "M-R" 'sp-rewrap-sexp)
+   "M-R" 'sp-rewrap-sexp
+   "M-W" 'sp-wrap-round)
   :preface
   (defun +smartparens-no-autoinsert-pair-advice (orig-fn &rest args)
     "Disable command smartparens autoinsert when running ORIG-FN with ARGS."
@@ -1139,7 +1140,33 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   (show-smartparens-global-mode 1)
   :config
   (require 'smartparens-config)
+
   (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+
+  (sp-with-modes 'org-mode
+    (sp-local-pair "*" "*"
+                   :actions '(insert wrap)
+                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
+                   :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+    (sp-local-pair "_" "_" :unless '(sp-point-after-word-p)
+                   :wrap "C-_")
+    (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "«" "»"))
+
+  (sp-with-modes 'nix-mode
+    (sp-local-pair "'" "'"
+                   :unless '(sp-in-comment-p
+                             sp-in-string-quotes-p))
+    (sp-local-pair "\"" "\"")
+    (sp-local-pair "''" "''"
+                   :unless '(sp-in-comment-p
+                             sp-in-string-quotes-p)))
+
   (with-eval-after-load 'hippie-exp
     (advice-add #'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice)))
 #+END_SRC
