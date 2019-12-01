@@ -3169,6 +3169,7 @@ Use variable-pitch font but still make sure everything aligns.
   :custom
   (org-ellipsis "  ")
   (org-fontify-whole-heading-line t)
+  (org-fontify-todo-headline t)
   (org-fontify-done-headline t))
 #+END_SRC
 
@@ -3194,27 +3195,6 @@ Use variable-pitch font but still make sure everything aligns.
      #+END_SRC
 
 **** Task lists
-Add extra face for =TODO= headline.
-#+BEGIN_SRC emacs-lisp
-(defface org-headline-todo
-  '((t (:bold nil)))
-  "Face used to indicate that a headline is a TODO.
-This face is only used if `org-fontify-todo-headline' is set.  If applies
-to the part of the headline after the TODO keyword."
-  :group 'org-faces)
-
-(defun +org-set-todo-font-lock ()
-  "Fontify TODO headlines."
-  (font-lock-add-keywords 'org-mode
-                  `((,(format org-heading-keyword-regexp-format
-                              (concat
-                               "\\(?:"
-                               (mapconcat 'regexp-quote (or org-not-done-keywords) "\\|")
-                               "\\)"))
-                     (2 'org-headline-todo t)))))
-(advice-add 'org-set-font-lock-defaults :after #'+org-set-todo-font-lock)
-#+END_SRC
-
 Use symbols to represent task state.
 #+BEGIN_SRC emacs-lisp
 (defun +org-prettify-task-symbols-setup ()
