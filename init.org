@@ -716,7 +716,6 @@ An excellent, light, uncolored theme.
 No theme is perfect, also this is a good place to put my own experiments.
 #+BEGIN_SRC emacs-lisp
 (use-package local-theme
-  :demand t
   :custom
   (local-theme-default-font-height +default-font-height)
   (local-theme-line-spacing +line-spacing)
@@ -724,7 +723,11 @@ No theme is perfect, also this is a good place to put my own experiments.
   (local-theme-variable-pitch-font +variable-pitch-font)
   (local-theme-serif-font +serif-font))
 
-(load-theme 'local t)
+(eval-after-make-graphic-frame
+ "load-local-theme"
+ (require 'local-theme)
+ (load-theme 'local t))
+
 #+END_SRC
 
 *** Echo area
