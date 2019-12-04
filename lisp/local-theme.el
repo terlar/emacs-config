@@ -11,13 +11,20 @@
 
 ;;; Code:
 
-(require 'tao-theme)
+(require 'color)
 
 (deftheme local "Local theme overrides")
 
 (defgroup local-theme nil
   "Local theme customization options."
   :group 'local)
+
+(defun local-theme-darken-default-background ()
+  "Darkens the `default' face background."
+  (let ((bg (face-background 'default)))
+    (if (color-name-to-rgb bg)
+        (color-darken-name bg 4)
+      bg)))
 
 ;;;
 ;; Typography
@@ -71,13 +78,13 @@
  `(default                                 ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
  `(fixed-pitch                             ((t (:height 1.0 :family ,local-theme-fixed-pitch-font :weight light))))
  `(variable-pitch                          ((t (:height 1.0 :family ,local-theme-variable-pitch-font :weight normal))))
- `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background "#E2E3E8" :box (:line-width 4 :color "#E2E3E8")))))
- `(mode-line-inactive                      ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background "#FAFAFA" :box (:line-width 4 :color "#FAFAFA")))))
+ `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :box (:line-width 8 :color ,(face-background 'mode-line))))))
+ `(mode-line-inactive                      ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background ,(face-background 'default) :box (:line-width 8 :color ,(face-background 'default))))))
  `(mode-line-buffer-id                     ((t (:foreground nil :bold t))))
  `(header-line                             ((t (:inherit mode-line))))
  `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
  `(line-number                             ((t (:inherit fixed-pitch))))
- `(line-number-current-line                ((t (:inherit (line-number hl-line) :bold t))))
+ `(line-number-current-line                ((t (:inherit (line-number hl-line) :bold t :foreground ,local-theme-color-error))))
 
  `(error                                   ((t (:foreground ,local-theme-color-error))))
  `(success                                 ((t (:foreground ,local-theme-color-success))))
@@ -99,6 +106,18 @@
  `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
  ;; erc
  `(erc-current-nick-face                   ((t (:foreground ,local-theme-color-error))))
+ ;; eshell
+ `(eshell-prompt                           ((t (:inherit nil :bold t))))
+ `(eshell-ls-archive                       ((t (:inherit nil :bold t))))
+ `(eshell-ls-backup                        ((t (:inherit font-lock-comment-face))))
+ `(eshell-ls-clutter                       ((t (:inherit font-lock-comment-face))))
+ `(eshell-ls-directory                     ((t (:inherit nil :bold t))))
+ `(eshell-ls-executable                    ((t (:inherit nil :bold t))))
+ `(eshell-ls-unreadable                    ((t (:inherit nil))))
+ `(eshell-ls-missing                       ((t (:inherit font-lock-warning-face))))
+ `(eshell-ls-product                       ((t (:inherit font-lock-doc-face))))
+ `(eshell-ls-special                       ((t (:inherit nil :bold t))))
+ `(eshell-ls-symlink                       ((t (:inherit nil :bold t))))
  ;; org-mode
  `(org-document-title                      ((t (:inherit nil :bold nil :height 1.8))))
  `(org-level-1                             ((t (:inherit nil :bold nil :height 1.6))))
@@ -125,7 +144,7 @@
  ;; smerge
  `(smerge-upper                            ((t (:background "#E6FFED"))))
  `(smerge-lower                            ((t (:background "#FFEEF0"))))
- ;; `(smerge-base                             ((t (:background ,color-5))))
+ `(smerge-base                             ((t (:background ,(local-theme-darken-default-background)))))
  ;; term
  `(term-color-red                          ((t (:foreground ,local-theme-color-error :background nil))))
  ;; whitespace
@@ -144,22 +163,20 @@
  `(cargo-process--warning-face             ((t (:foreground ,local-theme-color-warning))))
  ;; cider
  `(cider-test-failure-face                 ((t (:background ,local-theme-color-error))))
- ;; `(cider-result-overlay-face               ((t (:background ,color-5 :foreground ,color-9 :box nil))))
+ `(cider-result-overlay-face               ((t (:background ,(local-theme-darken-default-background)))))
  ;; company
  `(company-tooltip-search                  ((t (:bold t))))
  `(company-tooltip-search-selection        ((t (:bold t))))
  ;; eldoc-posframe
- ;; `(eldoc-posframe-background-face          ((t (:background ,color-5 :foreground ,color-9))))
+ `(eldoc-posframe-background-face          ((t (:background ,(local-theme-darken-default-background)))))
  ;; eros
  `(eros-result-overlay-face                ((t (:inherit highlight :box nil))))
  ;; haskell-mode
  `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
- ;; idle-highlight
- ;; `(idle-highlight                          ((t (:background ,local-theme-color-highlight))))
  ;; indent-guide
  `(indent-guide-face                       ((t (:inherit fringe))))
  ;; ivy-posframe
- ;; `(ivy-posframe                            ((t (:background ,color-5 :foreground ,color-11))))
+ `(ivy-posframe                            ((t (:background ,(local-theme-darken-default-background)))))
  ;; markdown
  `(markdown-header-face                    ((t (:weight normal :italic t))))
  `(markdown-header-face-1                  ((t (:inherit org-level-1))))
@@ -170,7 +187,7 @@
  `(markdown-header-face-6                  ((t (:inherit org-level-6 :underline nil))))
  `(markdown-code-face                      ((t (:inherit fixed-pitch))))
  `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,local-theme-default-font-height))))
- ;; `(markdown-inline-code-face               ((t (:background ,color-3))))
+ `(markdown-inline-code-face               ((t (:background ,(local-theme-darken-default-background)))))
  `(markdown-pre-face                       ((t (:inherit fixed-pitch))))
  `(markdown-table-face                     ((t (:inherit fixed-pitch))))
  `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
@@ -179,7 +196,7 @@
  ;; perspeen
  `(perspeen-selected-face                  ((t (:bold t))))
  ;; popup
- ;; `(popup-tip-face                          ((t (:background ,color-5 :foreground ,color-9))))
+ `(popup-tip-face                          ((t (:background ,(local-theme-darken-default-background)))))
  ;; rainbow-delimiters
  `(rainbow-delimiters-unmatched-face       ((t (:bold t :foreground ,local-theme-color-error))))
  ;; readable
@@ -200,15 +217,15 @@
  `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
  ;; spray
  `(spray-base-face                         ((t (:weight normal :underline nil :family ,local-theme-serif-font))))
- `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color (face-attribute 'default :foreground)) :overline (face-attribute 'default :foreground)))))
+ `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color (face-foreground 'default)) :overline (face-foreground 'default)))))
  ;; stripe-buffer
- ;; `(stripe-highlight                        ((t (:background ,color-5))))
+ `(stripe-highlight                        ((t (:background ,(local-theme-darken-default-background)))))
  ;; web-mode
  `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :bold t))))
  ;; which-key
  `(which-key-local-map-description-face    ((t (:bold t))))
  ;; quick-peek
- ;; `(quick-peek-border-face                  ((t (:background ,color-5 :height 0.1 :box (:line-width 1 :color ,color-7)))))
+ `(quick-peek-border-face                  ((t (:inherit 'default :height 0.1))))
  `(quick-peek-padding-face                 ((t (:height 0.1)))))
 
 ;;;
@@ -218,16 +235,14 @@
  'local
  `(line-spacing ,local-theme-line-spacing)
  ;; ansi-color
- `(ansi-color-names-vector [(face-attribute 'default :foreground)
+ `(ansi-color-names-vector [(face-foreground 'default)
                             ,local-theme-color-error
-                            (face-attribute 'default :foreground)
-                            (face-attribute 'default :foreground)
-                            (face-attribute 'default :foreground)
-                            (face-attribute 'default :foreground)
-                            (face-attribute 'default :foreground)
-                            (face-attribute 'default :foreground)])
- ;; beacon
- ;; `(beacon-color ,color-5)
+                            (face-foreground 'default)
+                            (face-foreground 'default)
+                            (face-foreground 'default)
+                            (face-foreground 'default)
+                            (face-foreground 'default)
+                            (face-foreground 'default)])
  ;; coverlay
  `(coverlay:untested-line-background-color "#FFEEF0")
  `(coverlay:tested-line-background-color   "#E6FFED")
@@ -246,25 +261,25 @@
  `(rst-header-scaling-values
    '(2.2 1.6 1.4 1.2 1.0 1.0))
  ;; vc-annotate
- ;; `(vc-annotate-color-map
- ;;   '(( 20. . ,color-2)
- ;;     ( 40. . ,color-3)
- ;;     ( 60. . ,color-3)
- ;;     ( 80. . ,color-4)
- ;;     (100. . ,color-4)
- ;;     (120. . ,color-5)
- ;;     (140. . ,color-5)
- ;;     (160. . ,color-6)
- ;;     (180. . ,color-6)
- ;;     (200. . ,color-6)
- ;;     (220. . ,color-7)
- ;;     (240. . ,color-7)
- ;;     (260. . ,color-7)
- ;;     (280. . ,color-8)
- ;;     (300. . ,color-8)
- ;;     (320. . ,color-8)
- ;;     (340. . ,color-9)
- ;;     (360. . ,color-9)))
+ `(vc-annotate-color-map
+   '((20 . "#FFCCCC")
+     (40 . "#FFD8CC")
+     (60 . "#FFE4CC")
+     (80 . "#FFF0CC")
+     (100 . "#FFFCCC")
+     (120 . "#F6FFCC")
+     (140 . "#EAFFCC")
+     (160 . "#DEFFCC")
+     (180 . "#D2FFCC")
+     (200 . "#CCFFD2")
+     (220 . "#CCFFDE")
+     (240 . "#CCFFEA")
+     (260 . "#CCFFF6")
+     (280 . "#CCFCFF")
+     (300 . "#CCF0FF")
+     (320 . "#CCE4FF")
+     (340 . "#CCD8FF")
+     (360 . "#CCCCFF")))
  ;; zoom-window
  `(zoom-window-mode-line-color (face-background 'mode-line)))
 
