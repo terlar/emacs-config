@@ -723,11 +723,23 @@ No theme is perfect, also this is a good place to put my own experiments.
   (local-theme-variable-pitch-font +variable-pitch-font)
   (local-theme-serif-font +serif-font))
 
+(defvar after-load-theme-hook nil
+  "Hook run after a theme is loaded using `load-theme'.")
+(defun +load-theme-run-after-load-theme-hooks (&rest args)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+(advice-add 'load-theme :after #'+load-theme-run-after-load-theme-hooks)
+
+(defun +local-theme-ensure ()
+  "Ensure `local-theme' is loaded."
+  (unless (member 'local custom-enabled-themes)
+    (load-theme 'local t)))
+(setq after-load-theme-hook '(+local-theme-ensure))
+
 (eval-after-make-graphic-frame
  "load-local-theme"
  (require 'local-theme)
  (load-theme 'local t))
-
 #+END_SRC
 
 *** Echo area
