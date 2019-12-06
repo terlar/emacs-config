@@ -3174,6 +3174,7 @@ Use variable-pitch font but still make sure everything aligns.
   (org-mode . org-variable-pitch-minor-mode)
   :custom
   (org-variable-pitch-fixed-font +fixed-pitch-font)
+  (org-variable-pitch-fontify-headline-prefix t)
   :init
   (require 'org-indent))
 #+END_SRC
