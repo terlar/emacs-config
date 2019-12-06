@@ -65,7 +65,7 @@ Provide a location where Emacs can store data and cache.
         (concat (getenv "XDG_CACHE_HOME") "/emacs/")
       (expand-file-name "~/.cache/emacs/"))
     "Directory for cache."))
-   #+END_SRC
+#+END_SRC
 
 ** Quiet startup
 #+BEGIN_SRC emacs-lisp
@@ -341,25 +341,25 @@ Call ORIG-FN with ARGS and suppress the output.
 Example:
   (advice-add #'orig-fun :around #'quiet-function-advice)"
   (quiet! (apply orig-fn args)))
-   #+END_SRC
+#+END_SRC
 
-   Run forms when graphical frame is created.
-   #+BEGIN_SRC emacs-lisp
-   (defmacro eval-after-make-graphic-frame (hook-id &rest forms)
-     "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
-      Add a hook to `after-make-frame-functions' with form wrapped in a
-      `display-graphic-p' condition."
-     (let ((hook-name (intern
-                       (concat
-                        "+eval-after-make-graphic-frame--"
-                        hook-id
-                        "-hook"))))
-       `(progn
-          (defun ,hook-name (frame)
-            (with-selected-frame frame
-              (when (display-graphic-p frame)
-                ,@forms)))
-          (add-hook 'after-make-frame-functions #',hook-name))))
+Run forms when graphical frame is created.
+#+BEGIN_SRC emacs-lisp
+(defmacro eval-after-make-graphic-frame (hook-id &rest forms)
+  "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
+   Add a hook to `after-make-frame-functions' with form wrapped in a
+   `display-graphic-p' condition."
+  (let ((hook-name (intern
+                    (concat
+                     "+eval-after-make-graphic-frame--"
+                     hook-id
+                     "-hook"))))
+    `(progn
+       (defun ,hook-name (frame)
+         (with-selected-frame frame
+           (when (display-graphic-p frame)
+             ,@forms)))
+       (add-hook 'after-make-frame-functions #',hook-name))))
 #+END_SRC
 
 *** Display
@@ -910,7 +910,7 @@ Hide minor modes to save space.
 
 (with-eval-after-load 'all-the-icons
   (setq-default mode-line-modified '((:eval (mode-line-modified-icons)))))
-     #+END_SRC
+#+END_SRC
 
 **** Remote
 #+BEGIN_SRC emacs-lisp
@@ -1207,7 +1207,7 @@ Display whitespace
    '((tab-mark ?\t [?› ?\t])
      (newline-mark 10 [?¬ 10])
      (space-mark 32 [183] [46]))))
-    #+END_SRC
+#+END_SRC
 
 *** whole-line-or-region
 Cut/copy (=C-w= / =M-w=) the current line if no region is active.
@@ -1281,13 +1281,13 @@ Display page breaks as a horizontal line.
   ;; Only highlight in selected window
   (hl-line-sticky-flag nil)
   (global-hl-line-sticky-flag nil))
-    #+END_SRC
+#+END_SRC
 
 * Buffers
-  Prevent generation of useless lock and backup files.
-  #+BEGIN_SRC emacs-lisp
-  (setq create-lockfiles nil
-        make-backup-files nil)
+Prevent generation of useless lock and backup files.
+#+BEGIN_SRC emacs-lisp
+(setq create-lockfiles nil
+      make-backup-files nil)
 #+END_SRC
 
 Don't require confirmation when opening a new buffer.
@@ -2228,7 +2228,7 @@ Don't ask about keeping current list of tags tables.
 (use-package etags
   :custom
   (tags-add-tables nil))
-   #+END_SRC
+#+END_SRC
 
 *** dumb-jump
 #+BEGIN_SRC emacs-lisp
@@ -2357,7 +2357,7 @@ Receives PROCESS and EVENT."
              +cache-dir))
       (comint-read-input-ring)
       (set-process-sentinel process #'+comint-history-write-on-exit))))
-    #+END_SRC
+#+END_SRC
 
 ** Syntax checker
 Silence next/previous error, by default it produces a message every time.
@@ -3120,7 +3120,7 @@ Presentation mode.
    'org-mode-map
    :prefix +local-leader-key
    "p" 'org-tree-slide-mode))
-     #+END_SRC
+#+END_SRC
 
 **** ob-http
 #+BEGIN_SRC emacs-lisp
@@ -3207,7 +3207,7 @@ Use variable-pitch font but still make sure everything aligns.
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
    ("^ *[-*+] \\[\\(X\\)\\] "
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
-     #+END_SRC
+#+END_SRC
 
 **** Task lists
 Use symbols to represent task state.
