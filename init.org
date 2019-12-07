@@ -1243,22 +1243,21 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
-  :defer 2)
+  :hook
+  (yas-minor-mode . yasnippet-snippets-initialize))
 #+END_SRC
 
 *** yatemplate
 #+BEGIN_SRC emacs-lisp
 (use-package autoinsert
-  :defer 1
+  :hook
+  (after-init . auto-insert-mode)
   :custom
-  (auto-insert-query nil)
-  (auto-insert-alist nil)
-  :config
-  (auto-insert-mode 1))
+  (auto-insert-query nil))
 
 (use-package yatemplate
-  :init
-  (yatemplate-fill-alist))
+  :hook
+  (auto-insert-mode . yatemplate-fill-alist))
 #+END_SRC
 
 ** Appearance
