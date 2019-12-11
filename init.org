@@ -3143,7 +3143,6 @@ This sections makes =org-mode= look more beautiful and appealing.
   :custom
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
-  (org-image-actual-width 800)
   (org-pretty-entities t)
   (org-src-fontify-natively t)
   (org-startup-with-inline-images t)
