@@ -3111,6 +3111,8 @@ Support for radiobuttons.
 Presentation mode.
 #+BEGIN_SRC emacs-lisp
 (use-package org-tree-slide
+  :hook
+  (org-tree-slide-mode . hide-mode-line-mode)
   :custom
   (org-tree-slide-header nil)
   (org-tree-slide-slide-in-effect nil)
@@ -3137,7 +3139,6 @@ This sections makes =org-mode= look more beautiful and appealing.
   (org-babel-after-execute . org-redisplay-inline-images)
   (org-mode . +org-cursor-setup)
   (org-mode . +org-prettify-syntax-setup)
-  (org-mode . hide-mode-line-mode)
   (org-mode . org-indent-mode)
   :custom
   (org-fontify-quote-and-verse-blocks t)
