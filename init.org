@@ -2496,7 +2496,7 @@ Enhanced git related views and commands.
   (magit-log-buffer-file-locked t)
   (magit-refs-show-commit-count 'all)
   (magit-save-repository-buffers 'dontask)
-  (git-messenger:use-magit-popup t)
+  (vc-msg-git-show-commit-function 'magit-show-commit)
   :preface
   (defun +git-commit-set-fill-column ()
     "Set `fill-column' for git commit."
@@ -2507,12 +2507,12 @@ Enhanced git related views and commands.
   (global-magit-file-mode 1))
 #+END_SRC
 
-*** git-messenger
+*** vc-msg
 Popup commit message for current line
 #+BEGIN_SRC emacs-lisp
-(use-package git-messenger
+(use-package vc-msg
   :general
-  ("C-x v p" 'git-messenger:popup-message))
+  ("C-x v p" 'vc-msg-show))
 #+END_SRC
 
 ** Packages
