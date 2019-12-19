@@ -3240,7 +3240,25 @@ Remove style from heading breadcrumbs.
 
 *** Export
 **** LaTeX
-Add links in footnotes:
+Disable link colors.
+#+BEGIN_SRC emacs-lisp
+(use-package ox-latex
+  :custom
+  (org-latex-hyperref-template
+   (mapconcat
+    'identity
+    '("\\hypersetup{"
+      "pdfauthor={%a},"
+      "pdftitle={%t},"
+      "pdfkeywords={%k},"
+      "pdfsubject={%d},"
+      "pdfcreator={%c},"
+      "pdflang={%L},"
+      "pdfborder=0 0 0}")
+    "\n")))
+#+END_SRC
+
+Add links in footnotes.
 #+BEGIN_SRC emacs-lisp
 (defvar org-export-latex-add-link-footnotes t
   "If non-nil links will be added as footnotes if exported to latex.")
