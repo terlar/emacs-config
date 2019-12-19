@@ -3238,6 +3238,27 @@ Remove style from heading breadcrumbs.
   (org-mode . org-pretty-table-mode))
 #+END_SRC
 
+*** Export
+**** LaTeX
+Add links in footnotes:
+#+BEGIN_SRC emacs-lisp
+(defvar org-export-latex-add-link-footnotes t
+  "If non-nil links will be added as footnotes if exported to latex.")
+
+(defun +org-export-latex-link-footnote (text backend info)
+  "Create a footnote in latex for each link. So when printed the information isn't lost."
+  (when (and org-export-latex-add-link-footnotes
+             (org-export-derived-backend-p backend 'latex)
+             (string-match "\\\\href{\\(.*\\)}{\\(.*\\)}" text))
+    (when (some (lambda (type)
+                  (string-prefix-p type (match-string 1 text)))
+                '("http" "https" "ftp" "mailto" "doi"))
+      (format "%s \\footnote{\\url{%s}} " text (match-string 1 text)))))
+
+(with-eval-after-load 'ox
+  (cl-pushnew #'+org-export-latex-link-footnote org-export-filter-link-functions :test #'equal))
+#+END_SRC
+
 ** ansible
 #+BEGIN_SRC emacs-lisp
 (use-package ansible
