@@ -3597,6 +3597,8 @@ Debugger
   :diminish indium-interaction-mode
   :hook
   (js-mode . +indium-interaction-unless-json-mode)
+  :commands
+  (indium-interaction-mode)
   :preface
   (defun +indium-interaction-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
