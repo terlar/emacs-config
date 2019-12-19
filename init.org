@@ -1440,18 +1440,6 @@ Display colors inline.
   (global-relative-buffers-mode 1))
 #+END_SRC
 
-*** spray
-#+BEGIN_SRC emacs-lisp
-(use-package spray
-  :custom
-  (spray-height 500)
-  (spray-margin-left 2)
-  :config
-  (setq spray-unsupported-minor-modes
-        (append '(beacon-mode centered-window-mode visual-fill-column-mode)
-                spray-unsupported-minor-modes)))
-#+END_SRC
-
 *** wgrep-ag
 Writeable grep buffer with ability to apply the changes to all the files.
 #+BEGIN_SRC emacs-lisp
@@ -4468,6 +4456,24 @@ it really useful.
   (cl-pushnew 'ivy-views desktop-globals-to-save :test #'equal)
 
   (desktop-save-mode 1))
+#+END_SRC
+
+** Speed reading
+#+BEGIN_SRC emacs-lisp
+(use-package spray
+  :hook
+  (spray-mode . turn-off-truncate-lines)
+  :custom
+  (spray-height 500)
+  (spray-margin-left 2)
+  :config
+  (setq spray-unsupported-minor-modes
+        (append '(beacon-mode centered-window-mode visual-fill-column-mode)
+                spray-unsupported-minor-modes))
+  :general
+  (:prefix
+   +launch-prefix
+   "s" 'spray-mode))
 #+END_SRC
 
 ** Spell checking

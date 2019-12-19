@@ -217,7 +217,7 @@
  `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
  ;; spray
  `(spray-base-face                         ((t (:weight normal :underline nil :family ,local-theme-serif-font))))
- `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color (face-foreground 'default)) :overline (face-foreground 'default)))))
+ `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
  ;; stripe-buffer
  `(stripe-highlight                        ((t (:background ,(local-theme-darken-default-background)))))
  ;; web-mode
@@ -235,14 +235,14 @@
  'local
  `(line-spacing ,local-theme-line-spacing)
  ;; ansi-color
- `(ansi-color-names-vector [(face-foreground 'default)
+ `(ansi-color-names-vector [,(face-foreground 'default)
                             ,local-theme-color-error
-                            (face-foreground 'default)
-                            (face-foreground 'default)
-                            (face-foreground 'default)
-                            (face-foreground 'default)
-                            (face-foreground 'default)
-                            (face-foreground 'default)])
+                            ,(face-foreground 'default)
+                            ,(face-foreground 'default)
+                            ,(face-foreground 'default)
+                            ,(face-foreground 'default)
+                            ,(face-foreground 'default)
+                            ,(face-foreground 'default)])
  ;; coverlay
  `(coverlay:untested-line-background-color "#FFEEF0")
  `(coverlay:tested-line-background-color   "#E6FFED")
@@ -281,7 +281,7 @@
      (340 . "#CCD8FF")
      (360 . "#CCCCFF")))
  ;; zoom-window
- `(zoom-window-mode-line-color (face-background 'mode-line)))
+ `(zoom-window-mode-line-color ,(face-background 'mode-line)))
 
 ;;;###autoload
 (and load-file-name
