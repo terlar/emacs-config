@@ -478,12 +478,26 @@ fall-back to today's work log file if none already exists."
 #+END_SRC
 
 *** Window
+Dedicated window:
 #+BEGIN_SRC emacs-lisp
 (defun toggle-dedicated-window ()
   "Toggle selected window as dedicated window."
   (interactive)
   (set-window-dedicated-p (selected-window)
                           (not (window-dedicated-p (selected-window)))))
+#+END_SRC
+
+Fringe control:
+#+BEGIN_SRC emacs-lisp
+(defun no-fringes ()
+  "Remove all fringes."
+  (interactive)
+  (set-window-fringes (selected-window) 0 0 nil))
+
+(defun restore-fringes ()
+  "Restore fringes."
+  (interactive)
+  (set-window-fringes (selected-window) 8 8 t))
 #+END_SRC
 
 * Keybindings
@@ -3100,7 +3114,10 @@ Presentation mode.
 #+BEGIN_SRC emacs-lisp
 (use-package org-tree-slide
   :hook
-  (org-tree-slide-mode . hide-mode-line-mode)
+  (org-tree-slide-play . turn-on-hide-mode-line-mode)
+  (org-tree-slide-stop . turn-off-hide-mode-line-mode)
+  (org-tree-slide-play . no-fringes)
+  (org-tree-slide-stop . restore-fringes)
   :custom
   (org-tree-slide-header nil)
   (org-tree-slide-slide-in-effect nil)
