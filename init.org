@@ -3123,6 +3123,10 @@ Presentation mode.
   (org-tree-slide-slide-in-effect nil)
   :general
   (:keymaps
+   'org-tree-slide-mode-map
+   "<right>" 'org-tree-slide-move-next-tree
+   "<left>" 'org-tree-slide-move-previous-tree)
+  (:keymaps
    'org-mode-map
    :prefix +local-leader-key
    "p" 'org-tree-slide-mode))
