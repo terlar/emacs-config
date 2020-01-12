@@ -1063,14 +1063,6 @@ Wrap at words and don't require double spaces to end a sentence.
 (setq-default word-wrap t)
 #+END_SRC
 
-Disable line wrapping. But enable =visual-line-mode= by default to be able to use
-=global-visual-fill-column-mode=.
-#+BEGIN_SRC emacs-lisp
-(setq-default truncate-lines t)
-(add-hook 'visual-line-mode-hook #'turn-on-truncate-lines)
-(global-visual-line-mode 1)
-#+END_SRC
-
 ** Kill-ring
 Save clipboard contents into kill-ring before replacing them
 #+BEGIN_SRC emacs-lisp
@@ -2802,8 +2794,6 @@ Emacs Start Up Profiler.
 Better =*help*= buffer
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
-  :hook
-  (helpful-mode . turn-off-truncate-lines)
   :general
   (:keymaps
    'emacs-lisp-mode-map
@@ -2892,17 +2882,11 @@ Improve readability of escape characters in regular expressions.
 #+BEGIN_SRC emacs-lisp
 (use-package erc
   :hook
-  (erc-mode . +erc-line-setup)
   (erc-mode . +erc-parens-setup)
   :custom
   (erc-hide-list '("JOIN" "PART" "QUIT"))
   (erc-prompt-for-password nil)
   :preface
-  (defun +erc-line-setup ()
-    "Line configuration for `erc-mode'."
-    (visual-line-mode 0)
-    (turn-off-truncate-lines))
-
   (defun +erc-parens-setup ()
     "Parenthesis configuration for `erc-mode'."
     (smartparens-strict-mode 0)
@@ -4273,8 +4257,6 @@ Pretty check-boxes as well as bullet lists.
 ** term
 #+BEGIN_SRC emacs-lisp
 (use-package term
-  :hook
-  (term . turn-off-truncate-lines)
   :custom
   (explicit-shell-file-name "fish")
   :general
@@ -4482,8 +4464,6 @@ it really useful.
 ** Speed reading
 #+BEGIN_SRC emacs-lisp
 (use-package spray
-  :hook
-  (spray-mode . turn-off-truncate-lines)
   :custom
   (spray-height 500)
   (spray-margin-left 2)
