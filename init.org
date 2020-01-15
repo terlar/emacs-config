@@ -2551,6 +2551,8 @@ Generic Language Server Protocol integration via =eglot=.
   (defun +eglot-ensure-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (eglot-ensure)))
   :custom
+  (eglot-autoshutdown t)
+  (eglot-confirm-server-initiated-edits nil)
   (eglot-sync-connect nil)
   :general
   (:keymaps
