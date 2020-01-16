@@ -1934,7 +1934,7 @@ Tips:
       (when root
         (mapcar
          (lambda (f) (expand-file-name f root))
-         (counsel-git-cands)))))
+         (counsel-git-cands root)))))
 
   (ivy-set-sources
    'counsel-recentf
