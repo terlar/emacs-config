@@ -132,7 +132,7 @@
  `(org-done                                ((t (:height ,local-theme-default-font-height))))
  `(org-headline-done                       ((t (:inherit nil))))
  `(org-headline-todo                       ((t (:inherit nil))))
- `(org-block                               ((t (:weight light))))
+ `(org-block                               ((t (:weight light :background ,(local-theme-darken-default-background) :extend t))))
  `(org-checkbox                            ((t (:inherit fixed-pitch))))
  `(org-code                                ((t (:inherit org-verbatim))))
  `(org-hide                                ((t (:inherit fixed-pitch))))
@@ -175,6 +175,8 @@
  `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
  ;; indent-guide
  `(indent-guide-face                       ((t (:inherit fringe))))
+ ;; ivy
+ `(ivy-current-match                       ((t (:extend t))))
  ;; ivy-posframe
  `(ivy-posframe                            ((t (:background ,(local-theme-darken-default-background)))))
  ;; markdown
