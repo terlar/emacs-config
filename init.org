@@ -1933,7 +1933,8 @@ Tips:
     (let ((root (counsel--git-root)))
       (when root
         (mapcar
-         (lambda (f) (expand-file-name f root))
+         (lambda (f)
+           (abbreviate-file-name (expand-file-name f root)))
          (counsel-git-cands root)))))
 
   (ivy-set-sources
