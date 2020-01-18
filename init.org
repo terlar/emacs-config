@@ -110,11 +110,6 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 #+END_SRC
 
 ** Package management
-Don't use defualt =package.el=:
-#+BEGIN_SRC emacs-lisp
-(setq package-enable-at-startup nil)
-#+END_SRC
-
 *** use-package
 #+BEGIN_SRC emacs-lisp
 (eval-when-compile
@@ -956,12 +951,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 #+END_SRC
 
 * Display
-** Frame
-Don't implicitly resize frames when changes various settings.
-#+BEGIN_SRC emacs-lisp
-(setq frame-inhibit-implied-resize t)
-#+END_SRC
-
 ** Window
 *** Favor horizontal splits
 #+BEGIN_SRC emacs-lisp
