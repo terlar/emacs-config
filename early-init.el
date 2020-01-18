@@ -23,12 +23,11 @@
                        file-name-handler-alist ',normal-file-name-handler-alist)))))
 
 ;; Disable GUI components
-(when window-system
-  (setq use-dialog-box nil)
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-  (tooltip-mode 0))
+(setq use-dialog-box nil)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(tooltip-mode 0)
 
 ;; Ignore X resources
 (advice-add #'x-apply-session-resources :override #'ignore)
