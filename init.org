@@ -344,18 +344,23 @@ Run forms when graphical frame is created.
 #+BEGIN_SRC emacs-lisp
 (defmacro eval-after-make-graphic-frame (hook-id &rest forms)
   "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
-   Add a hook to `after-make-frame-functions' with form wrapped in a
-   `display-graphic-p' condition."
+   Add a hook to `after-make-frame-functions' with form wrapped
+   in a `display-graphic-p' condition.
+
+   Also add a hook to `after-init-hook' with a form wrapped in a
+   `display-graphic-p' condition in order to work with the
+   initial frame when not running in server mode."
   (let ((hook-name (intern
                     (concat
                      "+eval-after-make-graphic-frame--"
                      hook-id
                      "-hook"))))
     `(progn
-       (defun ,hook-name (frame)
+       (cl-defun ,hook-name (&optional (frame (selected-frame)))
          (with-selected-frame frame
-           (when (display-graphic-p frame)
+           (when (display-graphic-p)
              ,@forms)))
+       (add-hook 'after-init-hook #',hook-name)
        (add-hook 'after-make-frame-functions #',hook-name))))
 #+END_SRC
 
@@ -717,7 +722,11 @@ An excellent, light, uncolored theme.
   :demand t
   :custom
   (tao-theme-use-sepia t))
+#+END_SRC
 
+*** berrys-theme
+Light, uncolored theme with a splash of blue.
+#+BEGIN_SRC emacs-lisp
 (use-package berrys-theme :demand t)
 
 (load-theme 'berrys t)
