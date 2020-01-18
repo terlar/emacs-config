@@ -188,7 +188,7 @@ Persist history.
 
 *** flymake-quickdef
 #+BEGIN_SRC emacs-lisp
-(use-package flymake-quickdef)
+(use-package flymake-quickdef :demand t)
 #+END_SRC
 
 *** posframe
@@ -249,13 +249,15 @@ Enable minor modes by buffer name and contents. It provides the =use-package= ke
 *** defrepeater
 Support defining repeating commands by repeating the last key.
 #+BEGIN_SRC emacs-lisp
-(use-package defrepeater)
+(use-package defrepeater
+  :commands (defrepeater))
 #+END_SRC
 
 *** diminish
 Hide mode-line modes, more room for important stuff.
 #+BEGIN_SRC emacs-lisp
-(use-package diminish)
+(use-package diminish
+  :commands (diminish))
 #+END_SRC
 
 *** general
@@ -1131,6 +1133,9 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   (smartparens-mode smartparens-strict-mode)
   :hook
   (eval-expression-minibuffer-setup . smartparens-strict-mode)
+  :commands
+  (smartparens-global-strict-mode
+   show-smartparens-global-mode)
   :general
   (:prefix
    +toggle-prefix
@@ -1209,6 +1214,9 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+BEGIN_SRC emacs-lisp
 (use-package whole-line-or-region
   :diminish whole-line-or-region-local-mode
+  :commands
+  (whole-line-or-region-mode
+   whole-line-or-region-global-mode)
   :init
   (whole-line-or-region-global-mode 1))
 #+END_SRC
@@ -2617,7 +2625,9 @@ Delete trailing white-space before save, but *only* for edited lines.
 (use-package ws-butler
   :diminish ws-butler-mode
   :custom
-  (ws-butler-convert-leading-tabs-or-spaces t))
+  (ws-butler-convert-leading-tabs-or-spaces t)
+  :commands
+  (ws-butler-mode))
 #+END_SRC
 
 ** Appearance
