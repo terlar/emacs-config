@@ -1425,7 +1425,7 @@ Display colors inline.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
   :minor
-  "-theme\\.el$"
+  "-theme\\.el\\'"
   :hook
   help-mode)
 #+END_SRC
@@ -3014,7 +3014,7 @@ Populate auto-completions from fish.
   :hook
   (org-mode . auto-fill-mode)
   :minor
-  ("init\\.org$" . auto-tangle-mode)
+  ("init\\.org\\'" . auto-tangle-mode)
   :custom
   (org-agenda-files '("~/org"))
   (org-confirm-babel-evaluate nil)
@@ -3285,8 +3285,8 @@ Add links in footnotes.
 #+BEGIN_SRC emacs-lisp
 (use-package ansible
   :minor
-  "site\\.yml$"
-  "roles/.+\\.yml$"
+  "site\\.yml\\'"
+  "roles/.+\\.yml\\'"
   :magic-minor
   "^\\(---\n\\)?\\(#.*\n\\)* *-? \\(environment\\|h\\(?:\\(?:andler\\|ost\\)s\\)\\|i\\(?:mport_tasks\\|nclude\\(?:_tasks\\)?\\)\\|p\\(?:\\(?:ost\\|re\\)_tasks\\)\\|roles?\\|tasks\\|vars\\(?:_\\(?:files\\|prompt\\)\\)?\\):")
 
@@ -3412,7 +3412,7 @@ Add links in footnotes.
 #+BEGIN_SRC emacs-lisp
 (use-package nov
   :mode
-  ("\\.epub$" . nov-mode)
+  ("\\.epub\\'" . nov-mode)
   :hook
   (nov-mode . +nov-delayed-render-setup)
   (nov-mode . +nov-fringes-setup)
@@ -3472,7 +3472,7 @@ Add links in footnotes.
 #+BEGIN_SRC emacs-lisp
 (use-package gitignore-mode
   :mode
-  ("/\\.dockerignore$" . gitignore-mode))
+  ("/\\.dockerignore\\'" . gitignore-mode))
 #+END_SRC
 
 ** go
@@ -3746,7 +3746,7 @@ React JSX support.
 #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
   :mode
-  "\\.jsx$"
+  "\\.jsx\\'"
   :magic
   ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode)
   :general
@@ -3883,7 +3883,7 @@ Pretty check-boxes
 ** nxml
 #+BEGIN_SRC emacs-lisp
 (use-package nxml-mode
-  :mode "\\.plist$"
+  :mode "\\.plist\\'"
   :custom
   (nxml-slash-auto-complete-flag t)
   :config
@@ -3911,7 +3911,7 @@ Pretty check-boxes
 **** pdf-tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
-  :mode ("\\.pdf$" . pdf-view-mode))
+  :mode ("\\.pdf\\'" . pdf-view-mode))
 #+END_SRC
 
 ** plantuml
@@ -4367,7 +4367,7 @@ Snippets and Zen Coding for HTML.
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
   :mode
-  "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)$"
+  "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
   :custom
   (web-mode-enable-html-entities-fontification t)
   ;; Highlight enclosing tags of the element under cursor
