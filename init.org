@@ -3866,7 +3866,8 @@ Pretty check-boxes
 
 ** nix
 #+BEGIN_SRC emacs-lisp
-(use-package nix-mode)
+(use-package nix-mode
+  :mode ("\\.nix\\'" . nix-mode))
 #+END_SRC
 
 *** Packages
