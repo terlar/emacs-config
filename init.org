@@ -3306,7 +3306,12 @@ Add links in footnotes.
 
 ** clojure
 #+BEGIN_SRC emacs-lisp
-(use-package clojure-mode)
+(use-package clojure-mode
+  :mode
+  "\\.\\(clj\\|dtm\\|edn\\)\\'"
+  "\\(?:build\\|profile\\)\\.boot\\'"
+  ("\\.cljc\\'" . clojurec-mode)
+  ("\\.cljs\\'" . clojurescript-mode))
 #+END_SRC
 
 *** Packages
@@ -3333,6 +3338,7 @@ Add links in footnotes.
 ** crystal
 #+BEGIN_SRC emacs-lisp
 (use-package crystal-mode
+  :mode "\\(?:\\.cr\\)\\'"
   :general
   (:keymaps
    'crystal-mode-map
@@ -3358,18 +3364,26 @@ Add links in footnotes.
 ** csv
 #+BEGIN_SRC emacs-lisp
 (use-package csv-mode
+  :mode
+  "\\.[Cc][Ss][Vv]\\'"
+  ("\\.tsv\\'" . tsv-mode)
   :custom
   (csv-separators '("," "\t" ";")))
 #+END_SRC
 
 ** elasticsearch
 #+BEGIN_SRC emacs-lisp
-(use-package es-mode)
+(use-package es-mode
+  :mode "\\.es\\'")
 #+END_SRC
 
 ** elixir
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode)
+(use-package elixir-mode
+  :mode
+  "\\.elixir\\'"
+  "\\.ex\\'"
+  "\\.exs\\'")
 #+END_SRC
 
 *** Packages
@@ -3394,6 +3408,7 @@ Add links in footnotes.
 ** elm
 #+BEGIN_SRC emacs-lisp
 (use-package elm-mode
+  :mode "\\.elm\\'"
   :custom
   (elm-format-on-save t)
   (elm-package-json "elm.json")
@@ -3430,6 +3445,14 @@ Add links in footnotes.
 ** erlang
 #+BEGIN_SRC emacs-lisp
 (use-package erlang
+  :mode
+  "\\.erl$"
+  "\\.app\\.src$"
+  "\\.escript"
+  "\\.hrl$"
+  "\\.xrl$"
+  "\\.yrl"
+  "/ebin/.+\\.app"
   :hook
   (erlang-mode . +erlang-eunit-setup)
   (erlang-mode . +erlang-flymake-setup)
@@ -3471,13 +3494,15 @@ Add links in footnotes.
 **** gitignore-mode
 #+BEGIN_SRC emacs-lisp
 (use-package gitignore-mode
-  :mode
-  ("/\\.dockerignore\\'" . gitignore-mode))
+  :mode "/\\.dockerignore\\'")
 #+END_SRC
 
 ** go
 #+BEGIN_SRC emacs-lisp
 (use-package go-mode
+  :mode
+  "\\.go\\'"
+  ("go\\.mod\\'" . go-dot-mod-mode)
   :hook
   (go-mode . +go-prettify-symbols-setup)
   :custom
@@ -3509,17 +3534,29 @@ Add links in footnotes.
 
 ** groovy
 #+BEGIN_SRC emacs-lisp
-(use-package groovy-mode)
+(use-package groovy-mode
+  :mode
+  "\\.g\\(?:ant\\|roovy\\|radle\\)\\'"
+  "Jenkinsfile")
 #+END_SRC
 
 ** fish
 #+BEGIN_SRC emacs-lisp
-(use-package fish-mode)
+(use-package fish-mode
+  :mode
+  "\\.fish\\'"
+  "/fish_funced\\..*\\'")
 #+END_SRC
 
 ** haskell
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode
+  :mode
+  "\\.[gh]s\\'"
+  "\\.hsig\\'"
+  "\\.hsc\\'"
+  ("\\.cabal\\'\\|/cabal\\.project\\|/\\.cabal/config\\'" . haskell-cabal-mode)
+  ("\\.l[gh]s\\'" . literate-haskell-mode)
   :hook
   (haskell-mode . interactive-haskell-mode)
   :custom
@@ -3600,7 +3637,10 @@ Persist REPL history.
 
 ** js
 #+BEGIN_SRC emacs-lisp
-(use-package js-mode
+(use-package js
+  :mode
+  ("\\.js[mx]?\\'" . javascript-mode)
+  ("\\.har\\'" . javascript-mode)
   :hook
   (js-mode . +js-find-file-setup)
   (js-mode . +js-prettify-symbols-setup)
@@ -3702,6 +3742,8 @@ REPL for nodejs.
 ** json
 #+BEGIN_SRC emacs-lisp
 (use-package json-mode
+  :mode
+  "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)"
   :preface
   (defun +json-mode-setup-flymake ()
     "Setup `json-mode' integration with Flymake."
@@ -3745,8 +3787,7 @@ REPL for nodejs.
 React JSX support.
 #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
-  :mode
-  "\\.jsx\\'"
+  :mode "\\.jsx\\'"
   :magic
   ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode)
   :general
@@ -3792,6 +3833,7 @@ React JSX support.
 ** lua
 #+BEGIN_SRC emacs-lisp
 (use-package lua-mode
+  :mode "\\.lua\\'"
   :hook
   (lua-mode . +lua-prettify-symbols-setup)
   :custom
@@ -3811,6 +3853,9 @@ React JSX support.
 ** markdown
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
+  :mode
+  "\\.markdown\\'"
+  "\\.md\\'"
   :hook
   (markdown-mode . auto-fill-mode)
   :custom
@@ -3861,13 +3906,16 @@ Pretty check-boxes
 
 ** nginx
 #+BEGIN_SRC emacs-lisp
-(use-package nginx-mode)
+(use-package nginx-mode
+  :mode
+  "/nginx/.+\\.conf\\'"
+  "nginx\\.conf\\'")
 #+END_SRC
 
 ** nix
 #+BEGIN_SRC emacs-lisp
 (use-package nix-mode
-  :mode ("\\.nix\\'" . nix-mode))
+  :mode "\\.nix\\'")
 #+END_SRC
 
 *** Packages
@@ -3918,13 +3966,15 @@ Pretty check-boxes
 ** plantuml
 #+BEGIN_SRC emacs-lisp
 (use-package plantuml-mode
+  :mode "\\.\\(plantuml\\|pum\\|plu\\)\\'"
   :custom
   (plantuml-default-exec-mode 'executable))
 #+END_SRC
 
 ** protobuf
 #+BEGIN_SRC emacs-lisp
-(use-package protobuf-mode)
+(use-package protobuf-mode
+  :mode "\\.proto\\'")
 #+END_SRC
 
 ** python
@@ -3985,6 +4035,7 @@ Editing pip requirements files.
 ** racket
 #+BEGIN_SRC emacs-lisp
 (use-package racket-mode
+  :mode "\\.rkt[dl]?\\'"
   :general
   (:keymaps
    'racket-mode-map
@@ -4197,6 +4248,8 @@ Pretty check-boxes as well as bullet lists.
 ** rust
 #+BEGIN_SRC emacs-lisp
 (use-package rustic
+  :mode
+  ("\\.rs\\'" . rustic-mode)
   :custom
   (rustic-rls-pkg 'eglot)
   :general
@@ -4214,6 +4267,7 @@ Pretty check-boxes as well as bullet lists.
 ** salt
 #+BEGIN_SRC emacs-lisp
 (use-package salt-mode
+  :mode "\\.sls\\'"
   :general
   (:keymaps
    'salt-mode-map
@@ -4223,6 +4277,7 @@ Pretty check-boxes as well as bullet lists.
 ** scala
 #+BEGIN_SRC emacs-lisp
 (use-package scala-mode
+  :mode "\\.\\(scala\\|sbt\\)\\'"
   :hook
   (scala-mode . +scala-prettify-symbols-setup)
   :custom
@@ -4280,6 +4335,7 @@ Pretty check-boxes as well as bullet lists.
 ** typescript
 #+BEGIN_SRC emacs-lisp
 (use-package typescript-mode
+  :mode "\\.ts$"
   :hook
   (typescript-mode . +typescript-find-file-setup)
   (typescript-mode . +typescript-prettify-symbols-setup)
@@ -4356,19 +4412,20 @@ Snippets and Zen Coding for HTML.
 
 **** pug-mode
 #+BEGIN_SRC emacs-lisp
-(use-package pug-mode)
+(use-package pug-mode
+  :mode "\\.\\(?:jade\\|pug\\)\\'")
 #+END_SRC
 
 **** slim-mode
 #+BEGIN_SRC emacs-lisp
-(use-package slim-mode)
+(use-package slim-mode
+  :mode "\\.slim\\'")
 #+END_SRC
 
 **** web-mode
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
-  :mode
-  "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
+  :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
   :custom
   (web-mode-enable-html-entities-fontification t)
   ;; Highlight enclosing tags of the element under cursor
@@ -4381,6 +4438,7 @@ Snippets and Zen Coding for HTML.
 ** yaml
 #+BEGIN_SRC emacs-lisp
 (use-package yaml-mode
+  :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
   :hook (yaml-mode . indent-guide-mode))
 #+END_SRC
 
