@@ -23,7 +23,14 @@
   "Darkens the `default' face background."
   (let ((bg (face-background 'default)))
     (if (color-name-to-rgb bg)
-        (color-darken-name bg 4)
+        (color-darken-name bg 3)
+      bg)))
+
+(defun local-theme-lighten-default-background ()
+  "Lightens the `default' face background."
+  (let ((bg (face-background 'default)))
+    (if (color-name-to-rgb bg)
+        (color-lighten-name bg 3)
       bg)))
 
 ;;;
@@ -132,7 +139,9 @@
  `(org-done                                ((t (:height ,local-theme-default-font-height))))
  `(org-headline-done                       ((t (:inherit nil))))
  `(org-headline-todo                       ((t (:inherit nil))))
- `(org-block                               ((t (:weight light :background ,(local-theme-darken-default-background) :extend t))))
+ `(org-block                               ((((background light)) (:weight light :background ,(local-theme-darken-default-background) :extend t))
+                                            (((background dark)) (:weight light :background ,(local-theme-lighten-default-background) :extend t))
+                                            (t (:weight light))))
  `(org-checkbox                            ((t (:inherit fixed-pitch))))
  `(org-code                                ((t (:inherit org-verbatim))))
  `(org-hide                                ((t (:inherit fixed-pitch))))
@@ -152,7 +161,8 @@
  ;; smerge
  `(smerge-upper                            ((t (:background "#E6FFED"))))
  `(smerge-lower                            ((t (:background "#FFEEF0"))))
- `(smerge-base                             ((t (:background ,(local-theme-darken-default-background)))))
+ `(smerge-base                             ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; term
  `(term-color-red                          ((t (:foreground ,local-theme-color-error :background nil))))
  ;; whitespace
@@ -171,12 +181,14 @@
  `(cargo-process--warning-face             ((t (:foreground ,local-theme-color-warning))))
  ;; cider
  `(cider-test-failure-face                 ((t (:background ,local-theme-color-error))))
- `(cider-result-overlay-face               ((t (:background ,(local-theme-darken-default-background)))))
+ `(cider-result-overlay-face               ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; company
  `(company-tooltip-search                  ((t (:bold t))))
  `(company-tooltip-search-selection        ((t (:bold t))))
  ;; eldoc-posframe
- `(eldoc-posframe-background-face          ((t (:background ,(local-theme-darken-default-background)))))
+ `(eldoc-posframe-background-face          ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; eros
  `(eros-result-overlay-face                ((t (:inherit highlight :box nil))))
  ;; haskell-mode
@@ -184,9 +196,10 @@
  ;; indent-guide
  `(indent-guide-face                       ((t (:inherit fringe))))
  ;; ivy
- `(ivy-current-match                       ((t (:extend t))))
+ `(ivy-current-match                       ((t (:inherit hl-line :extend t))))
  ;; ivy-posframe
- `(ivy-posframe                            ((t (:background ,(local-theme-darken-default-background)))))
+ `(ivy-posframe                            ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; markdown
  `(markdown-header-face                    ((t (:weight normal :italic t))))
  `(markdown-header-face-1                  ((t (:inherit org-level-1))))
@@ -197,7 +210,8 @@
  `(markdown-header-face-6                  ((t (:inherit org-level-6 :underline nil))))
  `(markdown-code-face                      ((t (:inherit fixed-pitch))))
  `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,local-theme-default-font-height))))
- `(markdown-inline-code-face               ((t (:background ,(local-theme-darken-default-background)))))
+ `(markdown-inline-code-face               ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  `(markdown-pre-face                       ((t (:inherit fixed-pitch))))
  `(markdown-table-face                     ((t (:inherit fixed-pitch))))
  `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
@@ -206,7 +220,8 @@
  ;; perspeen
  `(perspeen-selected-face                  ((t (:bold t))))
  ;; popup
- `(popup-tip-face                          ((t (:background ,(local-theme-darken-default-background)))))
+ `(popup-tip-face                          ((((background light)) (:inherit default :background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:inherit default :background ,(local-theme-lighten-default-background)))))
  ;; rainbow-delimiters
  `(rainbow-delimiters-unmatched-face       ((t (:bold t :foreground ,local-theme-color-error))))
  ;; readable
@@ -229,7 +244,8 @@
  `(spray-base-face                         ((t (:weight normal :underline nil :family ,local-theme-serif-font))))
  `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
  ;; stripe-buffer
- `(stripe-highlight                        ((t (:background ,(local-theme-darken-default-background)))))
+ `(stripe-highlight                        ((((background light)) (:background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; web-mode
  `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :bold t))))
  ;; which-key
