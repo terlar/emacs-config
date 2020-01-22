@@ -214,9 +214,7 @@ Disable bidirectional text for tiny performance boost
 Update UI less frequently
 #+BEGIN_SRC emacs-lisp
 (setq idle-update-delay 2
-      jit-lock-defer-time 0
-      jit-lock-stealth-time 0.2
-      jit-lock-stealth-verbose nil)
+      jit-lock-defer-time 0)
 #+END_SRC
 
 ** Localization
