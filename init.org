@@ -713,27 +713,36 @@ keybindings in case I would forget them.
 #+END_SRC
 
 ** Theme
-*** tao-theme (tao-yang)
-An excellent, light, uncolored theme.
+*** Defaults
 #+BEGIN_SRC emacs-lisp
-(use-package tao-theme
-  :demand t
-  :custom
-  (tao-theme-use-sepia t))
+(eval-and-compile
+  (defvar +default-light-theme 'berrys
+    "Default light theme.")
+  (defvar +default-dark-theme 'almost-mono-black
+    "Default dark theme."))
 #+END_SRC
 
-*** berrys-theme
-Light, uncolored theme with a splash of blue.
+*** Packages
 #+BEGIN_SRC emacs-lisp
+(use-package almost-mono-themes :demand t)
 (use-package berrys-theme :demand t)
+(use-package commentary-theme :demand t)
+(use-package doneburn-theme :demand t)
+(use-package eink-theme :demand t)
+(use-package monotropic-theme :demand t)
+(use-package punpun-dark-theme :demand t)
+(use-package punpun-light-theme :demand t)
+(use-package tao-yang-theme :demand t)
+(use-package tao-yin-theme :demand t)
 
-(load-theme 'berrys t)
+(use-package tao-theme :custom (tao-theme-use-sepia t))
 #+END_SRC
 
 *** Local overrides
 No theme is perfect, also this is a good place to put my own experiments.
 #+BEGIN_SRC emacs-lisp
 (use-package local-theme
+  :demand t
   :custom
   (local-theme-default-font-height +default-font-height)
   (local-theme-line-spacing +line-spacing)
@@ -758,6 +767,23 @@ No theme is perfect, also this is a good place to put my own experiments.
  "load-local-theme"
  (require 'local-theme)
  (load-theme 'local t))
+#+END_SRC
+
+*** Enable theme
+#+BEGIN_SRC emacs-lisp
+(load-theme +default-light-theme t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(defun toggle-default-theme ()
+  "Toggle dark/light theme.
+Defined via `+default-dark-theme' and `+default-light-theme'"
+  (interactive)
+  (let ((theme (if (member +default-light-theme custom-enabled-themes)
+                   +default-dark-theme
+                 +default-light-theme)))
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t)))
 #+END_SRC
 
 *** Echo area
