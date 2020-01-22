@@ -137,7 +137,15 @@
  `(org-code                                ((t (:inherit org-verbatim))))
  `(org-hide                                ((t (:inherit fixed-pitch))))
  `(org-verbatim                            ((t (:inherit fixed-pitch))))
-
+ ;; outline
+ `(outline-1                               ((t (:inherit nil :bold nil :height 1.6))))
+ `(outline-2                               ((t (:inherit nil :bold nil :height 1.4))))
+ `(outline-3                               ((t (:inherit nil :bold nil :height 1.2))))
+ `(outline-4                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
+ `(outline-5                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
+ `(outline-6                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
+ `(outline-7                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
+ `(outline-8                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  ;; show-paren-mode
  `(show-paren-match                        ((t (:bold t :underline t :box nil))))
  `(show-paren-mismatch                     ((t (:bold t :foreground ,local-theme-color-error))))

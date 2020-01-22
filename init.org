@@ -1456,6 +1456,7 @@ Display colors inline.
     markdown-mode
     nov-mode
     org-mode
+    outline-mode
     rst-mode) . readable-mode))
 #+END_SRC
 
