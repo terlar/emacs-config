@@ -1046,11 +1046,6 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
 
 * Editing
 ** Indentation
-Default to indentation by spaces, that seems to be what most languages use nowadays.
-#+BEGIN_SRC emacs-lisp
-(setq-default indent-tabs-mode nil)
-#+END_SRC
-
 Convert between tabs and spaces (only tabify initial white-space)
 #+BEGIN_SRC emacs-lisp
 (setq-default tabify-regexp "^\t* [ \t]+")
@@ -1059,7 +1054,6 @@ Convert between tabs and spaces (only tabify initial white-space)
 ** Text flow
 Wrap at words and don't require double spaces to end a sentence.
 #+BEGIN_SRC emacs-lisp
-(setq sentence-end-double-space nil)
 (setq-default word-wrap t)
 #+END_SRC
 
@@ -1376,7 +1370,6 @@ More procedural scrolling.
 (setq auto-window-vscroll nil
       hscroll-margin 5
       hscroll-step 5
-      scroll-conservatively 101
       scroll-margin 0
       scroll-preserve-screen-position t)
 
