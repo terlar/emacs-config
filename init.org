@@ -1672,6 +1672,7 @@ Keep track of recently opened files.
    (list "/tmp/"                        ; Temp-files
          "/dev/shm"                     ; Potential secrets
          "/ssh:"                        ; Files over SSH
+         "/nix/store"                   ; Files in Nix store
          "/TAGS$"                       ; Tag files
          "^/\\.git/.+$"                 ; Git contents
          "\\.?ido\\.last$"
