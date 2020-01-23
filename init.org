@@ -22,15 +22,15 @@ The rough details:
 ** Screenshots
 *** org-mode
 #+CAPTION: org-mode
-[[file:media/org-mode.png]]
+[[file:media/tao-yang/org-mode.png]]
 
 *** markdown-mode
 #+CAPTION: markdown-mode
-[[file:media/markdown-mode.png]]
+[[file:media/tao-yang/markdown-mode.png]]
 
 *** emacs-lisp-mode
 #+CAPTION: emacs-lisp-mode
-[[file:media/emacs-lisp-mode.png]]
+[[file:media/tao-yang/emacs-lisp-mode.png]]
 
 * The beginning
 Every good file starts with a nice header and enable lexical scoping as per the
