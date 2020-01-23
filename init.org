@@ -735,7 +735,10 @@ keybindings in case I would forget them.
 (use-package tao-yang-theme :demand t)
 (use-package tao-yin-theme :demand t)
 
-(use-package tao-theme :custom (tao-theme-use-sepia t))
+(use-package tao-theme
+  :custom
+  (tao-theme-use-sepia t)
+  (tao-theme-use-boxes nil))
 #+END_SRC
 
 *** Local overrides
