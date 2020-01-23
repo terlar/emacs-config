@@ -927,7 +927,9 @@ Display information about the current indentation settings.
 Support hiding the mode line, this can be useful for different modes displaying documents
 or presentation.
 #+BEGIN_SRC emacs-lisp
-(use-package hide-mode-line)
+(use-package hide-mode-line
+  :commands
+  (hide-mode-line-mode))
 #+END_SRC
 
 *** Diminished modes
