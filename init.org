@@ -3182,7 +3182,10 @@ This sections makes =org-mode= look more beautiful and appealing.
     (setq cursor-type 'bar))
   (defun +org-prettify-syntax-setup ()
     "Prettify syntax with symbols."
-    (dolist (symbol '(("#+TITLE:"    . ?⋮)
+    (dolist (symbol '(("#+title:" . ?⋮)
+                      ("#+TITLE:" . ?⋮)
+                      ("#+subtitle:" . ?⋮)
+                      ("#+SUBTITLE:" . ?⋮)
                       ("#+begin_src" . ?λ)
                       ("#+BEGIN_SRC" . ?λ)
                       ("#+end_src" . ?≋)
@@ -3191,7 +3194,10 @@ This sections makes =org-mode= look more beautiful and appealing.
                       ("#+BEGIN_QUOTE" . ?“)
                       ("#+end_quote" . ?”)
                       ("#+END_QUOTE" . ?”)))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+      (cl-pushnew symbol prettify-symbols-alist :test #'equal))
+    (dolist (n (number-sequence 1 8 1))
+      (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
+        (cl-pushnew symbol prettify-symbols-alist :test #'equal)))))
 #+END_SRC
 
 **** Variable pitch
@@ -3216,17 +3222,6 @@ Use variable-pitch font but still make sure everything aligns.
   (org-fontify-whole-heading-line t)
   (org-fontify-todo-headline t)
   (org-fontify-done-headline t))
-#+END_SRC
-
-***** Bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :hook
-  (org-mode . org-bullets-mode)
- :custom
- (org-bullets-bullet-list '(" "))
- ;; Use default font face (also size)
- (org-bullets-face-name 'org-variable-pitch-face))
 #+END_SRC
 
 **** Bullet lists
