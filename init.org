@@ -922,7 +922,9 @@ or presentation.
 #+BEGIN_SRC emacs-lisp
 (use-package hide-mode-line
   :commands
-  (hide-mode-line-mode))
+  (hide-mode-line-mode
+   turn-on-hide-mode-line-mode
+   turn-off-hide-mode-line-mode))
 #+END_SRC
 
 *** Diminished modes
