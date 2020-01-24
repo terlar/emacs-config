@@ -35,10 +35,6 @@
 ;; Don't implicitly resize frames when changes various settings.
 (setq frame-inhibit-implied-resize t)
 
-;; Don't enable installed packages, manage with use-package instead.
-(setq package-enable-at-startup nil)
-(advice-add #'package--ensure-init-file :override #'ignore)
-
 ;; Require `use-package' to help with byte-compile checks
 (eval-when-compile
   (when (locate-library "use-package")
