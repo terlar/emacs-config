@@ -724,18 +724,8 @@ keybindings in case I would forget them.
 
 *** Packages
 #+BEGIN_SRC emacs-lisp
-(use-package almost-mono-themes :demand t)
-(use-package berrys-theme :demand t)
-(use-package commentary-theme :demand t)
-(use-package doneburn-theme :demand t)
-(use-package eink-theme :demand t)
-(use-package monotropic-theme :demand t)
-(use-package punpun-dark-theme :demand t)
-(use-package punpun-light-theme :demand t)
-(use-package tao-yang-theme :demand t)
-(use-package tao-yin-theme :demand t)
-
 (use-package tao-theme
+  :demand t
   :custom
   (tao-theme-use-sepia t)
   (tao-theme-use-boxes nil))
