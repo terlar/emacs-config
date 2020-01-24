@@ -2866,6 +2866,8 @@ Better =*help*= buffer
 Discover functions.
 #+BEGIN_SRC emacs-lisp
 (use-package suggest
+  :commands
+  (suggest)
   :general
   (:keymaps
    'emacs-lisp-mode-map
