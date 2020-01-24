@@ -716,9 +716,9 @@ keybindings in case I would forget them.
 *** Defaults
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +default-light-theme 'berrys
+  (defvar +default-light-theme 'tao-yang
     "Default light theme.")
-  (defvar +default-dark-theme 'almost-mono-black
+  (defvar +default-dark-theme 'tao-yin
     "Default dark theme."))
 #+END_SRC
 
