@@ -889,10 +889,10 @@ Move default components to the right side of the mode line.
 (delete 'mode-line-modes mode-line-format)
 
 (setq mode-line-right-format
-      `(,mode-line-position
+      `((:eval mode-line-position)
         (:eval mode-line-mule-info)
         ,mode-line-space
-        ,mode-line-modes))
+        (:eval mode-line-modes)))
 #+END_SRC
 
 *** Position
