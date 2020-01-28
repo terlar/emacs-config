@@ -910,8 +910,10 @@ Display information about the current indentation settings.
   :defer 2
   :custom
   (indent-info-insert-target 'mode-line-mule-info)
-  (indent-info-sync-to-editorconfig t)
+  (indent-info-space-format "Spaces: %s")
+  (indent-info-tab-format "Tab Size: %s")
   (indent-info-sync-from-editorconfig t)
+  (indent-info-sync-to-editorconfig t)
   :config
   (global-indent-info-mode 1))
 #+END_SRC
