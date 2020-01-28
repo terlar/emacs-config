@@ -4499,18 +4499,6 @@ Dim out the surrounding text except the current focused paragraph or expression.
    "r" 'redtick))
 #+END_SRC
 
-** Recording
-#+BEGIN_SRC emacs-lisp
-(use-package camcorder
-  :custom
-  (output-directory (getenv "XDG_VIDEOS_DIR"))
-  (gif-output-directory (getenv "XDG_VIDEOS_DIR"))
-  :general
-  (:prefix
-   +launch-prefix
-   "c" 'camcorder-record))
-#+END_SRC
-
 ** Session
 Support for restoring previous session on Emacs restart. This adds a few tweaks that makes
 it really useful.
