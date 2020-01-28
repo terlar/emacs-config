@@ -909,6 +909,7 @@ Display information about the current indentation settings.
 (use-package indent-info
   :defer 2
   :custom
+  (indent-info-display-change-message-p nil)
   (indent-info-insert-target 'mode-line-mule-info)
   (indent-info-space-format "Spaces: %s")
   (indent-info-tab-format "Tab Size: %s")
