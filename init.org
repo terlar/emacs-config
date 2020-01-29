@@ -504,12 +504,14 @@ Fringe control:
 I am trying to reduce the amount of keybindings, therefore I present a table of default
 keybindings in case I would forget them.
 
+** Aliases
 | Keybinding | Alternative |
 |------------+-------------|
 | =M-=         | =C-[=         |
 | =TAB=        | =C-i=         |
 | =RET=        | =C-j=         |
 
+** Commands
 | Keybinding      | Function                        | Description                                                                      |
 |-----------------+---------------------------------+----------------------------------------------------------------------------------|
 | =C-o=             | =open-line=                       | Open line below                                                                  |
