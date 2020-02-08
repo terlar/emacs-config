@@ -2560,6 +2560,9 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
   :custom
   (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :config
+  (dolist (mode '(emacs-lisp-mode lisp-mode))
+    (setq editorconfig-indentation-alist
+          (assq-delete-all mode editorconfig-indentation-alist)))
   (editorconfig-mode 1))
 #+END_SRC
 
