@@ -543,6 +543,26 @@ keybindings in case I would forget them.
 |------------+--------------------+----------------------------------------------------------|
 | =C-M-j=      | =ivy-immediate-done= | Accept input without selecting, (e.g. for new file name) |
 
+** Gnus
+| Keybinding | Function                              | Description                                                   |
+|------------+---------------------------------------+---------------------------------------------------------------|
+| =L=          | =gnus-group-list-all-groups=            | List all groups (works together with prefix to provide level) |
+| =RET=        | =gnus-topic-select-group=               | List group mails (works together with prefix to see all)      |
+| =g=          | =gnus-group-get-new-news=               | Refresh groups list                                           |
+| =G G=        | =gnus-group-make-nnir-group=            | Search mails at server side                                   |
+| =#=          | =gnus-group-mark-group=                 | Mark                                                          |
+| =M-#=        | =gnus-group-unmark-group=               | Un-mark                                                       |
+| =R=          | =gnus-summary-reply-with-original=      | Reply w/ quoted text                                          |
+| =r=          | =gnus-summary-reply=                    | Reploy w/o quoted text                                        |
+| =S W=        | =gnus-summary-wide-reply-with-original= | Reply all w/ quoted text                                      |
+| =S w=        | =gnus-summary-wide-reply=               | Reply all w/o quoted text                                     |
+| =m= / =C-x m=  | =gnus-new-mail=                         | Compose new mail                                              |
+| =S D e=      | =gnus-summary-resend-message-edit=      | Re-send a mail in Draft folder                                |
+| =C-c C-a=    | =mml-attach-file=                       | Attach a file                                                 |
+| =o=          | =gnus-mime-save-part=                   | Save attachment                                               |
+| =C-c C-f=    | =gnus-summary-mail-forward=             | Forward mail                                                  |
+| =c=          | =gnus-group-catchup-current=            | Mark mails as read                                            |
+
 ** Leader keys
 #+BEGIN_SRC emacs-lisp
 (defvar +leader-key "C-,"
