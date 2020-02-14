@@ -2146,19 +2146,31 @@ Support for Docker related files.
 #+BEGIN_SRC emacs-lisp
 (use-package coverlay
   :diminish coverlay-minor-mode
+  :hook
+  (coverlay-minor-mode . +coverlay-setup)
   :custom
   (coverlay:mark-tested-lines nil)
+  :general
+  (:prefix
+   +local-leader-key
+   "v" 'coverlay-mode-toggle)
   :init
-  (defun +coverlay-mode-enable ()
+  (defun +coverlay-setup ()
+    "Setup `coverlay-mode'."
+    (setq-local
+     coverlay:base-path
+     (expand-file-name (locate-dominating-file (file-name-directory (buffer-file-name))
+                                               "coverage"))))
+  (defun coverlay-mode-toggle ()
     "Turn on `coverlay-mode'."
-    (coverlay-minor-mode 1)
-    (when (and (buffer-file-name) (not (bound-and-true-p coverlay--loaded-filepath)))
-      (let* ((coverage-file (concat
-                             (locate-dominating-file (file-name-directory (buffer-file-name)) "coverage")
-                             "coverage"
-                             "/lcov.info")))
-        (when (file-exists-p coverage-file)
-          (coverlay-watch-file coverage-file))))))
+    (interactive)
+    (if (bound-and-true-p coverlay-minor-mode)
+        (coverlay-minor-mode 0)
+      (coverlay-minor-mode 1)
+      (when (and (buffer-file-name) (not (bound-and-true-p coverlay--loaded-filepath)))
+        (let ((coverage-file (expand-file-name "coverage/lcov.info" coverlay:base-path)))
+          (when (file-exists-p coverage-file)
+            (coverlay-watch-file coverage-file)))))))
 #+END_SRC
 
 ** Docs
