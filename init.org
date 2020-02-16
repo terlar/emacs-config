@@ -4633,8 +4633,6 @@ Navigate through undo history.
 ** TODO Wrap lines by default?
   When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
-** TODO Add support for special =TODO= face in org
-** TODO Fix e-mail address
 ** TODO Bind =sp-wrap-around=
 ** TODO Use =ielm= as REPL for org-mode
 ** TODO Use file-name as base for work-log date
