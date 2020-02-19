@@ -2247,9 +2247,10 @@ Reformat buffer without moving point.
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
   (progn ;; JavaScript/TypeScript
-    (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
+    (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal)
+    (cl-pushnew '(js-mode . eslint) apheleia-mode-alist :test #'equal))
   (progn ;; Ruby
-    (cl-pushnew '(rufo . ("rufo")) apheleia-formatters :test #'equal)
+    (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal))
   (apheleia-global-mode 1))
 #+END_SRC
