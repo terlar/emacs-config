@@ -1976,18 +1976,15 @@ Tips:
         (when (abbrev-symbol abbrev-name table)
           (abbrev-insert (abbrev-symbol abbrev-name table))))))
 
-  (defun counsel-git-expanded-cands ()
+  (defun counsel-maybe-git-cands ()
     (let ((root (counsel--git-root)))
       (when root
-        (mapcar
-         (lambda (f)
-           (abbreviate-file-name (expand-file-name f root)))
-         (counsel-git-cands root)))))
+        (counsel-git-cands root))))
 
   (ivy-set-sources
    'counsel-recentf
    '((original-source)
-     (counsel-git-expanded-cands))))
+     (counsel-maybe-git-cands))))
 #+END_SRC
 
 **** swiper
