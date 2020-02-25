@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: mkOption
+# key: mkOption
+# uuid: mkOption
+# --
+mkOption {
+  type = $1;
+  default = $2;
+  description = "$3";
+};
