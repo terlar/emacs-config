@@ -3098,9 +3098,7 @@ Populate auto-completions from fish.
    "C-'" 'nil
    "C-," 'nil)
   :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   org-babel-load-languages))
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
 #+END_SRC
 
 *** Packages
@@ -3227,6 +3225,14 @@ This sections makes =org-mode= look more beautiful and appealing.
     (dolist (n (number-sequence 1 8 1))
       (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))))
+#+END_SRC
+
+**** Emphasis
+Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'org
+  (setcar (nthcdr 4 org-emphasis-regexp-components) 4)
+  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 #+END_SRC
 
 **** Variable pitch
