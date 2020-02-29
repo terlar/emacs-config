@@ -1979,7 +1979,9 @@ Tips:
   (defun counsel-maybe-git-cands ()
     (let ((root (counsel--git-root)))
       (when root
-        (counsel-git-cands root))))
+        (let ((concat-root-with
+               (apply-partially 'concat (abbreviate-file-name root))))
+          (cl-mapcar concat-root-with (counsel-git-cands root))))))
 
   (ivy-set-sources
    'counsel-recentf
