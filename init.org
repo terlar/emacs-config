@@ -2850,12 +2850,6 @@ Evaluation results in overlay.
   (emacs-lisp-mode . eros-mode))
 #+END_SRC
 
-**** esup
-Emacs Start Up Profiler.
-#+BEGIN_SRC emacs-lisp
-(use-package esup)
-#+END_SRC
-
 **** helpful
 Better =*help*= buffer
 #+BEGIN_SRC emacs-lisp
