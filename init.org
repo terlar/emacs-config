@@ -201,7 +201,8 @@ Persist history.
 ** Tangling
 Support auto-tangling via =auto-tangle-mode=.
 #+BEGIN_SRC emacs-lisp
-(require 'auto-tangle)
+(use-package auto-tangle
+  :commands (auto-tangle-mode))
 #+END_SRC
 
 * Base
@@ -3063,7 +3064,7 @@ Populate auto-completions from fish.
 
 ** org
 #+BEGIN_SRC emacs-lisp
-(use-package org-plus-contrib
+(use-package org
   :hook
   (org-mode . auto-fill-mode)
   :minor
@@ -3189,7 +3190,7 @@ Presentation mode.
 This sections makes =org-mode= look more beautiful and appealing.
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-plus-contrib
+(use-package org
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)
   (org-mode . +org-cursor-setup)
@@ -3249,7 +3250,7 @@ Use variable-pitch font but still make sure everything aligns.
 
 **** Headings
 #+BEGIN_SRC emacs-lisp
-(use-package org-plus-contrib
+(use-package org
   :custom
   (org-ellipsis "  ")
   (org-fontify-whole-heading-line t)
