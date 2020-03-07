@@ -37,6 +37,13 @@ Every good file starts with a nice header and enable lexical scoping as per the
 recommendations of the [[https://github.com/bbatsov/emacs-lisp-style-guide#source-code-layout--organization][The Emacs Lisp Style Guide]].
 #+BEGIN_SRC emacs-lisp
 ;;; init.el --- Emacs Initialization -*- lexical-binding: t; -*-
+
+;; URL: https://github.com/terlar/emacs.d
+;; Version: 1.0.0
+;; Package-Requires: ((emacs "26.1"))
+
+;;; Commentary:
+;; terlar's Emacs Configuration.
 #+END_SRC
 
 ** Variables
@@ -45,22 +52,22 @@ informative output. It can be set either by providing the environment variable =
 start Emacs with =--debug-init=.
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +debug-mode
+  (defvar init-debug-mode
     (or (getenv "DEBUG") init-file-debug)
     "Debug mode, enable through DEBUG=1 or use --debug-init.")
-  (setq debug-on-error (and (not noninteractive) +debug-mode)))
+  (setq debug-on-error (and (not noninteractive) init-debug-mode)))
 #+END_SRC
 
 Provide a location where Emacs can store data and cache.
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +data-dir
+  (defvar init-data-dir
     (if (getenv "XDG_DATA_HOME")
         (concat (getenv "XDG_DATA_HOME") "/emacs/")
       (expand-file-name "~/.local/share/emacs/"))
     "Directory for data.")
 
-  (defvar +cache-dir
+  (defvar init-cache-dir
     (if (getenv "XDG_CACHE_HOME")
         (concat (getenv "XDG_CACHE_HOME") "/emacs/")
       (expand-file-name "~/.cache/emacs/"))
@@ -116,7 +123,7 @@ Set shell to bash as fish is not compatible with all packages using the shell.
   (require 'use-package))
 (setq use-package-always-defer t)
 
-(if +debug-mode
+(if init-debug-mode
     (setq use-package-verbose t
           use-package-expand-minimally nil
           use-package-compute-statistics t)
@@ -130,15 +137,17 @@ Help keeping =~/.emacs.d= clean.
 #+BEGIN_SRC emacs-lisp
 (use-package no-littering
   :demand t
-  :preface
-  (defvar no-littering-etc-directory +data-dir)
-  (defvar no-littering-var-directory +cache-dir))
+  :custom
+  (no-littering-etc-directory init-data-dir)
+  (no-littering-var-directory init-cache-dir))
 #+END_SRC
 
 *** exec-path-from-shell
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
   :demand t
+  :commands
+  (exec-path-from-shell-initialize)
   :custom
   (exec-path-from-shell-check-startup-files nil)
   :config
@@ -151,13 +160,13 @@ Help keeping =~/.emacs.d= clean.
   :commands
   (server-running-p)
   :preface
-  (defun +server-ensure-running (frame)
+  (defun init-server-ensure-running (frame)
     "Ensure server is running when launching FRAME."
     (with-selected-frame frame
       (unless (server-running-p)
         (server-start))))
   :init
-  (add-hook 'after-make-frame-functions #'+server-ensure-running))
+  (add-hook 'after-make-frame-functions #'init-server-ensure-running))
 #+END_SRC
 
 *** savehist
@@ -262,7 +271,9 @@ Hide mode-line modes, more room for important stuff.
 *** general
 More convenient key definitions. I provides the =use-package= keyword =:general=.
 #+BEGIN_SRC emacs-lisp
-(use-package general :demand t)
+(use-package general
+  :demand t
+  :commands (general-define-key))
 #+END_SRC
 
 *** hide-lines
@@ -295,6 +306,10 @@ Display available keybindings in a popup.
 (use-package which-key
   :defer 1
   :diminish which-key-mode
+  :commands
+  (which-key-mode
+   which-key-setup-side-window-bottom
+   which-key-key-order-alpha)
   :custom
   (which-key-sort-order #'which-key-key-order-alpha)
   (which-key-sort-uppercase-first nil)
@@ -323,35 +338,35 @@ Display available keybindings in a popup.
 ** Functions
 Prevent forms from producing output or other noise.
 #+BEGIN_SRC emacs-lisp
-(defmacro quiet! (&rest forms)
+(defmacro init-quiet! (&rest forms)
   "Run FORMS without making any noise."
-  `(if +debug-mode
+  `(if init-debug-mode
        (progn ,@forms)
      (let ((message-log-max nil))
        (with-temp-message (or (current-message) "") ,@forms))))
 
-(defun quiet-function-advice (orig-fn &rest args)
+(defun init-quiet-function-advice (orig-fn &rest args)
   "Advice used to make a function quiet.
 Call ORIG-FN with ARGS and suppress the output.
 
 Example:
-  (advice-add #'orig-fun :around #'quiet-function-advice)"
-  (quiet! (apply orig-fn args)))
+  (advice-add #'orig-fun :around #'init-quiet-function-advice)"
+  (init-quiet! (apply orig-fn args)))
 #+END_SRC
 
 Run forms when graphical frame is created.
 #+BEGIN_SRC emacs-lisp
-(defmacro eval-after-make-graphic-frame (hook-id &rest forms)
+(defmacro init-eval-after-make-graphic-frame (hook-id &rest forms)
   "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
-   Add a hook to `after-make-frame-functions' with form wrapped
-   in a `display-graphic-p' condition.
+Add a hook to `after-make-frame-functions' with form wrapped in a
+`display-graphic-p' condition.
 
-   Also add a hook to `after-init-hook' with a form wrapped in a
-   `display-graphic-p' condition in order to work with the
-   initial frame when not running in server mode."
+Also add a hook to `after-init-hook' with a form wrapped in a
+`display-graphic-p' condition in order to work with the initial
+frame when not running in server mode."
   (let ((hook-name (intern
                     (concat
-                     "+eval-after-make-graphic-frame--"
+                     "init-eval-after-make-graphic-frame--"
                      hook-id
                      "-hook"))))
     `(progn
@@ -365,22 +380,11 @@ Run forms when graphical frame is created.
 
 *** Display
 #+BEGIN_SRC emacs-lisp
-(defun display-ctrl-M-as-newline ()
+(defun init-display-ctrl-M-as-newline ()
   "Display `^M' as newline."
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M [?\n]))
-#+END_SRC
-
-*** Editing
-#+BEGIN_SRC emacs-lisp
-(defun turn-on-truncate-lines ()
-  "Enable `truncate-lines' for the current buffer."
-  (setq truncate-lines t))
-
-(defun turn-off-truncate-lines ()
-  "Disable `truncate-lines' for the current buffer."
-  (setq truncate-lines nil))
 #+END_SRC
 
 *** Process
@@ -397,85 +401,6 @@ Run forms when graphical frame is created.
     (if (use-region-p)
         (process-send-region procbuf (region-beginning) (region-end))
       (process-send-string procbuf (thing-at-point 'line t)))))
-#+END_SRC
-
-*** Utils
-#+BEGIN_SRC emacs-lisp
-(defcustom work-log-directory "~/org"
-  "Directory where work log files are stored."
-  :type 'file-name-directory
-  :group 'local)
-
-(defcustom work-log-file-name-pattern "worklog-%s.org"
-  "File name pattern for work log files."
-  :type 'string
-  :group 'local)
-
-(defcustom work-log-daily-tasks nil
-  "Daily tasks that will be added to each new work log file."
-  :type '(repeat string)
-  :group 'local)
-
-(defun work-log-time-from-file-name ()
-  "Returns the time from the time string in the buffer file name."
-  (let ((file-name (when-let* ((f (buffer-file-name)))
-                     (file-truename f)))
-        (regexp (concat
-                 "^"
-                 (expand-file-name
-                  (concat
-                   (regexp-quote (file-truename work-log-directory))
-                   "/"
-                   (format (regexp-quote work-log-file-name-pattern)
-                           "\\([0-9]\\{4\\}-\\(0[0-9]\\|1[0-2]\\)-\\([0-2][0-9]\\|3[01]\\)\\)")))
-                 "$")))
-    (when (and file-name (string-match regexp file-name))
-      (apply 'encode-time (org-parse-time-string (match-string 1 file-name))))))
-
-(defun work-log-file-name (&optional time)
-  "Returns file name of the work log corresponding to TIME.
-When TIME is nil the target is today's work log."
-  (expand-file-name
-   (concat (file-truename work-log-directory)
-           "/"
-           (format work-log-file-name-pattern (format-time-string "%Y-%m-%d" time)))))
-
-(defun work-log-file (&optional time)
-  "Edit work log file.
-
-Switch to a buffer visiting work log file,
-creating one if none already exists.
-
-Today's work log, or if TIME is non-nil a work log corresponding
-to TIME."
-  (interactive)
-  (find-file (work-log-file-name time)))
-
-(defun work-log-file-previous ()
-  "Edit previous work log file.
-
-Switch to a buffer visiting previous work log file,
-fall-back to today's work log file if none already exists."
-  (interactive)
-  (let ((time (work-log-time-from-file-name))
-        (day-in-seconds (* 24 3600)))
-    (work-log-file (when time (time-subtract time day-in-seconds)))))
-
-(defun work-log-file-next ()
-  "Edit next work log file.
-
-Switch to a buffer visiting next work log file,
-fall-back to today's work log file if none already exists."
-  (interactive)
-  (let ((time (work-log-time-from-file-name))
-        (day-in-seconds (* 24 3600)))
-    (work-log-file (when time (time-add time day-in-seconds)))))
-
-(defun sprint-file ()
-  "Open current sprint log file."
-  (interactive)
-  (let ((sprint-name (format-time-string "%Y-W%W")))
-    (find-file (expand-file-name (concat "~/org/sprint-" sprint-name ".org")))))
 #+END_SRC
 
 *** Window
@@ -566,32 +491,32 @@ keybindings in case I would forget them.
 
 ** Leader keys
 #+BEGIN_SRC emacs-lisp
-(defvar +leader-key "C-,"
+(defvar init-leader-key "C-,"
   "The key used for most custom operations.")
-(defvar +local-leader-key "C-."
+(defvar init-local-leader-key "C-."
   "The key used for major mode operations.")
-(defvar +evil-normal-state-leader-key "SPC"
+(defvar init-evil-normal-state-leader-key "SPC"
   "The key used for most custom operations in `evil-normal-state'.")
 #+END_SRC
 
 ** Prefixes
 #+BEGIN_SRC emacs-lisp
-(defvar +launch-prefix "C-c l"
+(defvar init-launch-prefix "C-c l"
   "Key prefix for commands related to launching.")
 
-(defvar +toggle-prefix "C-x t"
+(defvar init-toggle-prefix "C-x t"
   "Key prefix for commands related to toggling.")
-(defvar +window-prefix "C-'"
+(defvar init-window-prefix "C-'"
   "Key prefix used for commands related to window operations.")
 
-(defvar +nav-prefix "M-g"
+(defvar init-nav-prefix "M-g"
   "Key prefix used for commands related to navigation.")
-(defvar +search-prefix "M-s"
+(defvar init-search-prefix "M-s"
   "Key prefix used for commands related to search.")
 
-(defvar +next-prefix "M-]"
+(defvar init-next-prefix "M-]"
   "Key prefix used for commands doing a next operation.")
-(defvar +prev-prefix "M-["
+(defvar init-prev-prefix "M-["
   "Key prefix used for commands doing a previous operation.")
 #+END_SRC
 
@@ -615,7 +540,7 @@ keybindings in case I would forget them.
 #+BEGIN_SRC emacs-lisp
 (general-define-key
  :keymaps 'global
- :prefix +nav-prefix
+ :prefix init-nav-prefix
  "u" 'browse-url)
 #+END_SRC
 
@@ -623,8 +548,8 @@ keybindings in case I would forget them.
 #+BEGIN_SRC emacs-lisp
 (general-define-key
  :keymaps 'global
- :prefix +window-prefix
- +window-prefix 'window-toggle-side-windows
+ :prefix init-window-prefix
+ init-window-prefix 'window-toggle-side-windows
  "d" 'toggle-dedicated-window
  "m" 'maximize-window)
 #+END_SRC
@@ -632,7 +557,7 @@ keybindings in case I would forget them.
 ** Next
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix +next-prefix
+ :prefix init-next-prefix
  ""  '(:ignore t :wk "next...")
  "]" `(,(defrepeater #'text-scale-increase)      :wk "Text size")
  "b" `(,(defrepeater #'next-buffer)              :wk "Buffer")
@@ -640,28 +565,26 @@ keybindings in case I would forget them.
  "d" `(,(defrepeater #'diff-hl-next-hunk)        :wk "Diff Hunk")
  "e" `(,(defrepeater #'next-error)               :wk "Error")
  "s" `(,(defrepeater #'flyspell-goto-next-error) :wk "Spell error")
- "t" `(,(defrepeater #'hl-todo-next)             :wk "Todo")
- "w" `(,(defrepeater #'work-log-file-next)       :wk "Work Log"))
+ "t" `(,(defrepeater #'hl-todo-next)             :wk "Todo"))
 #+END_SRC
 
 ** Previous
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix +prev-prefix
+ :prefix init-prev-prefix
  ""  '(:ignore t :wk "previous...")
  "[" `(,(defrepeater #'text-scale-decrease)    :wk "Text size")
  "b" `(,(defrepeater #'previous-buffer)        :wk "Buffer")
  "c" `(,(defrepeater #'smerge-prev)            :wk "Conflict")
  "d" `(,(defrepeater #'diff-hl-previous-hunk)  :wk "Diff Hunk")
  "e" `(,(defrepeater #'previous-error)         :wk "Error")
- "t" `(,(defrepeater #'hl-todo-previous)       :wk "Todo")
- "w" `(,(defrepeater #'work-log-file-previous) :wk "Work Log"))
+ "t" `(,(defrepeater #'hl-todo-previous)       :wk "Todo"))
 #+END_SRC
 
 ** Toggle
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix +toggle-prefix
+ :prefix init-toggle-prefix
  "c" '(highlight-changes-mode           :wk "Changes")
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
@@ -677,7 +600,7 @@ keybindings in case I would forget them.
 ** Launch
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix +launch-prefix
+ :prefix init-launch-prefix
  "m" 'gnus
  "p" 'list-processes
  "x" 'regexp-builder
@@ -699,35 +622,35 @@ keybindings in case I would forget them.
 *** Size
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +line-spacing 0.25
+  (defvar init-line-spacing 0.25
     "Spacing between lines.")
 
-  (defvar +default-font-height 120
+  (defvar init-default-font-height 120
     "Default font height."))
 #+END_SRC
 
 *** Face
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +fixed-pitch-font "Iosevka Slab"
+  (defvar init-fixed-pitch-font "Iosevka Slab"
     "Font used for fixed-pitch faces.")
 
-  (defvar +variable-pitch-font "Noto Sans"
+  (defvar init-variable-pitch-font "Noto Sans"
     "Font used for variable-pitch faces.")
 
-  (defvar +serif-font "Noto Serif"
+  (defvar init-serif-font "Noto Serif"
     "Font used for serif faces.")
 
-  (defvar +unicode-font "Noto Sans Mono"
+  (defvar init-unicode-font "Noto Sans Mono"
     "Fallback font used for unicode glyphs.")
 
-  (defvar +emoji-font "Noto Emoji"
+  (defvar init-emoji-font "Noto Emoji"
     "Font used for symbol/emoji faces."))
 
-(eval-after-make-graphic-frame
+(init-eval-after-make-graphic-frame
  "setup-emoji-font"
  (set-fontset-font "fontset-default" 'symbol
-                   (font-spec :family +emoji-font) nil 'prepend))
+                   (font-spec :family init-emoji-font) nil 'prepend))
 #+END_SRC
 
 *** Line length
@@ -739,9 +662,9 @@ keybindings in case I would forget them.
 *** Defaults
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar +default-light-theme 'tao-yang
+  (defvar init-default-light-theme 'tao-yang
     "Default light theme.")
-  (defvar +default-dark-theme 'tao-yin
+  (defvar init-default-dark-theme 'tao-yin
     "Default dark theme."))
 #+END_SRC
 
@@ -760,26 +683,26 @@ No theme is perfect, also this is a good place to put my own experiments.
 (use-package local-theme
   :demand t
   :custom
-  (local-theme-default-font-height +default-font-height)
-  (local-theme-line-spacing +line-spacing)
-  (local-theme-fixed-pitch-font +fixed-pitch-font)
-  (local-theme-variable-pitch-font +variable-pitch-font)
-  (local-theme-serif-font +serif-font))
+  (local-theme-default-font-height init-default-font-height)
+  (local-theme-line-spacing init-line-spacing)
+  (local-theme-fixed-pitch-font init-fixed-pitch-font)
+  (local-theme-variable-pitch-font init-variable-pitch-font)
+  (local-theme-serif-font init-serif-font))
 
-(defvar after-load-theme-hook nil
+(defvar init-after-load-theme-hook nil
   "Hook run after a theme is loaded using `load-theme'.")
-(defun +load-theme-run-after-load-theme-hooks (&rest args)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
-(advice-add 'load-theme :after #'+load-theme-run-after-load-theme-hooks)
+(defun init-load-theme-run-after-load-theme-hooks (&rest _)
+  "Run `init-after-load-theme-hook'."
+  (run-hooks 'init-after-load-theme-hook))
+(advice-add 'load-theme :after #'init-load-theme-run-after-load-theme-hooks)
 
-(defun +local-theme-ensure ()
+(defun init-local-theme-ensure ()
   "Ensure `local-theme' is loaded."
   (unless (member 'local custom-enabled-themes)
     (load-theme 'local t)))
-(setq after-load-theme-hook '(+local-theme-ensure))
+(setq init-after-load-theme-hook '(init-local-theme-ensure))
 
-(eval-after-make-graphic-frame
+(init-eval-after-make-graphic-frame
  "load-local-theme"
  (require 'local-theme)
  (load-theme 'local t))
@@ -787,17 +710,17 @@ No theme is perfect, also this is a good place to put my own experiments.
 
 *** Enable theme
 #+BEGIN_SRC emacs-lisp
-(load-theme +default-light-theme t)
+(load-theme init-default-light-theme t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
 (defun toggle-default-theme ()
   "Toggle dark/light theme.
-Defined via `+default-dark-theme' and `+default-light-theme'"
+Defined via `init-default-dark-theme' and `init-default-light-theme'"
   (interactive)
-  (let ((theme (if (member +default-light-theme custom-enabled-themes)
-                   +default-dark-theme
-                 +default-light-theme)))
+  (let ((theme (if (member init-default-light-theme custom-enabled-themes)
+                   init-default-dark-theme
+                 init-default-light-theme)))
     (mapc #'disable-theme custom-enabled-themes)
     (load-theme theme t)))
 #+END_SRC
@@ -859,7 +782,7 @@ Add window dividers, mainly to add a border below the mode line.
       window-divider-default-bottom-width 1
       window-divider-default-right-width 1)
 
-(eval-after-make-graphic-frame
+(init-eval-after-make-graphic-frame
  "setup-window-divider"
  (window-divider-mode 1))
 #+END_SRC
@@ -931,6 +854,8 @@ Display information about the current indentation settings.
 #+BEGIN_SRC emacs-lisp
 (use-package indent-info
   :defer 2
+  :commands
+  (global-indent-info-mode)
   :custom
   (indent-info-display-change-message-p nil)
   (indent-info-insert-target 'mode-line-mule-info)
@@ -1025,11 +950,11 @@ Undo/redo between window layouts.
   (winner-dont-bind-my-keys t)
   :config
   (general-define-key
-   :prefix +next-prefix
-   +next-prefix (defrepeater #'winner-redo))
+   :prefix init-next-prefix
+   init-next-prefix (defrepeater #'winner-redo))
   (general-define-key
-   :prefix +prev-prefix
-   +prev-prefix (defrepeater #'winner-undo)))
+   :prefix init-prev-prefix
+   init-prev-prefix (defrepeater #'winner-undo)))
 #+END_SRC
 
 Transpose window arrangement.
@@ -1037,7 +962,7 @@ Transpose window arrangement.
 (use-package transpose-frame
   :general
   (:prefix
-   +window-prefix
+   init-window-prefix
    "t" 'transpose-frame))
 #+END_SRC
 
@@ -1058,7 +983,7 @@ Zoom a window to display as a single window temporarily.
 (use-package zoom-window
   :general
   (:prefix
-   +window-prefix
+   init-window-prefix
    "z" 'zoom-window-zoom))
 #+END_SRC
 
@@ -1119,7 +1044,7 @@ Jump to things.
   (avy-all-windows nil)
   :general
   (:prefix
-   +search-prefix
+   init-search-prefix
    "SPC" 'avy-goto-word-or-subword-1
    "s" 'avy-goto-char
    "l" 'avy-goto-line
@@ -1158,10 +1083,10 @@ Cycle through words, symbols and patterns.
   (defrepeater #'parrot-rotate-prev-word-at-point)
   :general
   (:prefix
-   +next-prefix
+   init-next-prefix
    "r" '(parrot-rotate-prev-word-at-point-repeat :wk "Rotate word"))
   (:prefix
-   +prev-prefix
+   init-prev-prefix
    "r" '(parrot-rotate-prev-word-at-point-repeat :wk "Rotate word"))
   :config
   (dolist (entry '((:rot ("assert" "refute"))))
@@ -1188,7 +1113,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
    show-smartparens-global-mode)
   :general
   (:prefix
-   +toggle-prefix
+   init-toggle-prefix
    "p" 'smartparens-strict-mode)
   (:keymaps
    'smartparens-mode-map
@@ -1232,8 +1157,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
                    :unless '(sp-in-comment-p
                              sp-in-string-quotes-p)))
 
-  (with-eval-after-load 'hippie-exp
-    (advice-add #'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice)))
+  (advice-add #'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice))
 #+END_SRC
 
 *** visual-regexp
@@ -1265,8 +1189,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 (use-package whole-line-or-region
   :diminish whole-line-or-region-local-mode
   :commands
-  (whole-line-or-region-mode
-   whole-line-or-region-global-mode)
+  (whole-line-or-region-global-mode)
   :init
   (whole-line-or-region-global-mode 1))
 #+END_SRC
@@ -1382,13 +1305,13 @@ Give some more room to the minbuffer.
 *** No fringes
 Don't show fringes in the minibuffer.
 #+BEGIN_SRC emacs-lisp
-(defun +disable-minibuffer-window-fringes (&optional frame)
-  "Disable the window fringes for minibuffer window."
+(defun init-disable-minibuffer-window-fringes (&optional frame)
+  "Disable the window fringes for minibuffer window in FRAME."
   (let ((target (if frame frame (selected-frame))))
     (with-selected-frame target
       (set-window-fringes (minibuffer-window) 0 0 nil))))
-(add-hook 'after-make-frame-functions #'+disable-minibuffer-window-fringes)
-(add-hook 'minibuffer-setup-hook #'+disable-minibuffer-window-fringes)
+(add-hook 'after-make-frame-functions #'init-disable-minibuffer-window-fringes)
+(add-hook 'minibuffer-setup-hook #'init-disable-minibuffer-window-fringes)
 #+END_SRC
 
 *** History
@@ -1553,13 +1476,13 @@ mark ring.
   (dired-sidebar-mode . hide-mode-line-mode)
   (dired-sidebar-mode . hl-line-mode)
   (dired-sidebar-mode . variable-pitch-mode)
-  (dired-sidebar-mode . +dired-sidebar-setup)
+  (dired-sidebar-mode . init-dired-sidebar)
   :general
   (:prefix
-   +leader-key
+   init-leader-key
    "n" 'dired-sidebar-toggle-sidebar)
   :preface
-  (defun +dired-sidebar-setup ()
+  (defun init-dired-sidebar ()
     (setq cursor-type nil)
     (stripe-buffer-mode 0)))
 #+END_SRC
@@ -1605,7 +1528,7 @@ Hint mode for links.
 (use-package ace-link
   :general
   (:prefix
-   +search-prefix
+   init-search-prefix
    "o" 'ace-link)
   (:keymaps
    '(help-mode-map helpful-mode-map)
@@ -1621,7 +1544,7 @@ Management tool for a library of PDFs.
   (bibliothek-recursive t)
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "b" 'bibliothek))
 #+END_SRC
 
@@ -1638,7 +1561,7 @@ Keep track of bookmarks
 (use-package deadgrep
   :general
   (:prefix
-   +search-prefix
+   init-search-prefix
    "G" 'deadgrep)
   (:keymaps
    'deadgrep-mode-map
@@ -1657,7 +1580,7 @@ Keep track of bookmarks
   (deft-use-filter-string-for-filename t)
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "n" 'deft))
 #+END_SRC
 
@@ -1678,10 +1601,10 @@ Move point through buffer-undo-list positions.
 (use-package goto-chg
   :general
   (:prefix
-   +next-prefix
+   init-next-prefix
    "l" '(goto-last-change :wk "Change"))
   (:prefix
-   +prev-prefix
+   init-prev-prefix
    "l" '(goto-last-change-reverse :wk "Change")))
 #+END_SRC
 
@@ -1701,14 +1624,14 @@ Keep track of recently opened files.
          "\\.?ido\\.last$"
          "\\.revive$"
          "^/var/folders/.+$"
-         (concat "^" +cache-dir ".+$")
-         (concat "^" +data-dir ".+$")))
+         (concat "^" init-cache-dir ".+$")
+         (concat "^" init-data-dir ".+$")))
   (recentf-filename-handlers '(abbreviate-file-name))
   (recentf-max-menu-items 0)
   (recentf-max-saved-items 300)
   (recentf-auto-cleanup 'never)
   :config
-  (quiet! (recentf-mode 1)))
+  (init-quiet! (recentf-mode 1)))
 #+END_SRC
 
 *** saveplace
@@ -1733,7 +1656,7 @@ Project interactions. Prefix project buffer files with the project name and rela
    '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
   (projectile-globally-ignored-files
    '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
-  (projectile-ignored-projects (list +data-dir))
+  (projectile-ignored-projects (list init-data-dir))
   (projectile-indexing-method 'alien)
   :general
   (:keymaps
@@ -1747,9 +1670,9 @@ Project interactions. Prefix project buffer files with the project name and rela
   (:keymaps
    'projectile-mode-map
    :prefix
-   +leader-key
+   init-leader-key
    "p" '(:keymap projectile-command-map :package projectile :wk "project"))
-  :init
+  :preface
   (defun +projectile-cache-current-file (orig-fun &rest args)
     "Don't cache ignored files."
     (unless (cl-some (lambda (path)
@@ -1757,6 +1680,7 @@ Project interactions. Prefix project buffer files with the project name and rela
                                         (expand-file-name path)))
                      (projectile-ignored-directories))
       (apply orig-fun args)))
+  :init
   (advice-add #'projectile-cache-current-file :around #'+projectile-cache-current-file)
   (cl-pushnew '(setq projectile-project-root (locate-dominating-file buffer-file-name ".dir-locals.el"))
               safe-local-eval-forms
@@ -1845,6 +1769,8 @@ Complete in the following order:
 - Try to complete word as an Emacs Lisp symbol.
 #+BEGIN_SRC emacs-lisp
 (use-package hippie-exp
+  :commands
+  (hippie-expand)
   :custom
   (hippie-expand-try-functions-list
    '(try-expand-dabbrev-visible
@@ -1887,7 +1813,7 @@ Complete in the following order:
   (:keymaps
    'ivy-mode-map
    :prefix
-   +window-prefix
+   init-window-prefix
    "v" 'ivy-push-view
    "V" 'ivy-pop-view
    "'" 'ivy-switch-view)
@@ -1954,7 +1880,7 @@ Tips:
    "C-c r" 'counsel-recentf)
   (:keymaps
    'counsel-mode-map
-   :prefix +search-prefix
+   :prefix init-search-prefix
    "g" 'counsel-rg
    "i" 'counsel-imenu)
   (:keymaps
@@ -2005,10 +1931,10 @@ I-search replacement with overview
 (use-package flyspell-correct-ivy
   :general
   (:prefix
-   +next-prefix
+   init-next-prefix
    "S" '(flyspell-correct-word-generic :wk "Spell fix"))
   (:prefix
-   +prev-prefix
+   init-prev-prefix
    "S" '(flyspell-correct-previous-word-generic :wk "Spell fix")))
 #+END_SRC
 
@@ -2022,7 +1948,7 @@ Jump to document locations in current buffer
    [remap imenu-anywhere] 'ivy-imenu-anywhere)
   (:keymaps
    'ivy-mode-map
-   :prefix +search-prefix
+   :prefix init-search-prefix
    "I" 'ivy-imenu-anywhere))
 #+END_SRC
 
@@ -2043,7 +1969,7 @@ Snippets with preview.
   (:keymaps
    'yas-minor-mode-map
    :prefix
-   +leader-key
+   init-leader-key
    "y" 'ivy-yasnippet))
 #+END_SRC
 
@@ -2053,7 +1979,7 @@ Navigate tramp files.
 (use-package counsel-tramp
   :general
   (:prefix
-   +leader-key
+   init-leader-key
    "t" 'counsel-tramp))
 #+END_SRC
 
@@ -2088,12 +2014,13 @@ Kill compilation process before stating another and save all buffers on =compile
   (:keymaps
    'global
    :prefix
-   +local-leader-key
+   init-local-leader-key
    "c" 'recompile
    "C" 'compile)
   :init
-  (make-variable-buffer-local 'compile-command)
   (put 'compile-command 'safe-local-variable 'stringp))
+
+(make-variable-buffer-local 'compile-command)
 #+END_SRC
 
 *** ANSI escape
@@ -2112,7 +2039,7 @@ Kill compilation process before stating another and save all buffers on =compile
 (use-package docker
   :general
   (:prefix
-   +leader-key
+   init-leader-key
    "d" 'docker
    "c" 'docker-compose))
 #+END_SRC
@@ -2147,15 +2074,15 @@ Support for Docker related files.
 (use-package coverlay
   :diminish coverlay-minor-mode
   :hook
-  (coverlay-minor-mode . +coverlay-setup)
+  (coverlay-minor-mode . init-coverlay)
   :custom
   (coverlay:mark-tested-lines nil)
   :general
   (:prefix
-   +local-leader-key
+   init-local-leader-key
    "v" 'coverlay-mode-toggle)
   :init
-  (defun +coverlay-setup ()
+  (defun init-coverlay ()
     "Setup `coverlay-mode'."
     (setq-local
      coverlay:base-path
@@ -2187,10 +2114,10 @@ Lookup documentation via DevDocs.
 #+BEGIN_SRC emacs-lisp
 (use-package quickrun
   :hook
-  (quickrun--mode . display-ctrl-M-as-newline)
+  (quickrun--mode . init-display-ctrl-M-as-newline)
   :general
   (:prefix
-   +local-leader-key
+   init-local-leader-key
    "q" 'quickrun
    "Q" 'quickrun-autorun-mode))
 #+END_SRC
@@ -2205,7 +2132,7 @@ Code folding.
   (hs-hide-comments-when-hiding-all nil)
   :general
   (:prefix
-   (concat +leader-key " " "z")
+   (concat init-leader-key " " "z")
    ""      '(:ignore t :wk "hide")
    "c"     'hs-hide-block
    "o"     'hs-show-block
@@ -2214,12 +2141,12 @@ Code folding.
    "l"     'hs-hide-level
    "z"     'hs-toggle-hiding
    "<tab>" 'hs-toggle-hiding)
-  :init
+  :preface
   (defun +hs-fold-overlay-ellipsis (ov)
     (when (eq 'code (overlay-get ov 'hs))
       (overlay-put
        ov 'display (propertize " … " 'face 'font-lock-comment-face))))
-
+  :init
   (setq hs-allow-nesting t
         hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
 #+END_SRC
@@ -2256,23 +2183,6 @@ Reformat buffer without moving point.
   (apheleia-global-mode 1))
 #+END_SRC
 
-*** reformatter
-Custom formatters.
-#+BEGIN_SRC emacs-lisp
-(use-package reformatter
-  :demand t
-  :config
-  (reformatter-define prettier-typescript-format
-    :program "prettier"
-    :args '("--stdin" "--stdin-filepath=f.ts"))
-  (reformatter-define javascript-format
-    :program "eslint_d"
-    :args '("--stdin" "--stdin-filename=f.js" "--fix-to-stdout"))
-  (reformatter-define typescript-format
-    :program "eslint_d"
-    :args '("--stdin"  "--stdin-filename=f.ts" "--fix-to-stdout")))
-#+END_SRC
-
 ** Jump to definition
 Jump to definition is really useful and I prefer doing so without TAGS which is pretty
 much the default for most modes. I am using the excellent package =dumb-jump= to jump via
@@ -2292,7 +2202,7 @@ Don't ask about keeping current list of tags tables.
   (dumb-jump-default-project user-emacs-directory)
   :general
   (:prefix
-   +nav-prefix
+   init-nav-prefix
    "i" 'dumb-jump-go-prompt
    "o" 'dumb-jump-go-other-window
    "x" 'dumb-jump-go-prefer-external
@@ -2323,7 +2233,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
   ("M-," 'smart-jump-back)
   ("M-?" 'smart-jump-references)
   (:prefix
-   +nav-prefix
+   init-nav-prefix
    "j" 'smart-jump-go
    "r" 'smart-jump-references)
   :preface
@@ -2372,7 +2282,7 @@ Refactoring commands for various languages.
   :general
   (:keymaps
    'prog-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'rtog/toggle-repl)
   :preface
   (defun clojure-repl ()
@@ -2409,7 +2319,7 @@ Receives PROCESS and EVENT."
       (setq comint-input-ring-file-name
             (expand-file-name
              (format "comint-%s-history" (process-name process))
-             +cache-dir))
+             init-cache-dir))
       (comint-read-input-ring)
       (set-process-sentinel process #'+comint-history-write-on-exit))))
 #+END_SRC
@@ -2417,8 +2327,8 @@ Receives PROCESS and EVENT."
 ** Syntax checker
 Silence next/previous error, by default it produces a message every time.
 #+BEGIN_SRC emacs-lisp
-(advice-add #'next-error :around #'quiet-function-advice)
-(advice-add #'previous-error :around #'quiet-function-advice)
+(advice-add #'next-error :around #'init-quiet-function-advice)
+(advice-add #'previous-error :around #'init-quiet-function-advice)
 #+END_SRC
 
 *** flymake
@@ -2437,15 +2347,15 @@ Haskell one).
   (:keymaps
    'flymake-mode-map
    :prefix
-   +local-leader-key
+   init-local-leader-key
    "!" 'flymake-show-diagnostics-buffer)
   (:keymaps
    'flymake-mode-map
-   :prefix +next-prefix
+   :prefix init-next-prefix
    "E" 'flymake-goto-next-error)
   (:keymaps
    'flymake-mode-map
-   :prefix +prev-prefix
+   :prefix init-prev-prefix
    "E" 'flymake-goto-prev-error)
   (:keymaps
    'flymake-diagnostics-buffer-mode-map
@@ -2500,7 +2410,7 @@ Haskell one).
 (use-package ediff
   :hook
   (ediff-quit . winner-undo)
-  (ediff-keymap-setup . +ediff-keys-setup)
+  (ediff-keymap-setup . init-ediff-keys)
   :custom
   (ediff-diff-options "-w")
   (ediff-merge-split-window-function #'split-window-horizontally)
@@ -2516,7 +2426,7 @@ Haskell one).
       (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
       (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 
-  (defun +ediff-keys-setup ()
+  (defun init-ediff-keys ()
     "Setup keybindings for `ediff-mode'."
     (general-define-key
      :keymaps 'ediff-mode-map
@@ -2533,7 +2443,10 @@ Diff indicators in fringe
   :hook
   (dired-mode         . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh)
-  :init
+  :commands
+  (diff-hl-next-hunk
+   diff-hl-previous-hunk)
+  :preface
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
   :config
@@ -2625,7 +2538,7 @@ Generic Language Server Protocol integration via =eglot=.
    "M-g k" 'eglot-help-at-point)
   (:keymaps
    'eglot-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "e" '(:ignore t :wk "eglot")
    "ea" 'eglot-code-actions
    "ef" 'eglot-format
@@ -2645,7 +2558,7 @@ Execute make tasks.
   (helm-make-completion-method 'ivy)
   :general
   (:prefix
-   +leader-key
+   init-leader-key
    "m" (general-predicate-dispatch #'helm-make
          :docstring "Run make task (project aware)"
          (projectile-project-p) #'helm-make-projectile)))
@@ -2656,7 +2569,10 @@ Highlight *TODO* inside comments and strings.
 #+BEGIN_SRC emacs-lisp
 (use-package hl-todo
   :hook
-  (prog-mode . hl-todo-mode))
+  (prog-mode . hl-todo-mode)
+  :commands
+  (hl-todo-next
+   hl-todo-previous))
 #+END_SRC
 
 *** idle-highlight
@@ -2672,7 +2588,7 @@ Document locations in a sidebar.
 (use-package imenu-list
   :general
   (:prefix
-   +leader-key
+   init-leader-key
    "i" 'imenu-list-smart-toggle))
 #+END_SRC
 
@@ -2682,7 +2598,7 @@ Peek definition (Display the function source inline).
 (use-package source-peek
   :general
   (:prefix
-   +nav-prefix
+   init-nav-prefix
    "SPC" 'source-peek))
 #+END_SRC
 
@@ -2758,7 +2674,7 @@ For modes that don't adequately highlight numbers.
 (custom-set-variables
  '(prettify-symbols-unprettify-at-point t))
 
-(defun +prog-prettify-symbols-setup ()
+(defun init-prog-prettify-symbols ()
   "Add generic programming symbols."
   (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
                     ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
@@ -2776,7 +2692,7 @@ For modes that don't adequately highlight numbers.
                     ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
                     ("lambda" . ?λ)))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'prog-mode-hook #'+prog-prettify-symbols-setup)
+(add-hook 'prog-mode-hook #'init-prog-prettify-symbols)
 
 (global-prettify-symbols-mode 1)
 #+END_SRC
@@ -2788,7 +2704,7 @@ For modes that don't adequately highlight numbers.
 
 (general-define-key
  :keymaps 'emacs-lisp-mode-map
- :prefix +local-leader-key
+ :prefix init-local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
  "t" 'ert)
@@ -2860,7 +2776,7 @@ Better =*help*= buffer
   :general
   (:keymaps
    'emacs-lisp-mode-map
-   :prefix +nav-prefix
+   :prefix init-nav-prefix
    "h" 'helpful-at-point)
   (:keymaps
    'help-map
@@ -2887,7 +2803,7 @@ Better =*help*= buffer
 #+BEGIN_SRC emacs-lisp
 (use-package package-lint-flymake
   :hook
-  (emacs-lisp-mode . package-lint-setup-flymake))
+  (emacs-lisp-mode . package-lint-flymake-setup))
 #+END_SRC
 
 **** suggest
@@ -2899,7 +2815,7 @@ Discover functions.
   :general
   (:keymaps
    'emacs-lisp-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "s" '+suggest-popup)
   :preface
   (defun +suggest-popup ()
@@ -2924,14 +2840,14 @@ Shorten package prefixes.
 
 **** Prettify symbols
 #+BEGIN_SRC emacs-lisp
-(defun +emacs-lisp-prettify-symbols-setup ()
+(defun init-emacs-lisp-prettify-symbols ()
   "Prettify `emacs-lisp-mode' specific symbols."
   (dolist (symbol '(("defun"    . ?ƒ)
                     ("defmacro" . ?μ)
                     ("defvar"   . ?ν)
                     ("defconst" . "ν_")))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'emacs-lisp-mode-hook #'+emacs-lisp-prettify-symbols-setup)
+(add-hook 'emacs-lisp-mode-hook #'init-emacs-lisp-prettify-symbols)
 #+END_SRC
 
 **** Regular expression escapes
@@ -2947,12 +2863,12 @@ Improve readability of escape characters in regular expressions.
 #+BEGIN_SRC emacs-lisp
 (use-package erc
   :hook
-  (erc-mode . +erc-parens-setup)
+  (erc-mode . init-erc-parens)
   :custom
   (erc-hide-list '("JOIN" "PART" "QUIT"))
   (erc-prompt-for-password nil)
   :preface
-  (defun +erc-parens-setup ()
+  (defun init-erc-parens ()
     "Parenthesis configuration for `erc-mode'."
     (smartparens-strict-mode 0)
     (smartparens-mode 1)))
@@ -2963,8 +2879,8 @@ Improve readability of escape characters in regular expressions.
 (use-package eshell
   :hook
   (eshell-mode . abbrev-mode)
-  (eshell-mode . +eshell-define-keys)
-  (eshell-mode . +eshell-set-visual-commands)
+  (eshell-mode . init-eshell-define-keys)
+  (eshell-mode . init-eshell-set-visual-commands)
   :custom
   (eshell-buffer-maximum-lines 20000)
   (eshell-history-size 1000)
@@ -2973,18 +2889,18 @@ Improve readability of escape characters in regular expressions.
   (eshell-destroy-buffer-when-process-dies t)
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "t" 'eshell)
   :preface
   (defvar eshell-visual-commands)
-  (defun +eshell-define-keys ()
+  (defun init-eshell-define-keys ()
     (general-define-key
      :keymaps 'eshell-mode-map
      "RET" '+eshell-expand-abbrev-and-send-input
      "<tab>" 'completion-at-point
      "C-r" 'counsel-esh-history))
 
-  (defun +eshell-set-visual-commands ()
+  (defun init-eshell-set-visual-commands ()
     (setq eshell-visual-commands
           (append
            '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
@@ -3132,7 +3048,7 @@ Paste links from clipboard and automatically fetch title.
   :general
   (:keymaps
    'org-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "l" 'org-cliplink))
 #+END_SRC
 
@@ -3175,7 +3091,7 @@ Presentation mode.
    "<left>" 'org-tree-slide-move-previous-tree)
   (:keymaps
    'org-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "p" 'org-tree-slide-mode))
 #+END_SRC
 
@@ -3193,8 +3109,8 @@ This sections makes =org-mode= look more beautiful and appealing.
 (use-package org
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)
-  (org-mode . +org-cursor-setup)
-  (org-mode . +org-prettify-syntax-setup)
+  (org-mode . init-org-cursor)
+  (org-mode . init-org-prettify-syntax)
   :custom
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
@@ -3203,10 +3119,10 @@ This sections makes =org-mode= look more beautiful and appealing.
   (org-startup-indented t)
   (org-startup-with-inline-images t)
   :preface
-  (defun +org-cursor-setup ()
+  (defun init-org-cursor ()
     "Setup bar cursor for `org-mode'."
     (setq cursor-type 'bar))
-  (defun +org-prettify-syntax-setup ()
+  (defun init-org-prettify-syntax ()
     "Prettify syntax with symbols."
     (dolist (symbol '(("#+title:" . ?⋮)
                       ("#+TITLE:" . ?⋮)
@@ -3242,7 +3158,7 @@ Use variable-pitch font but still make sure everything aligns.
   :hook
   (org-mode . org-variable-pitch-minor-mode)
   :custom
-  (org-variable-pitch-fixed-font +fixed-pitch-font)
+  (org-variable-pitch-fixed-font init-fixed-pitch-font)
   (org-variable-pitch-fontify-headline-prefix t)
   :init
   (require 'org-indent))
@@ -3271,14 +3187,14 @@ Use variable-pitch font but still make sure everything aligns.
 **** Task lists
 Use symbols to represent task state.
 #+BEGIN_SRC emacs-lisp
-(defun +org-prettify-task-symbols-setup ()
+(defun init-org-prettify-task-symbols ()
   "Prettify task list symbols."
   (dolist (symbol '(("TODO"     . ?⚑)
                     ("DOING"    . ?⚐)
                     ("CANCELED" . ?✘)
                     ("DONE"     . ?✔)))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
+(add-hook 'org-mode-hook #'init-org-prettify-task-symbols)
 #+END_SRC
 
 **** Breadcrumbs
@@ -3322,14 +3238,16 @@ Add links in footnotes.
 (defvar org-export-latex-add-link-footnotes t
   "If non-nil links will be added as footnotes if exported to latex.")
 
-(defun +org-export-latex-link-footnote (text backend info)
-  "Create a footnote in latex for each link. So when printed the information isn't lost."
+(defun +org-export-latex-link-footnote (text backend _info)
+  "Create a footnote in latex for each link. So when printed the information isn't lost.
+If there is a URL and the export BACKEND is latex, then extract
+URL into footnote from TEXT."
   (when (and org-export-latex-add-link-footnotes
              (org-export-derived-backend-p backend 'latex)
              (string-match "\\\\href{\\(.*\\)}{\\(.*\\)}" text))
-    (when (some (lambda (type)
-                  (string-prefix-p type (match-string 1 text)))
-                '("http" "https" "ftp" "mailto" "doi"))
+    (when (cl-some (lambda (type)
+                     (string-prefix-p type (match-string 1 text)))
+                   '("http" "https" "ftp" "mailto" "doi"))
       (format "%s \\footnote{\\url{%s}} " text (match-string 1 text)))))
 
 (with-eval-after-load 'ox
@@ -3378,12 +3296,12 @@ Add links in footnotes.
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
-  (cider-repl-history-file (concat +data-dir "cider-history"))
+  (cider-repl-history-file (concat init-data-dir "cider-history"))
   (org-babel-clojure-backend 'cider)
   :general
   (:keymaps
    'cider-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "c" 'cider-refresh
    "t" 'cider-test-run-test
    "T" 'cider-test-run-ns-tests
@@ -3397,7 +3315,7 @@ Add links in footnotes.
   :general
   (:keymaps
    'crystal-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'crystal-spec-line
    "T" 'crystal-spec-buffer
    "s" 'crystal-spec-all))
@@ -3412,7 +3330,7 @@ Add links in footnotes.
   :general
   (:keymaps
    'crystal-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'inf-crystal))
 #+END_SRC
 
@@ -3453,7 +3371,7 @@ Add links in footnotes.
    "M-g k" 'alchemist-help-search-at-point)
   (:keymaps
    'alchemist-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'alchemist-iex-run
    "s" 'alchemist-mix-test
    "t" 'alchemist-mix-test-at-point
@@ -3472,7 +3390,7 @@ Add links in footnotes.
   :general
   (:keymaps
    'elm-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'elm-test-project))
 #+END_SRC
 
@@ -3484,15 +3402,15 @@ Add links in footnotes.
   :mode
   ("\\.epub\\'" . nov-mode)
   :hook
-  (nov-mode . +nov-delayed-render-setup)
-  (nov-mode . +nov-fringes-setup)
+  (nov-mode . init-nov-delayed-render)
+  (nov-mode . init-nov-fringes)
   :custom
-  (nov-save-place-file (concat +data-dir "nov-places"))
+  (nov-save-place-file (concat init-data-dir "nov-places"))
   :preface
-  (defun +nov-delayed-render-setup ()
+  (defun init-nov-delayed-render ()
     (run-with-idle-timer 0.2 nil 'nov-render-document))
 
-  (defun +nov-fringes-setup ()
+  (defun init-nov-fringes ()
     "Hide the fringes for `nov-mode'."
     (set-window-fringes (get-buffer-window) 0 0 nil)))
 #+END_SRC
@@ -3509,23 +3427,23 @@ Add links in footnotes.
   "\\.yrl"
   "/ebin/.+\\.app"
   :hook
-  (erlang-mode . +erlang-eunit-setup)
-  (erlang-mode . +erlang-flymake-setup)
+  (erlang-mode . init-erlang-eunit)
+  (erlang-mode . init-erlang-flymake)
   :general
   (:keymaps
    'erlang-mode-map
    "M-g k" 'erlang-man-function)
   (:keymaps
    'erlang-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'erlang-eunit-compile-and-run-current-test
    "T" 'erlang-eunit-compile-and-run-module-tests
    "r" 'erlang-shell-display)
   :preface
-  (defun +erlang-eunit-setup ()
+  (defun init-erlang-eunit ()
     "Setup EUnit support for `erlang-mode'."
     (require 'erlang-eunit))
-  (defun +erlang-flymake-setup ()
+  (defun init-erlang-flymake ()
     "Setup `flymake' support for `erlang-mode'."
     (require 'erlang-flymake)
     (flymake-mode 1)))
@@ -3537,9 +3455,9 @@ Add links in footnotes.
 (use-package ivy-erlang-complete
   :hook
   (erlang-mode . ivy-erlang-complete-init)
-  (erlang-mode . +erlang-ivy-completion-setup)
+  (erlang-mode . init-erlang-ivy-completion)
   :preface
-  (defun +erlang-ivy-completion-setup ()
+  (defun init-erlang-ivy-completion ()
     "Setup completion via `ivy' for `erlang-mode'."
     (add-hook 'after-save-hook #'ivy-erlang-complete-reparse nil t)))
 #+END_SRC
@@ -3559,7 +3477,7 @@ Add links in footnotes.
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
   :hook
-  (go-mode . +go-prettify-symbols-setup)
+  (go-mode . init-go-prettify-symbols)
   :custom
   (gofmt-command "goimports")
   :general
@@ -3567,7 +3485,7 @@ Add links in footnotes.
    'go-mode-map
    "M-g k" 'godoc-at-point)
   :preface
-  (defun +go-prettify-symbols-setup ()
+  (defun init-go-prettify-symbols ()
     (dolist (symbol '(("funct"  . ?ƒ)))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
 #+END_SRC
@@ -3628,7 +3546,7 @@ Add links in footnotes.
    "M-." 'nil)
   (:keymaps
    'haskell-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'haskell-interactive-switch
    "R" 'haskell-session-change-target)
   :init
@@ -3639,21 +3557,24 @@ Add links in footnotes.
 *** REPL
 Persist REPL history.
 #+BEGIN_SRC emacs-lisp
-(defvar +haskell-interactive-global-history nil)
-(with-eval-after-load 'savehist
+(use-package haskell-mode
+  :hook
+  (haskell-interactive-mode . +haskell-interactive-load-history)
+  :defines (haskell-interactive-mode-history)
+  :preface
+  (defvar +haskell-interactive-global-history nil)
+
+  (defun +haskell-interactive-save-history ()
+    "Save `haskell-interactive-mode' history."
+    (setq +haskell-interactive-global-history haskell-interactive-mode-history))
+
+  (defun +haskell-interactive-load-history ()
+    "Restore `haskell-interactive-mode' history."
+    (add-hook 'kill-buffer-hook #'+haskell-interactive-save-history nil t)
+    (when +haskell-interactive-global-history
+      (setq haskell-interactive-mode-history +haskell-interactive-global-history)))
+  :config
   (cl-pushnew '+haskell-interactive-global-history savehist-additional-variables :test #'equal))
-
-(defun +haskell-interactive-load-history ()
-  "Restore `haskell-interactive-mode' history."
-  (add-hook 'kill-buffer-hook #'+haskell-interactive-save-history nil t)
-  (when +haskell-interactive-global-history
-    (setq haskell-interactive-mode-history +haskell-interactive-global-history)))
-
-(defun +haskell-interactive-save-history ()
-  "Save `haskell-interactive-mode' history."
-  (setq +haskell-interactive-global-history haskell-interactive-mode-history))
-
-(add-hook 'haskell-interactive-mode-hook #'+haskell-interactive-load-history)
 #+END_SRC
 
 *** Packages
@@ -3663,7 +3584,7 @@ Persist REPL history.
   :general
   (:keymaps
    'haskell-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'hasky-stack-test))
 #+END_SRC
 
@@ -3677,7 +3598,7 @@ Persist REPL history.
   :general
   (:keymaps
    'gradle-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'gradle-test))
 #+END_SRC
 
@@ -3697,16 +3618,16 @@ Persist REPL history.
   ("\\.js[mx]?\\'" . javascript-mode)
   ("\\.har\\'" . javascript-mode)
   :hook
-  (js-mode . +js-find-file-setup)
-  (js-mode . +js-prettify-symbols-setup)
+  (js-mode . init-js-find-file)
+  (js-mode . init-js-prettify-symbols)
   :preface
-  (defun +js-find-file-setup ()
+  (defun init-js-find-file ()
     "Setup `ff-test-find-other-file' support for `js-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
           ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
-  (defun +js-prettify-symbols-setup ()
+  (defun init-js-prettify-symbols ()
     (dolist (symbol '(("=="        . ?≈)
                       ("!="        . "≈/")
                       ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
@@ -3743,7 +3664,7 @@ Debugger
   :general
   (:keymaps
    'js-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "s" 'indium-scratch
    "o" 'indium-launch
    "O" 'indium-connect)
@@ -3760,7 +3681,7 @@ Test framework execution.
   :general
   (:keymaps
    'js-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'jest-funcion-dwim
    "T" 'jest-file
    "s" 'jest-popup))
@@ -3800,12 +3721,12 @@ REPL for nodejs.
   :mode
   "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)"
   :preface
-  (defun +json-mode-setup-flymake ()
+  (defun init-json-mode-flymake ()
     "Setup `json-mode' integration with Flymake."
     (add-hook 'flymake-diagnostic-functions #'flymake-check-jsonlint nil t)
     (flymake-mode))
   :hook
-  (json-mode . +json-mode-setup-flymake))
+  (json-mode . init-json-mode-flymake))
 #+END_SRC
 
 *** Syntax checker
@@ -3834,7 +3755,7 @@ REPL for nodejs.
   :general
   (:keymaps
    'json-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "n" 'json-navigator-navigate-region))
 #+END_SRC
 
@@ -3848,7 +3769,7 @@ React JSX support.
   :general
   (:keymaps
    'rjsx-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "R" 'rjsx-rename-tag-at-point))
 #+END_SRC
 
@@ -3873,7 +3794,7 @@ React JSX support.
    "M-g k" 'slime-describe-symbol)
   (:keymaps
    'slime-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "o" 'slime
    "t" 'slime-load-file-and-other-file)
   :preface
@@ -3890,7 +3811,7 @@ React JSX support.
 (use-package lua-mode
   :mode "\\.lua\\'"
   :hook
-  (lua-mode . +lua-prettify-symbols-setup)
+  (lua-mode . init-lua-prettify-symbols)
   :custom
   (lua-documentation-function 'eww)
   :general
@@ -3898,7 +3819,7 @@ React JSX support.
    'lua-mode-map
    "M-g k" 'lua-search-documentation)
   :preface
-  (defun +lua-prettify-symbols-setup ()
+  (defun init-lua-prettify-symbols ()
     (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
                       ("function"  . ?ƒ)
                       ("math.huge" . ?∞)))
@@ -3923,7 +3844,7 @@ React JSX support.
   :general
   (:keymaps
    'markdown-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "v" 'markdown-toggle-markup-hiding))
 #+END_SRC
 
@@ -3980,7 +3901,7 @@ Pretty check-boxes
   :general
   (:keymaps
    'nix-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "u" 'nix-update-fetch))
 #+END_SRC
 
@@ -4006,7 +3927,7 @@ Pretty check-boxes
    "C-x C-e" 'tuareg-eval-phrase)
   (:keymaps
    'tuareg-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'run-ocaml))
 #+END_SRC
 
@@ -4036,14 +3957,14 @@ Pretty check-boxes
 #+BEGIN_SRC emacs-lisp
 (use-package python
   :hook
-  (python-mode . +python-prettify-symbols-setup)
+  (python-mode . init-python-prettify-symbols)
   :general
   (:keymaps
    'python-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'run-python)
   :preface
-  (defun +python-prettify-symbols-setup ()
+  (defun init-python-prettify-symbols ()
     (dolist (symbol '(("def"      . ?ƒ)
                       ("sum"      . ?Σ)
                       ("not"      . ?￢)
@@ -4080,7 +4001,7 @@ Editing pip requirements files.
   :general
   (:keymaps
    'python-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'python-test-project)
   :config
   (setq python-test-project-root-files
@@ -4097,7 +4018,7 @@ Editing pip requirements files.
    "M-g k" 'racket-doc)
   (:keymaps
    'racket-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'racket-test))
 #+END_SRC
 
@@ -4157,18 +4078,18 @@ Pretty check-boxes as well as bullet lists.
 #+BEGIN_SRC emacs-lisp
 (use-package ruby-mode
   :hook
-  (ruby-mode . +ruby-find-file-setup)
-  (ruby-mode . +ruby-prettify-symbols-setup)
+  (ruby-mode . init-ruby-find-file)
+  (ruby-mode . init-ruby-prettify-symbols)
   :custom
   (ruby-align-chained-calls t)
   :preface
-  (defun +ruby-find-file-setup ()
+  (defun init-ruby-find-file ()
     "Setup `ff-test-find-other-file' support for `ruby-mode'."
     (setq ff-test-suffixes '("_test" "_spec")
           ff-test-search-implementation-project-directories '("app" "lib")
           ff-test-search-test-project-directories '("test" "spec")))
 
-  (defun +ruby-prettify-symbols-setup ()
+  (defun init-ruby-prettify-symbols ()
     (dolist (symbol '(("def"             . ?ƒ)
                       ("Float::INFINITY" . ?∞)))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
@@ -4209,7 +4130,7 @@ Pretty check-boxes as well as bullet lists.
 
 (general-define-key
  :keymaps 'ruby-mode-map
- :prefix +local-leader-key
+ :prefix init-local-leader-key
  "t" 'ruby-test-at-point
  "T" 'ruby-test-file
  "s" 'ruby-test-all)
@@ -4228,7 +4149,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'ruby-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "r" 'inf-ruby))
 #+END_SRC
 
@@ -4244,7 +4165,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package rake
   :custom
   (rake-completion-system 'default)
-  (rake-cache-file (expand-file-name "rake.cache" +cache-dir)))
+  (rake-cache-file (expand-file-name "rake.cache" init-cache-dir)))
 #+END_SRC
 
 **** rspec-mode
@@ -4295,7 +4216,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'rustic-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'rustic-cargo-test)
   :init
   (with-eval-after-load 'org
@@ -4319,11 +4240,11 @@ Pretty check-boxes as well as bullet lists.
 (use-package scala-mode
   :mode "\\.\\(scala\\|sbt\\)\\'"
   :hook
-  (scala-mode . +scala-prettify-symbols-setup)
+  (scala-mode . init-scala-prettify-symbols)
   :custom
   (scala-indent:align-parameters t)
   :preface
-  (defun +scala-prettify-symbols-setup ()
+  (defun init-scala-prettify-symbols ()
     (setq prettify-symbols-alist scala-prettify-symbols-alist)))
 #+END_SRC
 
@@ -4368,7 +4289,7 @@ Pretty check-boxes as well as bullet lists.
   (explicit-shell-file-name "fish")
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "T" 'term))
 #+END_SRC
 
@@ -4377,16 +4298,16 @@ Pretty check-boxes as well as bullet lists.
 (use-package typescript-mode
   :mode "\\.ts$"
   :hook
-  (typescript-mode . +typescript-find-file-setup)
-  (typescript-mode . +typescript-prettify-symbols-setup)
+  (typescript-mode . init-typescript-find-file)
+  (typescript-mode . init-typescript-prettify-symbols)
   :preface
-  (defun +typescript-find-file-setup ()
+  (defun init-typescript-find-file ()
     "Setup `ff-test-find-other-file' support for `typescript-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
           ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
-  (defun +typescript-prettify-symbols-setup ()
+  (defun init-typescript-prettify-symbols ()
     (dolist (symbol '(("=="        . ?≈)
                       ("!="        . "≈/")
                       ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
@@ -4414,7 +4335,7 @@ Test framework execution.
   :general
   (:keymaps
    'typescript-mode-map
-   :prefix +local-leader-key
+   :prefix init-local-leader-key
    "t" 'jest-function-dwim
    "T" 'jest-file
    "s" 'jest-popup))
@@ -4426,6 +4347,8 @@ Test framework execution.
 Display current path for HTML/XML/CSS.
 #+BEGIN_SRC emacs-lisp
 (use-package cakecrumbs
+  :functions
+  (cakecrumbs-auto-setup)
   :config
   (cakecrumbs-auto-setup))
 #+END_SRC
@@ -4520,7 +4443,7 @@ Dim out the surrounding text except the current focused paragraph or expression.
 (use-package redtick
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "r" 'redtick))
 #+END_SRC
 
@@ -4538,6 +4461,8 @@ it really useful.
   (desktop-restore-eager 0)
   (desktop-save (daemonp))
   (desktop-load-locked-desktop (daemonp))
+  :functions
+  (desktop-buffer-info)
   :preface
   (defun +append-buffer-undo-list-to-buffer-local-variables-advice (orig-fn &rest args)
     "Override `buffer-local-variables' and call ORIG-FN with ARGS.
@@ -4548,7 +4473,7 @@ it really useful.
     (let ((orig-buffer-local-variables-fn (symbol-function 'buffer-local-variables)))
       (cl-letf (((symbol-function 'buffer-local-variables)
                  #'(lambda () (append (funcall orig-buffer-local-variables-fn)
-                                      `(,(cons 'buffer-undo-list buffer-undo-list))))))
+                                 `(,(cons 'buffer-undo-list buffer-undo-list))))))
         (apply orig-fn args))))
   :config
   (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
@@ -4571,7 +4496,7 @@ it really useful.
                 spray-unsupported-minor-modes))
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "s" 'spray-mode))
 #+END_SRC
 
@@ -4591,7 +4516,9 @@ it really useful.
 
 Automatically infer dictionary.
 #+BEGIN_SRC emacs-lisp
-(use-package auto-dictionary)
+(use-package auto-dictionary
+  :commands
+  (adict-mode))
 #+END_SRC
 
 ** Undo
@@ -4600,7 +4527,7 @@ Navigate through undo history.
 (use-package undo-propose
   :general
   (:prefix
-   +launch-prefix
+   init-launch-prefix
    "u" 'undo-propose))
 #+END_SRC
 
