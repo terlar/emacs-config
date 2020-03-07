@@ -120,7 +120,7 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 *** use-package
 #+BEGIN_SRC emacs-lisp
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package nil t))
 (setq use-package-always-defer t)
 
 (if init-debug-mode
@@ -145,20 +145,14 @@ Help keeping =~/.emacs.d= clean.
 *** exec-path-from-shell
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
-  :demand t
-  :commands
-  (exec-path-from-shell-initialize)
-  :custom
-  (exec-path-from-shell-check-startup-files nil)
-  :config
-  (exec-path-from-shell-initialize))
+  :hook (after-init . exec-path-from-shell-initialize)
+  :custom (exec-path-from-shell-check-startup-files nil))
 #+END_SRC
 
 *** server
 #+BEGIN_SRC emacs-lisp
 (use-package server
-  :commands
-  (server-running-p)
+  :commands (server-running-p)
   :preface
   (defun init-server-ensure-running (frame)
     "Ensure server is running when launching FRAME."
@@ -192,7 +186,7 @@ Persist history.
 
 *** async
 #+BEGIN_SRC emacs-lisp
-(use-package async :demand t)
+(use-package async)
 #+END_SRC
 
 *** flymake-quickdef
@@ -244,7 +238,7 @@ Make less work inside Emacs shells. But disable it as the default pager.
 *** all-the-icons
 Support functions for displaying icons. I am trying to use icons where possible.
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons :demand t)
+(use-package all-the-icons)
 #+END_SRC
 
 *** auto-minor-mode
@@ -621,31 +615,29 @@ keybindings in case I would forget them.
 ** Typography
 *** Size
 #+BEGIN_SRC emacs-lisp
-(eval-and-compile
-  (defvar init-line-spacing 0.25
-    "Spacing between lines.")
+(defvar init-line-spacing 0.25
+  "Spacing between lines.")
 
-  (defvar init-default-font-height 120
-    "Default font height."))
+(defvar init-default-font-height 120
+  "Default font height.")
 #+END_SRC
 
 *** Face
 #+BEGIN_SRC emacs-lisp
-(eval-and-compile
-  (defvar init-fixed-pitch-font "Iosevka Slab"
-    "Font used for fixed-pitch faces.")
+(defvar init-fixed-pitch-font "Iosevka Slab"
+  "Font used for fixed-pitch faces.")
 
-  (defvar init-variable-pitch-font "Noto Sans"
-    "Font used for variable-pitch faces.")
+(defvar init-variable-pitch-font "Noto Sans"
+  "Font used for variable-pitch faces.")
 
-  (defvar init-serif-font "Noto Serif"
-    "Font used for serif faces.")
+(defvar init-serif-font "Noto Serif"
+  "Font used for serif faces.")
 
-  (defvar init-unicode-font "Noto Sans Mono"
-    "Fallback font used for unicode glyphs.")
+(defvar init-unicode-font "Noto Sans Mono"
+  "Fallback font used for unicode glyphs.")
 
-  (defvar init-emoji-font "Noto Emoji"
-    "Font used for symbol/emoji faces."))
+(defvar init-emoji-font "Noto Emoji"
+  "Font used for symbol/emoji faces.")
 
 (init-eval-after-make-graphic-frame
  "setup-emoji-font"
@@ -661,11 +653,10 @@ keybindings in case I would forget them.
 ** Theme
 *** Defaults
 #+BEGIN_SRC emacs-lisp
-(eval-and-compile
-  (defvar init-default-light-theme 'tao-yang
-    "Default light theme.")
-  (defvar init-default-dark-theme 'tao-yin
-    "Default dark theme."))
+(defvar init-default-light-theme 'tao-yang
+  "Default light theme.")
+(defvar init-default-dark-theme 'tao-yin
+  "Default dark theme.")
 #+END_SRC
 
 *** Packages
@@ -1409,11 +1400,10 @@ Display colors inline.
 *** relative-buffers
 #+BEGIN_SRC emacs-lisp
 (use-package relative-buffers
-  :demand t
+  :hook
+  (after-init . global-relative-buffers-mode)
   :custom
-  (relative-buffers-project-prefix t)
-  :config
-  (global-relative-buffers-mode 1))
+  (relative-buffers-project-prefix t))
 #+END_SRC
 
 *** wgrep-ag
@@ -1647,7 +1637,7 @@ Keep track of last point place to resume editing in the same file.
 Project interactions. Prefix project buffer files with the project name and relative path.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
-  :demand t
+  :defer 2
   :diminish projectile-mode
   :custom
   (projectile-enable-caching nil)

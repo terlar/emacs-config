@@ -14,20 +14,19 @@
                      (float-time (time-subtract after-init-time before-init-time)))))
 
 ;;; Temporarily reduce garbage collection to gain some performance boost.
-(eval-when-compile
-  (let ((normal-gc-cons-threshold 800000)
-        (normal-gc-cons-percentage 0.1)
-        (normal-file-name-handler-alist file-name-handler-alist)
-        (init-gc-cons-threshold 402653184)
-        (init-gc-cons-percentage 0.6))
-    (setq gc-cons-threshold init-gc-cons-threshold
-          gc-cons-percentage init-gc-cons-percentage
-          file-name-handler-alist nil)
-    (add-hook 'after-init-hook
-              `(lambda ()
-                 (setq gc-cons-threshold ,normal-gc-cons-threshold
-                       gc-cons-percentage ,normal-gc-cons-percentage
-                       file-name-handler-alist ',normal-file-name-handler-alist)))))
+(let ((normal-gc-cons-threshold 800000)
+      (normal-gc-cons-percentage 0.1)
+      (normal-file-name-handler-alist file-name-handler-alist)
+      (init-gc-cons-threshold 402653184)
+      (init-gc-cons-percentage 0.6))
+  (setq gc-cons-threshold init-gc-cons-threshold
+        gc-cons-percentage init-gc-cons-percentage
+        file-name-handler-alist nil)
+  (add-hook 'after-init-hook
+            `(lambda ()
+               (setq gc-cons-threshold ,normal-gc-cons-threshold
+                     gc-cons-percentage ,normal-gc-cons-percentage
+                     file-name-handler-alist ',normal-file-name-handler-alist))))
 
 ;; Disable GUI components
 (setq use-dialog-box nil)
@@ -44,8 +43,7 @@
 
 ;; Require `use-package' to help with byte-compile checks
 (eval-when-compile
-  (when (locate-library "use-package")
-    (require 'use-package)))
+  (require 'use-package nil t))
 
 (provide 'early-init)
 ;;; early-init.el ends here
