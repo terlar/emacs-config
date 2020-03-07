@@ -159,8 +159,10 @@
  `(show-paren-match                        ((t (:bold t :underline t :box nil))))
  `(show-paren-mismatch                     ((t (:bold t :foreground ,local-theme-color-error))))
  ;; smerge
- `(smerge-upper                            ((t (:background "#E6FFED"))))
- `(smerge-lower                            ((t (:background "#FFEEF0"))))
+ `(smerge-upper                            ((((background light)) (:background "#E6FFED"))
+                                            (((background dark)) (:background "#004400"))))
+ `(smerge-lower                            ((((background light)) (:background "#FFEEF0"))
+                                            (((background dark)) (:background "#440000"))))
  `(smerge-base                             ((((background light)) (:background ,(local-theme-darken-default-background)))
                                             (((background dark)) (:background ,(local-theme-lighten-default-background)))))
  ;; term
@@ -236,7 +238,8 @@
  `(rst-literal                             ((t (:inherit fixed-pitch))))
  ;; shm
  `(shm-current-face                        ((t (:inherit hl-line))))
- `(shm-quarantine-face                     ((t (:background "#FFEEF0"))))
+ `(shm-quarantine-face                     ((((background light)) (:background "#FFEEF0"))
+                                            (((background dark)) (:background "#440000"))))
  ;; smartparens
  `(sp-show-pair-match-face                 ((t (:inherit show-paren-match :box nil))))
  `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
@@ -270,8 +273,10 @@
                             ,(face-foreground 'default)
                             ,(face-foreground 'default)])
  ;; coverlay
- `(coverlay:untested-line-background-color "#FFEEF0")
- `(coverlay:tested-line-background-color   "#E6FFED")
+ `(coverlay:untested-line-background-color ((((background light)) (:background "#FFEEF0"))
+                                            (((background dark)) (:background "#440000"))))
+ `(coverlay:tested-line-background-color   ((((background light)) (:background "#E6FFED"))
+                                            (((background dark)) (:background "#004400"))))
  ;; hl-todo
  `(hl-todo-keyword-faces
    `(("TODO"  . (:box (:line-width 1) :foreground ,local-theme-color-warning))
