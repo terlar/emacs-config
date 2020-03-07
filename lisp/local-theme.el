@@ -168,9 +168,9 @@
  ;; whitespace
  `(whitespace-space                        ((t (:background nil :family ,local-theme-fixed-pitch-font))))
  ;; window-divider
- `(window-divider                          ((t (:inherit 'vertical-border))))
- `(window-divider-first-pixel              ((t (:inherit 'window-divider))))
- `(window-divider-last-pixel               ((t (:inherit 'window-divider))))
+ `(window-divider                          ((t (:inherit vertical-border))))
+ `(window-divider-first-pixel              ((t (:inherit window-divider))))
+ `(window-divider-last-pixel               ((t (:inherit window-divider))))
 
  ;; cakecrumbs
  `(cakecrumbs-tag                          ((t (:inherit font-lock-keyword-face))))
@@ -220,8 +220,8 @@
  ;; perspeen
  `(perspeen-selected-face                  ((t (:bold t))))
  ;; popup
- `(popup-tip-face                          ((((background light)) (:inherit default :background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:inherit default :background ,(local-theme-lighten-default-background)))))
+ `(popup-tip-face                          ((((background light)) (:inherit default :foreground ,(face-foreground 'default) :background ,(local-theme-darken-default-background)))
+                                            (((background dark)) (:inherit default :foreground ,(face-foreground 'default) :background ,(local-theme-lighten-default-background)))))
  ;; rainbow-delimiters
  `(rainbow-delimiters-unmatched-face       ((t (:bold t :foreground ,local-theme-color-error))))
  ;; readable
@@ -251,7 +251,7 @@
  ;; which-key
  `(which-key-local-map-description-face    ((t (:bold t))))
  ;; quick-peek
- `(quick-peek-border-face                  ((t (:inherit 'default :height 0.1))))
+ `(quick-peek-border-face                  ((t (:inherit default :height 0.1))))
  `(quick-peek-padding-face                 ((t (:height 0.1)))))
 
 ;;;
