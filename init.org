@@ -2987,7 +2987,6 @@ Populate auto-completions from fish.
   (org-edit-src-content-indentation 0)
   (org-log-done 'time)
   (org-plantuml-exec-mode 'plantuml)
-  (org-startup-folded nil)
   (org-special-ctrl-a/e t)
   (org-src-preserve-indentation nil)
   (org-src-tab-acts-natively t)
@@ -2996,7 +2995,8 @@ Populate auto-completions from fish.
    '(("@work"  . ?w)
      ("@home"  . ?h)
      ("laptop" . ?l)))
-  :defines org-babel-load-languages
+  :functions
+  (org-babel-load-languages)
   :general
   (:keymaps
    'org-mode-map
