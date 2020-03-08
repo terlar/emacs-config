@@ -2655,36 +2655,36 @@ Highlight source code identifiers based on their name.
 For modes that don't adequately highlight numbers.
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-numbers
-  :hook
-  (prog-mode . highlight-numbers-mode))
+  :hook (prog-mode . highlight-numbers-mode))
 #+END_SRC
 
 *** Prettify symbols
 #+BEGIN_SRC emacs-lisp
-(custom-set-variables
- '(prettify-symbols-unprettify-at-point t))
-
-(defun init-prog-prettify-symbols ()
-  "Add generic programming symbols."
-  (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
-                    ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
-                    (":=" . (?: (Br . Bc) ?= (Br . Bc) ?=))
-                    ("==" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
-                    ("===" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
-                    ("!==" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                    (">="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥))
-                    ("<="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤))
-                    ("/=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                    ("!=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                    ("<-" . (?< (Br . Bc) ?- (Br . Bc) ?-))
-                    ("->" . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                    ("<==" . (?< (Br . Bc) ?= (Br . Bc) ?=))
-                    ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
-                    ("lambda" . ?λ)))
-    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'prog-mode-hook #'init-prog-prettify-symbols)
-
-(global-prettify-symbols-mode 1)
+(use-package prog-mode
+  :hook
+  (prog-mode . init-prog-prettify-symbols)
+  :custom
+  (prettify-symbols-unprettify-at-point t)
+  :preface
+  (defun init-prog-prettify-symbols ()
+    "Add generic programming symbols."
+    (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
+                      ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
+                      (":=" . (?: (Br . Bc) ?= (Br . Bc) ?=))
+                      ("==" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
+                      ("===" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
+                      ("!==" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
+                      (">="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥))
+                      ("<="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤))
+                      ("/=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
+                      ("!=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
+                      ("<-" . (?< (Br . Bc) ?- (Br . Bc) ?-))
+                      ("->" . (?- (Br . Bc) ?- (Br . Bc) ?>))
+                      ("<==" . (?< (Br . Bc) ?= (Br . Bc) ?=))
+                      ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
+                      ("lambda" . ?λ)))
+      (cl-pushnew symbol prettify-symbols-alist :test #'equal))
+    (prettify-symbols-mode 1)))
 #+END_SRC
 
 * Major modes
@@ -2986,6 +2986,7 @@ Populate auto-completions from fish.
      (shell      . t)))
   (org-edit-src-content-indentation 0)
   (org-log-done 'time)
+  (org-modules nil)
   (org-plantuml-exec-mode 'plantuml)
   (org-special-ctrl-a/e t)
   (org-src-preserve-indentation nil)
@@ -3129,13 +3130,15 @@ This sections makes =org-mode= look more beautiful and appealing.
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))
     (dolist (n (number-sequence 1 8 1))
       (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
-        (cl-pushnew symbol prettify-symbols-alist :test #'equal)))))
+        (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
+    (prettify-symbols-mode 1)))
 #+END_SRC
 
 **** Emphasis
 Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
 #+BEGIN_SRC emacs-lisp
-(with-eval-after-load 'org
+(use-package org
+  :config
   (setcar (nthcdr 4 org-emphasis-regexp-components) 4)
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 #+END_SRC
@@ -3145,13 +3148,10 @@ Use variable-pitch font but still make sure everything aligns.
 #+BEGIN_SRC emacs-lisp
 (use-package org-variable-pitch
   :diminish org-variable-pitch-minor-mode
-  :hook
-  (org-mode . org-variable-pitch-minor-mode)
+  :hook (org-mode . org-variable-pitch-minor-mode)
   :custom
   (org-variable-pitch-fixed-font init-fixed-pitch-font)
-  (org-variable-pitch-fontify-headline-prefix t)
-  :init
-  (require 'org-indent))
+  (org-variable-pitch-fontify-headline-prefix t))
 #+END_SRC
 
 **** Headings

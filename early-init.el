@@ -14,10 +14,10 @@
                      (float-time (time-subtract after-init-time before-init-time)))))
 
 ;;; Temporarily reduce garbage collection to gain some performance boost.
-(let ((normal-gc-cons-threshold 800000)
-      (normal-gc-cons-percentage 0.1)
+(let ((normal-gc-cons-threshold gc-cons-threshold)
+      (normal-gc-cons-percentage gc-cons-percentage)
       (normal-file-name-handler-alist file-name-handler-alist)
-      (init-gc-cons-threshold 402653184)
+      (init-gc-cons-threshold most-positive-fixnum)
       (init-gc-cons-percentage 0.6))
   (setq gc-cons-threshold init-gc-cons-threshold
         gc-cons-percentage init-gc-cons-percentage
@@ -30,18 +30,17 @@
 
 ;; Disable GUI components
 (setq use-dialog-box nil)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(tooltip-mode 0)
-
-;; Ignore X resources
-(advice-add #'x-apply-session-resources :override #'ignore)
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
 
 ;; Don't implicitly resize frames when changes various settings.
 (setq frame-inhibit-implied-resize t)
 
-;; Require `use-package' to help with byte-compile checks
+;; Ignore X resources
+(advice-add #'x-apply-session-resources :override #'ignore)
+
+;; Load `use-package' if possible.
 (eval-when-compile
   (require 'use-package nil t))
 
