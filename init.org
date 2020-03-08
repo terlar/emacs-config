@@ -2996,13 +2996,15 @@ Populate auto-completions from fish.
    '(("@work"  . ?w)
      ("@home"  . ?h)
      ("laptop" . ?l)))
-  :functions
-  (org-babel-load-languages)
   :general
   (:keymaps
    'org-mode-map
    "C-'" 'nil
    "C-," 'nil)
+  :functions
+  (org-babel-load-languages)
+  :preface
+  (autoload 'org-get-outline-path "org-refile" nil t)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
 #+END_SRC
