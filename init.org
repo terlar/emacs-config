@@ -2480,8 +2480,6 @@ Project-specific environment variables via =direnv=.
 #+BEGIN_SRC emacs-lisp
 (use-package direnv
   :demand t
-  :hook
-  (before-hack-local-variables . direnv-update-environment)
   :custom
   (direnv-always-show-summary nil)
   :config
