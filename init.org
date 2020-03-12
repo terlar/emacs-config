@@ -3964,7 +3964,9 @@ Pretty check-boxes
                       ("**3"      . ?³)
                       ("None"     . ?∅)
                       ("math.inf" . ?∞)))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+      (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
+  :config
+  (put 'python-shell-interpreter 'safe-local-variable #'(lambda (x) (member x '("python" "ipython")))))
 #+END_SRC
 
 *** Packages
