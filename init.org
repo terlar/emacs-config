@@ -2099,6 +2099,16 @@ Lookup documentation via DevDocs.
   ("M-g K" 'devdocs-search))
 #+END_SRC
 
+** Editing
+*** separedit
+#+BEGIN_SRC emacs-lisp
+(use-package separedit
+  :general
+  (:keymaps
+   'prog-mode-map
+   "C-c '" 'separedit))
+#+END_SRC
+
 ** Eval
 *** quickrun
 #+BEGIN_SRC emacs-lisp
