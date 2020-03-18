@@ -2175,6 +2175,8 @@ Reformat buffer without moving point.
   :config
   (progn ;; JavaScript/TypeScript
     (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
+  (progn ;; Nix
+    (cl-pushnew '(nixfmt . ("nixfmt")) apheleia-formatters :test #'equal))
   (progn ;; Python
     (cl-pushnew '(black100 . ("black" "-l" "100" "-")) apheleia-formatters :test #'equal))
   (progn ;; Ruby
