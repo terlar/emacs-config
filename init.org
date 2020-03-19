@@ -2266,6 +2266,27 @@ Refactoring commands for various languages.
 #+END_SRC
 
 ** REPL
+*** comint
+#+BEGIN_SRC emacs-lisp
+(use-package comint
+  :custom
+  (comint-use-prompt-regexp t)
+  :preface
+  (defun comint-process-tab-complete ()
+    "Complete by sending the current input and TAB character to the process."
+    (interactive)
+    (let* ((buffer (current-buffer))
+           (pmark (process-mark (get-buffer-process buffer))))
+      (when (> (point) (marker-position pmark))
+        (kill-region pmark (point))
+        (comint-send-string buffer (concat (pop kill-ring) "\t")))))
+  :general
+  (:keymaps
+   'comint-mode-map
+   "<tab>" 'comint-process-tab-complete
+   "C-c C-k" 'term-char-mode))
+#+END_SRC
+
 *** repl-toggle
 #+BEGIN_SRC emacs-lisp
 (use-package repl-toggle
