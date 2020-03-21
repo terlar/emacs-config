@@ -2103,6 +2103,8 @@ Lookup documentation via DevDocs.
 *** separedit
 #+BEGIN_SRC emacs-lisp
 (use-package separedit
+  :custom
+  (separedit-preserve-string-indentation t)
   :general
   (:keymaps
    'prog-mode-map
