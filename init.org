@@ -2495,7 +2495,20 @@ Enhanced git related views and commands.
   (defun +git-commit-set-fill-column ()
     "Set `fill-column' for git commit."
     (setq fill-column 72))
+
+  (defvar init-magit-process-create-pull-request-regexp
+    "remote: Create pull request for.*\nremote: +\\(?1:[^ ]+\\)[^\n]*"
+    "Regular expression detecting PR.")
+
+  (defun init-magit-process-ask-create-pull-request (_process string)
+    "Detect pull request STRING and ask to create PR."
+    (when (string-match init-magit-process-create-pull-request-regexp string)
+      (let ((url (match-string 1 string))
+            (inhibit-message t))
+        (if (y-or-n-p "Create PR?")
+            (browse-url (url-encode-url url))))))
   :config
+  (setq magit-process-prompt-functions #'init-magit-process-ask-create-pull-request)
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" "")
   (global-magit-file-mode 1))
