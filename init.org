@@ -4340,6 +4340,10 @@ Pretty check-boxes as well as bullet lists.
   :hook
   (typescript-mode . init-typescript-find-file)
   (typescript-mode . init-typescript-prettify-symbols)
+  :general
+  (:keymaps
+   'typescript-mode-map
+   "C-c '" 'nil)
   :preface
   (defun init-typescript-find-file ()
     "Setup `ff-test-find-other-file' support for `typescript-mode'."
