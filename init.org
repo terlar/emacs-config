@@ -2107,7 +2107,7 @@ Lookup documentation via DevDocs.
   (separedit-preserve-string-indentation t)
   :general
   (:keymaps
-   'prog-mode-map
+   '(prog-mode-map typescript-mode-map)
    "C-c '" 'separedit))
 #+END_SRC
 
