@@ -2,9 +2,9 @@
 
 let
   all-hies = import (fetchTarball "https://github.com/infinisil/all-hies/tarball/master") {};
-  haskellPackages = nixpkgs.pkgs.haskell.packages.${compiler};
+  haskellPackages = nixpkgs.haskell.packages.${compiler};
 
-  projectDrvEnv = (import ./default.nix { inherit nixpkgs compiler; }).env.overrideAttrs (oldAttrs: rec {
+  projectEnvDrv = (import ./default.nix { inherit nixpkgs compiler; }).env.overrideAttrs (oldAttrs: rec {
     buildInputs = oldAttrs.buildInputs ++ [
       haskellPackages.stack
       haskellPackages.hlint
@@ -14,4 +14,4 @@ let
       all-hies.versions.${compiler}
     ];
   });
-in projectDrvEnv
+in projectEnvDrv

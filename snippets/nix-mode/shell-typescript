@@ -1,5 +1,9 @@
+{ nixpkgsPath ? <nixpkgs>, nodeVersion ? "${1:10_x}" }:
+
+with import nixpkgsPath {};
+
 let
-  nodejs = nodejs-10_x;
+  nodejs = pkgs."nodejs-${nodeVersion}";
 in mkShell {
   buildInputs = [
     nodePackages.javascript-typescript-langserver

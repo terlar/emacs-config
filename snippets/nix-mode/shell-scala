@@ -1,5 +1,9 @@
+{ nixpkgsPath ? <nixpkgs>, scalaVersion ? "${1:2_13}" }:
+
+with import nixpkgsPath {};
+
 let
-  scala = scala_2_12;
+  scala = pkgs."scala_${scalaVersion}";
 in mkShell {
   buildInputs = [
     coursier

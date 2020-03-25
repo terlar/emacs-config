@@ -1,11 +1,15 @@
+{ nixpkgsPath ? <nixpkgs>, rubyVersion ? "${1:2_6}" }:
+
+with import nixpkgsPath {};
+
 let
-  ruby = ruby_2_5;
-  rubygems = (rubygems.override { ruby = ruby; });
+  ruby = pkgs."ruby_${rubyVersion}";
+  rubygems = rubygems.override { inherit ruby; };
 in mkShell {
   buildInputs = [
-    ruby
     bundler
     rubocop
+    ruby
     solargraph
   ];
 

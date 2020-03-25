@@ -1,6 +1,12 @@
-mkShell {
+{ nixpkgsPath ? <nixpkgs>, jdkName ? "${1:openjdk}", jdkVersion ? "${2:8}" }:
+
+with import nixpkgsPath {};
+
+let
+  jdk = pkgs."${jdkName}${jdkVersion}";
+in mkShell {
   buildInputs = [
     leiningen
-    openjdk
+    jdk
   ];
 }
