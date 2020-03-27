@@ -1088,7 +1088,7 @@ Cycle through words, symbols and patterns.
 #+BEGIN_SRC emacs-lisp
 (use-package string-inflection
   :general
-  ("M-'" 'string-inflection-all-cycle))
+  ("M-_" 'string-inflection-all-cycle))
 #+END_SRC
 
 *** smartparens
@@ -1108,6 +1108,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
    "p" 'smartparens-strict-mode)
   (:keymaps
    'smartparens-mode-map
+   "M-'" 'sp-change-inner
    "M-D" 'sp-unwrap-sexp
    "M-R" 'sp-rewrap-sexp
    "M-W" 'sp-wrap-round)
@@ -4604,7 +4605,6 @@ Navigate through undo history.
 ** TODO Wrap lines by default?
   When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
-** TODO Bind =sp-wrap-around=
 ** TODO Use =ielm= as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
