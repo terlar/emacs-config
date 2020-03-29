@@ -2165,7 +2165,9 @@ perhaps I should look into using that for those modes that are not compatible wi
   :hook
   ((emacs-lisp-mode
     lisp-mode
-    nix-mode) . aggressive-indent-mode))
+    nix-mode) . aggressive-indent-mode)
+  :init
+  (put 'aggressive-indent-mode 'safe-local-variable 'booleanp))
 #+END_SRC
 
 *** apheleia
