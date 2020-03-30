@@ -2466,6 +2466,8 @@ Diff indicators in fringe
 #+BEGIN_SRC emacs-lisp
 (use-package diff-hl
   :defer 2
+  :custom
+  (diff-hl-ask-before-revert-hunk nil)
   :hook
   (dired-mode         . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh)
