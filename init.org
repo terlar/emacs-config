@@ -2428,6 +2428,14 @@ Haskell one).
       vc-make-backup-files nil)
 #+END_SRC
 
+*** browse-at-remote
+Open link to files in the web UI connected to a repository.
+#+begin_src emacs-lisp
+(use-package browse-at-remote
+  :general
+  ("C-x v SPC" 'browse-at-remote))
+#+end_src
+
 *** ediff
 - Split horizontally
 - Use existing frame instead of creating a new one
