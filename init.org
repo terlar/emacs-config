@@ -1862,11 +1862,10 @@ Tips:
    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
   (counsel-mode-override-describe-bindings t)
   :general
-  ;; Use counsel/swiper for search
-  ("C-s" 'swiper-isearch)
-  ("C-x /" 'counsel-abbrev)
   (:keymaps
    'counsel-mode-map
+   "C-s" 'swiper-isearch
+   "C-x /" 'counsel-abbrev
    "C-c p" 'counsel-git
    "C-c r" 'counsel-recentf)
   (:keymaps
