@@ -1,6 +1,6 @@
-{ nixpkgsPath ? <nixpkgs>, erlangVersion ? "${1:R22}", elixirVersion ? "${2:1_10}" }:
+{ nixpkgs ? import <nixpkgs> {}, erlangVersion ? "${1:R22}", elixirVersion ? "${2:1_10}" }:
 
-with import nixpkgsPath {};
+with nixpkgs;
 
 let
   erlang = beam.packages."erlang\${erlangVersion}";

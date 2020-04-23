@@ -1,6 +1,6 @@
-{ nixpkgsPath ? <nixpkgs>, jdkName ? "${1:openjdk}", jdkVersion ? "${2:8}" }:
+{ nixpkgs ? import <nixpkgs> {}, jdkName ? "${1:openjdk}", jdkVersion ? "${2:8}" }:
 
-with import nixpkgsPath {};
+with nixpkgs;
 
 let
   jdk = pkgs."\${jdkName}\${jdkVersion}";

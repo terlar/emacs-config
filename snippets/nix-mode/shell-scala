@@ -1,6 +1,6 @@
-{ nixpkgsPath ? <nixpkgs>, scalaVersion ? "${1:2_13}" }:
+{ nixpkgs ? import <nixpkgs> {}, scalaVersion ? "${1:2_13}" }:
 
-with import nixpkgsPath {};
+with nixpkgs;
 
 let
   scala = pkgs."scala_\${scalaVersion}";

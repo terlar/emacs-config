@@ -1,6 +1,6 @@
-{ nixpkgsPath ? <nixpkgs>, rubyVersion ? "${1:2_6}" }:
+{ nixpkgs ? import <nixpkgs> {}, rubyVersion ? "${1:2_6}" }:
 
-with import nixpkgsPath {};
+with nixpkgs;
 
 let
   ruby = pkgs."ruby_\${rubyVersion}";

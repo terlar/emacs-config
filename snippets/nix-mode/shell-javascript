@@ -1,6 +1,6 @@
-{ nixpkgsPath ? <nixpkgs>, nodeVersion ? "${1:10_x}" }:
+{ nixpkgs ? import <nixpkgs> {}, nodeVersion ? "${1:10_x}" }:
 
-with import <nixpkgsPath> {};
+with nixpkgs;
 
 let
   nodejs = pkgs."nodejs-\${nodeVersion}";
