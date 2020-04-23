@@ -3,7 +3,7 @@
 with import nixpkgsPath {};
 
 let
-  scala = pkgs."scala_${scalaVersion}";
+  scala = pkgs."scala_\${scalaVersion}";
 in mkShell {
   buildInputs = [
     coursier

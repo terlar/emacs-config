@@ -3,7 +3,7 @@
 with import nixpkgsPath {};
 
 let
-  jdk = pkgs."${jdkName}${jdkVersion}";
+  jdk = pkgs."\${jdkName}\${jdkVersion}";
 in mkShell {
   buildInputs = [
     leiningen

@@ -3,8 +3,8 @@
 with import nixpkgsPath {};
 
 let
-  erlang = beam.packages."erlang${erlangVersion}";
-  elixir = erlang."elixir_${elixirVersion}";
+  erlang = beam.packages."erlang\${erlangVersion}";
+  elixir = erlang."elixir_\${elixirVersion}";
 in mkShell {
   buildInputs = [
     elixir

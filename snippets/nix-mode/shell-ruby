@@ -3,7 +3,7 @@
 with import nixpkgsPath {};
 
 let
-  ruby = pkgs."ruby_${rubyVersion}";
+  ruby = pkgs."ruby_\${rubyVersion}";
   rubygems = rubygems.override { inherit ruby; };
 in mkShell {
   buildInputs = [

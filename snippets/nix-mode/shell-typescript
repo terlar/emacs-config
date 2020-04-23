@@ -3,12 +3,14 @@
 with import nixpkgsPath {};
 
 let
-  nodejs = pkgs."nodejs-${nodeVersion}";
+  nodejs = pkgs."nodejs-\${nodeVersion}";
 in mkShell {
   buildInputs = [
     nodePackages.javascript-typescript-langserver
     nodePackages.prettier
     nodePackages.typescript
     nodejs
+    yarn
+    yarn2nix
   ];
 }
