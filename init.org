@@ -1906,6 +1906,22 @@ Tips:
      (counsel-maybe-git-cands))))
 #+END_SRC
 
+**** counsel-fd
+Find files via =fd=.
+#+BEGIN_SRC emacs-lisp
+(use-package counsel-fd)
+#+END_SRC
+
+**** counsel-tramp
+Navigate tramp files.
+#+BEGIN_SRC emacs-lisp
+(use-package counsel-tramp
+  :general
+  (:prefix
+   init-leader-key
+   "t" 'counsel-tramp))
+#+END_SRC
+
 **** swiper
 I-search replacement with overview
 #+BEGIN_SRC emacs-lisp
@@ -1963,16 +1979,6 @@ Snippets with preview.
    "y" 'ivy-yasnippet))
 #+END_SRC
 
-**** counsel-tramp
-Navigate tramp files.
-#+BEGIN_SRC emacs-lisp
-(use-package counsel-tramp
-  :general
-  (:prefix
-   init-leader-key
-   "t" 'counsel-tramp))
-#+END_SRC
-
 *** Icons
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons-ivy
@@ -1980,6 +1986,9 @@ Navigate tramp files.
   :after
   (ivy counsel)
   :config
+  (dolist (command '(counsel-fd-dired-jump
+                     counsel-fd-file-jump))
+    (cl-pushnew command all-the-icons-ivy-file-commands :test #'equal))
   (all-the-icons-ivy-setup))
 #+END_SRC
 
