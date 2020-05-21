@@ -4513,7 +4513,7 @@ Dim out the surrounding text except the current focused paragraph or expression.
 ** Session
 Support for restoring previous session on Emacs restart. This adds a few tweaks that makes
 it really useful.
-- Support for persistent undo history via =buffer-indo-list=.
+- Support for persistent undo history via =buffer-undo-list=.
 - Ignore saving of =gz= files as it seems not to properly load those.
 - Only restore 5 files to begin with to avoid slow starts with huge sessions.
 #+BEGIN_SRC emacs-lisp
@@ -4526,24 +4526,9 @@ it really useful.
   (desktop-load-locked-desktop (daemonp))
   :functions
   (desktop-buffer-info)
-  :preface
-  (defun +append-buffer-undo-list-to-buffer-local-variables-advice (orig-fn &rest args)
-    "Override `buffer-local-variables' and call ORIG-FN with ARGS.
-  There is a bug in Emacs where the `buffer-undo-list' data is
-  missing from the output of `buffer-local-variables'. This
-  advice temporarily overrides the function and appends the
-  missing data."
-    (let ((orig-buffer-local-variables-fn (symbol-function 'buffer-local-variables)))
-      (cl-letf (((symbol-function 'buffer-local-variables)
-                 #'(lambda () (append (funcall orig-buffer-local-variables-fn)
-                                 `(,(cons 'buffer-undo-list buffer-undo-list))))))
-        (apply orig-fn args))))
   :config
-  (advice-add #'desktop-buffer-info :around #'+append-buffer-undo-list-to-buffer-local-variables-advice)
-
-  (cl-pushnew 'buffer-undo-list desktop-locals-to-save :test #'equal)
-  (cl-pushnew 'ivy-views desktop-globals-to-save :test #'equal)
-
+  (dolist (var '(buffer-undo-list ivy-views))
+    (cl-pushnew var desktop-locals-to-save :test #'equal))
   (desktop-save-mode 1))
 #+END_SRC
 
