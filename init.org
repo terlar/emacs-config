@@ -3586,7 +3586,7 @@ URL into footnote from TEXT."
   "\\.hsig\\'"
   "\\.hsc\\'"
   ("\\.cabal\\'\\|/cabal\\.project\\|/\\.cabal/config\\'" . haskell-cabal-mode)
-  ("\\.l[gh]s\\'" . literate-haskell-mode)
+  ("\\.l[gh]s\\'" . haskell-literate-mode)
   :hook
   (haskell-mode . interactive-haskell-mode)
   :custom
