@@ -1,15 +1,12 @@
+# Nix
+result
+result-*
+
 # Compiled
 *.elc
 
 # Generated
 init.el
 
-# Packaging
-.cask
-straight/
-
 # Backup files
 *~
-
-# Eglot
-eglot-eclipse-jdt-cache/
