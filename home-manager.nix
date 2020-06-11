@@ -113,7 +113,9 @@ in {
     programs.qutebrowser.settings.editor.command =
       mkIf cfg.defaultEditor [ emacsEdit "{}" ];
 
-    home.packages = mkIf cfg.enableUtils [ pkgs.emacsUtils ];
+    home.packages = [ ]
+      ++ optionals cfg.enableUserDirectory pkgs.emacsConfig.buildInputs
+      ++ optional cfg.enableUtils pkgs.emacsUtils;
 
     xdg.mimeApps.defaultApplications = {
       "x-scheme-handler/mailto" =

@@ -1,17 +1,11 @@
-{ version ? "dev", stdenv, trivialBuild }:
+{ version ? "dev", stdenv, trivialBuild, emacs-all-the-icons-fonts }:
 
 let
-  filteredSrc = let filter = name: type: type != "symlink";
+  src = let filter = name: type: type != "symlink";
   in builtins.filterSource filter ./.;
-in stdenv.mkDerivation rec {
-  pname = "emacs-config";
-  inherit version;
-
-  src = filteredSrc;
-  dontUnpack = true;
 
   init = trivialBuild {
-    pname = "config-init";
+    pname = "emacs-config-init";
     inherit version src;
 
     preBuild = ''
@@ -28,20 +22,20 @@ in stdenv.mkDerivation rec {
   };
 
   lisp = trivialBuild {
-    pname = "config-lisp";
-    src = "${src}/lisp";
+    pname = "emacs-config-lisp";
     inherit version;
+    src = "${src}/lisp";
   };
+in stdenv.mkDerivation {
+  pname = "emacs-config";
+  inherit src version;
+  dontUnpack = true;
+
+  buildInputs = [ emacs-all-the-icons-fonts ];
 
   installPhase = ''
-    lispDir=$out/lisp
-
-    install -d $out
-    install ${init}/share/emacs/site-lisp/* $out/.
-    install -d $lispDir
-    install ${lisp}/share/emacs/site-lisp/* $lispDir/.
-
-    cp -r $src/snippets $out/.
-    cp -r $src/templates $out/.
+    install -D -t $out ${init}/share/emacs/site-lisp/*
+    install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
+    cp -R $src/{snippets,templates} $out/.
   '';
 }
