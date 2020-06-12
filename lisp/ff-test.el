@@ -5,7 +5,7 @@
 
 ;; Author: Terje Larsen <terlar@gmail.com>
 ;; Keywords: files
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "26.1") (project "0.3.0"))
 ;; Version: 0.1
 
 ;; This file is NOT part of GNU Emacs.
@@ -70,7 +70,7 @@
   :group 'ff-test
   :safe (lambda (x) (seq-every-p #'stringp x)))
 
-(defcustom ff-test-project-roots-function #'ff-test-project-roots-from-current-project
+(defcustom ff-test-project-root-function #'ff-test-project-root-from-current-project
   "Function used to get project roots."
   :type 'function
   :group 'ff-test)
@@ -82,17 +82,17 @@
 (make-variable-buffer-local 'ff-test-suffixes)
 
 (defvar-local ff-test-expanded-search-implementation-project-directories nil
-  "List of expanded `ff-test-search-implementation-project-directories' using `ff-test-project-roots-function'.")
+  "List of expanded `ff-test-search-implementation-project-directories' using `ff-test-project-root-function'.")
 (defvar-local ff-test-expanded-search-test-project-directories nil
-  "List of expanded `ff-test-search-test-project-directories' using `ff-test-project-roots-function'.")
+  "List of expanded `ff-test-search-test-project-directories' using `ff-test-project-root-function'.")
 
 ;; Optional dependencies to set project local directories.
-(autoload 'project-roots "project")
+(autoload 'project-root "project")
 (autoload 'project-current "project")
 
-(defun ff-test-project-roots-from-current-project ()
+(defun ff-test-project-root-from-current-project ()
   "Use `project' to resolve project roots."
-  (project-roots (project-current t)))
+  (project-root (project-current t)))
 
 (defun ff-test-file-regexp (extension)
   "Return regular expression for EXTENSION matching `ff-test-suffixes'."
@@ -106,11 +106,9 @@
 ;;;###autoload
 (defun ff-test-project-dirs (dirs)
   "Return DIRS as a list of expanded project directories."
-  (apply 'append
-         (mapcar (lambda (root)
-                   (mapcar (lambda (dir) (concat root dir))
-                           dirs))
-                 (seq-map #'expand-file-name (funcall ff-test-project-roots-function)))))
+  (let ((root (expand-file-name (funcall ff-test-project-root-function))))
+    (mapcar (lambda (dir) (concat root dir))
+            dirs)))
 
 ;;;###autoload
 (defun ff-test-converter (file-name)
