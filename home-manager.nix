@@ -83,46 +83,49 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    programs.emacs = {
-      enable = true;
-      package = cfg.package;
-      extraPackages = mkIf cfg.enablePackages extraPackages;
-      overrides = mkIf cfg.enableOverrides overrides;
-    };
+  config = mkIf cfg.enable (mkMerge [
+    {
+      programs.emacs = mkMerge [
+        {
+          enable = true;
+          package = cfg.package;
+        }
 
-    services.emacs.enable = cfg.enableServer;
+        (mkIf cfg.enablePackages { inherit extraPackages; })
+        (mkIf cfg.enableOverrides { inherit overrides; })
+      ];
 
-    xdg.configFile =
-      mkIf cfg.enableUserDirectory (mkEmacsConfigFiles pkgs.emacsConfig);
+      services.emacs.enable = cfg.enableServer;
 
-    home.sessionVariables = mkIf cfg.defaultEditor { EDITOR = emacsEdit; };
+      programs.git.extraConfig = {
+        "difftool \"ediff\"".cmd = ''
+          ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
+        '';
 
-    programs.git.extraConfig = {
-      diff.tool = mkIf cfg.enableGitDiff "ediff";
+        "mergetool \"ediff\"".cmd = ''
+          ${emacsEdit} --eval '(ediff-merge-files-with-ancestor "'$LOCAL'" "'$REMOTE'" "'$BASE'" nil "'$MERGED'")'
+        '';
+      };
 
-      "difftool \"ediff\"".cmd = ''
-        ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
-      '';
-
-      "mergetool \"ediff\"".cmd = ''
-        ${emacsEdit} --eval '(ediff-merge-files-with-ancestor "'$LOCAL'" "'$REMOTE'" "'$BASE'" nil "'$MERGED'")'
-      '';
-    };
-
-    programs.qutebrowser.settings.editor.command =
-      mkIf cfg.defaultEditor [ emacsEdit "{}" ];
-
-    home.packages = [ ]
-      ++ optionals cfg.enableUserDirectory pkgs.emacsConfig.buildInputs
-      ++ optional cfg.enableUtils pkgs.emacsUtils;
-
-    xdg.mimeApps.defaultApplications = {
-      "x-scheme-handler/mailto" =
-        mkIf (cfg.enableUtils && cfg.defaultEmailApplication)
+      home.packages = [ ]
+        ++ optionals cfg.enableUserDirectory pkgs.emacsConfig.buildInputs
+        ++ optional cfg.enableUtils pkgs.emacsUtils;
+    }
+    (mkIf cfg.enableUserDirectory {
+      xdg.configFile = mkEmacsConfigFiles pkgs.emacsConfig;
+    })
+    (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
+    (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
+    (mkIf cfg.defaultEditor {
+      programs.qutebrowser.settings.editor.command = [ emacsEdit "{}" ];
+    })
+    (mkIf (cfg.enableUtils && cfg.defaultEmailApplication) {
+      xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" =
         "emacsmail.desktop";
-      "application/pdf" = mkIf (cfg.enableUtils && cfg.defaultPdfApplication)
+    })
+    (mkIf (cfg.enableUtils && cfg.defaultPdfApplication) {
+      xdg.mimeApps.defaultApplications."application/pdf" =
         "emacseditor.desktop";
-    };
-  };
+    })
+  ]);
 }
