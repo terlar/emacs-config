@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.03";
     utils.url = "github:numtide/flake-utils";
 
-    emacs.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     home-manager = {
       url = "github:rissson/home-manager/bqv-flakes";
@@ -13,7 +13,7 @@
     };
   };
 
-  outputs = { home-manager, emacs, nixpkgs, utils, self }:
+  outputs = { home-manager, emacs-overlay, nixpkgs, utils, self }:
     with nixpkgs;
 
     {
@@ -21,7 +21,7 @@
         let
           overrides = final.callPackage ./overrides.nix { };
           extraPackages = import ./packages.nix;
-        in (emacs.overlay final prev) // rec {
+        in (emacs-overlay.overlay final prev) // rec {
           emacsPackages =
             (final.emacsPackagesFor final.emacsGit).overrideScope' overrides;
 
