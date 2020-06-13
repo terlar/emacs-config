@@ -13,7 +13,7 @@ let
     exec = "emacseditor %F";
     icon = "emacs";
     comment = "Edit text";
-    desktopName = "Emacs";
+    desktopName = "Emacs Editor";
     genericName = "Text Editor";
     categories = "Development;TextEditor;";
     mimeType =
@@ -36,9 +36,6 @@ let
     desktopName = "Emacs Mail";
     genericName = "Mail/News Client";
     mimeType = "x-scheme-handler/mailto;";
-    extraEntries = ''
-      StartupWMClass=Emacs
-    '';
   };
 in symlinkJoin {
   name = "emacs-utils";
