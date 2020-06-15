@@ -36,14 +36,14 @@ with super;
 
   org = stdenv.mkDerivation rec {
     pname = "emacs-org";
-    version = "20200521.856";
+    version = "20200609.845";
 
     src = fetchFromGitHub {
       owner = "terlar";
       repo = "org-mode";
-      rev = "bf42cf9bbf019fe915e90cb2b86b7be42a7e00de";
-      sha256 = "067l1l2dif8fnqlvvxbdarsj6v0lb1jyw0gdpr09k9b7iix7mc7a";
-      # date = 2020-05-21T08:56:03+02:00;
+      rev = "5a26a6cf2783836bfa16e006607d06a911b97c56";
+      sha256 = "15h1p8d3a4kw1lfkfcdnssvjzy02lbiwp32c1961ifqj16y22xcc";
+      # date = 2020-06-09T08:45:13+02:00;
     };
 
     preBuild = ''
@@ -52,7 +52,7 @@ with super;
         ORG_ADD_CONTRIB="org* ox*"
         GITVERSION="${version}"
         ORGVERSION="${version}"
-                                       );
+      );
     '';
 
     preInstall = ''
@@ -70,13 +70,13 @@ with super;
   # Packages not in MELPA.
   apheleia = melpaBuild rec {
     pname = "apheleia";
-    version = "20200510.1032";
+    version = "20200526.1437";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "3e342632b834a78f31ead48b94392e00dba1542c";
+      rev = "6bd69671796c3d232ffae42df6eecba4eb1f7cd2";
       sha256 = "1cq1rcg1hzc9szynci5rl7pp3fi7i5kq35jy60cfa9aymmxgvi76";
-      # date = 2020-05-10T10:32:04-06:00;
+      # date = 2020-05-26T14:37:17-06:00;
     };
     recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
@@ -123,13 +123,13 @@ with super;
 
   explain-pause-mode = melpaBuild rec {
     pname = "explain-pause-mode";
-    version = "20200520.1657";
+    version = "20200606.2222";
     src = fetchFromGitHub {
       owner = "lastquestion";
       repo = "explain-pause-mode";
-      rev = "5398439abe1f075f43bea1dfad6c56f8412d681a";
-      sha256 = "1f34pml5jsn0ihmxas5bj00mznx8wl12kpqmf9fc51jch1w5yyas";
-      # date = 2020-05-20T16:57:51-07:00;
+      rev = "d18eea75fb2433a901501e078ec5cd38bf97db19";
+      sha256 = "1y9mqyjbsdrjh7f6lysypfwq232m6fwk7bq8vwkrg9fczkwjp9v4";
+      # date = 2020-06-06T22:22:33-07:00;
     };
     recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
