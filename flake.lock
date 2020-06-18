@@ -2,13 +2,13 @@
   "nodes": {
     "emacs-overlay": {
       "info": {
-        "lastModified": 1592180584,
-        "narHash": "sha256-7Xia7gPLQbO8ztQZdssZMO9s+/UCs7FCRUkfvIu3g6Q="
+        "lastModified": 1592468526,
+        "narHash": "sha256-ekulXcZPHdBkAUgJ3/KdPznxQOaC+YutM3BmxZpZ8As="
       },
       "locked": {
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "60645bee43aab53108eb9cfd3de29a685d964609",
+        "rev": "7d810305c3b54fbdec6d078912f4a229357506ec",
         "type": "github"
       },
       "original": {
@@ -26,13 +26,13 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "owner": "rissson",
+        "owner": "rycee",
         "repo": "home-manager",
         "rev": "b3fee796fcd5531693d9b84ece76ad6836bb1cfa",
         "type": "github"
       },
       "original": {
-        "owner": "rissson",
+        "owner": "rycee",
         "ref": "bqv-flakes",
         "repo": "home-manager",
         "type": "github"
@@ -40,13 +40,13 @@
     },
     "nixpkgs": {
       "info": {
-        "lastModified": 1591993820,
-        "narHash": "sha256-GStGs4mSOzqUpR4aHhEiikmQiMsdJYKo/yUKbNc+ssg="
+        "lastModified": 1592263354,
+        "narHash": "sha256-1wHPn5qKfzfG06dZhpXDEg5Zt6HwvfyPPgW1tkYFejg="
       },
       "locked": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "db31e48c5c8d99dcaf4e5883a96181f6ac4ad6f6",
+        "rev": "a84b797b28eb104db758b5cb2b61ba8face6744b",
         "type": "github"
       },
       "original": {
