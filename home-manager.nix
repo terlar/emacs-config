@@ -81,6 +81,21 @@ in {
       type = types.bool;
       description = "Whether to enable Emacs utils.";
     };
+
+    gnus = mkOption {
+      type = types.nullOr types.path;
+      description = "Gnus config file.";
+    };
+
+    erc = mkOption {
+      type = types.nullOr types.path;
+      description = "ERC config file.";
+    };
+
+    private = mkOption {
+      type = types.nullOr types.path;
+      description = "Private config file.";
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -126,6 +141,11 @@ in {
     (mkIf (cfg.enableUtils && cfg.defaultPdfApplication) {
       xdg.mimeApps.defaultApplications."application/pdf" =
         "emacseditor.desktop";
+    })
+    (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
+    (mkIf (cfg.erc != null) { xdg.configFile."emacs/.ercrc.el".source = cfg.erc; })
+    (mkIf (cfg.private != null) {
+      xdg.configFile."emacs/private/private.el".source = cfg.private;
     })
   ]);
 }
