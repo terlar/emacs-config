@@ -98,11 +98,11 @@ in {
       services.emacs.enable = cfg.enableServer;
 
       programs.git.extraConfig = {
-        "difftool \"ediff\"".cmd = ''
+        difftool.ediff.cmd = ''
           ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
         '';
 
-        "mergetool \"ediff\"".cmd = ''
+        mergetool.ediff.cmd = ''
           ${emacsEdit} --eval '(ediff-merge-files-with-ancestor "'$LOCAL'" "'$REMOTE'" "'$BASE'" nil "'$MERGED'")'
         '';
       };
