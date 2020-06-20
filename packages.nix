@@ -236,7 +236,6 @@ with epkgs;
   which-key
   whole-line-or-region
   ws-butler
-  xclip
   yaml-mode
   yard-mode
   yari
