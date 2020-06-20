@@ -5,7 +5,7 @@ let
   in builtins.filterSource filter ./.;
 
   init = trivialBuild {
-    pname = "emacs-config-init";
+    pname = "config-init";
     inherit version src;
 
     preBuild = ''
@@ -22,7 +22,7 @@ let
   };
 
   lisp = trivialBuild {
-    pname = "emacs-config-lisp";
+    pname = "config-lisp";
     inherit version;
     src = "${src}/lisp";
   };

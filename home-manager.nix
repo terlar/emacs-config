@@ -143,7 +143,9 @@ in {
         "emacseditor.desktop";
     })
     (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
-    (mkIf (cfg.erc != null) { xdg.configFile."emacs/.ercrc.el".source = cfg.erc; })
+    (mkIf (cfg.erc != null) {
+      xdg.configFile."emacs/.ercrc.el".source = cfg.erc;
+    })
     (mkIf (cfg.private != null) {
       xdg.configFile."emacs/private/private.el".source = cfg.private;
     })
