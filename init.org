@@ -2163,21 +2163,6 @@ Code folding.
 #+END_SRC
 
 ** Formatting
-*** aggressive-indent
-Automatic indentation as you type. It is a bit more robust than =electric-indent-mode=, but
-perhaps I should look into using that for those modes that are not compatible with
-=aggressive-indent-mode=.
-#+BEGIN_SRC emacs-lisp
-(use-package aggressive-indent
-  :diminish aggressive-indent-mode
-  :hook
-  ((emacs-lisp-mode
-    lisp-mode
-    nix-mode) . aggressive-indent-mode)
-  :init
-  (put 'aggressive-indent-mode 'safe-local-variable 'booleanp))
-#+END_SRC
-
 *** apheleia
 Reformat buffer without moving point.
 #+BEGIN_SRC emacs-lisp
