@@ -78,6 +78,7 @@ Provide a location where Emacs can store data and cache.
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-default-init t
       inhibit-startup-screen t
+      inhibit-startup-echo-area-message t
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil)
 #+END_SRC
@@ -648,6 +649,12 @@ keybindings in case I would forget them.
 *** Line length
 #+BEGIN_SRC emacs-lisp
 (setq-default fill-column 90)
+#+END_SRC
+
+*** Underline
+Underline line at descent position, not baseline position.
+#+BEGIN_SRC emacs-lisp
+(setq x-underline-at-descent-line t)
 #+END_SRC
 
 ** Theme
