@@ -1276,8 +1276,9 @@ Remove visual indicators from non-selected windows
 #+END_SRC
 
 ** Auto save
+Disable auto save to avoid unwanted save hooks being triggered. Such as formatting etc.
 #+BEGIN_SRC emacs-lisp
-(auto-save-visited-mode 1)
+(auto-save-visited-mode 0)
 (setq save-abbrevs 'silently)
 #+END_SRC
 
