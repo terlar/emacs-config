@@ -226,6 +226,7 @@ with epkgs;
   typescript-mode
   undo-propose
   use-package
+  valign
   vc-msg
   virtual-auto-fill
   visual-fill-column

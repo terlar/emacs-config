@@ -172,4 +172,17 @@ with super;
     };
     recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
+
+  valign = melpaBuild rec {
+    pname = "valign";
+    version = "20200612.2148";
+    src = fetchFromGitHub {
+      owner = "casouri";
+      repo = "valign";
+      rev = "6578fe45b143886a963646711cf579240333b4eb";
+      sha256 = "04vsp7lvmn7x2zk2n0g5bsmxxx8xa7wiav68f0fb7m7lhdanc8r9";
+      # date = 2020-06-12T21:48:10-04:00;
+    };
+    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
+  };
 }
