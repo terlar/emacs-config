@@ -84,16 +84,19 @@ in {
 
     gnus = mkOption {
       type = types.nullOr types.path;
+      default = null;
       description = "Gnus config file.";
     };
 
     erc = mkOption {
       type = types.nullOr types.path;
+      default = null;
       description = "ERC config file.";
     };
 
     private = mkOption {
       type = types.nullOr types.path;
+      default = null;
       description = "Private config file.";
     };
   };
