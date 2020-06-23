@@ -1,14 +1,12 @@
 {
   "nodes": {
     "emacs-overlay": {
-      "info": {
-        "lastModified": 1592569336,
-        "narHash": "sha256-5BYut0TJ9PEqMTnvj1snUzGETxQ47Df+tFhJAjcDt6k="
-      },
       "locked": {
+        "lastModified": 1592900363,
+        "narHash": "sha256-yrMqWWyXr4ku7JvdSYNKp8TfI7ET87Jq4mg1JPfSy2E=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "e41c9d6033f04acb8907f8d7fed23a5f02d5421b",
+        "rev": "cdcbe7fba14a2996b33684100bb32cdcf9fa1e4f",
         "type": "github"
       },
       "original": {
@@ -18,14 +16,14 @@
       }
     },
     "home-manager": {
-      "info": {
-        "lastModified": 1591751635,
-        "narHash": "sha256-KgGtyFlkI/fsp+j8VEgJ/ynY9B91aX35Xp04HlDLRTo="
-      },
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
+        "lastModified": 1591751635,
+        "narHash": "sha256-KgGtyFlkI/fsp+j8VEgJ/ynY9B91aX35Xp04HlDLRTo=",
         "owner": "rycee",
         "repo": "home-manager",
         "rev": "b3fee796fcd5531693d9b84ece76ad6836bb1cfa",
@@ -39,14 +37,12 @@
       }
     },
     "nixpkgs": {
-      "info": {
-        "lastModified": 1592495204,
-        "narHash": "sha256-+AdAIr4FJCb2ltFY1YsUQYrloBEB8l/snAAmwLvCRhA="
-      },
       "locked": {
+        "lastModified": 1592784995,
+        "narHash": "sha256-mj7GnZrzqwiaPf1WQ9HqOJ7eT+NHB1tDNN0mFTlgXzg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2b417708c282d84316366f4125b00b29c49df10f",
+        "rev": "13c15f26d44cf7f54197891a6f0c78ce8149b037",
         "type": "github"
       },
       "original": {
@@ -65,11 +61,9 @@
       }
     },
     "utils": {
-      "info": {
-        "lastModified": 1590791977,
-        "narHash": "sha256-l26u9vRsdV9jkoBGlzFxTKLKtrZ38xCMZIG9h9ibFjQ="
-      },
       "locked": {
+        "lastModified": 1590791977,
+        "narHash": "sha256-l26u9vRsdV9jkoBGlzFxTKLKtrZ38xCMZIG9h9ibFjQ=",
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "4fbce19a7a9647154a35f0e856d52171c41e14a4",
@@ -83,5 +77,5 @@
     }
   },
   "root": "root",
-  "version": 5
+  "version": 7
 }

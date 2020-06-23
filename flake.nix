@@ -9,7 +9,7 @@
 
     home-manager = {
       url = "github:rycee/home-manager/bqv-flakes";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "/nixpkgs";
     };
   };
 
