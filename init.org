@@ -2173,7 +2173,8 @@ Code folding.
 Reformat buffer without moving point.
 #+BEGIN_SRC emacs-lisp
 (use-package apheleia
-  :defer 2
+  :hook
+  (prog-mode . apheleia-mode)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
@@ -2183,8 +2184,7 @@ Reformat buffer without moving point.
     (cl-pushnew '(nixfmt . ("nixfmt")) apheleia-formatters :test #'equal))
   (progn ;; Ruby
     (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal))
-  (apheleia-global-mode 1))
+    (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
 #+END_SRC
 
 ** Jump to definition
