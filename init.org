@@ -2422,9 +2422,8 @@ Haskell one).
 #+END_SRC
 
 ** Version control
-Don't follow symlinks as I have seen that cause a nasty follow loop.
 #+BEGIN_SRC emacs-lisp
-(setq vc-follow-symlinks nil
+(setq vc-follow-symlinks t
       vc-make-backup-files nil)
 #+END_SRC
 
