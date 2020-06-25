@@ -51,6 +51,11 @@
   :type 'string
   :group 'local-theme)
 
+(defcustom local-theme-fixed-pitch-serif-font "Monospace"
+  "Font used for fixed-pitch serif."
+  :type 'string
+  :group 'local-theme)
+
 (defcustom local-theme-variable-pitch-font "sans-serif"
   "Font used for variable-pitch."
   :type 'string
@@ -62,19 +67,42 @@
   :group 'local-theme)
 
 ;;;
-;; Colors
+;; Faces
 
-(defcustom local-theme-color-error "tomato"
-  "Color used to indicate error."
-  :type 'string
+(defface local-theme-critical
+  '((((background light)) (:foreground "#ffffff" :background "tomato"))
+    (((background dark)) (:foreground "#385f38" :background "#f8f893")))
+  "Face used for critical information that requires immediate action/attention."
   :group 'local-theme)
-(defcustom local-theme-color-success "sea green"
-  "Color used to indicate success."
-  :type 'string
+
+(defface local-theme-highlight
+  '((((background light)) (:foreground "#ffa07a"))
+    (((background dark)) (:foreground "#f0dfaf")))
+  "Face used for information that needs action/attention."
   :group 'local-theme)
-(defcustom local-theme-color-warning "gold"
-  "Color used to indicate warning."
-  :type 'string
+
+(defface local-theme-strong
+  '((((background light)) (:weight bold))
+    (((background dark)) (:weight bold)))
+  "Face used for information of strong importance."
+  :group 'local-theme)
+
+(defface local-theme-important
+  '((((background light)) (:foreground "#00008b" :weight light))
+    (((background dark)) (:foreground "#dca3a3" :weight light)))
+  "Face used for information of importance."
+  :group 'local-theme)
+
+(defface local-theme-subordinate
+  '((((background light)) (:foreground "#999999" :weight light))
+    (((background dark)) (:foreground "#777767" :weight light)))
+  "Face used for information of less importance."
+  :group 'local-theme)
+
+(defface local-theme-secondary
+  `((((background light)) (:background ,(local-theme-darken-default-background)))
+    (((background dark)) (:background ,(local-theme-lighten-default-background))))
+  "Face used to distinguish from default but not stand out."
   :group 'local-theme)
 
 ;;;
@@ -82,26 +110,35 @@
 
 (custom-theme-set-faces
  'local
- `(default                                 ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
- `(fixed-pitch                             ((t (:height 1.0 :family ,local-theme-fixed-pitch-font :weight light))))
- `(variable-pitch                          ((t (:height 1.0 :family ,local-theme-variable-pitch-font :weight normal))))
+ `(default           ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
+ `(cursor            ((t (:inherit default :foreground nil :background nil))))
+ `(region            ((t (:inherit local-theme-secondary :foreground nil :background nil))))
+ `(highlight         ((t (:inherit local-theme-secondary :foreground nil :background nil))))
+
+ ;; Typography
+ `(fixed-pitch       ((t (:family ,local-theme-fixed-pitch-font :weight light))))
+ `(fixed-pitch-serif ((t (:family ,local-theme-fixed-pitch-serif-font :weight light))))
+ `(variable-pitch    ((t (:family ,local-theme-variable-pitch-font :weight light))))
+ `(bold              ((t (:inherit local-theme-strong))))
+ `(bold-italic       ((t (:inherit local-theme-strong))))
+
+ ;; Semantic
+ `(shadow  ((t (:inherit local-theme-subordinate))))
+ `(success ((t (:inherit local-theme-important :foreground nil :weight unspecified))))
+ `(warning ((t (:inherit local-theme-highlight :foreground nil :background nil :weight unspecified))))
+ `(error   ((t (:inherit local-theme-critical :foreground nil :background nil :weight unspecified))))
+ `(link    ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified))))
+ `(button  ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified))))
+
+ ;; Interface
  `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :box (:line-width 6 :color ,(face-background 'mode-line))))))
- `(mode-line-inactive                      ((t (:height 0.8 :family ,local-theme-variable-pitch-font :background ,(face-background 'default) :box (:line-width 6 :color ,(face-background 'default))))))
- `(mode-line-buffer-id                     ((t (:foreground nil :bold t))))
+ `(mode-line-inactive                      ((t (:inherit mode-line :background ,(face-background 'default) :box (:line-width 6 :color ,(face-background 'default))))))
+ `(mode-line-buffer-id                     ((t (:inherit local-theme-strong :foreground nil))))
  `(header-line                             ((t (:inherit mode-line))))
  `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
  `(line-number                             ((t (:inherit fixed-pitch))))
- `(line-number-current-line                ((t (:inherit (line-number hl-line) :bold t :foreground ,local-theme-color-error))))
+ `(line-number-current-line                ((t (:inherit (local-theme-highlight local-theme-strong hl-line)))))
 
- `(error                                   ((t (:foreground ,local-theme-color-error))))
- `(success                                 ((t (:foreground ,local-theme-color-success))))
- `(warning                                 ((t (:foreground ,local-theme-color-warning :bold t))))
-
- ;; comint
- `(comint-highlight-prompt                 ((t (:height 1.0))))
- ;; compile
- `(compilation-error                       ((t (:foreground ,local-theme-color-error))))
- `(compilation-warning                     ((t (:foreground ,local-theme-color-warning))))
  ;; ediff
  `(ediff-current-diff-A                    ((t (:background "#FFEEF0"))))
  `(ediff-fine-diff-A                       ((t (:background "#EECCCC"))))
@@ -112,7 +149,7 @@
  `(ediff-current-diff-Ancestor             ((t (:background "#FEE6FF"))))
  `(ediff-fine-diff-Ancestor                ((t (:background "#EEDDFF"))))
  ;; erc
- `(erc-current-nick-face                   ((t (:foreground ,local-theme-color-error))))
+ `(erc-current-nick-face                   ((t (:inherit local-theme-highlight))))
  ;; eshell
  `(eshell-prompt                           ((t (:inherit nil :bold t))))
  `(eshell-ls-archive                       ((t (:inherit nil :bold t))))
@@ -127,6 +164,7 @@
  `(eshell-ls-symlink                       ((t (:inherit nil :bold t))))
  ;; org-mode
  `(org-document-title                      ((t (:inherit nil :bold nil :height 1.8))))
+ `(org-link                                ((t (:inherit link :foreground nil))))
  `(org-level-1                             ((t (:inherit nil :bold nil :height 1.6))))
  `(org-level-2                             ((t (:inherit nil :bold nil :height 1.4))))
  `(org-level-3                             ((t (:inherit nil :bold nil :height 1.2))))
@@ -135,8 +173,8 @@
  `(org-level-6                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(org-level-7                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(org-level-8                             ((t (:inherit nil :bold nil :height 1.1 :italic t))))
- `(org-todo                                ((t (:height ,local-theme-default-font-height))))
- `(org-done                                ((t (:height ,local-theme-default-font-height))))
+ `(org-todo                                ((t (:height unspecified))))
+ `(org-done                                ((t (:height unspecified))))
  `(org-headline-done                       ((t (:inherit nil))))
  `(org-headline-todo                       ((t (:inherit nil))))
  `(org-block                               ((t (:weight light :extend t))))
@@ -156,17 +194,16 @@
  `(outline-7                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  `(outline-8                               ((t (:inherit nil :bold nil :height 1.1 :italic t))))
  ;; show-paren-mode
- `(show-paren-match                        ((t (:bold t :underline t :box nil))))
- `(show-paren-mismatch                     ((t (:bold t :foreground ,local-theme-color-error))))
+ `(show-paren-match                        ((t (:inherit local-theme-strong :underline t :box nil))))
+ `(show-paren-mismatch                     ((t (:inherit local-theme-critical))))
  ;; smerge
  `(smerge-upper                            ((((background light)) (:background "#E6FFED"))
                                             (((background dark)) (:background "#004400"))))
  `(smerge-lower                            ((((background light)) (:background "#FFEEF0"))
                                             (((background dark)) (:background "#440000"))))
- `(smerge-base                             ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(smerge-base                             ((t (:inherit local-theme-secondary))))
  ;; term
- `(term-color-red                          ((t (:foreground ,local-theme-color-error :background nil))))
+ `(term-color-red                          ((t (:inherit local-theme-critical))))
  ;; whitespace
  `(whitespace-space                        ((t (:background nil :family ,local-theme-fixed-pitch-font))))
  ;; window-divider
@@ -176,21 +213,14 @@
 
  ;; cakecrumbs
  `(cakecrumbs-tag                          ((t (:inherit font-lock-keyword-face))))
- ;; cargo
- `(cargo-process--standard-face            ((t (:foreground nil))))
- `(cargo-process--ok-face                  ((t (:foreground ,local-theme-color-success))))
- `(cargo-process--error-face               ((t (:foreground ,local-theme-color-error))))
- `(cargo-process--warning-face             ((t (:foreground ,local-theme-color-warning))))
  ;; cider
- `(cider-test-failure-face                 ((t (:background ,local-theme-color-error))))
- `(cider-result-overlay-face               ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(cider-test-failure-face                 ((t (:inherit local-theme-critical))))
+ `(cider-result-overlay-face               ((t (:inherit local-theme-secondary))))
  ;; company
  `(company-tooltip-search                  ((t (:bold t))))
  `(company-tooltip-search-selection        ((t (:bold t))))
  ;; eldoc-posframe
- `(eldoc-posframe-background-face          ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(eldoc-posframe-background-face          ((t (:inherit local-theme-secondary))))
  ;; eros
  `(eros-result-overlay-face                ((t (:inherit highlight :box nil))))
  ;; haskell-mode
@@ -200,8 +230,7 @@
  ;; ivy
  `(ivy-current-match                       ((t (:inherit hl-line :extend t))))
  ;; ivy-posframe
- `(ivy-posframe                            ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(ivy-posframe                            ((t (:inherit local-theme-secondary))))
  ;; markdown
  `(markdown-header-face                    ((t (:weight normal :italic t))))
  `(markdown-header-face-1                  ((t (:inherit org-level-1))))
@@ -211,9 +240,8 @@
  `(markdown-header-face-5                  ((t (:inherit org-level-5 :underline nil))))
  `(markdown-header-face-6                  ((t (:inherit org-level-6 :underline nil))))
  `(markdown-code-face                      ((t (:inherit fixed-pitch))))
- `(markdown-hr-face                        ((t (:inherit fixed-pitch :height ,local-theme-default-font-height))))
- `(markdown-inline-code-face               ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(markdown-hr-face                        ((t (:inherit fixed-pitch :height unspecified))))
+ `(markdown-inline-code-face               ((t (:inherit local-theme-secondary))))
  `(markdown-pre-face                       ((t (:inherit fixed-pitch))))
  `(markdown-table-face                     ((t (:inherit fixed-pitch))))
  `(markdown-gfm-checkbox-face              ((t (:inherit org-checkbox))))
@@ -222,10 +250,9 @@
  ;; perspeen
  `(perspeen-selected-face                  ((t (:bold t))))
  ;; popup
- `(popup-tip-face                          ((((background light)) (:inherit default :foreground ,(face-foreground 'default) :background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:inherit default :foreground ,(face-foreground 'default) :background ,(local-theme-lighten-default-background)))))
+ `(popup-tip-face                          ((t (:inherit local-theme-secondary :foreground nil))))
  ;; rainbow-delimiters
- `(rainbow-delimiters-unmatched-face       ((t (:bold t :foreground ,local-theme-color-error))))
+ `(rainbow-delimiters-unmatched-face       ((t (:inherit local-theme-critical))))
  ;; readable
  `(readable-variable-pitch                 ((t (:height 1.1 :family ,local-theme-serif-font))))
  ;; rst
@@ -245,10 +272,9 @@
  `(sp-show-pair-mismatch-face              ((t (:inherit show-paren-mismatch))))
  ;; spray
  `(spray-base-face                         ((t (:weight normal :underline nil :family ,local-theme-serif-font))))
- `(spray-accent-face                       ((t (:foreground ,local-theme-color-error :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
+ `(spray-accent-face                       ((t (:foreground "tomato" :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
  ;; stripe-buffer
- `(stripe-highlight                        ((((background light)) (:background ,(local-theme-darken-default-background)))
-                                            (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+ `(stripe-highlight                        ((t (:inherit local-theme-secondary))))
  ;; web-mode
  `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :bold t))))
  ;; which-key
@@ -265,7 +291,7 @@
  `(line-spacing ,local-theme-line-spacing)
  ;; ansi-color
  `(ansi-color-names-vector [,(face-foreground 'default)
-                            ,local-theme-color-error
+                            "tomato"
                             ,(face-foreground 'default)
                             ,(face-foreground 'default)
                             ,(face-foreground 'default)
@@ -279,8 +305,8 @@
                                             (((background dark)) (:background "#004400"))))
  ;; hl-todo
  `(hl-todo-keyword-faces
-   `(("TODO"  . (:box (:line-width 1) :foreground ,local-theme-color-warning))
-     ("FIXME" . (:box (:line-width 1) :foreground ,local-theme-color-error))
+   `(("TODO"  . (:inherit local-theme-strong :box (:line-width 1)))
+     ("FIXME" . (:inherit local-theme-highlight :box (:line-width 1)))
      ("NOTE"  . (:box (:line-width 1)))))
  ;; markdown-mode
  `(markdown-header-scaling-values
