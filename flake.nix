@@ -58,16 +58,25 @@
             emacsclient -nc
           '';
 
+          devEmacsConfig = pkgs.writeShellScriptBin "dev-emacs-config" ''
+            set -euo pipefail
+            export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
+            ln -s $PWD $XDG_CONFIG_HOME/emacs
+            ${pkgs.emacsEnv}/bin/emacs "$@"
+          '';
+
           testEmacsConfig = pkgs.writeShellScriptBin "test-emacs-config" ''
             set -euo pipefail
             export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
             ln -s ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
-            ${pkgs.emacsEnv}/bin/emacs
+            ${pkgs.emacsEnv}/bin/emacs "$@"
           '';
         in pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             git
             nixfmt
+
+            devEmacsConfig
             reloadEmacsConfig
             testEmacsConfig
           ];
