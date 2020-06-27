@@ -1,6 +1,6 @@
 ;;; early-init.el --- Early initialization -*- lexical-binding: t -*-
 
-;; URL: https://github.com/terlar/emacs.d
+;; URL: https://github.com/terlar/emacs-config
 ;; Version: 1.0.0
 ;; Package-Requires: ((emacs "24.4"))
 

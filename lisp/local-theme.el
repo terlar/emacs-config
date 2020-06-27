@@ -3,7 +3,7 @@
 ;; Title: Local Theme
 ;; Project: local-theme
 ;; Version: 0.1.0
-;; URL: https://github.com/terlar/emacs.d
+;; URL: https://github.com/terlar/emacs-config
 ;; Package-Requires: ((emacs "24.1"))
 
 ;;; Commentary:
@@ -100,8 +100,7 @@
   :group 'local-theme)
 
 (defface local-theme-secondary
-  `((((background light)) (:background ,(local-theme-darken-default-background)))
-    (((background dark)) (:background ,(local-theme-lighten-default-background))))
+  nil
   "Face used to distinguish from default but not stand out."
   :group 'local-theme)
 
@@ -110,6 +109,10 @@
 
 (custom-theme-set-faces
  'local
+ `(local-theme-secondary
+   ((((background light)) (:background ,(local-theme-darken-default-background)))
+    (((background dark)) (:background ,(local-theme-lighten-default-background)))))
+
  `(default           ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
  `(cursor            ((t (:inherit default :foreground nil :background nil))))
  `(region            ((t (:inherit local-theme-secondary :foreground nil :background nil))))
@@ -127,8 +130,9 @@
  `(success ((t (:inherit local-theme-important :foreground nil :weight unspecified))))
  `(warning ((t (:inherit local-theme-highlight :foreground nil :background nil :weight unspecified))))
  `(error   ((t (:inherit local-theme-critical :foreground nil :background nil :weight unspecified))))
- `(link    ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified))))
- `(button  ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified))))
+ `(link    ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified :underline t))))
+ `(custom-link    ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified :underline t))))
+ `(button  ((t (:inherit local-theme-important :underline t :foreground nil :weight unspecified :underline t))))
 
  ;; Interface
  `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :box (:line-width 6 :color ,(face-background 'mode-line))))))

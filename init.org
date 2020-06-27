@@ -38,7 +38,7 @@ recommendations of the [[https://github.com/bbatsov/emacs-lisp-style-guide#sourc
 #+BEGIN_SRC emacs-lisp
 ;;; init.el --- Emacs Initialization -*- lexical-binding: t; -*-
 
-;; URL: https://github.com/terlar/emacs.d
+;; URL: https://github.com/terlar/emacs-config
 ;; Version: 1.0.0
 ;; Package-Requires: ((emacs "26.1"))
 
@@ -134,7 +134,7 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 
 ** Packages
 *** no-littering
-Help keeping =~/.emacs.d= clean.
+Help keeping user Emacs directory clean.
 #+BEGIN_SRC emacs-lisp
 (use-package no-littering
   :demand t
