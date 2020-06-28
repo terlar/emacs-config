@@ -67,8 +67,8 @@ with super;
     };
   };
 
-  # Packages not in MELPA.
-  apheleia = melpaBuild rec {
+  # Packages not in MELPA/GNU ELPA.
+  apheleia = trivialBuild rec {
     pname = "apheleia";
     version = "20200526.1437";
     src = fetchFromGitHub {
@@ -78,10 +78,9 @@ with super;
       sha256 = "1cq1rcg1hzc9szynci5rl7pp3fi7i5kq35jy60cfa9aymmxgvi76";
       # date = 2020-05-26T14:37:17-06:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
 
-  eglot-x = melpaBuild rec {
+  eglot-x = trivialBuild rec {
     pname = "eglot-x";
     version = "20200104.1435";
     src = fetchFromGitHub {
@@ -91,10 +90,10 @@ with super;
       sha256 = "0sl6k5y3b855mbix310l9xzwqm4nb8ljjq4w7y6r1acpfwd7lkdc";
       # date = 2020-01-04T14:35:35+01:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
+    packageRequires = [ eglot ];
   };
 
-  ejira = melpaBuild rec {
+  ejira = trivialBuild {
     pname = "ejira";
     version = "20200206.2144";
     src = fetchFromGitHub {
@@ -104,24 +103,10 @@ with super;
       sha256 = "0a97gx016byiy5fri8jf3x3sfd2h2iw79s6nxv9jigpkgxrkjg7b";
       # date = 2020-02-06T21:44:57+02:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github) '';
     packageRequires = [ org s f ox-jira dash jiralib2 language-detection ];
   };
 
-  eldoc-posframe = melpaBuild rec {
-    pname = "eldoc-posframe";
-    version = "20190209.1123";
-    src = fetchFromGitHub {
-      owner = "terlar";
-      repo = "eldoc-posframe";
-      rev = "2e012a097dfab66a05a858b1486bba9f70956823";
-      sha256 = "1pn1g8mwcgxpavwj9z8rr244pak3n7jqbswjav5bni89s4wm9rhz";
-      # date = 2019-02-09T11:23:21+01:00;
-    };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github) '';
-  };
-
-  explain-pause-mode = melpaBuild rec {
+  explain-pause-mode = trivialBuild {
     pname = "explain-pause-mode";
     version = "20200606.2222";
     src = fetchFromGitHub {
@@ -131,10 +116,9 @@ with super;
       sha256 = "1y9mqyjbsdrjh7f6lysypfwq232m6fwk7bq8vwkrg9fczkwjp9v4";
       # date = 2020-06-06T22:22:33-07:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
 
-  ivy-ghq = melpaBuild rec {
+  ivy-ghq = trivialBuild {
     pname = "ivy-ghq";
     version = "20191231.1957";
     src = fetchFromGitHub {
@@ -144,10 +128,21 @@ with super;
       sha256 = "1ddpdhg26nhqdd30k36c3mkciv5k2ca7vqmy3q855qnimir97zxz";
       # date = 2019-12-31T19:57:04-08:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
 
-  org-pretty-table = melpaBuild rec {
+  nix-flymake = trivialBuild {
+    pname = "nix-flymake";
+    version = "20200202.1654";
+    src = fetchFromGitHub {
+      owner = "tviti";
+      repo = "nix-flymake";
+      rev = "b5fb042732bef53b2869e673c9c4c5451045ac5c";
+      sha256 = "1xdmlqgsy4qa16fhfp1as81jcwa4faszq0dvfidiihi8bs4d0xpg";
+      # date = 2020-02-02T16:54:39-10:00;
+    };
+  };
+
+  org-pretty-table = trivialBuild {
     pname = "org-pretty-table";
     version = "20200329.1831";
     src = fetchFromGitHub {
@@ -157,10 +152,9 @@ with super;
       sha256 = "0kynnja58r9cwfrxxyycg6z4hz9s5rzgn47i9yki7rlr80nyn2bf";
       # date = 2020-03-29T18:31:18+02:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
 
-  source-peek = melpaBuild rec {
+  source-peek = trivialBuild {
     pname = "source-peek";
     version = "20170424.347";
     src = fetchFromGitHub {
@@ -170,10 +164,10 @@ with super;
       sha256 = "14ai66c7j2k04a0vav92ybaikcc8cng5i5vy0iwpg7b2cws8a2zg";
       # date = 2017-04-24T03:47:10+05:30;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
+    packageRequires = [ quick-peek ];
   };
 
-  valign = melpaBuild rec {
+  valign = trivialBuild {
     pname = "valign";
     version = "20200612.2148";
     src = fetchFromGitHub {
@@ -183,6 +177,5 @@ with super;
       sha256 = "04vsp7lvmn7x2zk2n0g5bsmxxx8xa7wiav68f0fb7m7lhdanc8r9";
       # date = 2020-06-12T21:48:10-04:00;
     };
-    recipe = writeText "recipe" ''(${pname} :repo "x" :fetcher github)'';
   };
 }

@@ -1371,16 +1371,6 @@ Revert buffers when underlying files change.
   (global-eldoc-mode 1))
 #+END_SRC
 
-*** eldoc-posframe
-Display eldoc in a child frame.
-#+BEGIN_SRC emacs-lisp
-(use-package eldoc-posframe
-  :diminish eldoc-posframe-mode
-  :custom
-  (eldoc-posframe-left-fringe 0)
-  (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner))
-#+END_SRC
-
 *** rainbow-mode
 Display colors inline.
 #+BEGIN_SRC emacs-lisp

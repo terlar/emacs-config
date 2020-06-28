@@ -69,8 +69,6 @@ with epkgs;
   eglot
   eglot-x
   ejc-sql
-  eldoc-overlay
-  eldoc-posframe
   elfeed
   elixir-mode
   elm-mode
