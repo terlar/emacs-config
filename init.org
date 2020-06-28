@@ -2175,6 +2175,15 @@ Reformat buffer without moving point.
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
 #+END_SRC
 
+*** reformatter
+Custom formatters.
+#+BEGIN_SRC emacs-lisp
+(use-package reformatter
+  :demand t
+  :config
+  (reformatter-define nixfmt :program "nixfmt"))
+#+END_SRC
+
 ** Jump to definition
 Jump to definition is really useful and I prefer doing so without TAGS which is pretty
 much the default for most modes. I am using the excellent package =dumb-jump= to jump via
