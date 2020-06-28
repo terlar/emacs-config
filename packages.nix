@@ -74,6 +74,7 @@ with epkgs;
   elm-mode
   emmet-mode
   emr
+  envrc
   erlang
   eros
   es-mode

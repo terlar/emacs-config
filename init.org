@@ -2523,15 +2523,18 @@ Popup commit message for current line
 #+END_SRC
 
 ** Packages
-*** direnv
+*** envrc
 Project-specific environment variables via =direnv=.
 #+BEGIN_SRC emacs-lisp
-(use-package direnv
-  :demand t
-  :custom
-  (direnv-always-show-summary nil)
+(use-package envrc
+  :if (executable-find "direnv")
+  :defer 1
+  :general
+  (:keymaps
+   'envrc-mode-map
+   "C-c e" 'envrc-command-map)
   :config
-  (direnv-mode 1))
+  (envrc-global-mode 1))
 #+END_SRC
 
 *** editorconfig
