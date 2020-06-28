@@ -2176,7 +2176,13 @@ Reformat buffer without moving point.
 #+END_SRC
 
 *** reformatter
-Custom formatters.
+Custom formatters. Use in a specific project via =.dir-locals.el=, this can be achieved via
+the mode mechanism:
+#+BEGIN_SRC text
+((some-major-mode
+   (mode . FORMATTER-on-save)))
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
 (use-package reformatter
   :demand t
@@ -3692,7 +3698,6 @@ Persist REPL history.
 #+BEGIN_SRC emacs-lisp
 (use-package flymake-eslint
   :init
-  (cl-pushnew '(flymake-eslint-enable) safe-local-eval-forms :test #'equal)
   (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
   (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
 #+END_SRC
