@@ -204,6 +204,7 @@ with epkgs;
   scala-mode
   selectrum
   separedit
+  shrface
   slim-mode
   slime
   smart-jump
