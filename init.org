@@ -2163,8 +2163,6 @@ Code folding.
 Reformat buffer without moving point.
 #+BEGIN_SRC emacs-lisp
 (use-package apheleia
-  :hook
-  (prog-mode . apheleia-mode)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
