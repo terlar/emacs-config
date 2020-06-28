@@ -284,8 +284,7 @@
  ;; which-key
  `(which-key-local-map-description-face    ((t (:bold t))))
  ;; quick-peek
- `(quick-peek-border-face                  ((t (:inherit default :height 0.1))))
- `(quick-peek-padding-face                 ((t (:height 0.1)))))
+ `(quick-peek-background-face              ((t (:inherit local-theme-secondary)))))
 
 ;;;
 ;; Theme Variables
