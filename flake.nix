@@ -2,7 +2,7 @@
   description = "Emacs config of Terje";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.03";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     utils.url = "github:numtide/flake-utils";
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
