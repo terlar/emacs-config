@@ -21,7 +21,7 @@ with super;
     packageRequires = [ emacs ];
   };
 
-  # Personal forks.
+  # Forks.
   flymake-diagnostic-at-point = flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
       version = "20190810.2232";
@@ -66,6 +66,17 @@ with super;
       license = licenses.free;
     };
   };
+
+  ws-butler = ws-butler.overrideAttrs (attrs: {
+    version = "20200403.107";
+    src = fetchFromGitHub {
+      owner = "hlissner";
+      repo = "ws-butler";
+      rev = "2bb49d3ee7d2cba133bc7e9cdac416cd1c5e4fe0";
+      sha256 = "1ifrcxlb6hinjv4bn54c8fars4avcm5ijaj44h606mqymj37dvn1";
+      # date = 2020-04-03T01:07:46-04:00;
+    };
+  });
 
   # Packages not in MELPA/GNU ELPA.
   apheleia = trivialBuild rec {
