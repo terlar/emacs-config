@@ -70,13 +70,13 @@ with super;
   # Packages not in MELPA/GNU ELPA.
   apheleia = trivialBuild rec {
     pname = "apheleia";
-    version = "20200526.1437";
+    version = "20200716.826";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "6bd69671796c3d232ffae42df6eecba4eb1f7cd2";
-      sha256 = "1cq1rcg1hzc9szynci5rl7pp3fi7i5kq35jy60cfa9aymmxgvi76";
-      # date = 2020-05-26T14:37:17-06:00;
+      rev = "6aff83d5acca936cf1103e0dbe59724c4e887560";
+      sha256 = "112pqvmhh484d4b4wrawz0x9gl6x9c36rmqwym7masxk7w6hdm97";
+      # date = 2020-07-16T08:26:51-06:00;
     };
   };
 
@@ -108,13 +108,13 @@ with super;
 
   explain-pause-mode = trivialBuild {
     pname = "explain-pause-mode";
-    version = "20200621.1043";
+    version = "20200718.1853";
     src = fetchFromGitHub {
       owner = "lastquestion";
       repo = "explain-pause-mode";
-      rev = "318dace6da1952675a890ef597a08cf18e2cbae1";
-      sha256 = "1bdj8kwmy7xf02xdyh498wjzc2kp42rhr13hmdyaj1q7d2icvpxb";
-      # date = 2020-06-21T10:43:16-07:00;
+      rev = "02961514aa1a102691be4ad5c0a90283920621ca";
+      sha256 = "1jdgx05vnrscq1ic3mkw88h23k3nazxansykw045x1rvzyd8qrbl";
+      # date = 2020-07-18T18:53:54-07:00;
     };
   };
 
@@ -169,13 +169,13 @@ with super;
 
   valign = trivialBuild {
     pname = "valign";
-    version = "20200612.2148";
+    version = "20200711.2339";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "valign";
-      rev = "6578fe45b143886a963646711cf579240333b4eb";
-      sha256 = "04vsp7lvmn7x2zk2n0g5bsmxxx8xa7wiav68f0fb7m7lhdanc8r9";
-      # date = 2020-06-12T21:48:10-04:00;
+      rev = "eaa5cb11add73fa90d3333261a2fc3f75d676018";
+      sha256 = "056bpjd2nq3z95y0ypdplmpr7gyydnb7ssd5khn21ns5rfwg1sql";
+      # date = 2020-07-11T23:39:16-04:00;
     };
   };
 }
