@@ -5,22 +5,6 @@ self: super:
 with super;
 
 {
-  # Fix code actions when using javascript-typescript-langserver.
-  jsonrpc = let
-    src = jsonrpc.src;
-    patch = ./patches/jsonrpc.patch;
-    patchedSrc = stdenv.mkDerivation {
-      name = "emacs-${jsonrpc.pname}-${jsonrpc.version}-patched.el";
-      inherit src;
-      phases = [ "patchPhase" ];
-      patchPhase = "patch $src -o $out < ${patch}";
-    };
-  in elpaBuild rec {
-    inherit (jsonrpc) pname ename version meta;
-    src = patchedSrc;
-    packageRequires = [ emacs ];
-  };
-
   # Forks.
   flymake-diagnostic-at-point = flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
