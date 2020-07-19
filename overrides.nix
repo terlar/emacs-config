@@ -98,7 +98,8 @@ with super;
       sha256 = "0a97gx016byiy5fri8jf3x3sfd2h2iw79s6nxv9jigpkgxrkjg7b";
       # date = 2020-02-06T21:44:57+02:00;
     };
-    packageRequires = [ org s f ox-jira dash jiralib2 language-detection ];
+    packageRequires =
+      [ dash-functional f helm jiralib2 language-detection org ox-jira s ];
   };
 
   explain-pause-mode = trivialBuild {

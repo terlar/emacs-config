@@ -69,6 +69,7 @@ with epkgs;
   eglot
   eglot-x
   ejc-sql
+  ejira
   elfeed
   elixir-mode
   elm-mode
