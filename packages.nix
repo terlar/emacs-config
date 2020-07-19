@@ -10,6 +10,7 @@ with epkgs;
   all-the-icons
   all-the-icons-dired
   all-the-icons-ivy
+  annotate
   ansible
   ansible-doc
   apheleia
