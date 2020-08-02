@@ -19,7 +19,7 @@
     {
       overlay = final: prev:
         let
-          overrides = final.callPackage ./overrides.nix { };
+          overrides = prev.callPackage ./overrides.nix { };
           extraPackages = import ./packages.nix;
         in (emacs-overlay.overlay final prev) // rec {
           emacsPackages =
@@ -27,7 +27,7 @@
 
           emacsEnv = emacsPackages.emacsWithPackages extraPackages;
 
-          emacsConfig = final.callPackage ./. {
+          emacsConfig = prev.callPackage ./. {
             # Ensure build includes packages.
             trivialBuild =
               emacsPackages.trivialBuild.override { emacs = emacsEnv; };
@@ -35,7 +35,7 @@
             version = lib.substring 0 8 self.lastModifiedDate;
           };
 
-          emacsUtils = final.callPackage ./utils.nix { };
+          emacsUtils = prev.callPackage ./utils.nix { };
         };
 
       homeManagerModules = { emacsConfig = import ./home-manager.nix; };
