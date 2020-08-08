@@ -104,13 +104,13 @@ with super;
 
   explain-pause-mode = trivialBuild {
     pname = "explain-pause-mode";
-    version = "20200718.1853";
+    version = "20200727.227";
     src = fetchFromGitHub {
       owner = "lastquestion";
       repo = "explain-pause-mode";
-      rev = "02961514aa1a102691be4ad5c0a90283920621ca";
-      sha256 = "1jdgx05vnrscq1ic3mkw88h23k3nazxansykw045x1rvzyd8qrbl";
-      # date = 2020-07-18T18:53:54-07:00;
+      rev = "2356c8c3639cbeeb9751744dbe737267849b4b51";
+      sha256 = "0frnfwqal9mrnrz6q4v7vcai26ahaw81894arff1yjw372pfgv7v";
+      # date = 2020-07-27T02:27:40-07:00;
     };
   };
 
