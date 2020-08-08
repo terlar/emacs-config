@@ -165,13 +165,13 @@ with super;
 
   valign = trivialBuild {
     pname = "valign";
-    version = "20200711.2339";
+    version = "20200806.1216";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "valign";
-      rev = "eaa5cb11add73fa90d3333261a2fc3f75d676018";
-      sha256 = "056bpjd2nq3z95y0ypdplmpr7gyydnb7ssd5khn21ns5rfwg1sql";
-      # date = 2020-07-11T23:39:16-04:00;
+      rev = "a68750acee4df417e4d13c4c5ede149dcb377cf9";
+      sha256 = "0c7p7hsj2gf256kwf7bgc5j23wgsr2gs3dgq93gfmzcivgylbimy";
+      # date = 2020-08-06T12:16:35-04:00;
     };
   };
 }
