@@ -1554,6 +1554,14 @@ Keep track of bookmarks
   (bookmark-save-flag 1))
 #+END_SRC
 
+*** ctrlf
+#+begin_src emacs-lisp :tangle yes
+(use-package ctrlf
+  :defer 2
+  :config
+  (ctrlf-mode 1))
+#+end_src
+
 *** deadgrep
 #+BEGIN_SRC emacs-lisp
 (use-package deadgrep
@@ -1871,7 +1879,6 @@ Tips:
   :general
   (:keymaps
    'counsel-mode-map
-   "C-s" 'swiper-isearch
    "C-x /" 'counsel-abbrev
    "C-c p" 'counsel-git
    "C-c r" 'counsel-recentf)
@@ -1927,16 +1934,6 @@ Navigate tramp files.
   (:prefix
    init-leader-key
    "t" 'counsel-tramp))
-#+END_SRC
-
-**** swiper
-I-search replacement with overview
-#+BEGIN_SRC emacs-lisp
-(use-package swiper
-  :general
-  (:keymaps
-   'swiper-isearch-map
-   "M-n" 'ivy-next-history-element))
 #+END_SRC
 
 **** flyspell-correct-ivy
@@ -2234,7 +2231,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
 (use-package smart-jump
   :defer 2
   :custom
-  (smart-jump-find-references-fallback-function #'+smart-jump-find-references-with-counsel-rg)
+  (smart-jump-find-references-fallback-function #'smart-jump-find-references-with-counsel-rg)
   (smart-jump-default-mode-list
    '(clojure-mode
      eglot
@@ -2255,7 +2252,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
    "j" 'smart-jump-go
    "r" 'smart-jump-references)
   :preface
-  (defun +smart-jump-find-references-with-counsel-rg ()
+  (defun smart-jump-find-references-with-counsel-rg ()
     "Use `rg' and `counsel' to find references."
     (interactive)
     (if (fboundp 'counsel-rg)
@@ -2266,7 +2263,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
                ((symbol-at-point)
                 (substring-no-properties
                  (symbol-name (symbol-at-point))))))
-      (message "Install swiper to use `+smart-jump-simple-find-references-with-counsel-rg'.")))
+      (message "Install counsel to use `smart-jump-simple-find-references-with-counsel-rg'.")))
   :config
   (smart-jump-setup-default-registers))
 #+END_SRC
