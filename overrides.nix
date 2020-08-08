@@ -20,14 +20,14 @@ with super;
 
   org = stdenv.mkDerivation rec {
     pname = "emacs-org";
-    version = "20200609.845";
+    version = "20200808.1844";
 
     src = fetchFromGitHub {
       owner = "terlar";
       repo = "org-mode";
-      rev = "5a26a6cf2783836bfa16e006607d06a911b97c56";
-      sha256 = "15h1p8d3a4kw1lfkfcdnssvjzy02lbiwp32c1961ifqj16y22xcc";
-      # date = 2020-06-09T08:45:13+02:00;
+      rev = "5698062a3d5d6b22f72a5b0ef6dfbdeddb5aae7c";
+      sha256 = "1422k865ndzgva6iad721xnhdll09m3aig11m8ivxakbwl2x39jj";
+      # date = 2020-08-08T18:44:18+02:00;
     };
 
     preBuild = ''
