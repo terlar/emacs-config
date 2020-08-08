@@ -115,6 +115,7 @@ with epkgs;
   highlight-numbers
   highlight-quoted
   hl-todo
+  icomplete-vertical
   idle-highlight-mode
   imenu-anywhere
   imenu-list
@@ -142,6 +143,7 @@ with epkgs;
   markdown-mode
   markdown-toc
   messages-are-flowing
+  mini-frame
   miniedit
   minions
   minitest
@@ -205,6 +207,7 @@ with epkgs;
   sbt-mode
   scala-mode
   selectrum
+  selectrum-prescient
   separedit
   shrface
   slim-mode
