@@ -211,15 +211,31 @@ Support auto-tangling via =auto-tangle-mode=.
 
 * Base
 ** Performance
-Disable bidirectional text for tiny performance boost
+Give up some bidirectional functionality for slightly faster re-display.
 #+BEGIN_SRC emacs-lisp
-(setq-default bidi-display-reordering nil)
+(setq bidi-inhibit-bpa t)
+(setq-default bidi-paragraph-direction 'left-to-right)
 #+END_SRC
 
 Update UI less frequently
 #+BEGIN_SRC emacs-lisp
 (setq idle-update-delay 2
       jit-lock-defer-time 0)
+#+END_SRC
+*** Packages
+**** so-long
+Improve performance for files with long lines, for example minified code.
+#+BEGIN_SRC emacs-lisp
+(use-package so-long
+  :defer 2
+  :config
+  (global-so-long-mode 1))
+#+END_SRC
+
+**** vlf
+Large file support. This can view/edit/search and compare large files.
+#+BEGIN_SRC emacs-lisp
+(use-package vlf)
 #+END_SRC
 
 ** Localization
@@ -287,12 +303,6 @@ More convenient key definitions. I provides the =use-package= keyword =:general=
 Library to display inline popups; used by =source-peek=.
 #+BEGIN_SRC emacs-lisp
 (use-package quick-peek)
-#+END_SRC
-
-*** vlf
-Large file support. This can view/edit/search and compare large files.
-#+BEGIN_SRC emacs-lisp
-(use-package vlf)
 #+END_SRC
 
 *** which-key
@@ -585,6 +595,7 @@ keybindings in case I would forget them.
  "f" '(hs-minor-mode                    :wk "Code folding")
  "h" '(hl-line-mode                     :wk "Line highlight")
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
+ "L" '(so-long-mode                     :wk "Long lines")
  "s" '(subword-mode                     :wk "Sub-word")
  "t" '(toggle-truncate-lines            :wk "Truncate lines")
  "v" '(variable-pitch-mode              :wk "Variable-pitch")
