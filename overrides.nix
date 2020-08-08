@@ -126,18 +126,6 @@ with super;
     };
   };
 
-  nix-flymake = trivialBuild {
-    pname = "nix-flymake";
-    version = "20200202.1654";
-    src = fetchFromGitHub {
-      owner = "tviti";
-      repo = "nix-flymake";
-      rev = "b5fb042732bef53b2869e673c9c4c5451045ac5c";
-      sha256 = "1xdmlqgsy4qa16fhfp1as81jcwa4faszq0dvfidiihi8bs4d0xpg";
-      # date = 2020-02-02T16:54:39-10:00;
-    };
-  };
-
   org-pretty-table = trivialBuild {
     pname = "org-pretty-table";
     version = "20200329.1831";

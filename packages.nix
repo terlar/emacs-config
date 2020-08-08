@@ -149,7 +149,6 @@ with epkgs;
   nameless
   native-complete
   nginx-mode
-  nix-flymake
   nix-mode
   nix-update
   no-littering
