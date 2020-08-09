@@ -272,13 +272,6 @@ Support defining repeating commands by repeating the last key.
   :commands (defrepeater))
 #+END_SRC
 
-*** diminish
-Hide mode-line modes, more room for important stuff.
-#+BEGIN_SRC emacs-lisp
-(use-package diminish
-  :commands (diminish))
-#+END_SRC
-
 *** general
 More convenient key definitions. I provides the =use-package= keyword =:general=.
 #+BEGIN_SRC emacs-lisp
@@ -310,7 +303,6 @@ Display available keybindings in a popup.
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
   :defer 1
-  :diminish which-key-mode
   :commands
   (which-key-mode
    which-key-setup-side-window-bottom
@@ -797,72 +789,99 @@ Add window dividers, mainly to add a border below the mode line.
 #+END_SRC
 
 ** Mode line
-I am trying to keep the original mode line as much as possible to ensure compatibility
-with various packages and features, but I have rearranged the position of things and also
-introduced a right side mode line. I have defined a helper function to fill up the space
-needed to make the mode line appear on the right side.
+I try to retain functionality from the original mode line as much as possible, but I also
+want to simplify it slightly and separate into two parts; left side and right side mode
+line. There is a helper function in order to fill up the space needed to make the mode
+line appear on the right side. Also the coding system related information will be hidden
+if using utf-8-unix.
+
+Define a variable to conveniently access only the major mode part of =mode-line-modes=.
+#+BEGIN_SRC emacs-lisp
+(defvar mode-line-major-mode
+  `(:propertize ("" mode-name)
+                help-echo "Major mode\n\
+mouse-1: Display major mode menu\n\
+mouse-2: Show help for major mode\n\
+mouse-3: Toggle minor modes"
+                mouse-face mode-line-highlight
+                local-map ,mode-line-major-mode-keymap))
+#+END_SRC
+
+Configure the order and components of the mode line.
+#+BEGIN_SRC emacs-lisp
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                mode-line-misc-info
+                (vc-mode vc-mode)
+                "  "
+                mode-line-modified
+                mode-line-remote
+                mode-line-buffer-identification
+                mode-line-position
+                (:eval
+                 (mode-line-right))
+                mode-line-end-spaces))
+#+END_SRC
 
 *** Right alignment
 Setup the right aligned mode line and helper functions to display it.
 #+BEGIN_SRC emacs-lisp
-(defvar mode-line-space
-  '(:propertize
-    " " display
-    ((space :width 1)))
-  "Space between mode line components.")
-
 (defvar mode-line-right-format nil
   "The mode line to display on the right side.")
 
 (defun mode-line-right ()
   "Render the `mode-line-right-format'."
-  (let ((formatted-line (format-mode-line mode-line-right-format)))
+  (let* ((formatted-line (format-mode-line mode-line-right-format))
+         (height (face-attribute 'mode-line :height))
+         (scale (if (floatp height) height 1.0)))
     (list
      (propertize
-      " "
-      'display `((space :align-to
-                        (- (+ right
-                              right-fringe
-                              right-margin
-                              right-margin-width
-                              left-fringe
-                              left-margin-width)
-                           ,(* (string-width formatted-line)
-                               0.8)))))
+      " " 'display `((space :align-to (- (+ right right-fringe right-margin)
+                                         ,(* (string-width formatted-line) scale)))))
      formatted-line)))
-
-(setq-default mode-line-format
-              (append
-               mode-line-format
-               '((:eval (mode-line-right)))))
 #+END_SRC
 
 Move default components to the right side of the mode line.
 #+BEGIN_SRC emacs-lisp
-(delete 'mode-line-position mode-line-format)
-(delete 'mode-line-mule-info mode-line-format)
-(delete 'mode-line-modes mode-line-format)
-
 (setq mode-line-right-format
-      `((:eval mode-line-position)
-        (:eval mode-line-mule-info)
-        ,mode-line-space
-        (:eval mode-line-modes)))
+      (list '(:eval mode-line-mule-info)
+            "  "
+            mode-line-major-mode))
 #+END_SRC
 
 *** Position
 Add position information including column and line number but skip the percentage.
 #+BEGIN_SRC emacs-lisp
-(setq mode-line-percent-position nil)
+(setq column-number-indicator-zero-based nil
+      mode-line-percent-position nil)
 (column-number-mode 1)
 (line-number-mode 1)
+#+END_SRC
+
+*** Coding system
+To reduce unnecessary information coding system will not be shown by default if the file
+is UTF-8 with UNIX end-of-line.
+- Only display "end of line"-mnemonic when not UNIX end-of-line.
+- Only display coding system when not UTF-8.
+- Other cases displays either with warning/error face in order to draw attention.
+#+BEGIN_SRC emacs-lisp
+(setq eol-mnemonic-unix ""
+      eol-mnemonic-dos (propertize "[CR+LF]" 'face 'warning)
+      eol-mnemonic-mac (propertize "[CR]" 'face 'warning)
+      eol-mnemonic-undecided (propertize "[?]" 'face 'error))
+
+(let ((coding (nthcdr 2 mode-line-mule-info)))
+  (setcar coding '(:eval (if (string-equal "U" (format-mode-line "%z"))
+                             ""
+                           (propertize "[%z]" 'face 'warning))))
+  coding)
 #+END_SRC
 
 *** Indentation
 Display information about the current indentation settings.
 #+BEGIN_SRC emacs-lisp
 (use-package indent-info
-  :defer 2
+  :defer 1
   :commands
   (global-indent-info-mode)
   :custom
@@ -885,15 +904,6 @@ or presentation.
   (hide-mode-line-mode
    turn-on-hide-mode-line-mode
    turn-off-hide-mode-line-mode))
-#+END_SRC
-
-*** Diminished modes
-Hide minor modes to save space.
-#+BEGIN_SRC emacs-lisp
-(diminish 'abbrev-mode)
-(diminish 'auto-fill-function)
-(with-eval-after-load 'face-remap (diminish 'buffer-face-mode))
-(with-eval-after-load 'with-editor (diminish 'with-editor-mode))
 #+END_SRC
 
 *** Icons
@@ -1113,8 +1123,6 @@ Cycle through words, symbols and patterns.
 Auto-insert matching parenthesis and highlight matching parenthesis.
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
-  :diminish
-  (smartparens-mode smartparens-strict-mode)
   :hook
   (eval-expression-minibuffer-setup . smartparens-strict-mode)
   :commands
@@ -1197,7 +1205,6 @@ Display whitespace
 Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+BEGIN_SRC emacs-lisp
 (use-package whole-line-or-region
-  :diminish whole-line-or-region-local-mode
   :commands
   (whole-line-or-region-global-mode)
   :init
@@ -1208,7 +1215,6 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :defer 1
-  :diminish yas-minor-mode
   :commands
   (yas--templates-for-key-at-point)
   :custom
@@ -1252,7 +1258,6 @@ Display page breaks as a horizontal line.
 #+BEGIN_SRC emacs-lisp
 (use-package page-break-lines
   :defer 1
-  :diminish page-break-lines-mode
   :config
   (global-page-break-lines-mode 1))
 #+END_SRC
@@ -1377,7 +1382,6 @@ Revert buffers when underlying files change.
 *** eldoc
 #+BEGIN_SRC emacs-lisp
 (use-package eldoc
-  :diminish eldoc-mode
   :config
   (global-eldoc-mode 1))
 #+END_SRC
@@ -1395,7 +1399,6 @@ Display colors inline.
 *** readable
 #+BEGIN_SRC emacs-lisp
 (use-package readable
-  :diminish readable-mode
   :hook
   ((eww-mode
     markdown-mode
@@ -1505,7 +1508,6 @@ Striped dired buffers.
 *** Icons
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons-dired
-  :diminish all-the-icons-dired-mode
   :hook
   (dired-mode . all-the-icons-dired-mode))
 #+END_SRC
@@ -1654,7 +1656,6 @@ Project interactions. Prefix project buffer files with the project name and rela
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :defer 2
-  :diminish projectile-mode
   :custom
   (projectile-enable-caching nil)
   (projectile-file-exists-remote-cache-expire nil)
@@ -1796,7 +1797,6 @@ Complete in the following order:
 ** Ivy
 #+BEGIN_SRC emacs-lisp
 (use-package ivy
-  :diminish ivy-mode
   :hook
   (after-init . ivy-mode)
   :custom
@@ -1868,7 +1868,6 @@ Tips:
   (smex-auto-update nil))
 
 (use-package counsel
-  :diminish counsel-mode
   :hook (ivy-mode . counsel-mode)
   :custom
   (counsel-find-file-ignore-regexp
@@ -2075,7 +2074,6 @@ Support for Docker related files.
 ** Coverage
 #+BEGIN_SRC emacs-lisp
 (use-package coverlay
-  :diminish coverlay-minor-mode
   :hook
   (coverlay-minor-mode . init-coverlay)
   :custom
@@ -2141,7 +2139,6 @@ Lookup documentation via DevDocs.
 Code folding.
 #+BEGIN_SRC emacs-lisp
 (use-package hideshow
-  :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode)
   :custom
   (hs-hide-comments-when-hiding-all nil)
@@ -2563,7 +2560,6 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
   :defer 1
-  :diminish editorconfig-mode
   :custom
   (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :config
@@ -2666,7 +2662,6 @@ Peek definition (Display the function source inline).
 Delete trailing white-space before save, but *only* for edited lines.
 #+BEGIN_SRC emacs-lisp
 (use-package ws-butler
-  :diminish ws-butler-mode
   :custom
   (ws-butler-convert-leading-tabs-or-spaces t)
   :commands
@@ -2693,7 +2688,6 @@ Highlight source code identifiers based on their name.
 #+BEGIN_SRC emacs-lisp
 (use-package color-identifiers-mode
   :defer 2
-  :diminish color-identifiers-mode
   :config
   (cl-pushnew '(js-mode . ("[^.][[:space:]]*"
                             "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
@@ -2716,7 +2710,6 @@ Highlight source code identifiers based on their name.
   (global-color-identifiers-mode 1))
 
 (use-package rainbow-identifiers
-  :diminish rainbow-identifiers-mode
   :custom
   (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 #+END_SRC
@@ -2893,7 +2886,6 @@ Discover functions.
 Shorten package prefixes.
 #+BEGIN_SRC emacs-lisp
 (use-package nameless
-  :diminish nameless-mode
   :hook
   (emacs-lisp-mode . nameless-mode))
 #+END_SRC
@@ -2914,7 +2906,6 @@ Shorten package prefixes.
 Improve readability of escape characters in regular expressions.
 #+BEGIN_SRC emacs-lisp
 (use-package easy-escape
-  :diminish easy-escape-minor-mode
   :hook
   (emacs-lisp-mode . easy-escape-minor-mode))
 #+END_SRC
@@ -3219,7 +3210,6 @@ Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
 Use variable-pitch font but still make sure everything aligns.
 #+BEGIN_SRC emacs-lisp
 (use-package org-variable-pitch
-  :diminish org-variable-pitch-minor-mode
   :hook (org-mode . org-variable-pitch-minor-mode)
   :custom
   (org-variable-pitch-fixed-font init-fixed-pitch-font)
@@ -3326,7 +3316,6 @@ URL into footnote from TEXT."
   "^\\(---\n\\)?\\(#.*\n\\)* *-? \\(environment\\|h\\(?:\\(?:andler\\|ost\\)s\\)\\|i\\(?:mport_tasks\\|nclude\\(?:_tasks\\)?\\)\\|p\\(?:\\(?:ost\\|re\\)_tasks\\)\\|roles?\\|tasks\\|vars\\(?:_\\(?:files\\|prompt\\)\\)?\\):")
 
 (use-package ansible-doc
-  :diminish ansible-doc-mode
   :hook (ansible . ansible-doc-mode)
   :preface
   (defun ansible-doc-at-point ()
@@ -3714,7 +3703,6 @@ Persist REPL history.
 Debugger
 #+BEGIN_SRC emacs-lisp
 (use-package indium
-  :diminish indium-interaction-mode
   :hook
   (js-mode . +indium-interaction-unless-json-mode)
   :commands
@@ -3765,7 +3753,6 @@ Test framework execution.
 Refactor utils, also a dependecy for =indium= debugger.
 #+BEGIN_SRC emacs-lisp
 (use-package js2-refactor
-  :diminish js2-refactor-mode
   :hook
   (js2-minor-mode . js2-refactor-mode))
 #+END_SRC
@@ -4245,7 +4232,6 @@ Pretty check-boxes as well as bullet lists.
 **** ruby-refactor
 #+BEGIN_SRC emacs-lisp
 (use-package ruby-refactor
-  :diminish ruby-refactor-mode
   :hook
   (ruby-mode . ruby-refactor-mode))
 #+END_SRC
@@ -4253,7 +4239,6 @@ Pretty check-boxes as well as bullet lists.
 **** yard-mode
 #+BEGIN_SRC emacs-lisp
 (use-package yard-mode
-  :diminish yard-mode
   :hook ruby-mode)
 #+END_SRC
 
@@ -4493,14 +4478,12 @@ Import contacts from Gmail vCard data.
 ** Focus
 Dim out the surrounding text except the current focused paragraph or expression.
 #+BEGIN_SRC emacs-lisp
-(use-package focus
-  :diminish focus-mode)
+(use-package focus)
 #+END_SRC
 
 ** Indentation guides
 #+BEGIN_SRC emacs-lisp
 (use-package indent-guide
-  :diminish indent-guide-mode
   :custom
   (indent-guide-char "\x2502"))
 #+END_SRC
@@ -4555,7 +4538,6 @@ it really useful.
 ** Spell checking
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
-  :diminish flyspell-mode
   :hook
   ((text-mode message-mode) . flyspell-mode)
   (prog-mode . flyspell-prog-mode)
