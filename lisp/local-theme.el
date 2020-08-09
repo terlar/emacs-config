@@ -1,4 +1,4 @@
-;;; local-theme.el --- Local theme overrides
+;;; local-theme.el --- Local theme overrides -*- coding: utf-8; lexical-binding: t; -*-
 
 ;; Title: Local Theme
 ;; Project: local-theme
@@ -114,7 +114,7 @@
     (((background dark)) (:background ,(local-theme-lighten-default-background)))))
 
  `(default           ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
- `(cursor            ((t (:inherit default :foreground nil :background nil))))
+ `(cursor            ((t (:background ,(face-foreground 'local-theme-highlight)))))
  `(region            ((t (:inherit local-theme-secondary :foreground nil :background nil))))
  `(highlight         ((t (:inherit local-theme-secondary :foreground nil :background nil))))
 
@@ -136,7 +136,11 @@
 
  ;; Interface
  `(mode-line                               ((t (:height 0.8 :family ,local-theme-variable-pitch-font :box (:line-width 6 :color ,(face-background 'mode-line))))))
- `(mode-line-inactive                      ((t (:inherit mode-line :background ,(face-background 'default) :box (:line-width 6 :color ,(face-background 'default))))))
+ `(mode-line-inactive                      ((t (:inherit
+                                                (local-theme-subordinate mode-line)
+                                                :foreground nil
+                                                :background ,(face-background 'default)
+                                                :box (:line-width 6 :color ,(face-background 'default))))))
  `(mode-line-buffer-id                     ((t (:inherit local-theme-strong :foreground nil))))
  `(header-line                             ((t (:inherit mode-line))))
  `(header-line-highlight                   ((t (:inherit mode-line-highlight))))
