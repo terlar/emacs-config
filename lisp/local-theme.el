@@ -282,7 +282,7 @@
  `(spray-base-face                         ((t (:weight normal :underline nil :family ,local-theme-serif-font))))
  `(spray-accent-face                       ((t (:foreground "tomato" :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
  ;; stripe-buffer
- `(stripe-highlight                        ((t (:inherit local-theme-secondary))))
+ `(stripe-highlight                        ((t (:inherit local-theme-secondary :extend t))))
  ;; web-mode
  `(web-mode-current-element-highlight-face ((t (:background nil :foreground nil :bold t))))
  ;; which-key
