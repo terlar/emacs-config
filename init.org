@@ -1268,12 +1268,10 @@ Display page breaks as a horizontal line.
 #+END_SRC
 
 *** Line highlight
+Disabled by default. When enabled, only highlight in the selected window.
 #+BEGIN_SRC emacs-lisp
 (use-package hl-line
-  :hook
-  ((prog-mode conf-mode) . hl-line-mode)
   :custom
-  ;; Only highlight in selected window
   (hl-line-sticky-flag nil)
   (global-hl-line-sticky-flag nil))
 #+END_SRC
