@@ -661,6 +661,11 @@ Underline line at descent position, not baseline position.
 #+END_SRC
 
 ** Theme
+Use a bar cursor by default.
+#+begin_src emacs-lisp :tangle yes
+(setq-default cursor-type 'bar)
+#+end_src
+
 *** Defaults
 #+BEGIN_SRC emacs-lisp
 (defvar init-default-light-theme 'tao-yang
@@ -3163,7 +3168,6 @@ This sections makes =org-mode= look more beautiful and appealing.
 (use-package org
   :hook
   (org-babel-after-execute . org-redisplay-inline-images)
-  (org-mode . init-org-cursor)
   (org-mode . init-org-prettify-syntax)
   :custom
   (org-fontify-quote-and-verse-blocks t)
@@ -3173,9 +3177,6 @@ This sections makes =org-mode= look more beautiful and appealing.
   (org-startup-indented t)
   (org-startup-with-inline-images t)
   :preface
-  (defun init-org-cursor ()
-    "Setup bar cursor for `org-mode'."
-    (setq cursor-type 'bar))
   (defun init-org-prettify-syntax ()
     "Prettify syntax with symbols."
     (dolist (symbol '(("#+title:" . ?⋮)
