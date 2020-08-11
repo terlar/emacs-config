@@ -585,6 +585,7 @@ keybindings in case I would forget them.
  "c" '(highlight-changes-mode           :wk "Changes")
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
+ "g" '(glasses-mode                     :wk "Readable camelCase")
  "h" '(hl-line-mode                     :wk "Line highlight")
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
  "L" '(so-long-mode                     :wk "Long lines")
@@ -4585,8 +4586,6 @@ Navigate through undo history.
 ** TODO Improve find char keys
 ** TODO Override =M-n= with something useful?
 ** TODO Override =M-p= with something useful?
-** TODO Easier way to toggle =subword-mode=
-** TODO Easier way to toggle =glasses-mode=
 ** TODO Extract history persistance code (persistory)
   - comint
   - ielm (via comint and savehist)
