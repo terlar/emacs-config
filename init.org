@@ -988,7 +988,9 @@ Transpose window arrangement.
   :general
   (:prefix
    init-window-prefix
-   "t" 'transpose-frame))
+   "t" 'transpose-frame
+   "f" 'flip-frame
+   "F" 'flop-frame))
 #+END_SRC
 
 *** Navigation
