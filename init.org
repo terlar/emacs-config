@@ -1002,6 +1002,11 @@ Transpose window arrangement.
   (aw-scope 'frame)
   :general
   ([remap other-window] 'ace-window))
+
+(use-package frame
+  :general
+  ("M-n" 'next-window-any-frame
+   "M-p" 'previous-window-any-frame))
 #+END_SRC
 
 *** Zoom
@@ -4586,8 +4591,6 @@ Navigate through undo history.
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
 ** TODO Improve find char keys
-** TODO Override =M-n= with something useful?
-** TODO Override =M-p= with something useful?
 ** TODO Extract history persistance code (persistory)
   - comint
   - ielm (via comint and savehist)
