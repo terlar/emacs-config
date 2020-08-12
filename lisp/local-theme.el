@@ -236,7 +236,7 @@
  ;; indent-guide
  `(indent-guide-face                       ((t (:inherit fringe))))
  ;; ivy
- `(ivy-current-match                       ((t (:inherit hl-line :extend t))))
+ `(ivy-current-match                       ((t (:inherit hl-line :foreground nil :background nil :extend t))))
  ;; ivy-posframe
  `(ivy-posframe                            ((t (:inherit local-theme-secondary))))
  ;; markdown
