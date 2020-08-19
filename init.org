@@ -196,13 +196,6 @@ Persist history.
 (use-package flymake-quickdef :demand t)
 #+END_SRC
 
-*** posframe
-#+BEGIN_SRC emacs-lisp
-(use-package posframe
-  :custom
-  (posframe-mouse-banish nil))
-#+END_SRC
-
 ** Tangling
 Support auto-tangling via =auto-tangle-mode=.
 #+BEGIN_SRC emacs-lisp
@@ -223,6 +216,7 @@ Update UI less frequently
 (setq idle-update-delay 2
       jit-lock-defer-time 0)
 #+END_SRC
+
 *** Packages
 **** so-long
 Improve performance for files with long lines, for example minified code.
