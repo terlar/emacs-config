@@ -2103,7 +2103,7 @@ Lookup documentation via DevDocs.
 #+BEGIN_SRC emacs-lisp
 (use-package devdocs
   :general
-  ("M-g K" 'devdocs-search))
+  (:prefix init-nav-prefix "K" 'devdocs-search))
 #+END_SRC
 
 ** Editing
@@ -2587,7 +2587,8 @@ Generic Language Server Protocol integration via =eglot=.
   :general
   (:keymaps
    'eglot-mode-map
-   "M-g k" 'eglot-help-at-point)
+   :prefix init-nav-prefix
+   "k" 'eglot-help-at-point)
   (:keymaps
    'eglot-mode-map
    :prefix init-local-leader-key
@@ -3328,7 +3329,8 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'ansible::key-map
-   "M-g k" 'ansible-doc-at-point))
+   :prefix init-nav-prefix
+   "k" 'ansible-doc-at-point))
 #+END_SRC
 
 ** clojure
@@ -3422,7 +3424,8 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'alchemist-mode-map
-   "M-g k" 'alchemist-help-search-at-point)
+   :prefix init-nav-prefix
+   "k" 'alchemist-help-search-at-point)
   (:keymaps
    'alchemist-mode-map
    :prefix init-local-leader-key
@@ -3486,7 +3489,8 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'erlang-mode-map
-   "M-g k" 'erlang-man-function)
+   :prefix init-nav-prefix
+   "k" 'erlang-man-function)
   (:keymaps
    'erlang-mode-map
    :prefix init-local-leader-key
@@ -3537,7 +3541,8 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'go-mode-map
-   "M-g k" 'godoc-at-point)
+   :prefix init-nav-prefix
+   "k" 'godoc-at-point)
   :preface
   (defun init-go-prettify-symbols ()
     (dolist (symbol '(("funct"  . ?ƒ)))
@@ -3662,7 +3667,8 @@ Persist REPL history.
   :general
   (:keymaps
    'java-mode-map
-   "M-g k" 'javadoc-lookup))
+   :prefix init-nav-prefix
+   "k" 'javadoc-lookup))
 #+END_SRC
 
 ** js
@@ -3842,7 +3848,8 @@ React JSX support.
   :general
   (:keymaps
    'slime-mode-map
-   "M-g k" 'slime-describe-symbol)
+   :prefix init-nav-prefix
+   "k" 'slime-describe-symbol)
   (:keymaps
    'slime-mode-map
    :prefix init-local-leader-key
@@ -3868,7 +3875,8 @@ React JSX support.
   :general
   (:keymaps
    'lua-mode-map
-   "M-g k" 'lua-search-documentation)
+   :prefix init-nav-prefix
+   "k" 'lua-search-documentation)
   :preface
   (defun init-lua-prettify-symbols ()
     (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
@@ -4043,7 +4051,8 @@ Editing pip requirements files.
   :general
   (:keymaps
    'python-mode-map
-   "M-g k" 'pydoc-at-point))
+   :prefix init-nav-prefix
+   "k" 'pydoc-at-point))
 #+END_SRC
 
 **** python-test
@@ -4068,7 +4077,8 @@ Editing pip requirements files.
   :general
   (:keymaps
    'racket-mode-map
-   "M-g k" 'racket-doc)
+   :prefix init-nav-prefix
+   "k" 'racket-doc)
   (:keymaps
    'racket-mode-map
    :prefix init-local-leader-key
@@ -4251,7 +4261,8 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'ruby-mode-map
-   "M-g k" 'yari)
+   :prefix init-nav-prefix
+   "k" 'yari)
   (:keymaps
    'help-command-map
    "R" 'yari))
@@ -4283,7 +4294,8 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'salt-mode-map
-   "M-g k" 'salt-mode-browse-doc))
+   :prefix init-nav-prefix
+   "k" 'salt-mode-browse-doc))
 #+END_SRC
 
 ** scala
@@ -4314,7 +4326,8 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'sh-mode-map
-   "M-g k" 'man))
+   :prefix init-nav-prefix
+   "k" 'man))
 #+END_SRC
 
 *** Packages
