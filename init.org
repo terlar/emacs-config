@@ -10,14 +10,15 @@ The rough details:
 - theme :: [[https://github.com/11111000000/tao-theme-emacs][tao-theme]] (yang) with [[file:lisp/local-theme.el][some local modifications]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
   - semantic highlighting :: [[https://github.com/ankurdave/color-identifiers-mode][color-identifiers-mode]], [[https://github.com/Fanael/rainbow-identifiers][rainbow-identifiers]] (fallback, with wider support)
-- menu completion :: [[https://github.com/abo-abo/swiper][ivy]]
-- +buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]], [[https://github.com/tumashu/company-childframe][company-childframe]]+
+- menu completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
+- buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]]
 - +modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]+
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
-- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]]
+- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: flymake
 - persistent undo :: via built-in =desktop-save-mode=
+- language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
 
 ** Screenshots
 *** org-mode
@@ -1740,7 +1741,7 @@ Manage project repositories.
 #+END_SRC
 
 * Completion
-Enable completion with tab
+No completion with tab.
 #+BEGIN_SRC emacs-lisp
 (setq tab-always-indent t)
 #+END_SRC
@@ -1805,11 +1806,28 @@ Complete in the following order:
   ([remap dabbrev-expand] 'hippie-expand))
 #+END_SRC
 
+** Selectrum
+Incremental selection narrowing interface for completions.
+#+begin_src emacs-lisp :tangle yes
+(use-package selectrum
+  :hook
+  (after-init . selectrum-mode)
+  :general
+  ("C-c SPC" 'selectrum-repeat))
+
+(use-package selectrum-prescient
+  :hook
+  (selectrum-mode . selectrum-prescient-mode))
+
+(use-package prescient
+  :hook
+  (after-init . prescient-persist-mode)
+  (company-mode . company-prescient-mode))
+#+end_src
+
 ** Ivy
 #+BEGIN_SRC emacs-lisp
 (use-package ivy
-  :hook
-  (after-init . ivy-mode)
   :custom
   (ivy-hooks-alist '((t . hl-line-mode)))
   (ivy-wrap t)
@@ -1818,15 +1836,9 @@ Complete in the following order:
   ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
   (ivy-use-selectable-prompt t)
   (ivy-fixed-height-minibuffer t)
-  ;; Highlight whole line
-  (ivy-format-function #'ivy-format-function-line)
   ;; Don't use ^ as initial input.
   (ivy-initial-inputs-alist nil)
   :general
-  (:keymaps
-   'ivy-mode-map
-   [remap switch-to-buffer] 'ivy-switch-buffer
-   "C-c SPC"                'ivy-resume)
   (:keymaps
    'ivy-mode-map
    :prefix
@@ -1850,22 +1862,12 @@ Complete in the following order:
     "Move to end of current line or consider ivy operation done.
    ARG lines can be used."
     (interactive "p")
-    (if (eolp)
-        (ivy-alt-done)
-      (move-end-of-line arg)))
+    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
   (defun +ivy-forward-or-done (n)
     "Move point forward or consider ivy operation done.
       N characters can be used."
     (interactive "p")
-    (if (eolp)
-        (ivy-alt-done)
-      (forward-char n)))
-  :init
-  (setq-default
-   dumb-jump-selector             'ivy
-   magit-completing-read-function #'ivy-completing-read
-   projectile-completion-system   'ivy
-   smex-completion-method         'ivy))
+    (if (eolp) (ivy-alt-done) (forward-char n))))
 #+END_SRC
 
 *** Packages
@@ -1874,12 +1876,7 @@ Replacements for common Emacs commands. =smex= is used by =counsel-M-x= for sort
 Tips:
 - =counsel-rg= can be used with =C-u= to search in a specific directory.
 #+BEGIN_SRC emacs-lisp
-(use-package smex
-  :custom
-  (smex-auto-update nil))
-
 (use-package counsel
-  :hook (ivy-mode . counsel-mode)
   :custom
   (counsel-find-file-ignore-regexp
    "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
@@ -1890,19 +1887,15 @@ Tips:
   (:keymaps
    'counsel-mode-map
    "C-x /" 'counsel-abbrev
-   "C-c p" 'counsel-git
    "C-c r" 'counsel-recentf)
   (:keymaps
    'counsel-mode-map
    :prefix init-search-prefix
-   "g" 'counsel-rg
-   "i" 'counsel-imenu)
+   "g" 'counsel-rg)
   (:keymaps
    'counsel-ag-map
    "C-SPC" 'ivy-call-and-recenter)
   :config
-  (setq ivy-initial-inputs-alist nil)
-
   (defun counsel-abbrev (abbrev-name)
     "Insert abbreviation matching ABBREV-NAME."
     (interactive
@@ -1933,7 +1926,11 @@ Tips:
 **** counsel-fd
 Find files via =fd=.
 #+BEGIN_SRC emacs-lisp
-(use-package counsel-fd)
+(use-package counsel-fd
+  :general
+  (:keymaps
+   'counsel-mode-map
+   "C-c p" 'counsel-fd-file-jump))
 #+END_SRC
 
 **** counsel-tramp
@@ -1956,20 +1953,6 @@ Navigate tramp files.
   (:prefix
    init-prev-prefix
    "S" '(flyspell-correct-previous-word-generic :wk "Spell fix")))
-#+END_SRC
-
-**** imenu-anywhere
-Jump to document locations in current buffer
-#+BEGIN_SRC emacs-lisp
-(use-package imenu-anywhere
-  :general
-  (:keymaps
-   'ivy-mode-map
-   [remap imenu-anywhere] 'ivy-imenu-anywhere)
-  (:keymaps
-   'ivy-mode-map
-   :prefix init-search-prefix
-   "I" 'ivy-imenu-anywhere))
 #+END_SRC
 
 **** ivy-xref
@@ -2647,6 +2630,17 @@ Highlight symbol at point on idle.
 #+BEGIN_SRC emacs-lisp
 (use-package idle-highlight-mode
   :hook prog-mode)
+#+END_SRC
+
+*** imenu-anywhere
+Jump to document locations in current buffer
+#+BEGIN_SRC emacs-lisp
+(use-package imenu-anywhere
+  :general
+  (:prefix
+   init-search-prefix
+   "i" 'imenu
+   "I" 'imenu-anywhere))
 #+END_SRC
 
 *** imenu-list
