@@ -1769,7 +1769,7 @@ Manage project repositories.
   :custom
   (ivy-ghq-short-list t)
   :general
-  ("C-c P" 'ivy-ghq-open))
+  ("C-c p" 'ivy-ghq-open))
 #+END_SRC
 
 * Completion
@@ -1925,7 +1925,8 @@ Tips:
    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
   (counsel-mode-override-describe-bindings t)
   :general
-  ("C-x /" 'counsel-abbrev)
+  ("M-y" 'counsel-yank-pop
+   "C-x /" 'counsel-abbrev)
   (:prefix init-search-prefix
    "g" 'counsel-rg)
   (:keymaps
