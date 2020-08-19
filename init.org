@@ -4611,3 +4611,4 @@ Navigate through undo history.
 ** TODO Use =ielm= as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
+** TODO Write ghq tool using =completing-read=
