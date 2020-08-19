@@ -116,7 +116,7 @@
  `(default           ((t (:height ,local-theme-default-font-height :family ,local-theme-fixed-pitch-font :weight light))))
  `(cursor            ((t (:background ,(face-foreground 'local-theme-highlight)))))
  `(region            ((t (:inherit local-theme-secondary :foreground nil :background nil))))
- `(highlight         ((t (:inherit local-theme-secondary :foreground nil :background nil))))
+ `(highlight         ((t (:inverse-video t :foreground nil :background nil))))
 
  ;; Typography
  `(fixed-pitch       ((t (:family ,local-theme-fixed-pitch-font :weight light))))
@@ -235,8 +235,6 @@
  `(haskell-interactive-face-prompt         ((t (:inherit font-lock-keyword-face))))
  ;; indent-guide
  `(indent-guide-face                       ((t (:inherit fringe))))
- ;; ivy
- `(ivy-current-match                       ((t (:inherit hl-line :foreground nil :background nil :extend t))))
  ;; ivy-posframe
  `(ivy-posframe                            ((t (:inherit local-theme-secondary))))
  ;; markdown
@@ -288,7 +286,7 @@
  ;; which-key
  `(which-key-local-map-description-face    ((t (:bold t))))
  ;; quick-peek
- `(quick-peek-background-face              ((t (:inherit local-theme-secondary)))))
+ `(quick-peek-background-face              ((t (:inherit local-theme-secondary) :background nil :foreground nil))))
 
 ;;;
 ;; Theme Variables
