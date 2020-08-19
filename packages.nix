@@ -171,7 +171,6 @@ with epkgs;
   org-variable-pitch
   package-lint-flymake
   page-break-lines
-  parrot
   pdf-tools
   pdfgrep
   pepita

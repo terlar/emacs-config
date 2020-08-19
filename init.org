@@ -1090,26 +1090,22 @@ Buttonize URLs and e-mail addresses in the current buffer.
   (prog-mode . goto-address-prog-mode))
 #+END_SRC
 
-*** parrot
+*** grugru
 Cycle through words, symbols and patterns.
 #+BEGIN_SRC emacs-lisp
-(use-package parrot
-  :commands
-  (parrot-rotate-next-word-at-point
-   parrot-rotate-prev-word-at-point)
-  :preface
-  (defrepeater #'parrot-rotate-next-word-at-point)
-  (defrepeater #'parrot-rotate-prev-word-at-point)
+(use-package grugru
   :general
   (:prefix
    init-next-prefix
-   "r" '(parrot-rotate-prev-word-at-point-repeat :wk "Rotate word"))
+   "r" '(grugru-repeat :wk "Rotate text"))
   (:prefix
    init-prev-prefix
-   "r" '(parrot-rotate-prev-word-at-point-repeat :wk "Rotate word"))
+   "r" '(grugru-repeat :wk "Rotate text"))
+  :preface
+  (defrepeater #'grugru)
   :config
-  (dolist (entry '((:rot ("assert" "refute"))))
-    (cl-pushnew entry parrot-rotate-dict :test #'equal)))
+  (grugru-default-setup)
+  (grugru-define-global 'symbol '("assert" "refute")))
 #+END_SRC
 
 *** string-inflection-cycle
