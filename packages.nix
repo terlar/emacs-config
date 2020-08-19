@@ -102,6 +102,7 @@ with epkgs;
   goto-chg
   gradle-mode
   groovy-mode
+  grugru
   haskell-mode
   hasky-stack
   helm-make
