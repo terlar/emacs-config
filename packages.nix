@@ -3,7 +3,6 @@ epkgs:
 with epkgs;
 
 [
-  ace-link
   adaptive-wrap
   alchemist
   all-the-icons
@@ -134,6 +133,7 @@ with epkgs;
   kotlin-mode
   kubernetes
   kubernetes-tramp
+  link-hint
   lua-mode
   magit
   markdown-mode

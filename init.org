@@ -1526,19 +1526,6 @@ Striped dired buffers.
 #+END_SRC
 
 ** Packages
-*** ace-link
-Hint mode for links.
-#+BEGIN_SRC emacs-lisp
-(use-package ace-link
-  :general
-  (:prefix
-   init-search-prefix
-   "o" 'ace-link)
-  (:keymaps
-   '(help-mode-map helpful-mode-map)
-   "o" 'ace-link-help))
-#+END_SRC
-
 *** bibliothek
 Management tool for a library of PDFs.
 #+BEGIN_SRC emacs-lisp
@@ -1625,6 +1612,16 @@ Move point through buffer-undo-list positions.
   (:prefix
    init-prev-prefix
    "l" '(goto-last-change-reverse :wk "Change")))
+#+END_SRC
+
+*** link-hint
+Hint mode for links.
+#+BEGIN_SRC emacs-lisp
+(use-package link-hint
+  :general
+  (:prefix init-nav-prefix
+   "l" 'link-hint-open-link
+   "L" 'link-hint-copy-link))
 #+END_SRC
 
 *** recentf
