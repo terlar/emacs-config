@@ -1674,12 +1674,9 @@ Keep track of recently opened files.
   (defun completing-read-file-candidate (candidate)
     "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
 and icon prefix from `all-the-icons-icon-for-file'."
-    (let ((file-name (abbreviate-file-name candidate)))
-      (if (bound-and-true-p selectrum-mode)
-	  (propertize file-name
+    (propertize (abbreviate-file-name candidate)
                 'selectrum-candidate-display-prefix
-                (concat (all-the-icons-icon-for-file candidate) "\t"))
-	file-name)))
+                (concat (all-the-icons-icon-for-file candidate) "\t")))
 
   (defun recentf-open-files+ ()
     "Use `completing-read' to open a recent file."
