@@ -1669,6 +1669,7 @@ Project interactions. Prefix project buffer files with the project name and rela
 (use-package projectile
   :defer 2
   :custom
+  (projectile-completion-system 'default)
   (projectile-enable-caching nil)
   (projectile-file-exists-remote-cache-expire nil)
   (projectile-globally-ignored-file-suffixes
@@ -1735,9 +1736,7 @@ Manage project repositories.
   :custom
   (ivy-ghq-short-list t)
   :general
-  (:keymaps
-   'counsel-mode-map
-   "C-c P" 'ivy-ghq-open))
+  ("C-c P" 'ivy-ghq-open))
 #+END_SRC
 
 * Completion
@@ -1813,7 +1812,16 @@ Incremental selection narrowing interface for completions.
   :hook
   (after-init . selectrum-mode)
   :general
-  ("C-c SPC" 'selectrum-repeat))
+  ("C-c SPC" 'selectrum-repeat)
+  :preface
+  (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
+    "Move to end of line or insert current candidate.
+   ARG lines can be used."
+    (interactive "p")
+    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
+  :config
+  (push (cons "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
+      selectrum-minibuffer-bindings))
 
 (use-package selectrum-prescient
   :hook
@@ -1884,9 +1892,7 @@ Tips:
    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
   (counsel-mode-override-describe-bindings t)
   :general
-  (:keymaps
-   'counsel-mode-map
-   "C-x /" 'counsel-abbrev
+  ("C-x /" 'counsel-abbrev
    "C-c r" 'counsel-recentf)
   (:keymaps
    'counsel-mode-map
@@ -1928,9 +1934,7 @@ Find files via =fd=.
 #+BEGIN_SRC emacs-lisp
 (use-package counsel-fd
   :general
-  (:keymaps
-   'counsel-mode-map
-   "C-c p" 'counsel-fd-file-jump))
+  ("C-c p" 'counsel-fd-file-jump))
 #+END_SRC
 
 **** counsel-tramp
