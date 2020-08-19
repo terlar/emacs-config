@@ -85,6 +85,7 @@ with epkgs;
   eval-in-repl
   exec-path-from-shell
   explain-pause-mode
+  find-file-rg
   fish-completion
   fish-mode
   fit-text-scale

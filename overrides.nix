@@ -114,6 +114,18 @@ with super;
     };
   };
 
+  find-file-rg = trivialBuild {
+    pname = "find-file-rg";
+    version = "20200817.2342";
+    src = fetchFromGitHub {
+      owner = "muffinmad";
+      repo = "emacs-find-file-rg";
+      rev = "ca3ebe60ce3fcc67d7e38ea06855127ac4b093fd";
+      sha256 = "0xad09f981ah88vk7x7ghqg73b9mw08jgm8bdaqsc3h20gx0zvnn";
+      # date = 2020-08-17T23:42:06+03:00;
+    };
+  };
+
   ivy-ghq = trivialBuild {
     pname = "ivy-ghq";
     version = "20191231.1957";
