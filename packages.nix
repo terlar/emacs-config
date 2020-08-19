@@ -4,7 +4,6 @@ with epkgs;
 
 [
   ace-link
-  ace-window
   adaptive-wrap
   alchemist
   all-the-icons

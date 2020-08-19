@@ -996,14 +996,6 @@ Transpose window arrangement.
 
 *** Navigation
 #+BEGIN_SRC emacs-lisp
-(use-package ace-window
-  :custom
-  (aw-ignore-current t)
-  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  (aw-scope 'frame)
-  :general
-  ([remap other-window] 'ace-window))
-
 (use-package frame
   :general
   ("M-n" 'next-window-any-frame
