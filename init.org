@@ -1611,8 +1611,15 @@ Keep track of bookmarks
   (setq-default ff-quiet-mode t)
   (put 'ff-search-directories 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
 
-(use-package ff-test
-  :demand t)
+(use-package ff-test :demand t)
+#+END_SRC
+
+*** find-file-rg
+Find files via =rg --files=.
+#+BEGIN_SRC emacs-lisp
+(use-package find-file-rg
+  :general
+  ("C-c f" 'find-file-rg))
 #+END_SRC
 
 *** goto-last-change
@@ -1650,6 +1657,24 @@ Keep track of recently opened files.
   (recentf-max-menu-items 0)
   (recentf-max-saved-items 300)
   (recentf-auto-cleanup 'never)
+  :general
+  ("C-c r" 'recentf-open-files+)
+  :preface
+  (defun completing-read-file-candidate (candidate)
+    "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
+and icon prefix from `all-the-icons-icon-for-file'."
+    (let ((file-name (abbreviate-file-name candidate)))
+      (if (bound-and-true-p selectrum-mode)
+	  (propertize file-name
+                'selectrum-candidate-display-prefix
+                (concat (all-the-icons-icon-for-file candidate) "\t"))
+	file-name)))
+
+  (defun recentf-open-files+ ()
+    "Use `completing-read' to open a recent file."
+    (interactive)
+    (let ((files (cl-mapcar #'completing-read-file-candidate recentf-list)))
+      (find-file (completing-read "Find recent file: " files nil t))))
   :config
   (init-quiet! (recentf-mode 1)))
 #+END_SRC
@@ -1892,11 +1917,8 @@ Tips:
    "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
   (counsel-mode-override-describe-bindings t)
   :general
-  ("C-x /" 'counsel-abbrev
-   "C-c r" 'counsel-recentf)
-  (:keymaps
-   'counsel-mode-map
-   :prefix init-search-prefix
+  ("C-x /" 'counsel-abbrev)
+  (:prefix init-search-prefix
    "g" 'counsel-rg)
   (:keymaps
    'counsel-ag-map
@@ -1929,14 +1951,6 @@ Tips:
      (counsel-maybe-git-cands))))
 #+END_SRC
 
-**** counsel-fd
-Find files via =fd=.
-#+BEGIN_SRC emacs-lisp
-(use-package counsel-fd
-  :general
-  ("C-c p" 'counsel-fd-file-jump))
-#+END_SRC
-
 **** counsel-tramp
 Navigate tramp files.
 #+BEGIN_SRC emacs-lisp
@@ -1966,19 +1980,6 @@ Snippets with preview.
    :prefix
    init-leader-key
    "y" 'ivy-yasnippet))
-#+END_SRC
-
-*** Icons
-#+BEGIN_SRC emacs-lisp
-(use-package all-the-icons-ivy
-  :defer 1
-  :after
-  (ivy counsel)
-  :config
-  (dolist (command '(counsel-fd-dired-jump
-                     counsel-fd-file-jump))
-    (cl-pushnew command all-the-icons-ivy-file-commands :test #'equal))
-  (all-the-icons-ivy-setup))
 #+END_SRC
 
 * Development

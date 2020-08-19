@@ -9,7 +9,6 @@ with epkgs;
   alchemist
   all-the-icons
   all-the-icons-dired
-  all-the-icons-ivy
   annotate
   ansible
   ansible-doc
@@ -38,7 +37,6 @@ with epkgs;
   company-prescient
   company-terraform
   counsel
-  counsel-fd
   counsel-jq
   counsel-tramp
   counsel-web
@@ -127,7 +125,6 @@ with epkgs;
   isend-mode
   ivy
   ivy-ghq
-  ivy-posframe
   ivy-xref
   ivy-yasnippet
   javadoc-lookup
