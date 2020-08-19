@@ -215,7 +215,6 @@ with epkgs;
   slime
   smart-jump
   smartparens
-  smex
   solaire-mode
   source-peek
   spray
