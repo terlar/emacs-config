@@ -1525,6 +1525,28 @@ Striped dired buffers.
    ")" 'dired-git-info-mode))
 #+END_SRC
 
+** Occur
+#+begin_src emacs-lisp :tangle yes
+(use-package replace
+  :general
+  (:prefix
+   init-search-prefix
+   "o" 'occur)
+  (:keymaps
+   'occur-mode-map
+   "C-c '" 'occur-edit-mode))
+#+end_src
+
+*** Packages
+**** noccur
+#+begin_src emacs-lisp :tangle yes
+(use-package noccur
+  :general
+  (:prefix
+   init-search-prefix
+   "O" 'noccur-project))
+#+end_src
+
 ** Packages
 *** bibliothek
 Management tool for a library of PDFs.

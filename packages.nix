@@ -150,6 +150,7 @@ with epkgs;
   nix-mode
   nix-update
   no-littering
+  noccur
   nodejs-repl
   nov
   ob-http
