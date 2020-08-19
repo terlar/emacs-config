@@ -94,7 +94,6 @@ with epkgs;
   flymake-racket
   flymake-shellcheck
   flymake-quickdef
-  flyspell-correct-ivy
   focus
   format-all
   general

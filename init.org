@@ -1947,18 +1947,6 @@ Navigate tramp files.
    "t" 'counsel-tramp))
 #+END_SRC
 
-**** flyspell-correct-ivy
-#+BEGIN_SRC emacs-lisp
-(use-package flyspell-correct-ivy
-  :general
-  (:prefix
-   init-next-prefix
-   "S" '(flyspell-correct-word-generic :wk "Spell fix"))
-  (:prefix
-   init-prev-prefix
-   "S" '(flyspell-correct-previous-word-generic :wk "Spell fix")))
-#+END_SRC
-
 **** ivy-xref
 Support =xref= lookups.
 #+BEGIN_SRC emacs-lisp
