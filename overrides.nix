@@ -116,13 +116,13 @@ with super;
 
   find-file-rg = trivialBuild {
     pname = "find-file-rg";
-    version = "20200817.2342";
+    version = "20200820.1226";
     src = fetchFromGitHub {
       owner = "muffinmad";
       repo = "emacs-find-file-rg";
-      rev = "ca3ebe60ce3fcc67d7e38ea06855127ac4b093fd";
-      sha256 = "0xad09f981ah88vk7x7ghqg73b9mw08jgm8bdaqsc3h20gx0zvnn";
-      # date = 2020-08-17T23:42:06+03:00;
+      rev = "a690ce283fecd353240b269350216ae631f5352d";
+      sha256 = "1wp6issswh1c0i25ayh628vqpi1ixs47wn7dhk0m5786va7mmrm5";
+      # date = 2020-08-20T12:26:39+03:00;
     };
   };
 
