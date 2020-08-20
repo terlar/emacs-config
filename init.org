@@ -2495,6 +2495,10 @@ Enhanced git related views and commands.
   (magit-refs-show-commit-count 'all)
   (magit-save-repository-buffers 'dontask)
   (vc-msg-git-show-commit-function 'magit-show-commit)
+  :general
+  (:keymaps
+   'dired-mode-map
+   "C-x g" 'magit)
   :preface
   (defun +git-commit-set-fill-column ()
     "Set `fill-column' for git commit."
