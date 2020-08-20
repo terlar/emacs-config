@@ -1666,7 +1666,11 @@ Keep track of recently opened files.
 and icon prefix from `all-the-icons-icon-for-file'."
     (propertize (abbreviate-file-name candidate)
                 'selectrum-candidate-display-prefix
-                (concat (all-the-icons-icon-for-file candidate) "\t")))
+                (concat
+                 (cond
+                  ((file-directory-p candidate) (all-the-icons-icon-for-dir candidate))
+                  (t (all-the-icons-icon-for-file candidate)))
+                 "\t")))
 
   (defun recentf-open-files+ ()
     "Use `completing-read' to open a recent file."
