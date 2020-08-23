@@ -1432,6 +1432,15 @@ mark ring.
    "C-c '" 'wdired-change-to-wdired-mode))
 #+END_SRC
 
+*** Search
+#+begin_src emacs-lisp :tangle yes
+(use-package find-dired
+  :custom
+  (find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
+  :general
+  ("C-x D" 'find-dired))
+#+end_src
+
 *** Sidebar
 #+BEGIN_SRC emacs-lisp
 (use-package dired-sidebar
