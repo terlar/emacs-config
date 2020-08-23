@@ -105,6 +105,7 @@ with epkgs;
   grugru
   haskell-mode
   hasky-stack
+  heaven-and-hell
   helm-make
   helpful
   hide-lines
