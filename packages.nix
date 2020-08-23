@@ -124,7 +124,6 @@ with epkgs;
   isend-mode
   ivy
   ivy-ghq
-  ivy-xref
   ivy-yasnippet
   javadoc-lookup
   jest
