@@ -973,6 +973,7 @@ Zoom a window to display as a single window temporarily.
 *** Popups
 Always display pop up buffers at the bottom and regard all star buffers as such buffers.
 #+BEGIN_SRC emacs-lisp
+(setq switch-to-buffer-obey-display-actions t)
 (dolist (rule `((,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
                  (display-buffer-reuse-window
                   display-buffer-in-side-window)
