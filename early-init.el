@@ -40,6 +40,9 @@
 ;; Ignore X resources
 (advice-add #'x-apply-session-resources :override #'ignore)
 
+;; Pre-compute autoloads file
+(setq package-quickstart t)
+
 ;; Load `use-package' if possible.
 (eval-when-compile
   (require 'use-package nil t))
