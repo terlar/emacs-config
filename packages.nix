@@ -195,7 +195,6 @@ with epkgs;
   reformatter
   relative-buffers
   repl-toggle
-  rjsx-mode
   rspec-mode
   ruby-refactor
   rustic

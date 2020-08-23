@@ -2660,12 +2660,6 @@ Highlight source code identifiers based on their name.
                             "[a-zA-Z_$]+[(:]"))
               color-identifiers:modes-alist
               :test #'equal)
-  (cl-pushnew '(rjsx-mode . ("[^.][[:space:]]*"
-                            "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
-                            (nil font-lock-variable-name-face js2-function-param)
-                            "[a-zA-Z_$]+[(:]"))
-              color-identifiers:modes-alist
-              :test #'equal)
   (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
                                    "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
                                    (nil font-lock-variable-name-face)
@@ -3773,20 +3767,6 @@ REPL for nodejs.
    "n" 'json-navigator-navigate-region))
 #+END_SRC
 
-** jsx
-React JSX support.
-#+BEGIN_SRC emacs-lisp
-(use-package rjsx-mode
-  :mode "\\.jsx\\'"
-  :magic
-  ("\\(import.*from \'react\';?\\|\/\/ @flow\nimport.*from \'react\';?\\)" . rjsx-mode)
-  :general
-  (:keymaps
-   'rjsx-mode-map
-   :prefix init-local-leader-key
-   "R" 'rjsx-rename-tag-at-point))
-#+END_SRC
-
 ** kotlin
 #+BEGIN_SRC emacs-lisp
 (use-package kotlin-mode)
@@ -4393,14 +4373,14 @@ Snippets and Zen Coding for HTML.
   (css-mode
    haml-mode
    html-mode
+   js-mode
    nxml-mode
-   rjsx-mode
    web-mode)
-  (rjsx-mode . +emmet-use-jsx-className)
+  (js-mode . emmet-use-jsx-className)
   :custom
   (emmet-move-cursor-between-quotes t)
   :preface
-  (defun +emmet-use-jsx-className ()
+  (defun emmet-use-jsx-className ()
     "Set `emmet-expand-jsx-className?' as local variable."
     (setq-local emmet-expand-jsx-className? t)))
 #+END_SRC
