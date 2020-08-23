@@ -346,30 +346,6 @@ Example:
   (init-quiet! (apply orig-fn args)))
 #+END_SRC
 
-Run forms when graphical frame is created.
-#+BEGIN_SRC emacs-lisp
-(defmacro init-eval-after-make-graphic-frame (hook-id &rest forms)
-  "Run HOOK-ID hook with FORMS after making a frame on a graphic display.
-Add a hook to `after-make-frame-functions' with form wrapped in a
-`display-graphic-p' condition.
-
-Also add a hook to `after-init-hook' with a form wrapped in a
-`display-graphic-p' condition in order to work with the initial
-frame when not running in server mode."
-  (let ((hook-name (intern
-                    (concat
-                     "init-eval-after-make-graphic-frame--"
-                     hook-id
-                     "-hook"))))
-    `(progn
-       (cl-defun ,hook-name (&optional (frame (selected-frame)))
-         (with-selected-frame frame
-           (when (display-graphic-p)
-             ,@forms)))
-       (add-hook 'after-init-hook #',hook-name)
-       (add-hook 'after-make-frame-functions #',hook-name))))
-#+END_SRC
-
 *** Display
 #+BEGIN_SRC emacs-lisp
 (defun init-display-ctrl-M-as-newline ()
@@ -638,11 +614,6 @@ keybindings in case I would forget them.
 
 (defvar init-emoji-font "Noto Emoji"
   "Font used for symbol/emoji faces.")
-
-(init-eval-after-make-graphic-frame
- "setup-emoji-font"
- (set-fontset-font "fontset-default" 'symbol
-                   (font-spec :family init-emoji-font) nil 'prepend))
 #+END_SRC
 
 *** Line length
@@ -684,30 +655,27 @@ No theme is perfect, also this is a good place to put my own experiments.
 #+BEGIN_SRC emacs-lisp
 (use-package local-theme
   :demand t
+  :hook
+  (after-load-theme . local-theme-ensure)
+  (server-after-make-frame . local-theme-ensure)
   :custom
   (local-theme-default-font-height init-default-font-height)
   (local-theme-line-spacing init-line-spacing)
   (local-theme-fixed-pitch-font init-fixed-pitch-font)
   (local-theme-variable-pitch-font init-variable-pitch-font)
-  (local-theme-serif-font init-serif-font))
+  (local-theme-serif-font init-serif-font)
+  :preface
+  (defvar after-load-theme-hook nil
+    "Hook run after a theme is loaded using `load-theme'.")
+  (defun load-theme-run-after-load-theme-hooks (&rest _)
+    "Run `after-load-theme-hook'."
+    (run-hooks 'after-load-theme-hook))
+  (advice-add 'load-theme :after #'load-theme-run-after-load-theme-hooks)
 
-(defvar init-after-load-theme-hook nil
-  "Hook run after a theme is loaded using `load-theme'.")
-(defun init-load-theme-run-after-load-theme-hooks (&rest _)
-  "Run `init-after-load-theme-hook'."
-  (run-hooks 'init-after-load-theme-hook))
-(advice-add 'load-theme :after #'init-load-theme-run-after-load-theme-hooks)
-
-(defun init-local-theme-ensure ()
-  "Ensure `local-theme' is loaded."
-  (unless (member 'local custom-enabled-themes)
-    (load-theme 'local t)))
-(setq init-after-load-theme-hook '(init-local-theme-ensure))
-
-(init-eval-after-make-graphic-frame
- "load-local-theme"
- (require 'local-theme)
- (load-theme 'local t))
+  (defun local-theme-ensure ()
+    "Ensure `local-theme' is loaded."
+    (unless (member 'local custom-enabled-themes)
+      (load-theme 'local t))))
 #+END_SRC
 
 *** Enable theme
@@ -780,13 +748,13 @@ configured via the =internal-border-width= in the [[Frame][Frame]] section.
 *** Borders
 Add window dividers, mainly to add a border below the mode line.
 #+BEGIN_SRC emacs-lisp
-(setq window-divider-default-places t
-      window-divider-default-bottom-width 1
-      window-divider-default-right-width 1)
-
-(init-eval-after-make-graphic-frame
- "setup-window-divider"
- (window-divider-mode 1))
+(use-package frame
+  :hook
+  (server-after-make-frame . window-divider-mode)
+  :custom
+  (window-divider-default-places t)
+  (window-divider-default-bottom-width 1)
+  (window-divider-default-right-width 1))
 #+END_SRC
 
 ** Mode line
@@ -1313,13 +1281,13 @@ Give some more room to the minbuffer.
 *** No fringes
 Don't show fringes in the minibuffer.
 #+BEGIN_SRC emacs-lisp
-(defun init-disable-minibuffer-window-fringes (&optional frame)
+(defun disable-minibuffer-window-fringes (&optional frame)
   "Disable the window fringes for minibuffer window in FRAME."
   (let ((target (if frame frame (selected-frame))))
     (with-selected-frame target
       (set-window-fringes (minibuffer-window) 0 0 nil))))
-(add-hook 'after-make-frame-functions #'init-disable-minibuffer-window-fringes)
-(add-hook 'minibuffer-setup-hook #'init-disable-minibuffer-window-fringes)
+(add-hook 'after-make-frame-functions #'disable-minibuffer-window-fringes)
+(add-hook 'minibuffer-setup-hook #'disable-minibuffer-window-fringes)
 #+END_SRC
 
 *** History
@@ -4516,21 +4484,19 @@ Support for restoring previous session on Emacs restart. This adds a few tweaks 
 it really useful.
 - Support for persistent undo history via =buffer-undo-list=.
 - Ignore saving of =gz= files as it seems not to properly load those.
-- Only restore 5 files to begin with to avoid slow starts with huge sessions.
+- Restore no files to begin with to avoid slow starts with huge sessions.
 #+BEGIN_SRC emacs-lisp
 (use-package desktop
-  :demand t
+  :hook
+  (server-after-make-frame . desktop-save-mode)
   :custom
   (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
   (desktop-restore-eager 0)
   (desktop-save (daemonp))
   (desktop-load-locked-desktop (daemonp))
-  :functions
-  (desktop-buffer-info)
   :config
   (dolist (var '(buffer-undo-list ivy-views))
-    (cl-pushnew var desktop-locals-to-save :test #'equal))
-  (desktop-save-mode 1))
+    (cl-pushnew var desktop-locals-to-save :test #'equal)))
 #+END_SRC
 
 ** Speed reading
