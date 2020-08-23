@@ -2379,7 +2379,8 @@ Haskell one).
 
 ** Version control
 #+BEGIN_SRC emacs-lisp
-(setq vc-follow-symlinks t
+(setq diff-font-lock-prettify t
+      vc-follow-symlinks t
       vc-make-backup-files nil)
 #+END_SRC
 
@@ -3894,6 +3895,13 @@ Pretty check-boxes
  '(("^ *[-*+] \\[\\([Xx]\\)\\] "
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
 #+END_SRC
+
+** message
+#+begin_src emacs-lisp :tangle yes
+(use-package message
+  :custom
+  (message-expand-name-standard-ui t))
+#+end_src
 
 ** nginx
 #+BEGIN_SRC emacs-lisp
