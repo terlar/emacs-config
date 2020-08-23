@@ -1251,8 +1251,12 @@ Remove visual indicators from non-selected windows
 
 ** Auto save
 #+BEGIN_SRC emacs-lisp
-(auto-save-visited-mode 1)
-(setq save-abbrevs 'silently)
+(use-package files
+  :hook
+  (after-init . auto-save-visited-mode)
+  :custom
+  (auto-save-no-message t)
+  (save-abbrevs 'silently))
 #+END_SRC
 
 ** Auto executable scripts
