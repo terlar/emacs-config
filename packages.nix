@@ -244,17 +244,4 @@ with epkgs;
   yasnippet-snippets
   yatemplate
   zoom-window
-] ++ [
-  almost-mono-themes
-  berrys-theme
-  commentary-theme
-  doneburn-theme
-  eink-theme
-  gruvbox-theme
-  modus-operandi-theme
-  modus-vivendi-theme
-  monotropic-theme
-  punpun-theme
-  solarized-theme
-  tao-theme
 ]

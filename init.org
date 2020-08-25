@@ -7,7 +7,7 @@ terlar's Emacs Configuration. It is not very well documented right now, but hope
 will have time to write down some more details later.
 
 The rough details:
-- theme :: [[https://github.com/11111000000/tao-theme-emacs][tao-theme]] (yang) with [[file:lisp/local-theme.el][some local modifications]]
+- themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
   - semantic highlighting :: [[https://github.com/ankurdave/color-identifiers-mode][color-identifiers-mode]], [[https://github.com/Fanael/rainbow-identifiers][rainbow-identifiers]] (fallback, with wider support)
 - menu completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
@@ -628,66 +628,36 @@ Use a bar cursor by default.
 (setq-default cursor-type 'bar)
 #+end_src
 
-*** Defaults
-#+BEGIN_SRC emacs-lisp
-(defvar init-default-light-theme 'tao-yang
-  "Default light theme.")
-(defvar init-default-dark-theme 'tao-yin
-  "Default dark theme.")
-#+END_SRC
-
 *** Packages
 #+BEGIN_SRC emacs-lisp
-(use-package tao-theme
+(use-package readable-typo-theme
   :demand t
   :custom
-  (tao-theme-use-sepia t)
-  (tao-theme-use-boxes nil))
-#+END_SRC
+  (readable-typo-theme-default-font-height init-default-font-height)
+  (readable-typo-theme-line-spacing init-line-spacing)
+  (readable-typo-theme-fixed-pitch-font init-fixed-pitch-font)
+  (readable-typo-theme-fixed-pitch-serif-font init-fixed-pitch-font)
+  (readable-typo-theme-variable-pitch-font init-variable-pitch-font)
+  (readable-typo-theme-serif-font init-serif-font)
+  :config
+  (load-theme 'readable-typo t))
 
-*** Local overrides
-No theme is perfect, also this is a good place to put my own experiments.
-#+BEGIN_SRC emacs-lisp
-(use-package local-theme
+(use-package readable-mono-theme
   :demand t
-  :hook
-  (after-load-theme . local-theme-ensure)
-  (server-after-make-frame . local-theme-ensure)
-  :custom
-  (local-theme-default-font-height init-default-font-height)
-  (local-theme-line-spacing init-line-spacing)
-  (local-theme-fixed-pitch-font init-fixed-pitch-font)
-  (local-theme-variable-pitch-font init-variable-pitch-font)
-  (local-theme-serif-font init-serif-font)
-  :preface
-  (defvar after-load-theme-hook nil
-    "Hook run after a theme is loaded using `load-theme'.")
-  (defun load-theme-run-after-load-theme-hooks (&rest _)
-    "Run `after-load-theme-hook'."
-    (run-hooks 'after-load-theme-hook))
-  (advice-add 'load-theme :after #'load-theme-run-after-load-theme-hooks)
-
-  (defun local-theme-ensure ()
-    "Ensure `local-theme' is loaded."
-    (unless (member 'local custom-enabled-themes)
-      (load-theme 'local t))))
-#+END_SRC
-
-*** Enable theme
-#+BEGIN_SRC emacs-lisp
-(load-theme init-default-light-theme t)
+  :config
+  (load-theme 'readable-mono t))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(defun toggle-default-theme ()
-  "Toggle dark/light theme.
-Defined via `init-default-dark-theme' and `init-default-light-theme'"
+(defun toggle-theme-mode ()
+  "Toggle dark/light `background-mode' and reload all loaded themes."
   (interactive)
-  (let ((theme (if (member init-default-light-theme custom-enabled-themes)
-                   init-default-dark-theme
-                 init-default-light-theme)))
-    (mapc #'disable-theme custom-enabled-themes)
-    (load-theme theme t)))
+  (customize-set-variable
+   'frame-background-mode
+   (if (eq 'light (frame-parameter nil 'background-mode))
+       'dark
+     'light))
+  (mapc (lambda (theme) (load-theme theme t t)) (reverse custom-enabled-themes)))
 #+END_SRC
 
 *** Echo area
@@ -4565,3 +4535,8 @@ Navigate through undo history.
 ** TODO xref-quick-peek / xref-completing-read (xref-show-xrefs-function)
 ** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with =edit-last-kbd-macro=.
 ** TODO Is it useful to use highlight-regexp?
+** TODO solarized colorless config?
+** TODO Split theme into several sections
+- One theme to set big headers and such things
+- One theme to highlight errors
+- One theme for the mode-line
