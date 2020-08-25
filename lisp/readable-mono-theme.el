@@ -138,9 +138,21 @@ For example links."
 (let ((l-bg readable-mono-theme-light-background)
       (l-bg-s readable-mono-theme-light-background-secondary)
       (l-fg readable-mono-theme-light-foreground)
+      (l-green-bg "#eeedcb")
+      (l-green-bg-s "#d5d99d")
+      (l-red-bg "#ffe1cb")
+      (l-red-bg-s "#ffb79f")
+      (l-blue-bg "#e6ebe7")
+      (l-blue-bg-s "#bfd2e6")
       (d-bg readable-mono-theme-dark-background)
       (d-bg-s readable-mono-theme-dark-background-secondary)
-      (d-fg readable-mono-theme-dark-foreground))
+      (d-fg readable-mono-theme-dark-foreground)
+      (d-green-bg "#1e3531")
+      (d-green-bg-s "#354725")
+      (d-red-bg "#2f2c31")
+      (d-red-bg-s "#582b29")
+      (d-blue-bg "#023447")
+      (d-blue-bg-s "#004363"))
   ;; Theme faces
   (custom-theme-set-faces
    'readable-mono
@@ -224,32 +236,32 @@ For example links."
 
    ;; Diff
    `(ediff-current-diff-A
-     ((((background light)) (:background "#ffe1cb"))
-      (((background dark)) (:background "#2f2c31"))))
+     ((((background light)) (:background ,l-red-bg))
+      (((background dark)) (:background ,d-red-bg))))
    `(ediff-fine-diff-A
-     ((((background light)) (:background "#ffb79f"))
-      (((background dark)) (:background "#582b29"))))
+     ((((background light)) (:background ,l-red-bg-s))
+      (((background dark)) (:background ,d-red-bg-s))))
    `(ediff-current-diff-B
-     ((((background light)) (:background "#eeedcb"))
-      (((background dark)) (:background "#1e3531"))))
+     ((((background light)) (:background ,l-green-bg))
+      (((background dark)) (:background ,d-green-bg))))
    `(ediff-fine-diff-B
-     ((((background light)) (:background "#d5d99d"))
-      (((background dark)) (:background "#354725"))))
+     ((((background light)) (:background ,l-green-bg-s))
+      (((background dark)) (:background ,d-green-bg-s))))
    `(ediff-current-diff-C
-     ((((background light)) (:background "#e6ebe7"))
-      (((background dark)) (:background "#023447"))))
+     ((((background light)) (:background ,l-blue-bg))
+      (((background dark)) (:background ,d-blue-bg))))
    `(ediff-fine-diff-C
-     ((((background light)) (:background "#bfd2e6"))
-      (((background dark)) (:background "#004363"))))
+     ((((background light)) (:background ,l-blue-bg-s))
+      (((background dark)) (:background ,d-blue-bg-s))))
    `(ediff-current-diff-Ancestor ((t (:inherit readable-mono-theme-secondary))))
    `(ediff-fine-diff-Ancestor ((t (:inherit highlight))))
-   `(smerge-upper
-     ((((background light)) (:background "#eeedcb"))
-      (((background dark)) (:background "#1e3531"))))
-   `(smerge-lower
-     ((((background light)) (:background "#ffe1cb"))
-      (((background dark)) (:background "#2f2c31"))))
    `(smerge-base ((t (:inherit readable-mono-theme-secondary))))
+   `(smerge-lower
+     ((((background light)) (:background ,l-red-bg))
+      (((background dark)) (:background ,d-red-bg))))
+   `(smerge-upper
+     ((((background light)) (:background ,l-green-bg))
+      (((background dark)) (:background ,d-green-bg))))
 
    ;; Dired
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
@@ -330,8 +342,14 @@ For example links."
                                 ('dark
                                  `[,d-fg ,(face-foreground 'readable-mono-theme-emphasis) ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg])))
    ;; coverlay
-   `(coverlay:untested-line-background-color ,(face-background 'smerge-lower))
-   `(coverlay:tested-line-background-color ,(face-background 'smerge-upper))
+   `(coverlay:untested-line-background-color
+     ,(pcase (frame-parameter nil 'background-mode)
+        ('light l-red-bg)
+        ('dark d-red-bg)))
+   `(coverlay:tested-line-background-color
+     ,(pcase (frame-parameter nil 'background-mode)
+        ('light l-green-bg)
+        ('dark d-green-bg)))
     ;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:inherit readable-mono-theme-strong :box (:line-width 1)))
