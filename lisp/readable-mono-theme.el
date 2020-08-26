@@ -329,10 +329,12 @@ For example links."
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-todo ((t (:foreground nil))))
    `(org-done ((t (:foreground nil))))
-   `(org-date ((t (:foreground nil :underline nil))))
-   `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
    `(org-block ((t (:inherit readable-mono-theme-secondary))))
-   ;; org-tree-slide
+   `(org-date ((t (:foreground nil :underline nil))))
+   `(org-document-info ((t (:foreground nil))))
+   `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
+
+   ;; Org-tree-slide
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
 
    ;; Quick-peek
