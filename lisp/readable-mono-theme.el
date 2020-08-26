@@ -330,6 +330,11 @@ For example links."
    ;; Rainbow-delimiters
    `(rainbow-delimiters-unmatched-face ((t (:inherit readable-mono-theme-critical))))
 
+   ;; rst
+   `(rst-directive ((t (:inherit font-lock-comment-face))))
+   `(rst-external ((t (:inherit font-lock-comment-face))))
+   `(rst-literal ((t (:inherit readable-mono-theme-secondary :extend t))))
+
    ;; Smartparens
    `(sp-show-pair-match-face ((t (:inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((t (:inherit show-paren-mismatch))))

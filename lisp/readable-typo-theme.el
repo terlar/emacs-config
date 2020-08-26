@@ -151,7 +151,8 @@
    `(default ((t (:height ,default-height :family ,fixed-pitch :weight ,default-weight))))
    `(fixed-pitch ((t (:family ,fixed-pitch :weight ,default-weight))))
    `(fixed-pitch-serif ((t (:family ,fixed-pitch-serif :weight ,default-weight))))
-   `(variable-pitch    ((t (:family ,variable-pitch :weight ,default-weight))))
+   `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
+   `(bold ((t (:weight ,bold-weight))))
 
    ;; Interface
    `(mode-line ((t (:family ,variable-pitch :height ,small-height))))
