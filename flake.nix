@@ -8,7 +8,7 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     home-manager = {
-      url = "github:rycee/home-manager/bqv-flakes";
+      url = "github:rycee/home-manager";
       inputs.nixpkgs.follows = "/nixpkgs";
     };
   };
