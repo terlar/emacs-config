@@ -1787,15 +1787,15 @@ Incremental selection narrowing interface for completions.
   (after-init . selectrum-mode)
   :general
   ("C-c SPC" 'selectrum-repeat)
+  (:keymaps
+   'selectrum-minibuffer-map
+   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
   :preface
   (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
     "Move to end of line or insert current candidate.
    ARG lines can be used."
     (interactive "p")
-    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
-  :config
-  (push (cons "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
-      selectrum-minibuffer-bindings))
+    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg))))
 
 (use-package selectrum-prescient
   :hook
