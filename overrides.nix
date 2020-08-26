@@ -1,12 +1,11 @@
-{ stdenv, fetchFromGitHub, writeText, texinfo, perl, which }:
+{ stdenv, fetchFromGitHub, texinfo, perl, which }:
 
-self: super:
+final: prev:
 
-with super;
-
-{
+let inherit (prev) trivialBuild;
+in {
   # Forks.
-  flymake-diagnostic-at-point = flymake-diagnostic-at-point.overrideAttrs
+  flymake-diagnostic-at-point = prev.flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
       version = "20190810.2232";
       src = fetchFromGitHub {
@@ -19,7 +18,7 @@ with super;
     });
 
   org = stdenv.mkDerivation rec {
-    pname = "emacs-org";
+    pname = "org";
     version = "20200825.2339";
 
     src = fetchFromGitHub {
@@ -43,7 +42,7 @@ with super;
       perl -i -pe "s%/usr/share%$out%;" local.mk
     '';
 
-    buildInputs = [ emacs texinfo perl which ];
+    buildInputs = with final; [ emacs texinfo perl which ];
 
     meta = with stdenv.lib; {
       homepage = "https://elpa.gnu.org/packages/org.html";
@@ -51,7 +50,7 @@ with super;
     };
   };
 
-  ws-butler = ws-butler.overrideAttrs (attrs: {
+  ws-butler = prev.ws-butler.overrideAttrs (attrs: {
     version = "20200403.107";
     src = fetchFromGitHub {
       owner = "hlissner";
@@ -85,7 +84,7 @@ with super;
       sha256 = "0sl6k5y3b855mbix310l9xzwqm4nb8ljjq4w7y6r1acpfwd7lkdc";
       # date = 2020-01-04T14:35:35+01:00;
     };
-    packageRequires = [ eglot ];
+    packageRequires = with final; [ eglot ];
   };
 
   ejira = trivialBuild {
@@ -98,8 +97,16 @@ with super;
       sha256 = "0a97gx016byiy5fri8jf3x3sfd2h2iw79s6nxv9jigpkgxrkjg7b";
       # date = 2020-02-06T21:44:57+02:00;
     };
-    packageRequires =
-      [ dash-functional f helm jiralib2 language-detection org ox-jira s ];
+    packageRequires = with final; [
+      dash-functional
+      f
+      helm
+      jiralib2
+      language-detection
+      org
+      ox-jira
+      s
+    ];
   };
 
   explain-pause-mode = trivialBuild {
@@ -160,7 +167,7 @@ with super;
       sha256 = "14ai66c7j2k04a0vav92ybaikcc8cng5i5vy0iwpg7b2cws8a2zg";
       # date = 2017-04-24T03:47:10+05:30;
     };
-    packageRequires = [ quick-peek ];
+    packageRequires = with final; [ quick-peek ];
   };
 
   valign = trivialBuild {
