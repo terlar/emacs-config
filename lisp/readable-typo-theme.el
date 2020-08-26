@@ -168,9 +168,12 @@
    `(markdown-header-face-4 ((t (:height ,level-4-height :slant italic))))
    `(markdown-header-face-5 ((t (:height ,level-5-height :slant italic))))
    `(markdown-header-face-6 ((t (:height ,level-6-height :slant italic))))
-   `(markdown-markup-face ((t (:family ,fixed-pitch))))
-   `(markdown-inline-code-face ((t (:family ,fixed-pitch))))
+   `(markdown-code-face ((t (:family ,fixed-pitch))))
    `(markdown-gfm-checkbox-face ((t (:family ,fixed-pitch))))
+   `(markdown-inline-code-face ((t (:family ,fixed-pitch))))
+   `(markdown-markup-face ((t (:family ,fixed-pitch))))
+   `(markdown-pre-face ((t (:family ,fixed-pitch))))
+   `(markdown-table-face ((t (:family ,fixed-pitch))))
 
    ;; Org
    `(org-document-title ((t (:height ,title-height :weight ,bold-weight))))

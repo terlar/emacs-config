@@ -351,7 +351,7 @@ For example links."
    `(term-color-red ((t (:inherit readable-mono-theme-critical))))
 
    ;; Markdown
-   `(markdown-code-face ((t (:inherit (fixed-pitch readable-mono-theme-secondary) :extend t))))
+   `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
 
    ;; Org
