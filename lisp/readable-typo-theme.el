@@ -98,6 +98,11 @@
   :type 'string
   :group 'readable-typo-theme)
 
+(defcustom readable-typo-theme-bold-font-weight 'normal
+  "Bold font weight."
+  :type 'string
+  :group 'readable-typo-theme)
+
 (defcustom readable-typo-theme-line-spacing 0.25
   "Spacing between lines."
   :type 'number
@@ -125,6 +130,7 @@
 
 (let ((default-height readable-typo-theme-default-font-height)
       (default-weight readable-typo-theme-default-font-weight)
+      (bold-weight readable-typo-theme-bold-font-weight)
       (fixed-pitch readable-typo-theme-fixed-pitch-font)
       (fixed-pitch-serif readable-typo-theme-fixed-pitch-serif-font)
       (variable-pitch readable-typo-theme-variable-pitch-font)
@@ -154,7 +160,7 @@
    `(whitespace-space ((t (:family ,fixed-pitch))))
 
    ;; Markdown
-   `(markdown-header-face ((t (:weight ,default-weight))))
+   `(markdown-header-face ((t (:weight ,bold-weight))))
    `(markdown-header-face-1 ((t (:height ,level-1-height))))
    `(markdown-header-face-2 ((t (:height ,level-1-height))))
    `(markdown-header-face-3 ((t (:height ,level-1-height))))
@@ -166,46 +172,44 @@
    `(markdown-gfm-checkbox-face ((t (:family ,fixed-pitch))))
 
    ;; Org
-   `(org-document-title ((t (:height ,title-height :weight ,default-weight))))
-   `(org-level-1 ((t (:height ,level-1-height :weight ,default-weight))))
-   `(org-level-2 ((t (:height ,level-2-height :weight ,default-weight))))
-   `(org-level-3 ((t (:height ,level-3-height :weight ,default-weight))))
-   `(org-level-4 ((t (:height ,level-4-height :weight ,default-weight :slant italic))))
-   `(org-level-5 ((t (:height ,level-5-height :weight ,default-weight :slant italic))))
-   `(org-level-6 ((t (:height ,level-6-height :weight ,default-weight :slant italic))))
-   `(org-level-7 ((t (:height ,level-7-height :weight ,default-weight :slant italic))))
-   `(org-level-8 ((t (:height ,level-8-height :weight ,default-weight :slant italic))))
-   `(org-headline-done ((t (:inherit nil))))
-   `(org-headline-todo ((t (:inherit nil))))
+   `(org-document-title ((t (:height ,title-height :weight ,bold-weight))))
+   `(org-level-1 ((t (:height ,level-1-height :weight ,bold-weight))))
+   `(org-level-2 ((t (:height ,level-2-height :weight ,bold-weight))))
+   `(org-level-3 ((t (:height ,level-3-height :weight ,bold-weight))))
+   `(org-level-4 ((t (:height ,level-4-height :weight ,bold-weight :slant italic))))
+   `(org-level-5 ((t (:height ,level-5-height :weight ,bold-weight :slant italic))))
+   `(org-level-6 ((t (:height ,level-6-height :weight ,bold-weight :slant italic))))
+   `(org-level-7 ((t (:height ,level-7-height :weight ,bold-weight :slant italic))))
+   `(org-level-8 ((t (:height ,level-8-height :weight ,bold-weight :slant italic))))
+   `(org-list-dt ((t (:weight ,bold-weight))))
    `(org-checkbox ((t (:family ,fixed-pitch))))
    `(org-code ((t (:family ,fixed-pitch))))
-   `(org-hide ((t (:family ,fixed-pitch))))
    `(org-verbatim ((t (:family ,fixed-pitch))))
 
    ;; Outline
-   `(outline-1 ((t (:height ,level-1-height :weight ,default-weight))))
-   `(outline-2 ((t (:height ,level-2-height :weight ,default-weight))))
-   `(outline-3 ((t (:height ,level-3-height :weight ,default-weight))))
-   `(outline-4 ((t (:height ,level-4-height :weight ,default-weight :slant italic))))
-   `(outline-5 ((t (:height ,level-5-height :weight ,default-weight :slant italic))))
-   `(outline-6 ((t (:height ,level-6-height :weight ,default-weight :slant italic))))
-   `(outline-7 ((t (:height ,level-7-height :weight ,default-weight :slant italic))))
-   `(outline-8 ((t (:height ,level-8-height :weight ,default-weight :slant italic))))
+   `(outline-1 ((t (:height ,level-1-height :weight ,bold-weight))))
+   `(outline-2 ((t (:height ,level-2-height :weight ,bold-weight))))
+   `(outline-3 ((t (:height ,level-3-height :weight ,bold-weight))))
+   `(outline-4 ((t (:height ,level-4-height :weight ,bold-weight :slant italic))))
+   `(outline-5 ((t (:height ,level-5-height :weight ,bold-weight :slant italic))))
+   `(outline-6 ((t (:height ,level-6-height :weight ,bold-weight :slant italic))))
+   `(outline-7 ((t (:height ,level-7-height :weight ,bold-weight :slant italic))))
+   `(outline-8 ((t (:height ,level-8-height :weight ,bold-weight :slant italic))))
 
    ;; Readable
    `(readable-variable-pitch ((t (:height 1.1 :family ,serif))))
 
    ;; rst
-   `(rst-level-1 ((t (:height ,level-1-height :weight ,default-weight))))
-   `(rst-level-2 ((t (:height ,level-2-height :weight ,default-weight))))
-   `(rst-level-3 ((t (:height ,level-3-height :weight ,default-weight))))
-   `(rst-level-4 ((t (:height ,level-4-height :weight ,default-weight :slant italic))))
-   `(rst-level-5 ((t (:height ,level-5-height :weight ,default-weight :slant italic))))
-   `(rst-level-6 ((t (:height ,level-6-height :weight ,default-weight :slant italic))))
+   `(rst-level-1 ((t (:height ,level-1-height :weight ,bold-weight))))
+   `(rst-level-2 ((t (:height ,level-2-height :weight ,bold-weight))))
+   `(rst-level-3 ((t (:height ,level-3-height :weight ,bold-weight))))
+   `(rst-level-4 ((t (:height ,level-4-height :weight ,bold-weight :slant italic))))
+   `(rst-level-5 ((t (:height ,level-5-height :weight ,bold-weight :slant italic))))
+   `(rst-level-6 ((t (:height ,level-6-height :weight ,bold-weight :slant italic))))
    `(rst-literal ((t (:family ,fixed-pitch))))
 
     ;; spray
-   `(spray-base-face ((t (:family ,serif :weight ,default-weight :underline nil)))))
+   `(spray-base-face ((t (:family ,serif :weight ,bold-weight :underline nil)))))
 
   ;; Theme variables
   (custom-theme-set-variables

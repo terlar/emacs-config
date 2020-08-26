@@ -164,7 +164,7 @@ For example links."
    `(bold-italic ((t (:inherit readable-mono-theme-strong))))
    `(link ((t (:inherit readable-mono-theme-actionable :underline t))))
    `(shadow ((t (:inherit readable-mono-theme-subordinate))))
-   `(success ((t (:inherit readable-mono-theme-actionable))))
+   `(success ((t (:foreground nil))))
    `(warning ((t (:inherit readable-mono-theme-emphasis))))
    `(error ((t (:inherit readable-mono-theme-critical))))
    `(font-lock-comment-face ((t (:inherit readable-mono-theme-subordinate :italic t))))
@@ -328,12 +328,15 @@ For example links."
 
    ;; Org
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
-   `(org-todo ((t (:foreground nil))))
    `(org-done ((t (:foreground nil))))
+   `(org-todo ((t (:foreground nil))))
+   `(org-headline-done ((t (:foreground nil))))
+   `(org-headline-todo ((t (:foreground nil))))
    `(org-block ((t (:inherit readable-mono-theme-secondary))))
    `(org-date ((t (:foreground nil :underline nil))))
    `(org-document-info ((t (:foreground nil))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
+   `(org-verbatim ((t (:inherit readable-mono-theme-secondary))))
 
    ;; Org-tree-slide
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))

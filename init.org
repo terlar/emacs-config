@@ -4513,12 +4513,12 @@ Navigate through undo history.
 ** TODO Improve window keys
 ** TODO Improve find char keys
 ** TODO Extract history persistance code (persistory)
-  - comint
-  - ielm (via comint and savehist)
-  - haskell-interactive (via savehist)
+- comint
+- ielm (via comint and savehist)
+- haskell-interactive (via savehist)
 ** TODO Enable auto-revert/save again?
 ** TODO Wrap lines by default?
-  When writing code on a single line, to later let it be expanded by the formatter.
+- When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
 ** TODO Use =ielm= as REPL for org-mode
 ** TODO Use file-name as base for work-log date
