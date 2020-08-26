@@ -68,6 +68,11 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
+(defcustom readable-mono-theme-light-region "#f9f5dd"
+  "Region for light theme."
+  :type 'string
+  :group 'readable-mono-theme-light)
+
 (defcustom readable-mono-theme-light-foreground "#596e76"
   "Default foreground for light theme."
   :type 'string
@@ -97,6 +102,11 @@
   "Cursor for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
+
+(defcustom readable-mono-theme-dark-region "#012E38"
+  "Region for dark theme."
+  :type 'string
+  :group 'readable-mono-theme-light)
 
 (defcustom readable-mono-theme-dark-foreground "#8d9fa1"
   "Default foreground for dark theme."
@@ -213,7 +223,9 @@ For example links."
    `(isearch-fail ((t (:inherit readable-mono-theme-critical))))
    `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(match ((t (:inherit highlight))))
-   `(region ((t (:inherit readable-mono-theme-secondary))))
+   `(region
+     ((((background light)) (:background ,readable-mono-theme-light-region))
+      (((background dark)) (:background ,readable-mono-theme-dark-region))))
 
    ;; Visual aid
    `(cursor
