@@ -3156,7 +3156,7 @@ Use variable-pitch font but still make sure everything aligns.
 (font-lock-add-keywords
  'org-mode
  '(("^ +\\([-*+]\\) "
-    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "⏺"))))
    ("^ *[-*+] \\[\\(X\\)\\] "
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
 #+END_SRC
@@ -3806,6 +3806,8 @@ REPL for nodejs.
   (markdown-header-scaling t)
   (markdown-hide-markup t)
   (markdown-italic-underscore t)
+  (markdown-blockquote-display-char '("┃" ">"))
+  (markdown-list-item-bullets '("⏺" "▪"))
   (markdown-make-gfm-checkboxes-buttons t)
   :general
   (:keymaps
@@ -4046,7 +4048,7 @@ Pretty check-boxes as well as bullet lists.
 (font-lock-add-keywords
  'rst-mode
  '(("^ *\\([-*+]\\) "
-    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "⏺"))))
    ("^ *[-*+] \\[\\([Xx]\\)\\] "
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
 #+END_SRC
