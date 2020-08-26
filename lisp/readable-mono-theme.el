@@ -206,10 +206,12 @@ For example links."
    `(custom-variable-tag ((t (:inherit readable-mono-theme-strong))))
 
    ;; Search and highlight
+   `(completions-common-part ((t (:inherit readable-mono-theme-strong))))
+   `(completions-first-difference ((t (:inherit readable-mono-theme-emphasis))))
    `(highlight ((t (:inverse-video t))))
-   `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(isearch ((t (:inherit highlight))))
    `(isearch-fail ((t (:inherit readable-mono-theme-critical))))
+   `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(match ((t (:inherit highlight))))
    `(region ((t (:inherit readable-mono-theme-secondary))))
 
