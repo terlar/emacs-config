@@ -26,9 +26,30 @@
 
 ;; Minimal and mostly monochromatic theme.
 ;;
-;; TODO ivy faces
-;; TODO company faces
-;; TODO ctrl-f optional
+;; Faces TODO:
+;; - ivy-remote
+;; - ivy-match-required-face
+;; - ivy-confirm-face
+;; - ivy-cursor
+;; - edebug-disabled-breakpoint
+;; - hi-black-hb
+;; - hi-red-b
+;; - rainbow-delimiters-depth-1-face
+;; - company-echo-common
+;; - company-preview-search
+;; - company-preview-common
+;; - company-scrollbar-bg
+;; - company-scrollbar-fg
+;; - company-tooltip-annotation-selection
+;; - company-tooltip-annotation
+;; - company-tooltip-common-selection
+;; - company-tooltip-common
+;; - company-tooltip-selection
+;; - company-tooltip
+;; - hl-todo
+;; - flyspell-duplicate
+;; - ert-test-result-unexpected
+;; - ert-test-result-expected
 
 ;;; Code:
 (deftheme readable-mono "Minimal and monochromatic theme")
@@ -186,7 +207,9 @@ For example links."
 
    ;; Search and highlight
    `(highlight ((t (:inverse-video t))))
+   `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(isearch ((t (:inherit highlight))))
+   `(isearch-fail ((t (:inherit readable-mono-theme-critical))))
    `(match ((t (:inherit highlight))))
    `(region ((t (:inherit readable-mono-theme-secondary))))
 
