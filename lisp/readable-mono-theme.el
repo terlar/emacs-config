@@ -29,7 +29,6 @@
 ;; TODO ivy faces
 ;; TODO company faces
 ;; TODO ctrl-f optional
-;; TODO flymake error popup
 
 ;;; Code:
 (deftheme readable-mono "Minimal and monochromatic theme")
@@ -290,6 +289,16 @@ For example links."
 
    ;; Indent-guide
    `(indent-guide-face ((t (:inherit fringe))))
+
+   ;; Ivy
+   `(ivy-current-match ((t (:inherit highlight))))
+   `(ivy-minibuffer-match-face-1 ((t (:inherit readable-mono-theme-strong))))
+   `(ivy-minibuffer-match-face-2 ((t (:inherit readable-mono-theme-strong))))
+   `(ivy-minibuffer-match-face-3 ((t (:inherit readable-mono-theme-strong))))
+   `(ivy-minibuffer-match-face-4 ((t (:inherit readable-mono-theme-strong))))
+
+   ;; Magit
+   `(magit-section-heading ((t (:foreground nil))))
 
    ;; Popup
    `(popup-tip-face ((t (:inherit (nil readable-mono-theme-secondary readable-mono-theme-subordinate)))))
