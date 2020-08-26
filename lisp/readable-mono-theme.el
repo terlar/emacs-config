@@ -299,6 +299,7 @@ For example links."
 
    ;; Magit
    `(magit-section-heading ((t (:foreground nil))))
+   `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
 
    ;; Popup
    `(popup-tip-face ((t (:inherit (nil readable-mono-theme-secondary readable-mono-theme-subordinate)))))
