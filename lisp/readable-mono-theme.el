@@ -300,7 +300,9 @@ For example links."
       (((background dark)) (:background ,d-green-bg))))
 
    ;; Dired
+   `(all-the-icons-dired-dir-face ((t (:foreground nil))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
+   `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
 
    ;; ERC
    `(erc-my-nick-face ((t (:inherit readable-mono-theme-emphasis))))
@@ -359,7 +361,7 @@ For example links."
       (((background dark)) (:foreground ,readable-mono-theme-dark-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
 
    ;; Stripe-buffer
-   `(stripe-highlight ((t (:inherit readable-mono-theme-secondary :extend t))))
+   `(stripe-highlight ((t (:inherit region))))
 
    ;; Term
    `(term-color-red ((t (:inherit readable-mono-theme-critical))))
@@ -378,6 +380,7 @@ For example links."
    `(org-date ((t (:foreground nil :underline nil))))
    `(org-document-info ((t (:foreground nil))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
+   `(org-table ((t (:foreground nil))))
    `(org-verbatim ((t (:inherit readable-mono-theme-secondary))))
 
    ;; Org-tree-slide
