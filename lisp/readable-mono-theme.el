@@ -47,7 +47,6 @@
 ;; - company-tooltip-selection
 ;; - company-tooltip
 ;; - hl-todo
-;; - flyspell-duplicate
 ;; - ert-test-result-unexpected
 ;; - ert-test-result-expected
 
@@ -168,6 +167,7 @@ For example links."
 (let ((l-bg readable-mono-theme-light-background)
       (l-bg-s readable-mono-theme-light-background-secondary)
       (l-fg readable-mono-theme-light-foreground)
+      (l-fg-s readable-mono-theme-light-foreground-secondary)
       (l-green-bg "#eeedcb")
       (l-green-bg-s "#d5d99d")
       (l-red-bg "#ffe1cb")
@@ -177,6 +177,7 @@ For example links."
       (d-bg readable-mono-theme-dark-background)
       (d-bg-s readable-mono-theme-dark-background-secondary)
       (d-fg readable-mono-theme-dark-foreground)
+      (d-fg-s readable-mono-theme-dark-foreground-secondary)
       (d-green-bg "#1e3531")
       (d-green-bg-s "#354725")
       (d-red-bg "#2f2c31")
@@ -322,6 +323,14 @@ For example links."
    `(eshell-ls-product ((t (:inherit font-lock-doc-face))))
    `(eshell-ls-special ((t (:inherit readable-mono-theme-strong))))
    `(eshell-ls-symlink ((t (:inherit readable-mono-theme-strong))))
+
+   ;; Flyspell
+   `(flyspell-duplicate
+     ((((background light)) (:underline (:style wave :color ,l-fg-s)))
+      (((background dark)) (:underline (:style wave :color ,d-fg-s)))))
+   `(flyspell-incorrect
+     ((((background light)) (:underline (:style wave :color ,l-fg)))
+      (((background dark)) (:underline (:style wave :color ,d-fg)))))
 
    ;; Haskell-mode
    `(haskell-interactive-face-prompt ((t (:inherit readable-mono-theme-strong))))
