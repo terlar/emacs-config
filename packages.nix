@@ -90,6 +90,7 @@ with epkgs;
   flymake-racket
   flymake-shellcheck
   flymake-quickdef
+  flyspell-correct
   focus
   format-all
   general

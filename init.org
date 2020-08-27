@@ -4464,6 +4464,14 @@ it really useful.
    "C-." 'nil))
 #+END_SRC
 
+#+begin_src emacs-lisp :tangle yes
+(use-package flyspell-correct
+  :general
+  (:keymaps
+   'flyspell-mode-map
+   "C-;" 'flyspell-correct-wrapper))
+#+end_src
+
 Automatically infer dictionary.
 #+BEGIN_SRC emacs-lisp
 (use-package auto-dictionary
