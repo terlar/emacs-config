@@ -5,6 +5,17 @@ final: prev:
 let inherit (prev) trivialBuild;
 in {
   # Forks.
+  all-the-icons-dired = prev.all-the-icons-dired.overrideAttrs (attrs: {
+    version = "20200827.1545";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "all-the-icons-dired";
+      rev = "b06bb30c79d8e1b13b9214bf38d1e1d837de4dd3";
+      sha256 = "1fwb47gwrjd5vdnjkrycp14a0drfaysyq1vxv1krydmy17s9r3lv";
+      # date = 2020-08-27T15:45:50+02:00;
+    };
+  });
+
   flymake-diagnostic-at-point = prev.flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
       version = "20190810.2232";
