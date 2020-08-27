@@ -355,6 +355,33 @@ Example:
   (aset buffer-display-table ?\^M [?\n]))
 #+END_SRC
 
+*** Frame
+Screenshot current frame in =.svg= or =.png= format.
+#+begin_src emacs-lisp :tangle yes
+(defun screenshot (type)
+  "Save a screenshot of the current frame as an image in TYPE format.
+Saves to a temp file and puts the filename in the kill ring."
+  (let* ((ext (concat "." (symbol-name type)))
+         (filename (make-temp-file "Emacs-" nil ext))
+         (data (x-export-frames nil type)))
+    (with-temp-file filename
+      (insert data))
+    (kill-new filename)
+    (message filename)))
+
+(defun screenshot-svg ()
+  "Save a screenshot of the current frame as an SVG image.
+Saves to a temp file and puts the filename in the kill ring."
+  (interactive)
+  (screenshot 'svg))
+
+(defun screenshot-png ()
+  "Save a screenshot of the current frame as an PNG image.
+Saves to a temp file and puts the filename in the kill ring."
+  (interactive)
+  (screenshot 'png))
+#+end_src
+
 *** Process
 #+BEGIN_SRC emacs-lisp
 (defun send-buffer-to-ssh ()
@@ -568,6 +595,8 @@ keybindings in case I would forget them.
  :prefix init-launch-prefix
  "m" 'gnus
  "p" 'list-processes
+ "s" 'screenshot-svg
+ "S" 'screenshot-png
  "x" 'regexp-builder
  "w" 'eww)
 #+END_SRC
