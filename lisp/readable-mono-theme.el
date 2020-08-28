@@ -7,7 +7,7 @@
 ;; URL: https://github.com/terlar/emacs-config
 ;; Keywords: faces
 ;; Version: 0.1
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "26.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -323,6 +323,11 @@ For example links."
    `(eshell-ls-product ((t (:inherit font-lock-doc-face))))
    `(eshell-ls-special ((t (:inherit readable-mono-theme-strong))))
    `(eshell-ls-symlink ((t (:inherit readable-mono-theme-strong))))
+
+   ;; Flymake
+   `(flymake-error
+     ((((background light)) (:background ,l-red-bg :extend t))
+      (((background dark)) (:background ,d-red-bg :extend t))))
 
    ;; Flyspell
    `(flyspell-duplicate

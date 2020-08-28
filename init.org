@@ -2304,7 +2304,7 @@ Haskell one).
 #+BEGIN_SRC emacs-lisp
 (use-package flymake
   :hook
-  (flymake-mode . +flymake-setup-next-error-function)
+  (flymake-mode . flymake-setup-next-error-function)
   :custom
   (help-at-pt-timer-delay 0.1)
   (help-at-pt-display-when-idle '(flymake-diagnostic))
@@ -2325,23 +2325,26 @@ Haskell one).
    "E" 'flymake-goto-prev-error)
   (:keymaps
    'flymake-diagnostics-buffer-mode-map
-   "n" '+flymake-diagnostics-next-error
-   "p" '+flymake-diagnostics-prev-error
-   "j" '+flymake-diagnostics-next-error
-   "k" '+flymake-diagnostics-prev-error
+   "n" 'flymake-diagnostics-next-error
+   "p" 'flymake-diagnostics-prev-error
+   "j" 'flymake-diagnostics-next-error
+   "k" 'flymake-diagnostics-prev-error
    "RET" 'flymake-goto-diagnostic
    "TAB" 'flymake-show-diagnostic)
   :preface
-  (defun +flymake-setup-next-error-function ()
-    (setq next-error-function 'flymake-goto-next-error))
+  (defun flymake-setup-next-error-function ()
+    (setq next-error-function 'flymake-next-error-compat))
 
-  (defun +flymake-diagnostics-next-error ()
+  (defun flymake-next-error-compat (&optional n reset)
+    (flymake-goto-next-error n))
+
+  (defun flymake-diagnostics-next-error ()
     (interactive)
     (forward-line)
     (when (eobp) (forward-line -1))
     (flymake-show-diagnostic (point)))
 
-  (defun +flymake-diagnostics-prev-error ()
+  (defun flymake-diagnostics-prev-error ()
     (interactive)
     (forward-line -1)
     (flymake-show-diagnostic (point)))
@@ -2800,7 +2803,12 @@ Better =*help*= buffer
 #+BEGIN_SRC emacs-lisp
 (use-package package-lint-flymake
   :hook
-  (emacs-lisp-mode . package-lint-flymake-setup))
+  (emacs-lisp-mode . package-lint-flymake-setup-when-package)
+  :preface
+  (defun package-lint-flymake-setup-when-package ()
+    "Enable `package-lint-flymake' when buffer seems to be a package."
+    (when (package-lint--provided-feature)
+      (package-lint-flymake-setup))))
 #+END_SRC
 
 **** suggest
@@ -4484,8 +4492,10 @@ it really useful.
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
   :hook
-  ((text-mode message-mode) . flyspell-mode)
+  ((message-mode org-mode text-mode) . flyspell-mode)
   (prog-mode . flyspell-prog-mode)
+  :custom
+  (flyspell-persistent-highlight nil)
   :general
   (:keymaps
    'flyspell-mode-map
@@ -4565,3 +4575,4 @@ Navigate through undo history.
 - One theme to set big headers and such things
 - One theme to highlight errors
 - One theme for the mode-line
+** TODO Flymake + Elsa

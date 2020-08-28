@@ -7,6 +7,7 @@
 ;; URL: https://github.com/terlar/readable.el
 ;; Keywords: faces
 ;; Version: 0.1
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -48,13 +49,13 @@
 
 ;;;###autoload
 (defcustom readable-line-spacing 0.4
-  "Line spacing used in `readable-mode'."
+  "Line spacing used when command `readable-mode' is active."
   :type 'number
   :group 'readable)
 
 ;;;###autoload
 (defcustom readable-lighter " Readable"
-  "Mode-line indicator for `readable-mode'."
+  "Mode-line indicator for command `readable-mode'."
   :type '(choice (const :tag "No lighter" "") string)
   :group 'readable)
 
