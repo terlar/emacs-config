@@ -40,11 +40,6 @@ recommendations of the [[https://github.com/bbatsov/emacs-lisp-style-guide#sourc
 ;;; init.el --- Emacs Initialization -*- lexical-binding: t; -*-
 
 ;; URL: https://github.com/terlar/emacs-config
-;; Version: 1.0.0
-;; Package-Requires: ((emacs "26.1"))
-
-;;; Commentary:
-;; terlar's Emacs Configuration.
 #+END_SRC
 
 ** Variables
@@ -53,26 +48,29 @@ informative output. It can be set either by providing the environment variable =
 start Emacs with =--debug-init=.
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar init-debug-mode
-    (or (getenv "DEBUG") init-file-debug)
-    "Debug mode, enable through DEBUG=1 or use --debug-init.")
-  (setq debug-on-error (and (not noninteractive) init-debug-mode)))
+  (when (getenv "DEBUG") (setq init-file-debug t))
+  (setq debug-on-error (and (not noninteractive) init-file-debug)))
 #+END_SRC
 
 Provide a location where Emacs can store data and cache.
 #+BEGIN_SRC emacs-lisp
 (eval-and-compile
-  (defvar init-data-dir
+  (defvar data-dir
     (if (getenv "XDG_DATA_HOME")
         (concat (getenv "XDG_DATA_HOME") "/emacs/")
       (expand-file-name "~/.local/share/emacs/"))
     "Directory for data.")
 
-  (defvar init-cache-dir
+  (defvar cache-dir
     (if (getenv "XDG_CACHE_HOME")
         (concat (getenv "XDG_CACHE_HOME") "/emacs/")
       (expand-file-name "~/.cache/emacs/"))
-    "Directory for cache."))
+    "Directory for cache.")
+
+  (defvar pictures-dir
+    (or (getenv "XDG_PICTURES_DIR")
+        (expand-file-name "~/Pictures/"))
+    "Directory for pictures."))
 #+END_SRC
 
 ** Quiet startup
@@ -125,7 +123,7 @@ Set shell to bash as fish is not compatible with all packages using the shell.
   (require 'use-package nil t))
 (setq use-package-always-defer t)
 
-(if init-debug-mode
+(if init-file-debug
     (setq use-package-verbose t
           use-package-expand-minimally nil
           use-package-compute-statistics t)
@@ -140,8 +138,8 @@ Help keeping user Emacs directory clean.
 (use-package no-littering
   :demand t
   :custom
-  (no-littering-etc-directory init-data-dir)
-  (no-littering-var-directory init-cache-dir))
+  (no-littering-etc-directory data-dir)
+  (no-littering-var-directory cache-dir))
 #+END_SRC
 
 *** exec-path-from-shell
@@ -156,13 +154,13 @@ Help keeping user Emacs directory clean.
 (use-package server
   :commands (server-running-p)
   :preface
-  (defun init-server-ensure-running (frame)
+  (defun server-ensure-running (frame)
     "Ensure server is running when launching FRAME."
     (with-selected-frame frame
       (unless (server-running-p)
         (server-start))))
   :init
-  (add-hook 'after-make-frame-functions #'init-server-ensure-running))
+  (add-hook 'after-make-frame-functions #'server-ensure-running))
 #+END_SRC
 
 *** savehist
@@ -330,25 +328,25 @@ Display available keybindings in a popup.
 ** Functions
 Prevent forms from producing output or other noise.
 #+BEGIN_SRC emacs-lisp
-(defmacro init-quiet! (&rest forms)
+(defmacro quiet! (&rest forms)
   "Run FORMS without making any noise."
-  `(if init-debug-mode
+  `(if init-file-debug
        (progn ,@forms)
      (let ((message-log-max nil))
        (with-temp-message (or (current-message) "") ,@forms))))
 
-(defun init-quiet-function-advice (orig-fn &rest args)
+(defun quiet-function-advice (orig-fn &rest args)
   "Advice used to make a function quiet.
 Call ORIG-FN with ARGS and suppress the output.
 
 Example:
-  (advice-add #'orig-fun :around #'init-quiet-function-advice)"
-  (init-quiet! (apply orig-fn args)))
+  (advice-add 'orig-fn :around #'quiet-function-advice)"
+  (quiet! (apply orig-fn args)))
 #+END_SRC
 
 *** Display
 #+BEGIN_SRC emacs-lisp
-(defun init-display-ctrl-M-as-newline ()
+(defun display-ctrl-M-as-newline ()
   "Display `^M' as newline."
   (interactive)
   (setq buffer-display-table (make-display-table))
@@ -481,32 +479,30 @@ keybindings in case I would forget them.
 
 ** Leader keys
 #+BEGIN_SRC emacs-lisp
-(defvar init-leader-key "C-,"
+(defvar leader-key "C-,"
   "The key used for most custom operations.")
-(defvar init-local-leader-key "C-."
+(defvar local-leader-key "C-."
   "The key used for major mode operations.")
-(defvar init-evil-normal-state-leader-key "SPC"
-  "The key used for most custom operations in `evil-normal-state'.")
 #+END_SRC
 
 ** Prefixes
 #+BEGIN_SRC emacs-lisp
-(defvar init-launch-prefix "C-c l"
+(defvar launch-prefix "C-c l"
   "Key prefix for commands related to launching.")
 
-(defvar init-toggle-prefix "C-x t"
+(defvar toggle-prefix "C-x t"
   "Key prefix for commands related to toggling.")
-(defvar init-window-prefix "C-'"
+(defvar window-prefix "C-'"
   "Key prefix used for commands related to window operations.")
 
-(defvar init-nav-prefix "M-g"
+(defvar nav-prefix "M-g"
   "Key prefix used for commands related to navigation.")
-(defvar init-search-prefix "M-s"
+(defvar search-prefix "M-s"
   "Key prefix used for commands related to search.")
 
-(defvar init-next-prefix "M-]"
+(defvar next-prefix "M-]"
   "Key prefix used for commands doing a next operation.")
-(defvar init-prev-prefix "M-["
+(defvar prev-prefix "M-["
   "Key prefix used for commands doing a previous operation.")
 #+END_SRC
 
@@ -530,7 +526,7 @@ keybindings in case I would forget them.
 #+BEGIN_SRC emacs-lisp
 (general-define-key
  :keymaps 'global
- :prefix init-nav-prefix
+ :prefix nav-prefix
  "u" 'browse-url)
 #+END_SRC
 
@@ -538,8 +534,8 @@ keybindings in case I would forget them.
 #+BEGIN_SRC emacs-lisp
 (general-define-key
  :keymaps 'global
- :prefix init-window-prefix
- init-window-prefix 'window-toggle-side-windows
+ :prefix window-prefix
+ window-prefix 'window-toggle-side-windows
  "d" 'toggle-dedicated-window
  "m" 'maximize-window)
 #+END_SRC
@@ -547,7 +543,7 @@ keybindings in case I would forget them.
 ** Next
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix init-next-prefix
+ :prefix next-prefix
  ""  '(:ignore t :wk "next...")
  "]" `(,(defrepeater #'text-scale-increase)      :wk "Text size")
  "b" `(,(defrepeater #'next-buffer)              :wk "Buffer")
@@ -561,7 +557,7 @@ keybindings in case I would forget them.
 ** Previous
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix init-prev-prefix
+ :prefix prev-prefix
  ""  '(:ignore t :wk "previous...")
  "[" `(,(defrepeater #'text-scale-decrease)    :wk "Text size")
  "b" `(,(defrepeater #'previous-buffer)        :wk "Buffer")
@@ -574,7 +570,7 @@ keybindings in case I would forget them.
 ** Toggle
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix init-toggle-prefix
+ :prefix toggle-prefix
  "c" '(highlight-changes-mode           :wk "Changes")
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
@@ -592,7 +588,7 @@ keybindings in case I would forget them.
 ** Launch
 #+BEGIN_SRC emacs-lisp
 (general-define-key
- :prefix init-launch-prefix
+ :prefix launch-prefix
  "m" 'gnus
  "p" 'list-processes
  "s" 'screenshot-svg
@@ -932,11 +928,11 @@ Undo/redo between window layouts.
   (winner-dont-bind-my-keys t)
   :config
   (general-define-key
-   :prefix init-next-prefix
-   init-next-prefix (defrepeater #'winner-redo))
+   :prefix next-prefix
+   next-prefix (defrepeater #'winner-redo))
   (general-define-key
-   :prefix init-prev-prefix
-   init-prev-prefix (defrepeater #'winner-undo)))
+   :prefix prev-prefix
+   prev-prefix (defrepeater #'winner-undo)))
 #+END_SRC
 
 Transpose window arrangement.
@@ -944,7 +940,7 @@ Transpose window arrangement.
 (use-package transpose-frame
   :general
   (:prefix
-   init-window-prefix
+   window-prefix
    "t" 'transpose-frame
    "f" 'flip-frame
    "F" 'flop-frame))
@@ -964,7 +960,7 @@ Zoom a window to display as a single window temporarily.
 (use-package zoom-window
   :general
   (:prefix
-   init-window-prefix
+   window-prefix
    "z" 'zoom-window-zoom))
 #+END_SRC
 
@@ -1026,7 +1022,7 @@ Jump to things.
   (avy-all-windows nil)
   :general
   (:prefix
-   init-search-prefix
+   search-prefix
    "SPC" 'avy-goto-word-or-subword-1
    "s" 'avy-goto-char
    "l" 'avy-goto-line
@@ -1059,10 +1055,10 @@ Cycle through words, symbols and patterns.
 (use-package grugru
   :general
   (:prefix
-   init-next-prefix
+   next-prefix
    "r" '(grugru-repeat :wk "Rotate text"))
   (:prefix
-   init-prev-prefix
+   prev-prefix
    "r" '(grugru-repeat :wk "Rotate text"))
   :preface
   (defrepeater #'grugru)
@@ -1089,7 +1085,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
    show-smartparens-global-mode)
   :general
   (:prefix
-   init-toggle-prefix
+   toggle-prefix
    "p" 'smartparens-strict-mode)
   (:keymaps
    'smartparens-mode-map
@@ -1134,7 +1130,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
                    :unless '(sp-in-comment-p
                              sp-in-string-quotes-p)))
 
-  (advice-add #'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice))
+  (advice-add 'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice))
 #+END_SRC
 
 *** visual-regexp
@@ -1437,7 +1433,7 @@ mark ring.
   (dired-sidebar-mode . init-dired-sidebar)
   :general
   (:prefix
-   init-leader-key
+   leader-key
    "n" 'dired-sidebar-toggle-sidebar)
   :preface
   (defun init-dired-sidebar ()
@@ -1483,7 +1479,7 @@ Striped dired buffers.
 (use-package replace
   :general
   (:prefix
-   init-search-prefix
+   search-prefix
    "o" 'occur)
   (:keymaps
    'occur-mode-map
@@ -1496,7 +1492,7 @@ Striped dired buffers.
 (use-package noccur
   :general
   (:prefix
-   init-search-prefix
+   search-prefix
    "O" 'noccur-project))
 #+end_src
 
@@ -1510,7 +1506,7 @@ Management tool for a library of PDFs.
   (bibliothek-recursive t)
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "b" 'bibliothek))
 #+END_SRC
 
@@ -1535,7 +1531,7 @@ Keep track of bookmarks
 (use-package deadgrep
   :general
   (:prefix
-   init-search-prefix
+   search-prefix
    "G" 'deadgrep)
   (:keymaps
    'deadgrep-mode-map
@@ -1554,7 +1550,7 @@ Keep track of bookmarks
   (deft-use-filter-string-for-filename t)
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "n" 'deft))
 #+END_SRC
 
@@ -1582,10 +1578,10 @@ Move point through buffer-undo-list positions.
 (use-package goto-chg
   :general
   (:prefix
-   init-next-prefix
+   next-prefix
    "l" '(goto-last-change :wk "Change"))
   (:prefix
-   init-prev-prefix
+   prev-prefix
    "l" '(goto-last-change-reverse :wk "Change")))
 #+END_SRC
 
@@ -1594,7 +1590,7 @@ Hint mode for links.
 #+BEGIN_SRC emacs-lisp
 (use-package link-hint
   :general
-  (:prefix init-nav-prefix
+  (:prefix nav-prefix
    "l" 'link-hint-open-link
    "L" 'link-hint-copy-link))
 #+END_SRC
@@ -1615,8 +1611,8 @@ Keep track of recently opened files.
          "\\.?ido\\.last$"
          "\\.revive$"
          "^/var/folders/.+$"
-         (concat "^" init-cache-dir ".+$")
-         (concat "^" init-data-dir ".+$")))
+         (concat "^" cache-dir ".+$")
+         (concat "^" data-dir ".+$")))
   (recentf-filename-handlers '(abbreviate-file-name))
   (recentf-max-menu-items 0)
   (recentf-max-saved-items 300)
@@ -1641,7 +1637,7 @@ and icon prefix from `all-the-icons-icon-for-file'."
     (let ((files (cl-mapcar #'completing-read-file-candidate recentf-list)))
       (find-file (completing-read "Find recent file: " files nil t))))
   :config
-  (init-quiet! (recentf-mode 1)))
+  (quiet! (recentf-mode 1)))
 #+END_SRC
 
 *** saveplace
@@ -1666,7 +1662,7 @@ Project interactions. Prefix project buffer files with the project name and rela
    '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
   (projectile-globally-ignored-files
    '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
-  (projectile-ignored-projects (list init-data-dir))
+  (projectile-ignored-projects (list data-dir))
   (projectile-indexing-method 'alien)
   :general
   (:keymaps
@@ -1680,7 +1676,7 @@ Project interactions. Prefix project buffer files with the project name and rela
   (:keymaps
    'projectile-mode-map
    :prefix
-   init-leader-key
+   leader-key
    "p" '(:keymap projectile-command-map :package projectile :wk "project"))
   :preface
   (defun +projectile-cache-current-file (orig-fun &rest args)
@@ -1691,7 +1687,7 @@ Project interactions. Prefix project buffer files with the project name and rela
                      (projectile-ignored-directories))
       (apply orig-fun args)))
   :init
-  (advice-add #'projectile-cache-current-file :around #'+projectile-cache-current-file)
+  (advice-add 'projectile-cache-current-file :around #'+projectile-cache-current-file)
   (cl-pushnew '(setq projectile-project-root (locate-dominating-file buffer-file-name ".dir-locals.el"))
               safe-local-eval-forms
               :test #'equal)
@@ -1840,7 +1836,7 @@ Incremental selection narrowing interface for completions.
   (:keymaps
    'ivy-mode-map
    :prefix
-   init-window-prefix
+   window-prefix
    "v" 'ivy-push-view
    "V" 'ivy-pop-view
    "'" 'ivy-switch-view)
@@ -1884,7 +1880,7 @@ Tips:
   :general
   ("M-y" 'counsel-yank-pop
    "C-x /" 'counsel-abbrev)
-  (:prefix init-search-prefix
+  (:prefix search-prefix
    "g" 'counsel-rg)
   (:keymaps
    'counsel-ag-map
@@ -1923,7 +1919,7 @@ Navigate tramp files.
 (use-package counsel-tramp
   :general
   (:prefix
-   init-leader-key
+   leader-key
    "t" 'counsel-tramp))
 #+END_SRC
 
@@ -1936,7 +1932,7 @@ Snippets with preview.
   (:keymaps
    'yas-minor-mode-map
    :prefix
-   init-leader-key
+   leader-key
    "y" 'ivy-yasnippet))
 #+END_SRC
 
@@ -1961,7 +1957,7 @@ Kill compilation process before stating another and save all buffers on =compile
   (:keymaps
    'global
    :prefix
-   init-local-leader-key
+   local-leader-key
    "c" 'recompile
    "C" 'compile)
   :init
@@ -1986,7 +1982,7 @@ Kill compilation process before stating another and save all buffers on =compile
 (use-package docker
   :general
   (:prefix
-   init-leader-key
+   leader-key
    "d" 'docker
    "c" 'docker-compose))
 #+END_SRC
@@ -2025,7 +2021,7 @@ Support for Docker related files.
   (coverlay:mark-tested-lines nil)
   :general
   (:prefix
-   init-local-leader-key
+   local-leader-key
    "v" 'coverlay-mode-toggle)
   :init
   (defun init-coverlay ()
@@ -2052,7 +2048,7 @@ Lookup documentation via DevDocs.
 #+BEGIN_SRC emacs-lisp
 (use-package devdocs
   :general
-  (:prefix init-nav-prefix "K" 'devdocs-search))
+  (:prefix nav-prefix "K" 'devdocs-search))
 #+END_SRC
 
 ** Editing
@@ -2072,10 +2068,10 @@ Lookup documentation via DevDocs.
 #+BEGIN_SRC emacs-lisp
 (use-package quickrun
   :hook
-  (quickrun--mode . init-display-ctrl-M-as-newline)
+  (quickrun--mode . display-ctrl-M-as-newline)
   :general
   (:prefix
-   init-local-leader-key
+   local-leader-key
    "q" 'quickrun
    "Q" 'quickrun-autorun-mode))
 #+END_SRC
@@ -2089,7 +2085,7 @@ Code folding.
   (hs-hide-comments-when-hiding-all nil)
   :general
   (:prefix
-   (concat init-leader-key " " "z")
+   (concat leader-key " " "z")
    ""      '(:ignore t :wk "hide")
    "c"     'hs-hide-block
    "o"     'hs-show-block
@@ -2157,7 +2153,7 @@ Don't ask about keeping current list of tags tables.
 (use-package xref
   :general
   (:prefix
-   init-nav-prefix
+   nav-prefix
    "i" 'xref-find-definitions
    "o" 'xref-find-definitions-other-window))
 #+end_src
@@ -2192,7 +2188,7 @@ nice defaults and also adds configuring completion with a fallback to =dumb-jump
   ("M-," 'smart-jump-back)
   ("M-?" 'smart-jump-references)
   (:prefix
-   init-nav-prefix
+   nav-prefix
    "j" 'smart-jump-go
    "r" 'smart-jump-references)
   :config
@@ -2249,7 +2245,7 @@ Refactoring commands for various languages.
   :general
   (:keymaps
    'prog-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'rtog/toggle-repl)
   :preface
   (defun clojure-repl ()
@@ -2286,7 +2282,7 @@ Receives PROCESS and EVENT."
       (setq comint-input-ring-file-name
             (expand-file-name
              (format "comint-%s-history" (process-name process))
-             init-cache-dir))
+             cache-dir))
       (comint-read-input-ring)
       (set-process-sentinel process #'+comint-history-write-on-exit))))
 #+END_SRC
@@ -2294,8 +2290,8 @@ Receives PROCESS and EVENT."
 ** Syntax checker
 Silence next/previous error, by default it produces a message every time.
 #+BEGIN_SRC emacs-lisp
-(advice-add #'next-error :around #'init-quiet-function-advice)
-(advice-add #'previous-error :around #'init-quiet-function-advice)
+(advice-add 'next-error :around #'quiet-function-advice)
+(advice-add 'previous-error :around #'quiet-function-advice)
 #+END_SRC
 
 *** flymake
@@ -2314,15 +2310,15 @@ Haskell one).
   (:keymaps
    'flymake-mode-map
    :prefix
-   init-local-leader-key
+   local-leader-key
    "!" 'flymake-show-diagnostics-buffer)
   (:keymaps
    'flymake-mode-map
-   :prefix init-next-prefix
+   :prefix next-prefix
    "E" 'flymake-goto-next-error)
   (:keymaps
    'flymake-mode-map
-   :prefix init-prev-prefix
+   :prefix prev-prefix
    "E" 'flymake-goto-prev-error)
   (:keymaps
    'flymake-diagnostics-buffer-mode-map
@@ -2336,7 +2332,7 @@ Haskell one).
   (defun flymake-setup-next-error-function ()
     (setq next-error-function 'flymake-next-error-compat))
 
-  (defun flymake-next-error-compat (&optional n reset)
+  (defun flymake-next-error-compat (&optional n _)
     (flymake-goto-next-error n))
 
   (defun flymake-diagnostics-next-error ()
@@ -2456,19 +2452,19 @@ Enhanced git related views and commands.
     "Set `fill-column' for git commit."
     (setq fill-column 72))
 
-  (defvar init-magit-process-create-pull-request-regexp
+  (defvar magit-process-create-pull-request-regexp
     "remote: Create pull request for.*\nremote: +\\(?1:[^ ]+\\)[^\n]*"
     "Regular expression detecting PR.")
 
-  (defun init-magit-process-ask-create-pull-request (_process string)
+  (defun magit-process-ask-create-pull-request (_process string)
     "Detect pull request STRING and ask to create PR."
-    (when (string-match init-magit-process-create-pull-request-regexp string)
+    (when (string-match magit-process-create-pull-request-regexp string)
       (let ((url (match-string 1 string))
             (inhibit-message t))
-        (if (y-or-n-p "Create PR?")
+        (if (y-or-n-p "Create PR? ")
             (browse-url (url-encode-url url))))))
   :config
-  (setq magit-process-prompt-functions #'init-magit-process-ask-create-pull-request)
+  (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" "")
   (global-magit-file-mode 1))
@@ -2533,11 +2529,11 @@ Generic Language Server Protocol integration via =eglot=.
   :general
   (:keymaps
    'eglot-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'eglot-help-at-point)
   (:keymaps
    'eglot-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "e" '(:ignore t :wk "eglot")
    "ea" 'eglot-code-actions
    "ef" 'eglot-format
@@ -2557,7 +2553,7 @@ Execute make tasks.
   (helm-make-completion-method 'ivy)
   :general
   (:prefix
-   init-leader-key
+   leader-key
    "m" (general-predicate-dispatch #'helm-make
          :docstring "Run make task (project aware)"
          (projectile-project-p) #'helm-make-projectile)))
@@ -2587,7 +2583,7 @@ Jump to document locations in current buffer
 (use-package imenu-anywhere
   :general
   (:prefix
-   init-search-prefix
+   search-prefix
    "i" 'imenu
    "I" 'imenu-anywhere))
 #+END_SRC
@@ -2598,7 +2594,7 @@ Document locations in a sidebar.
 (use-package imenu-list
   :general
   (:prefix
-   init-leader-key
+   leader-key
    "i" 'imenu-list-smart-toggle))
 #+END_SRC
 
@@ -2608,7 +2604,7 @@ Peek definition (Display the function source inline).
 (use-package source-peek
   :general
   (:prefix
-   init-nav-prefix
+   nav-prefix
    "SPC" 'source-peek))
 #+END_SRC
 
@@ -2705,7 +2701,7 @@ For modes that don't adequately highlight numbers.
 
 (general-define-key
  :keymaps 'emacs-lisp-mode-map
- :prefix init-local-leader-key
+ :prefix local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
  "l" '(lambda () (interactive) (load-file (buffer-file-name)))
@@ -2787,7 +2783,7 @@ Better =*help*= buffer
   :general
   (:keymaps
    'emacs-lisp-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "h" 'helpful-at-point)
   (:keymaps
    'help-map
@@ -2834,7 +2830,7 @@ Discover functions.
   :general
   (:keymaps
    'emacs-lisp-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "s" '+suggest-popup)
   :preface
   (defun +suggest-popup ()
@@ -2906,7 +2902,7 @@ Improve readability of escape characters in regular expressions.
   (eshell-destroy-buffer-when-process-dies t)
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "t" 'eshell)
   :preface
   (defvar eshell-visual-commands)
@@ -3068,7 +3064,7 @@ Paste links from clipboard and automatically fetch title.
   :general
   (:keymaps
    'org-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "l" 'org-cliplink))
 #+END_SRC
 
@@ -3111,7 +3107,7 @@ Presentation mode.
    "<left>" 'org-tree-slide-move-previous-tree)
   (:keymaps
    'org-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "p" 'org-tree-slide-mode))
 #+END_SRC
 
@@ -3251,8 +3247,8 @@ Add links in footnotes.
 (defvar org-export-latex-add-link-footnotes t
   "If non-nil links will be added as footnotes if exported to latex.")
 
-(defun +org-export-latex-link-footnote (text backend _info)
-  "Create a footnote in latex for each link. So when printed the information isn't lost.
+(defun org-export-latex-link-footnote (text backend _info)
+  "Create a footnote for each link to retain this information for print.
 If there is a URL and the export BACKEND is latex, then extract
 URL into footnote from TEXT."
   (when (and org-export-latex-add-link-footnotes
@@ -3264,7 +3260,7 @@ URL into footnote from TEXT."
       (format "%s \\footnote{\\url{%s}} " text (match-string 1 text)))))
 
 (with-eval-after-load 'ox
-  (cl-pushnew #'+org-export-latex-link-footnote org-export-filter-link-functions :test #'equal))
+  (cl-pushnew #'org-export-latex-link-footnote org-export-filter-link-functions :test #'equal))
 #+END_SRC
 
 ** ansible
@@ -3286,7 +3282,7 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'ansible::key-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'ansible-doc-at-point))
 #+END_SRC
 
@@ -3309,12 +3305,12 @@ URL into footnote from TEXT."
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
-  (cider-repl-history-file (concat init-data-dir "cider-history"))
+  (cider-repl-history-file (concat data-dir "cider-history"))
   (org-babel-clojure-backend 'cider)
   :general
   (:keymaps
    'cider-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "c" 'cider-refresh
    "t" 'cider-test-run-test
    "T" 'cider-test-run-ns-tests
@@ -3328,7 +3324,7 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'crystal-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'crystal-spec-line
    "T" 'crystal-spec-buffer
    "s" 'crystal-spec-all))
@@ -3343,7 +3339,7 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'crystal-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'inf-crystal))
 #+END_SRC
 
@@ -3381,11 +3377,11 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'alchemist-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'alchemist-help-search-at-point)
   (:keymaps
    'alchemist-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'alchemist-iex-run
    "s" 'alchemist-mix-test
    "t" 'alchemist-mix-test-at-point
@@ -3404,7 +3400,7 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'elm-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'elm-test-project))
 #+END_SRC
 
@@ -3419,7 +3415,7 @@ URL into footnote from TEXT."
   (nov-mode . init-nov-delayed-render)
   (nov-mode . init-nov-fringes)
   :custom
-  (nov-save-place-file (concat init-data-dir "nov-places"))
+  (nov-save-place-file (concat data-dir "nov-places"))
   :preface
   (defun init-nov-delayed-render ()
     (run-with-idle-timer 0.2 nil 'nov-render-document))
@@ -3446,11 +3442,11 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'erlang-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'erlang-man-function)
   (:keymaps
    'erlang-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'erlang-eunit-compile-and-run-current-test
    "T" 'erlang-eunit-compile-and-run-module-tests
    "r" 'erlang-shell-display)
@@ -3498,7 +3494,7 @@ URL into footnote from TEXT."
   :general
   (:keymaps
    'go-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'godoc-at-point)
   :preface
   (defun init-go-prettify-symbols ()
@@ -3562,7 +3558,7 @@ URL into footnote from TEXT."
    "M-." 'nil)
   (:keymaps
    'haskell-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'haskell-interactive-switch
    "R" 'haskell-session-change-target)
   :init
@@ -3600,7 +3596,7 @@ Persist REPL history.
   :general
   (:keymaps
    'haskell-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'hasky-stack-test))
 #+END_SRC
 
@@ -3614,7 +3610,7 @@ Persist REPL history.
   :general
   (:keymaps
    'gradle-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'gradle-test))
 #+END_SRC
 
@@ -3624,7 +3620,7 @@ Persist REPL history.
   :general
   (:keymaps
    'java-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'javadoc-lookup))
 #+END_SRC
 
@@ -3679,7 +3675,7 @@ Debugger
   :general
   (:keymaps
    'js-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "s" 'indium-scratch
    "o" 'indium-launch
    "O" 'indium-connect)
@@ -3696,7 +3692,7 @@ Test framework execution.
   :general
   (:keymaps
    'js-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'jest-funcion-dwim
    "T" 'jest-file
    "s" 'jest-popup))
@@ -3769,7 +3765,7 @@ REPL for nodejs.
   :general
   (:keymaps
    'json-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "n" 'json-navigator-navigate-region))
 #+END_SRC
 
@@ -3791,11 +3787,11 @@ REPL for nodejs.
   :general
   (:keymaps
    'slime-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'slime-describe-symbol)
   (:keymaps
    'slime-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "o" 'slime
    "t" 'slime-load-file-and-other-file)
   :preface
@@ -3818,7 +3814,7 @@ REPL for nodejs.
   :general
   (:keymaps
    'lua-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'lua-search-documentation)
   :preface
   (defun init-lua-prettify-symbols ()
@@ -3848,7 +3844,7 @@ REPL for nodejs.
   :general
   (:keymaps
    'markdown-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "v" 'markdown-toggle-markup-hiding))
 #+END_SRC
 
@@ -3912,7 +3908,7 @@ Pretty check-boxes
   :general
   (:keymaps
    'nix-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "u" 'nix-update-fetch))
 #+END_SRC
 
@@ -3938,7 +3934,7 @@ Pretty check-boxes
    "C-x C-e" 'tuareg-eval-phrase)
   (:keymaps
    'tuareg-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'run-ocaml))
 #+END_SRC
 
@@ -3972,7 +3968,7 @@ Pretty check-boxes
   :general
   (:keymaps
    'python-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'run-python)
   :preface
   (defun init-python-prettify-symbols ()
@@ -4003,7 +3999,7 @@ Editing pip requirements files.
   :general
   (:keymaps
    'python-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'pydoc-at-point))
 #+END_SRC
 
@@ -4015,7 +4011,7 @@ Editing pip requirements files.
   :general
   (:keymaps
    'python-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'python-test-project)
   :config
   (setq python-test-project-root-files
@@ -4029,11 +4025,11 @@ Editing pip requirements files.
   :general
   (:keymaps
    'racket-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'racket-doc)
   (:keymaps
    'racket-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'racket-test))
 #+END_SRC
 
@@ -4145,7 +4141,7 @@ Pretty check-boxes as well as bullet lists.
 
 (general-define-key
  :keymaps 'ruby-mode-map
- :prefix init-local-leader-key
+ :prefix local-leader-key
  "t" 'ruby-test-at-point
  "T" 'ruby-test-file
  "s" 'ruby-test-all)
@@ -4164,7 +4160,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'ruby-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "r" 'inf-ruby))
 #+END_SRC
 
@@ -4180,7 +4176,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package rake
   :custom
   (rake-completion-system 'default)
-  (rake-cache-file (expand-file-name "rake.cache" init-cache-dir)))
+  (rake-cache-file (expand-file-name "rake.cache" cache-dir)))
 #+END_SRC
 
 **** rspec-mode
@@ -4213,7 +4209,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'ruby-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'yari)
   (:keymaps
    'help-command-map
@@ -4230,7 +4226,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'rustic-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'rustic-cargo-test)
   :init
   (with-eval-after-load 'org
@@ -4246,7 +4242,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'salt-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'salt-mode-browse-doc))
 #+END_SRC
 
@@ -4278,7 +4274,7 @@ Pretty check-boxes as well as bullet lists.
   :general
   (:keymaps
    'sh-mode-map
-   :prefix init-nav-prefix
+   :prefix nav-prefix
    "k" 'man))
 #+END_SRC
 
@@ -4305,7 +4301,7 @@ Pretty check-boxes as well as bullet lists.
   (explicit-shell-file-name "fish")
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "T" 'term))
 #+END_SRC
 
@@ -4355,7 +4351,7 @@ Test framework execution.
   :general
   (:keymaps
    'typescript-mode-map
-   :prefix init-local-leader-key
+   :prefix local-leader-key
    "t" 'jest-function-dwim
    "T" 'jest-file
    "s" 'jest-popup))
@@ -4461,7 +4457,7 @@ Dim out the surrounding text except the current focused paragraph or expression.
 (use-package redtick
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "r" 'redtick))
 #+END_SRC
 
@@ -4497,7 +4493,7 @@ it really useful.
                 spray-unsupported-minor-modes))
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "s" 'spray-mode))
 #+END_SRC
 
@@ -4537,19 +4533,13 @@ Navigate through undo history.
 (use-package undo-propose
   :general
   (:prefix
-   init-launch-prefix
+   launch-prefix
    "u" 'undo-propose))
 #+END_SRC
 
 * Private
 #+BEGIN_SRC emacs-lisp
 (require 'private nil t)
-#+END_SRC
-
-* The end
-#+BEGIN_SRC emacs-lisp
-(provide 'init)
-;;; init.el ends here
 #+END_SRC
 
 * Tasks

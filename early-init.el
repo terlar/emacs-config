@@ -1,3 +1,5 @@
+;;; early-init.el --- Early Emacs Initialization -*- lexical-binding: t; -*-
+
 ;;; Time the startup
 (add-hook 'emacs-startup-hook
           (lambda ()
