@@ -293,12 +293,8 @@ For example links."
    `(ediff-current-diff-Ancestor ((t (:inherit readable-mono-theme-secondary))))
    `(ediff-fine-diff-Ancestor ((t (:inherit highlight))))
    `(smerge-base ((t (:inherit readable-mono-theme-secondary))))
-   `(smerge-lower
-     ((((background light)) (:background ,l-red-bg))
-      (((background dark)) (:background ,d-red-bg))))
-   `(smerge-upper
-     ((((background light)) (:background ,l-green-bg))
-      (((background dark)) (:background ,d-green-bg))))
+   `(smerge-lower ((t (:background nil))))
+   `(smerge-upper ((t (:background nil))))
 
    ;; Dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
