@@ -1,12 +1,3 @@
-;;; early-init.el --- Early initialization -*- lexical-binding: t -*-
-
-;; URL: https://github.com/terlar/emacs-config
-;; Version: 1.0.0
-;; Package-Requires: ((emacs "24.4"))
-
-;;; Commentary:
-;; Configuration that should be done early or help speed up the loading.
-
 ;;; Time the startup
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -43,6 +34,3 @@
 ;; Load `use-package' if possible.
 (eval-when-compile
   (require 'use-package nil t))
-
-(provide 'early-init)
-;;; early-init.el ends here
