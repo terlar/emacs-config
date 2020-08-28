@@ -364,11 +364,11 @@ For example links."
    `(org-headline-done ((t (:foreground nil))))
    `(org-headline-todo ((t (:foreground nil))))
    `(org-block ((t (:inherit readable-mono-theme-secondary))))
+   `(org-code ((t (:inherit readable-mono-theme-secondary))))
    `(org-date ((t (:foreground nil :underline nil))))
    `(org-document-info ((t (:foreground nil))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
    `(org-table ((t (:foreground nil))))
-   `(org-verbatim ((t (:inherit readable-mono-theme-secondary))))
 
    ;; Org-tree-slide
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
