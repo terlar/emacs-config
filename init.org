@@ -3174,7 +3174,6 @@ Use variable-pitch font but still make sure everything aligns.
 (use-package org-variable-pitch
   :hook (org-mode . org-variable-pitch-minor-mode)
   :custom
-  (org-variable-pitch-fixed-font init-fixed-pitch-font)
   (org-variable-pitch-fontify-headline-prefix t))
 #+END_SRC
 
