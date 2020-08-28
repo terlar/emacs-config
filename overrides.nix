@@ -61,6 +61,17 @@ in {
     };
   };
 
+  org-variable-pitch = prev.org-variable-pitch.overrideAttrs (attrs: {
+    version = "20200828.230";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "elisp";
+      rev = "274a897e999334e86db36fc0f0a0c7fb3d833030";
+      sha256 = "1dfv5f8w1b2gyii0yznx417a4l7pip3510l377ymqy4qhxajs7pw";
+      # date = 2020-08-28T02:30:27+02:00;
+    };
+  });
+
   ws-butler = prev.ws-butler.overrideAttrs (attrs: {
     version = "20200403.107";
     src = fetchFromGitHub {
