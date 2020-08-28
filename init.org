@@ -2699,7 +2699,7 @@ For modes that don't adequately highlight numbers.
 #+END_SRC
 
 * Major modes
-** elisp
+** emacs-lisp
 #+BEGIN_SRC emacs-lisp
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
@@ -2708,6 +2708,7 @@ For modes that don't adequately highlight numbers.
  :prefix init-local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
+ "l" '(lambda () (interactive) (load-file (buffer-file-name)))
  "t" 'ert)
 
 (custom-set-variables
@@ -2721,6 +2722,15 @@ Specific safe local code can be specified via:
 - =safe-local-variable-values=
 - =safe-local-eval-forms=
 - =safe-local-eval-function=
+
+*** Syntax checking
+#+begin_src emacs-lisp :tangle yes
+(defun elisp-flymake--load-use-package-before-compile ()
+  "Ensure `use-package' macro is available for code snippets."
+  (eval-when-compile
+    (require 'use-package nil t)))
+(advice-add 'elisp-flymake--batch-compile-for-flymake :before #'elisp-flymake--load-use-package-before-compile)
+#+end_src
 
 *** ielm
 Persist ielm history.
@@ -2805,9 +2815,12 @@ Better =*help*= buffer
 (use-package package-lint-flymake
   :hook
   (emacs-lisp-mode . package-lint-flymake-setup-when-package)
+  :command
+  (package-lint-flymake-setup)
   :preface
   (defun package-lint-flymake-setup-when-package ()
     "Enable `package-lint-flymake' when buffer seems to be a package."
+    (autoload 'package-lint--provided-feature "package-lint")
     (when (package-lint--provided-feature)
       (package-lint-flymake-setup))))
 #+END_SRC
