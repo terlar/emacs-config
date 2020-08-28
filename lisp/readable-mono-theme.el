@@ -357,8 +357,31 @@ For example links."
    `(magit-section-heading ((t (:foreground nil))))
    `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
 
+   ;; Markdown
+   `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
+   `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
+
+   ;; Org
+   `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
+   `(org-done ((t (:foreground nil))))
+   `(org-todo ((t (:foreground nil))))
+   `(org-headline-done ((t (:foreground nil))))
+   `(org-headline-todo ((t (:foreground nil))))
+   `(org-block ((t (:inherit readable-mono-theme-secondary))))
+   `(org-date ((t (:foreground nil :underline nil))))
+   `(org-document-info ((t (:foreground nil))))
+   `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
+   `(org-table ((t (:foreground nil))))
+   `(org-verbatim ((t (:inherit readable-mono-theme-secondary))))
+
+   ;; Org-tree-slide
+   `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
+
    ;; Popup
    `(popup-tip-face ((t (:inherit (nil readable-mono-theme-secondary readable-mono-theme-subordinate)))))
+
+   ;; Quick-peek
+   `(quick-peek-background-face ((t :inherit readable-mono-theme-secondary)))
 
    ;; Rainbow-delimiters
    `(rainbow-delimiters-unmatched-face ((t (:inherit readable-mono-theme-critical))))
@@ -382,29 +405,6 @@ For example links."
 
    ;; Term
    `(term-color-red ((t (:inherit readable-mono-theme-critical))))
-
-   ;; Markdown
-   `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
-   `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
-
-   ;; Org
-   `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
-   `(org-done ((t (:foreground nil))))
-   `(org-todo ((t (:foreground nil))))
-   `(org-headline-done ((t (:foreground nil))))
-   `(org-headline-todo ((t (:foreground nil))))
-   `(org-block ((t (:inherit readable-mono-theme-secondary))))
-   `(org-date ((t (:foreground nil :underline nil))))
-   `(org-document-info ((t (:foreground nil))))
-   `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
-   `(org-table ((t (:foreground nil))))
-   `(org-verbatim ((t (:inherit readable-mono-theme-secondary))))
-
-   ;; Org-tree-slide
-   `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
-
-   ;; Quick-peek
-   `(quick-peek-background-face ((t :inherit readable-mono-theme-secondary)))
 
    ;; Web-mode
    `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match)))))
