@@ -1623,7 +1623,7 @@ Keep track of recently opened files.
   (defun completing-read-file-candidate (candidate)
     "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
 and icon prefix from `all-the-icons-icon-for-file'."
-    (propertize (abbreviate-file-name candidate)
+    (propertize candidate
                 'selectrum-candidate-display-prefix
                 (concat
                  (cond
