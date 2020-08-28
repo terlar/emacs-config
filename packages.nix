@@ -70,6 +70,7 @@ with epkgs;
   elfeed
   elixir-mode
   elm-mode
+  elsa
   emmet-mode
   emr
   envrc
