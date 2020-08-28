@@ -406,6 +406,10 @@ For example links."
    ;; Term
    `(term-color-red ((t (:inherit readable-mono-theme-critical))))
 
+   ;; Visual Replace
+   `(vr/match-0 ((t (:inverse-video t))))
+   `(vr/match-1 ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
+
    ;; Web-mode
    `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match)))))
 
