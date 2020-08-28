@@ -160,6 +160,12 @@
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))
 
+   ;; Info
+   `(info-title-1 ((t (:height ,level-1-height))))
+   `(info-title-2 ((t (:height ,level-2-height))))
+   `(info-title-3 ((t (:height ,level-3-height))))
+   `(info-title-4 ((t (:height ,level-4-height :slant italic))))
+
    ;; Markdown
    `(markdown-header-face ((t (:weight ,bold-weight))))
    `(markdown-header-face-1 ((t (:height ,level-1-height))))

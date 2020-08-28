@@ -343,6 +343,9 @@ For example links."
    ;; Indent-guide
    `(indent-guide-face ((t (:inherit fringe))))
 
+   ;; Info
+   `(info-header-node ((t (:inherit readable-mono-theme-strong))))
+
    ;; Ivy
    `(ivy-current-match ((t (:inherit highlight))))
    `(ivy-minibuffer-match-face-1 ((t (:inherit readable-mono-theme-strong))))

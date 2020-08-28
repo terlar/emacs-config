@@ -1362,6 +1362,7 @@ Display colors inline.
 (use-package readable
   :hook
   ((eww-mode
+    Info-mode
     markdown-mode
     nov-mode
     org-mode
