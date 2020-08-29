@@ -27,6 +27,13 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 
+;; Quiet startup
+(setq inhibit-default-init t
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message t
+      initial-major-mode 'fundamental-mode
+      initial-scratch-message nil)
+
 ;; Don't implicitly resize frames when changes various settings.
 (setq frame-inhibit-implied-resize t)
 
