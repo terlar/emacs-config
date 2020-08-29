@@ -468,6 +468,18 @@ keybindings in case I would forget them.
 | =C-c C-f=    | =gnus-summary-mail-forward=             | Forward mail                                                  |
 | =c=          | =gnus-group-catchup-current=            | Mark mails as read                                            |
 
+** Org
+| Keybinding | Function             | Description                                    |
+|------------+----------------------+------------------------------------------------|
+| =C-c C-w=    | ~org-refile~           | Move headline under another top level headline |
+| =<S-right>=  | ~org-shiftright~       | Cycle through todo keywords (right)            |
+| =<S-left>=   | ~org-shiftleft~        | Cycle through todo keywords (left)             |
+| =C-c C-c=    | ~org-ctrl-c-ctrl-c~    | Set tags for an item                           |
+| =C-c C-t=    | ~org-todo~             | Set tags for an item (via menu)                |
+| =C-c C-s=    | ~org-schedule~         | Schedule an item                               |
+| =C-c C-d=    | ~org-deadline~         | Set a deadline                                 |
+| =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
+
 ** Leader keys
 #+BEGIN_SRC emacs-lisp
 (defvar leader-key "C-,"
