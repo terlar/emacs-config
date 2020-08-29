@@ -23,7 +23,6 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
 ;; Minimal and mostly monochromatic theme.
 ;;
 ;; Faces TODO:
@@ -57,7 +56,7 @@
   "Minimal and monochromatic theme customization options."
   :group 'faces)
 
-;; Light theme
+;;;; Light theme
 (defgroup readable-mono-theme-light nil
   "Minimal and monochromatic light theme customization options."
   :group 'readable-mono-theme)
@@ -92,7 +91,7 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
-;; Dark theme
+;;;; Dark theme
 (defgroup readable-mono-theme-dark nil
   "Minimal and monochromatic dark theme customization options."
   :group 'readable-mono-theme)
@@ -127,7 +126,7 @@
   :type 'string
   :group 'readable-mono-theme-dark)
 
-;; Faces
+;;;; Faces
 (defface readable-mono-theme-critical
   '((((background light)) (:foreground "#ffffff" :background "#cc1f24"))
     (((background dark)) (:foreground "#ffffff" :background "#ec423a")))
@@ -184,7 +183,7 @@ For example links."
       (d-red-bg-s "#582b29")
       (d-blue-bg "#023447")
       (d-blue-bg-s "#004363"))
-  ;; Theme faces
+;;;; Theme faces
   (custom-theme-set-faces
    'readable-mono
    `(default
@@ -193,7 +192,7 @@ For example links."
        (((type tty) (background light)) (:background nil :foreground ,l-fg))
        (((type tty) (background dark)) (:background nil :foreground ,d-fg))))
 
-   ;; Semantic
+;;;;; Semantic
    `(bold ((t (:inherit readable-mono-theme-strong))))
    `(bold-italic ((t (:inherit readable-mono-theme-strong))))
    `(link ((t (:inherit readable-mono-theme-actionable :underline t))))
@@ -215,10 +214,10 @@ For example links."
    `(font-lock-keyword-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-warning-face ((t (:inherit readable-mono-theme-emphasis))))
 
-   ;; Headlines
+;;;;; Headlines
    `(custom-variable-tag ((t (:inherit readable-mono-theme-strong))))
 
-   ;; Search and highlight
+;;;;; Search and highlight
    `(completions-common-part ((t (:inherit readable-mono-theme-strong))))
    `(completions-first-difference ((t (:inherit readable-mono-theme-emphasis))))
    `(highlight ((t (:inverse-video t))))
@@ -230,7 +229,7 @@ For example links."
      ((((background light)) (:background ,readable-mono-theme-light-region))
       (((background dark)) (:background ,readable-mono-theme-dark-region))))
 
-   ;; Visual aid
+;;;;; Visual aid
    `(cursor
      ((((background light)) (:background ,readable-mono-theme-light-cursor))
       (((background dark)) (:background ,readable-mono-theme-dark-cursor))))
@@ -241,7 +240,7 @@ For example links."
    `(show-paren-match ((t (:inherit readable-mono-theme-strong :underline t))))
    `(show-paren-mismatch ((t (:inherit readable-mono-theme-critical))))
 
-   ;; Interface
+;;;;; Interface
    `(mode-line
      ((((background light)) (:background ,l-bg-s :box (:line-width 6 :color ,l-bg-s)))
       (((background dark)) (:background ,d-bg-s :box (:line-width 6 :color ,d-bg-s)))))
@@ -272,11 +271,7 @@ For example links."
    `(window-divider-first-pixel ((t (:inherit window-divider))))
    `(window-divider-last-pixel ((t (:inherit window-divider))))
 
-   ;; cider
-   `(cider-test-failure-face ((t (:inherit readable-mono-theme-critical))))
-   `(cider-result-overlay-face ((t (:inherit highlight))))
-
-   ;; Diff
+;;;;; Diff
    `(ediff-current-diff-A
      ((((background light)) (:background ,l-red-bg))
       (((background dark)) (:background ,d-red-bg))))
@@ -301,18 +296,22 @@ For example links."
    `(smerge-lower ((t (:background nil))))
    `(smerge-upper ((t (:background nil))))
 
-   ;; Dired
+;;;;; cider
+   `(cider-test-failure-face ((t (:inherit readable-mono-theme-critical))))
+   `(cider-result-overlay-face ((t (:inherit highlight))))
+
+;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
    `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
 
-   ;; ERC
+;;;;; erc
    `(erc-my-nick-face ((t (:inherit readable-mono-theme-emphasis))))
 
-   ;; Eros
+;;;;; eros
    `(eros-result-overlay-face ((t (:inherit highlight))))
 
-   ;; EShell
+;;;;; eshell
    `(eshell-prompt ((t (:inherit readable-mono-theme-strong))))
    `(eshell-ls-archive ((t (:inherit readable-mono-theme-strong))))
    `(eshell-ls-backup ((t (:inherit font-lock-comment-face))))
@@ -325,12 +324,12 @@ For example links."
    `(eshell-ls-special ((t (:inherit readable-mono-theme-strong))))
    `(eshell-ls-symlink ((t (:inherit readable-mono-theme-strong))))
 
-   ;; Flymake
+;;;;; flymake
    `(flymake-error
      ((((background light)) (:background ,l-red-bg :extend t))
       (((background dark)) (:background ,d-red-bg :extend t))))
 
-   ;; Flyspell
+;;;;; flyspell
    `(flyspell-duplicate
      ((((background light)) (:underline (:style wave :color ,l-fg-s)))
       (((background dark)) (:underline (:style wave :color ,d-fg-s)))))
@@ -338,31 +337,31 @@ For example links."
      ((((background light)) (:underline (:style wave :color ,l-fg)))
       (((background dark)) (:underline (:style wave :color ,d-fg)))))
 
-   ;; Haskell-mode
+;;;;; haskell
    `(haskell-interactive-face-prompt ((t (:inherit readable-mono-theme-strong))))
 
-   ;; Indent-guide
+;;;;; indent-guide
    `(indent-guide-face ((t (:inherit fringe))))
 
-   ;; Info
+;;;;; Info
    `(info-header-node ((t (:inherit readable-mono-theme-strong))))
 
-   ;; Ivy
+;;;;; ivy
    `(ivy-current-match ((t (:inherit highlight))))
    `(ivy-minibuffer-match-face-1 ((t (:inherit readable-mono-theme-strong))))
    `(ivy-minibuffer-match-face-2 ((t (:inherit readable-mono-theme-strong))))
    `(ivy-minibuffer-match-face-3 ((t (:inherit readable-mono-theme-strong))))
    `(ivy-minibuffer-match-face-4 ((t (:inherit readable-mono-theme-strong))))
 
-   ;; Magit
+;;;;; magit
    `(magit-section-heading ((t (:foreground nil))))
    `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
 
-   ;; Markdown
+;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
 
-   ;; Org
+;;;;; org
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
    `(org-todo ((t (:foreground nil))))
@@ -375,55 +374,58 @@ For example links."
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
    `(org-table ((t (:foreground nil))))
 
-   ;; Org-tree-slide
+;;;;; org-tree-slide
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
 
-   ;; Popup
+;;;;; outline
+   `(outline-minor-0 ((t (:background nil))))
+
+;;;;; popup
    `(popup-tip-face ((t (:inherit (nil readable-mono-theme-secondary readable-mono-theme-subordinate)))))
 
-   ;; Quick-peek
+;;;;; quick-peek
    `(quick-peek-background-face ((t :inherit readable-mono-theme-secondary)))
 
-   ;; Rainbow-delimiters
+;;;;; rainbow-delimiters
    `(rainbow-delimiters-unmatched-face ((t (:inherit readable-mono-theme-critical))))
 
-   ;; rst
+;;;;; rst
    `(rst-directive ((t (:inherit font-lock-comment-face))))
    `(rst-external ((t (:inherit font-lock-comment-face))))
    `(rst-literal ((t (:inherit readable-mono-theme-secondary :extend t))))
 
-   ;; Smartparens
+;;;;; smartparens
    `(sp-show-pair-match-face ((t (:inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((t (:inherit show-paren-mismatch))))
  
-   ;; Spray
+;;;;; spray
    `(spray-accent-face
      ((((background light)) (:foreground ,readable-mono-theme-light-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))
       (((background dark)) (:foreground ,readable-mono-theme-dark-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
 
-   ;; Stripe-buffer
+;;;;; stripe-buffer
    `(stripe-highlight ((t (:inherit region))))
 
-   ;; Term
+;;;;; term
    `(term-color-red ((t (:inherit readable-mono-theme-critical))))
 
-   ;; Visual Replace
+;;;;; visual-regexp
    `(vr/match-0 ((t (:inverse-video t))))
    `(vr/match-1 ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
 
-   ;; Web-mode
+;;;;; web
    `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match)))))
 
-  ;; Theme variables
+;;;; Theme variables
   (custom-theme-set-variables
    'readable-mono
-   ;; ansi-color
+;;;;; ansi-color
    `(ansi-color-names-vector ,(pcase (frame-parameter nil 'background-mode)
                                 ('light
                                  `[,l-fg ,(face-foreground 'readable-mono-theme-emphasis) ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg])
                                 ('dark
                                  `[,d-fg ,(face-foreground 'readable-mono-theme-emphasis) ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg])))
-   ;; coverlay
+;;;;; coverlay
    `(coverlay:untested-line-background-color
      ,(pcase (frame-parameter nil 'background-mode)
         ('light l-red-bg)
@@ -432,15 +434,15 @@ For example links."
      ,(pcase (frame-parameter nil 'background-mode)
         ('light l-green-bg)
         ('dark d-green-bg)))
-    ;; hl-todo
+;;;;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:inherit readable-mono-theme-strong :box (:line-width 1)))
        ("FIXME" . (:inherit readable-mono-theme-emphasis :box (:line-width 1)))
        ("NOTE"  . (:box (:line-width 1)))))
-   ;; rainbow-identifiers
+;;;;; rainbow-identifiers
    `(rainbow-identifiers-cie-l*a*b*-saturation 65)
    `(rainbow-identifiers-cie-l*a*b*-lightness 45)
-   ;; zoom-window
+;;;;; zoom-window
    `(zoom-window-mode-line-color ,(pcase (frame-parameter nil 'background-mode)
                                     ('light l-bg-s)
                                     ('dark d-bg-s)))))

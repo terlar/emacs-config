@@ -23,7 +23,6 @@
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
 ;; Typographic theme to achieve a more readable and pleasant experience.
 
 ;;; Code:
@@ -33,6 +32,7 @@
   "Readable typographic theme customization options."
   :group 'faces)
 
+;;;; Customization options
 (defcustom readable-typo-theme-default-font-height 120
   "Default font height."
   :type 'string
@@ -145,7 +145,7 @@
       (level-6-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-6 nil))
       (level-7-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-7 nil))
       (level-8-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-8 nil)))
-  ;; Theme faces
+;;;; Theme faces
   (custom-theme-set-faces
    'readable-typo
    `(default ((t (:height ,default-height :family ,fixed-pitch :weight ,default-weight))))
@@ -154,19 +154,19 @@
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
    `(bold ((t (:weight ,bold-weight))))
 
-   ;; Interface
+;;;;; Interface
    `(mode-line ((t (:family ,variable-pitch :height ,small-height))))
    `(mode-line-inactive ((t (:family ,variable-pitch :height ,small-height))))
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))
 
-   ;; Info
+;;;;; Info
    `(info-title-1 ((t (:height ,level-1-height))))
    `(info-title-2 ((t (:height ,level-2-height))))
    `(info-title-3 ((t (:height ,level-3-height))))
    `(info-title-4 ((t (:height ,level-4-height :slant italic))))
 
-   ;; Markdown
+;;;;; markdown
    `(markdown-header-face ((t (:weight ,bold-weight))))
    `(markdown-header-face-1 ((t (:height ,level-1-height))))
    `(markdown-header-face-2 ((t (:height ,level-2-height))))
@@ -181,7 +181,7 @@
    `(markdown-pre-face ((t (:family ,fixed-pitch))))
    `(markdown-table-face ((t (:family ,fixed-pitch))))
 
-   ;; Org
+;;;;; org
    `(org-document-title ((t (:height ,title-height :weight ,bold-weight))))
    `(org-level-1 ((t (:height ,level-1-height :weight ,bold-weight))))
    `(org-level-2 ((t (:height ,level-2-height :weight ,bold-weight))))
@@ -196,7 +196,7 @@
    `(org-code ((t (:family ,fixed-pitch))))
    `(org-verbatim ((t (:family ,fixed-pitch))))
 
-   ;; Outline
+;;;;; outline
    `(outline-1 ((t (:height ,level-1-height :weight ,bold-weight))))
    `(outline-2 ((t (:height ,level-2-height :weight ,bold-weight))))
    `(outline-3 ((t (:height ,level-3-height :weight ,bold-weight))))
@@ -205,11 +205,12 @@
    `(outline-6 ((t (:height ,level-6-height :weight ,bold-weight :slant italic))))
    `(outline-7 ((t (:height ,level-7-height :weight ,bold-weight :slant italic))))
    `(outline-8 ((t (:height ,level-8-height :weight ,bold-weight :slant italic))))
+   `(outline-minor-0 ((t (:family ,serif))))
 
-   ;; Readable
+;;;;; readable
    `(readable-variable-pitch ((t (:height 1.1 :family ,serif))))
 
-   ;; rst
+;;;;; rst
    `(rst-level-1 ((t (:height ,level-1-height :weight ,bold-weight))))
    `(rst-level-2 ((t (:height ,level-2-height :weight ,bold-weight))))
    `(rst-level-3 ((t (:height ,level-3-height :weight ,bold-weight))))
@@ -218,10 +219,10 @@
    `(rst-level-6 ((t (:height ,level-6-height :weight ,bold-weight :slant italic))))
    `(rst-literal ((t (:family ,fixed-pitch))))
 
-    ;; spray
+;;;;; spray
    `(spray-base-face ((t (:family ,serif :weight ,bold-weight :underline nil)))))
 
-  ;; Theme variables
+;;;; Theme variables
   (custom-theme-set-variables
    'readable-typo
    `(line-spacing ,readable-typo-theme-line-spacing)
