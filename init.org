@@ -3001,7 +3001,7 @@ Populate auto-completions from fish.
   :minor
   ("init\\.org\\'" . auto-tangle-mode)
   :custom
-  (org-agenda-files '("~/org"))
+  (org-agenda-files '("Personal.org" "Work.org"))
   (org-confirm-babel-evaluate nil)
   (org-babel-load-languages
    '((emacs-lisp . t)
@@ -3025,7 +3025,8 @@ Populate auto-completions from fish.
   (:keymaps
    'org-mode-map
    "C-'" 'nil
-   "C-," 'nil)
+   "C-," 'nil
+   "C-C a" 'org-agenda)
   :functions
   (org-babel-load-languages)
   :preface
