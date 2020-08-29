@@ -388,6 +388,11 @@ For example links."
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
    `(org-table ((t (:foreground nil))))
 
+   `(org-agenda-structure ((t (:foreground nil))))
+   `(org-agenda-date ((t (:foreground nil))))
+   `(org-scheduled ((t (:inherit readable-mono-theme-actionable))))
+   `(org-scheduled-previously ((t (:inherit readable-mono-theme-emphasis))))
+
 ;;;;; org-tree-slide
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
 

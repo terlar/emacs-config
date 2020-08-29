@@ -196,6 +196,8 @@
    `(org-code ((t (:family ,fixed-pitch))))
    `(org-verbatim ((t (:family ,fixed-pitch))))
 
+   `(org-agenda-structure ((t (:family ,variable-pitch :height ,level-1-height))))
+
 ;;;;; outline
    `(outline-1 ((t (:height ,level-1-height :weight ,bold-weight))))
    `(outline-2 ((t (:height ,level-2-height :weight ,bold-weight))))
