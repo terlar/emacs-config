@@ -2687,6 +2687,7 @@ For modes that don't adequately highlight numbers.
 ** emacs-lisp
 #+BEGIN_SRC emacs-lisp
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
+(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
 
 (general-define-key
  :keymaps 'emacs-lisp-mode-map
@@ -3251,6 +3252,18 @@ URL into footnote from TEXT."
 (with-eval-after-load 'ox
   (cl-pushnew #'org-export-latex-link-footnote org-export-filter-link-functions :test #'equal))
 #+END_SRC
+
+** outline
+Display outlines in text like files or use it in conjunction with other major modes via ~outline-minor-mode~.
+*** Packages
+**** outline-minor-faces
+Add faces to =outline-minor-mode= in order to make the headings stand out.
+#+begin_src emacs-lisp :tangle yes
+(use-package outline-minor-faces
+  :after outline
+  :hook
+  (outline-minor-mode . outline-minor-faces-add-font-lock-keywords))
+#+end_src
 
 ** ansible
 #+BEGIN_SRC emacs-lisp

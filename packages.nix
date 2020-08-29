@@ -171,6 +171,7 @@ with epkgs;
   org-roam
   org-tree-slide
   org-variable-pitch
+  outline-minor-faces
   package-lint-flymake
   page-break-lines
   pdf-tools
