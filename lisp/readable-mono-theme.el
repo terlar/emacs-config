@@ -292,9 +292,23 @@ For example links."
       (((background dark)) (:background ,d-blue-bg-s))))
    `(ediff-current-diff-Ancestor ((t (:inherit readable-mono-theme-secondary))))
    `(ediff-fine-diff-Ancestor ((t (:inherit highlight))))
+
    `(smerge-base ((t (:inherit readable-mono-theme-secondary))))
    `(smerge-lower ((t (:background nil))))
    `(smerge-upper ((t (:background nil))))
+
+   `(diff-hl-insert
+     ((((background light)) (:background ,l-green-bg :foreground ,l-green-bg))
+      (((background dark)) (:background ,d-green-bg :foreground ,d-green-bg))))
+   `(diff-hl-change
+     ((((background light)) (:background ,l-blue-bg :foreground ,l-blue-bg))
+      (((background dark)) (:background ,d-blue-bg :foreground ,d-blue-bg))))
+   `(diff-hl-delete
+     ((((background light)) (:background ,l-red-bg :foreground ,l-red-bg))
+      (((background dark)) (:background ,d-red-bg :foreground ,d-red-bg))))
+   `(diff-hl-unknown
+     ((((background light)) (:background ,l-bg-s :foreground ,l-bg-s))
+      (((background dark)) (:background ,d-bg-s :foreground ,d-bg-s))))
 
 ;;;;; cider
    `(cider-test-failure-face ((t (:inherit readable-mono-theme-critical))))
