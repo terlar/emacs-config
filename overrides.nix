@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub, texinfo, perl, which }:
+{ stdenv, fetchFromGitHub, substituteAll, texinfo, perl, python3, pywal, which
+}:
 
 final: prev:
 
@@ -70,6 +71,17 @@ in {
       sha256 = "1dfv5f8w1b2gyii0yznx417a4l7pip3510l377ymqy4qhxajs7pw";
       # date = 2020-08-28T02:30:27+02:00;
     };
+  });
+
+  theme-magic = prev.theme-magic.overrideAttrs (attrs: {
+    version = "20200828.230";
+    patches = [
+      (substituteAll {
+        src = ./patches/theme-magic.patch;
+        python = "${python3}/bin/python";
+        wal = "${pywal}/bin/wal";
+      })
+    ];
   });
 
   ws-butler = prev.ws-butler.overrideAttrs (attrs: {

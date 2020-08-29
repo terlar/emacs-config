@@ -1,0 +1,60 @@
+diff --git a/python/wal_change_colors.py b/python/wal_change_colors.py
+index 8328f43..881b2d1 100755
+--- a/python/wal_change_colors.py
++++ b/python/wal_change_colors.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python3
++#!@python@
+ 
+ import sys
+ import re
+@@ -71,7 +71,7 @@ def call_process(args):
+ 
+ def refresh_wal():
+     """Refresh the wal display (call `wal -R`)."""
+-    call_process(["wal", "-R"])
++    call_process(["@wal@", "-R"])
+ 
+ 
+ def reload_theme():
+@@ -82,12 +82,12 @@ def reload_theme():
+     out-of-date caches from the old config.
+ 
+     """
+-    call_process(["wal", "--theme", CONFIG_FILE_PATH])
++    call_process(["@wal@", "--theme", CONFIG_FILE_PATH])
+ 
+ 
+ def call_normally(image_path):
+     """Call wal as normal - set the entire theme from an image."""
+-    call_process(["wal", "-i"])
++    call_process(["@wal@", "-i"])
+ 
+ 
+ def copy_config(destination):
+diff --git a/theme-magic.el b/theme-magic.el
+index e42204a..f3a5eb6 100644
+--- a/theme-magic.el
++++ b/theme-magic.el
+@@ -397,10 +397,10 @@ installed - and accessible from the user's home dir."
+   ;; version of Python instead of the user's root version. To fix this, we
+   ;; temporarily change to the user's dir.
+   (let ((default-directory "~/"))
+-    (unless (executable-find "python")
++    (unless (executable-find "@python@")
+       (user-error (concat "Could not find 'python' executable. "
+                           "Is Python installed and on the path?")))
+-    (unless (executable-find "wal")
++    (unless (executable-find "@wal@")
+       (user-error (concat "Could not find 'wal' executable. "
+                           "Is Pywal installed and on the path?")))
+     ;; TODO: Check wal is up-to-date enough to use, and the python implementation.
+@@ -430,7 +430,7 @@ doesn't provide any wrapper feedback to the user."
+         (default-directory "~/")
+         ;; The color modification script will work with python 2 or 3, so just
+         ;; use the default Python.
+-        (python-executable "python")
++        (python-executable "@python@")
+         (theming-script theme-magic--pywal-python-script)
+         )
+     ;; We have to use apply here to expand the list of colors.
