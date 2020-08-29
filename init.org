@@ -670,10 +670,8 @@ Use a bar cursor by default.
   (interactive)
   (customize-set-variable
    'frame-background-mode
-   (if (eq 'light (frame-parameter nil 'background-mode))
-       'dark
-     'light))
-  (mapc (lambda (theme) (load-theme theme t t)) (reverse custom-enabled-themes)))
+   (if (eq 'light (frame-parameter nil 'background-mode)) 'dark 'light))
+  (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
 #+END_SRC
 
 *** Echo area
