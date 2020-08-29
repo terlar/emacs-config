@@ -247,4 +247,6 @@ with epkgs;
   yasnippet-snippets
   yatemplate
   zoom-window
-]
+] ++
+# Themes
+[ color-theme-sanityinc-solarized ]
