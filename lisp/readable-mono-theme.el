@@ -188,8 +188,10 @@ For example links."
   (custom-theme-set-faces
    'readable-mono
    `(default
-      ((((background light)) (:background ,l-bg :foreground ,l-fg))
-       (((background dark)) (:background ,d-bg :foreground ,d-fg))))
+      ((((type graphic) (background light)) (:background ,l-bg :foreground ,l-fg))
+       (((type graphic) (background dark)) (:background ,d-bg :foreground ,d-fg))
+       (((type tty) (background light)) (:background nil :foreground ,l-fg))
+       (((type tty) (background dark)) (:background nil :foreground ,d-fg))))
 
    ;; Semantic
    `(bold ((t (:inherit readable-mono-theme-strong))))
@@ -244,10 +246,13 @@ For example links."
      ((((background light)) (:background ,l-bg-s :box (:line-width 6 :color ,l-bg-s)))
       (((background dark)) (:background ,d-bg-s :box (:line-width 6 :color ,d-bg-s)))))
    `(mode-line-inactive
-     ((((background light)) (:background ,l-bg :box (:line-width 6 :color ,l-bg)))
-      (((background dark)) (:background ,d-bg :box (:line-width 6 :color ,d-bg)))))
+     ((((type graphic) (background light)) (:background ,l-bg :box (:line-width 6 :color ,l-bg)))
+      (((type graphic) (background dark)) (:background ,d-bg :box (:line-width 6 :color ,d-bg)))
+      (((type tty) (background light)) (:background nil :foreground ,l-fg-s))
+      (((type tty) (background dark)) (:background nil :foreground ,d-fg-s))))
    `(mode-line-emphasis ((t :bold nil)))
    `(mode-line-buffer-id ((t :inherit readable-mono-theme-strong)))
+
    `(button ((t (:inherit readable-mono-theme-actionable :underline t))))
    `(custom-button-face ((t (:inherit readable-mono-theme-button))))
    `(fringe ((t (:inherit readable-mono-theme-subordinate))))
