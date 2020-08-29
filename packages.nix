@@ -223,6 +223,7 @@ with epkgs;
   swiper
   terraform-doc
   terraform-mode
+  theme-magic
   transpose-frame
   ts-comint
   tuareg
