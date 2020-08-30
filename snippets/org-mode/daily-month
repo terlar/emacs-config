@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: daily-month
+# key: daily-month
+# --
+** `(format-time-string "%Y-%m %B")`
+$0

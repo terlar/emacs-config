@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: daily-year
+# key: daily-year
+# --
+* `(format-time-string "%Y")`
+$0
