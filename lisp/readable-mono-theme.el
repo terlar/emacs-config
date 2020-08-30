@@ -25,29 +25,14 @@
 ;;; Commentary:
 ;; Minimal and mostly monochromatic theme.
 ;;
-;; Faces TODO:
-;; - ivy-remote
-;; - ivy-match-required-face
-;; - ivy-confirm-face
-;; - ivy-cursor
-;; - edebug-disabled-breakpoint
-;; - hi-black-hb
-;; - hi-red-b
-;; - rainbow-delimiters-depth-1-face
-;; - company-echo-common
-;; - company-preview-search
-;; - company-preview-common
-;; - company-scrollbar-bg
-;; - company-scrollbar-fg
-;; - company-tooltip-annotation-selection
-;; - company-tooltip-annotation
-;; - company-tooltip-common-selection
-;; - company-tooltip-common
-;; - company-tooltip-selection
-;; - company-tooltip
+;; TODO faces:
+;; - ivy
+;; - edebug
+;; - hi
+;; - rainbow-delimiters
+;; - company
 ;; - hl-todo
-;; - ert-test-result-unexpected
-;; - ert-test-result-expected
+;; - ert
 
 ;;; Code:
 (deftheme readable-mono "Minimal and monochromatic theme")
@@ -71,12 +56,17 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
+(defcustom readable-mono-theme-light-contrast-foreground "#002b37"
+  "Contrast foreground for light theme."
+  :type 'string
+  :group 'readable-mono-theme-light)
+
 (defcustom readable-mono-theme-light-foreground "#596e76"
   "Default foreground for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-foreground-secondary "#98a6a6"
+(defcustom readable-mono-theme-light-secondary-foreground "#98a6a6"
   "Secondary foreground for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
@@ -86,7 +76,7 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-background-secondary "#f4eedb"
+(defcustom readable-mono-theme-light-secondary-background "#f4eedb"
   "Secondary background for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
@@ -106,12 +96,17 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
+(defcustom readable-mono-theme-dark-contrast-foreground "#ffffee"
+  "Contrast foreground for dark theme."
+  :type 'string
+  :group 'readable-mono-theme-light)
+
 (defcustom readable-mono-theme-dark-foreground "#8d9fa1"
   "Default foreground for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-foreground-secondary "#62787f"
+(defcustom readable-mono-theme-dark-secondary-foreground "#62787f"
   "Secondary foreground for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
@@ -121,7 +116,7 @@
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-background-secondary "#01323d"
+(defcustom readable-mono-theme-dark-secondary-background "#01323d"
   "Secondary background for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
@@ -134,8 +129,8 @@
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-emphasis
-  '((((background light)) (:foreground "#c42475"))
-    (((background dark)) (:foreground "#e2468f")))
+  `((((background light)) (:foreground ,readable-mono-theme-light-contrast-foreground))
+    (((background dark)) (:foreground ,readable-mono-theme-dark-contrast-foreground)))
   "Face used for information that needs action/attention."
   :group 'readable-mono-theme)
 
@@ -145,8 +140,8 @@
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-subordinate
-  `((((background light)) (:weight light :foreground ,readable-mono-theme-light-foreground-secondary))
-    (((background dark)) (:weight light :foreground ,readable-mono-theme-dark-foreground-secondary)))
+  `((((background light)) (:weight light :foreground ,readable-mono-theme-light-secondary-foreground))
+    (((background dark)) (:weight light :foreground ,readable-mono-theme-dark-secondary-foreground)))
   "Face used for information of less importance."
   :group 'readable-mono-theme)
 
@@ -158,15 +153,15 @@ For example links."
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-secondary
-  `((((background light)) (:background ,readable-mono-theme-light-background-secondary))
-    (((background dark)) (:background ,readable-mono-theme-dark-background-secondary)))
+  `((((background light)) (:background ,readable-mono-theme-light-secondary-background))
+    (((background dark)) (:background ,readable-mono-theme-dark-secondary-background)))
   "Face used to distinguish from default but not stand out."
   :group 'readable-mono-theme)
 
 (let ((l-bg readable-mono-theme-light-background)
-      (l-bg-s readable-mono-theme-light-background-secondary)
+      (l-bg-s readable-mono-theme-light-secondary-background)
       (l-fg readable-mono-theme-light-foreground)
-      (l-fg-s readable-mono-theme-light-foreground-secondary)
+      (l-fg-s readable-mono-theme-light-secondary-foreground)
       (l-green-bg "#eeedcb")
       (l-green-bg-s "#d5d99d")
       (l-red-bg "#ffe1cb")
@@ -174,9 +169,9 @@ For example links."
       (l-blue-bg "#e6ebe7")
       (l-blue-bg-s "#bfd2e6")
       (d-bg readable-mono-theme-dark-background)
-      (d-bg-s readable-mono-theme-dark-background-secondary)
+      (d-bg-s readable-mono-theme-dark-secondary-background)
       (d-fg readable-mono-theme-dark-foreground)
-      (d-fg-s readable-mono-theme-dark-foreground-secondary)
+      (d-fg-s readable-mono-theme-dark-secondary-foreground)
       (d-green-bg "#1e3531")
       (d-green-bg-s "#354725")
       (d-red-bg "#2f2c31")
@@ -376,6 +371,7 @@ For example links."
    `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
 
 ;;;;; org
+   `(org-document-title ((t (:inherit readable-mono-theme-emphasis))))
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
    `(org-todo ((t (:foreground nil))))
