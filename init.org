@@ -3001,7 +3001,7 @@ Populate auto-completions from fish.
   :minor
   ("init\\.org\\'" . auto-tangle-mode)
   :custom
-  (org-agenda-files '("Personal.org" "Work.org"))
+  (org-agenda-files '("~/org/Personal.org" "~/org/Work.org"))
   (org-confirm-babel-evaluate nil)
   (org-babel-load-languages
    '((emacs-lisp . t)
