@@ -634,8 +634,8 @@ keybindings in case I would forget them.
 (defvar init-unicode-font "Noto Sans Mono"
   "Fallback font used for unicode glyphs.")
 
-(defvar init-emoji-font "Noto Emoji"
-  "Font used for symbol/emoji faces.")
+(defvar init-symbol-fonts '("Noto Emoji" "Symbola")
+  "Fonts used for symbol/emoji faces.")
 #+end_src
 
 *** Line length
@@ -653,6 +653,12 @@ Underline line at descent position, not baseline position.
 Use a bar cursor by default.
 #+begin_src emacs-lisp :tangle yes
 (setq-default cursor-type 'bar)
+#+end_src
+
+Setup symbol fonts.
+#+begin_src emacs-lisp :tangle yes
+(dolist (font init-symbol-fonts)
+  (set-fontset-font t 'symbol font nil 'append))
 #+end_src
 
 *** Packages
@@ -3203,7 +3209,9 @@ Use symbols to represent task state.
   (dolist (symbol '(("TODO"      . ?⚑)
                     ("DOING"     . ?⚐)
                     ("NEXT"      . ?⚐)
-                    ("WAITING"   . ?⏱)
+                    ("WAITING"   . ?⏳)
+                    ("SOMEDAY"   . ?⛅)
+                    ("PROJECT"   . ?📁)
                     ("DONE"      . ?✔)
                     ("CANCELED"  . ?✘)
                     ("CANCELLED" . ?✘)))
