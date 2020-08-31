@@ -17,7 +17,7 @@ The rough details:
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: flymake
-- persistent undo :: via built-in =desktop-save-mode=
+- persistent undo :: via built-in ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
 
 ** Screenshots
@@ -243,8 +243,8 @@ Support functions for displaying icons. I am trying to use icons where possible.
 #+END_SRC
 
 *** auto-minor-mode
-Enable minor modes by buffer name and contents. It provides the =use-package= keyword
-=:minor= and =:magic-minor= where you can specify these rules.
+Enable minor modes by buffer name and contents. It provides the ~use-package~ keyword
+~:minor~ and ~:magic-minor~ where you can specify these rules.
 #+BEGIN_SRC emacs-lisp
 (use-package auto-minor-mode :demand t)
 #+END_SRC
@@ -257,7 +257,7 @@ Support defining repeating commands by repeating the last key.
 #+END_SRC
 
 *** general
-More convenient key definitions. I provides the =use-package= keyword =:general=.
+More convenient key definitions. I provides the ~use-package~ keyword ~:general~.
 #+BEGIN_SRC emacs-lisp
 (use-package general
   :demand t
@@ -277,7 +277,7 @@ More convenient key definitions. I provides the =use-package= keyword =:general=
 #+END_SRC
 
 *** quick-peek
-Library to display inline popups; used by =source-peek=.
+Library to display inline popups; used by ~source-peek~.
 #+BEGIN_SRC emacs-lisp
 (use-package quick-peek)
 #+END_SRC
@@ -424,49 +424,49 @@ keybindings in case I would forget them.
 ** Commands
 | Keybinding      | Function                | Description                                                                      |
 |-----------------+-------------------------+----------------------------------------------------------------------------------|
-| =C-o=             | =open-line=               | Open line below                                                                  |
-| =M-SPC=           | =just-one-space=          | Ensures just one space                                                           |
-| =M-\=             | =delete-horizontal-space= | Delete all space                                                                 |
-| =M-^=             | =delete-indentation=      | Join current line with previous line                                             |
-| =M-z=             | =zap-to-char=             | Delete until character                                                           |
-| =C-S-backspace=   | =kill-whole-line=         | Kill entire lines, can be used to move several lines at once                     |
-| =M-/=             | =dabbrev-expand=          | Abbreviation completion                                                          |
-| =M-tab= / =C-[ C-i= | =completion-at-point=     | More context aware completion                                                    |
-| =C-w=             | =kill-region=             | Cut                                                                              |
-| =M-w=             | =kill-ring-save=          | Copy                                                                             |
-| =C-y=             | =yank=                    | Paste                                                                            |
-| =M-y=             | =yank-next=               | Paste (next item)                                                                |
-| =C-x SPC=         | =rectangle-mark-mode=     | Rectangular selection                                                            |
-| =C-x r t=         | =string-rectangle=        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
-| =C-M-f=           | =forward-sexp=            | Move forward inside a balanced expression                                        |
-| =C-M-b=           | =backward-sexp=           | Move backward inside a balanced expression                                       |
-| =C-M-n=           | =forward-list=            | Move forward across one balanced group of parenthesis                            |
-| =C-M-p=           | =backward-list=           | Move backward across one balanced group of parenthesis                           |
-| =M-m=             | =back-to-indentation=     | Move to the first non-whitespace character                                       |
-| =M-e=             | =forward-sentence=        | End of sentence                                                                  |
-| =M-a=             | =backward-sentence=       | Start of sentence                                                                |
-| =C-M-d=           | =down-list=               | Move forward down one level of parenthesis                                       |
-| =C-M-u=           | =backward-up-list=        | Move backward out of one level of parenthesis                                    |
+| =C-o=             | ~open-line~               | Open line below                                                                  |
+| =M-SPC=           | ~just-one-space~          | Ensures just one space                                                           |
+| =M-\=             | ~delete-horizontal-space~ | Delete all space                                                                 |
+| =M-^=             | ~delete-indentation~      | Join current line with previous line                                             |
+| =M-z=             | ~zap-to-char~             | Delete until character                                                           |
+| =C-S-backspace=   | ~kill-whole-line~         | Kill entire lines, can be used to move several lines at once                     |
+| =M-/=             | ~dabbrev-expand~          | Abbreviation completion                                                          |
+| =M-tab= / =C-[ C-i= | ~completion-at-point~     | More context aware completion                                                    |
+| =C-w=             | ~kill-region~             | Cut                                                                              |
+| =M-w=             | ~kill-ring-save~          | Copy                                                                             |
+| =C-y=             | ~yank~                    | Paste                                                                            |
+| =M-y=             | ~yank-next~               | Paste (next item)                                                                |
+| =C-x SPC=         | ~rectangle-mark-mode~     | Rectangular selection                                                            |
+| =C-x r t=         | ~string-rectangle~        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
+| =C-M-f=           | ~forward-sexp~            | Move forward inside a balanced expression                                        |
+| =C-M-b=           | ~backward-sexp~           | Move backward inside a balanced expression                                       |
+| =C-M-n=           | ~forward-list~            | Move forward across one balanced group of parenthesis                            |
+| =C-M-p=           | ~backward-list~           | Move backward across one balanced group of parenthesis                           |
+| =M-m=             | ~back-to-indentation~     | Move to the first non-whitespace character                                       |
+| =M-e=             | ~forward-sentence~        | End of sentence                                                                  |
+| =M-a=             | ~backward-sentence~       | Start of sentence                                                                |
+| =C-M-d=           | ~down-list~               | Move forward down one level of parenthesis                                       |
+| =C-M-u=           | ~backward-up-list~        | Move backward out of one level of parenthesis                                    |
 
 ** Gnus
 | Keybinding | Function                              | Description                                                   |
 |------------+---------------------------------------+---------------------------------------------------------------|
-| =L=          | =gnus-group-list-all-groups=            | List all groups (works together with prefix to provide level) |
-| =RET=        | =gnus-topic-select-group=               | List group mails (works together with prefix to see all)      |
-| =g=          | =gnus-group-get-new-news=               | Refresh groups list                                           |
-| =G G=        | =gnus-group-make-nnir-group=            | Search mails at server side                                   |
-| =#=          | =gnus-group-mark-group=                 | Mark                                                          |
-| =M-#=        | =gnus-group-unmark-group=               | Un-mark                                                       |
-| =R=          | =gnus-summary-reply-with-original=      | Reply w/ quoted text                                          |
-| =r=          | =gnus-summary-reply=                    | Reploy w/o quoted text                                        |
-| =S W=        | =gnus-summary-wide-reply-with-original= | Reply all w/ quoted text                                      |
-| =S w=        | =gnus-summary-wide-reply=               | Reply all w/o quoted text                                     |
-| =m= / =C-x m=  | =gnus-new-mail=                         | Compose new mail                                              |
-| =S D e=      | =gnus-summary-resend-message-edit=      | Re-send a mail in Draft folder                                |
-| =C-c C-a=    | =mml-attach-file=                       | Attach a file                                                 |
-| =o=          | =gnus-mime-save-part=                   | Save attachment                                               |
-| =C-c C-f=    | =gnus-summary-mail-forward=             | Forward mail                                                  |
-| =c=          | =gnus-group-catchup-current=            | Mark mails as read                                            |
+| =L=          | ~gnus-group-list-all-groups~            | List all groups (works together with prefix to provide level) |
+| =RET=        | ~gnus-topic-select-group~               | List group mails (works together with prefix to see all)      |
+| =g=          | ~gnus-group-get-new-news~               | Refresh groups list                                           |
+| =G G=        | ~gnus-group-make-nnir-group~            | Search mails at server side                                   |
+| =#=          | ~gnus-group-mark-group~                 | Mark                                                          |
+| =M-#=        | ~gnus-group-unmark-group~               | Un-mark                                                       |
+| =R=          | ~gnus-summary-reply-with-original~      | Reply w/ quoted text                                          |
+| =r=          | ~gnus-summary-reply~                    | Reploy w/o quoted text                                        |
+| =S W=        | ~gnus-summary-wide-reply-with-original~ | Reply all w/ quoted text                                      |
+| =S w=        | ~gnus-summary-wide-reply~               | Reply all w/o quoted text                                     |
+| =m= / =C-x m=  | ~gnus-new-mail~                         | Compose new mail                                              |
+| =S D e=      | ~gnus-summary-resend-message-edit~      | Re-send a mail in Draft folder                                |
+| =C-c C-a=    | ~mml-attach-file~                       | Attach a file                                                 |
+| =o=          | ~gnus-mime-save-part~                   | Save attachment                                               |
+| =C-c C-f=    | ~gnus-summary-mail-forward~             | Forward mail                                                  |
+| =c=          | ~gnus-group-catchup-current~            | Mark mails as read                                            |
 
 ** Org
 | Keybinding | Function             | Description                                    |
@@ -1867,7 +1867,7 @@ Incremental selection narrowing interface for completions.
 
 *** Packages
 **** counsel
-Replacements for common Emacs commands. =smex= is used by =counsel-M-x= for sorting.
+Replacements for common Emacs commands.
 Tips:
 - =counsel-rg= can be used with =C-u= to search in a specific directory.
 #+BEGIN_SRC emacs-lisp
@@ -1947,7 +1947,7 @@ Reduce scroll margin.
 #+END_SRC
 
 ** Compilation
-Kill compilation process before stating another and save all buffers on =compile.=
+Kill compilation process before stating another and save all buffers on ~compile~.
 #+BEGIN_SRC emacs-lisp
 (use-package compile
   :custom
@@ -2139,7 +2139,7 @@ the mode mechanism:
 
 ** Jump to definition
 Jump to definition is really useful and I prefer doing so without TAGS which is pretty
-much the default for most modes. I am using the excellent package =dumb-jump= to jump via
+much the default for most modes. I am using the excellent package ~dumb-jump~ to jump via
 grep tools e.g. (=grep=, =rx=, =ag=)
 
 Don't ask about keeping current list of tags tables.
@@ -2167,8 +2167,8 @@ Don't ask about keeping current list of tags tables.
 #+END_SRC
 
 *** smart-jump
-Some modes actually have some good backends, so configure this with =smart-jump= which has
-nice defaults and also adds configuring completion with a fallback to =dumb-jump=.
+Some modes actually have some good backends, so configure this with ~smart-jump~ which has
+nice defaults and also adds configuring completion with a fallback to ~dumb-jump~.
 #+BEGIN_SRC emacs-lisp
 (use-package smart-jump
   :defer 2
@@ -2509,7 +2509,7 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 #+END_SRC
 
 *** eglot
-Generic Language Server Protocol integration via =eglot=.
+Generic Language Server Protocol integration via ~eglot~.
 #+BEGIN_SRC emacs-lisp
 (use-package eglot
   :defer 3
@@ -2717,9 +2717,9 @@ For modes that don't adequately highlight numbers.
 #+END_SRC
 
 Specific safe local code can be specified via:
-- =safe-local-variable-values=
-- =safe-local-eval-forms=
-- =safe-local-eval-function=
+- ~safe-local-variable-values~
+- ~safe-local-eval-forms~
+- ~safe-local-eval-function~
 
 *** Syntax checking
 #+begin_src emacs-lisp :tangle yes
@@ -3072,13 +3072,13 @@ Paste links from clipboard and automatically fetch title.
 #+END_SRC
 
 **** org-noter
-Annotate documents with =org-mode=.
+Annotate documents with ~org-mode~.
 #+BEGIN_SRC emacs-lisp
 (use-package org-noter)
 #+END_SRC
 
 **** org-preview-html
-Preview org-file in an =eww= buffer.
+Preview org-file in an ~eww~ buffer.
 #+BEGIN_SRC emacs-lisp
 (use-package org-preview-html)
 #+END_SRC
@@ -3122,7 +3122,7 @@ Presentation mode.
 #+END_SRC
 
 *** Appearance
-This sections makes =org-mode= look more beautiful and appealing.
+This sections makes ~org-mode~ look more beautiful and appealing.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org
@@ -4559,7 +4559,7 @@ Navigate through undo history.
 
 * Tasks
 ** TODO Look into skewer packages
-** TODO Look into modal editing with =objed=
+** TODO Look into modal editing with ~objed~
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Add binding for org-noter
 ** TODO Group editing bindings under some logical prefix
@@ -4573,20 +4573,20 @@ Navigate through undo history.
 ** TODO Wrap lines by default?
 - When writing code on a single line, to later let it be expanded by the formatter.
 ** TODO Only scale images that are larger than size X in org mode
-** TODO Use =ielm= as REPL for org-mode
+** TODO Use ~ielm~ as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
-** TODO Write ghq tool using =completing-read=
-** TODO Use =windmove=? Perhaps with =windmove-create-window t=
+** TODO Write ghq tool using ~completing-read~
+** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 ** TODO Evaluate if I need projectile, I only use it for other file and project eshell
-** TODO Use =vc-mode= commands more =C-x v g=, =C-x v v= and =C-x v ==.
-- Also =vc-dir= and the =vc-git-stash= (can stash individual files)
+** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
+- Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
 - Diff merge-base =C-x v M D=, =C-x v M L=
-- =vc-log-search=
+- ~vc-log-search~
 ** TODO Use ChangeLog entries =C-x 4 a=
-** TODO Use =browse-url-add-buttons= to make links clickable in more places?
-** TODO xref-quick-peek / xref-completing-read (xref-show-xrefs-function)
-** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with =edit-last-kbd-macro=.
+** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
+** TODO ~xref-quick-peek~ / ~xref-completing-read~ (~xref-show-xrefs-function~)
+** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
 ** TODO solarized colorless config?
 ** TODO Split theme into several sections
