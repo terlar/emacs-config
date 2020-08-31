@@ -162,22 +162,22 @@ For example links."
       (l-bg-s readable-mono-theme-light-secondary-background)
       (l-fg readable-mono-theme-light-foreground)
       (l-fg-s readable-mono-theme-light-secondary-foreground)
-      (l-green-bg "#eeedcb")
-      (l-green-bg-s "#d5d99d")
-      (l-red-bg "#ffe1cb")
-      (l-red-bg-s "#ffb79f")
-      (l-blue-bg "#e6ebe7")
-      (l-blue-bg-s "#bfd2e6")
+      (l-green "#eeedcb")
+      (l-green-s "#d5d99d")
+      (l-red "#ffe1cb")
+      (l-red-s "#ffb79f")
+      (l-blue "#e6ebe7")
+      (l-blue-s "#bfd2e6")
       (d-bg readable-mono-theme-dark-background)
       (d-bg-s readable-mono-theme-dark-secondary-background)
       (d-fg readable-mono-theme-dark-foreground)
       (d-fg-s readable-mono-theme-dark-secondary-foreground)
-      (d-green-bg "#1e3531")
-      (d-green-bg-s "#354725")
-      (d-red-bg "#2f2c31")
-      (d-red-bg-s "#582b29")
-      (d-blue-bg "#023447")
-      (d-blue-bg-s "#004363"))
+      (d-green "#1e3531")
+      (d-green-s "#354725")
+      (d-red "#2f2c31")
+      (d-red-s "#582b29")
+      (d-blue "#023447")
+      (d-blue-s "#004363"))
 ;;;; Theme faces
   (custom-theme-set-faces
    'readable-mono
@@ -272,34 +272,34 @@ For example links."
    `(diff-header ((t (:inherit readable-mono-theme-secondary))))
    `(diff-file-header ((t (:inherit header-line))))
    `(diff-indicator-removed
-     ((((background light)) (:background ,l-red-bg :foreground ,l-red-bg))
-      (((background dark)) (:background ,d-red-bg :foreground ,d-red-bg))))
+     ((((background light)) (:background ,l-red :foreground ,l-red))
+      (((background dark)) (:background ,d-red :foreground ,d-red))))
    `(diff-removed
-     ((((background light)) (:background ,l-red-bg))
-      (((background dark)) (:background ,d-red-bg))))
+     ((((background light)) (:background ,l-red))
+      (((background dark)) (:background ,d-red))))
    `(diff-refine-removed
-     ((((background light)) (:background ,l-red-bg-s))
-      (((background dark)) (:background ,d-red-bg-s))))
+     ((((background light)) (:background ,l-red-s))
+      (((background dark)) (:background ,d-red-s))))
    `(diff-indicator-added
-     ((((background light)) (:background ,l-green-bg :foreground ,l-green-bg))
-      (((background dark)) (:background ,d-green-bg :foreground ,d-green-bg))))
+     ((((background light)) (:background ,l-green :foreground ,l-green))
+      (((background dark)) (:background ,d-green :foreground ,d-green))))
    `(diff-added
-     ((((background light)) (:background ,l-green-bg))
-      (((background dark)) (:background ,d-green-bg))))
+     ((((background light)) (:background ,l-green))
+      (((background dark)) (:background ,d-green))))
    `(diff-refine-added
-     ((((background light)) (:background ,l-green-bg-s))
-      (((background dark)) (:background ,d-green-bg-s))))
+     ((((background light)) (:background ,l-green-s))
+      (((background dark)) (:background ,d-green-s))))
 
    `(ediff-current-diff-A ((t (:inherit diff-removed))))
    `(ediff-fine-diff-A ((t (:inherit diff-refine-removed))))
    `(ediff-current-diff-B ((t (:inherit diff-added))))
    `(ediff-fine-diff-B ((t (:inherit diff-refine-added))))
    `(ediff-current-diff-C
-     ((((background light)) (:background ,l-blue-bg))
-      (((background dark)) (:background ,d-blue-bg))))
+     ((((background light)) (:background ,l-blue))
+      (((background dark)) (:background ,d-blue))))
    `(ediff-fine-diff-C
-     ((((background light)) (:background ,l-blue-bg-s))
-      (((background dark)) (:background ,d-blue-bg-s))))
+     ((((background light)) (:background ,l-blue-s))
+      (((background dark)) (:background ,d-blue-s))))
    `(ediff-current-diff-Ancestor ((t (:inherit readable-mono-theme-secondary))))
    `(ediff-fine-diff-Ancestor ((t (:inherit highlight))))
 
@@ -309,8 +309,8 @@ For example links."
 
    `(diff-hl-insert ((t (:inherit diff-indicator-added))))
    `(diff-hl-change
-     ((((background light)) (:background ,l-blue-bg :foreground ,l-blue-bg))
-      (((background dark)) (:background ,d-blue-bg :foreground ,d-blue-bg))))
+     ((((background light)) (:background ,l-blue :foreground ,l-blue))
+      (((background dark)) (:background ,d-blue :foreground ,d-blue))))
    `(diff-hl-delete ((t (:inherit diff-indicator-removed))))
    `(diff-hl-unknown
      ((((background light)) (:background ,l-bg-s :foreground ,l-bg-s))
@@ -346,8 +346,8 @@ For example links."
 
 ;;;;; flymake
    `(flymake-error
-     ((((background light)) (:background ,l-red-bg :extend t))
-      (((background dark)) (:background ,d-red-bg :extend t))))
+     ((((background light)) (:background ,l-red :extend t))
+      (((background dark)) (:background ,d-red :extend t))))
 
 ;;;;; flyspell
    `(flyspell-duplicate
@@ -466,12 +466,12 @@ For example links."
 ;;;;; coverlay
    `(coverlay:untested-line-background-color
      ,(pcase (frame-parameter nil 'background-mode)
-        ('light l-red-bg)
-        ('dark d-red-bg)))
+        ('light l-red)
+        ('dark d-red)))
    `(coverlay:tested-line-background-color
      ,(pcase (frame-parameter nil 'background-mode)
-        ('light l-green-bg)
-        ('dark d-green-bg)))
+        ('light l-green)
+        ('dark d-green)))
 ;;;;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:inherit readable-mono-theme-strong :box (:line-width 1)))
