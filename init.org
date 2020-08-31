@@ -251,8 +251,7 @@ Enable minor modes by buffer name and contents. It provides the ~use-package~ ke
 *** defrepeater
 Support defining repeating commands by repeating the last key.
 #+begin_src emacs-lisp :tangle yes
-(use-package defrepeater
-  :commands (defrepeater))
+(use-package defrepeater :commands (defrepeater))
 #+end_src
 
 *** general
@@ -547,13 +546,18 @@ keybindings in case I would forget them.
 (general-define-key
  :prefix next-prefix
  ""  '(:ignore t :wk "next...")
- "]" `(,(defrepeater #'text-scale-increase)      :wk "Text size")
- "b" `(,(defrepeater #'next-buffer)              :wk "Buffer")
- "c" `(,(defrepeater #'smerge-next)              :wk "Conflict")
- "d" `(,(defrepeater #'diff-hl-next-hunk)        :wk "Diff Hunk")
- "e" `(,(defrepeater #'next-error)               :wk "Error")
- "s" `(,(defrepeater #'flyspell-goto-next-error) :wk "Spell error")
- "t" `(,(defrepeater #'hl-todo-next)             :wk "Todo"))
+ "]" '(text-scale-increase      :wk "Text size")
+ "b" '(next-buffer              :wk "Buffer")
+ "c" '(smerge-next              :wk "Conflict")
+ "e" '(next-error               :wk "Error")
+ "s" '(flyspell-goto-next-error :wk "Spell error"))
+
+(general-define-key
+ [remap text-scale-increase] (defrepeater #'text-scale-increase)
+ [remap next-buffer] (defrepeater #'next-buffer)
+ [remap smerge-next] (defrepeater #'smerge-next)
+ [remap next-error] (defrepeater #'next-error)
+ [remap flyspell-goto-next-error] (defrepeater #'flyspell-goto-next-error))
 #+end_src
 
 ** Previous
@@ -561,12 +565,16 @@ keybindings in case I would forget them.
 (general-define-key
  :prefix prev-prefix
  ""  '(:ignore t :wk "previous...")
- "[" `(,(defrepeater #'text-scale-decrease)    :wk "Text size")
- "b" `(,(defrepeater #'previous-buffer)        :wk "Buffer")
- "c" `(,(defrepeater #'smerge-prev)            :wk "Conflict")
- "d" `(,(defrepeater #'diff-hl-previous-hunk)  :wk "Diff Hunk")
- "e" `(,(defrepeater #'previous-error)         :wk "Error")
- "t" `(,(defrepeater #'hl-todo-previous)       :wk "Todo"))
+ "[" '(text-scale-decrease    :wk "Text size")
+ "b" '(previous-buffer        :wk "Buffer")
+ "c" '(smerge-prev            :wk "Conflict")
+ "e" '(previous-error         :wk "Error"))
+
+(general-define-key
+ [remap text-scale-decrease] (defrepeater #'text-scale-decrease)
+ [remap previous-buffer] (defrepeater #'previous-buffer)
+ [remap smerge-prev] (defrepeater #'smerge-prev)
+ [remap previous-error] (defrepeater #'previous-error))
 #+end_src
 
 ** Toggle
@@ -932,13 +940,15 @@ Undo/redo between window layouts.
   (window-setup . winner-mode)
   :custom
   (winner-dont-bind-my-keys t)
-  :config
-  (general-define-key
-   :prefix next-prefix
-   next-prefix (defrepeater #'winner-redo))
-  (general-define-key
-   :prefix prev-prefix
-   prev-prefix (defrepeater #'winner-undo)))
+  :general
+  (:prefix
+   next-prefix
+   next-prefix '(winner-redo :wk "Window History"))
+  (:prefix
+   prev-prefix
+   prev-prefix '(winner-undo :wk "Window History"))
+  ([remap winner-redo] (defrepeater #'winner-redo)
+   [remap winner-undo] (defrepeater #'winner-undo)))
 #+end_src
 
 Transpose window arrangement.
@@ -1038,12 +1048,9 @@ Jump to things.
 *** cycle-quotes
 #+begin_src emacs-lisp :tangle yes
 (use-package cycle-quotes
-  :commands
-  (cycle-quotes)
-  :preface
-  (defrepeater #'cycle-quotes)
   :general
-  ("C-x C-'" 'cycle-quotes-repeat))
+  ("C-x C-'" 'cycle-quotes)
+  ([remap cycle-quotes] (defrepeater #'cycle-quotes)))
 #+end_src
 
 *** goto-addr
@@ -1062,12 +1069,12 @@ Cycle through words, symbols and patterns.
   :general
   (:prefix
    next-prefix
-   "r" '(grugru-repeat :wk "Rotate text"))
+   "r" '(grugru-forward :wk "Rotate text"))
   (:prefix
    prev-prefix
-   "r" '(grugru-repeat :wk "Rotate text"))
-  :preface
-  (defrepeater #'grugru)
+   "r" '(grugru-backward :wk "Rotate text"))
+  ([remap grugru-backward] (defrepeater #'grugru-backward)
+   [remap grugru-forward] (defrepeater #'grugru-forward))
   :config
   (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute")))
@@ -2383,6 +2390,22 @@ Open link to files in the web UI connected to a repository.
   ("C-x v SPC" 'browse-at-remote))
 #+end_src
 
+*** diff
+#+begin_src emacs-lisp :tangle yes
+(use-package diff
+  :general
+  (:keymaps
+   'diff-mode-map
+   :prefix next-prefix
+   "d" '(diff-hunk-next :wk "Diff Hunk"))
+  (:keymaps
+   'diff-mode-map
+   :prefix prev-prefix
+   "d" '(diff-hunk-prev :wk "Diff Hunk"))
+  ([remap diff-hunk-next] (defrepeater #'diff-hunk-next)
+   [remap diff-hunk-prev] (defrepeater #'diff-hunk-prev)))
+#+end_src
+
 *** ediff
 - Split horizontally
 - Use existing frame instead of creating a new one
@@ -2426,9 +2449,17 @@ Diff indicators in fringe
   :hook
   (dired-mode         . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh)
-  :commands
-  (diff-hl-next-hunk
-   diff-hl-previous-hunk)
+  :general
+  (:keymaps
+   'diff-hl-mode-map
+   :prefix next-prefix
+   "d" '(diff-hl-next-hunk :wk "Diff Hunk"))
+  (:keymaps
+   'diff-hl-mode-map
+   :prefix prev-prefix
+   "d" '(diff-hl-previous-hunk :wk "Diff Hunk"))
+  ([remap diff-hl-next-hunk] (defrepeater #'diff-hl-next-hunk)
+   [remap diff-hl-previous-hunk] (defrepeater #'diff-hl-previous-hunk))
   :preface
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
@@ -2571,9 +2602,11 @@ Highlight *TODO* inside comments and strings.
 (use-package hl-todo
   :hook
   (prog-mode . hl-todo-mode)
-  :commands
-  (hl-todo-next
-   hl-todo-previous))
+  :general
+  (:prefix next-prefix "t" '(hl-todo-next :wk "Todo"))
+  (:prefix prev-prefix "t" '(hl-todo-previous :wk "Todo"))
+  ([remap hl-todo-next] (defrepeater #'hl-todo-next)
+   [remap hl-todo-previous] (defrepeater #'hl-todo-previous)))
 #+end_src
 
 *** idle-highlight
