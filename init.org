@@ -3021,11 +3021,11 @@ Populate auto-completions from fish.
      ("@home"  . ?h)
      ("laptop" . ?l)))
   :general
+  ("C-C a" 'org-agenda)
   (:keymaps
    'org-mode-map
    "C-'" 'nil
-   "C-," 'nil
-   "C-C a" 'org-agenda)
+   "C-," 'nil)
   :functions
   (org-babel-load-languages)
   :preface
