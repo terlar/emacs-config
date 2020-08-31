@@ -392,7 +392,10 @@ For example links."
 
    `(org-agenda-structure ((t (:foreground nil))))
    `(org-agenda-date ((t (:foreground nil))))
-   `(org-scheduled ((t (:inherit readable-mono-theme-actionable))))
+   `(org-agenda-date-today ((t (:inherit (readable-mono-theme-emphasis readable-mono-theme-strong)))))
+   `(org-agenda-date-weekend ((t (:inherit readable-mono-theme-emphasis))))
+   `(org-scheduled ((t (:foreground nil))))
+   `(org-scheduled-today ((t (:inherit readable-mono-theme-actionable))))
    `(org-scheduled-previously ((t (:inherit readable-mono-theme-emphasis))))
 
 ;;;;; org-tree-slide
