@@ -375,7 +375,6 @@ For example links."
       (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
 
 ;;;;; org
-   `(org-document-title ((t (:inherit readable-mono-theme-emphasis))))
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
    `(org-todo ((t (:inherit readable-mono-theme-strong))))
