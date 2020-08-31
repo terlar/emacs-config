@@ -129,8 +129,8 @@
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-emphasis
-  `((((background light)) (:foreground ,readable-mono-theme-light-contrast-foreground))
-    (((background dark)) (:foreground ,readable-mono-theme-dark-contrast-foreground)))
+  '((((background light)) (:foreground "#c42475"))
+    (((background dark)) (:foreground "#e2468f")))
   "Face used for information that needs action/attention."
   :group 'readable-mono-theme)
 
@@ -269,18 +269,31 @@ For example links."
    `(window-divider-last-pixel ((t (:inherit window-divider))))
 
 ;;;;; Diff
-   `(ediff-current-diff-A
+   `(diff-header ((t (:inherit readable-mono-theme-secondary))))
+   `(diff-file-header ((t (:inherit header-line))))
+   `(diff-indicator-removed
+     ((((background light)) (:background ,l-red-bg :foreground ,l-red-bg))
+      (((background dark)) (:background ,d-red-bg :foreground ,d-red-bg))))
+   `(diff-removed
      ((((background light)) (:background ,l-red-bg))
       (((background dark)) (:background ,d-red-bg))))
-   `(ediff-fine-diff-A
+   `(diff-refine-removed
      ((((background light)) (:background ,l-red-bg-s))
       (((background dark)) (:background ,d-red-bg-s))))
-   `(ediff-current-diff-B
+   `(diff-indicator-added
+     ((((background light)) (:background ,l-green-bg :foreground ,l-green-bg))
+      (((background dark)) (:background ,d-green-bg :foreground ,d-green-bg))))
+   `(diff-added
      ((((background light)) (:background ,l-green-bg))
       (((background dark)) (:background ,d-green-bg))))
-   `(ediff-fine-diff-B
+   `(diff-refine-added
      ((((background light)) (:background ,l-green-bg-s))
       (((background dark)) (:background ,d-green-bg-s))))
+
+   `(ediff-current-diff-A ((t (:inherit diff-removed))))
+   `(ediff-fine-diff-A ((t (:inherit diff-refine-removed))))
+   `(ediff-current-diff-B ((t (:inherit diff-added))))
+   `(ediff-fine-diff-B ((t (:inherit diff-refine-added))))
    `(ediff-current-diff-C
      ((((background light)) (:background ,l-blue-bg))
       (((background dark)) (:background ,d-blue-bg))))
@@ -294,15 +307,11 @@ For example links."
    `(smerge-lower ((t (:background nil))))
    `(smerge-upper ((t (:background nil))))
 
-   `(diff-hl-insert
-     ((((background light)) (:background ,l-green-bg :foreground ,l-green-bg))
-      (((background dark)) (:background ,d-green-bg :foreground ,d-green-bg))))
+   `(diff-hl-insert ((t (:inherit diff-indicator-added))))
    `(diff-hl-change
      ((((background light)) (:background ,l-blue-bg :foreground ,l-blue-bg))
       (((background dark)) (:background ,d-blue-bg :foreground ,d-blue-bg))))
-   `(diff-hl-delete
-     ((((background light)) (:background ,l-red-bg :foreground ,l-red-bg))
-      (((background dark)) (:background ,d-red-bg :foreground ,d-red-bg))))
+   `(diff-hl-delete ((t (:inherit diff-indicator-removed))))
    `(diff-hl-unknown
      ((((background light)) (:background ,l-bg-s :foreground ,l-bg-s))
       (((background dark)) (:background ,d-bg-s :foreground ,d-bg-s))))
@@ -365,8 +374,14 @@ For example links."
    `(ivy-minibuffer-match-face-4 ((t (:inherit readable-mono-theme-strong))))
 
 ;;;;; magit
-   `(magit-section-heading ((t (:foreground nil))))
+   `(magit-section-heading ((t (:inherit header-line))))
    `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
+   `(magit-diff-context ((t (:background nil))))
+   `(magit-diff-context-highlight ((t (:inherit readable-mono-theme-secondary))))
+   `(magit-diff-removed ((t (:inherit diff-removed))))
+   `(magit-diff-removed-highlight ((t (:inherit diff-refine-removed))))
+   `(magit-diff-added ((t (:inherit diff-added))))
+   `(magit-diff-added-highlight ((t (:inherit diff-refine-added))))
 
 ;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
@@ -391,7 +406,7 @@ For example links."
 
    `(org-agenda-structure ((t (:foreground nil))))
    `(org-agenda-date ((t (:foreground nil))))
-   `(org-agenda-date-today ((t (:inherit (readable-mono-theme-emphasis readable-mono-theme-strong)))))
+   `(org-agenda-date-today ((t (:inherit readable-mono-theme-strong))))
    `(org-agenda-date-weekend ((t (:inherit readable-mono-theme-emphasis))))
    `(org-scheduled ((t (:foreground nil))))
    `(org-scheduled-today ((t (:inherit readable-mono-theme-actionable))))
