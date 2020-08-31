@@ -4489,13 +4489,12 @@ Dim out the surrounding text except the current focused paragraph or expression.
 ** Session
 Support for restoring previous session on Emacs restart. This adds a few tweaks that makes
 it really useful.
-- Support for persistent undo history via =buffer-undo-list=.
+- Support for persistent undo history via ~buffer-undo-list~.
 - Ignore saving of =gz= files as it seems not to properly load those.
-- Restore no files to begin with to avoid slow starts with huge sessions.
+- Restore no buffers to begin with to avoid slow starts with huge sessions.
 #+begin_src emacs-lisp :tangle yes
 (use-package desktop
-  :hook
-  (server-after-make-frame . desktop-save-mode)
+  :demand t
   :custom
   (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
   (desktop-restore-eager 0)
@@ -4503,7 +4502,8 @@ it really useful.
   (desktop-load-locked-desktop (daemonp))
   :config
   (dolist (var '(buffer-undo-list ivy-views))
-    (cl-pushnew var desktop-locals-to-save :test #'equal)))
+    (cl-pushnew var desktop-locals-to-save :test #'equal))
+  (desktop-save-mode 1))
 #+end_src
 
 ** Speed reading
