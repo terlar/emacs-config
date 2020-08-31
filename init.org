@@ -3200,10 +3200,13 @@ Use symbols to represent task state.
 #+begin_src emacs-lisp :tangle yes
 (defun init-org-prettify-task-symbols ()
   "Prettify task list symbols."
-  (dolist (symbol '(("TODO"     . ?⚑)
-                    ("DOING"    . ?⚐)
-                    ("CANCELED" . ?✘)
-                    ("DONE"     . ?✔)))
+  (dolist (symbol '(("TODO"      . ?⚑)
+                    ("DOING"     . ?⚐)
+                    ("NEXT"      . ?⚐)
+                    ("WAITING"   . ?⏱)
+                    ("DONE"      . ?✔)
+                    ("CANCELED"  . ?✘)
+                    ("CANCELLED" . ?✘)))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
 (add-hook 'org-mode-hook #'init-org-prettify-task-symbols)
 #+end_src
