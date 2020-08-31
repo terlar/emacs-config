@@ -378,7 +378,7 @@ For example links."
    `(org-document-title ((t (:inherit readable-mono-theme-emphasis))))
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
-   `(org-todo ((t (:foreground nil))))
+   `(org-todo ((t (:inherit readable-mono-theme-strong))))
    `(org-headline-done ((t (:foreground nil))))
    `(org-headline-todo ((t (:foreground nil))))
    `(org-block ((t (:inherit readable-mono-theme-secondary))))
