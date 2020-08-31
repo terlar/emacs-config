@@ -261,7 +261,9 @@ For example links."
      ((((background light)) (:foreground ,l-bg-s))
       (((background dark)) (:foreground ,d-bg-s))))
    `(widget-button ((t (:inherit button))))
-   `(widget-field ((t (:inherit readable-mono-theme-secondary))))
+   `(widget-field
+     ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
+      (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
    `(window-divider ((t (:inherit vertical-border))))
    `(window-divider-first-pixel ((t (:inherit window-divider))))
    `(window-divider-last-pixel ((t (:inherit window-divider))))
@@ -368,7 +370,9 @@ For example links."
 
 ;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
-   `(markdown-inline-code-face ((t (:inherit readable-mono-theme-secondary))))
+   `(markdown-inline-code-face
+     ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
+      (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
 
 ;;;;; org
    `(org-document-title ((t (:inherit readable-mono-theme-emphasis))))
@@ -378,7 +382,9 @@ For example links."
    `(org-headline-done ((t (:foreground nil))))
    `(org-headline-todo ((t (:foreground nil))))
    `(org-block ((t (:inherit readable-mono-theme-secondary))))
-   `(org-code ((t (:inherit readable-mono-theme-secondary))))
+   `(org-code
+     ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
+      (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
    `(org-date ((t (:foreground nil :underline nil))))
    `(org-document-info ((t (:foreground nil))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
