@@ -179,6 +179,18 @@ in {
     };
   };
 
+  ligature = trivialBuild {
+    pname = "ligature";
+    version = "20200831833";
+    src = fetchFromGitHub {
+      owner = "mickeynp";
+      repo = "ligature.el";
+      rev = "2887542fbe33309ed1eca2115ea93c1c5a2c09da";
+      sha256 = "03k5i4892y7g8nw474h6h67jnwail3i1sic4fc10dfraqk9i3w3j";
+      # date = 2020-08-31T08:33:09+01:00;
+    };
+  };
+
   org-pretty-table = trivialBuild {
     pname = "org-pretty-table";
     version = "20200329.1831";

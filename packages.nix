@@ -136,6 +136,7 @@ with epkgs;
   kotlin-mode
   kubernetes
   kubernetes-tramp
+  ligature
   link-hint
   lua-mode
   magit

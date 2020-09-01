@@ -2704,8 +2704,19 @@ For modes that don't adequately highlight numbers.
   :hook (prog-mode . highlight-numbers-mode))
 #+end_src
 
-*** Prettify symbols
+*** Ligatures
 #+begin_src emacs-lisp :tangle yes
+(use-package ligature
+  :hook (prog-mode . ligature-mode)
+  :config
+  (ligature-set-ligatures
+   'prog-mode
+   '("-<<" "-<" "-<-" "<--" "<---" "<<-" "<-" "->" "->>" "-->" "--->" "->-" ">-" ">>-" "<->" "<-->" "<--->" "<---->" "<!--"
+     "=<<" "=<" "=<=" "<==" "<===" "<<=" "<=" "=>" "=>>" "==>" "===>" "=>=" ">=" ">>=" "<=>" "<==>" "<===>" "<====>" "<!---"
+     "<------" "------>" "<=====>" "<~~" "<~" "~>" "~~>" "::" ":::" "\\/" "/\\" "==" "!=" "/=" "~=" "<>" "===" "!==" "=/=" "=!="
+     ":=" ":-" ":+" "<*" "<*>" "*>" "<|" "<|>" "|>" "<." "<.>" ".>" "+:" "-:" "=:" "<******>" "(*" "*)" "++" "+++" "|-" "-|"
+     "&&" "||")))
+
 (use-package prog-mode
   :hook
   (prog-mode . init-prog-prettify-symbols)
@@ -2714,21 +2725,7 @@ For modes that don't adequately highlight numbers.
   :preface
   (defun init-prog-prettify-symbols ()
     "Add generic programming symbols."
-    (dolist (symbol '(("&&" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∧))
-                      ("||" . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨))
-                      (":=" . (?: (Br . Bc) ?= (Br . Bc) ?=))
-                      ("==" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
-                      ("===" . (?≡ (Br . Bc) ?≡ (Br . Bc) ?≡))
-                      ("!==" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                      (">="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥))
-                      ("<="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤))
-                      ("/=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                      ("!=" . (?≡ (Br . Bc) ?≢ (Br . Bc) ?≡))
-                      ("<-" . (?< (Br . Bc) ?- (Br . Bc) ?-))
-                      ("->" . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                      ("<==" . (?< (Br . Bc) ?= (Br . Bc) ?=))
-                      ("==>" . (?= (Br . Bc) ?= (Br . Bc) ?>))
-                      ("lambda" . ?λ)))
+    (dolist (symbol '(("lambda" . ?λ)))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))
     (prettify-symbols-mode 1)))
 #+end_src
