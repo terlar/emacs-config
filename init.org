@@ -2146,6 +2146,7 @@ the mode mechanism:
 (use-package reformatter
   :demand t
   :config
+  (reformatter-define black :program "black" :args '("-"))
   (reformatter-define nixfmt :program "nixfmt"))
 #+end_src
 
