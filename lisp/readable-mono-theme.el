@@ -290,6 +290,11 @@ For example links."
    `(diff-refine-added
      ((((background light)) (:background ,l-green-s))
       (((background dark)) (:background ,d-green-s))))
+   `(diff-indicator-changed
+     ((((background light)) (:background ,l-blue :foreground ,l-blue))
+      (((background dark)) (:background ,d-blue :foreground ,d-blue))))
+   `(diff-refine-changed ((t (:inverse-video t))))
+   `(diff-error ((t (:inherit error))))
 
    `(ediff-current-diff-A ((t (:inherit diff-removed))))
    `(ediff-fine-diff-A ((t (:inherit diff-refine-removed))))
@@ -307,6 +312,9 @@ For example links."
    `(smerge-base ((t (:inherit readable-mono-theme-secondary))))
    `(smerge-lower ((t (:background nil))))
    `(smerge-upper ((t (:background nil))))
+   `(smerge-refined-added ((t (:inherit diff-refine-added))))
+   `(smerge-refined-changed ((t (:inherit diff-refine-changed))))
+   `(smerge-refined-removed ((t (:inherit diff-refine-removed))))
 
    `(diff-hl-insert ((t (:inherit diff-indicator-added))))
    `(diff-hl-change
