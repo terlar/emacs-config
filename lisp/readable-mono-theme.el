@@ -407,6 +407,21 @@ For example links."
      ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
       (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
 
+;;;;; message
+   `(message-cited-text-1 ((t (:foreground nil))))
+   `(message-cited-text-2 ((t (:foreground nil))))
+   `(message-cited-text-3 ((t (:foreground nil))))
+   `(message-cited-text-4 ((t (:foreground nil))))
+   `(message-header-cc ((t (:foreground nil))))
+   `(message-header-name ((t (:foreground nil))))
+   `(message-header-newsgroups ((t (:inherit readable-mono-theme-strong))))
+   `(message-header-other ((t (:foreground nil))))
+   `(message-header-subject ((t (:inherit readable-mono-theme-strong))))
+   `(message-header-to ((t (:inherit readable-mono-theme-strong))))
+   `(message-header-xheader ((t (:foreground nil))))
+   `(message-mml ((t (:foreground nil))))
+   `(message-separator ((t (:inherit readable-mono-theme-subordinate))))
+
 ;;;;; org
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
