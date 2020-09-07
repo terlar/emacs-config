@@ -452,7 +452,16 @@ For example links."
    `(outline-minor-0 ((t (:background nil))))
 
 ;;;;; popup
-   `(popup-tip-face ((t (:inherit (nil readable-mono-theme-secondary readable-mono-theme-subordinate)))))
+   `(popup-face ((t (:inherit (readable-mono-theme-secondary default)))))
+   `(popup-isearch-match ((t (:inherit readable-mono-theme-strong))))
+   `(popup-menu-mouse-face ((t (:underline t))))
+   `(popup-menu-selection-face ((t (:inherit (highlight default)))))
+   `(popup-scroll-bar-background-face ((t (:inherit region))))
+   `(popup-scroll-bar-foreground-face ((t (:inherit cursor))))
+   `(popup-summary-face ((t (:inherit (popup-face readable-mono-theme-subordinate)))))
+   `(popup-tip-face
+     ((((background light)) (:inherit default :background ,l-bg-s :box (:line-width 6 :color ,l-bg-s)))
+      (((background dark)) (:inherit default :background ,d-bg-s :box (:line-width 6 :color ,d-bg-s)))))
 
 ;;;;; quick-peek
    `(quick-peek-background-face ((t :inherit readable-mono-theme-secondary)))
