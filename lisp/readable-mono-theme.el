@@ -435,6 +435,9 @@ For example links."
    `(org-date ((t (:foreground nil :underline nil))))
    `(org-document-info ((t (:foreground nil))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
+   `(org-hide
+     ((((background light)) (:foreground ,l-bg))
+      (((background dark)) (:foreground ,d-bg))))
    `(org-table ((t (:foreground nil))))
 
    `(org-agenda-structure ((t (:foreground nil))))
