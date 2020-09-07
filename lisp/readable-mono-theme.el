@@ -331,12 +331,15 @@ For example links."
 
 ;;;;; company
    `(company-echo-common ((t (:inherit completions-common-part))))
-   `(company-tooltip ((t (:inherit readable-mono-theme-secondary))))
-   `(company-tooltip-selection ((t (:inherit highlight))))
-   `(company-tooltip-common ((t (:inherit completions-common-part))))
-   `(company-tooltip-annotation ((t (:inherit readable-mono-theme-subordinate))))
+   `(company-preview ((t (:inherit readable-mono-theme-subordinate))))
+   `(company-preview-common ((t (:inherit completions-common-part))))
+   `(company-preview-search ((t (:inverse-video t))))
    `(company-scrollbar-bg ((t (:inherit region))))
    `(company-scrollbar-fg ((t (:inherit cursor))))
+   `(company-tooltip ((t (:inherit readable-mono-theme-secondary))))
+   `(company-tooltip-annotation ((t (:inherit readable-mono-theme-subordinate))))
+   `(company-tooltip-common ((t (:inherit completions-common-part))))
+   `(company-tooltip-selection ((t (:inherit highlight))))
 
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
