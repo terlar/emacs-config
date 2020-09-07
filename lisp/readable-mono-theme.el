@@ -122,8 +122,8 @@
 
 ;;;; Faces
 (defface readable-mono-theme-critical
-  '((((background light)) (:foreground "#ffffff" :background "#cc1f24"))
-    (((background dark)) (:foreground "#ffffff" :background "#ec423a")))
+  '((((background light)) (:background "#cc1f24" :foreground "#ffffff"))
+    (((background dark)) (:background "#ec423a" :foreground "#ffffff")))
   "Face used for critical information that requires immediate action/attention."
   :group 'readable-mono-theme)
 
@@ -161,6 +161,7 @@ For example links."
       (l-bg-s readable-mono-theme-light-secondary-background)
       (l-fg readable-mono-theme-light-foreground)
       (l-fg-s readable-mono-theme-light-secondary-foreground)
+      (l-cursor readable-mono-theme-light-cursor)
       (l-green "#eeedcb")
       (l-green-s "#d5d99d")
       (l-red "#ffe1cb")
@@ -171,6 +172,7 @@ For example links."
       (d-bg-s readable-mono-theme-dark-secondary-background)
       (d-fg readable-mono-theme-dark-foreground)
       (d-fg-s readable-mono-theme-dark-secondary-foreground)
+      (d-cursor readable-mono-theme-dark-cursor)
       (d-green "#1e3531")
       (d-green-s "#354725")
       (d-red "#2f2c31")
@@ -229,8 +231,8 @@ For example links."
       (((background dark)) (:background ,readable-mono-theme-dark-cursor))))
    `(hl-line ((t (:inherit readable-mono-theme-secondary))))
    `(line-number-current-line
-     ((((background light)) (:inherit readable-mono-theme-strong :foreground ,readable-mono-theme-light-cursor))
-      (((background dark)) (:inherit readable-mono-theme-strong :foreground ,readable-mono-theme-dark-cursor))))
+     ((((background light)) (:inherit readable-mono-theme-strong :foreground ,l-cursor))
+      (((background dark)) (:inherit readable-mono-theme-strong :foreground ,d-cursor))))
    `(show-paren-match ((t (:inherit readable-mono-theme-strong :underline t))))
    `(show-paren-mismatch ((t (:inherit readable-mono-theme-critical))))
 
@@ -446,8 +448,8 @@ For example links."
  
 ;;;;; spray
    `(spray-accent-face
-     ((((background light)) (:foreground ,readable-mono-theme-light-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))
-      (((background dark)) (:foreground ,readable-mono-theme-dark-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
+     ((((background light)) (:foreground ,l-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))
+      (((background dark)) (:foreground ,d-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
 
 ;;;;; stripe-buffer
    `(stripe-highlight ((t (:inherit region))))
