@@ -235,6 +235,8 @@ For example links."
       (((background dark)) (:inherit readable-mono-theme-strong :foreground ,d-cursor))))
    `(show-paren-match ((t (:inherit readable-mono-theme-strong :underline t))))
    `(show-paren-mismatch ((t (:inherit readable-mono-theme-critical))))
+   `(trailing-whitespace ((t (:inherit readable-mono-theme-critical))))
+   `(whitespace-trailing ((t (:inherit readable-mono-theme-critical))))
 
 ;;;;; Interface
    `(mode-line
@@ -344,6 +346,7 @@ For example links."
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
+   `(dired-broken-symlink ((t (:inherit readable-mono-theme-critical))))
    `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
 
 ;;;;; erc
