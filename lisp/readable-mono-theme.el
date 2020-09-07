@@ -30,7 +30,6 @@
 ;; - edebug
 ;; - hi
 ;; - rainbow-delimiters
-;; - company
 ;; - hl-todo
 ;; - ert
 
@@ -319,6 +318,15 @@ For example links."
 ;;;;; cider
    `(cider-test-failure-face ((t (:inherit readable-mono-theme-critical))))
    `(cider-result-overlay-face ((t (:inherit highlight))))
+
+;;;;; company
+   `(company-echo-common ((t (:inherit completions-common-part))))
+   `(company-tooltip ((t (:inherit readable-mono-theme-secondary))))
+   `(company-tooltip-selection ((t (:inherit highlight))))
+   `(company-tooltip-common ((t (:inherit completions-common-part))))
+   `(company-tooltip-annotation ((t (:inherit readable-mono-theme-subordinate))))
+   `(company-scrollbar-bg ((t (:inherit region))))
+   `(company-scrollbar-fg ((t (:inherit cursor))))
 
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
