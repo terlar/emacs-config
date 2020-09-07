@@ -1752,7 +1752,9 @@ No completion with tab.
   (company-backends
    '((company-files
       company-keywords
-      company-capf)))
+      company-capf
+      company-dabbrev-code
+      company-dabbrev)))
   :hook
   (prog-mode . company-mode)
   :general
