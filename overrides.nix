@@ -203,6 +203,19 @@ in {
     };
   };
 
+  relative-buffers = trivialBuild {
+    pname = "relative-buffers";
+    version = "20200908.1228";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "relative-buffers";
+      rev = "32b306b640faed00ef95f06f9f802feb3240ac1b";
+      sha256 = "0wzxnbbzzjkzrnfdbdn7k172ad6mnhq5y3swcbilnk1w1a1lzyhn";
+      # date = 2020-09-08T12:28:37+02:00;
+    };
+    packageRequires = with final; [ dash f s ];
+  };
+
   source-peek = trivialBuild {
     pname = "source-peek";
     version = "20170424.347";
