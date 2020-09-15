@@ -94,6 +94,7 @@ with epkgs;
   flyspell-correct
   focus
   format-all
+  freeze-it
   general
   git
   gitignore-mode
