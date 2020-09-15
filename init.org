@@ -2678,22 +2678,7 @@ Visually separate delimiter pairs.
 *** Highlight identifiers
 Highlight source code identifiers based on their name.
 #+begin_src emacs-lisp :tangle yes
-(use-package color-identifiers-mode
-  :defer 2
-  :config
-  (cl-pushnew '(js-mode . ("[^.][[:space:]]*"
-                            "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
-                            (nil font-lock-variable-name-face js2-function-param)
-                            "[a-zA-Z_$]+[(:]"))
-              color-identifiers:modes-alist
-              :test #'equal)
-  (cl-pushnew '(typescript-mode . ("[^.][[:space:]]*"
-                                   "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
-                                   (nil font-lock-variable-name-face)
-                                   "[a-zA-Z_$]+[(:]"))
-              color-identifiers:modes-alist
-              :test #'equal)
-  (global-color-identifiers-mode 1))
+(use-package color-identifiers-mode)
 
 (use-package rainbow-identifiers
   :custom
