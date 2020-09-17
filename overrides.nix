@@ -30,39 +30,6 @@ in {
       };
     });
 
-  org = stdenv.mkDerivation rec {
-    pname = "org";
-    version = "20200825.2339";
-
-    src = fetchFromGitHub {
-      owner = "terlar";
-      repo = "org-mode";
-      rev = "053a82fc6d6ce27d2e165d608a89bb2086768c91";
-      sha256 = "080vdln3vh7hvn42c9cyy5126393bwdybxdib1b59q8aaqgr2im8";
-      # date = 2020-08-25T23:39:28+02:00;
-    };
-
-    preBuild = ''
-      makeFlagsArray=(
-        prefix="$out/share"
-        ORG_ADD_CONTRIB="org* ox*"
-        GITVERSION="${version}"
-        ORGVERSION="${version}"
-      );
-    '';
-
-    preInstall = ''
-      perl -i -pe "s%/usr/share%$out%;" local.mk
-    '';
-
-    buildInputs = with final; [ emacs texinfo perl which ];
-
-    meta = with stdenv.lib; {
-      homepage = "https://elpa.gnu.org/packages/org.html";
-      license = licenses.free;
-    };
-  };
-
   relative-buffers = trivialBuild {
     pname = "relative-buffers";
     version = "20200908.1228";
