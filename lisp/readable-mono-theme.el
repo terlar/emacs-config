@@ -483,6 +483,9 @@ For example links."
    `(rst-external ((t (:inherit font-lock-comment-face))))
    `(rst-literal ((t (:inherit readable-mono-theme-secondary :extend t))))
 
+;;;;; sh-script
+   `(sh-quoted-exec ((t (:inherit readable-mono-theme-secondary))))
+
 ;;;;; smartparens
    `(sp-show-pair-match-face ((t (:inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((t (:inherit show-paren-mismatch))))
