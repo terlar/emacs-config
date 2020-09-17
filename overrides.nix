@@ -5,18 +5,19 @@ final: prev:
 
 let inherit (prev) trivialBuild;
 in {
-  # Forks.
-  all-the-icons-dired = prev.all-the-icons-dired.overrideAttrs (attrs: {
-    version = "20200827.1545";
-    src = fetchFromGitHub {
-      owner = "terlar";
-      repo = "all-the-icons-dired";
-      rev = "b06bb30c79d8e1b13b9214bf38d1e1d837de4dd3";
-      sha256 = "1fwb47gwrjd5vdnjkrycp14a0drfaysyq1vxv1krydmy17s9r3lv";
-      # date = 2020-08-27T15:45:50+02:00;
-    };
+  # Patched.
+  theme-magic = prev.theme-magic.overrideAttrs (attrs: {
+    version = "20200828.230";
+    patches = [
+      (substituteAll {
+        src = ./patches/theme-magic.patch;
+        python = "${python3}/bin/python";
+        wal = "${pywal}/bin/wal";
+      })
+    ];
   });
 
+  # Forks.
   flymake-diagnostic-at-point = prev.flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
       version = "20190810.2232";
@@ -62,27 +63,18 @@ in {
     };
   };
 
-  org-variable-pitch = prev.org-variable-pitch.overrideAttrs (attrs: {
-    version = "20200828.230";
+  relative-buffers = trivialBuild {
+    pname = "relative-buffers";
+    version = "20200908.1228";
     src = fetchFromGitHub {
       owner = "terlar";
-      repo = "elisp";
-      rev = "274a897e999334e86db36fc0f0a0c7fb3d833030";
-      sha256 = "1dfv5f8w1b2gyii0yznx417a4l7pip3510l377ymqy4qhxajs7pw";
-      # date = 2020-08-28T02:30:27+02:00;
+      repo = "relative-buffers";
+      rev = "32b306b640faed00ef95f06f9f802feb3240ac1b";
+      sha256 = "0wzxnbbzzjkzrnfdbdn7k172ad6mnhq5y3swcbilnk1w1a1lzyhn";
+      # date = 2020-09-08T12:28:37+02:00;
     };
-  });
-
-  theme-magic = prev.theme-magic.overrideAttrs (attrs: {
-    version = "20200828.230";
-    patches = [
-      (substituteAll {
-        src = ./patches/theme-magic.patch;
-        python = "${python3}/bin/python";
-        wal = "${pywal}/bin/wal";
-      })
-    ];
-  });
+    packageRequires = with final; [ dash f s ];
+  };
 
   ws-butler = prev.ws-butler.overrideAttrs (attrs: {
     version = "20200403.107";
@@ -98,13 +90,13 @@ in {
   # Packages not in MELPA/GNU ELPA.
   apheleia = trivialBuild rec {
     pname = "apheleia";
-    version = "20200716.826";
+    version = "20200823.1438";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "6aff83d5acca936cf1103e0dbe59724c4e887560";
+      rev = "80e1b09dda032045062991fb7929badd22cb77eb";
       sha256 = "112pqvmhh484d4b4wrawz0x9gl6x9c36rmqwym7masxk7w6hdm97";
-      # date = 2020-07-16T08:26:51-06:00;
+      # date = 2020-08-23T14:38:45-06:00;
     };
   };
 
@@ -155,18 +147,6 @@ in {
     };
   };
 
-  find-file-rg = trivialBuild {
-    pname = "find-file-rg";
-    version = "20200820.1226";
-    src = fetchFromGitHub {
-      owner = "muffinmad";
-      repo = "emacs-find-file-rg";
-      rev = "a690ce283fecd353240b269350216ae631f5352d";
-      sha256 = "1wp6issswh1c0i25ayh628vqpi1ixs47wn7dhk0m5786va7mmrm5";
-      # date = 2020-08-20T12:26:39+03:00;
-    };
-  };
-
   ivy-ghq = trivialBuild {
     pname = "ivy-ghq";
     version = "20191231.1957";
@@ -181,13 +161,13 @@ in {
 
   ligature = trivialBuild {
     pname = "ligature";
-    version = "20200831833";
+    version = "20200901.1702";
     src = fetchFromGitHub {
       owner = "mickeynp";
       repo = "ligature.el";
-      rev = "2887542fbe33309ed1eca2115ea93c1c5a2c09da";
-      sha256 = "03k5i4892y7g8nw474h6h67jnwail3i1sic4fc10dfraqk9i3w3j";
-      # date = 2020-08-31T08:33:09+01:00;
+      rev = "9aa31e7e31286e607c9d4f2d8a2855d4bbf9da9e";
+      sha256 = "1lv8yxab5lcjk0m4f27p76hmp17yy9803zhvqpqgh46l05kahjvk";
+      # date = 2020-09-01T17:02:24+01:00;
     };
   };
 
@@ -201,19 +181,6 @@ in {
       sha256 = "0kynnja58r9cwfrxxyycg6z4hz9s5rzgn47i9yki7rlr80nyn2bf";
       # date = 2020-03-29T18:31:18+02:00;
     };
-  };
-
-  relative-buffers = trivialBuild {
-    pname = "relative-buffers";
-    version = "20200908.1228";
-    src = fetchFromGitHub {
-      owner = "terlar";
-      repo = "relative-buffers";
-      rev = "32b306b640faed00ef95f06f9f802feb3240ac1b";
-      sha256 = "0wzxnbbzzjkzrnfdbdn7k172ad6mnhq5y3swcbilnk1w1a1lzyhn";
-      # date = 2020-09-08T12:28:37+02:00;
-    };
-    packageRequires = with final; [ dash f s ];
   };
 
   source-peek = trivialBuild {
