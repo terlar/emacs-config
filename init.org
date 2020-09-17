@@ -1103,9 +1103,13 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   (:keymaps
    'smartparens-mode-map
    "M-'" 'sp-change-inner
+   "M-C" 'sp-clone-sexp
    "M-D" 'sp-unwrap-sexp
    "M-R" 'sp-rewrap-sexp
    "M-W" 'sp-wrap-round)
+  (:keymaps
+   'smartparens-strict-mode-map
+   [remap kill-region] 'nil)
   :preface
   (defun +smartparens-no-autoinsert-pair-advice (orig-fn &rest args)
     "Disable command smartparens autoinsert when running ORIG-FN with ARGS."
@@ -1173,10 +1177,8 @@ Display whitespace
 Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+begin_src emacs-lisp :tangle yes
 (use-package whole-line-or-region
-  :commands
-  (whole-line-or-region-global-mode)
-  :init
-  (whole-line-or-region-global-mode 1))
+  :hook
+  (after-init . whole-line-or-region-global-mode))
 #+end_src
 
 *** yasnippet
