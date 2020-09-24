@@ -7,7 +7,6 @@ let inherit (prev) trivialBuild;
 in {
   # Patched.
   theme-magic = prev.theme-magic.overrideAttrs (attrs: {
-    version = "20200828.230";
     patches = [
       (substituteAll {
         src = ./patches/theme-magic.patch;
@@ -57,13 +56,13 @@ in {
   # Packages not in MELPA/GNU ELPA.
   apheleia = trivialBuild rec {
     pname = "apheleia";
-    version = "20200823.1438";
+    version = "20200922.630";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "80e1b09dda032045062991fb7929badd22cb77eb";
-      sha256 = "112pqvmhh484d4b4wrawz0x9gl6x9c36rmqwym7masxk7w6hdm97";
-      # date = 2020-08-23T14:38:45-06:00;
+      rev = "38488e0ef9d75189076f76be295144353d25c58c";
+      sha256 = "11wm7lb0lasz355lpqyyhp94p9nfmakfz7vypsrys0pybr3isd9x";
+      # date = 2020-09-22T06:30:42-07:00;
     };
   };
 
