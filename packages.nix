@@ -42,6 +42,7 @@ with epkgs;
   crystal-mode
   csv-mode
   ctrlf
+  ctrlxo
   cycle-quotes
   deadgrep
   default-text-scale
