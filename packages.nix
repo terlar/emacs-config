@@ -30,7 +30,6 @@ with epkgs;
   color-identifiers-mode
   comment-or-uncomment-sexp
   company
-  company-erlang
   company-native-complete
   company-prescient
   company-terraform
