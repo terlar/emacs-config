@@ -962,14 +962,6 @@ Transpose window arrangement.
    "F" 'flop-frame))
 #+end_src
 
-*** Navigation
-#+begin_src emacs-lisp :tangle yes
-(use-package frame
-  :general
-  ("M-n" 'next-window-any-frame
-   "M-p" 'previous-window-any-frame))
-#+end_src
-
 *** Zoom
 Zoom a window to display as a single window temporarily.
 #+begin_src emacs-lisp :tangle yes
@@ -1539,6 +1531,13 @@ Keep track of bookmarks
   :defer 2
   :config
   (ctrlf-mode 1))
+#+end_src
+
+*** ctrlxo
+#+begin_src emacs-lisp :tangle yes
+(use-package ctrlxo
+  :general
+  ("C-x o" 'ctrlxo))
 #+end_src
 
 *** deadgrep
@@ -2141,7 +2140,7 @@ Reformat buffer without moving point.
 *** reformatter
 Custom formatters. Use in a specific project via =.dir-locals.el=, this can be achieved via
 the mode mechanism:
-#+BEGIN_SRC text
+#+begin_src text
 ((some-major-mode
    (mode . FORMATTER-on-save)))
 #+end_src
