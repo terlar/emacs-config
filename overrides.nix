@@ -127,13 +127,13 @@ in {
 
   ligature = trivialBuild {
     pname = "ligature";
-    version = "20200901.1702";
+    version = "20201004.925";
     src = fetchFromGitHub {
       owner = "mickeynp";
       repo = "ligature.el";
-      rev = "9aa31e7e31286e607c9d4f2d8a2855d4bbf9da9e";
-      sha256 = "1lv8yxab5lcjk0m4f27p76hmp17yy9803zhvqpqgh46l05kahjvk";
-      # date = 2020-09-01T17:02:24+01:00;
+      rev = "afd733582ceaabd2f6b2a09a9eec6ab847a2460f";
+      sha256 = "06s1aq5irpy17cvml97j8if927mm10dpcxhazapiqyp43rnsnajm";
+      # date = 2020-10-04T09:25:18+01:00;
     };
   };
 
