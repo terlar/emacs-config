@@ -137,18 +137,6 @@ in {
     };
   };
 
-  org-pretty-table = trivialBuild {
-    pname = "org-pretty-table";
-    version = "20200329.1831";
-    src = fetchFromGitHub {
-      owner = "fuco1";
-      repo = "org-pretty-table";
-      rev = "88380f865a79bba49e4f501b7fe73a7bfb03bd1a";
-      sha256 = "0kynnja58r9cwfrxxyycg6z4hz9s5rzgn47i9yki7rlr80nyn2bf";
-      # date = 2020-03-29T18:31:18+02:00;
-    };
-  };
-
   source-peek = trivialBuild {
     pname = "source-peek";
     version = "20170424.347";

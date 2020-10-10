@@ -3249,9 +3249,11 @@ Remove style from heading breadcrumbs.
 
 **** Tables
 #+begin_src emacs-lisp :tangle yes
-(use-package org-pretty-table
+(use-package valign
   :hook
-  (org-mode . org-pretty-table-mode))
+  (org-mode . valign-mode)
+  :custom
+  (valign-fancy-bar t))
 #+end_src
 
 *** Export

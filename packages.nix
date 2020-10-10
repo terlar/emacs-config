@@ -168,7 +168,6 @@ with epkgs;
   org-download
   org-fragtog
   org-noter
-  org-pretty-table
   org-preview-html
   org-radiobutton
   org-roam
