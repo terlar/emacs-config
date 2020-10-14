@@ -1160,8 +1160,8 @@ Display whitespace
   (whitespace-style
    '(face tabs tab-mark spaces space-mark trailing lines-tail))
   (whitespace-display-mappings
-   '((tab-mark ?\t [?› ?\t])
-     (newline-mark 10 [?¬ 10])
+   '((tab-mark 9 [8250 9])
+     (newline-mark 10 [172 10])
      (space-mark 32 [183] [46]))))
 #+end_src
 
@@ -2714,7 +2714,7 @@ For modes that don't adequately highlight numbers.
   :preface
   (defun init-prog-prettify-symbols ()
     "Add generic programming symbols."
-    (dolist (symbol '(("lambda" . ?λ)))
+    (dolist (symbol '(("lambda" . "λ")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))
     (prettify-symbols-mode 1)))
 #+end_src
@@ -2882,9 +2882,9 @@ Shorten package prefixes.
 #+begin_src emacs-lisp :tangle yes
 (defun init-emacs-lisp-prettify-symbols ()
   "Prettify `emacs-lisp-mode' specific symbols."
-  (dolist (symbol '(("defun"    . ?ƒ)
-                    ("defmacro" . ?μ)
-                    ("defvar"   . ?ν)
+  (dolist (symbol '(("defun"    . "ƒ")
+                    ("defmacro" . "μ")
+                    ("defvar"   . "ν")
                     ("defconst" . "ν_")))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
 (add-hook 'emacs-lisp-mode-hook #'init-emacs-lisp-prettify-symbols)
@@ -3163,18 +3163,18 @@ This sections makes ~org-mode~ look more beautiful and appealing.
   :preface
   (defun init-org-prettify-syntax ()
     "Prettify syntax with symbols."
-    (dolist (symbol '(("#+title:" . ?⋮)
-                      ("#+TITLE:" . ?⋮)
-                      ("#+subtitle:" . ?⋮)
-                      ("#+SUBTITLE:" . ?⋮)
-                      ("#+begin_src" . ?λ)
-                      ("#+BEGIN_SRC" . ?λ)
-                      ("#+end_src" . ?≋)
-                      ("#+end_src" . ?≋)
-                      ("#+begin_quote" . ?“)
-                      ("#+BEGIN_QUOTE" . ?“)
-                      ("#+end_quote" . ?”)
-                      ("#+END_QUOTE" . ?”)))
+    (dolist (symbol '(("#+title:" . "⋮")
+                      ("#+TITLE:" . "⋮")
+                      ("#+subtitle:" . "⋮")
+                      ("#+SUBTITLE:" . "⋮")
+                      ("#+begin_src" . "λ")
+                      ("#+BEGIN_SRC" . "λ")
+                      ("#+end_src" . "≋")
+                      ("#+end_src" . "≋")
+                      ("#+begin_quote" . "“")
+                      ("#+BEGIN_QUOTE" . "“")
+                      ("#+end_quote" . "”")
+                      ("#+END_QUOTE" . "”")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))
     (dolist (n (number-sequence 1 8 1))
       (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
@@ -3225,15 +3225,15 @@ Use symbols to represent task state.
 #+begin_src emacs-lisp :tangle yes
 (defun init-org-prettify-task-symbols ()
   "Prettify task list symbols."
-  (dolist (symbol '(("TODO"      . ?⚑)
-                    ("DOING"     . ?⚐)
-                    ("NEXT"      . ?⚐)
-                    ("WAITING"   . ?⏳)
-                    ("SOMEDAY"   . ?⛅)
-                    ("PROJECT"   . ?📁)
-                    ("DONE"      . ?✔)
-                    ("CANCELED"  . ?✘)
-                    ("CANCELLED" . ?✘)))
+  (dolist (symbol '(("TODO"      . "⚑")
+                    ("DOING"     . "⚐")
+                    ("NEXT"      . "⚐")
+                    ("WAITING"   . "⏳")
+                    ("SOMEDAY"   . "⛅")
+                    ("PROJECT"   . "📁")
+                    ("DONE"      . "✔")
+                    ("CANCELED"  . "✘")
+                    ("CANCELLED" . "✘")))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
 (add-hook 'org-mode-hook #'init-org-prettify-task-symbols)
 #+end_src
@@ -3544,7 +3544,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    "k" 'godoc-at-point)
   :preface
   (defun init-go-prettify-symbols ()
-    (dolist (symbol '(("funct"  . ?ƒ)))
+    (dolist (symbol '(("funct"  . "ƒ")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
 #+end_src
 
@@ -3687,14 +3687,14 @@ Persist REPL history.
           ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
   (defun init-js-prettify-symbols ()
-    (dolist (symbol '(("=="        . ?≈)
+    (dolist (symbol '(("=="        . "≈")
                       ("!="        . "≈/")
                       ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                      ("function"  . ?ƒ)
-                      ("let"       . ?ν)
+                      ("function"  . "ƒ")
+                      ("let"       . "ν")
                       ("const"     . "ν_")
-                      ("undefined" . ?∅)
-                      ("Infinity"  . ?∞)))
+                      ("undefined" . "∅")
+                      ("Infinity"  . "∞")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
 #+end_src
 
@@ -3864,9 +3864,9 @@ REPL for nodejs.
    "k" 'lua-search-documentation)
   :preface
   (defun init-lua-prettify-symbols ()
-    (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠))
-                      ("function"  . ?ƒ)
-                      ("math.huge" . ?∞)))
+    (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) 8800))
+                      ("function"  . "ƒ")
+                      ("math.huge" . "∞")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
 #+end_src
 
@@ -4018,15 +4018,15 @@ Pretty check-boxes
    "r" 'run-python)
   :preface
   (defun init-python-prettify-symbols ()
-    (dolist (symbol '(("def"      . ?ƒ)
-                      ("sum"      . ?Σ)
-                      ("not"      . ?￢)
-                      ("in"       . ?∈)
-                      ("for"      . ?∀)
-                      ("**2"      . ?²)
-                      ("**3"      . ?³)
-                      ("None"     . ?∅)
-                      ("math.inf" . ?∞)))
+    (dolist (symbol '(("def"      . "ƒ")
+                      ("sum"      . "Σ")
+                      ("not"      . "￢")
+                      ("in"       . "∈")
+                      ("for"      . "∀")
+                      ("**2"      . "²")
+                      ("**3"      . "³")
+                      ("None"     . "∅")
+                      ("math.inf" . "∞")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
   :config
   (put 'python-shell-interpreter 'safe-local-variable #'(lambda (x) (member x '("python" "ipython")))))
@@ -4147,8 +4147,8 @@ Pretty check-boxes as well as bullet lists.
           ff-test-search-test-project-directories '("test" "spec")))
 
   (defun init-ruby-prettify-symbols ()
-    (dolist (symbol '(("def"             . ?ƒ)
-                      ("Float::INFINITY" . ?∞)))
+    (dolist (symbol '(("def"             . "ƒ")
+                      ("Float::INFINITY" . "∞")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
   :config
   (with-eval-after-load 'hideshow
@@ -4370,14 +4370,14 @@ Pretty check-boxes as well as bullet lists.
           ff-test-search-test-project-directories '("test" "spec" "__tests__")))
 
   (defun init-typescript-prettify-symbols ()
-    (dolist (symbol '(("=="        . ?≈)
+    (dolist (symbol '(("=="        . "≈")
                       ("!="        . "≈/")
                       ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                      ("function"  . ?ƒ)
-                      ("let"       . ?ν)
+                      ("function"  . "ƒ")
+                      ("let"       . "ν")
                       ("const"     . "ν_")
-                      ("null"      . ?∅)
-                      ("Infinity"  . ?∞)))
+                      ("null"      . "∅")
+                      ("Infinity"  . "∞")))
       (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
 #+end_src
 
