@@ -19,18 +19,20 @@
     {
       overlay = final: prev:
         let
-          overrides = prev.callPackage ./overrides.nix { };
-          extraPackages = import ./packages.nix;
+          override = prev.callPackage ./overrides.nix { };
         in (emacs-overlay.overlay final prev) // rec {
-          emacsPackages =
-            (final.emacsPackagesFor final.emacsGit).overrideScope' overrides;
+          emacsEnv = final.emacsWithPackagesFromUsePackage {
+            config = ./init.org;
+            package = final.emacsGit;
+            alwaysEnsure = true;
 
-          emacsEnv = emacsPackages.emacsWithPackages extraPackages;
+            inherit override;
+          };
 
           emacsConfig = prev.callPackage ./. {
             # Ensure build includes packages.
             trivialBuild =
-              emacsPackages.trivialBuild.override { emacs = emacsEnv; };
+              prev.emacsPackages.trivialBuild.override { emacs = emacsEnv; };
           } // lib.mkIf (self ? lastModifiedDate) {
             version = lib.substring 0 8 self.lastModifiedDate;
           };

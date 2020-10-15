@@ -11,9 +11,6 @@ let
   else
     (if enableServer then "emacsclient" else "emacs");
 
-  extraPackages = import ./packages.nix;
-  overrides = pkgs.callPackage ./overrides.nix { };
-
   mkEmacsConfigFiles = path:
     foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
     { } (attrNames (readDir path));
@@ -23,21 +20,23 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.emacsGit;
-      defaultText = literalExample "pkgs.emacsGit";
+      default = pkgs.emacsEnv;
+      defaultText = literalExample "pkgs.emacsEnv";
       description = "The default Emacs derivation to use.";
     };
 
-    enableOverrides = mkOption {
-      default = true;
-      type = types.bool;
-      description = "Whether to enable Emacs package overrides.";
+    configPackage = mkOption {
+      type = types.package;
+      default = pkgs.emacsConfig;
+      defaultText = literalExample "pkgs.emacsConfig";
+      description = "The default Emacs config derivation to use.";
     };
 
-    enablePackages = mkOption {
-      default = true;
-      type = types.bool;
-      description = "Whether to enable extra Emacs packages.";
+    utilsPackage = mkOption {
+      type = types.package;
+      default = pkgs.emacsUtils;
+      defaultText = literalExample "pkgs.emacsUtils";
+      description = "The default Emacs utils derivation to use.";
     };
 
     enableUserDirectory = mkOption {
@@ -103,15 +102,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      programs.emacs = mkMerge [
-        {
-          enable = true;
-          package = cfg.package;
-        }
-
-        (mkIf cfg.enablePackages { inherit extraPackages; })
-        (mkIf cfg.enableOverrides { inherit overrides; })
-      ];
+      programs.emacs = mkMerge [{
+        enable = true;
+        package = cfg.package;
+      }];
 
       services.emacs.enable = cfg.enableServer;
 
@@ -126,11 +120,11 @@ in {
       };
 
       home.packages = [ ]
-        ++ optionals cfg.enableUserDirectory pkgs.emacsConfig.buildInputs
-        ++ optional cfg.enableUtils pkgs.emacsUtils;
+        ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs
+        ++ optional cfg.enableUtils cfg.utilsPackage;
     }
     (mkIf cfg.enableUserDirectory {
-      xdg.configFile = mkEmacsConfigFiles pkgs.emacsConfig;
+      xdg.configFile = mkEmacsConfigFiles cfg.configPackage;
     })
     (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
     (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })

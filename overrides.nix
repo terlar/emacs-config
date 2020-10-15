@@ -1,12 +1,12 @@
 { stdenv, fetchFromGitHub, substituteAll, texinfo, perl, python3, pywal, which
 }:
 
-final: prev:
+epkgs:
 
-let inherit (prev) trivialBuild;
-in {
+let inherit (epkgs) trivialBuild;
+in epkgs // {
   # Patched.
-  theme-magic = prev.theme-magic.overrideAttrs (attrs: {
+  theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
     patches = [
       (substituteAll {
         src = ./patches/theme-magic.patch;
@@ -17,7 +17,7 @@ in {
   });
 
   # Forks.
-  flymake-diagnostic-at-point = prev.flymake-diagnostic-at-point.overrideAttrs
+  flymake-diagnostic-at-point = epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs
     (attrs: {
       version = "20190810.2232";
       src = fetchFromGitHub {
@@ -39,10 +39,10 @@ in {
       sha256 = "0wzxnbbzzjkzrnfdbdn7k172ad6mnhq5y3swcbilnk1w1a1lzyhn";
       # date = 2020-09-08T12:28:37+02:00;
     };
-    packageRequires = with final; [ dash f s ];
+    packageRequires = with epkgs; [ dash f s ];
   };
 
-  ws-butler = prev.ws-butler.overrideAttrs (attrs: {
+  ws-butler = epkgs.melpaPackages.ws-butler.overrideAttrs (attrs: {
     version = "20200403.107";
     src = fetchFromGitHub {
       owner = "hlissner";
@@ -76,7 +76,7 @@ in {
       sha256 = "0sl6k5y3b855mbix310l9xzwqm4nb8ljjq4w7y6r1acpfwd7lkdc";
       # date = 2020-01-04T14:35:35+01:00;
     };
-    packageRequires = with final; [ eglot ];
+    packageRequires = with epkgs; [ eglot ];
   };
 
   ejira = trivialBuild {
@@ -89,7 +89,7 @@ in {
       sha256 = "0a97gx016byiy5fri8jf3x3sfd2h2iw79s6nxv9jigpkgxrkjg7b";
       # date = 2020-02-06T21:44:57+02:00;
     };
-    packageRequires = with final; [
+    packageRequires = with epkgs; [
       dash-functional
       f
       helm
@@ -147,7 +147,7 @@ in {
       sha256 = "14ai66c7j2k04a0vav92ybaikcc8cng5i5vy0iwpg7b2cws8a2zg";
       # date = 2017-04-24T03:47:10+05:30;
     };
-    packageRequires = with final; [ quick-peek ];
+    packageRequires = with epkgs; [ quick-peek ];
   };
 
   valign = trivialBuild {
