@@ -434,7 +434,7 @@ For example links."
    `(org-todo ((t (:inherit readable-mono-theme-strong))))
    `(org-headline-done ((t (:foreground nil))))
    `(org-headline-todo ((t (:foreground nil))))
-   `(org-block ((t (:inherit readable-mono-theme-secondary))))
+   `(org-block ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(org-code
      ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
       (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
