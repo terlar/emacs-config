@@ -1838,17 +1838,19 @@ Incremental selection narrowing interface for completions.
     (interactive "p")
     (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg))))
 
-(use-package selectrum-prescient
-  :hook
-  (selectrum-mode . selectrum-prescient-mode))
-
 (use-package prescient
   :hook
   (after-init . prescient-persist-mode))
 
-(use-package company-prescient
-  :hook
-  (company-mode . company-prescient-mode))
+(use-package selectrum-prescient
+  :custom
+  (selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless))
+  (selectrum-refine-candidates-function #'orderless-filter)
+  (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 #+end_src
 
 ** Ivy
