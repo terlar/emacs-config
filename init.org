@@ -1813,6 +1813,9 @@ Incremental selection narrowing interface for completions.
 (use-package selectrum
   :hook
   (after-init . selectrum-mode)
+  :custom
+  (selectrum-extend-current-candidate-highlight t)
+  (selectrum-show-indices t)
   :general
   ("C-c SPC" 'selectrum-repeat)
   (:keymaps
