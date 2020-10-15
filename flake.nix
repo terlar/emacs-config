@@ -23,7 +23,7 @@
         in (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
             config = ./init.org;
-            package = final.emacsGit;
+            package = final.emacsGcc;
             alwaysEnsure = true;
 
             inherit override;
