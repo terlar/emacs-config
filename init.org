@@ -2748,7 +2748,7 @@ For modes that don't adequately highlight numbers.
  :prefix local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
- "l" '(lambda () (interactive) (load-file (buffer-file-name)))
+ "l" `(,(lambda () (interactive) (load-file (buffer-file-name))) :wk "Load file")
  "t" 'ert)
 
 (custom-set-variables
