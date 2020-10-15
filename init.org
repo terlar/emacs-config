@@ -1813,6 +1813,7 @@ Incremental selection narrowing interface for completions.
 (use-package selectrum
   :hook
   (after-init . selectrum-mode)
+  (selectrum-mode . selectrum-define-keys)
   :custom
   (selectrum-extend-current-candidate-highlight t)
   (selectrum-show-indices t)
@@ -1822,6 +1823,15 @@ Incremental selection narrowing interface for completions.
    'selectrum-minibuffer-map
    "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
   :preface
+  (defun selectrum-define-keys ()
+    (dotimes (i (min selectrum-num-candidates-displayed 10))
+      (general-define-key
+       :keymaps 'selectrum-minibuffer-map
+       (format "M-%d" (mod (1+ i) 10))
+       `(lambda () (interactive)
+          (let ((selectrum--current-candidate-index -1))
+            (selectrum-select-current-candidate ,(1+ i)))))))
+
   (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
     "Move to end of line or insert current candidate.
    ARG lines can be used."
