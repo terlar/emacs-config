@@ -18,12 +18,11 @@
 
     {
       overlay = final: prev:
-        let
-          override = prev.callPackage ./overrides.nix { };
+        let override = prev.callPackage ./overrides.nix { };
         in (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
             config = ./init.org;
-            package = final.emacsGcc;
+            package = final.emacsGit;
             alwaysEnsure = true;
 
             inherit override;
