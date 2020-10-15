@@ -1831,7 +1831,10 @@ Incremental selection narrowing interface for completions.
 
 (use-package prescient
   :hook
-  (after-init . prescient-persist-mode)
+  (after-init . prescient-persist-mode))
+
+(use-package company-prescient
+  :hook
   (company-mode . company-prescient-mode))
 #+end_src
 
