@@ -428,6 +428,12 @@ For example links."
    `(message-mml ((t (:foreground nil))))
    `(message-separator ((t (:inherit readable-mono-theme-subordinate))))
 
+;;;;; orderless
+   `(orderless-match-face-0 ((t (:inherit completions-common-part))))
+   `(orderless-match-face-1 ((t (:inherit completions-common-part))))
+   `(orderless-match-face-2 ((t (:inherit completions-common-part))))
+   `(orderless-match-face-3 ((t (:inherit completions-common-part))))
+
 ;;;;; org
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground nil))))
