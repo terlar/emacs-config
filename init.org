@@ -1840,7 +1840,9 @@ Incremental selection narrowing interface for completions.
 
 (use-package prescient
   :hook
-  (after-init . prescient-persist-mode))
+  (after-init . prescient-persist-mode)
+  :custom
+  (prescient-filter-method '(literal regexp initialism fuzzy)))
 
 (use-package selectrum-prescient
   :custom
