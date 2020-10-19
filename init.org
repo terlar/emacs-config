@@ -1829,8 +1829,7 @@ Incremental selection narrowing interface for completions.
        :keymaps 'selectrum-minibuffer-map
        (format "M-%d" (mod (1+ i) 10))
        `(lambda () (interactive)
-          (let ((selectrum--current-candidate-index -1))
-            (selectrum-select-current-candidate ,(1+ i)))))))
+          (selectrum-select-current-candidate ,(1+ i))))))
 
   (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
     "Move to end of line or insert current candidate.
