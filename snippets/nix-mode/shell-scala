@@ -1,12 +1,14 @@
-{ nixpkgs ? import <nixpkgs> {}, scalaVersion ? "${1:2_13}" }:
+{ nixpkgs ? import <nixpkgs> {}, jdkName ? "${1:openjdk}", jdkVersion ? "${2:11}", scalaVersion ? "${3:2_13}" }:
 
 with nixpkgs;
 
 let
+  jdk = pkgs."${jdkName}${jdkVersion}";
   scala = pkgs."scala_\${scalaVersion}";
 in mkShell {
   buildInputs = [
     coursier
+    jdk
     sbt
     scala
     scalafmt
