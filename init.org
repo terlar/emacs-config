@@ -1702,9 +1702,6 @@ Project interactions. Prefix project buffer files with the project name and rela
       (apply orig-fun args)))
   :init
   (advice-add 'projectile-cache-current-file :around #'+projectile-cache-current-file)
-  (cl-pushnew '(setq projectile-project-root (locate-dominating-file buffer-file-name ".dir-locals.el"))
-              safe-local-eval-forms
-              :test #'equal)
   :config
   (setq projectile-globally-ignored-directories
         (append '("_build"
@@ -4644,3 +4641,6 @@ Navigate through undo history.
 - One theme to highlight errors
 - One theme for the mode-line
 ** TODO Flymake + Elsa
+
+** Packages
+*** TODO Use adaptive-wrap
