@@ -512,7 +512,15 @@ For example links."
    `(vr/match-1 ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
 
 ;;;;; web
-   `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match)))))
+   `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match))))
+
+;;;;; wgrep
+   `(wgrep-face ((t (:inverse-video t))))
+   `(wgrep-delete-face ((t (:inverse-video t :strike-through t))))
+   `(wgrep-file-face ((t (:inverse-video t))))
+   `(wgrep-reject-face ((t (:inherit readable-mono-theme-subordinate))))
+   `(wgrep-done-face ((t (:inherit readable-mono-theme-secondary)))))
+
 
 ;;;; Theme variables
   (custom-theme-set-variables
