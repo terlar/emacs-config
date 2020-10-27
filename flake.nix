@@ -25,6 +25,8 @@
             package = final.emacsGit;
             alwaysEnsure = true;
 
+            extraEmacsPackages = epkgs: [ epkgs.mini-frame ];
+
             inherit override;
           };
 
