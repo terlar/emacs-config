@@ -17,8 +17,8 @@ in epkgs // {
   });
 
   # Forks.
-  flymake-diagnostic-at-point = epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs
-    (attrs: {
+  flymake-diagnostic-at-point =
+    epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs (attrs: {
       version = "20190810.2232";
       src = fetchFromGitHub {
         owner = "terlar";
@@ -111,6 +111,19 @@ in epkgs // {
       sha256 = "0frnfwqal9mrnrz6q4v7vcai26ahaw81894arff1yjw372pfgv7v";
       # date = 2020-07-27T02:27:40-07:00;
     };
+  };
+
+  ghelp = trivialBuild {
+    pname = "ghelp";
+    version = "20201028.1411";
+    src = fetchFromGitHub {
+      owner = "casouri";
+      repo = "ghelp";
+      rev = "27c262e0be1bef33d74f8f27dd5280d143db778f";
+      sha256 = "1kf7zjr7n4fmvhxczx17viw09mj8f0sgc3w6dprynraxgj85i7ka";
+      # date = 2020-10-28T14:11:24-04:00;
+    };
+    packageRequires = with epkgs; [ eglot geiser helpful ];
   };
 
   ivy-ghq = trivialBuild {

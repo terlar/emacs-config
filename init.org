@@ -617,6 +617,38 @@ keybindings in case I would forget them.
  "'" 'describe-char)
 #+end_src
 
+** Packages
+*** ghelp
+Generic help system.
+#+begin_src emacs-lisp :tangle yes
+(use-package ghelp
+  :general
+  (:keymaps
+   'help-map
+   "A" 'ghelp-describe-elisp
+   "f" 'ghelp-describe-function
+   "k" 'ghelp-describe-key
+   "v" 'ghelp-describe-variable)
+  (:prefix
+   nav-prefix
+   "h" 'ghelp-describe-at-point))
+#+end_src
+
+*** helpful
+Better =*help*= buffer
+#+begin_src emacs-lisp :tangle yes
+(use-package helpful
+  :general
+  (:keymaps
+   'help-map
+   "C" 'helpful-command
+   "M" 'helpful-macro)
+  (:keymaps
+   'helpful-mode-map
+   "[[" 'backward-button
+   "]]" 'forward-button))
+#+end_src
+
 * Appearance
 ** Typography
 *** Size
@@ -2816,29 +2848,6 @@ Evaluation results in overlay.
 (use-package eros
   :hook
   (emacs-lisp-mode . eros-mode))
-#+end_src
-
-**** helpful
-Better =*help*= buffer
-#+begin_src emacs-lisp :tangle yes
-(use-package helpful
-  :general
-  (:keymaps
-   'emacs-lisp-mode-map
-   :prefix nav-prefix
-   "h" 'helpful-at-point)
-  (:keymaps
-   'help-map
-   "C" 'helpful-command
-   "f" 'helpful-function
-   "F" 'helpful-callable
-   "k" 'helpful-key
-   "M" 'helpful-macro
-   "v" 'helpful-variable)
-  (:keymaps
-   'helpful-mode-map
-   "[[" 'backward-button
-   "]]" 'forward-button))
 #+end_src
 
 **** highlight-quoted
