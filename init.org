@@ -1584,22 +1584,6 @@ Keep track of bookmarks
    "C-c '" 'deadgrep-edit-mode))
 #+end_src
 
-*** deft
-#+begin_src emacs-lisp :tangle yes
-(use-package deft
-  :custom
-  (deft-auto-save-interval 0)
-  (deft-directory (expand-file-name "~/org/"))
-  (deft-extensions '("org" "md" "rst" "txt" "tex"))
-  (deft-recursive t)
-  (deft-use-filename-as-title t)
-  (deft-use-filter-string-for-filename t)
-  :general
-  (:prefix
-   launch-prefix
-   "n" 'deft))
-#+end_src
-
 *** find-file
 #+begin_src emacs-lisp :tangle yes
 (use-package find-file
