@@ -857,7 +857,7 @@ Move default components to the right side of the mode line.
 *** Position
 Add position information including column and line number but skip the percentage.
 #+begin_src emacs-lisp :tangle yes
-(setq column-number-indicator-zero-based nil
+(setq mode-line-position-column-line-format '(" L%l:C%C")
       mode-line-percent-position nil)
 (column-number-mode 1)
 (line-number-mode 1)
