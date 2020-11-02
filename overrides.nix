@@ -81,13 +81,13 @@ in epkgs // {
 
   ejira = trivialBuild {
     pname = "ejira";
-    version = "20200206.2144";
+    version = "20201101.2156";
     src = fetchFromGitHub {
       owner = "nyyManni";
       repo = "ejira";
-      rev = "89f7c668caf0e46e929f2c9187b007eed6b5c229";
-      sha256 = "0a97gx016byiy5fri8jf3x3sfd2h2iw79s6nxv9jigpkgxrkjg7b";
-      # date = 2020-02-06T21:44:57+02:00;
+      rev = "c9862663155be7c67555f69e4e81c82b006a1a47";
+      sha256 = "0zhp2v3rqdbpsh8ih10i9v5fg3rh2f9xkmspkb2zkci0f3n9qzg5";
+      # date = 2020-11-01T21:56:26+02:00;
     };
     packageRequires = with epkgs; [
       dash-functional
