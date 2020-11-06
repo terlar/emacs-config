@@ -408,6 +408,12 @@ Fringe control:
   (set-window-fringes (selected-window) 8 8 t))
 #+end_src
 
+** Warnings
+#+begin_src emacs-lisp :tangle yes
+(setq warning-suppress-types (when (getenv "DEBUG")
+                               '((comp) (emacs))))
+#+end_src
+
 * Keybindings
 I am trying to reduce the amount of keybindings, therefore I present a table of default
 keybindings in case I would forget them.
