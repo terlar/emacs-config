@@ -644,6 +644,7 @@ Generic help system.
 Better =*help*= buffer
 #+begin_src emacs-lisp :tangle yes
 (use-package helpful
+  :demand t
   :general
   (:keymaps
    'help-map
