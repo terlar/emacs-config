@@ -410,7 +410,7 @@ Fringe control:
 
 ** Warnings
 #+begin_src emacs-lisp :tangle yes
-(setq warning-suppress-types (when (getenv "DEBUG")
+(setq warning-suppress-types (unless (getenv "DEBUG")
                                '((comp) (emacs))))
 #+end_src
 
