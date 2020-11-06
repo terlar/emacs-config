@@ -2821,16 +2821,8 @@ Highlight source code identifiers based on their name.
      "&&" "||")))
 
 (use-package prog-mode
-  :hook
-  (prog-mode . init-prog-prettify-symbols)
   :custom
-  (prettify-symbols-unprettify-at-point t)
-  :preface
-  (defun init-prog-prettify-symbols ()
-    "Add generic programming symbols."
-    (dolist (symbol '(("lambda" . "λ")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))
-    (prettify-symbols-mode 1)))
+  (prettify-symbols-unprettify-at-point t))
 #+end_src
 
 * Major modes
@@ -2966,18 +2958,6 @@ Discover functions.
 #+end_src
 
 *** Appearance
-**** Prettify symbols
-#+begin_src emacs-lisp :tangle yes
-(defun init-emacs-lisp-prettify-symbols ()
-  "Prettify `emacs-lisp-mode' specific symbols."
-  (dolist (symbol '(("defun"    . "ƒ")
-                    ("defmacro" . "μ")
-                    ("defvar"   . "ν")
-                    ("defconst" . "ν_")))
-    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'emacs-lisp-mode-hook #'init-emacs-lisp-prettify-symbols)
-#+end_src
-
 **** Regular expression escapes
 Improve readability of escape characters in regular expressions.
 #+begin_src emacs-lisp :tangle yes
@@ -3611,19 +3591,13 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
-  :hook
-  (go-mode . init-go-prettify-symbols)
   :custom
   (gofmt-command "goimports")
   :general
   (:keymaps
    'go-mode-map
    :prefix nav-prefix
-   "k" 'godoc-at-point)
-  :preface
-  (defun init-go-prettify-symbols ()
-    (dolist (symbol '(("funct"  . "ƒ")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+   "k" 'godoc-at-point))
 #+end_src
 
 *** Packages
@@ -3764,24 +3738,12 @@ Persist REPL history.
   ("\\.har\\'" . javascript-mode)
   :hook
   (js-mode . init-js-find-file)
-  (js-mode . init-js-prettify-symbols)
   :preface
   (defun init-js-find-file ()
     "Setup `ff-test-find-other-file' support for `js-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
-
-  (defun init-js-prettify-symbols ()
-    (dolist (symbol '(("=="        . "≈")
-                      ("!="        . "≈/")
-                      ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                      ("function"  . "ƒ")
-                      ("let"       . "ν")
-                      ("const"     . "ν_")
-                      ("undefined" . "∅")
-                      ("Infinity"  . "∞")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+          ff-test-search-test-project-directories '("test" "spec" "__tests__"))))
 #+end_src
 
 *** Packages
@@ -3947,21 +3909,13 @@ REPL for nodejs.
 (use-package lua-mode
   :ensure t
   :mode "\\.lua\\'"
-  :hook
-  (lua-mode . init-lua-prettify-symbols)
   :custom
   (lua-documentation-function 'eww)
   :general
   (:keymaps
    'lua-mode-map
    :prefix nav-prefix
-   "k" 'lua-search-documentation)
-  :preface
-  (defun init-lua-prettify-symbols ()
-    (dolist (symbol '(("~="  . (?\s (Br . Bl) ?\s (Bc . Bc) 8800))
-                      ("function"  . "ƒ")
-                      ("math.huge" . "∞")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+   "k" 'lua-search-documentation))
 #+end_src
 
 ** markdown
@@ -4112,25 +4066,11 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package python
   :ensure t
-  :hook
-  (python-mode . init-python-prettify-symbols)
   :general
   (:keymaps
    'python-mode-map
    :prefix local-leader-key
    "r" 'run-python)
-  :preface
-  (defun init-python-prettify-symbols ()
-    (dolist (symbol '(("def"      . "ƒ")
-                      ("sum"      . "Σ")
-                      ("not"      . "￢")
-                      ("in"       . "∈")
-                      ("for"      . "∀")
-                      ("**2"      . "²")
-                      ("**3"      . "³")
-                      ("None"     . "∅")
-                      ("math.inf" . "∞")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
   :config
   (put 'python-shell-interpreter 'safe-local-variable #'(lambda (x) (member x '("python" "ipython")))))
 #+end_src
@@ -4237,7 +4177,6 @@ Pretty check-boxes as well as bullet lists.
 (use-package ruby-mode
   :hook
   (ruby-mode . init-ruby-find-file)
-  (ruby-mode . init-ruby-prettify-symbols)
   :custom
   (ruby-align-chained-calls t)
   :preface
@@ -4246,11 +4185,6 @@ Pretty check-boxes as well as bullet lists.
     (setq ff-test-suffixes '("_test" "_spec")
           ff-test-search-implementation-project-directories '("app" "lib")
           ff-test-search-test-project-directories '("test" "spec")))
-
-  (defun init-ruby-prettify-symbols ()
-    (dolist (symbol '(("def"             . "ƒ")
-                      ("Float::INFINITY" . "∞")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
   :config
   (with-eval-after-load 'hideshow
     (cl-pushnew `(ruby-mode
@@ -4401,7 +4335,8 @@ Pretty check-boxes as well as bullet lists.
   (scala-indent:align-parameters t)
   :preface
   (defun init-scala-prettify-symbols ()
-    (setq prettify-symbols-alist scala-prettify-symbols-alist)))
+    (setq prettify-symbols-alist scala-prettify-symbols-alist)
+    (prettify-symbols-mode 1)))
 #+end_src
 
 *** Packages
@@ -4458,7 +4393,6 @@ Pretty check-boxes as well as bullet lists.
   :mode "\\.ts$"
   :hook
   (typescript-mode . init-typescript-find-file)
-  (typescript-mode . init-typescript-prettify-symbols)
   :general
   (:keymaps
    'typescript-mode-map
@@ -4468,18 +4402,7 @@ Pretty check-boxes as well as bullet lists.
     "Setup `ff-test-find-other-file' support for `typescript-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
-
-  (defun init-typescript-prettify-symbols ()
-    (dolist (symbol '(("=="        . "≈")
-                      ("!="        . "≈/")
-                      ("=>"        . (?- (Br . Bc) ?- (Br . Bc) ?>))
-                      ("function"  . "ƒ")
-                      ("let"       . "ν")
-                      ("const"     . "ν_")
-                      ("null"      . "∅")
-                      ("Infinity"  . "∞")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))))
+          ff-test-search-test-project-directories '("test" "spec" "__tests__"))))
 #+end_src
 
 *** Packages
