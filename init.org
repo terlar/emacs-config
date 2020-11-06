@@ -126,6 +126,7 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 Help keeping user Emacs directory clean.
 #+begin_src emacs-lisp :tangle yes
 (use-package no-littering
+  :ensure t
   :demand t
   :custom
   (no-littering-etc-directory data-dir)
@@ -135,6 +136,7 @@ Help keeping user Emacs directory clean.
 *** exec-path-from-shell
 #+begin_src emacs-lisp :tangle yes
 (use-package exec-path-from-shell
+  :ensure t
   :hook (after-init . exec-path-from-shell-initialize)
   :custom (exec-path-from-shell-check-startup-files nil))
 #+end_src
@@ -176,12 +178,12 @@ Persist history.
 
 *** async
 #+begin_src emacs-lisp :tangle yes
-(use-package async)
+(use-package async :ensure t)
 #+end_src
 
 *** flymake-quickdef
 #+begin_src emacs-lisp :tangle yes
-(use-package flymake-quickdef :demand t)
+(use-package flymake-quickdef :ensure t :demand t)
 #+end_src
 
 ** Tangling
@@ -218,7 +220,7 @@ Improve performance for files with long lines, for example minified code.
 **** vlf
 Large file support. This can view/edit/search and compare large files.
 #+begin_src emacs-lisp :tangle yes
-(use-package vlf)
+(use-package vlf :ensure t)
 #+end_src
 
 ** Localization
@@ -238,38 +240,42 @@ Make less work inside Emacs shells. But disable it as the default pager.
 *** all-the-icons
 Support functions for displaying icons. I am trying to use icons where possible.
 #+begin_src emacs-lisp :tangle yes
-(use-package all-the-icons)
+(use-package all-the-icons :ensure t)
 #+end_src
 
 *** auto-minor-mode
 Enable minor modes by buffer name and contents. It provides the ~use-package~ keyword
 ~:minor~ and ~:magic-minor~ where you can specify these rules.
 #+begin_src emacs-lisp :tangle yes
-(use-package auto-minor-mode :demand t)
+(use-package auto-minor-mode :ensure t :demand t)
 #+end_src
 
 *** defrepeater
 Support defining repeating commands by repeating the last key.
 #+begin_src emacs-lisp :tangle yes
-(use-package defrepeater :commands (defrepeater))
+(use-package defrepeater
+  :ensure t
+  :commands (defrepeater))
 #+end_src
 
 *** general
 More convenient key definitions. I provides the ~use-package~ keyword ~:general~.
 #+begin_src emacs-lisp :tangle yes
 (use-package general
+  :ensure t
   :demand t
   :commands (general-define-key))
 #+end_src
 
 *** hide-lines
 #+begin_src emacs-lisp :tangle yes
-(use-package hide-lines)
+(use-package hide-lines :ensure t)
 #+end_src
 
 *** minions
 #+begin_src emacs-lisp :tangle yes
 (use-package minions
+  :ensure t
   :general
   ([C-S-mouse-1] 'minions-minor-modes-menu))
 #+end_src
@@ -277,13 +283,14 @@ More convenient key definitions. I provides the ~use-package~ keyword ~:general~
 *** quick-peek
 Library to display inline popups; used by ~source-peek~.
 #+begin_src emacs-lisp :tangle yes
-(use-package quick-peek)
+(use-package quick-peek :ensure t)
 #+end_src
 
 *** which-key
 Display available keybindings in a popup.
 #+begin_src emacs-lisp :tangle yes
 (use-package which-key
+  :ensure t
   :defer 1
   :commands
   (which-key-mode
@@ -628,6 +635,7 @@ keybindings in case I would forget them.
 Generic help system.
 #+begin_src emacs-lisp :tangle yes
 (use-package ghelp
+  :ensure t
   :general
   (:keymaps
    'help-map
@@ -644,6 +652,7 @@ Generic help system.
 Better =*help*= buffer
 #+begin_src emacs-lisp :tangle yes
 (use-package helpful
+  :ensure t
   :demand t
   :general
   (:keymaps
@@ -893,6 +902,7 @@ is UTF-8 with UNIX end-of-line.
 Display information about the current indentation settings.
 #+begin_src emacs-lisp :tangle yes
 (use-package indent-info
+  :ensure t
   :defer 1
   :commands
   (global-indent-info-mode)
@@ -912,6 +922,7 @@ Support hiding the mode line, this can be useful for different modes displaying 
 or presentation.
 #+begin_src emacs-lisp :tangle yes
 (use-package hide-mode-line
+  :ensure t
   :commands
   (hide-mode-line-mode
    turn-on-hide-mode-line-mode
@@ -993,6 +1004,7 @@ Undo/redo between window layouts.
 Transpose window arrangement.
 #+begin_src emacs-lisp :tangle yes
 (use-package transpose-frame
+  :ensure t
   :general
   (:prefix
    window-prefix
@@ -1005,6 +1017,7 @@ Transpose window arrangement.
 Zoom a window to display as a single window temporarily.
 #+begin_src emacs-lisp :tangle yes
 (use-package zoom-window
+  :ensure t
   :general
   (:prefix
    window-prefix
@@ -1037,6 +1050,7 @@ Always display pop up buffers at the bottom and regard all star buffers as such 
 Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-fill-column
+  :ensure t
   :custom
   (visual-fill-column-center-text t))
 #+end_src
@@ -1065,6 +1079,7 @@ Save clipboard contents into kill-ring before replacing them
 Jump to things.
 #+begin_src emacs-lisp :tangle yes
 (use-package avy
+  :ensure t
   :custom
   (avy-all-windows nil)
   :general
@@ -1079,6 +1094,7 @@ Jump to things.
 *** cycle-quotes
 #+begin_src emacs-lisp :tangle yes
 (use-package cycle-quotes
+  :ensure t
   :general
   ("C-x C-'" 'cycle-quotes)
   ([remap cycle-quotes] (defrepeater #'cycle-quotes)))
@@ -1097,6 +1113,7 @@ Buttonize URLs and e-mail addresses in the current buffer.
 Cycle through words, symbols and patterns.
 #+begin_src emacs-lisp :tangle yes
 (use-package grugru
+  :ensure t
   :general
   (:prefix
    next-prefix
@@ -1114,6 +1131,7 @@ Cycle through words, symbols and patterns.
 *** string-inflection-cycle
 #+begin_src emacs-lisp :tangle yes
 (use-package string-inflection
+  :ensure t
   :general
   ("M-_" 'string-inflection-all-cycle))
 #+end_src
@@ -1122,6 +1140,7 @@ Cycle through words, symbols and patterns.
 Auto-insert matching parenthesis and highlight matching parenthesis.
 #+begin_src emacs-lisp :tangle yes
 (use-package smartparens
+  :ensure t
   :hook
   (eval-expression-minibuffer-setup . smartparens-strict-mode)
   :commands
@@ -1185,6 +1204,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
 Visually highlight regular expression searches as you type. Also supports replace.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-regexp
+  :ensure t
   :general
   ("M-s r" 'vr/query-replace
    "M-s R" 'vr/replace))
@@ -1208,6 +1228,7 @@ Display whitespace
 Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+begin_src emacs-lisp :tangle yes
 (use-package whole-line-or-region
+  :ensure t
   :hook
   (after-init . whole-line-or-region-global-mode))
 #+end_src
@@ -1215,6 +1236,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 *** yasnippet
 #+begin_src emacs-lisp :tangle yes
 (use-package yasnippet
+  :ensure t
   :defer 1
   :commands
   (yas--templates-for-key-at-point)
@@ -1236,6 +1258,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
+  :ensure t
   :hook
   (yas-minor-mode . yasnippet-snippets-initialize))
 #+end_src
@@ -1249,6 +1272,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   (auto-insert-query nil))
 
 (use-package yatemplate
+  :ensure t
   :hook
   (auto-insert-mode . yatemplate-fill-alist))
 #+end_src
@@ -1258,6 +1282,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 Display page breaks as a horizontal line.
 #+begin_src emacs-lisp :tangle yes
 (use-package page-break-lines
+  :ensure t
   :defer 1
   :config
   (global-page-break-lines-mode 1))
@@ -1342,6 +1367,7 @@ Track minibuffer history
 Edit minibuffer in a new temporary buffer by pressing =C-c '=.
 #+begin_src emacs-lisp :tangle yes
 (use-package miniedit
+  :ensure t
   :general
   (:keymaps
    '(minibuffer-local-map
@@ -1376,6 +1402,7 @@ Revert buffers when underlying files change.
 *** default-text-scale
 #+begin_src emacs-lisp :tangle yes
 (use-package default-text-scale
+  :ensure t
   :general
   ("C-M-=" 'default-text-scale-increase)
   ("C-M--" 'default-text-scale-decrease)
@@ -1393,6 +1420,7 @@ Revert buffers when underlying files change.
 Display colors inline.
 #+begin_src emacs-lisp :tangle yes
 (use-package rainbow-mode
+  :ensure t
   :minor
   "-theme\\.el\\'"
   :hook
@@ -1415,6 +1443,7 @@ Display colors inline.
 *** relative-buffers
 #+begin_src emacs-lisp :tangle yes
 (use-package relative-buffers
+  :ensure t
   :hook
   (after-init . global-relative-buffers-mode)
   :custom
@@ -1425,6 +1454,7 @@ Display colors inline.
 Writeable grep buffer with ability to apply the changes to all the files.
 #+begin_src emacs-lisp :tangle yes
 (use-package wgrep-ag
+  :ensure t
   :custom
   (wgrep-auto-save-buffer t))
 #+end_src
@@ -1472,6 +1502,7 @@ mark ring.
 *** Sidebar
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-sidebar
+  :ensure t
   :hook
   (dired-sidebar-mode . hide-mode-line-mode)
   (dired-sidebar-mode . hl-line-mode)
@@ -1491,6 +1522,7 @@ mark ring.
 Display subtrees in dired view.
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-subtree
+  :ensure t
   :custom
   (dired-subtree-use-backgrounds nil)
   (dired-subtree-line-prefix "     "))
@@ -1500,6 +1532,7 @@ Display subtrees in dired view.
 Striped dired buffers.
 #+begin_src emacs-lisp :tangle yes
 (use-package stripe-buffer
+  :ensure t
   :hook
   (dired-mode . stripe-buffer-mode))
 #+end_src
@@ -1507,6 +1540,7 @@ Striped dired buffers.
 *** Icons
 #+begin_src emacs-lisp :tangle yes
 (use-package all-the-icons-dired
+  :ensure t
   :hook
   (dired-mode . all-the-icons-dired-mode))
 #+end_src
@@ -1514,6 +1548,7 @@ Striped dired buffers.
 *** Git
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-git-info
+  :ensure t
   :general
   (:keymaps
    'dired-mode-map
@@ -1536,6 +1571,7 @@ Striped dired buffers.
 **** noccur
 #+begin_src emacs-lisp :tangle yes
 (use-package noccur
+  :ensure t
   :general
   (:prefix
    search-prefix
@@ -1547,6 +1583,7 @@ Striped dired buffers.
 Management tool for a library of PDFs.
 #+begin_src emacs-lisp :tangle yes
 (use-package bibliothek
+  :ensure t
   :custom
   (bibliothek-path '("~/books" "~/documents/research/papers"))
   (bibliothek-recursive t)
@@ -1567,6 +1604,7 @@ Keep track of bookmarks
 *** ctrlf
 #+begin_src emacs-lisp :tangle yes
 (use-package ctrlf
+  :ensure t
   :defer 2
   :config
   (ctrlf-mode 1))
@@ -1575,6 +1613,7 @@ Keep track of bookmarks
 *** ctrlxo
 #+begin_src emacs-lisp :tangle yes
 (use-package ctrlxo
+  :ensure t
   :general
   ("C-x o" 'ctrlxo))
 #+end_src
@@ -1582,6 +1621,7 @@ Keep track of bookmarks
 *** deadgrep
 #+begin_src emacs-lisp :tangle yes
 (use-package deadgrep
+  :ensure t
   :general
   (:prefix
    search-prefix
@@ -1605,6 +1645,7 @@ Keep track of bookmarks
 Find files via =rg --files=.
 #+begin_src emacs-lisp :tangle yes
 (use-package find-file-rg
+  :ensure t
   :general
   ("C-c f" 'find-file-rg))
 #+end_src
@@ -1613,6 +1654,7 @@ Find files via =rg --files=.
 Move point through buffer-undo-list positions.
 #+begin_src emacs-lisp :tangle yes
 (use-package goto-chg
+  :ensure t
   :general
   (:prefix
    next-prefix
@@ -1626,6 +1668,7 @@ Move point through buffer-undo-list positions.
 Hint mode for links.
 #+begin_src emacs-lisp :tangle yes
 (use-package link-hint
+  :ensure t
   :general
   (:prefix nav-prefix
    "l" 'link-hint-open-link
@@ -1690,6 +1733,7 @@ Keep track of last point place to resume editing in the same file.
 Project interactions. Prefix project buffer files with the project name and relative path.
 #+begin_src emacs-lisp :tangle yes
 (use-package projectile
+  :ensure t
   :defer 2
   :custom
   (projectile-completion-system 'default)
@@ -1752,6 +1796,7 @@ Project interactions. Prefix project buffer files with the project name and rela
 Manage project repositories.
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy-ghq
+  :ensure t
   :defer 2
   :custom
   (ivy-ghq-short-list t)
@@ -1768,6 +1813,7 @@ No completion with tab.
 ** Company
 #+begin_src emacs-lisp :tangle yes
 (use-package company
+  :ensure t
   :custom
   (company-show-numbers t)
   (company-backends
@@ -1831,6 +1877,7 @@ Complete in the following order:
 Incremental selection narrowing interface for completions.
 #+begin_src emacs-lisp :tangle yes
 (use-package selectrum
+  :ensure t
   :hook
   (after-init . selectrum-mode)
   (selectrum-mode . selectrum-define-keys)
@@ -1858,16 +1905,19 @@ Incremental selection narrowing interface for completions.
     (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg))))
 
 (use-package prescient
+  :ensure t
   :hook
   (after-init . prescient-persist-mode)
   :custom
   (prescient-filter-method '(literal regexp initialism fuzzy)))
 
 (use-package selectrum-prescient
+  :ensure t
   :custom
   (selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
 
 (use-package orderless
+  :ensure t
   :custom
   (completion-styles '(orderless))
   (selectrum-refine-candidates-function #'orderless-filter)
@@ -1877,6 +1927,7 @@ Incremental selection narrowing interface for completions.
 ** Ivy
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy
+  :ensure t
   :custom
   (ivy-hooks-alist '((t . hl-line-mode)))
   (ivy-wrap t)
@@ -1926,6 +1977,7 @@ Tips:
 - =counsel-rg= can be used with =C-u= to search in a specific directory.
 #+begin_src emacs-lisp :tangle yes
 (use-package counsel
+  :ensure t
   :custom
   (counsel-find-file-ignore-regexp
    "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
@@ -1972,6 +2024,7 @@ Tips:
 Navigate tramp files.
 #+begin_src emacs-lisp :tangle yes
 (use-package counsel-tramp
+  :ensure t
   :general
   (:prefix
    leader-key
@@ -1982,6 +2035,7 @@ Navigate tramp files.
 Snippets with preview.
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy-yasnippet
+  :ensure t
   :general
   ([remap yas-insert-snippet] 'ivy-yasnippet)
   (:keymaps
@@ -2035,6 +2089,7 @@ Kill compilation process before stating another and save all buffers on ~compile
 *** Docker
 #+begin_src emacs-lisp :tangle yes
 (use-package docker
+  :ensure t
   :general
   (:prefix
    leader-key
@@ -2045,31 +2100,32 @@ Kill compilation process before stating another and save all buffers on ~compile
 **** Files
 Support for Docker related files.
 #+begin_src emacs-lisp :tangle yes
-(use-package dockerfile-mode)
-(use-package docker-compose-mode)
+(use-package dockerfile-mode :ensure t)
+(use-package docker-compose-mode :ensure t)
 #+end_src
 
 **** Tramp
 #+begin_src emacs-lisp :tangle yes
 (use-package docker-tramp
-  :defer 2
+  :ensure t
   :custom
   (docker-tramp-use-names t))
 #+end_src
 
 *** Kubernetes
 #+begin_src emacs-lisp :tangle yes
-(use-package kubernetes)
+(use-package kubernetes :ensure t)
 #+end_src
 
 **** Tramp
 #+begin_src emacs-lisp :tangle yes
-(use-package kubernetes-tramp :defer 2)
+(use-package kubernetes-tramp :ensure t)
 #+end_src
 
 ** Coverage
 #+begin_src emacs-lisp :tangle yes
 (use-package coverlay
+  :ensure t
   :hook
   (coverlay-minor-mode . init-coverlay)
   :custom
@@ -2102,6 +2158,7 @@ Support for Docker related files.
 Lookup documentation via DevDocs.
 #+begin_src emacs-lisp :tangle yes
 (use-package devdocs
+  :ensure t
   :general
   (:prefix nav-prefix "K" 'devdocs-search))
 #+end_src
@@ -2110,6 +2167,7 @@ Lookup documentation via DevDocs.
 *** separedit
 #+begin_src emacs-lisp :tangle yes
 (use-package separedit
+  :ensure t
   :custom
   (separedit-preserve-string-indentation t)
   :general
@@ -2122,6 +2180,7 @@ Lookup documentation via DevDocs.
 *** quickrun
 #+begin_src emacs-lisp :tangle yes
 (use-package quickrun
+  :ensure t
   :hook
   (quickrun--mode . display-ctrl-M-as-newline)
   :general
@@ -2164,6 +2223,7 @@ Code folding.
 Reformat buffer without moving point.
 #+begin_src emacs-lisp :tangle yes
 (use-package apheleia
+  :ensure t
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
@@ -2186,6 +2246,7 @@ the mode mechanism:
 
 #+begin_src emacs-lisp :tangle yes
 (use-package reformatter
+  :ensure t
   :demand t
   :config
   (reformatter-define black :program "black" :args '("-"))
@@ -2217,6 +2278,7 @@ Don't ask about keeping current list of tags tables.
 *** dumb-jump
 #+begin_src emacs-lisp :tangle yes
 (use-package dumb-jump
+  :ensure t
   :custom
   (dumb-jump-default-project user-emacs-directory))
 #+end_src
@@ -2226,6 +2288,7 @@ Some modes actually have some good backends, so configure this with ~smart-jump~
 nice defaults and also adds configuring completion with a fallback to ~dumb-jump~.
 #+begin_src emacs-lisp :tangle yes
 (use-package smart-jump
+  :ensure t
   :defer 2
   :custom
   (smart-jump-default-mode-list
@@ -2255,6 +2318,7 @@ nice defaults and also adds configuring completion with a fallback to ~dumb-jump
 Refactoring commands for various languages.
 #+begin_src emacs-lisp :tangle yes
 (use-package emr
+  :ensure t
   :general
   (:keymaps
    'prog-mode-map
@@ -2286,6 +2350,7 @@ Refactoring commands for various languages.
 *** repl-toggle
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
+  :ensure t
   :custom
   (rtog/goto-buffer-fun 'pop-to-buffer)
   (rtog/mode-repl-alist '((emacs-lisp-mode . ielm)
@@ -2429,6 +2494,7 @@ Haskell one).
 Open link to files in the web UI connected to a repository.
 #+begin_src emacs-lisp :tangle yes
 (use-package browse-at-remote
+  :ensure t
   :general
   ("C-x v SPC" 'browse-at-remote))
 #+end_src
@@ -2486,6 +2552,7 @@ Open link to files in the web UI connected to a repository.
 Diff indicators in fringe
 #+begin_src emacs-lisp :tangle yes
 (use-package diff-hl
+  :ensure t
   :defer 2
   :custom
   (diff-hl-ask-before-revert-hunk nil)
@@ -2515,6 +2582,7 @@ Diff indicators in fringe
 Enhanced git related views and commands.
 #+begin_src emacs-lisp :tangle yes
 (use-package magit
+  :ensure t
   :defer 2
   :hook
   (git-commit-mode . +git-commit-set-fill-column)
@@ -2554,6 +2622,7 @@ Enhanced git related views and commands.
 Popup commit message for current line
 #+begin_src emacs-lisp :tangle yes
 (use-package vc-msg
+  :ensure t
   :general
   ("C-x v p" 'vc-msg-show))
 #+end_src
@@ -2563,6 +2632,7 @@ Popup commit message for current line
 Project-specific environment variables via =direnv=.
 #+begin_src emacs-lisp :tangle yes
 (use-package envrc
+  :ensure t
   :if (executable-find "direnv")
   :defer 1
   :general
@@ -2577,6 +2647,7 @@ Project-specific environment variables via =direnv=.
 Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles used across different projects.
 #+begin_src emacs-lisp :tangle yes
 (use-package editorconfig
+  :ensure t
   :defer 1
   :custom
   (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
@@ -2591,6 +2662,7 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot
+  :ensure t
   :defer 3
   :hook
   ((haskell-mode
@@ -2629,6 +2701,7 @@ Generic Language Server Protocol integration via ~eglot~.
 Execute make tasks.
 #+begin_src emacs-lisp :tangle yes
 (use-package helm-make
+  :ensure t
   :custom
   (helm-make-completion-method 'ivy)
   :general
@@ -2643,6 +2716,7 @@ Execute make tasks.
 Highlight *TODO* inside comments and strings.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-todo
+  :ensure t
   :hook
   (prog-mode . hl-todo-mode)
   :general
@@ -2656,6 +2730,7 @@ Highlight *TODO* inside comments and strings.
 Highlight symbol at point on idle.
 #+begin_src emacs-lisp :tangle yes
 (use-package idle-highlight-mode
+  :ensure t
   :hook prog-mode)
 #+end_src
 
@@ -2663,6 +2738,7 @@ Highlight symbol at point on idle.
 Jump to document locations in current buffer
 #+begin_src emacs-lisp :tangle yes
 (use-package imenu-anywhere
+  :ensure t
   :general
   (:prefix
    search-prefix
@@ -2674,6 +2750,7 @@ Jump to document locations in current buffer
 Document locations in a sidebar.
 #+begin_src emacs-lisp :tangle yes
 (use-package imenu-list
+  :ensure t
   :general
   (:prefix
    leader-key
@@ -2684,6 +2761,7 @@ Document locations in a sidebar.
 Peek definition (Display the function source inline).
 #+begin_src emacs-lisp :tangle yes
 (use-package source-peek
+  :ensure t
   :general
   (:prefix
    nav-prefix
@@ -2694,6 +2772,7 @@ Peek definition (Display the function source inline).
 Delete trailing white-space before save, but *only* for edited lines.
 #+begin_src emacs-lisp :tangle yes
 (use-package ws-butler
+  :ensure t
   :custom
   (ws-butler-convert-leading-tabs-or-spaces t)
   :commands
@@ -2705,6 +2784,7 @@ Delete trailing white-space before save, but *only* for edited lines.
 Visually separate delimiter pairs.
 #+begin_src emacs-lisp :tangle yes
 (use-package rainbow-delimiters
+  :ensure t
   :custom
   (rainbow-delimiters-max-face-count 3)
   :hook
@@ -2718,9 +2798,10 @@ Visually separate delimiter pairs.
 *** Highlight identifiers
 Highlight source code identifiers based on their name.
 #+begin_src emacs-lisp :tangle yes
-(use-package color-identifiers-mode)
+(use-package color-identifiers-mode :ensure t)
 
 (use-package rainbow-identifiers
+  :ensure t
   :custom
   (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 #+end_src
@@ -2729,12 +2810,14 @@ Highlight source code identifiers based on their name.
 For modes that don't adequately highlight numbers.
 #+begin_src emacs-lisp :tangle yes
 (use-package highlight-numbers
+  :ensure t
   :hook (prog-mode . highlight-numbers-mode))
 #+end_src
 
 *** Ligatures
 #+begin_src emacs-lisp :tangle yes
 (use-package ligature
+  :ensure t
   :hook (prog-mode . ligature-mode)
   :config
   (ligature-set-ligatures
@@ -2825,6 +2908,7 @@ Highlight parenthesis.
 Auto-compile Elisp files.
 #+begin_src emacs-lisp :tangle yes
 (use-package auto-compile
+  :ensure t
   :hook
   (emacs-lisp-mode . auto-compile-on-load-mode)
   (emacs-lisp-mode . auto-compile-on-save-mode)
@@ -2837,6 +2921,7 @@ Auto-compile Elisp files.
 Evaluation results in overlay.
 #+begin_src emacs-lisp :tangle yes
 (use-package eros
+  :ensure t
   :hook
   (emacs-lisp-mode . eros-mode))
 #+end_src
@@ -2844,6 +2929,7 @@ Evaluation results in overlay.
 **** highlight-quoted
 #+begin_src emacs-lisp :tangle yes
 (use-package highlight-quoted
+  :ensure t
   :hook
   (emacs-lisp-mode . highlight-quoted-mode))
 #+end_src
@@ -2851,6 +2937,7 @@ Evaluation results in overlay.
 **** package-lint-flymake
 #+begin_src emacs-lisp :tangle yes
 (use-package package-lint-flymake
+  :ensure t
   :hook
   (emacs-lisp-mode . package-lint-flymake-setup-when-package)
   :command
@@ -2867,6 +2954,7 @@ Evaluation results in overlay.
 Discover functions.
 #+begin_src emacs-lisp :tangle yes
 (use-package suggest
+  :ensure t
   :commands
   (suggest)
   :general
@@ -2890,6 +2978,7 @@ Discover functions.
 Shorten package prefixes.
 #+begin_src emacs-lisp :tangle yes
 (use-package nameless
+  :ensure t
   :hook
   (emacs-lisp-mode . nameless-mode))
 #+end_src
@@ -2910,6 +2999,7 @@ Shorten package prefixes.
 Improve readability of escape characters in regular expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package easy-escape
+  :ensure t
   :hook
   (emacs-lisp-mode . easy-escape-minor-mode))
 #+end_src
@@ -3009,6 +3099,7 @@ the line or after an eshell operator."
 Command execution status indicator in the fringe.
 #+begin_src emacs-lisp :tangle yes
 (use-package eshell-fringe-status
+  :ensure t
   :hook
   (eshell-mode . eshell-fringe-status-mode))
 #+end_src
@@ -3017,6 +3108,7 @@ Command execution status indicator in the fringe.
 Autosuggestions from history similar to fish.
 #+begin_src emacs-lisp :tangle yes
 (use-package esh-autosuggest
+  :ensure t
   :hook
   (eshell-mode . esh-autosuggest-mode)
   :general
@@ -3029,6 +3121,7 @@ Autosuggestions from history similar to fish.
 Populate auto-completions from fish.
 #+begin_src emacs-lisp :tangle yes
 (use-package fish-completion
+  :ensure t
   :hook
   (eshell-mode . fish-completion-mode))
 #+end_src
@@ -3036,6 +3129,7 @@ Populate auto-completions from fish.
 ** org
 #+begin_src emacs-lisp :tangle yes
 (use-package org
+  :ensure t
   :hook
   (org-mode . auto-fill-mode)
   :minor
@@ -3080,6 +3174,7 @@ Populate auto-completions from fish.
 Evaluation of source code blocks in REPL.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-babel-eval-in-repl
+  :ensure t
   :general
   (:keymaps
    'org-mode-map
@@ -3104,6 +3199,7 @@ Evaluation of source code blocks in REPL.
 Paste links from clipboard and automatically fetch title.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-cliplink
+  :ensure t
   :general
   (:keymaps
    'org-mode-map
@@ -3114,19 +3210,20 @@ Paste links from clipboard and automatically fetch title.
 **** org-noter
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
-(use-package org-noter)
+(use-package org-noter :ensure t)
 #+end_src
 
 **** org-preview-html
 Preview org-file in an ~eww~ buffer.
 #+begin_src emacs-lisp :tangle yes
-(use-package org-preview-html)
+(use-package org-preview-html :ensure t)
 #+end_src
 
 **** org-radiobutton
 Support for radiobuttons.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-radiobutton
+  :ensure t
   :hook
   (org-mode . org-radiobutton-mode))
 #+end_src
@@ -3135,6 +3232,7 @@ Support for radiobuttons.
 Presentation mode.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-tree-slide
+  :ensure t
   :hook
   (org-tree-slide-play . turn-on-hide-mode-line-mode)
   (org-tree-slide-stop . turn-off-hide-mode-line-mode)
@@ -3157,6 +3255,7 @@ Presentation mode.
 **** ob-http
 #+begin_src emacs-lisp :tangle yes
 (use-package ob-http
+  :ensure t
   :init
   (cl-pushnew '(http . t) org-babel-load-languages :test #'equal))
 #+end_src
@@ -3211,6 +3310,7 @@ Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
 Use variable-pitch font but still make sure everything aligns.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-variable-pitch
+  :ensure t
   :hook (org-mode . org-variable-pitch-minor-mode)
   :custom
   (org-variable-pitch-fontify-headline-prefix t))
@@ -3266,6 +3366,7 @@ Remove style from heading breadcrumbs.
 **** Tables
 #+begin_src emacs-lisp :tangle yes
 (use-package valign
+  :ensure t
   :hook
   (org-mode . valign-mode)
   :custom
@@ -3320,6 +3421,7 @@ Display outlines in text like files or use it in conjunction with other major mo
 Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package outline-minor-faces
+  :ensure t
   :after outline
   :hook
   (outline-minor-mode . outline-minor-faces-add-font-lock-keywords))
@@ -3328,6 +3430,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** ansible
 #+begin_src emacs-lisp :tangle yes
 (use-package ansible
+  :ensure t
   :minor
   "site\\.yml\\'"
   "roles/.+\\.yml\\'"
@@ -3335,6 +3438,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "^\\(---\n\\)?\\(#.*\n\\)* *-? \\(environment\\|h\\(?:\\(?:andler\\|ost\\)s\\)\\|i\\(?:mport_tasks\\|nclude\\(?:_tasks\\)?\\)\\|p\\(?:\\(?:ost\\|re\\)_tasks\\)\\|roles?\\|tasks\\|vars\\(?:_\\(?:files\\|prompt\\)\\)?\\):")
 
 (use-package ansible-doc
+  :ensure t
   :hook (ansible . ansible-doc-mode)
   :preface
   (defun ansible-doc-at-point ()
@@ -3351,6 +3455,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** clojure
 #+begin_src emacs-lisp :tangle yes
 (use-package clojure-mode
+  :ensure t
   :mode
   "\\.\\(clj\\|dtm\\|edn\\)\\'"
   "\\(?:build\\|profile\\)\\.boot\\'"
@@ -3362,6 +3467,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** cider
 #+begin_src emacs-lisp :tangle yes
 (use-package cider
+  :ensure t
   :hook
   (cider-mode . cider-auto-test-mode)
   :custom
@@ -3382,6 +3488,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** crystal
 #+begin_src emacs-lisp :tangle yes
 (use-package crystal-mode
+  :ensure t
   :mode "\\(?:\\.cr\\)\\'"
   :general
   (:keymaps
@@ -3396,6 +3503,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** inf-crystal
 #+begin_src emacs-lisp :tangle yes
 (use-package inf-crystal
+  :ensure t
   :hook
   (crystal-mode . inf-crystal-minor-mode)
   :general
@@ -3408,6 +3516,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** csv
 #+begin_src emacs-lisp :tangle yes
 (use-package csv-mode
+  :ensure t
   :mode
   "\\.[Cc][Ss][Vv]\\'"
   ("\\.tsv\\'" . tsv-mode)
@@ -3418,12 +3527,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** elasticsearch
 #+begin_src emacs-lisp :tangle yes
 (use-package es-mode
+  :ensure t
   :mode "\\.es\\'")
 #+end_src
 
 ** elixir
 #+begin_src emacs-lisp :tangle yes
 (use-package elixir-mode
+  :ensure t
   :mode
   "\\.elixir\\'"
   "\\.ex\\'"
@@ -3434,6 +3545,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** alchemist
 #+begin_src emacs-lisp :tangle yes
 (use-package alchemist
+  :ensure t
   :hook
   (elixir-mode . alchemist-mode)
   :general
@@ -3453,6 +3565,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** elm
 #+begin_src emacs-lisp :tangle yes
 (use-package elm-mode
+  :ensure t
   :mode "\\.elm\\'"
   :custom
   (elm-format-on-save t)
@@ -3471,6 +3584,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** nov
 #+begin_src emacs-lisp :tangle yes
 (use-package nov
+  :ensure t
   :mode
   ("\\.epub\\'" . nov-mode)
   :hook
@@ -3490,6 +3604,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** erlang
 #+begin_src emacs-lisp :tangle yes
 (use-package erlang
+  :ensure t
   :mode
   "\\.erl$"
   "\\.app\\.src$"
@@ -3526,6 +3641,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** ivy-erlang-complete
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy-erlang-complete
+  :ensure t
   :hook
   (erlang-mode . ivy-erlang-complete-init)
   (erlang-mode . init-erlang-ivy-completion)
@@ -3540,12 +3656,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** gitignore-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package gitignore-mode
+  :ensure t
   :mode "/\\.dockerignore\\'")
 #+end_src
 
 ** go
 #+begin_src emacs-lisp :tangle yes
 (use-package go-mode
+  :ensure t
   :mode
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
@@ -3568,6 +3686,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** go-eldoc
 #+begin_src emacs-lisp :tangle yes
 (use-package go-eldoc
+  :ensure t
   :hook
   (go-mode . go-eldoc-setup))
 #+end_src
@@ -3575,6 +3694,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 **** gorepl-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package gorepl-mode
+  :ensure t
   :hook
   (go-mode . gorepl-mode))
 #+end_src
@@ -3582,6 +3702,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** groovy
 #+begin_src emacs-lisp :tangle yes
 (use-package groovy-mode
+  :ensure t
   :mode
   "\\.g\\(?:ant\\|roovy\\|radle\\)\\'"
   "Jenkinsfile")
@@ -3590,6 +3711,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** fish
 #+begin_src emacs-lisp :tangle yes
 (use-package fish-mode
+  :ensure t
   :mode
   "\\.fish\\'"
   "/fish_funced\\..*\\'")
@@ -3598,6 +3720,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 ** haskell
 #+begin_src emacs-lisp :tangle yes
 (use-package haskell-mode
+  :ensure t
   :mode
   "\\.[gh]s\\'"
   "\\.hsig\\'"
@@ -3655,6 +3778,7 @@ Persist REPL history.
 **** hasky-stack
 #+begin_src emacs-lisp :tangle yes
 (use-package hasky-stack
+  :ensure t
   :general
   (:keymaps
    'haskell-mode-map
@@ -3667,6 +3791,7 @@ Persist REPL history.
 **** gradle-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package gradle-mode
+  :ensure t
   :hook
   ((java-mode kotlin-mode) . gradle-mode)
   :general
@@ -3679,6 +3804,7 @@ Persist REPL history.
 **** java-lookup
 #+begin_src emacs-lisp :tangle yes
 (use-package javadoc-lookup
+  :ensure t
   :general
   (:keymaps
    'java-mode-map
@@ -3718,6 +3844,7 @@ Persist REPL history.
 **** flymake-eslint
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake-eslint
+  :ensure t
   :init
   (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
   (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
@@ -3727,6 +3854,7 @@ Persist REPL history.
 Debugger
 #+begin_src emacs-lisp :tangle yes
 (use-package indium
+  :ensure t
   :hook
   (js-mode . +indium-interaction-unless-json-mode)
   :commands
@@ -3751,6 +3879,7 @@ Debugger
 Test framework execution.
 #+begin_src emacs-lisp :tangle yes
 (use-package jest
+  :ensure t
   :general
   (:keymaps
    'js-mode-map
@@ -3763,6 +3892,7 @@ Test framework execution.
 **** js2
 #+begin_src emacs-lisp :tangle yes
 (use-package js2-mode
+  :ensure t
   :hook
   (js-mode . js2-minor-mode)
   :custom
@@ -3777,6 +3907,7 @@ Test framework execution.
 Refactor utils, also a dependecy for =indium= debugger.
 #+begin_src emacs-lisp :tangle yes
 (use-package js2-refactor
+  :ensure t
   :hook
   (js2-minor-mode . js2-refactor-mode))
 #+end_src
@@ -3784,12 +3915,13 @@ Refactor utils, also a dependecy for =indium= debugger.
 **** nodejs-repl
 REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
-(use-package nodejs-repl)
+(use-package nodejs-repl :ensure t)
 #+end_src
 
 ** json
 #+begin_src emacs-lisp :tangle yes
 (use-package json-mode
+  :ensure t
   :mode
   "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)"
   :preface
@@ -3833,7 +3965,7 @@ REPL for nodejs.
 
 ** kotlin
 #+begin_src emacs-lisp :tangle yes
-(use-package kotlin-mode)
+(use-package kotlin-mode :ensure t)
 #+end_src
 
 ** lisp
@@ -3841,6 +3973,7 @@ REPL for nodejs.
 **** slime
 #+begin_src emacs-lisp :tangle yes
 (use-package slime
+  :ensure t
   :hook
   (lisp-mode . slime-mode)
   :custom
@@ -3868,6 +4001,7 @@ REPL for nodejs.
 ** lua
 #+begin_src emacs-lisp :tangle yes
 (use-package lua-mode
+  :ensure t
   :mode "\\.lua\\'"
   :hook
   (lua-mode . init-lua-prettify-symbols)
@@ -3889,6 +4023,7 @@ REPL for nodejs.
 ** markdown
 #+begin_src emacs-lisp :tangle yes
 (use-package markdown-mode
+  :ensure t
   :mode
   "\\.markdown\\'"
   "\\.md\\'"
@@ -3914,13 +4049,13 @@ REPL for nodejs.
 **** edit-indirect
 Editing regions in separate buffers.
 #+begin_src emacs-lisp :tangle yes
-(use-package edit-indirect)
+(use-package edit-indirect :ensure t)
 #+end_src
 
 **** markdown-toc
 Generate Table of Contents.
 #+begin_src emacs-lisp :tangle yes
-(use-package markdown-toc)
+(use-package markdown-toc :ensure t)
 #+end_src
 
 *** Appearance
@@ -3952,6 +4087,7 @@ Pretty check-boxes
 ** nginx
 #+begin_src emacs-lisp :tangle yes
 (use-package nginx-mode
+  :ensure t
   :mode
   "/nginx/.+\\.conf\\'"
   "nginx\\.conf\\'")
@@ -3960,6 +4096,7 @@ Pretty check-boxes
 ** nix
 #+begin_src emacs-lisp :tangle yes
 (use-package nix-mode
+  :ensure t
   :mode "\\.nix\\'")
 #+end_src
 
@@ -3967,6 +4104,7 @@ Pretty check-boxes
 **** nix-update
 #+begin_src emacs-lisp :tangle yes
 (use-package nix-update
+  :ensure t
   :general
   (:keymaps
    'nix-mode-map
@@ -3987,9 +4125,10 @@ Pretty check-boxes
 
 ** ocaml
 #+begin_src emacs-lisp :tangle yes
-(use-package caml)
+(use-package caml :ensure t)
 
 (use-package tuareg
+  :ensure t
   :general
   (:keymaps
    'tuareg-mode-map
@@ -4005,12 +4144,14 @@ Pretty check-boxes
 **** pdf-tools
 #+begin_src emacs-lisp :tangle yes
 (use-package pdf-tools
+  :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode))
 #+end_src
 
 ** plantuml
 #+begin_src emacs-lisp :tangle yes
 (use-package plantuml-mode
+  :ensure t
   :mode "\\.\\(plantuml\\|pum\\|plu\\)\\'"
   :custom
   (plantuml-default-exec-mode 'executable))
@@ -4019,12 +4160,14 @@ Pretty check-boxes
 ** protobuf
 #+begin_src emacs-lisp :tangle yes
 (use-package protobuf-mode
+  :ensure t
   :mode "\\.proto\\'")
 #+end_src
 
 ** python
 #+begin_src emacs-lisp :tangle yes
 (use-package python
+  :ensure t
   :hook
   (python-mode . init-python-prettify-symbols)
   :general
@@ -4052,12 +4195,13 @@ Pretty check-boxes
 **** pip-requirements
 Editing pip requirements files.
 #+begin_src emacs-lisp :tangle yes
-(use-package pip-requirements)
+(use-package pip-requirements :ensure t)
 #+end_src
 
 **** pydoc
 #+begin_src emacs-lisp :tangle yes
 (use-package pydoc
+  :ensure t
   :general
   (:keymaps
    'python-mode-map
@@ -4068,6 +4212,7 @@ Editing pip requirements files.
 **** python-test
 #+begin_src emacs-lisp :tangle yes
 (use-package python-test
+  :ensure t
   :custom
   (python-test-backend 'pytest)
   :general
@@ -4083,6 +4228,7 @@ Editing pip requirements files.
 ** racket
 #+begin_src emacs-lisp :tangle yes
 (use-package racket-mode
+  :ensure t
   :mode "\\.rkt[dl]?\\'"
   :general
   (:keymaps
@@ -4099,6 +4245,7 @@ Editing pip requirements files.
 **** flymake-racket
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake-racket
+  :ensure t
   :hook
   (racket-mode . flymake-racket-add-hook))
 #+end_src
@@ -4213,6 +4360,7 @@ Pretty check-boxes as well as bullet lists.
 **** inf-ruby
 #+begin_src emacs-lisp :tangle yes
 (use-package inf-ruby
+  :ensure t
   :hook
   (ruby-mode . inf-ruby-minor-mode)
   ;; Auto breakpoint
@@ -4229,6 +4377,7 @@ Pretty check-boxes as well as bullet lists.
 **** minitest
 #+begin_src emacs-lisp :tangle yes
 (use-package minitest
+  :ensure t
   :hook
   (ruby-mode . minitest-enable-appropriate-mode))
 #+end_src
@@ -4236,6 +4385,7 @@ Pretty check-boxes as well as bullet lists.
 **** rake
 #+begin_src emacs-lisp :tangle yes
 (use-package rake
+  :ensure t
   :custom
   (rake-completion-system 'default)
   (rake-cache-file (expand-file-name "rake.cache" cache-dir)))
@@ -4244,6 +4394,7 @@ Pretty check-boxes as well as bullet lists.
 **** rspec-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package rspec-mode
+  :ensure t
   :hook
   (ruby-mode . rspec-enable-appropriate-mode)
   :custom
@@ -4255,6 +4406,7 @@ Pretty check-boxes as well as bullet lists.
 **** ruby-refactor
 #+begin_src emacs-lisp :tangle yes
 (use-package ruby-refactor
+  :ensure t
   :hook
   (ruby-mode . ruby-refactor-mode))
 #+end_src
@@ -4262,12 +4414,14 @@ Pretty check-boxes as well as bullet lists.
 **** yard-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package yard-mode
+  :ensure t
   :hook ruby-mode)
 #+end_src
 
 **** yari
 #+begin_src emacs-lisp :tangle yes
 (use-package yari
+  :ensure t
   :general
   (:keymaps
    'ruby-mode-map
@@ -4281,6 +4435,7 @@ Pretty check-boxes as well as bullet lists.
 ** rust
 #+begin_src emacs-lisp :tangle yes
 (use-package rustic
+  :ensure t
   :mode
   ("\\.rs\\'" . rustic-mode)
   :custom
@@ -4300,6 +4455,7 @@ Pretty check-boxes as well as bullet lists.
 ** salt
 #+begin_src emacs-lisp :tangle yes
 (use-package salt-mode
+  :ensure t
   :mode "\\.sls\\'"
   :general
   (:keymaps
@@ -4311,6 +4467,7 @@ Pretty check-boxes as well as bullet lists.
 ** scala
 #+begin_src emacs-lisp :tangle yes
 (use-package scala-mode
+  :ensure t
   :mode "\\.\\(scala\\|sbt\\)\\'"
   :hook
   (scala-mode . init-scala-prettify-symbols)
@@ -4324,7 +4481,7 @@ Pretty check-boxes as well as bullet lists.
 *** Packages
 **** sbt-mode
 #+begin_src emacs-lisp :tangle yes
-(use-package sbt-mode)
+(use-package sbt-mode :ensure t)
 #+end_src
 
 ** sh
@@ -4344,6 +4501,7 @@ Pretty check-boxes as well as bullet lists.
 **** flymake-shellcheck
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake-shellcheck
+  :ensure t
   :hook
   (sh-mode . flymake-mode)
   (sh-mode . flymake-shellcheck-load))
@@ -4370,6 +4528,7 @@ Pretty check-boxes as well as bullet lists.
 ** typescript
 #+begin_src emacs-lisp :tangle yes
 (use-package typescript-mode
+  :ensure t
   :mode "\\.ts$"
   :hook
   (typescript-mode . init-typescript-find-file)
@@ -4402,6 +4561,7 @@ Pretty check-boxes as well as bullet lists.
 TypeScript REPL.
 #+begin_src emacs-lisp :tangle yes
 (use-package ts-comint
+  :ensure t
   :custom
   (ts-comint-program-command "ts-node"))
 #+end_src
@@ -4410,6 +4570,7 @@ TypeScript REPL.
 Test framework execution.
 #+begin_src emacs-lisp :tangle yes
 (use-package jest
+  :ensure t
   :general
   (:keymaps
    'typescript-mode-map
@@ -4425,6 +4586,7 @@ Test framework execution.
 Display current path for HTML/XML/CSS.
 #+begin_src emacs-lisp :tangle yes
 (use-package cakecrumbs
+  :ensure t
   :functions
   (cakecrumbs-auto-setup)
   :config
@@ -4435,6 +4597,7 @@ Display current path for HTML/XML/CSS.
 Snippets and Zen Coding for HTML.
 #+begin_src emacs-lisp :tangle yes
 (use-package emmet-mode
+  :ensure t
   :hook
   (css-mode
    haml-mode
@@ -4454,18 +4617,21 @@ Snippets and Zen Coding for HTML.
 **** pug-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package pug-mode
+  :ensure t
   :mode "\\.\\(?:jade\\|pug\\)\\'")
 #+end_src
 
 **** slim-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package slim-mode
+  :ensure t
   :mode "\\.slim\\'")
 #+end_src
 
 **** web-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package web-mode
+  :ensure t
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
   :custom
   (web-mode-enable-html-entities-fontification t)
@@ -4479,6 +4645,7 @@ Snippets and Zen Coding for HTML.
 ** yaml
 #+begin_src emacs-lisp :tangle yes
 (use-package yaml-mode
+  :ensure t
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
   :hook (yaml-mode . indent-guide-mode))
 #+end_src
@@ -4489,13 +4656,14 @@ Snippets and Zen Coding for HTML.
 **** bbdb
 Store contacts.
 #+begin_src emacs-lisp :tangle yes
-(use-package bbdb)
+(use-package bbdb :ensure t)
 #+end_src
 
 **** gmail2bbdb
 Import contacts from Gmail vCard data.
 #+begin_src emacs-lisp :tangle yes
 (use-package gmail2bbdb
+  :ensure t
   :config
   (setq gmail2bbdb-bbdb-file bbdb-file
         gmail2bbdb-exclude-people-without-name t))
@@ -4504,12 +4672,13 @@ Import contacts from Gmail vCard data.
 ** Focus
 Dim out the surrounding text except the current focused paragraph or expression.
 #+begin_src emacs-lisp :tangle yes
-(use-package focus)
+(use-package focus :ensure t)
 #+end_src
 
 ** Indentation guides
 #+begin_src emacs-lisp :tangle yes
 (use-package indent-guide
+  :ensure t
   :custom
   (indent-guide-char "\x2502"))
 #+end_src
@@ -4517,6 +4686,7 @@ Dim out the surrounding text except the current focused paragraph or expression.
 ** Pomodoro
 #+begin_src emacs-lisp :tangle yes
 (use-package redtick
+  :ensure t
   :general
   (:prefix
    launch-prefix
@@ -4546,6 +4716,7 @@ it really useful.
 ** Speed reading
 #+begin_src emacs-lisp :tangle yes
 (use-package spray
+  :ensure t
   :custom
   (spray-height 500)
   (spray-margin-left 2)
@@ -4576,6 +4747,7 @@ it really useful.
 
 #+begin_src emacs-lisp :tangle yes
 (use-package flyspell-correct
+  :ensure t
   :general
   (:keymaps
    'flyspell-mode-map
@@ -4585,6 +4757,7 @@ it really useful.
 Automatically infer dictionary.
 #+begin_src emacs-lisp :tangle yes
 (use-package auto-dictionary
+  :ensure t
   :commands
   (adict-mode))
 #+end_src
@@ -4593,6 +4766,7 @@ Automatically infer dictionary.
 Navigate through undo history.
 #+begin_src emacs-lisp :tangle yes
 (use-package undo-propose
+  :ensure t
   :general
   (:prefix
    launch-prefix

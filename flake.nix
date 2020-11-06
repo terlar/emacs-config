@@ -23,7 +23,6 @@
           emacsEnv = final.emacsWithPackagesFromUsePackage {
             config = ./init.org;
             package = final.emacsGcc;
-            alwaysEnsure = true;
 
             extraEmacsPackages = epkgs: [ epkgs.mini-frame ];
 
