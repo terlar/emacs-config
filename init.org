@@ -2806,14 +2806,6 @@ Highlight source code identifiers based on their name.
   (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 #+end_src
 
-*** Highlight numbers
-For modes that don't adequately highlight numbers.
-#+begin_src emacs-lisp :tangle yes
-(use-package highlight-numbers
-  :ensure t
-  :hook (prog-mode . highlight-numbers-mode))
-#+end_src
-
 *** Ligatures
 #+begin_src emacs-lisp :tangle yes
 (use-package ligature
@@ -2974,15 +2966,6 @@ Discover functions.
 #+end_src
 
 *** Appearance
-**** Package prefixes
-Shorten package prefixes.
-#+begin_src emacs-lisp :tangle yes
-(use-package nameless
-  :ensure t
-  :hook
-  (emacs-lisp-mode . nameless-mode))
-#+end_src
-
 **** Prettify symbols
 #+begin_src emacs-lisp :tangle yes
 (defun init-emacs-lisp-prettify-symbols ()
@@ -3427,31 +3410,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (outline-minor-mode . outline-minor-faces-add-font-lock-keywords))
 #+end_src
 
-** ansible
-#+begin_src emacs-lisp :tangle yes
-(use-package ansible
-  :ensure t
-  :minor
-  "site\\.yml\\'"
-  "roles/.+\\.yml\\'"
-  :magic-minor
-  "^\\(---\n\\)?\\(#.*\n\\)* *-? \\(environment\\|h\\(?:\\(?:andler\\|ost\\)s\\)\\|i\\(?:mport_tasks\\|nclude\\(?:_tasks\\)?\\)\\|p\\(?:\\(?:ost\\|re\\)_tasks\\)\\|roles?\\|tasks\\|vars\\(?:_\\(?:files\\|prompt\\)\\)?\\):")
-
-(use-package ansible-doc
-  :ensure t
-  :hook (ansible . ansible-doc-mode)
-  :preface
-  (defun ansible-doc-at-point ()
-    "Ansible doc with selected point"
-    (interactive)
-    (ansible-doc (thing-at-point 'symbol)))
-  :general
-  (:keymaps
-   'ansible::key-map
-   :prefix nav-prefix
-   "k" 'ansible-doc-at-point))
-#+end_src
-
 ** clojure
 #+begin_src emacs-lisp :tangle yes
 (use-package clojure-mode
@@ -3635,20 +3593,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
     "Setup `flymake' support for `erlang-mode'."
     (require 'erlang-flymake)
     (flymake-mode 1)))
-#+end_src
-
-*** Packages
-**** ivy-erlang-complete
-#+begin_src emacs-lisp :tangle yes
-(use-package ivy-erlang-complete
-  :ensure t
-  :hook
-  (erlang-mode . ivy-erlang-complete-init)
-  (erlang-mode . init-erlang-ivy-completion)
-  :preface
-  (defun init-erlang-ivy-completion ()
-    "Setup completion via `ivy' for `erlang-mode'."
-    (add-hook 'after-save-hook #'ivy-erlang-complete-reparse nil t)))
 #+end_src
 
 ** git
@@ -4192,12 +4136,6 @@ Pretty check-boxes
 #+end_src
 
 *** Packages
-**** pip-requirements
-Editing pip requirements files.
-#+begin_src emacs-lisp :tangle yes
-(use-package pip-requirements :ensure t)
-#+end_src
-
 **** pydoc
 #+begin_src emacs-lisp :tangle yes
 (use-package pydoc
@@ -4450,18 +4388,6 @@ Pretty check-boxes as well as bullet lists.
     (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal))
   :config
   (require 'eglot))
-#+end_src
-
-** salt
-#+begin_src emacs-lisp :tangle yes
-(use-package salt-mode
-  :ensure t
-  :mode "\\.sls\\'"
-  :general
-  (:keymaps
-   'salt-mode-map
-   :prefix nav-prefix
-   "k" 'salt-mode-browse-doc))
 #+end_src
 
 ** scala
