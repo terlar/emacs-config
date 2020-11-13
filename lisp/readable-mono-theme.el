@@ -406,6 +406,8 @@ For example links."
    `(magit-diff-removed-highlight ((t (:inherit diff-refine-removed))))
    `(magit-diff-added ((t (:inherit diff-added))))
    `(magit-diff-added-highlight ((t (:inherit diff-refine-added))))
+   `(magit-process-ok ((t (:inherit success))))
+   `(magit-process-ng ((t (:inherit error))))
 
 ;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
