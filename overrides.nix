@@ -56,13 +56,13 @@ in epkgs // {
   # Packages not in MELPA/GNU ELPA.
   apheleia = trivialBuild rec {
     pname = "apheleia";
-    version = "20201017.829";
+    version = "20201107.704";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "3be4b486dc09df375fe359e3c5a933c53252a146";
-      sha256 = "1yzckykqz5kafzgv5z28lidkysxydlb6znw3x0x6n6k27hhzv6sq";
-      # date = 2020-10-17T08:29:21-07:00;
+      rev = "8a1e68441ca418c2a277d7aef663790f26208dd8";
+      sha256 = "15hgy98d7fxjl6rfwvrhq1sx9hbg31bh1j2baq84km6zzds9bh5p";
+      # date = 2020-11-07T07:04:41-08:00;
     };
   };
 
