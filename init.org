@@ -1919,7 +1919,6 @@ Incremental selection narrowing interface for completions.
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(orderless))
   (selectrum-refine-candidates-function #'orderless-filter)
   (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 #+end_src
