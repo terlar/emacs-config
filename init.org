@@ -4377,8 +4377,6 @@ Pretty check-boxes as well as bullet lists.
 ** term
 #+begin_src emacs-lisp :tangle yes
 (use-package term
-  :custom
-  (explicit-shell-file-name "fish")
   :general
   (:prefix
    launch-prefix
