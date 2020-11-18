@@ -210,6 +210,12 @@ For example links."
    `(font-lock-keyword-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-warning-face ((t (:inherit readable-mono-theme-emphasis))))
 
+   `(semantic-tag-boundary-face ((((background light)) (:overline ,l-fg-s))
+				 (((background dark)) (:overline ,d-fg-s))))
+   `(semantic-decoration-on-unparsed-includes ((t (:inherit readable-mono-theme-subordinate))))
+   `(semantic-decoration-on-unknown-includes ((((background light)) (:background ,l-red-s))
+					      (((background dark)) (:background ,d-red-s))))
+
 ;;;;; Headlines
    `(custom-variable-tag ((t (:inherit readable-mono-theme-strong))))
 
