@@ -768,7 +768,8 @@ See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and te
 - Make the title-bar transparent on macOS.
 #+begin_src emacs-lisp :tangle yes
 (setq default-frame-alist
-      '((internal-border-width . 16)
+      '((undecorated . t)
+        (internal-border-width . 16)
         (vertical-scroll-bars . nil)
         (menu-bar-lines . 0)
         (tool-bar-lines . 0)))
