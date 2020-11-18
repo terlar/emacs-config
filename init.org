@@ -458,6 +458,7 @@ keybindings in case I would forget them.
 | =M-a=             | ~backward-sentence~       | Start of sentence                                                                |
 | =C-M-d=           | ~down-list~               | Move forward down one level of parenthesis                                       |
 | =C-M-u=           | ~backward-up-list~        | Move backward out of one level of parenthesis                                    |
+| =C-u C-x $=       | ~set-selective-display~   | Hide/show indentation level                                                      |
 
 ** Gnus
 | Keybinding | Function                              | Description                                                   |
@@ -4628,6 +4629,8 @@ Navigate through undo history.
 ** TODO Look into skewer packages
 ** TODO Look into modal editing with ~objed~
 ** TODO Look into generic code execution via =isend-mode=
+** TODO Look into ~set-selective-display~
+** TODO Look into ~semantic-decoration-mode~
 ** TODO Add binding for org-noter
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
