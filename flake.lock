@@ -22,15 +22,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1605635123,
-        "narHash": "sha256-8bROJh1fshk+TaFcIfU9enDcN6/1+uiOKgBgk6rSJMk=",
-        "owner": "nix-community",
+        "lastModified": 1605741590,
+        "narHash": "sha256-1LNETyCFWuSQaFBqUqOaldhZszIiBYpj0U7Rdrs6Ptg=",
+        "owner": "terlar",
         "repo": "home-manager",
-        "rev": "7b6ebf2785cfc9dd6fc2b101cbbb2152eb68d45c",
+        "rev": "f1148d5893364e4b5e6e1d21640662954ee08e1e",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "terlar",
+        "ref": "configurable-emacs-service-package",
         "repo": "home-manager",
         "type": "github"
       }

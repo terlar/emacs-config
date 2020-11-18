@@ -8,7 +8,7 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:terlar/home-manager/configurable-emacs-service-package";
       inputs.nixpkgs.follows = "/nixpkgs";
     };
   };
