@@ -1146,8 +1146,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   :hook
   (eval-expression-minibuffer-setup . smartparens-strict-mode)
   :commands
-  (smartparens-global-strict-mode
-   show-smartparens-global-mode)
+  (smartparens-global-strict-mode)
   :general
   (:prefix
    toggle-prefix
@@ -1169,7 +1168,6 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
       (apply orig-fn args)))
   :init
   (smartparens-global-strict-mode 1)
-  (show-smartparens-global-mode 1)
   :config
   (require 'smartparens-config)
 
@@ -1191,9 +1189,6 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
     (sp-local-pair "«" "»"))
 
   (sp-with-modes 'nix-mode
-    (sp-local-pair "'" "'"
-                   :unless '(sp-in-comment-p
-                             sp-in-string-quotes-p))
     (sp-local-pair "\"" "\"")
     (sp-local-pair "''" "''"
                    :unless '(sp-in-comment-p
