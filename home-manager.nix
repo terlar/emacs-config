@@ -102,12 +102,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      programs.emacs = mkMerge [{
-        enable = true;
+      services.emacs = {
+        enable = cfg.enableServer;
         package = cfg.package;
-      }];
-
-      services.emacs.enable = cfg.enableServer;
+      };
 
       programs.git.extraConfig = {
         difftool.ediff.cmd = ''
@@ -119,7 +117,7 @@ in {
         '';
       };
 
-      home.packages = [ ]
+      home.packages = [ cfg.package ]
         ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs
         ++ optional cfg.enableUtils cfg.utilsPackage;
     }
