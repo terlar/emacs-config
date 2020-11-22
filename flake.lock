@@ -2,11 +2,11 @@
   "nodes": {
     "emacs-overlay": {
       "locked": {
-        "lastModified": 1605957840,
-        "narHash": "sha256-VBPzjnyUzcG1dcLNi1E2NcLna2APJHl4PjsJtAAL+Yc=",
+        "lastModified": 1606047915,
+        "narHash": "sha256-8DZNHlN0Hbia0nMXdXFVLySW+p5uCcXQmGa2El72lM4=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "94aeb093dd258daaf846766c7b0f0811afc1ba7f",
+        "rev": "7e2dbd977ee7fb78751cd5a0800c7da030032e64",
         "type": "github"
       },
       "original": {
@@ -22,27 +22,26 @@
         ]
       },
       "locked": {
-        "lastModified": 1605743763,
-        "narHash": "sha256-DcOK7DmNCkXjtmO2Cs2zuzX3Lb2ywIdH8qsa8rrjMy0=",
-        "owner": "terlar",
+        "lastModified": 1606046962,
+        "narHash": "sha256-244JrrVFht/VMRItDcDlrcwejqpqJInDUWA/x6mucW4=",
+        "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b29f87de710bc5b59ec1245252c0b0792a671738",
+        "rev": "a3a0f1289acac24ce2ffe0481bf8cabd3a6ccc64",
         "type": "github"
       },
       "original": {
-        "owner": "terlar",
-        "ref": "configurable-emacs-service-package",
+        "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1605716121,
-        "narHash": "sha256-CbHicvkzLTfEY+aSUeUY7dfFlDOgZH3uK+PpUfb/DPA=",
+        "lastModified": 1605744920,
+        "narHash": "sha256-FGg6wSlUv4A0Mue4snu2VRNZOoJVT2+vLkfJ2HGcFeQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6625284c397b44bc9518a5a1567c1b5aae455c08",
+        "rev": "a322b32e9d74fb476944ff6cfb55833dc69cfaaa",
         "type": "github"
       },
       "original": {
