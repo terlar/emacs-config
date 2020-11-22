@@ -4616,6 +4616,129 @@ Navigate through undo history.
    "u" 'undo-propose))
 #+end_src
 
+* Testing
+Packages that I am currently testing or evaluating.
+
+** adaptive-wrap
+#+begin_src emacs-lisp :tangle yes
+(use-package adaptive-wrap :ensure t)
+#+end_src
+
+** annotate
+#+begin_src emacs-lisp :tangle yes
+(use-package annotate :ensure t)
+#+end_src
+
+** awscli-capf
+#+begin_src emacs-lisp :tangle yes
+(use-package awscli-capf :ensure t)
+#+end_src
+
+** comment-or-uncomment-sexp
+#+begin_src emacs-lisp :tangle yes
+(use-package comment-or-uncomment-sexp :ensure t)
+#+end_src
+
+** company-fuzzy
+#+begin_src emacs-lisp :tangle yes
+(use-package company-fuzzy :ensure t)
+#+end_src
+
+** eglot-x
+#+begin_src emacs-lisp :tangle yes
+(use-package eglot-x :ensure t)
+#+end_src
+
+** ejira
+#+begin_src emacs-lisp :tangle yes
+(use-package ejira :ensure t)
+#+end_src
+
+** elfeed
+#+begin_src emacs-lisp :tangle yes
+(use-package elfeed :ensure t)
+#+end_src
+
+** elsa
+#+begin_src emacs-lisp :tangle yes
+(use-package elsa :ensure t)
+#+end_src
+
+** explain-pause-mode
+#+begin_src emacs-lisp :tangle yes
+(use-package explain-pause-mode :ensure t)
+#+end_src
+
+** fit-text-scale
+#+begin_src emacs-lisp :tangle yes
+(use-package fit-text-scale :ensure t)
+#+end_src
+
+** format-all
+#+begin_src emacs-lisp :tangle yes
+(use-package format-all :ensure t)
+#+end_src
+
+** freeze-it
+#+begin_src emacs-lisp :tangle yes
+(use-package freeze-it :ensure t)
+#+end_src
+
+** messages-are-flowing
+#+begin_src emacs-lisp :tangle yes
+(use-package messages-are-flowing :ensure t)
+#+end_src
+
+** multicolumn
+#+begin_src emacs-lisp :tangle yes
+(use-package multicolumn :ensure t)
+#+end_src
+
+** native-complete
+#+begin_src emacs-lisp :tangle yes
+(use-package native-complete :ensure t)
+#+end_src
+
+** org-fragtog
+#+begin_src emacs-lisp :tangle yes
+(use-package org-fragtog :ensure t)
+#+end_src
+
+** org-roam
+#+begin_src emacs-lisp :tangle yes
+(use-package org-roam :ensure t)
+#+end_src
+
+** realgud
+#+begin_src emacs-lisp :tangle yes
+(use-package realgud :ensure t)
+#+end_src
+
+** realgud-node-inspect
+#+begin_src emacs-lisp :tangle yes
+(use-package realgud-node-inspect :ensure t)
+#+end_src
+
+** shrface
+#+begin_src emacs-lisp :tangle yes
+(use-package shrface :ensure t)
+#+end_src
+
+** terraform-doc
+#+begin_src emacs-lisp :tangle yes
+(use-package terraform-doc :ensure t)
+#+end_src
+
+** theme-magic
+#+begin_src emacs-lisp :tangle yes
+(use-package theme-magic :ensure t)
+#+end_src
+
+** virtual-auto-fill
+#+begin_src emacs-lisp :tangle yes
+(use-package virtual-auto-fill :ensure t)
+#+end_src
+
 * Private
 #+begin_src emacs-lisp :tangle yes
 (require 'private nil t)
@@ -4660,6 +4783,3 @@ Navigate through undo history.
 - One theme to highlight errors
 - One theme for the mode-line
 ** TODO Flymake + Elsa
-
-** Packages
-*** TODO Use adaptive-wrap
