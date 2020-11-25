@@ -2688,7 +2688,7 @@ Generic Language Server Protocol integration via ~eglot~.
    "eh" 'eglot-help-at-point
    "er" 'eglot-rename)
   :config
-  (cl-pushnew '(typescript-mode . ("javascript-typescript-stdio"))
+  (cl-pushnew '((js-mode typescript-mode) . ("typescript-language-server" "--stdio"))
               eglot-server-programs
               :test #'equal))
 #+end_src
