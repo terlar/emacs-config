@@ -513,7 +513,16 @@ For example links."
    `(stripe-highlight ((t (:inherit region))))
 
 ;;;;; term
-   `(term-color-red ((t (:inherit readable-mono-theme-critical))))
+   `(term-color-black
+     ((((background light)) (:foreground ,l-fg :background ,l-fg-s))
+      (((background dark)) (:foreground ,d-fg :foreground ,d-fg-s))))
+   `(term-color-red ((t (:inherit readable-mono-theme-emphasis :background ,(face-foreground 'readable-mono-theme-emphasis)))))
+   `(term-color-green ((t (:inherit term-color-black))))
+   `(term-color-yellow ((t (:inherit term-color-black))))
+   `(term-color-blue ((t (:inherit term-color-black))))
+   `(term-color-magenta ((t (:inherit term-color-black))))
+   `(term-color-cyan ((t (:inherit term-color-black))))
+   `(term-color-white ((t (:inherit term-color-black))))
 
 ;;;;; visual-regexp
    `(vr/match-0 ((t (:inverse-video t))))
