@@ -228,14 +228,6 @@ Large file support. This can view/edit/search and compare large files.
 (setq-default calendar-week-start-day 1)
 #+end_src
 
-** Terminal
-*** Pager
-Make less work inside Emacs shells. But disable it as the default pager.
-#+begin_src emacs-lisp :tangle yes
-(setenv "LESS" "--dumb --prompt=s")
-(setenv "PAGER" "")
-#+end_src
-
 ** Packages
 *** all-the-icons
 Support functions for displaying icons. I am trying to use icons where possible.
@@ -530,9 +522,6 @@ keybindings in case I would forget them.
  ;; Files
  "C-c o" 'ff-find-other-file
  "C-c O" 'ff-test-find-other-file
- ;; Terminal
- "C-!" 'eshell
- "C-M-!" '(lambda () (interactive) (term "fish"))
  ;; Window
  "C-`" 'window-toggle-side-windows)
 #+end_src
@@ -2978,113 +2967,6 @@ Improve readability of escape characters in regular expressions.
     (smartparens-mode 1)))
 #+end_src
 
-** eshell
-#+begin_src emacs-lisp :tangle yes
-(use-package eshell
-  :hook
-  (eshell-mode . abbrev-mode)
-  (eshell-mode . init-eshell-define-keys)
-  (eshell-mode . init-eshell-set-visual-commands)
-  :custom
-  (eshell-buffer-maximum-lines 20000)
-  (eshell-history-size 1000)
-  (eshell-hist-ignoredups t)
-  (eshell-error-if-no-glob t)
-  (eshell-destroy-buffer-when-process-dies t)
-  :general
-  (:prefix
-   launch-prefix
-   "t" 'eshell)
-  :preface
-  (defvar eshell-visual-commands)
-  (defun init-eshell-define-keys ()
-    (general-define-key
-     :keymaps 'eshell-mode-map
-     "RET" '+eshell-expand-abbrev-and-send-input
-     "<tab>" 'completion-at-point
-     "C-r" 'counsel-esh-history))
-
-  (defun init-eshell-set-visual-commands ()
-    (setq eshell-visual-commands
-          (append
-           '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
-           eshell-visual-commands)))
-  :init
-  (autoload 'eshell-smart-initialize "em-smart"))
-#+end_src
-
-*** Abbreviations
-Fish-like abbreviations that expand on space or enter.
-#+begin_src emacs-lisp :tangle yes
-(defun +eshell-expand-abbrev-and-send-input ()
-  "Expand abbreviation and send input to `eshell'."
-  (interactive)
-  (expand-abbrev)
-  (call-interactively #'eshell-send-input))
-
-(defun +eshell-abbrev-expand-p ()
-  "Return t if abbreviation should be expanded.
-Expansion should happen when abbreviation is at the beginning of
-the line or after an eshell operator."
-  (let* ((end (point-marker))
-         (begin (save-excursion (eshell-bol) (point)))
-         (args (catch 'eshell-incomplete (eshell-parse-arguments begin end))))
-    (or (= 1 (length args))
-        (let ((last-two-args (last args 2)))
-          (and (consp (car last-two-args))
-               (eq (caar last-two-args)
-                   'eshell-operator))))))
-
-(define-abbrev-table 'eshell-mode-abbrev-table
-  '(("base64" "base64 -w0")
-    ("d" "docker")
-    ("dim" "docker images")
-    ("dp" "docker ps")
-    ("dc" "docker-compose")
-    ("dcl" "docker-compose logs")
-    ("e" "find-file-other-window")
-    ("E" "dired")
-    ("gd" "magit-diff-unstaged")
-    ("gds" "magit-diff-staged")
-    ("gs" "magit-status")
-    ("time" "time -p")
-    ("tree" "tree -a")
-    ("week" "date '+%V'"))
-  :enable-function #'+eshell-abbrev-expand-p)
-#+end_src
-
-*** Packages
-**** eshell-fringe-status
-Command execution status indicator in the fringe.
-#+begin_src emacs-lisp :tangle yes
-(use-package eshell-fringe-status
-  :ensure t
-  :hook
-  (eshell-mode . eshell-fringe-status-mode))
-#+end_src
-
-**** esh-autosuggest
-Autosuggestions from history similar to fish.
-#+begin_src emacs-lisp :tangle yes
-(use-package esh-autosuggest
-  :ensure t
-  :hook
-  (eshell-mode . esh-autosuggest-mode)
-  :general
-  (:keymaps
-   'esh-autosuggest-active-map
-   "C-e" 'company-complete-selection))
-#+end_src
-
-**** fish-completion
-Populate auto-completions from fish.
-#+begin_src emacs-lisp :tangle yes
-(use-package fish-completion
-  :ensure t
-  :hook
-  (eshell-mode . fish-completion-mode))
-#+end_src
-
 ** org
 #+begin_src emacs-lisp :tangle yes
 (use-package org
@@ -4372,15 +4254,6 @@ Pretty check-boxes as well as bullet lists.
   (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
 #+end_src
 
-** term
-#+begin_src emacs-lisp :tangle yes
-(use-package term
-  :general
-  (:prefix
-   launch-prefix
-   "T" 'term))
-#+end_src
-
 ** typescript
 #+begin_src emacs-lisp :tangle yes
 (use-package typescript-mode
@@ -4606,6 +4479,147 @@ Automatically infer dictionary.
   (adict-mode))
 #+end_src
 
+** Terminal
+*** Pager
+Make less work inside Emacs shells. But disable it as the default pager.
+#+begin_src emacs-lisp :tangle yes
+(setenv "LESS" "--dumb --prompt=s")
+(setenv "PAGER" "")
+#+end_src
+
+*** eshell
+#+begin_src emacs-lisp :tangle yes
+(use-package eshell
+  :hook
+  (eshell-mode . abbrev-mode)
+  (eshell-mode . init-eshell-define-keys)
+  (eshell-mode . init-eshell-set-visual-commands)
+  :custom
+  (eshell-buffer-maximum-lines 20000)
+  (eshell-history-size 1000)
+  (eshell-hist-ignoredups t)
+  (eshell-error-if-no-glob t)
+  (eshell-destroy-buffer-when-process-dies t)
+  :general
+  ("C-!" 'eshell)
+  (:prefix
+   launch-prefix
+   "t" 'eshell)
+  :preface
+  (defvar eshell-visual-commands)
+  (defun init-eshell-define-keys ()
+    (general-define-key
+     :keymaps 'eshell-mode-map
+     "RET" '+eshell-expand-abbrev-and-send-input
+     "<tab>" 'completion-at-point
+     "C-r" 'counsel-esh-history))
+
+  (defun init-eshell-set-visual-commands ()
+    (setq eshell-visual-commands
+          (append
+           '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
+           eshell-visual-commands)))
+  :init
+  (autoload 'eshell-smart-initialize "em-smart"))
+#+end_src
+
+**** Abbreviations
+Fish-like abbreviations that expand on space or enter.
+#+begin_src emacs-lisp :tangle yes
+(defun +eshell-expand-abbrev-and-send-input ()
+  "Expand abbreviation and send input to `eshell'."
+  (interactive)
+  (expand-abbrev)
+  (call-interactively #'eshell-send-input))
+
+(defun +eshell-abbrev-expand-p ()
+  "Return t if abbreviation should be expanded.
+Expansion should happen when abbreviation is at the beginning of
+the line or after an eshell operator."
+  (let* ((end (point-marker))
+         (begin (save-excursion (eshell-bol) (point)))
+         (args (catch 'eshell-incomplete (eshell-parse-arguments begin end))))
+    (or (= 1 (length args))
+        (let ((last-two-args (last args 2)))
+          (and (consp (car last-two-args))
+               (eq (caar last-two-args)
+                   'eshell-operator))))))
+
+(define-abbrev-table 'eshell-mode-abbrev-table
+  '(("base64" "base64 -w0")
+    ("d" "docker")
+    ("dim" "docker images")
+    ("dp" "docker ps")
+    ("dc" "docker-compose")
+    ("dcl" "docker-compose logs")
+    ("e" "find-file-other-window")
+    ("E" "dired")
+    ("gd" "magit-diff-unstaged")
+    ("gds" "magit-diff-staged")
+    ("gs" "magit-status")
+    ("time" "time -p")
+    ("tree" "tree -a")
+    ("week" "date '+%V'"))
+  :enable-function #'+eshell-abbrev-expand-p)
+#+end_src
+
+**** Packages
+***** eshell-fringe-status
+Command execution status indicator in the fringe.
+#+begin_src emacs-lisp :tangle yes
+(use-package eshell-fringe-status
+  :ensure t
+  :hook
+  (eshell-mode . eshell-fringe-status-mode))
+#+end_src
+
+***** esh-autosuggest
+Autosuggestions from history similar to fish.
+#+begin_src emacs-lisp :tangle yes
+(use-package esh-autosuggest
+  :ensure t
+  :hook
+  (eshell-mode . esh-autosuggest-mode)
+  :general
+  (:keymaps
+   'esh-autosuggest-active-map
+   "C-e" 'company-complete-selection))
+#+end_src
+
+***** fish-completion
+Populate auto-completions from fish.
+#+begin_src emacs-lisp :tangle yes
+(use-package fish-completion
+  :ensure t
+  :hook
+  (eshell-mode . fish-completion-mode))
+#+end_src
+
+*** vterm
+Fast terminal emulator utilizing =libvterm=.
+#+begin_src emacs-lisp :tangle yes
+(use-package vterm
+  :ensure t
+  :custom
+  (vterm-shell "fish")
+  :general
+  (:prefix
+   launch-prefix
+   "T" 'vterm))
+#+end_src
+
+**** Packages
+***** vterm-toggle
+#+begin_src emacs-lisp :tangle yes
+(use-package vterm-toggle
+  :ensure t
+  :general
+  ("C-M-!" 'vterm-toggle)
+  (:keymaps
+   'vterm-mode-map
+   "C-<return>" 'vterm-toggle-insert-cd))
+#+end_src
+
 ** Undo
 Navigate through undo history.
 #+begin_src emacs-lisp :tangle yes
@@ -4738,14 +4752,6 @@ Packages that I am currently testing or evaluating.
 ** virtual-auto-fill
 #+begin_src emacs-lisp :tangle yes
 (use-package virtual-auto-fill :ensure t)
-#+end_src
-
-** vterm
-#+begin_src emacs-lisp :tangle yes
-(use-package vterm
-  :ensure t
-  :custom
-  (vterm-shell "fish"))
 #+end_src
 
 ** webkit
