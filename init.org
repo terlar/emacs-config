@@ -3858,6 +3858,7 @@ REPL for nodejs.
 **** json-navigator
 #+begin_src emacs-lisp :tangle yes
 (use-package json-navigator
+  :ensure t
   :general
   (:keymaps
    'json-mode-map
