@@ -2598,8 +2598,7 @@ Enhanced git related views and commands.
   :config
   (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
   ;; Unset pager as it is not supported properly inside emacs.
-  (setenv "GIT_PAGER" "")
-  (global-magit-file-mode 1))
+  (setenv "GIT_PAGER" ""))
 #+end_src
 
 *** vc-msg
