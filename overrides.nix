@@ -198,5 +198,9 @@ in epkgs // {
     preBuild = ''
       make
     '';
+
+    postInstall = ''
+      install -m444 -t $out/share/emacs/site-lisp webkit-module.*
+    '';
   };
 }
