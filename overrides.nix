@@ -1,5 +1,5 @@
 { stdenv, fetchFromGitHub, substituteAll, texinfo, perl, python3, pywal, which
-}:
+, gcc, pkg-config, glib-networking, gtk3, webkitgtk }:
 
 epkgs:
 
@@ -173,5 +173,30 @@ in epkgs // {
       sha256 = "0rgj8akqvi6lmxpiffxn199xqix5zl5gy7x9v26iqg3qzq1vkrxn";
       # date = 2020-11-25T16:54:37-05:00;
     };
+  };
+
+  webkit = trivialBuild {
+    pname = "webkit";
+    version = "20201125.1300";
+    src = fetchFromGitHub {
+      owner = "akirakyle";
+      repo = "emacs-webkit";
+      rev = "26a2c74c2476231ae0532d310b4b1b0bf96d8456";
+      sha256 = "1iic6m24ksdv04akd4kn3nhw9dy10n52rl5sxd1h42r5fq2px164";
+      # date = 2020-11-25T13:00:20-07:00;
+    };
+
+    packageRequires = with epkgs; [ gtk3 webkitgtk ];
+
+    postPatch = ''
+      rm tests.el
+      rm evil-collection-webkit.el
+    '';
+
+    buildInputs = [ gcc pkg-config glib-networking ];
+
+    preBuild = ''
+      make
+    '';
   };
 }
