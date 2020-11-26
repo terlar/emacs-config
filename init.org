@@ -643,7 +643,6 @@ Better =*help*= buffer
 #+begin_src emacs-lisp :tangle yes
 (use-package helpful
   :ensure t
-  :demand t
   :general
   (:keymaps
    'help-map
