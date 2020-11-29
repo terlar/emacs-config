@@ -165,13 +165,13 @@ in epkgs // {
 
   valign = trivialBuild {
     pname = "valign";
-    version = "20201125.1654";
+    version = "20201128.8";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "valign";
-      rev = "99300ebe55d1fdaa4c609c0ff46a453f32679714";
-      sha256 = "0rgj8akqvi6lmxpiffxn199xqix5zl5gy7x9v26iqg3qzq1vkrxn";
-      # date = 2020-11-25T16:54:37-05:00;
+      rev = "841925f7e72613515f0ae60a5e2071c5ccc65f0d";
+      sha256 = "14sz7plflinawmqijx406kz9k568yqg7nkfdmg6il116vzq7w0ns";
+      # date = 2020-11-28T00:08:59-05:00;
     };
   };
 
