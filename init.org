@@ -4677,6 +4677,11 @@ Packages that I am currently testing or evaluating.
 (use-package elsa :ensure t)
 #+end_src
 
+** embark
+#+begin_src emacs-lisp :tangle yes
+(use-package embark :ensure t)
+#+end_src
+
 ** explain-pause-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package explain-pause-mode :ensure t)

@@ -101,6 +101,19 @@ in epkgs // {
     ];
   };
 
+  embark = trivialBuild {
+    pname = "embark";
+    version = "20201129.902";
+    src = fetchFromGitHub {
+      owner = "oantolin";
+      repo = "embark";
+      rev = "008aaa5788c60c85332aa5f40fcc4620d8999ca0";
+      sha256 = "0q9ipcl796b172wdr58jak8dh4p753mh0diz3y3nzwzr7kadn4q4";
+      # date = 2020-11-29T09:02:10-06:00;
+    };
+    packageRequires = with epkgs; [ avy ];
+  };
+
   explain-pause-mode = trivialBuild {
     pname = "explain-pause-mode";
     version = "20200727.227";
