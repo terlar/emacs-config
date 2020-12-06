@@ -68,13 +68,13 @@ in epkgs // {
 
   consult = trivialBuild {
     pname = "consult";
-    version = "20201130.1431";
+    version = "20201206.2210";
     src = fetchFromGitHub {
       owner = "minad";
       repo = "consult";
-      rev = "97dc8718cb6d3953673d15e3bb3400e777a3fb05";
-      sha256 = "1mrx7a9dikyy1a3r0c5a3mc3q26jmdk96njiyjlx0kmgp3047zpv";
-      # date = 2020-11-30T14:31:48+01:00;
+      rev = "20ab93517d0fd17b06efe804db669747284f62b0";
+      sha256 = "1qdpd0gzbgng7fj4cnxn2xsiflxk1cpa3pwahwv2fn1gyk0npar2";
+      # date = 2020-12-06T22:10:38+01:00;
     };
   };
 
