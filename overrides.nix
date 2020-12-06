@@ -202,13 +202,13 @@ in epkgs // {
 
   webkit = trivialBuild {
     pname = "webkit";
-    version = "20201125.1300";
+    version = "20201206.1401";
     src = fetchFromGitHub {
       owner = "akirakyle";
       repo = "emacs-webkit";
-      rev = "26a2c74c2476231ae0532d310b4b1b0bf96d8456";
-      sha256 = "1iic6m24ksdv04akd4kn3nhw9dy10n52rl5sxd1h42r5fq2px164";
-      # date = 2020-11-25T13:00:20-07:00;
+      rev = "5f5f8c2b1f0c97a43533c1e16cb0dd93f75ea626";
+      sha256 = "00dgzyyka9n9bwsdysv97cpwcczpr8m3k5s88z5lilidz22qc1rk";
+      # date = 2020-12-06T14:01:38-07:00;
     };
 
     packageRequires = with epkgs; [ gtk3 webkitgtk ];
@@ -216,6 +216,8 @@ in epkgs // {
     postPatch = ''
       rm tests.el
       rm evil-collection-webkit.el
+      rm webkit-ace.el
+      rm webkit-dark.el
     '';
 
     buildInputs = [ gcc pkg-config glib-networking ];
