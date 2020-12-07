@@ -1134,7 +1134,8 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   :hook
   (eval-expression-minibuffer-setup . smartparens-strict-mode)
   :commands
-  (smartparens-global-strict-mode)
+  (smartparens-global-strict-mode
+   show-smartparens-global-mode)
   :general
   (:prefix
    toggle-prefix
@@ -1156,6 +1157,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
       (apply orig-fn args)))
   :init
   (smartparens-global-strict-mode 1)
+  (show-smartparens-global-mode 1)
   :config
   (require 'smartparens-config)
 
