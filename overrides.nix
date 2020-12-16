@@ -66,18 +66,6 @@ in epkgs // {
     };
   };
 
-  consult = trivialBuild {
-    pname = "consult";
-    version = "20201206.2210";
-    src = fetchFromGitHub {
-      owner = "minad";
-      repo = "consult";
-      rev = "20ab93517d0fd17b06efe804db669747284f62b0";
-      sha256 = "1qdpd0gzbgng7fj4cnxn2xsiflxk1cpa3pwahwv2fn1gyk0npar2";
-      # date = 2020-12-06T22:10:38+01:00;
-    };
-  };
-
   eglot-x = trivialBuild rec {
     pname = "eglot-x";
     version = "20200104.1435";
