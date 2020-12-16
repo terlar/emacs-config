@@ -4662,6 +4662,7 @@ Packages that I am currently testing or evaluating.
 ** consult
 #+begin_src emacs-lisp :tangle yes
 (use-package consult :ensure t)
+(use-package consult-selectrum :ensure t)
 #+end_src
 
 ** eglot-x
