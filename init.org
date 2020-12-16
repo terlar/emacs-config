@@ -4710,6 +4710,11 @@ Packages that I am currently testing or evaluating.
 (use-package freeze-it :ensure t)
 #+end_src
 
+** marginalia
+#+begin_src emacs-lisp :tangle yes
+(use-package marginalia :ensure t)
+#+end_src
+
 ** messages-are-flowing
 #+begin_src emacs-lisp :tangle yes
 (use-package messages-are-flowing :ensure t)
