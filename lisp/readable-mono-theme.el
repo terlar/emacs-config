@@ -356,7 +356,13 @@ For example links."
    `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
 
 ;;;;; erc
+   `(erc-current-nick-face ((t (:inherit readable-mono-theme-emphasis))))
+   `(erc-input-face ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(erc-my-nick-face ((t (:inherit readable-mono-theme-emphasis))))
+   `(erc-nick-default-face ((t (:inherit readable-mono-theme-strong))))
+   `(erc-notice-face ((t (:inherit nil))))
+   `(erc-prompt-face ((t (:inherit readable-mono-theme-strong))))
+   `(erc-timestamp-face ((t (:inherit readable-mono-theme-subordinate))))
 
 ;;;;; eros
    `(eros-result-overlay-face ((t (:inherit highlight))))
