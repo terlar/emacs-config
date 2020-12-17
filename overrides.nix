@@ -103,13 +103,13 @@ in epkgs // {
 
   embark = trivialBuild {
     pname = "embark";
-    version = "20201216.1301";
+    version = "20201216.1535";
     src = fetchFromGitHub {
       owner = "oantolin";
       repo = "embark";
-      rev = "6625af6e1fb13e0c9d78e8b9fc9940dc243b0231";
-      sha256 = "0a5s445ibkc8y41gv18fpzhyn4srylh19jnm6swpn1c1m90kdi7a";
-      # date = 2020-12-16T13:01:53-06:00;
+      rev = "8ebafd0bd2746f0776cfb600c1f2f2c359c9d038";
+      sha256 = "1f9g114s9w7r3lg3asyks571rh2fzanlw35v426wmhi0w4pgr5pr";
+      # date = 2020-12-16T15:35:14-06:00;
     };
     packageRequires = with epkgs; [ avy ];
   };
