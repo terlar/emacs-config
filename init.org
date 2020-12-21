@@ -216,16 +216,27 @@ Support auto-tangling via =auto-tangle-mode=.
 
 * Base
 ** Performance
+No second pass of case-insensitive search over =auto-mode-alist=.
+#+begin_src emacs-lisp :tangle yes
+(setq auto-mode-case-fold nil)
+#+end_src
+
 Give up some bidirectional functionality for slightly faster re-display.
 #+begin_src emacs-lisp :tangle yes
 (setq bidi-inhibit-bpa t)
-(setq-default bidi-paragraph-direction 'left-to-right)
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
 #+end_src
 
 Update UI less frequently
 #+begin_src emacs-lisp :tangle yes
-(setq idle-update-delay 2
+(setq idle-update-delay 1.0
       jit-lock-defer-time 0)
+#+end_src
+
+Accelerate scrolling with the trade-off of sometimes delayed accurate fontification.
+#+begin_src emacs-lisp :tangle yes
+(setq fast-but-imprecise-scrolling t)
 #+end_src
 
 *** Packages
