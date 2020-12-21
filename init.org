@@ -1712,8 +1712,6 @@ Keep track of recently opened files.
   (recentf-max-menu-items 0)
   (recentf-max-saved-items 300)
   (recentf-auto-cleanup 'never)
-  :general
-  ("C-c r" 'recentf-open-files+)
   :preface
   (defun completing-read-file-candidate (candidate)
     "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
@@ -4604,7 +4602,10 @@ Packages that I am currently testing or evaluating.
 (use-package consult
   :ensure t
   :general
-  ("M-y" 'consult-yank-pop))
+  ("M-y" 'consult-yank-pop
+   "C-c r" 'consult-recent-file)
+  :config
+  (consult-preview-mode 1))
 (use-package consult-selectrum :ensure t :demand t)
 #+end_src
 
