@@ -1148,7 +1148,8 @@ Cycle through words, symbols and patterns.
    [remap grugru-forward] (defrepeater #'grugru-forward))
   :config
   (grugru-default-setup)
-  (grugru-define-global 'symbol '("assert" "refute")))
+  (grugru-define-global 'symbol '("assert" "refute"))
+  (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
 #+end_src
 
 *** string-inflection-cycle
