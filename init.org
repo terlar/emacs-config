@@ -144,6 +144,16 @@ Help keeping user Emacs directory clean.
   (gcmh-verbose init-file-debug))
 #+end_src
 
+*** explain-pause-mode
+#+begin_src emacs-lisp :tangle yes
+(use-package explain-pause-mode
+  :ensure t
+  :commands (explain-pause-mode)
+  :init
+  (when init-file-debug
+    (explain-pause-mode 1)))
+#+end_src
+
 *** exec-path-from-shell
 #+begin_src emacs-lisp :tangle yes
 (use-package exec-path-from-shell
@@ -4690,11 +4700,6 @@ Packages that I am currently testing or evaluating.
 ** embark
 #+begin_src emacs-lisp :tangle yes
 (use-package embark :ensure t)
-#+end_src
-
-** explain-pause-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package explain-pause-mode :ensure t)
 #+end_src
 
 ** fit-text-scale
