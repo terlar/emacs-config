@@ -4248,41 +4248,6 @@ Display current path for HTML/XML/CSS.
   (cakecrumbs-auto-setup))
 #+end_src
 
-**** emmet-mode
-Snippets and Zen Coding for HTML.
-#+begin_src emacs-lisp :tangle yes
-(use-package emmet-mode
-  :ensure t
-  :hook
-  (css-mode
-   haml-mode
-   html-mode
-   js-mode
-   nxml-mode
-   web-mode)
-  (js-mode . emmet-use-jsx-className)
-  :custom
-  (emmet-move-cursor-between-quotes t)
-  :preface
-  (defun emmet-use-jsx-className ()
-    "Set `emmet-expand-jsx-className?' as local variable."
-    (setq-local emmet-expand-jsx-className? t)))
-#+end_src
-
-**** pug-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package pug-mode
-  :ensure t
-  :mode "\\.\\(?:jade\\|pug\\)\\'")
-#+end_src
-
-**** slim-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package slim-mode
-  :ensure t
-  :mode "\\.slim\\'")
-#+end_src
-
 **** web-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package web-mode
