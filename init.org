@@ -1642,12 +1642,8 @@ Keep track of bookmarks
 (use-package deadgrep
   :ensure t
   :general
-  (:prefix
-   search-prefix
-   "G" 'deadgrep)
-  (:keymaps
-   'deadgrep-mode-map
-   "C-c '" 'deadgrep-edit-mode))
+  (:prefix search-prefix "g" 'deadgrep)
+  (:keymaps 'deadgrep-mode-map "C-c '" 'deadgrep-edit-mode))
 #+end_src
 
 *** find-file
@@ -1989,55 +1985,6 @@ Incremental selection narrowing interface for completions.
 #+end_src
 
 *** Packages
-**** counsel
-Replacements for common Emacs commands.
-Tips:
-- =counsel-rg= can be used with =C-u= to search in a specific directory.
-#+begin_src emacs-lisp :tangle yes
-(use-package counsel
-  :ensure t
-  :custom
-  (counsel-find-file-ignore-regexp
-   "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
-  (counsel-grep-base-command
-   "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
-  (counsel-mode-override-describe-bindings t)
-  :general
-  ("M-y" 'counsel-yank-pop
-   "C-x /" 'counsel-abbrev)
-  (:prefix search-prefix
-   "g" 'counsel-rg)
-  (:keymaps
-   'counsel-ag-map
-   "C-SPC" 'ivy-call-and-recenter)
-  :config
-  (defun counsel-abbrev (abbrev-name)
-    "Insert abbreviation matching ABBREV-NAME."
-    (interactive
-     (list
-      (ivy-completing-read
-       "Insert abbrev: "
-       (cl-loop for table in (abbrev--active-tables)
-                unless (abbrev-table-empty-p table)
-                append (append (delete 0 table) ())))))
-    (progn
-      (dolist (table (abbrev--active-tables))
-        (when (abbrev-symbol abbrev-name table)
-          (abbrev-insert (abbrev-symbol abbrev-name table))))))
-
-  (defun counsel-maybe-git-cands ()
-    (let ((root (counsel--git-root)))
-      (when root
-        (let ((concat-root-with
-               (apply-partially 'concat (abbreviate-file-name root))))
-          (cl-mapcar concat-root-with (counsel-git-cands root))))))
-
-  (ivy-set-sources
-   'counsel-recentf
-   '((original-source)
-     (counsel-maybe-git-cands))))
-#+end_src
-
 **** counsel-tramp
 Navigate tramp files.
 #+begin_src emacs-lisp :tangle yes
@@ -4654,8 +4601,11 @@ Packages that I am currently testing or evaluating.
 
 ** consult
 #+begin_src emacs-lisp :tangle yes
-(use-package consult :ensure t)
-(use-package consult-selectrum :ensure t)
+(use-package consult
+  :ensure t
+  :general
+  ("M-y" 'consult-yank-pop))
+(use-package consult-selectrum :ensure t :demand t)
 #+end_src
 
 ** eglot-x
