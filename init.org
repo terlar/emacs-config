@@ -133,6 +133,17 @@ Help keeping user Emacs directory clean.
   (no-littering-var-directory cache-dir))
 #+end_src
 
+*** gcmh
+#+begin_src emacs-lisp :tangle yes
+(use-package gcmh
+  :ensure t
+  :hook (after-init . gcmh-mode)
+  :custom
+  (gcmh-idle-delay 5)
+  (gcmh-high-cons-threshold (* 16 1024 1024)) ; 16MB
+  (gcmh-verbose init-file-debug))
+#+end_src
+
 *** exec-path-from-shell
 #+begin_src emacs-lisp :tangle yes
 (use-package exec-path-from-shell
