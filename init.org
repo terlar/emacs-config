@@ -14,7 +14,7 @@ The rough details:
 - +modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]+
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
-- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/jojojames/smart-jump][smart-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
+- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: flymake
 - persistent undo :: via built-in ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
@@ -2299,37 +2299,6 @@ Don't ask about keeping current list of tags tables.
   :ensure t
   :custom
   (dumb-jump-default-project user-emacs-directory))
-#+end_src
-
-*** smart-jump
-Some modes actually have some good backends, so configure this with ~smart-jump~ which has
-nice defaults and also adds configuring completion with a fallback to ~dumb-jump~.
-#+begin_src emacs-lisp :tangle yes
-(use-package smart-jump
-  :ensure t
-  :defer 2
-  :custom
-  (smart-jump-default-mode-list
-   '(clojure-mode
-     eglot
-     elisp-mode
-     elixir-mode
-     elm-mode
-     erlang-mode
-     go-mode
-     lisp-mode
-     lua-mode
-     python))
-  :general
-  ("M-." 'smart-jump-go)
-  ("M-," 'smart-jump-back)
-  ("M-?" 'smart-jump-references)
-  (:prefix
-   nav-prefix
-   "j" 'smart-jump-go
-   "r" 'smart-jump-references)
-  :config
-  (smart-jump-setup-default-registers))
 #+end_src
 
 ** Refactor
