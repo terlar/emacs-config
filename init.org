@@ -4626,7 +4626,7 @@ Packages that I am currently testing or evaluating.
 
 ** elsa
 #+begin_src emacs-lisp :tangle yes
-(use-package elsa)
+(use-package elsa :disabled t)
 #+end_src
 
 ** embark
