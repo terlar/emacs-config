@@ -3698,15 +3698,6 @@ Test framework execution.
   (js2-strict-trailing-comma-warning nil))
 #+end_src
 
-**** js2-refactor
-Refactor utils, also a dependecy for =indium= debugger.
-#+begin_src emacs-lisp :tangle yes
-(use-package js2-refactor
-  :ensure t
-  :hook
-  (js2-minor-mode . js2-refactor-mode))
-#+end_src
-
 **** nodejs-repl
 REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
