@@ -1,8 +1,17 @@
-{ version ? "dev", stdenv, trivialBuild, emacs-all-the-icons-fonts }:
+{ version ? "dev", lib, stdenv, trivialBuild, emacs-all-the-icons-fonts }:
 
 let
   src = let filter = name: type: type != "symlink";
-  in builtins.filterSource filter ./.;
+  in lib.sourceByRegex ./. [
+    "early-init.el"
+    "init.org"
+    "lisp"
+    "lisp/.*.el$"
+    "snippets"
+    "snippets/.*"
+    "templates"
+    "templates/.*"
+  ];
 
   init = trivialBuild {
     pname = "config-init";
@@ -18,6 +27,13 @@ let
       mkdir -p .xdg-config
       ln -s $PWD .xdg-config/emacs
       export XDG_CONFIG_HOME="$PWD/.xdg-config"
+
+      emacs --batch -Q \
+        -l package \
+        --eval '(setq package-quickstart t)' \
+        -f package-quickstart-refresh
+
+      substituteInPlace package-quickstart.el --replace ';; no-byte-compile: t' ';;'
     '';
   };
 
