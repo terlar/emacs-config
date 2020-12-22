@@ -1079,7 +1079,7 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
 
 * Editing
 ** Indentation
-Convert between tabs and spaces (only tabify initial white-space)
+Convert between tabs and spaces (only tabify initial white-space).
 #+begin_src emacs-lisp :tangle yes
 (setq-default tabify-regexp "^\t* [ \t]+")
 #+end_src
@@ -1091,7 +1091,7 @@ Wrap at words and don't require double spaces to end a sentence.
 #+end_src
 
 ** Kill-ring
-Save clipboard contents into kill-ring before replacing them
+Save clipboard contents into kill-ring before replacing them.
 #+begin_src emacs-lisp :tangle yes
 (setq save-interprogram-paste-before-kill t)
 #+end_src
@@ -2214,6 +2214,8 @@ the mode mechanism:
   :ensure t
   :demand t
   :config
+  (defgroup reformatter nil "Simple formatters defined by reformatter."
+    :group 'reformatter)
   (reformatter-define black :program "black" :args '("-"))
   (reformatter-define nixfmt :program "nixfmt"))
 #+end_src
