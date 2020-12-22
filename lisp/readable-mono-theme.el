@@ -217,6 +217,8 @@ For example links."
 					      (((background dark)) (:background ,d-red-s))))
 
 ;;;;; Headlines
+   `(custom-group-tag ((t (:inherit readable-mono-theme-strong))))
+   `(custom-state ((t (:inherit readable-mono-theme-emphasis))))
    `(custom-variable-tag ((t (:inherit readable-mono-theme-strong))))
 
 ;;;;; Search and highlight
