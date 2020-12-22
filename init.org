@@ -2682,6 +2682,14 @@ Jump to document locations in current buffer
    "I" 'imenu-anywhere))
 #+end_src
 
+*** imenu-extra
+Easily add document locations via regular expressions.
+#+begin_src emacs-lisp :tangle yes
+(use-package imenu-extra
+  :ensure t
+  :functions (imenu-extra-auto-setup))
+#+end_src
+
 *** imenu-list
 Document locations in a sidebar.
 #+begin_src emacs-lisp :tangle yes
