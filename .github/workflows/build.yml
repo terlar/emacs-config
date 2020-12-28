@@ -25,4 +25,4 @@ jobs:
         name: terlar
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         extraPullNames: nix-community
-    - run: nix build .#defaultPackage.${{matrix.system}}
+    - run: nix build --print-build-logs .#defaultPackage.${{matrix.system}}
