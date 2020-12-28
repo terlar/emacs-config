@@ -63,14 +63,16 @@
           devEmacsConfig = pkgs.writeShellScriptBin "dev-emacs-config" ''
             set -euo pipefail
             export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-            ln -s $PWD $XDG_CONFIG_HOME/emacs
+            mkdir -p $XDG_CONFIG_HOME/emacs
+            ${pkgs.xorg.lndir}/bin/lndir -silent $PWD $XDG_CONFIG_HOME/emacs
             ${pkgs.emacsEnv}/bin/emacs "$@"
           '';
 
           testEmacsConfig = pkgs.writeShellScriptBin "test-emacs-config" ''
             set -euo pipefail
             export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-            ln -s ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
+            mkdir -p $XDG_CONFIG_HOME/emacs
+            ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
             ${pkgs.emacsEnv}/bin/emacs "$@"
           '';
         in pkgs.mkShell {
