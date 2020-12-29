@@ -75,6 +75,11 @@
             ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
             ${pkgs.emacsEnv}/bin/emacs "$@"
           '';
+
+          updateCaches = pkgs.writeShellScriptBin "update-caches" ''
+            ${pkgs.cachix}/bin/cachix use -O . nix-community
+            ${pkgs.cachix}/bin/cachix use -O . terlar
+          '';
         in pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             git
@@ -83,6 +88,7 @@
             devEmacsConfig
             reloadEmacsConfig
             testEmacsConfig
+            updateCaches
           ];
         };
       });
