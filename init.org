@@ -107,11 +107,20 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 #+end_src
 
 ** Package management
+Use generated package autoloads.
+#+begin_src emacs-lisp :tangle yes
+(defvar package-quickstart t)
+#+end_src
+
 *** use-package
 #+begin_src emacs-lisp :tangle yes
 (eval-when-compile
-  (require 'use-package nil t))
-(setq use-package-always-defer t)
+  (require 'use-package))
+
+(eval-and-compile
+  (defun use-package-ensure-ignore (&rest _args) t)
+  (setq use-package-ensure-function #'use-package-ensure-ignore)
+  (setq use-package-always-defer t))
 
 (if init-file-debug
     (setq use-package-verbose t

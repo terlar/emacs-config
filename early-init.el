@@ -39,12 +39,3 @@
 
 ;; Ignore X resources
 (advice-add #'x-apply-session-resources :override #'ignore)
-
-;; Use generated package autoloads
-(eval-when-compile
-  (require 'package))
-(setq package-quickstart t)
-
-;; Load `use-package' if possible.
-(eval-when-compile
-  (require 'use-package nil t))
