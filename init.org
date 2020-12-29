@@ -1922,18 +1922,6 @@ Incremental selection narrowing interface for completions.
     (interactive "p")
     (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg))))
 
-(use-package prescient
-  :ensure t
-  :hook
-  (after-init . prescient-persist-mode)
-  :custom
-  (prescient-filter-method '(literal regexp initialism fuzzy)))
-
-(use-package selectrum-prescient
-  :ensure t
-  :custom
-  (selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
-
 (use-package orderless
   :ensure t
   :custom
