@@ -1936,6 +1936,7 @@ Incremental selection narrowing interface for completions.
 (use-package orderless
   :ensure t
   :custom
+  (orderless-matching-styles '(orderless-regexp orderless-flex))
   (selectrum-refine-candidates-function #'orderless-filter)
   (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 #+end_src
