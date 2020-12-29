@@ -30,7 +30,7 @@
 
 ;;; Code:
 
-(autoload 'org-babel-tangle-file "ob-tangle" nil t)
+(require 'ob-tangle)
 (autoload 'async-start "async")
 (autoload 'async-byte-compile-file "async-bytecomp" nil t)
 
@@ -108,7 +108,7 @@ Optionally provide FILE or the buffer file name will be used."
               (message "ERROR: %s tangle failed." ,file)))))
     (async-start
      `(lambda ()
-        (autoload 'org-babel-tangle-file "ob-tangle" nil t)
+        (require 'org)
         (org-babel-tangle-file ,file ,target "emacs-lisp")
         t)
      call-back)))

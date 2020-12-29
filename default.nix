@@ -20,6 +20,7 @@ let
     preBuild = ''
       # Tangle org files
       emacs --batch -Q \
+        -l org \
         *.org \
         -f org-babel-tangle
 
