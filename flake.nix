@@ -22,7 +22,7 @@
         in (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
             config = ./init.org;
-            package = final.emacsPgtkGcc;
+            package = final.emacsPgtk;
 
             extraEmacsPackages = epkgs: [ epkgs.mini-frame ];
 
