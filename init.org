@@ -264,7 +264,7 @@ Large file support. This can view/edit/search and compare large files.
 *** all-the-icons
 Support functions for displaying icons. I am trying to use icons where possible.
 #+begin_src emacs-lisp :tangle yes
-(use-package all-the-icons :ensure t)
+(use-package all-the-icons :ensure t :demand t)
 #+end_src
 
 *** auto-minor-mode
@@ -656,6 +656,9 @@ keybindings in case I would forget them.
 *** ghelp
 Generic help system.
 #+begin_src emacs-lisp :tangle yes
+(eval-when-compile
+  (require 'find-func))
+
 (use-package ghelp
   :ensure t
   :general
@@ -2868,8 +2871,7 @@ Evaluation results in overlay.
   :ensure t
   :hook
   (emacs-lisp-mode . package-lint-flymake-setup-when-package)
-  :command
-  (package-lint-flymake-setup)
+  :commands (package-lint-flymake-setup)
   :preface
   (defun package-lint-flymake-setup-when-package ()
     "Enable `package-lint-flymake' when buffer seems to be a package."
