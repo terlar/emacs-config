@@ -441,8 +441,10 @@ Fringe control:
 
 ** Warnings
 #+begin_src emacs-lisp :tangle yes
-(setq warning-suppress-types (unless (getenv "DEBUG")
-                               '((comp) (emacs))))
+(use-package warnings
+  :custom
+  (warning-suppress-types (unless init-file-debug
+                            '((comp) (emacs)))))
 #+end_src
 
 * Keybindings
