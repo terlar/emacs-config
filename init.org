@@ -660,9 +660,6 @@ keybindings in case I would forget them.
 *** ghelp
 Generic help system.
 #+begin_src emacs-lisp :tangle yes
-(eval-when-compile
-  (require 'find-func))
-
 (use-package ghelp
   :ensure t
   :general

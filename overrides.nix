@@ -115,13 +115,13 @@ in epkgs // {
 
   ghelp = trivialBuild {
     pname = "ghelp";
-    version = "20201126.1452";
+    version = "20201229.1615";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "ghelp";
-      rev = "e54ad2434d8a30e5304c0c311eeee05e09802ba9";
-      sha256 = "1rn6g3g3zwsab8mnf52k7cibahprjn2hyj04nnq2b66zdsadvrr0";
-      # date = 2020-11-26T14:52:16-05:00;
+      rev = "547fbf66a0cb7a1896f68920ea768d9709f18199";
+      sha256 = "04azmw4fcvw98bdhxv4sdvcl3p3a2rzzqg9qlb8ifs1q2lvy5fh8";
+      # date = 2020-12-29T16:15:12-05:00;
     };
     packageRequires = with epkgs; [ eglot geiser helpful ];
   };
