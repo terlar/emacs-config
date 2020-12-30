@@ -2928,12 +2928,6 @@ Improve readability of escape characters in regular expressions.
   :custom
   (org-agenda-files '("~/org/Personal.org" "~/org/Work.org"))
   (org-confirm-babel-evaluate nil)
-  (org-babel-load-languages
-   '((emacs-lisp . t)
-     (clojure    . t)
-     (js         . t)
-     (plantuml   . t)
-     (shell      . t)))
   (org-edit-src-content-indentation 0)
   (org-log-done 'time)
   (org-modules nil)
@@ -2955,9 +2949,7 @@ Improve readability of escape characters in regular expressions.
   :functions
   (org-babel-load-languages)
   :preface
-  (autoload 'org-get-outline-path "org-refile" nil t)
-  :config
-  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
+  (autoload 'org-get-outline-path "org-refile" nil t))
 #+end_src
 
 *** Packages
