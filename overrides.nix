@@ -163,18 +163,6 @@ in epkgs // {
     packageRequires = with epkgs; [ quick-peek ];
   };
 
-  valign = trivialBuild {
-    pname = "valign";
-    version = "20201216.1137";
-    src = fetchFromGitHub {
-      owner = "casouri";
-      repo = "valign";
-      rev = "740d5072190ebc7dd75a1ae8c4f8d3cb99faa4fe";
-      sha256 = "13n73fwy8xfhnh4pjmhprxib1r0f82vmbxk4haff85a0zhy1h870";
-      # date = 2020-12-16T11:37:01-05:00;
-    };
-  };
-
   webkit = trivialBuild {
     pname = "webkit";
     version = "20201206.1401";
