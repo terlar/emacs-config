@@ -216,13 +216,6 @@ Persist history.
 (use-package flymake-quickdef :ensure t :demand t)
 #+end_src
 
-** Tangling
-Support auto-tangling via =auto-tangle-mode=.
-#+begin_src emacs-lisp :tangle yes
-(use-package auto-tangle
-  :commands (auto-tangle-mode))
-#+end_src
-
 * Base
 ** Performance
 No second pass of case-insensitive search over =auto-mode-alist=.
@@ -2934,8 +2927,6 @@ Improve readability of escape characters in regular expressions.
   :ensure t
   :hook
   (org-mode . auto-fill-mode)
-  :minor
-  ("init\\.org\\'" . auto-tangle-mode)
   :custom
   (org-agenda-files '("~/org/Personal.org" "~/org/Work.org"))
   (org-confirm-babel-evaluate nil)
