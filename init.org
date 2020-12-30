@@ -1262,7 +1262,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+begin_src emacs-lisp :tangle yes
 (use-package yasnippet
   :ensure t
-  :defer 1
+  :defer 2
   :commands
   (yas--templates-for-key-at-point)
   :custom
@@ -1308,7 +1308,7 @@ Display page breaks as a horizontal line.
 #+begin_src emacs-lisp :tangle yes
 (use-package page-break-lines
   :ensure t
-  :defer 1
+  :defer 2
   :config
   (global-page-break-lines-mode 1))
 #+end_src
@@ -1700,7 +1700,7 @@ Hint mode for links.
 Keep track of recently opened files.
 #+begin_src emacs-lisp :tangle yes
 (use-package recentf
-  :defer 2
+  :defer 1
   :custom
   (recentf-exclude
    (list "/tmp/"                        ; Temp-files
@@ -1753,7 +1753,7 @@ Project interactions. Prefix project buffer files with the project name and rela
 #+begin_src emacs-lisp :tangle yes
 (use-package projectile
   :ensure t
-  :defer 2
+  :defer 5
   :custom
   (projectile-completion-system 'default)
   (projectile-enable-caching nil)
@@ -2922,6 +2922,7 @@ Improve readability of escape characters in regular expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package org
   :ensure t
+  :defer 5
   :hook
   (org-mode . auto-fill-mode)
   :custom
