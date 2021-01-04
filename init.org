@@ -3356,16 +3356,12 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.epub\\'" . nov-mode)
   :hook
   (nov-mode . init-nov-delayed-render)
-  (nov-mode . init-nov-fringes)
+  (nov-mode . no-fringes)
   :custom
   (nov-save-place-file (concat data-dir "nov-places"))
   :preface
   (defun init-nov-delayed-render ()
-    (run-with-idle-timer 0.2 nil 'nov-render-document))
-
-  (defun init-nov-fringes ()
-    "Hide the fringes for `nov-mode'."
-    (set-window-fringes (get-buffer-window) 0 0 nil)))
+    (run-with-idle-timer 0.2 nil 'nov-render-document)))
 #+end_src
 
 ** erlang
