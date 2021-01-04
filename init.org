@@ -1835,13 +1835,15 @@ No completion with tab.
 (use-package company
   :ensure t
   :custom
-  (company-show-numbers t)
   (company-backends
    '((company-files
       company-keywords
       company-capf
       company-dabbrev-code
       company-dabbrev)))
+  (company-dabbrev-downcase nil)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations t)
   :hook
   (prog-mode . company-mode)
   :general
@@ -4561,7 +4563,11 @@ Packages that I am currently testing or evaluating.
 
 ** company-fuzzy
 #+begin_src emacs-lisp :tangle yes
-(use-package company-fuzzy :ensure t)
+(use-package company-fuzzy
+  :ensure t
+  :defer 5
+  :config
+  (global-company-fuzzy-mode 1))
 #+end_src
 
 ** consult
