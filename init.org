@@ -1648,7 +1648,7 @@ Keep track of bookmarks
 (use-package deadgrep
   :ensure t
   :general
-  (:prefix search-prefix "g" 'deadgrep)
+  (:prefix search-prefix "G" 'deadgrep)
   (:keymaps 'deadgrep-mode-map "C-c '" 'deadgrep-edit-mode))
 #+end_src
 
@@ -4562,9 +4562,12 @@ Packages that I am currently testing or evaluating.
 (use-package consult
   :ensure t
   :commands (consult-preview-mode)
+  :custom
+  (consult--fd-cmd '("fd" "--color=never" "--full-path"))
   :general
   ("M-y" 'consult-yank-pop
    "C-c r" 'consult-recent-file)
+  (:prefix search-prefix "g" 'consult-ripgrep)
   :config
   (consult-preview-mode 1))
 (use-package consult-selectrum :ensure t :demand t)

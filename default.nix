@@ -1,4 +1,5 @@
-{ version ? "dev", lib, stdenv, trivialBuild, emacs-all-the-icons-fonts }:
+{ version ? "dev", lib, stdenv, trivialBuild, emacs-all-the-icons-fonts, ripgrep
+}:
 
 let
   src = let filter = name: type: type != "symlink";
@@ -48,7 +49,7 @@ in stdenv.mkDerivation {
   inherit src version;
   dontUnpack = true;
 
-  buildInputs = [ emacs-all-the-icons-fonts ];
+  buildInputs = [ emacs-all-the-icons-fonts ripgrep ];
 
   installPhase = ''
     install -D -t $out ${init}/share/emacs/site-lisp/*
