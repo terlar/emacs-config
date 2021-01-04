@@ -24,7 +24,7 @@
             config = ./init.org;
             package = final.emacsPgtk;
 
-            extraEmacsPackages = epkgs: [ epkgs.mini-frame ];
+            extraEmacsPackages = epkgs: [ epkgs.org-plus-contrib ];
 
             inherit override;
           };

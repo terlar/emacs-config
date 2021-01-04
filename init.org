@@ -1437,6 +1437,7 @@ Revert buffers when underlying files change.
 *** eldoc
 #+begin_src emacs-lisp :tangle yes
 (use-package eldoc
+  :defer 2
   :config
   (global-eldoc-mode 1))
 #+end_src
@@ -2921,7 +2922,6 @@ Improve readability of escape characters in regular expressions.
 ** org
 #+begin_src emacs-lisp :tangle yes
 (use-package org
-  :ensure t
   :defer 5
   :hook
   (org-mode . auto-fill-mode)
@@ -2990,6 +2990,25 @@ Paste links from clipboard and automatically fetch title.
    "l" 'org-cliplink))
 #+end_src
 
+**** org-eldoc
+Eldoc support, showing path to current section.
+#+begin_src emacs-lisp :tangle yes
+(use-package org-eldoc
+  :after eldoc
+  :preface
+  (defun init-org-eldoc ()
+    "Initialize `org-eldoc'."
+    (org-eldoc-load)
+    (eldoc-mode 1))
+  :hook
+  (org-mode . init-org-eldoc)
+  :config
+  (defun +org-eldoc-get-breadcrumb-no-properties (string)
+    "Remove properties from STRING."
+    (when string (substring-no-properties string)))
+  (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties))
+#+end_src
+
 **** org-noter
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
@@ -3037,10 +3056,7 @@ Presentation mode.
 
 **** ob-http
 #+begin_src emacs-lisp :tangle yes
-(use-package ob-http
-  :ensure t
-  :init
-  (cl-pushnew '(http . t) org-babel-load-languages :test #'equal))
+(use-package ob-http :ensure t)
 #+end_src
 
 *** Appearance
@@ -3135,15 +3151,6 @@ Use symbols to represent task state.
                     ("CANCELLED" . "✘")))
     (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
 (add-hook 'org-mode-hook #'init-org-prettify-task-symbols)
-#+end_src
-
-**** Breadcrumbs
-Remove style from heading breadcrumbs.
-#+begin_src emacs-lisp :tangle yes
-(defun +org-eldoc-get-breadcrumb-no-properties (string)
-  "Remove properties from STRING."
-  (when string (substring-no-properties string)))
-(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 #+end_src
 
 **** Tables
