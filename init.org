@@ -4624,7 +4624,16 @@ Packages that I am currently testing or evaluating.
 
 ** marginalia
 #+begin_src emacs-lisp :tangle yes
-(use-package marginalia :ensure t)
+(use-package marginalia
+  :ensure t
+  :defer 2
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :config
+  (advice-add #'marginalia-cycle :after
+              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
+
+  (marginalia-mode 1))
 #+end_src
 
 ** messages-are-flowing
