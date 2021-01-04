@@ -196,7 +196,7 @@ For example links."
    `(success ((t (:foreground nil))))
    `(warning ((t (:inherit readable-mono-theme-emphasis))))
    `(error ((t (:inherit readable-mono-theme-critical))))
-   `(font-lock-comment-face ((t (:inherit readable-mono-theme-subordinate :italic t))))
+   `(font-lock-comment-face ((t (:italic t))))
    `(font-lock-function-name-face ((t (:foreground nil))))
    `(font-lock-variable-name-face ((t (:foreground nil))))
    `(font-lock-constant-face ((t (:foreground nil))))
@@ -222,6 +222,7 @@ For example links."
    `(custom-variable-tag ((t (:inherit readable-mono-theme-strong))))
 
 ;;;;; Search and highlight
+   `(completions-annotations ((t (:inherit italic))))
    `(completions-common-part ((t (:inherit readable-mono-theme-strong))))
    `(completions-first-difference ((t (:inherit readable-mono-theme-emphasis))))
    `(highlight ((t (:inverse-video t))))
