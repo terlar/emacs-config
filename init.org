@@ -120,7 +120,9 @@ Use generated package autoloads.
 (eval-and-compile
   (defun use-package-ensure-ignore (&rest _args) t)
   (setq use-package-ensure-function #'use-package-ensure-ignore)
-  (setq use-package-always-defer t))
+
+  (setq use-package-always-defer t)
+  (setq use-package-hook-name-suffix nil))
 
 (if init-file-debug
     (setq use-package-verbose t
@@ -146,7 +148,8 @@ Help keeping user Emacs directory clean.
 #+begin_src emacs-lisp :tangle yes
 (use-package gcmh
   :ensure t
-  :hook (after-init . gcmh-mode)
+  :hook
+  (after-init-hook . gcmh-mode)
   :custom
   (gcmh-idle-delay 5)
   (gcmh-high-cons-threshold (* 16 1024 1024)) ; 16MB
@@ -167,8 +170,10 @@ Help keeping user Emacs directory clean.
 #+begin_src emacs-lisp :tangle yes
 (use-package exec-path-from-shell
   :ensure t
-  :hook (after-init . exec-path-from-shell-initialize)
-  :custom (exec-path-from-shell-check-startup-files nil))
+  :hook
+  (after-init-hook . exec-path-from-shell-initialize)
+  :custom
+  (exec-path-from-shell-check-startup-files nil))
 #+end_src
 
 *** server
@@ -181,8 +186,8 @@ Help keeping user Emacs directory clean.
     (with-selected-frame frame
       (unless (server-running-p)
         (server-start))))
-  :init
-  (add-hook 'after-make-frame-functions #'server-ensure-running))
+  :hook
+  (after-make-frame-functions . server-ensure-running))
 #+end_src
 
 *** savehist
@@ -828,7 +833,7 @@ Add window dividers, mainly to add a border below the mode line.
 #+begin_src emacs-lisp :tangle yes
 (use-package frame
   :hook
-  (server-after-make-frame . window-divider-mode)
+  (server-after-make-frame-hook . window-divider-mode)
   :custom
   (window-divider-default-places t)
   (window-divider-default-bottom-width 1)
@@ -1015,7 +1020,7 @@ Undo/redo between window layouts.
 #+begin_src emacs-lisp :tangle yes
 (use-package winner
   :hook
-  (window-setup . winner-mode)
+  (window-setup-hook . winner-mode)
   :custom
   (winner-dont-bind-my-keys t)
   :general
@@ -1133,8 +1138,8 @@ Buttonize URLs and e-mail addresses in the current buffer.
 #+begin_src emacs-lisp :tangle yes
 (use-package goto-addr
   :hook
-  (text-mode . goto-address-mode)
-  (prog-mode . goto-address-prog-mode))
+  (text-mode-hook . goto-address-mode)
+  (prog-mode-hook . goto-address-prog-mode))
 #+end_src
 
 *** grugru
@@ -1172,7 +1177,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
 (use-package smartparens
   :ensure t
   :hook
-  (eval-expression-minibuffer-setup . smartparens-strict-mode)
+  (eval-expression-minibuffer-setup-hook . smartparens-strict-mode)
   :commands
   (smartparens-global-strict-mode
    show-smartparens-global-mode)
@@ -1257,7 +1262,7 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 (use-package whole-line-or-region
   :ensure t
   :hook
-  (after-init . whole-line-or-region-global-mode))
+  (after-init-hook . whole-line-or-region-global-mode))
 #+end_src
 
 *** yasnippet
@@ -1287,21 +1292,21 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 (use-package yasnippet-snippets
   :ensure t
   :hook
-  (yas-minor-mode . yasnippet-snippets-initialize))
+  (yas-minor-mode-hook . yasnippet-snippets-initialize))
 #+end_src
 
 *** yatemplate
 #+begin_src emacs-lisp :tangle yes
 (use-package autoinsert
   :hook
-  (after-init . auto-insert-mode)
+  (after-init-hook . auto-insert-mode)
   :custom
   (auto-insert-query nil))
 
 (use-package yatemplate
   :ensure t
   :hook
-  (auto-insert-mode . yatemplate-fill-alist))
+  (auto-insert-mode-hook . yatemplate-fill-alist))
 #+end_src
 
 ** Appearance
@@ -1346,7 +1351,7 @@ Remove visual indicators from non-selected windows
 #+begin_src emacs-lisp :tangle yes
 (use-package files
   :hook
-  (after-init . auto-save-visited-mode)
+  (after-init-hook . auto-save-visited-mode)
   :custom
   (auto-save-no-message t)
   (save-abbrevs 'silently))
@@ -1452,20 +1457,20 @@ Display colors inline.
   :minor
   "-theme\\.el\\'"
   :hook
-  help-mode)
+  (help-mode-hook . rainbow-mode))
 #+end_src
 
 *** readable
 #+begin_src emacs-lisp :tangle yes
 (use-package readable
   :hook
-  ((eww-mode
-    Info-mode
-    markdown-mode
-    nov-mode
-    org-mode
-    outline-mode
-    rst-mode) . readable-mode))
+  ((eww-mode-hook
+    Info-mode-hook
+    markdown-mode-hook
+    nov-mode-hook
+    org-mode-hook
+    outline-mode-hook
+    rst-mode-hook) . readable-mode))
 #+end_src
 
 *** relative-buffers
@@ -1473,7 +1478,7 @@ Display colors inline.
 (use-package relative-buffers
   :ensure t
   :hook
-  (after-init . global-relative-buffers-mode)
+  (after-init-hook . global-relative-buffers-mode)
   :custom
   (relative-buffers-project-prefix t))
 #+end_src
@@ -1499,9 +1504,9 @@ mark ring.
 #+begin_src emacs-lisp :tangle yes
 (use-package dired
   :hook
-  (dired-mode . auto-revert-mode)
-  (dired-mode . hl-line-mode)
-  (dired-mode . dired-hide-details-mode)
+  (dired-mode-hook . auto-revert-mode)
+  (dired-mode-hook . hl-line-mode)
+  (dired-mode-hook . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-al --group-directories-first")
   ;; Always copy/delete recursively
@@ -1532,10 +1537,10 @@ mark ring.
 (use-package dired-sidebar
   :ensure t
   :hook
-  (dired-sidebar-mode . hide-mode-line-mode)
-  (dired-sidebar-mode . hl-line-mode)
-  (dired-sidebar-mode . variable-pitch-mode)
-  (dired-sidebar-mode . init-dired-sidebar)
+  (dired-sidebar-mode-hook . hide-mode-line-mode)
+  (dired-sidebar-mode-hook . hl-line-mode)
+  (dired-sidebar-mode-hook . variable-pitch-mode)
+  (dired-sidebar-mode-hook . init-dired-sidebar)
   :general
   (:prefix
    leader-key
@@ -1562,7 +1567,7 @@ Striped dired buffers.
 (use-package stripe-buffer
   :ensure t
   :hook
-  (dired-mode . stripe-buffer-mode))
+  (dired-mode-hook . stripe-buffer-mode))
 #+end_src
 
 *** Icons
@@ -1570,7 +1575,7 @@ Striped dired buffers.
 (use-package all-the-icons-dired
   :ensure t
   :hook
-  (dired-mode . all-the-icons-dired-mode))
+  (dired-mode-hook . all-the-icons-dired-mode))
 #+end_src
 
 *** Git
@@ -1847,7 +1852,7 @@ No completion with tab.
   (company-show-numbers t)
   (company-tooltip-align-annotations t)
   :hook
-  (prog-mode . company-mode)
+  (prog-mode-hook . company-mode)
   :general
   (:keymaps
    'company-mode-map
@@ -1903,8 +1908,8 @@ Incremental selection narrowing interface for completions.
 (use-package selectrum
   :ensure t
   :hook
-  (after-init . selectrum-mode)
-  (selectrum-mode . selectrum-define-keys)
+  (after-init-hook . selectrum-mode)
+  (selectrum-mode-hook . selectrum-define-keys)
   :custom
   (selectrum-extend-current-candidate-highlight t)
   (selectrum-show-indices t)
@@ -2040,12 +2045,15 @@ Kill compilation process before stating another and save all buffers on ~compile
 
 *** ANSI escape
 #+begin_src emacs-lisp :tangle yes
-(require 'ansi-color)
-(defun +colorize-compilation ()
-  "Colorize from `compilation-filter-start' to `point'."
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region compilation-filter-start (point))))
-(add-hook 'compilation-filter-hook #'+colorize-compilation)
+(use-package ansi-color
+  :preface
+  (autoload #'ansi-color-apply-on-region "ansi-color")
+  (defun ansi-color-colorize-compilation ()
+    "Colorize from `compilation-filter-start' to `point'."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region compilation-filter-start (point))))
+  :hook
+  (compilation-filter-hook . ansi-color-colorize-compilation))
 #+end_src
 
 ** Containers
@@ -2090,7 +2098,7 @@ Support for Docker related files.
 (use-package coverlay
   :ensure t
   :hook
-  (coverlay-minor-mode . init-coverlay)
+  (coverlay-minor-mode-hook . init-coverlay)
   :custom
   (coverlay:mark-tested-lines nil)
   :general
@@ -2145,7 +2153,7 @@ Lookup documentation via DevDocs.
 (use-package quickrun
   :ensure t
   :hook
-  (quickrun--mode . display-ctrl-M-as-newline)
+  (quickrun--mode-hook . display-ctrl-M-as-newline)
   :general
   (:prefix
    local-leader-key
@@ -2157,7 +2165,8 @@ Lookup documentation via DevDocs.
 Code folding.
 #+begin_src emacs-lisp :tangle yes
 (use-package hideshow
-  :hook (prog-mode . hs-minor-mode)
+  :hook
+  (prog-mode-hook . hs-minor-mode)
   :custom
   (hs-hide-comments-when-hiding-all nil)
   :general
@@ -2244,12 +2253,11 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package dumb-jump
   :ensure t
-  :commands (dumb-jump-xref-activate)
   :custom
   (dumb-jump-default-project user-emacs-directory)
   (dumb-jump-selector 'completing-read)
-  :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+  :hook
+  (xref-backend-functions . dumb-jump-xref-activate))
 #+end_src
 
 ** Refactor
@@ -2360,7 +2368,7 @@ Haskell one).
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake
   :hook
-  (flymake-mode . flymake-setup-next-error-function)
+  (flymake-mode-hook . flymake-setup-next-error-function)
   :custom
   (help-at-pt-timer-delay 0.1)
   (help-at-pt-display-when-idle '(flymake-diagnostic))
@@ -2413,7 +2421,7 @@ Haskell one).
 (use-package flymake-diagnostic-at-point
   :ensure t
   :hook
-  (flymake-mode . flymake-diagnostic-at-point-mode)
+  (flymake-mode-hook . flymake-diagnostic-at-point-mode)
   :preface
   (defun flymake-diagnostic-at-point-quick-peek (text)
     "Display the flymake diagnostic TEXT with `quick-peek'`."
@@ -2461,8 +2469,8 @@ Open link to files in the web UI connected to a repository.
 #+begin_src emacs-lisp :tangle yes
 (use-package ediff
   :hook
-  (ediff-quit . winner-undo)
-  (ediff-keymap-setup . init-ediff-keys)
+  (ediff-quit-hook . winner-undo)
+  (ediff-keymap-setup-hook . init-ediff-keys)
   :custom
   (ediff-diff-options "-w")
   (ediff-merge-split-window-function #'split-window-horizontally)
@@ -2496,8 +2504,8 @@ Diff indicators in fringe
   :custom
   (diff-hl-ask-before-revert-hunk nil)
   :hook
-  (dired-mode         . diff-hl-dired-mode)
-  (magit-post-refresh . diff-hl-magit-post-refresh)
+  (dired-mode-hook . diff-hl-dired-mode)
+  (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   :general
   (:keymaps
    'diff-hl-mode-map
@@ -2524,7 +2532,7 @@ Enhanced git related views and commands.
   :ensure t
   :defer 2
   :hook
-  (git-commit-mode . +git-commit-set-fill-column)
+  (git-commit-mode-hook . +git-commit-set-fill-column)
   :custom
   (magit-log-buffer-file-locked t)
   (magit-refs-show-commit-count 'all)
@@ -2603,12 +2611,12 @@ Generic Language Server Protocol integration via ~eglot~.
   :ensure t
   :defer 3
   :hook
-  ((haskell-mode
-    java-mode
-    ruby-mode
-    rustic-mode
-    typescript-mode) . eglot-ensure)
-  (js-mode . +eglot-ensure-unless-json-mode)
+  ((haskell-mode-hook
+    java-mode-hook
+    ruby-mode-hook
+    rustic-mode-hook
+    typescript-mode-hook) . eglot-ensure)
+  (js-mode-hook . +eglot-ensure-unless-json-mode)
   :preface
   (defun +eglot-ensure-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (eglot-ensure)))
@@ -2656,7 +2664,7 @@ Highlight *TODO* inside comments and strings.
 (use-package hl-todo
   :ensure t
   :hook
-  (prog-mode . hl-todo-mode)
+  (prog-mode-hook . hl-todo-mode)
   :general
   (:prefix next-prefix "t" '(hl-todo-next :wk "Todo"))
   (:prefix prev-prefix "t" '(hl-todo-previous :wk "Todo"))
@@ -2669,7 +2677,8 @@ Highlight symbol at point on idle.
 #+begin_src emacs-lisp :tangle yes
 (use-package idle-highlight-mode
   :ensure t
-  :hook prog-mode)
+  :hook
+  (prog-mode-hook . idle-highlight-mode))
 #+end_src
 
 *** imenu-anywhere
@@ -2734,11 +2743,11 @@ Visually separate delimiter pairs.
   :custom
   (rainbow-delimiters-max-face-count 3)
   :hook
-  ((clojure-mode
-    emacs-lisp-mode
-    ielm-mode
-    lisp-mode
-    racket-mode) . rainbow-delimiters-mode))
+  ((clojure-mode-hook
+    emacs-lisp-mode-hook
+    ielm-mode-hook
+    lisp-mode-hook
+    racket-mode-hook) . rainbow-delimiters-mode))
 #+end_src
 
 *** Highlight identifiers
@@ -2756,7 +2765,8 @@ Highlight source code identifiers based on their name.
 #+begin_src emacs-lisp :tangle yes
 (use-package ligature
   :ensure t
-  :hook (prog-mode . ligature-mode)
+  :hook
+  (prog-mode-hook . ligature-mode)
   :config
   (ligature-set-ligatures
    'prog-mode
@@ -2840,8 +2850,8 @@ Auto-compile Elisp files.
 (use-package auto-compile
   :ensure t
   :hook
-  (emacs-lisp-mode . auto-compile-on-load-mode)
-  (emacs-lisp-mode . auto-compile-on-save-mode)
+  (emacs-lisp-mode-hook . auto-compile-on-load-mode)
+  (emacs-lisp-mode-hook . auto-compile-on-save-mode)
   :custom
   (auto-compile-display-buffer nil)
   (auto-compile-use-mode-line nil))
@@ -2853,7 +2863,7 @@ Evaluation results in overlay.
 (use-package eros
   :ensure t
   :hook
-  (emacs-lisp-mode . eros-mode))
+  (emacs-lisp-mode-hook . eros-mode))
 #+end_src
 
 **** highlight-quoted
@@ -2861,7 +2871,7 @@ Evaluation results in overlay.
 (use-package highlight-quoted
   :ensure t
   :hook
-  (emacs-lisp-mode . highlight-quoted-mode))
+  (emacs-lisp-mode-hook . highlight-quoted-mode))
 #+end_src
 
 **** package-lint-flymake
@@ -2869,7 +2879,7 @@ Evaluation results in overlay.
 (use-package package-lint-flymake
   :ensure t
   :hook
-  (emacs-lisp-mode . package-lint-flymake-setup-when-package)
+  (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package)
   :commands (package-lint-flymake-setup)
   :preface
   (defun package-lint-flymake-setup-when-package ()
@@ -2909,14 +2919,14 @@ Improve readability of escape characters in regular expressions.
 (use-package easy-escape
   :ensure t
   :hook
-  (emacs-lisp-mode . easy-escape-minor-mode))
+  (emacs-lisp-mode-hook . easy-escape-minor-mode))
 #+end_src
 
 ** erc
 #+begin_src emacs-lisp :tangle yes
 (use-package erc
   :hook
-  (erc-mode . init-erc-parens)
+  (erc-mode-hook . init-erc-parens)
   :custom
   (erc-hide-list '("JOIN" "PART" "QUIT"))
   (erc-prompt-for-password nil)
@@ -2932,7 +2942,7 @@ Improve readability of escape characters in regular expressions.
 (use-package org
   :defer 5
   :hook
-  (org-mode . auto-fill-mode)
+  (org-mode-hook . auto-fill-mode)
   :custom
   (org-agenda-files '("~/org/Personal.org" "~/org/Work.org"))
   (org-confirm-babel-evaluate nil)
@@ -3009,7 +3019,7 @@ Eldoc support, showing path to current section.
     (org-eldoc-load)
     (eldoc-mode 1))
   :hook
-  (org-mode . init-org-eldoc)
+  (org-mode-hook . init-org-eldoc)
   :config
   (defun +org-eldoc-get-breadcrumb-no-properties (string)
     "Remove properties from STRING."
@@ -3035,7 +3045,7 @@ Support for radiobuttons.
 (use-package org-radiobutton
   :ensure t
   :hook
-  (org-mode . org-radiobutton-mode))
+  (org-mode-hook . org-radiobutton-mode))
 #+end_src
 
 **** org-tree-slide
@@ -3044,10 +3054,10 @@ Presentation mode.
 (use-package org-tree-slide
   :ensure t
   :hook
-  (org-tree-slide-play . turn-on-hide-mode-line-mode)
-  (org-tree-slide-stop . turn-off-hide-mode-line-mode)
-  (org-tree-slide-play . no-fringes)
-  (org-tree-slide-stop . restore-fringes)
+  (org-tree-slide-play-hook . turn-on-hide-mode-line-mode)
+  (org-tree-slide-stop-hook . turn-off-hide-mode-line-mode)
+  (org-tree-slide-play-hook . no-fringes)
+  (org-tree-slide-stop-hook . restore-fringes)
   :custom
   (org-tree-slide-header nil)
   (org-tree-slide-slide-in-effect nil)
@@ -3073,8 +3083,8 @@ This sections makes ~org-mode~ look more beautiful and appealing.
 #+begin_src emacs-lisp :tangle yes
 (use-package org
   :hook
-  (org-babel-after-execute . org-redisplay-inline-images)
-  (org-mode . init-org-prettify-syntax)
+  (org-mode-hook . init-org-prettify-syntax)
+  (org-babel-after-execute-hook . org-redisplay-inline-images)
   :custom
   (org-fontify-quote-and-verse-blocks t)
   (org-hide-emphasis-markers t)
@@ -3118,7 +3128,8 @@ Use variable-pitch font but still make sure everything aligns.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-variable-pitch
   :ensure t
-  :hook (org-mode . org-variable-pitch-minor-mode)
+  :hook
+  (org-mode-hook . org-variable-pitch-minor-mode)
   :custom
   (org-variable-pitch-fontify-headline-prefix t))
 #+end_src
@@ -3166,7 +3177,7 @@ Use symbols to represent task state.
 (use-package valign
   :ensure t
   :hook
-  (org-mode . valign-mode)
+  (org-mode-hook . valign-mode)
   :custom
   (valign-fancy-bar t))
 #+end_src
@@ -3222,7 +3233,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :after outline
   :hook
-  (outline-minor-mode . outline-minor-faces-add-font-lock-keywords))
+  (outline-minor-mode-hook . outline-minor-faces-add-font-lock-keywords))
 #+end_src
 
 ** clojure
@@ -3242,7 +3253,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package cider
   :ensure t
   :hook
-  (cider-mode . cider-auto-test-mode)
+  (cider-mode-hook . cider-auto-test-mode)
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-display-help-banner nil)
@@ -3278,7 +3289,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package inf-crystal
   :ensure t
   :hook
-  (crystal-mode . inf-crystal-minor-mode)
+  (crystal-mode-hook . inf-crystal-minor-mode)
   :general
   (:keymaps
    'crystal-mode-map
@@ -3320,7 +3331,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package alchemist
   :ensure t
   :hook
-  (elixir-mode . alchemist-mode)
+  (elixir-mode-hook . alchemist-mode)
   :general
   (:keymaps
    'alchemist-mode-map
@@ -3361,8 +3372,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode
   ("\\.epub\\'" . nov-mode)
   :hook
-  (nov-mode . init-nov-delayed-render)
-  (nov-mode . no-fringes)
+  (nov-mode-hook . init-nov-delayed-render)
+  (nov-mode-hook . no-fringes)
   :custom
   (nov-save-place-file (concat data-dir "nov-places"))
   :preface
@@ -3383,8 +3394,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.yrl"
   "/ebin/.+\\.app"
   :hook
-  (erlang-mode . init-erlang-eunit)
-  (erlang-mode . init-erlang-flymake)
+  (erlang-mode-hook . init-erlang-eunit)
+  (erlang-mode-hook . init-erlang-flymake)
   :general
   (:keymaps
    'erlang-mode-map
@@ -3437,7 +3448,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package go-eldoc
   :ensure t
   :hook
-  (go-mode . go-eldoc-setup))
+  (go-mode-hook . go-eldoc-setup))
 #+end_src
 
 **** gorepl-mode
@@ -3445,7 +3456,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package gorepl-mode
   :ensure t
   :hook
-  (go-mode . gorepl-mode))
+  (go-mode-hook . gorepl-mode))
 #+end_src
 
 ** groovy
@@ -3477,7 +3488,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.cabal\\'\\|/cabal\\.project\\|/\\.cabal/config\\'" . haskell-cabal-mode)
   ("\\.l[gh]s\\'" . haskell-literate-mode)
   :hook
-  (haskell-mode . interactive-haskell-mode)
+  (haskell-mode-hook . interactive-haskell-mode)
   :custom
   (haskell-font-lock-symbols t)
   (haskell-process-auto-import-loaded-modules t)
@@ -3505,7 +3516,7 @@ Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package haskell-mode
   :hook
-  (haskell-interactive-mode . +haskell-interactive-load-history)
+  (haskell-interactive-mode-hook . +haskell-interactive-load-history)
   :defines (haskell-interactive-mode-history)
   :preface
   (defvar +haskell-interactive-global-history nil)
@@ -3542,7 +3553,7 @@ Persist REPL history.
 (use-package gradle-mode
   :ensure t
   :hook
-  ((java-mode kotlin-mode) . gradle-mode)
+  ((java-mode-hook kotlin-mode-hook) . gradle-mode)
   :general
   (:keymaps
    'gradle-mode-map
@@ -3568,7 +3579,7 @@ Persist REPL history.
   ("\\.js[mx]?\\'" . javascript-mode)
   ("\\.har\\'" . javascript-mode)
   :hook
-  (js-mode . init-js-find-file)
+  (js-mode-hook . init-js-find-file)
   :preface
   (defun init-js-find-file ()
     "Setup `ff-test-find-other-file' support for `js-mode'."
@@ -3593,7 +3604,7 @@ Debugger
 (use-package indium
   :ensure t
   :hook
-  (js-mode . +indium-interaction-unless-json-mode)
+  (js-mode-hook . +indium-interaction-unless-json-mode)
   :commands
   (indium-interaction-mode)
   :preface
@@ -3631,7 +3642,7 @@ Test framework execution.
 (use-package js2-mode
   :ensure t
   :hook
-  (js-mode . js2-minor-mode)
+  (js-mode-hook . js2-minor-mode)
   :custom
   (js2-highlight-external-variables nil)
   (js2-mode-show-parse-errors nil)
@@ -3658,7 +3669,7 @@ REPL for nodejs.
     (add-hook 'flymake-diagnostic-functions #'flymake-check-jsonlint nil t)
     (flymake-mode))
   :hook
-  (json-mode . init-json-mode-flymake))
+  (json-mode-hook . init-json-mode-flymake))
 #+end_src
 
 *** Syntax checker
@@ -3704,7 +3715,7 @@ REPL for nodejs.
 (use-package slime
   :ensure t
   :hook
-  (lisp-mode . slime-mode)
+  (lisp-mode-hook . slime-mode)
   :custom
   (inferior-lisp-program "sbcl")
   (slime-contribs '(slime-fancy slime-repl))
@@ -3749,7 +3760,7 @@ REPL for nodejs.
   "\\.markdown\\'"
   "\\.md\\'"
   :hook
-  (markdown-mode . auto-fill-mode)
+  (markdown-mode-hook . auto-fill-mode)
   :custom
   (markdown-enable-wiki-links t)
   (markdown-fontify-code-blocks-natively t)
@@ -3948,14 +3959,14 @@ Pretty check-boxes
 (use-package flymake-racket
   :ensure t
   :hook
-  (racket-mode . flymake-racket-add-hook))
+  (racket-mode-hook . flymake-racket-add-hook))
 #+end_src
 
 ** rst
 #+begin_src emacs-lisp :tangle yes
 (use-package rst
   :hook
-  (rst-mode . auto-fill-mode)
+  (rst-mode-hook . auto-fill-mode)
   :preface
   (defvar rst-adornment-regexp nil
     "Regular expression to match adornments.")
@@ -3999,7 +4010,7 @@ Pretty check-boxes as well as bullet lists.
 #+begin_src emacs-lisp :tangle yes
 (use-package ruby-mode
   :hook
-  (ruby-mode . init-ruby-find-file)
+  (ruby-mode-hook . init-ruby-find-file)
   :custom
   (ruby-align-chained-calls t)
   :preface
@@ -4057,7 +4068,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package inf-ruby
   :ensure t
   :hook
-  (ruby-mode . inf-ruby-minor-mode)
+  (ruby-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
   (compilation-filter . inf-ruby-auto-enter)
   :custom
@@ -4074,7 +4085,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package minitest
   :ensure t
   :hook
-  (ruby-mode . minitest-enable-appropriate-mode))
+  (ruby-mode-hook . minitest-enable-appropriate-mode))
 #+end_src
 
 **** rake
@@ -4091,7 +4102,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package rspec-mode
   :ensure t
   :hook
-  (ruby-mode . rspec-enable-appropriate-mode)
+  (ruby-mode-hook . rspec-enable-appropriate-mode)
   :custom
   (rspec-use-relative-path t)
   (rspec-use-opts-file-when-available nil)
@@ -4103,14 +4114,15 @@ Pretty check-boxes as well as bullet lists.
 (use-package ruby-refactor
   :ensure t
   :hook
-  (ruby-mode . ruby-refactor-mode))
+  (ruby-mode-hook . ruby-refactor-mode))
 #+end_src
 
 **** yard-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package yard-mode
   :ensure t
-  :hook ruby-mode)
+  :hook
+  (ruby-mode-hook . yard-mode))
 #+end_src
 
 **** yari
@@ -4153,7 +4165,7 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :mode "\\.\\(scala\\|sbt\\)\\'"
   :hook
-  (scala-mode . init-scala-prettify-symbols)
+  (scala-mode-hook . init-scala-prettify-symbols)
   :custom
   (scala-indent:align-parameters t)
   :preface
@@ -4187,8 +4199,8 @@ Pretty check-boxes as well as bullet lists.
 (use-package flymake-shellcheck
   :ensure t
   :hook
-  (sh-mode . flymake-mode)
-  (sh-mode . flymake-shellcheck-load))
+  (sh-mode-hook . flymake-mode)
+  (sh-mode-hook . flymake-shellcheck-load))
 #+end_src
 
 ** sql
@@ -4204,7 +4216,7 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :mode "\\.ts$"
   :hook
-  (typescript-mode . init-typescript-find-file)
+  (typescript-mode-hook . init-typescript-find-file)
   :general
   (:keymaps
    'typescript-mode-map
@@ -4273,7 +4285,7 @@ Display current path for HTML/XML/CSS.
 (use-package yaml-mode
   :ensure t
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
-  :hook (yaml-mode . indent-guide-mode))
+  :hook (yaml-mode-hook . indent-guide-mode))
 #+end_src
 
 * Tools
@@ -4360,8 +4372,10 @@ it really useful.
 #+begin_src emacs-lisp :tangle yes
 (use-package flyspell
   :hook
-  ((message-mode org-mode text-mode) . flyspell-mode)
-  (prog-mode . flyspell-prog-mode)
+  ((message-mode-hook
+    org-mode-hook
+    text-mode-hook) . flyspell-mode)
+  (prog-mode-hook . flyspell-prog-mode)
   :custom
   (flyspell-persistent-highlight nil)
   :general
@@ -4400,9 +4414,9 @@ Make less work inside Emacs shells. But disable it as the default pager.
 #+begin_src emacs-lisp :tangle yes
 (use-package eshell
   :hook
-  (eshell-mode . abbrev-mode)
-  (eshell-mode . init-eshell-define-keys)
-  (eshell-mode . init-eshell-set-visual-commands)
+  (eshell-mode-hook . abbrev-mode)
+  (eshell-mode-hook . init-eshell-define-keys)
+  (eshell-mode-hook . init-eshell-set-visual-commands)
   :custom
   (eshell-buffer-maximum-lines 20000)
   (eshell-history-size 1000)
@@ -4479,7 +4493,7 @@ Command execution status indicator in the fringe.
 (use-package eshell-fringe-status
   :ensure t
   :hook
-  (eshell-mode . eshell-fringe-status-mode))
+  (eshell-mode-hook . eshell-fringe-status-mode))
 #+end_src
 
 ***** esh-autosuggest
@@ -4488,7 +4502,7 @@ Autosuggestions from history similar to fish.
 (use-package esh-autosuggest
   :ensure t
   :hook
-  (eshell-mode . esh-autosuggest-mode)
+  (eshell-mode-hook . esh-autosuggest-mode)
   :general
   (:keymaps
    'esh-autosuggest-active-map
@@ -4501,7 +4515,7 @@ Populate auto-completions from fish.
 (use-package fish-completion
   :ensure t
   :hook
-  (eshell-mode . fish-completion-mode))
+  (eshell-mode-hook . fish-completion-mode))
 #+end_src
 
 *** vterm
