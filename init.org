@@ -1,17 +1,15 @@
-#+TITLE: Emacs Configuration
+#+TITLE: GNU Emacs Configuration
 #+AUTHOR: Terje Larsen
 
-* Introduction
-terlar's Emacs Configuration. It is not very well documented right now, but hopefully I
+* Overview
+Terje's GNU Emacs configuration. It is not very well documented right now, but hopefully I
 will have time to write down some more details later.
 
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
-  - semantic highlighting :: [[https://github.com/ankurdave/color-identifiers-mode][color-identifiers-mode]], [[https://github.com/Fanael/rainbow-identifiers][rainbow-identifiers]] (fallback, with wider support)
 - menu completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
 - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]]
-- +modal editing (vi) :: [[https://github.com/emacs-evil/evil][evil]]+
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
@@ -22,15 +20,75 @@ The rough details:
 ** Screenshots
 *** org-mode
 #+CAPTION: org-mode
-[[file:media/tao-yang/org-mode.png]]
+
 
 *** markdown-mode
 #+CAPTION: markdown-mode
-[[file:media/tao-yang/markdown-mode.png]]
+
 
 *** emacs-lisp-mode
 #+CAPTION: emacs-lisp-mode
-[[file:media/tao-yang/emacs-lisp-mode.png]]
+
+* Early initialization
+** Startup
+Time the startup and display the startup time after completed.
+#+begin_src emacs-lisp :tangle early-init.el
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Loaded Emacs in %.03fs"
+                     (float-time (time-subtract after-init-time before-init-time)))))
+#+end_src
+
+Temporarily reduce garbage collection to gain some performance boost during startup.
+#+begin_src emacs-lisp :tangle early-init.el
+(let ((normal-gc-cons-threshold gc-cons-threshold)
+      (normal-gc-cons-percentage gc-cons-percentage)
+      (normal-file-name-handler-alist file-name-handler-alist)
+      (init-gc-cons-threshold most-positive-fixnum)
+      (init-gc-cons-percentage 0.6))
+  (setq gc-cons-threshold init-gc-cons-threshold
+        gc-cons-percentage init-gc-cons-percentage
+        file-name-handler-alist nil)
+  (add-hook 'after-init-hook
+            `(lambda ()
+               (setq gc-cons-threshold ,normal-gc-cons-threshold
+                     gc-cons-percentage ,normal-gc-cons-percentage
+                     file-name-handler-alist ',normal-file-name-handler-alist))))
+#+end_src
+
+Inhibit startup screen and messages. If you are new to GNU Emacs it is recommended to not
+disable the startup screen as it has great content to get you going.
+#+begin_src emacs-lisp :tangle early-init.el
+(setq inhibit-startup-echo-area-message t)
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+#+end_src
+
+Performance tweaks.  Don't load default library and use =fundamental-mode= to reduce amount
+of hooks.
+#+begin_src emacs-lisp :tangle early-init.el
+(setq inhibit-default-init t)
+(setq initial-major-mode 'fundamental-mode)
+#+end_src
+
+** UI
+Disable GUI components.
+#+begin_src emacs-lisp :tangle early-init.el
+(setq use-dialog-box nil)
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
+#+end_src
+
+Don't implicitly resize frames when changes various settings.
+#+begin_src emacs-lisp :tangle early-init.el
+(setq frame-inhibit-implied-resize t)
+#+end_src
+
+Ignore X resources.
+#+begin_src emacs-lisp :tangle early-init.el
+(advice-add #'x-apply-session-resources :override #'ignore)
+#+end_src
 
 * The beginning
 Every good file starts with a nice header and enable lexical scoping as per the
