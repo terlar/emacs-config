@@ -4524,6 +4524,7 @@ Fast terminal emulator utilizing =libvterm=.
 (use-package vterm
   :ensure t
   :custom
+  (vterm-max-scrollback 100000)
   (vterm-shell "fish")
   :general
   (:prefix
