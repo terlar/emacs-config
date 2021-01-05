@@ -883,8 +883,10 @@ Setup the right aligned mode line and helper functions to display it.
          (scale (if (floatp height) height 1.0)))
     (list
      (propertize
-      " " 'display `((space :align-to (- (+ right right-fringe right-margin)
-                                         ,(* (string-width formatted-line) scale)))))
+      " "
+      'display
+      `(space :align-to (- (+ right right-fringe right-margin)
+                           ,(* (string-width formatted-line) scale))))
      formatted-line)))
 #+end_src
 
@@ -2242,8 +2244,12 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package dumb-jump
   :ensure t
+  :commands (dumb-jump-xref-activate)
   :custom
-  (dumb-jump-default-project user-emacs-directory))
+  (dumb-jump-default-project user-emacs-directory)
+  (dumb-jump-selector 'completing-read)
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 #+end_src
 
 ** Refactor
