@@ -34,8 +34,6 @@ let
         -l package \
         --eval '(setq package-quickstart t)' \
         -f package-quickstart-refresh
-
-      substituteInPlace package-quickstart.el --replace ';; no-byte-compile: t' ';;'
     '';
   };
 

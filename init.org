@@ -175,6 +175,11 @@ Use generated package autoloads.
 (eval-when-compile
   (require 'use-package))
 
+;; FIXME: Synthetic theme for :custom variables. Required as `use-package' is only
+;; required during compile time.
+(deftheme use-package)
+(enable-theme 'use-package)
+
 (eval-and-compile
   (defun use-package-ensure-ignore (&rest _args) t)
   (setq use-package-ensure-function #'use-package-ensure-ignore)
