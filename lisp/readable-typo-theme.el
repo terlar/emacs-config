@@ -128,6 +128,12 @@
   :type 'string
   :group 'readable-typo-theme)
 
+;;;; Faces
+(defface readable-typo-theme-echo-area
+  nil
+  "Face used for information of strong importance."
+  :group 'readable-mono-theme)
+
 (let ((default-height readable-typo-theme-default-font-height)
       (default-weight readable-typo-theme-default-font-weight)
       (bold-weight readable-typo-theme-bold-font-weight)
@@ -153,6 +159,7 @@
    `(fixed-pitch-serif ((t (:family ,fixed-pitch-serif :weight ,default-weight))))
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
    `(bold ((t (:weight ,bold-weight))))
+   `(readable-typo-theme-echo-area ((t (:height ,small-height :family ,variable-pitch :weight ,default-weight))))
 
 ;;;;; Interface
    `(mode-line ((t (:family ,variable-pitch :height ,small-height))))

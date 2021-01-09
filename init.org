@@ -5,6 +5,11 @@
 Terje's GNU Emacs configuration. It is not very well documented right now, but hopefully I
 will have time to write down some more details later.
 
+This configuration is making a lot of assumptions as it is built as a package with
+Nix. This means that all packages are expected to be on the =load-path= already and
+compatibility is only guaranteed with the GNU Emacs version that is part of this
+package. Currently GNU Emacs 28.0.50.
+
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
@@ -30,6 +35,10 @@ The rough details:
 #+CAPTION: emacs-lisp-mode
 
 * Early initialization
+#+begin_src emacs-lisp :tangle early-init.el
+;;; early-init.el --- Early Initialization -*- lexical-binding: t; -*-
+#+end_src
+
 ** Startup
 Time the startup and display the startup time after completed.
 #+begin_src emacs-lisp :tangle early-init.el
@@ -56,7 +65,7 @@ Temporarily reduce garbage collection to gain some performance boost during star
                      file-name-handler-alist ',normal-file-name-handler-alist))))
 #+end_src
 
-Inhibit startup screen and messages. If you are new to GNU Emacs it is recommended to not
+Inhibit startup screen and messages. If you are new to Emacs it is recommended to not
 disable the startup screen as it has great content to get you going.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq inhibit-startup-echo-area-message t)
@@ -98,13 +107,9 @@ Ignore X resources.
 (advice-add #'x-apply-session-resources :override #'ignore)
 #+end_src
 
-* The beginning
-Every good file starts with a nice header and enable lexical scoping as per the
-recommendations of the [[https://github.com/bbatsov/emacs-lisp-style-guide#source-code-layout--organization][The Emacs Lisp Style Guide]].
+* Base settings
 #+begin_src emacs-lisp :tangle yes
-;;; init.el --- Emacs Initialization -*- lexical-binding: t; -*-
-
-;; URL: https://github.com/terlar/emacs-config
+;;; init.el --- Initialization -*- lexical-binding: t; -*-
 #+end_src
 
 ** Variables
@@ -138,26 +143,14 @@ Provide a location where Emacs can store data and cache.
     "Directory for pictures."))
 #+end_src
 
-** UX
-Disable bell (both visual and audible)
+** Package management
+Use generated package autoloads.
 #+begin_src emacs-lisp :tangle yes
-(setq ring-bell-function #'ignore
-      visible-bell nil)
+(defvar package-quickstart t)
 #+end_src
 
-Use =y= / =n= instead of =yes= / =no=
-#+begin_src emacs-lisp :tangle yes
-(setq confirm-kill-emacs #'y-or-n-p)
-(fset #'yes-or-no-p #'y-or-n-p)
-#+end_src
-
-** Custom file
-Put custom defs in a temporary file so it doesn't grow over time.
-#+begin_src emacs-lisp :tangle yes
-(setq custom-file (expand-file-name "custom.el" temporary-file-directory))
-#+end_src
-
-** Load path
+*** Load path
+Add local and private libraries to ~load-path~.
 #+begin_src emacs-lisp :tangle yes
 (eval-and-compile
   (setq load-path
@@ -166,16 +159,12 @@ Put custom defs in a temporary file so it doesn't grow over time.
                       (expand-file-name "private" user-emacs-directory)))))
 #+end_src
 
-** Shell
-Set shell to bash as fish is not compatible with all packages using the shell.
+*** Customization
+Put custom definitions in a temporary file so it doesn't grow over time. This means all
+customization will disappear upon reboot and instead needs to be managed via the
+initialization file.
 #+begin_src emacs-lisp :tangle yes
-(setq shell-file-name "bash")
-#+end_src
-
-** Package management
-Use generated package autoloads.
-#+begin_src emacs-lisp :tangle yes
-(defvar package-quickstart t)
+(setq custom-file (expand-file-name "custom.el" temporary-file-directory))
 #+end_src
 
 *** use-package
@@ -203,96 +192,28 @@ Use generated package autoloads.
         use-package-expand-minimally t))
 #+end_src
 
-** Packages
+*** auto-minor-mode
+Enable minor modes by buffer name and contents. It provides the ~use-package~ keyword
+~:minor~ and ~:magic-minor~ where you can specify these rules.
+#+begin_src emacs-lisp :tangle yes
+(use-package auto-minor-mode
+  :ensure t
+  :init
+  (eval-when-compile
+    (require 'auto-minor-mode)))
+#+end_src
+
 *** no-littering
-Help keeping user Emacs directory clean.
+Help keeping ~user-emacs-directory~ clean.
 #+begin_src emacs-lisp :tangle yes
 (use-package no-littering
   :ensure t
   :demand t
-  :custom
-  (no-littering-etc-directory data-dir)
-  (no-littering-var-directory cache-dir))
-#+end_src
-
-*** gcmh
-#+begin_src emacs-lisp :tangle yes
-(use-package gcmh
-  :ensure t
-  :hook
-  (after-init-hook . gcmh-mode)
-  :custom
-  (gcmh-idle-delay 5)
-  (gcmh-high-cons-threshold (* 16 1024 1024)) ; 16MB
-  (gcmh-verbose init-file-debug))
-#+end_src
-
-*** explain-pause-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package explain-pause-mode
-  :ensure t
-  :commands (explain-pause-mode)
   :init
-  (when init-file-debug
-    (explain-pause-mode 1)))
+  (setq no-littering-etc-directory data-dir)
+  (setq no-littering-var-directory cache-dir))
 #+end_src
 
-*** exec-path-from-shell
-#+begin_src emacs-lisp :tangle yes
-(use-package exec-path-from-shell
-  :ensure t
-  :hook
-  (after-init-hook . exec-path-from-shell-initialize)
-  :custom
-  (exec-path-from-shell-check-startup-files nil))
-#+end_src
-
-*** server
-#+begin_src emacs-lisp :tangle yes
-(use-package server
-  :commands (server-running-p)
-  :preface
-  (defun server-ensure-running (frame)
-    "Ensure server is running when launching FRAME."
-    (with-selected-frame frame
-      (unless (server-running-p)
-        (server-start))))
-  :hook
-  (after-make-frame-functions . server-ensure-running))
-#+end_src
-
-*** savehist
-Persist history.
-#+begin_src emacs-lisp :tangle yes
-(use-package savehist
-  :custom
-  (savehist-additional-variables
-   '(kill-ring
-     search-ring
-     regexp-search-ring))
-  (savehist-autosave-interval 60)
-  (savehist-save-minibuffer-history t)
-  :init
-  (savehist-mode 1))
-#+end_src
-
-** Libraries
-*** cl-lib
-#+begin_src emacs-lisp :tangle yes
-(require 'cl-lib)
-#+end_src
-
-*** async
-#+begin_src emacs-lisp :tangle yes
-(use-package async :ensure t)
-#+end_src
-
-*** flymake-quickdef
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-quickdef :ensure t :demand t)
-#+end_src
-
-* Base
 ** Performance
 No second pass of case-insensitive search over =auto-mode-alist=.
 #+begin_src emacs-lisp :tangle yes
@@ -317,8 +238,33 @@ Accelerate scrolling with the trade-off of sometimes delayed accurate fontificat
 (setq fast-but-imprecise-scrolling t)
 #+end_src
 
-*** Packages
-**** so-long
+*** gcmh
+Adjust Garbage Collector threshold depending on activity and try to run garbage collection
+during idle instead.
+#+begin_src emacs-lisp :tangle yes
+(use-package gcmh
+  :ensure t
+  :hook
+  (after-init-hook . gcmh-mode)
+  :init
+  (setq gcmh-idle-delay 5)
+  (setq gcmh-high-cons-threshold (* 16 1024 1024)) ; 16MB
+  (setq gcmh-verbose init-file-debug))
+#+end_src
+
+*** explain-pause-mode
+Track how much time is spent in each function and present a view to investigate this data.
+#+begin_src emacs-lisp :tangle yes
+(use-package explain-pause-mode
+  :ensure t
+  :commands
+  (explain-pause-mode)
+  :init
+  (when init-file-debug
+    (explain-pause-mode 1)))
+#+end_src
+
+*** so-long
 Improve performance for files with long lines, for example minified code.
 #+begin_src emacs-lisp :tangle yes
 (use-package so-long
@@ -327,100 +273,45 @@ Improve performance for files with long lines, for example minified code.
   (global-so-long-mode 1))
 #+end_src
 
-**** vlf
+*** vlf
 Large file support. This can view/edit/search and compare large files.
 #+begin_src emacs-lisp :tangle yes
 (use-package vlf :ensure t)
 #+end_src
 
-** Localization
-#+begin_src emacs-lisp :tangle yes
-(setq-default calendar-week-start-day 1)
-#+end_src
-
-** Packages
+** Libraries
 *** all-the-icons
-Support functions for displaying icons. I am trying to use icons where possible.
+Library for displaying icons. I am trying to use icons where possible.
 #+begin_src emacs-lisp :tangle yes
-(use-package all-the-icons :ensure t :demand t)
-#+end_src
-
-*** auto-minor-mode
-Enable minor modes by buffer name and contents. It provides the ~use-package~ keyword
-~:minor~ and ~:magic-minor~ where you can specify these rules.
-#+begin_src emacs-lisp :tangle yes
-(use-package auto-minor-mode :ensure t :demand t)
-#+end_src
-
-*** defrepeater
-Support defining repeating commands by repeating the last key.
-#+begin_src emacs-lisp :tangle yes
-(use-package defrepeater
+(use-package all-the-icons
   :ensure t
-  :commands (defrepeater))
+  :commands
+  (all-the-icons-faicon all-the-icons-octicon))
 #+end_src
 
-*** general
-More convenient key definitions. I provides the ~use-package~ keyword ~:general~.
+*** cl-lib
+Library providing functions inspired by Common Lisp. In many cases these functions feel
+more natural to use.
 #+begin_src emacs-lisp :tangle yes
-(use-package general
-  :ensure t
-  :demand t
-  :commands (general-define-key))
+(require 'cl-lib)
+#+end_src
+
+*** flymake-quickdef
+Library to quickly define backends for =flymake=.
+#+begin_src emacs-lisp :tangle yes
+(use-package flymake-quickdef :ensure t :commands (flymake-quickdef-backend))
 #+end_src
 
 *** hide-lines
+Library to hide lines based on a regular expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package hide-lines :ensure t)
-#+end_src
-
-*** minions
-#+begin_src emacs-lisp :tangle yes
-(use-package minions
-  :ensure t
-  :general
-  ([C-S-mouse-1] 'minions-minor-modes-menu))
 #+end_src
 
 *** quick-peek
 Library to display inline popups; used by ~source-peek~.
 #+begin_src emacs-lisp :tangle yes
 (use-package quick-peek :ensure t)
-#+end_src
-
-*** which-key
-Display available keybindings in a popup.
-#+begin_src emacs-lisp :tangle yes
-(use-package which-key
-  :ensure t
-  :defer 1
-  :commands
-  (which-key-mode
-   which-key-setup-side-window-bottom
-   which-key-key-order-alpha)
-  :custom
-  (which-key-sort-order #'which-key-key-order-alpha)
-  (which-key-sort-uppercase-first nil)
-  (which-key-add-column-padding 1)
-  (which-key-min-display-lines 5)
-  (which-key-idle-delay 1)
-  :config
-  (dolist (item '((("<\\([[:alnum:]-]+\\)>" . nil) . ("\\1" . nil))
-                  (("\\`\\?\\?\\'" . nil) . ("λ" . nil))
-                  (("<up>" . nil) . ("↑" . nil))
-                  (("<right>" . nil) . ("→" . nil))
-                  (("<down>" . nil) . ("↓" . nil))
-                  (("<left>" . nil) . ("←" . nil))
-                  (("SPC" . nil) . ("␣" . nil))
-                  (("TAB" . nil) . ("↹" . nil))
-                  (("RET" . nil) . ("⏎" . nil))
-                  (("DEL" . nil) . ("⌫" . nil))
-                  (("deletechar" . nil) . ("⌦" . nil))))
-    (cl-pushnew item which-key-replacement-alist :test #'equal))
-
-  (which-key-setup-side-window-bottom)
-
-  (which-key-mode 1))
 #+end_src
 
 ** Functions
@@ -517,12 +408,353 @@ Fringe control:
   (set-window-fringes (selected-window) 8 8 t))
 #+end_src
 
-** Warnings
+** History
+*** savehist
+Persist history.
 #+begin_src emacs-lisp :tangle yes
-(use-package warnings
-  :custom
-  (warning-suppress-types (unless init-file-debug
-                            '((comp) (emacs)))))
+(use-package savehist
+  :hook
+  (after-init-hook . savehist-mode)
+  :init
+  (setq savehist-additional-variables
+        '(kill-ring
+          search-ring
+          regexp-search-ring))
+  (setq savehist-autosave-interval 60)
+  (setq savehist-save-minibuffer-history t))
+#+end_src
+
+** Localization
+#+begin_src emacs-lisp :tangle yes
+(setq-default calendar-week-start-day 1)
+#+end_src
+
+** Shell
+Set shell to bash as fish is not compatible with all packages using the shell.
+#+begin_src emacs-lisp :tangle yes
+(setq shell-file-name "bash")
+#+end_src
+
+** UX
+Disable bell (both visual and audible).
+#+begin_src emacs-lisp :tangle yes
+(setq ring-bell-function #'ignore)
+(setq visible-bell nil)
+#+end_src
+
+Use =y= / =n= instead of =yes= / =no.=
+#+begin_src emacs-lisp :tangle yes
+(setq confirm-kill-emacs #'y-or-n-p)
+(fset #'yes-or-no-p #'y-or-n-p)
+#+end_src
+
+* Appearance
+** Typography
+*** Size
+#+begin_src emacs-lisp :tangle yes
+(defvar init-line-spacing 0.25
+  "Spacing between lines.")
+
+(defvar init-default-font-height 120
+  "Default font height.")
+#+end_src
+
+*** Face
+#+begin_src emacs-lisp :tangle yes
+(defvar init-fixed-pitch-font "Iosevka Slab"
+  "Font used for fixed-pitch faces.")
+
+(defvar init-variable-pitch-font "Noto Sans"
+  "Font used for variable-pitch faces.")
+
+(defvar init-serif-font "Noto Serif"
+  "Font used for serif faces.")
+
+(defvar init-unicode-font "Noto Sans Mono"
+  "Fallback font used for unicode glyphs.")
+
+(defvar init-symbol-fonts '("Noto Emoji" "Symbola")
+  "Fonts used for symbol/emoji faces.")
+#+end_src
+
+Setup symbol fonts.
+#+begin_src emacs-lisp :tangle yes
+(dolist (font init-symbol-fonts)
+  (set-fontset-font t 'symbol font nil 'append))
+#+end_src
+
+*** Line length
+#+begin_src emacs-lisp :tangle yes
+(setq-default fill-column 90)
+#+end_src
+
+*** Underline
+Underline line at descent position, not baseline position.
+#+begin_src emacs-lisp :tangle yes
+(setq x-underline-at-descent-line t)
+#+end_src
+
+** Theme
+Use a bar cursor by default.
+#+begin_src emacs-lisp :tangle yes
+(setq-default cursor-type 'bar)
+#+end_src
+
+*** Readable typography
+#+begin_src emacs-lisp :tangle yes
+(use-package readable-typo-theme
+  :demand t
+  :init
+  (setq readable-typo-theme-default-font-height init-default-font-height)
+  (setq readable-typo-theme-line-spacing init-line-spacing)
+  (setq readable-typo-theme-fixed-pitch-font init-fixed-pitch-font)
+  (setq readable-typo-theme-fixed-pitch-serif-font init-fixed-pitch-font)
+  (setq readable-typo-theme-variable-pitch-font init-variable-pitch-font)
+  (setq readable-typo-theme-serif-font init-serif-font)
+  :config
+  (load-theme 'readable-typo t))
+#+end_src
+
+*** Readable monochrome
+#+begin_src emacs-lisp :tangle yes
+(use-package readable-mono-theme
+  :demand t
+  :config
+  (load-theme 'readable-mono t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(defun toggle-theme-mode ()
+  "Toggle dark/light `background-mode' and reload all loaded themes."
+  (interactive)
+  (customize-set-variable
+   'frame-background-mode
+   (if (eq 'light (frame-parameter nil 'background-mode)) 'dark 'light))
+  (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
+#+end_src
+
+*** Echo area
+Adjust the font face used for the echo area.
+#+begin_src emacs-lisp :tangle yes
+(dolist (buffer-name '(" *Echo Area 0*"
+                       " *Echo Area 1*"))
+  (with-current-buffer (get-buffer-create buffer-name)
+    (setq-local face-remapping-alist
+                '((default readable-typo-theme-echo-area)))))
+#+end_src
+
+** Layout
+*** Frame
+See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and terminology.
+- Add some padding around the whole window (=internal-border-width=) to provide some air.
+- Remove GUI elements.
+- Make the title-bar transparent on macOS.
+#+begin_src emacs-lisp :tangle yes
+(setq default-frame-alist
+      '((undecorated . t)
+        (internal-border-width . 16)
+        (vertical-scroll-bars . nil)
+        (menu-bar-lines . 0)
+        (tool-bar-lines . 0)))
+
+(when (eq system-type 'darwin)
+  (setq frame-title-format nil)
+  (dolist (filter '((ns-transparent-titlebar . t)
+                    (ns-appearance . unbound)))
+    (cl-pushnew filter default-frame-alist :test #'equal)))
+#+end_src
+
+*** Fringe
+Setup fringes on both sides and display an indicator for buffer boundaries on the right
+side. Display fringes outside margins to have the [[Padding][padding]] on the inside.
+#+begin_src emacs-lisp :tangle yes
+(setq-default fringes-outside-margins t
+              left-fringe-width 8
+              right-fringe-width 8
+              indicate-buffer-boundaries 'right)
+#+end_src
+
+*** Padding
+Add margins inside windows to make text feel less crowded. Padding around the frame is
+configured via the =internal-border-width= in the [[Frame][Frame]] section.
+#+begin_src emacs-lisp :tangle yes
+(setq-default left-margin-width 1
+              right-margin-width 1)
+#+end_src
+
+*** Borders
+Add window dividers, mainly to add a border below the mode line.
+#+begin_src emacs-lisp :tangle yes
+(use-package frame
+  :hook
+  (server-after-make-frame-hook . window-divider-mode)
+  :init
+  (setq window-divider-default-places t)
+  (setq window-divider-default-bottom-width 1)
+  (setq window-divider-default-right-width 1))
+#+end_src
+
+** Mode line
+I try to retain functionality from the original mode line as much as possible, but I also
+want to simplify it slightly and separate into two parts; left side and right side mode
+line. There is a helper function in order to fill up the space needed to make the mode
+line appear on the right side. Also the coding system related information will be hidden
+if using utf-8-unix. I am also not displaying any minor mode lighters.
+
+Define a variable to conveniently access only the major mode part of =mode-line-modes=.
+#+begin_src emacs-lisp :tangle yes
+(defvar mode-line-major-mode
+  `(:propertize ("" mode-name)
+                help-echo "Major mode\n\
+mouse-1: Display major mode menu\n\
+mouse-2: Show help for major mode\n\
+mouse-3: Toggle minor modes"
+                mouse-face mode-line-highlight
+                local-map ,mode-line-major-mode-keymap))
+#+end_src
+
+Configure the order and components of the mode line.
+#+begin_src emacs-lisp :tangle yes
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                mode-line-misc-info
+                (vc-mode vc-mode)
+                "  "
+                mode-line-modified
+                mode-line-remote
+                mode-line-buffer-identification
+                mode-line-position
+                (:eval
+                 (mode-line-right))
+                mode-line-end-spaces))
+#+end_src
+
+*** Right alignment
+Setup the right aligned mode line and helper functions to display it.
+#+begin_src emacs-lisp :tangle yes
+(defvar mode-line-right-format nil
+  "The mode line to display on the right side.")
+
+(defun mode-line-right ()
+  "Render the `mode-line-right-format'."
+  (let* ((formatted-line (format-mode-line mode-line-right-format))
+         (height (face-attribute 'mode-line :height))
+         (scale (if (floatp height) height 1.0)))
+    (list
+     (propertize
+      " "
+      'display
+      `(space :align-to (- (+ right right-fringe right-margin)
+                           ,(* (string-width formatted-line) scale))))
+     formatted-line)))
+#+end_src
+
+Move default components to the right side of the mode line.
+#+begin_src emacs-lisp :tangle yes
+(setq mode-line-right-format
+      (list '(:eval mode-line-mule-info)
+            "  "
+            mode-line-major-mode))
+#+end_src
+
+*** Position
+Add position information including column and line number but skip the percentage.
+#+begin_src emacs-lisp :tangle yes
+(setq mode-line-position-column-line-format '(" L%l:C%C"))
+(setq mode-line-percent-position nil)
+(column-number-mode 1)
+(line-number-mode 1)
+#+end_src
+
+*** Coding system
+To reduce unnecessary information coding system will not be shown by default if the file
+is UTF-8 with UNIX end-of-line.
+- Only display "end of line"-mnemonic when not UNIX end-of-line.
+- Only display coding system when not UTF-8.
+- Other cases displays either with warning/error face in order to draw attention.
+#+begin_src emacs-lisp :tangle yes
+(setq eol-mnemonic-unix ""
+      eol-mnemonic-dos (propertize "[CR+LF]" 'face 'warning)
+      eol-mnemonic-mac (propertize "[CR]" 'face 'warning)
+      eol-mnemonic-undecided (propertize "[?]" 'face 'error))
+
+(let ((coding (nthcdr 2 mode-line-mule-info)))
+  (setcar coding '(:eval (if (string-equal "U" (format-mode-line "%z"))
+                             ""
+                           (propertize "[%z]" 'face 'warning))))
+  coding)
+#+end_src
+
+*** Indentation
+Display information about the current indentation settings.
+#+begin_src emacs-lisp :tangle yes
+(use-package indent-info
+  :ensure t
+  :hook
+  (after-init-hook . global-indent-info-mode)
+  :init
+  (setq indent-info-display-change-message-p nil)
+  (setq indent-info-insert-target 'mode-line-mule-info)
+  (setq indent-info-space-format "Spaces: %s")
+  (setq indent-info-tab-format "Tab Size: %s")
+  (setq indent-info-sync-from-editorconfig t)
+  (setq indent-info-sync-to-editorconfig t))
+#+end_src
+
+*** Hide mode line
+Support hiding the mode line, this can be useful for different modes displaying documents
+or presentation.
+#+begin_src emacs-lisp :tangle yes
+(use-package hide-mode-line
+  :ensure t
+  :commands
+  (hide-mode-line-mode
+   turn-on-hide-mode-line-mode
+   turn-off-hide-mode-line-mode))
+#+end_src
+
+*** Icons
+**** Modified
+#+begin_src emacs-lisp :tangle yes
+(defun mode-line-modified-icons ()
+  "Icon representation of `mode-line-modified'."
+  (cond (buffer-read-only
+         (concat (all-the-icons-octicon "lock" :v-adjust -0.05) " "))
+        ((buffer-modified-p)
+         (concat (all-the-icons-faicon "floppy-o" :v-adjust -0.05) " "))
+        ((and buffer-file-name
+              (not (file-exists-p buffer-file-name)))
+         (concat (all-the-icons-octicon "circle-slash" :v-adjust -0.05) " "))))
+
+(setq-default mode-line-modified '((:eval (mode-line-modified-icons))))
+#+end_src
+
+**** Remote
+#+begin_src emacs-lisp :tangle yes
+(defun mode-line-remote-icons ()
+  "Icon representation of `mode-line-remote'."
+  (when (and buffer-file-name
+             (file-remote-p buffer-file-name))
+    (concat (all-the-icons-octicon "radio-tower" :v-adjust -0.02) " ")))
+
+(setq-default mode-line-remote   '((:eval (mode-line-remote-icons))))
+#+end_src
+
+**** VCS
+Shorten long Git branch names as well as replace Git prefix with a nice icon.
+#+begin_src emacs-lisp :tangle yes
+(defun vc-git-mode-line-shorten (string)
+  "Shorten `version-control' STRING in mode-line and add icon."
+  (cond
+   ((string-prefix-p "Git" string)
+    (concat (all-the-icons-octicon "git-branch" :v-adjust -0.05)
+            " "
+            (if (> (length string) 30)
+                (concat (substring-no-properties string 4 30) "…")
+              (substring-no-properties string 4))))
+   (t
+    string)))
+(advice-add 'vc-git-mode-line-string :filter-return #'vc-git-mode-line-shorten)
 #+end_src
 
 * Keybindings
@@ -534,35 +766,36 @@ keybindings in case I would forget them.
 |------------+-------------|
 | =M-=         | =C-[=         |
 | =TAB=        | =C-i=         |
-| =RET=        | =C-j=         |
+| =RET=        | =C-m=        |
 
 ** Commands
-| Keybinding      | Function                | Description                                                                      |
-|-----------------+-------------------------+----------------------------------------------------------------------------------|
-| =C-o=             | ~open-line~               | Open line below                                                                  |
-| =M-SPC=           | ~just-one-space~          | Ensures just one space                                                           |
-| =M-\=             | ~delete-horizontal-space~ | Delete all space                                                                 |
-| =M-^=             | ~delete-indentation~      | Join current line with previous line                                             |
-| =M-z=             | ~zap-to-char~             | Delete until character                                                           |
-| =C-S-backspace=   | ~kill-whole-line~         | Kill entire lines, can be used to move several lines at once                     |
-| =M-/=             | ~dabbrev-expand~          | Abbreviation completion                                                          |
-| =M-tab= / =C-[ C-i= | ~completion-at-point~     | More context aware completion                                                    |
-| =C-w=             | ~kill-region~             | Cut                                                                              |
-| =M-w=             | ~kill-ring-save~          | Copy                                                                             |
-| =C-y=             | ~yank~                    | Paste                                                                            |
-| =M-y=             | ~yank-next~               | Paste (next item)                                                                |
-| =C-x SPC=         | ~rectangle-mark-mode~     | Rectangular selection                                                            |
-| =C-x r t=         | ~string-rectangle~        | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
-| =C-M-f=           | ~forward-sexp~            | Move forward inside a balanced expression                                        |
-| =C-M-b=           | ~backward-sexp~           | Move backward inside a balanced expression                                       |
-| =C-M-n=           | ~forward-list~            | Move forward across one balanced group of parenthesis                            |
-| =C-M-p=           | ~backward-list~           | Move backward across one balanced group of parenthesis                           |
-| =M-m=             | ~back-to-indentation~     | Move to the first non-whitespace character                                       |
-| =M-e=             | ~forward-sentence~        | End of sentence                                                                  |
-| =M-a=             | ~backward-sentence~       | Start of sentence                                                                |
-| =C-M-d=           | ~down-list~               | Move forward down one level of parenthesis                                       |
-| =C-M-u=           | ~backward-up-list~        | Move backward out of one level of parenthesis                                    |
-| =C-u C-x $=       | ~set-selective-display~   | Hide/show indentation level                                                      |
+| Keybinding      | Function                          | Description                                                                      |
+|-----------------+-----------------------------------+----------------------------------------------------------------------------------|
+| =C-o=             | ~open-line~                         | Open line below                                                                  |
+| =C-j=             | ~electric-newline-and-maybe-indent~ | Add newline and indent if needed                                                 |
+| =M-SPC=           | ~just-one-space~                    | Ensures just one space                                                           |
+| =M-\=             | ~delete-horizontal-space~           | Delete all space                                                                 |
+| =M-^=             | ~delete-indentation~                | Join current line with previous line                                             |
+| =M-z=             | ~zap-to-char~                       | Delete until character                                                           |
+| =C-S-backspace=   | ~kill-whole-line~                   | Kill entire lines, can be used to move several lines at once                     |
+| =M-/=             | ~dabbrev-expand~                    | Abbreviation completion                                                          |
+| =M-tab= / =C-[ C-i= | ~completion-at-point~               | More context aware completion                                                    |
+| =C-w=             | ~kill-region~                       | Cut                                                                              |
+| =M-w=             | ~kill-ring-save~                    | Copy                                                                             |
+| =C-y=             | ~yank~                              | Paste                                                                            |
+| =M-y=             | ~yank-next~                         | Paste (next item)                                                                |
+| =C-x SPC=         | ~rectangle-mark-mode~               | Rectangular selection                                                            |
+| =C-x r t=         | ~string-rectangle~                  | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
+| =C-M-f=           | ~forward-sexp~                      | Move forward inside a balanced expression                                        |
+| =C-M-b=           | ~backward-sexp~                     | Move backward inside a balanced expression                                       |
+| =C-M-n=           | ~forward-list~                      | Move forward across one balanced group of parenthesis                            |
+| =C-M-p=           | ~backward-list~                     | Move backward across one balanced group of parenthesis                           |
+| =M-m=             | ~back-to-indentation~               | Move to the first non-whitespace character                                       |
+| =M-e=             | ~forward-sentence~                  | End of sentence                                                                  |
+| =M-a=             | ~backward-sentence~                 | Start of sentence                                                                |
+| =C-M-d=           | ~down-list~                         | Move forward down one level of parenthesis                                       |
+| =C-M-u=           | ~backward-up-list~                  | Move backward out of one level of parenthesis                                    |
+| =C-u C-x $=       | ~set-selective-display~             | Hide/show indentation level                                                      |
 
 ** Gnus
 | Keybinding | Function                              | Description                                                   |
@@ -625,6 +858,42 @@ keybindings in case I would forget them.
   "Key prefix used for commands doing a previous operation.")
 #+end_src
 
+** Packages
+*** defrepeater
+Library for defining repeating commands by repeating the last key.
+#+begin_src emacs-lisp :tangle yes
+(use-package defrepeater :ensure t :commands (defrepeater))
+#+end_src
+
+*** general
+More convenient key definitions. It provides the ~use-package~ keyword ~:general~.
+#+begin_src emacs-lisp :tangle yes
+(use-package general
+  :ensure t
+  :commands
+  (general-define-key)
+  :init
+  (eval-when-compile
+    (require 'general)))
+#+end_src
+
+*** which-key
+Display available keybindings in a popup as you press keys.
+#+begin_src emacs-lisp :tangle yes
+(use-package which-key
+  :ensure t
+  :defer 3
+  :init
+  (setq which-key-sort-order #'which-key-key-order-alpha)
+  (setq which-key-sort-uppercase-first nil)
+  (setq which-key-add-column-padding 1)
+  (setq which-key-min-display-lines 5)
+  (setq which-key-idle-delay 1)
+  :config
+  (which-key-setup-side-window-bottom)
+  (which-key-mode 1))
+#+end_src
+
 ** Global
 #+begin_src emacs-lisp :tangle yes
 (general-define-key
@@ -667,12 +936,19 @@ keybindings in case I would forget them.
  "e" '(next-error               :wk "Error")
  "s" '(flyspell-goto-next-error :wk "Spell error"))
 
+(eval-and-compile
+  (defrepeater #'text-scale-increase)
+  (defrepeater #'next-buffer)
+  (defrepeater #'smerge-next)
+  (defrepeater #'next-error)
+  (defrepeater #'flyspell-goto-next-error))
+
 (general-define-key
- [remap text-scale-increase] (defrepeater #'text-scale-increase)
- [remap next-buffer] (defrepeater #'next-buffer)
- [remap smerge-next] (defrepeater #'smerge-next)
- [remap next-error] (defrepeater #'next-error)
- [remap flyspell-goto-next-error] (defrepeater #'flyspell-goto-next-error))
+ [remap text-scale-increase] 'text-scale-increase-repeat
+ [remap next-buffer] 'next-buffer-repeat
+ [remap smerge-next] 'smerge-next-repeat
+ [remap next-error] 'next-error-repeat
+ [remap flyspell-goto-next-error] 'flyspell-goto-next-error-repeat)
 #+end_src
 
 ** Previous
@@ -685,11 +961,17 @@ keybindings in case I would forget them.
  "c" '(smerge-prev            :wk "Conflict")
  "e" '(previous-error         :wk "Error"))
 
+(eval-and-compile
+  (defrepeater #'text-scale-decrease)
+  (defrepeater #'previous-buffer)
+  (defrepeater #'smerge-prev)
+  (defrepeater #'previous-error))
+
 (general-define-key
- [remap text-scale-decrease] (defrepeater #'text-scale-decrease)
- [remap previous-buffer] (defrepeater #'previous-buffer)
- [remap smerge-prev] (defrepeater #'smerge-prev)
- [remap previous-error] (defrepeater #'previous-error))
+ [remap text-scale-decrease] 'text-scale-decrease
+ [remap previous-buffer] 'previous-buffer
+ [remap smerge-prev] 'smerge-prev
+ [remap previous-error] 'previous-error)
 #+end_src
 
 ** Toggle
@@ -724,16 +1006,17 @@ keybindings in case I would forget them.
 
 * Help
 #+begin_src emacs-lisp :tangle yes
-(general-define-key
- :keymaps 'help-map
- "B" 'find-library
- "u" 'describe-face
- "U" 'list-faces-display
- "'" 'describe-char)
+(use-package help
+  :general
+  (:kemaps
+   'help-map
+   "B" 'find-library
+   "u" 'describe-face
+   "U" 'list-faces-display
+   "'" 'describe-char))
 #+end_src
 
-** Packages
-*** ghelp
+** ghelp
 Generic help system.
 #+begin_src emacs-lisp :tangle yes
 (use-package ghelp
@@ -750,8 +1033,8 @@ Generic help system.
    "h" 'ghelp-describe-at-point))
 #+end_src
 
-*** helpful
-Better =*help*= buffer
+** helpful
+Better =*help*= buffer.
 #+begin_src emacs-lisp :tangle yes
 (use-package helpful
   :ensure t
@@ -759,324 +1042,7 @@ Better =*help*= buffer
   (:keymaps
    'help-map
    "C" 'helpful-command
-   "M" 'helpful-macro)
-  (:keymaps
-   'helpful-mode-map
-   "[[" 'backward-button
-   "]]" 'forward-button))
-#+end_src
-
-* Appearance
-** Typography
-*** Size
-#+begin_src emacs-lisp :tangle yes
-(defvar init-line-spacing 0.25
-  "Spacing between lines.")
-
-(defvar init-default-font-height 120
-  "Default font height.")
-#+end_src
-
-*** Face
-#+begin_src emacs-lisp :tangle yes
-(defvar init-fixed-pitch-font "Iosevka Slab"
-  "Font used for fixed-pitch faces.")
-
-(defvar init-variable-pitch-font "Noto Sans"
-  "Font used for variable-pitch faces.")
-
-(defvar init-serif-font "Noto Serif"
-  "Font used for serif faces.")
-
-(defvar init-unicode-font "Noto Sans Mono"
-  "Fallback font used for unicode glyphs.")
-
-(defvar init-symbol-fonts '("Noto Emoji" "Symbola")
-  "Fonts used for symbol/emoji faces.")
-#+end_src
-
-*** Line length
-#+begin_src emacs-lisp :tangle yes
-(setq-default fill-column 90)
-#+end_src
-
-*** Underline
-Underline line at descent position, not baseline position.
-#+begin_src emacs-lisp :tangle yes
-(setq x-underline-at-descent-line t)
-#+end_src
-
-** Theme
-Use a bar cursor by default.
-#+begin_src emacs-lisp :tangle yes
-(setq-default cursor-type 'bar)
-#+end_src
-
-Setup symbol fonts.
-#+begin_src emacs-lisp :tangle yes
-(dolist (font init-symbol-fonts)
-  (set-fontset-font t 'symbol font nil 'append))
-#+end_src
-
-*** Packages
-#+begin_src emacs-lisp :tangle yes
-(use-package readable-typo-theme
-  :demand t
-  :custom
-  (readable-typo-theme-default-font-height init-default-font-height)
-  (readable-typo-theme-line-spacing init-line-spacing)
-  (readable-typo-theme-fixed-pitch-font init-fixed-pitch-font)
-  (readable-typo-theme-fixed-pitch-serif-font init-fixed-pitch-font)
-  (readable-typo-theme-variable-pitch-font init-variable-pitch-font)
-  (readable-typo-theme-serif-font init-serif-font)
-  :config
-  (load-theme 'readable-typo t))
-
-(use-package readable-mono-theme
-  :demand t
-  :config
-  (load-theme 'readable-mono t))
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(defun toggle-theme-mode ()
-  "Toggle dark/light `background-mode' and reload all loaded themes."
-  (interactive)
-  (customize-set-variable
-   'frame-background-mode
-   (if (eq 'light (frame-parameter nil 'background-mode)) 'dark 'light))
-  (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
-#+end_src
-
-*** Echo area
-Adjust the font face used for the echo area.
-#+begin_src emacs-lisp :tangle yes
-(dolist (buffer-name '(" *Echo Area 0*"
-                       " *Echo Area 1*"))
-  (with-current-buffer (get-buffer-create buffer-name)
-    (setq-local face-remapping-alist
-                '((default (:height 0.9) variable-pitch)))))
-#+end_src
-
-** Layout
-*** Frame
-See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and terminology.
-- Add some padding around the whole window (=internal-border-width=) to provide some air.
-- Remove GUI elements.
-- Maximize the window; A maximized window ensures macOS won't waste extra space all-though
-  it is technically not maximized.
-- Make the title-bar transparent on macOS.
-#+begin_src emacs-lisp :tangle yes
-(setq default-frame-alist
-      '((undecorated . t)
-        (internal-border-width . 16)
-        (vertical-scroll-bars . nil)
-        (menu-bar-lines . 0)
-        (tool-bar-lines . 0)))
-
-(when (eq system-type 'darwin)
-  (setq frame-title-format nil)
-  (dolist (filter '((ns-transparent-titlebar . t)
-                    (ns-appearance . unbound)))
-    (cl-pushnew filter default-frame-alist :test #'equal)))
-#+end_src
-
-*** Fringe
-Setup fringes on both sides and display an indicator for buffer boundaries on the right
-side. Display fringes outside margins to have the [[Padding][padding]] on the inside.
-#+begin_src emacs-lisp :tangle yes
-(setq-default fringes-outside-margins t
-              left-fringe-width 8
-              right-fringe-width 8
-              indicate-buffer-boundaries 'right)
-#+end_src
-
-*** Padding
-Add margins inside windows to make text feel less crowded. Padding around the frame is
-configured via the =internal-border-width= in the [[Frame][Frame]] section.
-#+begin_src emacs-lisp :tangle yes
-(setq-default left-margin-width 1
-              right-margin-width 1)
-#+end_src
-
-*** Borders
-Add window dividers, mainly to add a border below the mode line.
-#+begin_src emacs-lisp :tangle yes
-(use-package frame
-  :hook
-  (server-after-make-frame-hook . window-divider-mode)
-  :custom
-  (window-divider-default-places t)
-  (window-divider-default-bottom-width 1)
-  (window-divider-default-right-width 1))
-#+end_src
-
-** Mode line
-I try to retain functionality from the original mode line as much as possible, but I also
-want to simplify it slightly and separate into two parts; left side and right side mode
-line. There is a helper function in order to fill up the space needed to make the mode
-line appear on the right side. Also the coding system related information will be hidden
-if using utf-8-unix.
-
-Define a variable to conveniently access only the major mode part of =mode-line-modes=.
-#+begin_src emacs-lisp :tangle yes
-(defvar mode-line-major-mode
-  `(:propertize ("" mode-name)
-                help-echo "Major mode\n\
-mouse-1: Display major mode menu\n\
-mouse-2: Show help for major mode\n\
-mouse-3: Toggle minor modes"
-                mouse-face mode-line-highlight
-                local-map ,mode-line-major-mode-keymap))
-#+end_src
-
-Configure the order and components of the mode line.
-#+begin_src emacs-lisp :tangle yes
-(setq-default mode-line-format
-              '("%e" mode-line-front-space
-                mode-line-misc-info
-                (vc-mode vc-mode)
-                "  "
-                mode-line-modified
-                mode-line-remote
-                mode-line-buffer-identification
-                mode-line-position
-                (:eval
-                 (mode-line-right))
-                mode-line-end-spaces))
-#+end_src
-
-*** Right alignment
-Setup the right aligned mode line and helper functions to display it.
-#+begin_src emacs-lisp :tangle yes
-(defvar mode-line-right-format nil
-  "The mode line to display on the right side.")
-
-(defun mode-line-right ()
-  "Render the `mode-line-right-format'."
-  (let* ((formatted-line (format-mode-line mode-line-right-format))
-         (height (face-attribute 'mode-line :height))
-         (scale (if (floatp height) height 1.0)))
-    (list
-     (propertize
-      " "
-      'display
-      `(space :align-to (- (+ right right-fringe right-margin)
-                           ,(* (string-width formatted-line) scale))))
-     formatted-line)))
-#+end_src
-
-Move default components to the right side of the mode line.
-#+begin_src emacs-lisp :tangle yes
-(setq mode-line-right-format
-      (list '(:eval mode-line-mule-info)
-            "  "
-            mode-line-major-mode))
-#+end_src
-
-*** Position
-Add position information including column and line number but skip the percentage.
-#+begin_src emacs-lisp :tangle yes
-(setq mode-line-position-column-line-format '(" L%l:C%C")
-      mode-line-percent-position nil)
-(column-number-mode 1)
-(line-number-mode 1)
-#+end_src
-
-*** Coding system
-To reduce unnecessary information coding system will not be shown by default if the file
-is UTF-8 with UNIX end-of-line.
-- Only display "end of line"-mnemonic when not UNIX end-of-line.
-- Only display coding system when not UTF-8.
-- Other cases displays either with warning/error face in order to draw attention.
-#+begin_src emacs-lisp :tangle yes
-(setq eol-mnemonic-unix ""
-      eol-mnemonic-dos (propertize "[CR+LF]" 'face 'warning)
-      eol-mnemonic-mac (propertize "[CR]" 'face 'warning)
-      eol-mnemonic-undecided (propertize "[?]" 'face 'error))
-
-(let ((coding (nthcdr 2 mode-line-mule-info)))
-  (setcar coding '(:eval (if (string-equal "U" (format-mode-line "%z"))
-                             ""
-                           (propertize "[%z]" 'face 'warning))))
-  coding)
-#+end_src
-
-*** Indentation
-Display information about the current indentation settings.
-#+begin_src emacs-lisp :tangle yes
-(use-package indent-info
-  :ensure t
-  :defer 1
-  :commands
-  (global-indent-info-mode)
-  :custom
-  (indent-info-display-change-message-p nil)
-  (indent-info-insert-target 'mode-line-mule-info)
-  (indent-info-space-format "Spaces: %s")
-  (indent-info-tab-format "Tab Size: %s")
-  (indent-info-sync-from-editorconfig t)
-  (indent-info-sync-to-editorconfig t)
-  :config
-  (global-indent-info-mode 1))
-#+end_src
-
-*** Hide mode line
-Support hiding the mode line, this can be useful for different modes displaying documents
-or presentation.
-#+begin_src emacs-lisp :tangle yes
-(use-package hide-mode-line
-  :ensure t
-  :commands
-  (hide-mode-line-mode
-   turn-on-hide-mode-line-mode
-   turn-off-hide-mode-line-mode))
-#+end_src
-
-*** Icons
-**** Modified
-#+begin_src emacs-lisp :tangle yes
-(defun mode-line-modified-icons ()
-  "Icon representation of `mode-line-modified'."
-  (cond (buffer-read-only
-         (concat (all-the-icons-octicon "lock" :v-adjust -0.05) " "))
-        ((buffer-modified-p)
-         (concat (all-the-icons-faicon "floppy-o" :v-adjust -0.05) " "))
-        ((and buffer-file-name
-              (not (file-exists-p buffer-file-name)))
-         (concat (all-the-icons-octicon "circle-slash" :v-adjust -0.05) " "))))
-
-(with-eval-after-load 'all-the-icons
-  (setq-default mode-line-modified '((:eval (mode-line-modified-icons)))))
-#+end_src
-
-**** Remote
-#+begin_src emacs-lisp :tangle yes
-(defun mode-line-remote-icons ()
-  "Icon representation of `mode-line-remote'."
-  (when (and buffer-file-name
-             (file-remote-p buffer-file-name))
-    (concat (all-the-icons-octicon "radio-tower" :v-adjust -0.02) " ")))
-
-(with-eval-after-load 'all-the-icons
-  (setq-default mode-line-remote   '((:eval (mode-line-remote-icons)))))
-#+end_src
-
-**** VCS
-Shorten long Git branch names as well as replace Git prefix with a nice icon.
-#+begin_src emacs-lisp :tangle yes
-(defun +shorten-vc-mode-line (string)
-  "Shorten `version-control' STRING in mode-line and add icon."
-  (cond
-   ((string-prefix-p "Git" string)
-    (concat (all-the-icons-octicon "git-branch" :v-adjust -0.05)
-            " "
-            (if (> (length string) 30)
-                (concat (substring-no-properties string 4 30) "…")
-              (substring-no-properties string 4))))
-   (t
-    string)))
-(advice-add 'vc-git-mode-line-string :filter-return #'+shorten-vc-mode-line)
+   "M" 'helpful-macro))
 #+end_src
 
 * Display
@@ -1092,8 +1058,9 @@ Undo/redo between window layouts.
 (use-package winner
   :hook
   (window-setup-hook . winner-mode)
-  :custom
-  (winner-dont-bind-my-keys t)
+  :preface
+  (defrepeater #'winner-redo)
+  (defrepeater #'winner-undo)
   :general
   (:prefix
    next-prefix
@@ -1101,8 +1068,10 @@ Undo/redo between window layouts.
   (:prefix
    prev-prefix
    prev-prefix '(winner-undo :wk "Window History"))
-  ([remap winner-redo] (defrepeater #'winner-redo)
-   [remap winner-undo] (defrepeater #'winner-undo)))
+  ([remap winner-redo] 'winner-redo-repeat
+   [remap winner-undo] 'winner-undo-repeat)
+  :init
+  (setq winner-dont-bind-my-keys t))
 #+end_src
 
 Transpose window arrangement.
@@ -1199,9 +1168,11 @@ Jump to things.
 #+begin_src emacs-lisp :tangle yes
 (use-package cycle-quotes
   :ensure t
+  :preface
+  (defrepeater #'cycle-quotes)
   :general
   ("C-x C-'" 'cycle-quotes)
-  ([remap cycle-quotes] (defrepeater #'cycle-quotes)))
+  ([remap cycle-quotes] 'cycle-quotes-repeat))
 #+end_src
 
 *** goto-addr
@@ -1218,6 +1189,9 @@ Cycle through words, symbols and patterns.
 #+begin_src emacs-lisp :tangle yes
 (use-package grugru
   :ensure t
+  :preface
+  (defrepeater #'grugru-backward)
+  (defrepeater #'grugru-forward)
   :commands (grugru-default-setup)
   :general
   (:prefix
@@ -1226,8 +1200,8 @@ Cycle through words, symbols and patterns.
   (:prefix
    prev-prefix
    "r" '(grugru-backward :wk "Rotate text"))
-  ([remap grugru-backward] (defrepeater #'grugru-backward)
-   [remap grugru-forward] (defrepeater #'grugru-forward))
+  ([remap grugru-backward] 'grugru-backward-repeat
+   [remap grugru-forward] 'grugru-forward-repeat)
   :config
   (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute"))
@@ -2520,6 +2494,9 @@ Open link to files in the web UI connected to a repository.
 *** diff
 #+begin_src emacs-lisp :tangle yes
 (use-package diff
+  :preface
+  (defrepeater #'diff-hunk-next)
+  (defrepeater #'diff-hunk-prev)
   :general
   (:keymaps
    'diff-mode-map
@@ -2529,8 +2506,8 @@ Open link to files in the web UI connected to a repository.
    'diff-mode-map
    :prefix prev-prefix
    "d" '(diff-hunk-prev :wk "Diff Hunk"))
-  ([remap diff-hunk-next] (defrepeater #'diff-hunk-next)
-   [remap diff-hunk-prev] (defrepeater #'diff-hunk-prev)))
+  ([remap diff-hunk-next] 'diff-hunk-next-repeat
+   [remap diff-hunk-prev] 'diff-hunk-prev-repeat))
 #+end_src
 
 *** ediff
@@ -2572,6 +2549,9 @@ Diff indicators in fringe
 (use-package diff-hl
   :ensure t
   :defer 2
+  :preface
+  (defrepeater #'diff-hl-next-hunk)
+  (defrepeater #'diff-hl-previous-hunk)
   :custom
   (diff-hl-ask-before-revert-hunk nil)
   :hook
@@ -2586,8 +2566,8 @@ Diff indicators in fringe
    'diff-hl-mode-map
    :prefix prev-prefix
    "d" '(diff-hl-previous-hunk :wk "Diff Hunk"))
-  ([remap diff-hl-next-hunk] (defrepeater #'diff-hl-next-hunk)
-   [remap diff-hl-previous-hunk] (defrepeater #'diff-hl-previous-hunk))
+  ([remap diff-hl-next-hunk] 'diff-hl-next-hunk-repeat
+   [remap diff-hl-previous-hunk] 'diff-hl-previous-hunk-repeat)
   :preface
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
@@ -2734,13 +2714,16 @@ Highlight *TODO* inside comments and strings.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-todo
   :ensure t
+  :preface
+  (defrepeater #'hl-todo-next)
+  (defrepeater #'hl-todo-previous)
   :hook
   (prog-mode-hook . hl-todo-mode)
   :general
   (:prefix next-prefix "t" '(hl-todo-next :wk "Todo"))
   (:prefix prev-prefix "t" '(hl-todo-previous :wk "Todo"))
-  ([remap hl-todo-next] (defrepeater #'hl-todo-next)
-   [remap hl-todo-previous] (defrepeater #'hl-todo-previous)))
+  ([remap hl-todo-next] 'hl-todo-next-repeat
+   [remap hl-todo-previous] 'hl-todo-previous-repeat))
 #+end_src
 
 *** idle-highlight
@@ -4822,3 +4805,4 @@ Packages that I am currently testing or evaluating.
 - One theme to highlight errors
 - One theme for the mode-line
 ** TODO Flymake + Elsa
+** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
