@@ -266,7 +266,7 @@ For example links."
    `(header-line-highlight ((t (:inherit mode-line-highlight))))
    `(menu ((t (:inherit readable-mono-theme-secondary))))
    `(minibuffer-prompt ((t (:inherit readable-mono-theme-strong))))
-   `(secondary-selection ((t (:inherit readable-mono-theme-secondary))))
+   `(secondary-selection ((t (:inherit region :inverse-video t))))
    `(tool-bar ((t (:inherit readable-mono-theme-secondary))))
    `(tooltip ((t (:inherit readable-mono-theme-secondary))))
    `(vertical-border
