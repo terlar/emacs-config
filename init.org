@@ -83,9 +83,8 @@ of hooks.
 ** Native compile
 Disable runtime compilation as everything will be compiled at build time via Nix.
 #+begin_src emacs-lisp :tangle early-init.el
-(eval-and-compile
-  (when (featurep 'nativecomp)
-    (setq comp-deferred-compilation nil)))
+(when (featurep 'nativecomp)
+  (setq comp-deferred-compilation nil))
 #+end_src
 
 ** UI
@@ -97,7 +96,7 @@ Disable GUI components.
 (push '(vertical-scroll-bars) default-frame-alist)
 #+end_src
 
-Don't implicitly resize frames when changes various settings.
+Don't implicitly resize frames when changing various settings.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq frame-inhibit-implied-resize t)
 #+end_src
@@ -144,7 +143,7 @@ Provide a location where Emacs can store data and cache.
 #+end_src
 
 ** Package management
-Use generated package autoloads.
+Use generated package autoloads. These will be provided by the Nix package.
 #+begin_src emacs-lisp :tangle yes
 (defvar package-quickstart t)
 #+end_src
@@ -171,11 +170,6 @@ initialization file.
 #+begin_src emacs-lisp :tangle yes
 (eval-when-compile
   (require 'use-package))
-
-;; FIXME: Synthetic theme for :custom variables. Required as `use-package' is only
-;; required during compile time.
-(deftheme use-package)
-(enable-theme 'use-package)
 
 (eval-and-compile
   (defun use-package-ensure-ignore (&rest _args) t)
@@ -534,7 +528,7 @@ Use a bar cursor by default.
 #+end_src
 
 *** Echo area
-Adjust the font face used for the echo area.
+Attach a face to the echo area in order to style it differently.
 #+begin_src emacs-lisp :tangle yes
 (dolist (buffer-name '(" *Echo Area 0*"
                        " *Echo Area 1*"))
@@ -1008,12 +1002,17 @@ Display available keybindings in a popup as you press keys.
 #+begin_src emacs-lisp :tangle yes
 (use-package help
   :general
-  (:kemaps
+  (:keymaps
    'help-map
    "B" 'find-library
    "u" 'describe-face
    "U" 'list-faces-display
    "'" 'describe-char))
+
+(use-package help-at-pt
+  :init
+  (setq help-at-pt-timer-delay 0.1)
+  (setq help-at-pt-display-when-idle '(flymake-diagnostic)))
 #+end_src
 
 ** ghelp
@@ -1086,7 +1085,6 @@ Transpose window arrangement.
    "F" 'flop-frame))
 #+end_src
 
-*** Zoom
 Zoom a window to display as a single window temporarily.
 #+begin_src emacs-lisp :tangle yes
 (use-package zoom-window
@@ -1124,8 +1122,8 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-fill-column
   :ensure t
-  :custom
-  (visual-fill-column-center-text t))
+  :init
+  (setq visual-fill-column-center-text t))
 #+end_src
 
 * Editing
@@ -1153,15 +1151,15 @@ Jump to things.
 #+begin_src emacs-lisp :tangle yes
 (use-package avy
   :ensure t
-  :custom
-  (avy-all-windows nil)
   :general
   (:prefix
    search-prefix
    "SPC" 'avy-goto-word-or-subword-1
    "s" 'avy-goto-char
    "l" 'avy-goto-line
-   "m" 'avy-pop-mark))
+   "m" 'avy-pop-mark)
+  :init
+  (setq avy-all-windows nil))
 #+end_src
 
 *** cycle-quotes
@@ -1190,9 +1188,10 @@ Cycle through words, symbols and patterns.
 (use-package grugru
   :ensure t
   :preface
+  (eval-when-compile
+    (require 'grugru-default))
   (defrepeater #'grugru-backward)
   (defrepeater #'grugru-forward)
-  :commands (grugru-default-setup)
   :general
   (:prefix
    next-prefix
@@ -1221,11 +1220,15 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
 #+begin_src emacs-lisp :tangle yes
 (use-package smartparens
   :ensure t
+  :preface
+  (defun smartparens-no-autoinsert-pair-advice (orig-fn &rest args)
+    "Disable command smartparens autoinsert when running ORIG-FN with ARGS."
+    (let ((sp-autoinsert-pair nil))
+      (apply orig-fn args)))
   :hook
+  (after-init-hook . smartparens-global-strict-mode)
+  (after-init-hook . show-smartparens-global-mode)
   (eval-expression-minibuffer-setup-hook . smartparens-strict-mode)
-  :commands
-  (smartparens-global-strict-mode
-   show-smartparens-global-mode)
   :general
   (:prefix
    toggle-prefix
@@ -1240,14 +1243,6 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
   (:keymaps
    'smartparens-strict-mode-map
    [remap kill-region] 'nil)
-  :preface
-  (defun +smartparens-no-autoinsert-pair-advice (orig-fn &rest args)
-    "Disable command smartparens autoinsert when running ORIG-FN with ARGS."
-    (let ((sp-autoinsert-pair nil))
-      (apply orig-fn args)))
-  :init
-  (smartparens-global-strict-mode 1)
-  (show-smartparens-global-mode 1)
   :config
   (require 'smartparens-config)
 
@@ -1274,7 +1269,7 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
                    :unless '(sp-in-comment-p
                              sp-in-string-quotes-p)))
 
-  (advice-add 'hippie-expand :around #'+smartparens-no-autoinsert-pair-advice))
+  (advice-add 'hippie-expand :around #'smartparens-no-autoinsert-pair-advice))
 #+end_src
 
 *** visual-regexp
@@ -1291,14 +1286,14 @@ Visually highlight regular expression searches as you type. Also supports replac
 Display whitespace
 #+begin_src emacs-lisp :tangle yes
 (use-package whitespace
-  :custom
-  (whitespace-line-column fill-column)
-  (whitespace-style
-   '(face tabs tab-mark spaces space-mark trailing lines-tail))
-  (whitespace-display-mappings
-   '((tab-mark 9 [8250 9])
-     (newline-mark 10 [172 10])
-     (space-mark 32 [183] [46]))))
+  :init
+  (setq whitespace-line-column fill-column)
+  (setq whitespace-style
+        '(face tabs tab-mark spaces space-mark trailing lines-tail))
+  (setq whitespace-display-mappings
+        '((tab-mark 9 [8250 9])
+          (newline-mark 10 [172 10])
+          (space-mark 32 [183] [46]))))
 #+end_src
 
 *** whole-line-or-region
@@ -1314,15 +1309,8 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+begin_src emacs-lisp :tangle yes
 (use-package yasnippet
   :ensure t
-  :defer 2
-  :commands
-  (yas--templates-for-key-at-point)
-  :custom
-  (yas-also-auto-indent-first-line t)
-  (yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
-  ;; Nested snippets
-  (yas-triggers-in-field t)
-  (yas-wrap-around-region t)
+  :hook
+  (after-init-hook . yas-global-mode)
   :general
   (:keymaps
    'yas-minor-mode-map
@@ -1331,8 +1319,12 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
    "M-o" 'yas-insert-snippet)
   :init
   (setq yas-verbosity 0)
-  :config
-  (yas-global-mode 1))
+  (setq yas-also-auto-indent-first-line t)
+  (setq yas-snippet-dirs
+        (list (expand-file-name "snippets" user-emacs-directory)))
+  ;; Nested snippets
+  (setq yas-triggers-in-field t)
+  (setq yas-wrap-around-region t))
 
 (use-package yasnippet-snippets
   :ensure t
@@ -1345,8 +1337,8 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 (use-package autoinsert
   :hook
   (after-init-hook . auto-insert-mode)
-  :custom
-  (auto-insert-query nil))
+  :init
+  (setq auto-insert-query nil))
 
 (use-package yatemplate
   :ensure t
@@ -1360,7 +1352,7 @@ Display page breaks as a horizontal line.
 #+begin_src emacs-lisp :tangle yes
 (use-package page-break-lines
   :ensure t
-  :defer 2
+  :defer 3
   :config
   (global-page-break-lines-mode 1))
 #+end_src
@@ -1369,16 +1361,16 @@ Display page breaks as a horizontal line.
 Disabled by default. When enabled, only highlight in the selected window.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-line
-  :custom
-  (hl-line-sticky-flag nil)
-  (global-hl-line-sticky-flag nil))
+  :init
+  (setq hl-line-sticky-flag nil)
+  (setq global-hl-line-sticky-flag nil))
 #+end_src
 
 * Buffers
 Prevent generation of useless lock and backup files.
 #+begin_src emacs-lisp :tangle yes
-(setq create-lockfiles nil
-      make-backup-files nil)
+(setq create-lockfiles nil)
+(setq make-backup-files nil)
 #+end_src
 
 Don't require confirmation when opening a new buffer.
@@ -1397,9 +1389,9 @@ Remove visual indicators from non-selected windows
 (use-package files
   :hook
   (after-init-hook . auto-save-visited-mode)
-  :custom
-  (auto-save-no-message t)
-  (save-abbrevs 'silently))
+  :init
+  (setq auto-save-no-message t)
+  (setq save-abbrevs 'silently))
 #+end_src
 
 ** Auto executable scripts
@@ -1410,15 +1402,15 @@ Remove visual indicators from non-selected windows
 ** Minibuffer
 Enable recursive minibuffers and keep the point out of the minibuffer.
 #+begin_src emacs-lisp :tangle yes
-(setq enable-recursive-minibuffers t
-      minibuffer-prompt-properties
+(setq enable-recursive-minibuffers t)
+(setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 #+end_src
 
 Give some more room to the minbuffer.
 #+begin_src emacs-lisp :tangle yes
-(setq max-mini-window-height 0.3
-      resize-mini-windows 'grow-only)
+(setq max-mini-window-height 0.3)
+(setq resize-mini-windows 'grow-only)
 #+end_src
 
 *** No fringes
@@ -1436,8 +1428,8 @@ Don't show fringes in the minibuffer.
 *** History
 Track minibuffer history
 #+begin_src emacs-lisp :tangle yes
-(setq history-delete-duplicates t
-      history-length 500)
+(setq history-delete-duplicates t)
+(setq history-length 500)
 #+end_src
 
 *** Miniedit
@@ -1457,14 +1449,14 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
 ** Scrolling
 More procedural scrolling.
 #+begin_src emacs-lisp :tangle yes
-(setq auto-window-vscroll nil
-      hscroll-margin 5
-      hscroll-step 5
-      scroll-margin 0
-      scroll-preserve-screen-position t)
+(setq auto-window-vscroll nil)
+(setq hscroll-margin 5)
+(setq hscroll-step 5)
+(setq scroll-margin 0)
+(setq scroll-preserve-screen-position t)
 
-(setq-default scroll-down-aggressively 0.01
-              scroll-up-aggressively 0.01)
+(setq-default scroll-down-aggressively 0.01)
+(setq-default scroll-up-aggressively 0.01)
 #+end_src
 
 ** Packages
@@ -1472,8 +1464,8 @@ More procedural scrolling.
 Revert buffers when underlying files change.
 #+begin_src emacs-lisp :tangle yes
 (use-package autorevert
-  :custom
-  (auto-revert-verbose nil))
+  :init
+  (setq auto-revert-verbose nil))
 #+end_src
 
 *** default-text-scale
@@ -1489,9 +1481,8 @@ Revert buffers when underlying files change.
 *** eldoc
 #+begin_src emacs-lisp :tangle yes
 (use-package eldoc
-  :defer 2
-  :config
-  (global-eldoc-mode 1))
+  :hook
+  (after-init-hook . global-eldoc-mode))
 #+end_src
 
 *** rainbow-mode
@@ -1524,8 +1515,8 @@ Display colors inline.
   :ensure t
   :hook
   (after-init-hook . global-relative-buffers-mode)
-  :custom
-  (relative-buffers-project-prefix t))
+  :init
+  (setq relative-buffers-project-prefix t))
 #+end_src
 
 *** wgrep-ag
@@ -1533,8 +1524,8 @@ Writeable grep buffer with ability to apply the changes to all the files.
 #+begin_src emacs-lisp :tangle yes
 (use-package wgrep-ag
   :ensure t
-  :custom
-  (wgrep-auto-save-buffer t))
+  :init
+  (setq wgrep-auto-save-buffer t))
 #+end_src
 
 * Navigation
@@ -1552,11 +1543,11 @@ mark ring.
   (dired-mode-hook . auto-revert-mode)
   (dired-mode-hook . hl-line-mode)
   (dired-mode-hook . dired-hide-details-mode)
-  :custom
-  (dired-listing-switches "-al --group-directories-first")
+  :init
+  (setq dired-listing-switches "-al --group-directories-first")
   ;; Always copy/delete recursively
-  (dired-recursive-copies  'always)
-  (dired-recursive-deletes 'top))
+  (setq dired-recursive-copies  'always)
+  (setq dired-recursive-deletes 'top))
 #+end_src
 
 *** Editable
@@ -1571,16 +1562,20 @@ mark ring.
 *** Search
 #+begin_src emacs-lisp :tangle yes
 (use-package find-dired
-  :custom
-  (find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
   :general
-  ("C-x D" 'find-dired))
+  ("C-x D" 'find-dired)
+  :init
+  (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld")))
 #+end_src
 
 *** Sidebar
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-sidebar
   :ensure t
+  :preface
+  (defun init-dired-sidebar ()
+    (setq cursor-type nil)
+    (stripe-buffer-mode 0))
   :hook
   (dired-sidebar-mode-hook . hide-mode-line-mode)
   (dired-sidebar-mode-hook . hl-line-mode)
@@ -1589,11 +1584,7 @@ mark ring.
   :general
   (:prefix
    leader-key
-   "n" 'dired-sidebar-toggle-sidebar)
-  :preface
-  (defun init-dired-sidebar ()
-    (setq cursor-type nil)
-    (stripe-buffer-mode 0)))
+   "n" 'dired-sidebar-toggle-sidebar))
 #+end_src
 
 *** Subtree
@@ -1601,9 +1592,9 @@ Display subtrees in dired view.
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-subtree
   :ensure t
-  :custom
-  (dired-subtree-use-backgrounds nil)
-  (dired-subtree-line-prefix "     "))
+  :init
+  (setq dired-subtree-use-backgrounds nil)
+  (setq dired-subtree-line-prefix "     "))
 #+end_src
 
 *** Stripes
@@ -1662,30 +1653,29 @@ Management tool for a library of PDFs.
 #+begin_src emacs-lisp :tangle yes
 (use-package bibliothek
   :ensure t
-  :custom
-  (bibliothek-path '("~/books" "~/documents/research/papers"))
-  (bibliothek-recursive t)
   :general
   (:prefix
    launch-prefix
-   "b" 'bibliothek))
+   "b" 'bibliothek)
+  :init
+  (setq bibliothek-path '("~/books" "~/documents/research/papers"))
+  (setq bibliothek-recursive t))
 #+end_src
 
 *** bookmark
 Keep track of bookmarks
 #+begin_src emacs-lisp :tangle yes
 (use-package bookmark
-  :custom
-  (bookmark-save-flag 1))
+  :init
+  (setq bookmark-save-flag 1))
 #+end_src
 
 *** ctrlf
 #+begin_src emacs-lisp :tangle yes
 (use-package ctrlf
   :ensure t
-  :defer 2
-  :config
-  (ctrlf-mode 1))
+  :hook
+  (after-init-hook . ctrlf-mode))
 #+end_src
 
 *** ctrlxo
@@ -1754,23 +1744,6 @@ Keep track of recently opened files.
 #+begin_src emacs-lisp :tangle yes
 (use-package recentf
   :defer 1
-  :custom
-  (recentf-exclude
-   (list "/tmp/"                        ; Temp-files
-         "/dev/shm"                     ; Potential secrets
-         "/ssh:"                        ; Files over SSH
-         "/nix/store"                   ; Files in Nix store
-         "/TAGS$"                       ; Tag files
-         "^/\\.git/.+$"                 ; Git contents
-         "\\.?ido\\.last$"
-         "\\.revive$"
-         "^/var/folders/.+$"
-         (concat "^" cache-dir ".+$")
-         (concat "^" data-dir ".+$")))
-  (recentf-filename-handlers '(abbreviate-file-name))
-  (recentf-max-menu-items 0)
-  (recentf-max-saved-items 300)
-  (recentf-auto-cleanup 'never)
   :preface
   (defun completing-read-file-candidate (candidate)
     "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
@@ -1788,6 +1761,23 @@ and icon prefix from `all-the-icons-icon-for-file'."
     (interactive)
     (let ((files (cl-mapcar #'completing-read-file-candidate recentf-list)))
       (find-file (completing-read "Find recent file: " files nil t))))
+  :init
+  (setq recentf-exclude
+	(list "/tmp/"                        ; Temp-files
+              "/dev/shm"                     ; Potential secrets
+              "/ssh:"                        ; Files over SSH
+              "/nix/store"                   ; Files in Nix store
+              "/TAGS$"                       ; Tag files
+              "^/\\.git/.+$"                 ; Git contents
+              "\\.?ido\\.last$"
+              "\\.revive$"
+              "^/var/folders/.+$"
+              (concat "^" cache-dir ".+$")
+              (concat "^" data-dir ".+$")))
+  (setq recentf-filename-handlers '(abbreviate-file-name))
+  (setq recentf-max-menu-items 0)
+  (setq recentf-max-saved-items 300)
+  (setq recentf-auto-cleanup 'never)
   :config
   (quiet! (recentf-mode 1)))
 #+end_src
@@ -1807,16 +1797,14 @@ Project interactions. Prefix project buffer files with the project name and rela
 (use-package projectile
   :ensure t
   :defer 5
-  :custom
-  (projectile-completion-system 'default)
-  (projectile-enable-caching nil)
-  (projectile-file-exists-remote-cache-expire nil)
-  (projectile-globally-ignored-file-suffixes
-   '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
-  (projectile-globally-ignored-files
-   '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
-  (projectile-ignored-projects (list data-dir))
-  (projectile-indexing-method 'alien)
+  :preface
+  (defun +projectile-cache-current-file (orig-fun &rest args)
+    "Don't cache ignored files."
+    (unless (cl-some (lambda (path)
+                       (string-prefix-p buffer-file-name
+                                        (expand-file-name path)))
+                     (projectile-ignored-directories))
+      (apply orig-fun args)))
   :general
   (:keymaps
    'projectile-mode-map
@@ -1831,15 +1819,16 @@ Project interactions. Prefix project buffer files with the project name and rela
    :prefix
    leader-key
    "p" '(:keymap projectile-command-map :package projectile :wk "project"))
-  :preface
-  (defun +projectile-cache-current-file (orig-fun &rest args)
-    "Don't cache ignored files."
-    (unless (cl-some (lambda (path)
-                       (string-prefix-p buffer-file-name
-                                        (expand-file-name path)))
-                     (projectile-ignored-directories))
-      (apply orig-fun args)))
   :init
+  (setq projectile-completion-system 'default)
+  (setq projectile-enable-caching nil)
+  (setq projectile-file-exists-remote-cache-expire nil)
+  (setq projectile-globally-ignored-file-suffixes
+        '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
+  (setq projectile-globally-ignored-files
+        '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
+  (setq projectile-ignored-projects (list data-dir))
+  (setq projectile-indexing-method 'alien)
   (advice-add 'projectile-cache-current-file :around #'+projectile-cache-current-file)
   :config
   (setq projectile-globally-ignored-directories
@@ -1870,10 +1859,10 @@ Manage project repositories.
 (use-package ivy-ghq
   :ensure t
   :defer 2
-  :custom
-  (ivy-ghq-short-list t)
   :general
-  ("C-c p" 'ivy-ghq-open))
+  ("C-c p" 'ivy-ghq-open)
+  :init
+  (setq ivy-ghq-short-list t))
 #+end_src
 
 * Completion
@@ -1886,17 +1875,11 @@ No completion with tab.
 #+begin_src emacs-lisp :tangle yes
 (use-package company
   :ensure t
-  :custom
-  (company-backends
-   '((company-files
-      company-keywords
-      company-capf
-      company-dabbrev-code
-      company-dabbrev)))
-  (company-dabbrev-downcase nil)
-  (company-show-numbers t)
-  (company-tooltip-align-annotations t)
+  :preface
+  (eval-when-compile
+    (require 'company-dabbrev))
   :hook
+  (ielm-mode-hook . company-mode)
   (prog-mode-hook . company-mode)
   :general
   (:keymaps
@@ -1910,7 +1893,17 @@ No completion with tab.
    "C-e" 'company-complete-selection
    "C-f" 'company-complete-selection
    "C-n" 'company-select-next
-   "C-p" 'company-select-previous))
+   "C-p" 'company-select-previous)
+  :init
+  (setq company-backends
+        '((company-files
+           company-keywords
+           company-capf
+           company-dabbrev-code
+           company-dabbrev)))
+  (setq company-dabbrev-downcase nil)
+  (setq company-show-numbers t)
+  (setq company-tooltip-align-annotations t))
 #+end_src
 
 ** Hippie
@@ -1929,22 +1922,20 @@ Complete in the following order:
 - Try to complete word as an Emacs Lisp symbol.
 #+begin_src emacs-lisp :tangle yes
 (use-package hippie-exp
-  :commands
-  (hippie-expand)
-  :custom
-  (hippie-expand-try-functions-list
-   '(try-expand-dabbrev-visible
-     try-expand-dabbrev
-     try-complete-file-name-partially
-     try-complete-file-name
-     try-expand-all-abbrevs
-     try-expand-list
-     try-expand-line
-     try-expand-line-all-buffers
-     try-complete-lisp-symbol-partially
-     try-complete-lisp-symbol))
   :general
-  ([remap dabbrev-expand] 'hippie-expand))
+  ([remap dabbrev-expand] 'hippie-expand)
+  :init
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev-visible
+          try-expand-dabbrev
+          try-complete-file-name-partially
+          try-complete-file-name
+          try-expand-all-abbrevs
+          try-expand-list
+          try-expand-line
+          try-expand-line-all-buffers
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol)))
 #+end_src
 
 ** Selectrum
@@ -1952,17 +1943,6 @@ Incremental selection narrowing interface for completions.
 #+begin_src emacs-lisp :tangle yes
 (use-package selectrum
   :ensure t
-  :hook
-  (after-init-hook . selectrum-mode)
-  (selectrum-mode-hook . selectrum-define-keys)
-  :custom
-  (selectrum-extend-current-candidate-highlight t)
-  (selectrum-show-indices t)
-  :general
-  ("C-c SPC" 'selectrum-repeat)
-  (:keymaps
-   'selectrum-minibuffer-map
-   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
   :preface
   (defun selectrum-define-keys ()
     (dotimes (i (min selectrum-num-candidates-displayed 10))
@@ -1976,30 +1956,42 @@ Incremental selection narrowing interface for completions.
     "Move to end of line or insert current candidate.
    ARG lines can be used."
     (interactive "p")
-    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg))))
+    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
+  :hook
+  (after-init-hook . selectrum-mode)
+  (selectrum-mode-hook . selectrum-define-keys)
+  :general
+  ("C-c SPC" 'selectrum-repeat)
+  (:keymaps
+   'selectrum-minibuffer-map
+   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
+  :init
+  (setq selectrum-extend-current-candidate-highlight t)
+  (setq selectrum-show-indices t))
 
 (use-package orderless
   :ensure t
-  :custom
-  (orderless-matching-styles '(orderless-regexp orderless-flex))
-  (selectrum-refine-candidates-function #'orderless-filter)
-  (selectrum-highlight-candidates-function #'orderless-highlight-matches))
+  :init
+  (setq orderless-matching-styles '(orderless-regexp orderless-flex))
+  (setq selectrum-refine-candidates-function #'orderless-filter)
+  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches))
 #+end_src
 
 ** Ivy
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy
   :ensure t
-  :custom
-  (ivy-hooks-alist '((t . hl-line-mode)))
-  (ivy-wrap t)
-  (ivy-on-del-error-function #'ignore)
-  (ivy-use-virtual-buffers t)
-  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
-  (ivy-use-selectable-prompt t)
-  (ivy-fixed-height-minibuffer t)
-  ;; Don't use ^ as initial input.
-  (ivy-initial-inputs-alist nil)
+  :preface
+  (defun +ivy-move-end-of-line-or-done (arg)
+    "Move to end of current line or consider ivy operation done.
+   ARG lines can be used."
+    (interactive "p")
+    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
+  (defun +ivy-forward-or-done (n)
+    "Move point forward or consider ivy operation done.
+      N characters can be used."
+    (interactive "p")
+    (if (eolp) (ivy-alt-done) (forward-char n)))
   :general
   (:keymaps
    'ivy-mode-map
@@ -2019,17 +2011,16 @@ Incremental selection narrowing interface for completions.
    "C-l"        'ivy-alt-done
    "C-u"        'ivy-kill-line
    "C-w"        'ivy-backward-kill-word)
-  :preface
-  (defun +ivy-move-end-of-line-or-done (arg)
-    "Move to end of current line or consider ivy operation done.
-   ARG lines can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
-  (defun +ivy-forward-or-done (n)
-    "Move point forward or consider ivy operation done.
-      N characters can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (forward-char n))))
+  :init
+  (setq ivy-hooks-alist '((t . hl-line-mode)))
+  (setq ivy-wrap t)
+  (setq ivy-on-del-error-function #'ignore)
+  (setq ivy-use-virtual-buffers t)
+  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
+  (setq ivy-use-selectable-prompt t)
+  (setq ivy-fixed-height-minibuffer t)
+  ;; Don't use ^ as initial input.
+  (setq ivy-initial-inputs-alist nil))
 #+end_src
 
 *** Packages
@@ -2061,20 +2052,16 @@ Snippets with preview.
 * Development
 Reduce scroll margin.
 #+begin_src emacs-lisp :tangle yes
-(defun +prog-scroll-margin-setup ()
+(defun prog-scroll-margin-setup ()
   "Setup `scroll-margin' for `prog-mode'."
   (setq-local scroll-margin 3))
-(add-hook 'prog-mode-hook #'+prog-scroll-margin-setup)
+(add-hook 'prog-mode-hook #'prog-scroll-margin-setup)
 #+end_src
 
 ** Compilation
 Kill compilation process before stating another and save all buffers on ~compile~.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
-  :custom
-  (compilation-always-kill t)
-  (compilation-ask-about-save nil)
-  (compilation-scroll-output t)
   :general
   (:keymaps
    'global
@@ -2083,9 +2070,12 @@ Kill compilation process before stating another and save all buffers on ~compile
    "c" 'recompile
    "C" 'compile)
   :init
-  (put 'compile-command 'safe-local-variable 'stringp))
+  (setq compilation-always-kill t)
+  (setq compilation-ask-about-save nil)
+  (setq compilation-scroll-output t)
 
-(make-variable-buffer-local 'compile-command)
+  (make-variable-buffer-local 'compile-command)
+  (put 'compile-command 'safe-local-variable 'stringp))
 #+end_src
 
 *** ANSI escape
@@ -2124,8 +2114,8 @@ Support for Docker related files.
 #+begin_src emacs-lisp :tangle yes
 (use-package docker-tramp
   :ensure t
-  :custom
-  (docker-tramp-use-names t))
+  :init
+  (setq docker-tramp-use-names t))
 #+end_src
 
 *** Kubernetes
@@ -2142,21 +2132,14 @@ Support for Docker related files.
 #+begin_src emacs-lisp :tangle yes
 (use-package coverlay
   :ensure t
-  :hook
-  (coverlay-minor-mode-hook . init-coverlay)
-  :custom
-  (coverlay:mark-tested-lines nil)
-  :general
-  (:prefix
-   local-leader-key
-   "v" 'coverlay-mode-toggle)
-  :init
+  :preface
   (defun init-coverlay ()
     "Setup `coverlay-mode'."
     (setq-local
      coverlay:base-path
      (expand-file-name (locate-dominating-file (file-name-directory (buffer-file-name))
                                                "coverage"))))
+
   (defun coverlay-mode-toggle ()
     "Turn on `coverlay-mode'."
     (interactive)
@@ -2166,7 +2149,15 @@ Support for Docker related files.
       (when (and (buffer-file-name) (not (bound-and-true-p coverlay--loaded-filepath)))
         (let ((coverage-file (expand-file-name "coverage/lcov.info" coverlay:base-path)))
           (when (file-exists-p coverage-file)
-            (coverlay-watch-file coverage-file)))))))
+            (coverlay-watch-file coverage-file))))))
+  :hook
+  (coverlay-minor-mode-hook . init-coverlay)
+  :general
+  (:prefix
+   local-leader-key
+   "v" 'coverlay-mode-toggle)
+  :init
+  (setq coverlay:mark-tested-lines nil))
 #+end_src
 
 ** Docs
@@ -2184,12 +2175,12 @@ Lookup documentation via DevDocs.
 #+begin_src emacs-lisp :tangle yes
 (use-package separedit
   :ensure t
-  :custom
-  (separedit-preserve-string-indentation t)
   :general
   (:keymaps
    '(prog-mode-map typescript-mode-map)
-   "C-c '" 'separedit))
+   "C-c '" 'separedit)
+  :init
+  (setq separedit-preserve-string-indentation t))
 #+end_src
 
 ** Eval
@@ -2210,10 +2201,13 @@ Lookup documentation via DevDocs.
 Code folding.
 #+begin_src emacs-lisp :tangle yes
 (use-package hideshow
+  :preface
+  (defun hs-fold-overlay-ellipsis (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (overlay-put
+       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
   :hook
   (prog-mode-hook . hs-minor-mode)
-  :custom
-  (hs-hide-comments-when-hiding-all nil)
   :general
   (:prefix
    (concat leader-key " " "z")
@@ -2225,14 +2219,10 @@ Code folding.
    "l"     'hs-hide-level
    "z"     'hs-toggle-hiding
    "<tab>" 'hs-toggle-hiding)
-  :preface
-  (defun +hs-fold-overlay-ellipsis (ov)
-    (when (eq 'code (overlay-get ov 'hs))
-      (overlay-put
-       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
   :init
-  (setq hs-allow-nesting t
-        hs-set-up-overlay #'+hs-fold-overlay-ellipsis))
+  (setq hs-hide-comments-when-hiding-all nil)
+  (setq hs-allow-nesting t)
+  (setq hs-set-up-overlay #'hs-fold-overlay-ellipsis))
 #+end_src
 
 ** Formatting
@@ -2280,8 +2270,8 @@ grep tools e.g. (=grep=, =rx=, =ag=)
 Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package etags
-  :custom
-  (tags-add-tables nil))
+  :init
+  (setq tags-add-tables nil))
 #+end_src
 
 *** xref
@@ -2298,11 +2288,11 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package dumb-jump
   :ensure t
-  :custom
-  (dumb-jump-default-project user-emacs-directory)
-  (dumb-jump-selector 'completing-read)
   :hook
-  (xref-backend-functions . dumb-jump-xref-activate))
+  (xref-backend-functions . dumb-jump-xref-activate)
+  :init
+  (setq dumb-jump-default-project user-emacs-directory)
+  (setq dumb-jump-selector 'completing-read))
 #+end_src
 
 ** Refactor
@@ -2320,8 +2310,6 @@ Refactoring commands for various languages.
 *** comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
-  :custom
-  (comint-use-prompt-regexp t)
   :preface
   (defun comint-process-tab-complete ()
     "Complete by sending the current input and TAB character to the process."
@@ -2335,30 +2323,15 @@ Refactoring commands for various languages.
   (:keymaps
    'comint-mode-map
    "<tab>" 'comint-process-tab-complete
-   "C-c C-k" 'term-char-mode))
+   "C-c C-k" 'term-char-mode)
+  :init
+  (setq comint-use-prompt-regexp t))
 #+end_src
 
 *** repl-toggle
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
   :ensure t
-  :custom
-  (rtog/goto-buffer-fun 'pop-to-buffer)
-  (rtog/mode-repl-alist '((emacs-lisp-mode . ielm)
-                          (clojure-mode . clojure-repl)
-                          (elm-mode . elm-repl-load)
-                          (go-mode . gorepl-run)
-                          (js-mode . js-repl)
-                          (lisp-mode . slime)
-                          (lua-mode . lua-repl)
-                          (nix-mode . nix-repl)
-                          (racket-mode . racket-repl)
-                          (typescript-mode . run-ts)))
-  :general
-  (:keymaps
-   'prog-mode-map
-   :prefix local-leader-key
-   "r" 'rtog/toggle-repl)
   :preface
   (defun clojure-repl ()
     "Open a Clojure REPL."
@@ -2373,7 +2346,25 @@ Refactoring commands for various languages.
   (defun lua-repl ()
     "Open a Lua REPL."
     (interactive)
-    (pop-to-buffer (process-buffer (lua-get-create-process)))))
+    (pop-to-buffer (process-buffer (lua-get-create-process))))
+  :general
+  (:keymaps
+   'prog-mode-map
+   :prefix local-leader-key
+   "r" 'rtog/toggle-repl)
+  :init
+  (setq rtog/goto-buffer-fun 'pop-to-buffer)
+  (setq rtog/mode-repl-alist
+        '((emacs-lisp-mode . ielm)
+          (clojure-mode . clojure-repl)
+          (elm-mode . elm-repl-load)
+          (go-mode . gorepl-run)
+          (js-mode . js-repl)
+          (lisp-mode . slime)
+          (lua-mode . lua-repl)
+          (nix-mode . nix-repl)
+          (racket-mode . racket-repl)
+          (typescript-mode . run-ts))))
 #+end_src
 
 *** Persistent history in comint
@@ -2412,12 +2403,25 @@ legacy diagnostic functions as some of them have bugs and cause instability (mai
 Haskell one).
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake
+  :preface
+  (defun flymake-setup-next-error-function ()
+    (setq next-error-function 'flymake-next-error-compat))
+
+  (defun flymake-next-error-compat (&optional n _)
+    (flymake-goto-next-error n))
+
+  (defun flymake-diagnostics-next-error ()
+    (interactive)
+    (forward-line)
+    (when (eobp) (forward-line -1))
+    (flymake-show-diagnostic (point)))
+
+  (defun flymake-diagnostics-prev-error ()
+    (interactive)
+    (forward-line -1)
+    (flymake-show-diagnostic (point)))
   :hook
   (flymake-mode-hook . flymake-setup-next-error-function)
-  :custom
-  (help-at-pt-timer-delay 0.1)
-  (help-at-pt-display-when-idle '(flymake-diagnostic))
-  (flymake-proc-ignored-file-name-regexps '("\\.l?hs\\'"))
   :general
   (:keymaps
    'flymake-mode-map
@@ -2440,24 +2444,9 @@ Haskell one).
    "k" 'flymake-diagnostics-prev-error
    "RET" 'flymake-goto-diagnostic
    "TAB" 'flymake-show-diagnostic)
-  :preface
-  (defun flymake-setup-next-error-function ()
-    (setq next-error-function 'flymake-next-error-compat))
-
-  (defun flymake-next-error-compat (&optional n _)
-    (flymake-goto-next-error n))
-
-  (defun flymake-diagnostics-next-error ()
-    (interactive)
-    (forward-line)
-    (when (eobp) (forward-line -1))
-    (flymake-show-diagnostic (point)))
-
-  (defun flymake-diagnostics-prev-error ()
-    (interactive)
-    (forward-line -1)
-    (flymake-show-diagnostic (point)))
   :init
+  (setq flymake-proc-ignored-file-name-regexps '("\\.l?hs\\'"))
+
   (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
 #+end_src
 
@@ -2465,21 +2454,21 @@ Haskell one).
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake-diagnostic-at-point
   :ensure t
-  :hook
-  (flymake-mode-hook . flymake-diagnostic-at-point-mode)
   :preface
   (defun flymake-diagnostic-at-point-quick-peek (text)
     "Display the flymake diagnostic TEXT with `quick-peek'`."
     (quick-peek-show (concat flymake-diagnostic-at-point-error-prefix text)))
-  :custom
-  (flymake-diagnostic-at-point-error-prefix nil))
+  :hook
+  (flymake-mode-hook . flymake-diagnostic-at-point-mode)
+  :init
+  (setq flymake-diagnostic-at-point-error-prefix nil))
 #+end_src
 
 ** Version control
 #+begin_src emacs-lisp :tangle yes
-(setq diff-font-lock-prettify t
-      vc-follow-symlinks t
-      vc-make-backup-files nil)
+(setq diff-font-lock-prettify t)
+(setq vc-follow-symlinks t)
+(setq vc-make-backup-files nil)
 #+end_src
 
 *** browse-at-remote
@@ -2516,14 +2505,6 @@ Open link to files in the web UI connected to a repository.
 - Add a third resolution option, copy both A and B to C
 #+begin_src emacs-lisp :tangle yes
 (use-package ediff
-  :hook
-  (ediff-quit-hook . winner-undo)
-  (ediff-keymap-setup-hook . init-ediff-keys)
-  :custom
-  (ediff-diff-options "-w")
-  (ediff-merge-split-window-function #'split-window-horizontally)
-  (ediff-split-window-function #'split-window-horizontally)
-  (ediff-window-setup-function #'ediff-setup-windows-plain)
   :preface
   (defun ediff-copy-both-to-C ()
     "Copy change from both A and B to C."
@@ -2540,7 +2521,15 @@ Open link to files in the web UI connected to a repository.
      :keymaps 'ediff-mode-map
      "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
      "j" '(ediff-next-difference     :wk "Next difference")
-     "k" '(ediff-previous-difference :wk "Previous difference"))))
+     "k" '(ediff-previous-difference :wk "Previous difference")))
+  :hook
+  (ediff-quit-hook . winner-undo)
+  (ediff-keymap-setup-hook . init-ediff-keys)
+  :init
+  (setq ediff-diff-options "-w")
+  (setq ediff-merge-split-window-function #'split-window-horizontally)
+  (setq ediff-split-window-function #'split-window-horizontally)
+  (setq ediff-window-setup-function #'ediff-setup-windows-plain))
 #+end_src
 
 *** diff-hl
@@ -2550,10 +2539,10 @@ Diff indicators in fringe
   :ensure t
   :defer 2
   :preface
+  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
+  (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
   (defrepeater #'diff-hl-next-hunk)
   (defrepeater #'diff-hl-previous-hunk)
-  :custom
-  (diff-hl-ask-before-revert-hunk nil)
   :hook
   (dired-mode-hook . diff-hl-dired-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
@@ -2568,9 +2557,8 @@ Diff indicators in fringe
    "d" '(diff-hl-previous-hunk :wk "Diff Hunk"))
   ([remap diff-hl-next-hunk] 'diff-hl-next-hunk-repeat
    [remap diff-hl-previous-hunk] 'diff-hl-previous-hunk-repeat)
-  :preface
-  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
-  (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
+  :init
+  (setq diff-hl-ask-before-revert-hunk nil)
   :config
   (global-diff-hl-mode 1)
   (diff-hl-flydiff-mode 1))
@@ -2582,18 +2570,9 @@ Enhanced git related views and commands.
 (use-package magit
   :ensure t
   :defer 2
-  :hook
-  (git-commit-mode-hook . +git-commit-set-fill-column)
-  :custom
-  (magit-log-buffer-file-locked t)
-  (magit-refs-show-commit-count 'all)
-  (magit-save-repository-buffers 'dontask)
-  (vc-msg-git-show-commit-function 'magit-show-commit)
-  :general
-  (:keymaps
-   'dired-mode-map
-   "C-x g" 'magit)
   :preface
+  (eval-when-compile
+    (require 'vc-msg-git))
   (defun +git-commit-set-fill-column ()
     "Set `fill-column' for git commit."
     (setq fill-column 72))
@@ -2609,8 +2588,20 @@ Enhanced git related views and commands.
             (inhibit-message t))
         (if (y-or-n-p "Create PR? ")
             (browse-url (url-encode-url url))))))
-  :config
+  :hook
+  (git-commit-mode-hook . +git-commit-set-fill-column)
+  :general
+  (:keymaps
+   'dired-mode-map
+   "C-x g" 'magit)
+  :init
+  (setq magit-log-buffer-file-locked t)
+  (setq magit-refs-show-commit-count 'all)
+  (setq magit-save-repository-buffers 'dontask)
   (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
+  (eval-after-load 'vc-msg-git
+    (setq vc-msg-git-show-commit-function 'magit-show-commit))
+  :config
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" ""))
 #+end_src
@@ -2646,8 +2637,8 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 (use-package editorconfig
   :ensure t
   :defer 1
-  :custom
-  (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  :init
+  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :config
   (dolist (mode '(emacs-lisp-mode lisp-mode))
     (setq editorconfig-indentation-alist
@@ -2661,6 +2652,9 @@ Generic Language Server Protocol integration via ~eglot~.
 (use-package eglot
   :ensure t
   :defer 3
+  :preface
+  (defun +eglot-ensure-unless-json-mode ()
+    (unless (derived-mode-p 'json-mode) (eglot-ensure)))
   :hook
   ((haskell-mode-hook
     java-mode-hook
@@ -2668,13 +2662,6 @@ Generic Language Server Protocol integration via ~eglot~.
     rustic-mode-hook
     typescript-mode-hook) . eglot-ensure)
   (js-mode-hook . +eglot-ensure-unless-json-mode)
-  :preface
-  (defun +eglot-ensure-unless-json-mode ()
-    (unless (derived-mode-p 'json-mode) (eglot-ensure)))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-confirm-server-initiated-edits nil)
-  (eglot-sync-connect nil)
   :general
   (:keymaps
    'eglot-mode-map
@@ -2688,25 +2675,14 @@ Generic Language Server Protocol integration via ~eglot~.
    "ef" 'eglot-format
    "eh" 'eglot-help-at-point
    "er" 'eglot-rename)
+  :init
+  (setq eglot-autoshutdown t)
+  (setq eglot-confirm-server-initiated-edits nil)
+  (setq eglot-sync-connect nil)
   :config
   (cl-pushnew '((js-mode typescript-mode) . ("typescript-language-server" "--stdio"))
               eglot-server-programs
               :test #'equal))
-#+end_src
-
-*** helm-make
-Execute make tasks.
-#+begin_src emacs-lisp :tangle yes
-(use-package helm-make
-  :ensure t
-  :custom
-  (helm-make-completion-method 'ivy)
-  :general
-  (:prefix
-   leader-key
-   "m" (general-predicate-dispatch #'helm-make
-         :docstring "Run make task (project aware)"
-         (projectile-project-p) #'helm-make-projectile)))
 #+end_src
 
 *** hl-todo
@@ -2782,10 +2758,10 @@ Delete trailing white-space before save, but *only* for edited lines.
 #+begin_src emacs-lisp :tangle yes
 (use-package ws-butler
   :ensure t
-  :custom
-  (ws-butler-convert-leading-tabs-or-spaces t)
   :commands
-  (ws-butler-mode))
+  (ws-butler-mode)
+  :init
+  (setq ws-butler-convert-leading-tabs-or-spaces t))
 #+end_src
 
 ** Appearance
@@ -2794,14 +2770,14 @@ Visually separate delimiter pairs.
 #+begin_src emacs-lisp :tangle yes
 (use-package rainbow-delimiters
   :ensure t
-  :custom
-  (rainbow-delimiters-max-face-count 3)
   :hook
   ((clojure-mode-hook
     emacs-lisp-mode-hook
     ielm-mode-hook
     lisp-mode-hook
-    racket-mode-hook) . rainbow-delimiters-mode))
+    racket-mode-hook) . rainbow-delimiters-mode)
+  :init
+  (setq rainbow-delimiters-max-face-count 3))
 #+end_src
 
 *** Highlight identifiers
@@ -2811,8 +2787,8 @@ Highlight source code identifiers based on their name.
 
 (use-package rainbow-identifiers
   :ensure t
-  :custom
-  (rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+  :init
+  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 #+end_src
 
 *** Ligatures
@@ -2831,8 +2807,8 @@ Highlight source code identifiers based on their name.
      "&&" "||")))
 
 (use-package prog-mode
-  :custom
-  (prettify-symbols-unprettify-at-point t))
+  :init
+  (setq prettify-symbols-unprettify-at-point t))
 #+end_src
 
 * Major modes
@@ -2906,9 +2882,9 @@ Auto-compile Elisp files.
   :hook
   (emacs-lisp-mode-hook . auto-compile-on-load-mode)
   (emacs-lisp-mode-hook . auto-compile-on-save-mode)
-  :custom
-  (auto-compile-display-buffer nil)
-  (auto-compile-use-mode-line nil))
+  :init
+  (setq auto-compile-display-buffer nil)
+  (setq auto-compile-use-mode-line nil))
 #+end_src
 
 **** eros
@@ -2932,15 +2908,15 @@ Evaluation results in overlay.
 #+begin_src emacs-lisp :tangle yes
 (use-package package-lint-flymake
   :ensure t
-  :hook
-  (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package)
-  :commands (package-lint-flymake-setup)
   :preface
   (defun package-lint-flymake-setup-when-package ()
     "Enable `package-lint-flymake' when buffer seems to be a package."
     (autoload 'package-lint--provided-feature "package-lint")
     (when (package-lint--provided-feature)
-      (package-lint-flymake-setup))))
+      (package-lint-flymake-setup)))
+  :commands (package-lint-flymake-setup)
+  :hook
+  (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package))
 #+end_src
 
 **** suggest
@@ -2948,13 +2924,6 @@ Discover functions.
 #+begin_src emacs-lisp :tangle yes
 (use-package suggest
   :ensure t
-  :commands
-  (suggest)
-  :general
-  (:keymaps
-   'emacs-lisp-mode-map
-   :prefix local-leader-key
-   "s" '+suggest-popup)
   :preface
   (defun +suggest-popup ()
     "Open suggest as a popup."
@@ -2963,7 +2932,14 @@ Discover functions.
            (dedicated-flag (window-dedicated-p window)))
       (set-window-dedicated-p window t)
       (suggest)
-      (set-window-dedicated-p window dedicated-flag))))
+      (set-window-dedicated-p window dedicated-flag)))
+  :commands
+  (suggest)
+  :general
+  (:keymaps
+   'emacs-lisp-mode-map
+   :prefix local-leader-key
+   "s" '+suggest-popup))
 #+end_src
 
 *** Appearance
@@ -2979,49 +2955,51 @@ Improve readability of escape characters in regular expressions.
 ** erc
 #+begin_src emacs-lisp :tangle yes
 (use-package erc
-  :hook
-  (erc-mode-hook . init-erc-parens)
-  :custom
-  (erc-hide-list '("JOIN" "PART" "QUIT"))
-  (erc-prompt-for-password nil)
   :preface
   (defun init-erc-parens ()
     "Parenthesis configuration for `erc-mode'."
     (smartparens-strict-mode 0)
-    (smartparens-mode 1)))
+    (smartparens-mode 1))
+  :hook
+  (erc-mode-hook . init-erc-parens)
+  :init
+  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+  (setq erc-prompt-for-password nil))
 #+end_src
 
 ** org
 #+begin_src emacs-lisp :tangle yes
 (use-package org
   :defer 5
+  :preface
+  (autoload 'org-get-outline-path "org-refile" nil t)
   :hook
   (org-mode-hook . auto-fill-mode)
-  :custom
-  (org-agenda-files '("~/org/Personal.org" "~/org/Work.org"))
-  (org-confirm-babel-evaluate nil)
-  (org-edit-src-content-indentation 0)
-  (org-log-done 'time)
-  (org-modules nil)
-  (org-plantuml-exec-mode 'plantuml)
-  (org-special-ctrl-a/e t)
-  (org-src-preserve-indentation nil)
-  (org-src-tab-acts-natively t)
-  (org-src-window-setup 'current-window)
-  (org-tag-alist
-   '(("@work"  . ?w)
-     ("@home"  . ?h)
-     ("laptop" . ?l)))
   :general
   ("C-C a" 'org-agenda)
   (:keymaps
    'org-mode-map
    "C-'" 'nil
    "C-," 'nil)
-  :functions
-  (org-babel-load-languages)
-  :preface
-  (autoload 'org-get-outline-path "org-refile" nil t))
+  :init
+  (setq org-agenda-files
+        '("~/org/Personal.org" "~/org/Work.org"))
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-edit-src-content-indentation 0)
+  (setq org-log-done 'time)
+  (setq org-modules nil)
+  (setq org-special-ctrl-a/e t)
+  (setq org-src-preserve-indentation nil)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-tag-alist
+        '(("@work"  . ?w)
+          ("@home"  . ?h)
+          ("laptop" . ?l))))
+
+(use-package ob-plantuml
+  :init
+  (setq org-plantuml-exec-mode 'plantuml))
 #+end_src
 
 *** Packages
@@ -3030,11 +3008,6 @@ Evaluation of source code blocks in REPL.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-babel-eval-in-repl
   :ensure t
-  :general
-  (:keymaps
-   'org-mode-map
-   "C-<return>" '+org-ctrl-return
-   "M-<return>" '+org-meta-return)
   :preface
   (defun +org-ctrl-return ()
     "Run `ober-eval-in-repl' if in source code block and `org-insert-heading-respect-content' otherwise."
@@ -3047,7 +3020,12 @@ Evaluation of source code blocks in REPL.
     (interactive)
     (if (org-in-block-p '("src" "example"))
         (ober-eval-block-in-repl)
-      (call-interactively #'org-meta-return))))
+      (call-interactively #'org-meta-return)))
+  :general
+  (:keymaps
+   'org-mode-map
+   "C-<return>" '+org-ctrl-return
+   "M-<return>" '+org-meta-return))
 #+end_src
 
 **** org-cliplink
@@ -3072,12 +3050,13 @@ Eldoc support, showing path to current section.
     "Initialize `org-eldoc'."
     (org-eldoc-load)
     (eldoc-mode 1))
-  :hook
-  (org-mode-hook . init-org-eldoc)
-  :config
+
   (defun +org-eldoc-get-breadcrumb-no-properties (string)
     "Remove properties from STRING."
     (when string (substring-no-properties string)))
+  :hook
+  (org-mode-hook . init-org-eldoc)
+  :config
   (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties))
 #+end_src
 
@@ -3112,9 +3091,6 @@ Presentation mode.
   (org-tree-slide-stop-hook . turn-off-hide-mode-line-mode)
   (org-tree-slide-play-hook . no-fringes)
   (org-tree-slide-stop-hook . restore-fringes)
-  :custom
-  (org-tree-slide-header nil)
-  (org-tree-slide-slide-in-effect nil)
   :general
   (:keymaps
    'org-tree-slide-mode-map
@@ -3123,7 +3099,10 @@ Presentation mode.
   (:keymaps
    'org-mode-map
    :prefix local-leader-key
-   "p" 'org-tree-slide-mode))
+   "p" 'org-tree-slide-mode)
+  :init
+  (setq org-tree-slide-header nil)
+  (setq org-tree-slide-slide-in-effect nil))
 #+end_src
 
 **** ob-http
@@ -3136,16 +3115,6 @@ This sections makes ~org-mode~ look more beautiful and appealing.
 
 #+begin_src emacs-lisp :tangle yes
 (use-package org
-  :hook
-  (org-mode-hook . init-org-prettify-syntax)
-  (org-babel-after-execute-hook . org-redisplay-inline-images)
-  :custom
-  (org-fontify-quote-and-verse-blocks t)
-  (org-hide-emphasis-markers t)
-  (org-pretty-entities t)
-  (org-src-fontify-natively t)
-  (org-startup-indented t)
-  (org-startup-with-inline-images t)
   :preface
   (defun init-org-prettify-syntax ()
     "Prettify syntax with symbols."
@@ -3165,7 +3134,17 @@ This sections makes ~org-mode~ look more beautiful and appealing.
     (dolist (n (number-sequence 1 8 1))
       (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
         (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-    (prettify-symbols-mode 1)))
+    (prettify-symbols-mode 1))
+  :hook
+  (org-mode-hook . init-org-prettify-syntax)
+  (org-babel-after-execute-hook . org-redisplay-inline-images)
+  :init
+  (setq org-fontify-quote-and-verse-blocks t)
+  (setq org-hide-emphasis-markers t)
+  (setq org-pretty-entities t)
+  (setq org-src-fontify-natively t)
+  (setq org-startup-indented t)
+  (setq org-startup-with-inline-images t))
 #+end_src
 
 **** Emphasis
@@ -3184,18 +3163,18 @@ Use variable-pitch font but still make sure everything aligns.
   :ensure t
   :hook
   (org-mode-hook . org-variable-pitch-minor-mode)
-  :custom
-  (org-variable-pitch-fontify-headline-prefix t))
+  :init
+  (setq org-variable-pitch-fontify-headline-prefix t))
 #+end_src
 
 **** Headings
 #+begin_src emacs-lisp :tangle yes
 (use-package org
-  :custom
-  (org-ellipsis "  ")
-  (org-fontify-whole-heading-line t)
-  (org-fontify-todo-headline t)
-  (org-fontify-done-headline t))
+  :init
+  (setq org-ellipsis "  ")
+  (setq org-fontify-whole-heading-line t)
+  (setq org-fontify-todo-headline t)
+  (setq org-fontify-done-headline t))
 #+end_src
 
 **** Bullet lists
@@ -3232,8 +3211,8 @@ Use symbols to represent task state.
   :ensure t
   :hook
   (org-mode-hook . valign-mode)
-  :custom
-  (valign-fancy-bar t))
+  :init
+  (setq valign-fancy-bar t))
 #+end_src
 
 *** Export
@@ -3241,19 +3220,19 @@ Use symbols to represent task state.
 Disable link colors.
 #+begin_src emacs-lisp :tangle yes
 (use-package ox-latex
-  :custom
-  (org-latex-hyperref-template
-   (mapconcat
-    'identity
-    '("\\hypersetup{"
-      "pdfauthor={%a},"
-      "pdftitle={%t},"
-      "pdfkeywords={%k},"
-      "pdfsubject={%d},"
-      "pdfcreator={%c},"
-      "pdflang={%L},"
-      "pdfborder=0 0 0}")
-    "\n")))
+  :init
+  (setq org-latex-hyperref-template
+	(mapconcat
+	 'identity
+	 '("\\hypersetup{"
+	   "pdfauthor={%a},"
+	   "pdftitle={%t},"
+	   "pdfkeywords={%k},"
+	   "pdfsubject={%d},"
+	   "pdfcreator={%c},"
+	   "pdflang={%L},"
+	   "pdfborder=0 0 0}")
+         "\n")))
 #+end_src
 
 Add links in footnotes.
@@ -3308,11 +3287,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :hook
   (cider-mode-hook . cider-auto-test-mode)
-  :custom
-  (cider-prompt-for-symbol nil)
-  (cider-repl-display-help-banner nil)
-  (cider-repl-history-file (concat data-dir "cider-history"))
-  (org-babel-clojure-backend 'cider)
   :general
   (:keymaps
    'cider-mode-map
@@ -3320,7 +3294,11 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    "c" 'cider-refresh
    "t" 'cider-test-run-test
    "T" 'cider-test-run-ns-tests
-   "s" 'cider-test-run-project-tests))
+   "s" 'cider-test-run-project-tests)
+  :init
+  (setq cider-prompt-for-symbol nil)
+  (setq cider-repl-display-help-banner nil)
+  (setq cider-repl-history-file (concat data-dir "cider-history")))
 #+end_src
 
 ** crystal
@@ -3358,8 +3336,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode
   "\\.[Cc][Ss][Vv]\\'"
   ("\\.tsv\\'" . tsv-mode)
-  :custom
-  (csv-separators '("," "\t" ";")))
+  :init
+  (setq csv-separators '("," "\t" ";")))
 #+end_src
 
 ** elasticsearch
@@ -3405,16 +3383,16 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package elm-mode
   :ensure t
   :mode "\\.elm\\'"
-  :custom
-  (elm-format-on-save t)
-  (elm-package-json "elm.json")
-  (elm-tags-exclude-elm-stuff nil)
-  (elm-tags-on-save t)
   :general
   (:keymaps
    'elm-mode-map
    :prefix local-leader-key
-   "t" 'elm-test-project))
+   "t" 'elm-test-project)
+  :init
+  (setq elm-format-on-save t)
+  (setq elm-package-json "elm.json")
+  (setq elm-tags-exclude-elm-stuff nil)
+  (setq elm-tags-on-save t))
 #+end_src
 
 ** epub
@@ -3425,14 +3403,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :mode
   ("\\.epub\\'" . nov-mode)
+  :preface
+  (defun init-nov-delayed-render ()
+    (run-with-idle-timer 0.2 nil 'nov-render-document))
   :hook
   (nov-mode-hook . init-nov-delayed-render)
   (nov-mode-hook . no-fringes)
-  :custom
-  (nov-save-place-file (concat data-dir "nov-places"))
-  :preface
-  (defun init-nov-delayed-render ()
-    (run-with-idle-timer 0.2 nil 'nov-render-document)))
+  :init
+  (setq nov-save-place-file (concat data-dir "nov-places")))
 #+end_src
 
 ** erlang
@@ -3447,6 +3425,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.xrl$"
   "\\.yrl"
   "/ebin/.+\\.app"
+  :preface
+  (defun init-erlang-eunit ()
+    "Setup EUnit support for `erlang-mode'."
+    (require 'erlang-eunit))
+  (defun init-erlang-flymake ()
+    "Setup `flymake' support for `erlang-mode'."
+    (require 'erlang-flymake)
+    (flymake-mode 1))
   :hook
   (erlang-mode-hook . init-erlang-eunit)
   (erlang-mode-hook . init-erlang-flymake)
@@ -3460,15 +3446,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    :prefix local-leader-key
    "t" 'erlang-eunit-compile-and-run-current-test
    "T" 'erlang-eunit-compile-and-run-module-tests
-   "r" 'erlang-shell-display)
-  :preface
-  (defun init-erlang-eunit ()
-    "Setup EUnit support for `erlang-mode'."
-    (require 'erlang-eunit))
-  (defun init-erlang-flymake ()
-    "Setup `flymake' support for `erlang-mode'."
-    (require 'erlang-flymake)
-    (flymake-mode 1)))
+   "r" 'erlang-shell-display))
 #+end_src
 
 ** git
@@ -3487,13 +3465,13 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
-  :custom
-  (gofmt-command "goimports")
   :general
   (:keymaps
    'go-mode-map
    :prefix nav-prefix
-   "k" 'godoc-at-point))
+   "k" 'godoc-at-point)
+  :init
+  (setq gofmt-command "goimports"))
 #+end_src
 
 *** Packages
@@ -3535,6 +3513,9 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package haskell-mode
   :ensure t
+  :preface
+  (eval-when-compile
+    (require 'haskell-commands))
   :mode
   "\\.[gh]s\\'"
   "\\.hsig\\'"
@@ -3543,14 +3524,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.l[gh]s\\'" . haskell-literate-mode)
   :hook
   (haskell-mode-hook . interactive-haskell-mode)
-  :custom
-  (haskell-font-lock-symbols t)
-  (haskell-process-auto-import-loaded-modules t)
-  (haskell-process-log t)
-  (haskell-process-show-debug-tips nil)
-  (haskell-process-use-presentation-mode t)
-  (haskell-stylish-on-save t)
-  (haskell-mode-stylish-haskell-path "brittany")
   :general
   (:keymaps
    'interactive-haskell-mode-map
@@ -3561,6 +3534,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    "r" 'haskell-interactive-switch
    "R" 'haskell-session-change-target)
   :init
+  (setq haskell-font-lock-symbols t)
+  (setq haskell-process-auto-import-loaded-modules t)
+  (setq haskell-process-log t)
+  (setq haskell-process-show-debug-tips nil)
+  (setq haskell-process-use-presentation-mode t)
+  (setq haskell-stylish-on-save t)
+  (setq haskell-mode-stylish-haskell-path "brittany")
+
   ;; Allow configuring project local cabal repl commands.
   (put 'haskell-process-args-cabal-repl 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
 #+end_src
@@ -3569,9 +3550,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package haskell-mode
-  :hook
-  (haskell-interactive-mode-hook . +haskell-interactive-load-history)
-  :defines (haskell-interactive-mode-history)
   :preface
   (defvar +haskell-interactive-global-history nil)
 
@@ -3584,6 +3562,9 @@ Persist REPL history.
     (add-hook 'kill-buffer-hook #'+haskell-interactive-save-history nil t)
     (when +haskell-interactive-global-history
       (setq haskell-interactive-mode-history +haskell-interactive-global-history)))
+  :defines (haskell-interactive-mode-history)
+  :hook
+  (haskell-interactive-mode-hook . +haskell-interactive-load-history)
   :config
   (cl-pushnew '+haskell-interactive-global-history savehist-additional-variables :test #'equal))
 #+end_src
@@ -3632,14 +3613,14 @@ Persist REPL history.
   :mode
   ("\\.js[mx]?\\'" . javascript-mode)
   ("\\.har\\'" . javascript-mode)
-  :hook
-  (js-mode-hook . init-js-find-file)
   :preface
   (defun init-js-find-file ()
     "Setup `ff-test-find-other-file' support for `js-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__"))))
+          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
+  :hook
+  (js-mode-hook . init-js-find-file))
 #+end_src
 
 *** Packages
@@ -3657,13 +3638,13 @@ Debugger
 #+begin_src emacs-lisp :tangle yes
 (use-package indium
   :ensure t
-  :hook
-  (js-mode-hook . +indium-interaction-unless-json-mode)
-  :commands
-  (indium-interaction-mode)
   :preface
   (defun +indium-interaction-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
+  :commands
+  (indium-interaction-mode)
+  :hook
+  (js-mode-hook . +indium-interaction-unless-json-mode)
   :general
   (:keymaps
    'js-mode-map
@@ -3697,12 +3678,12 @@ Test framework execution.
   :ensure t
   :hook
   (js-mode-hook . js2-minor-mode)
-  :custom
-  (js2-highlight-external-variables nil)
-  (js2-mode-show-parse-errors nil)
-  (js2-skip-preprocessor-directives t)
-  (js2-strict-missing-semi-warning nil)
-  (js2-strict-trailing-comma-warning nil))
+  :init
+  (setq js2-highlight-external-variables nil)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-skip-preprocessor-directives t)
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-strict-trailing-comma-warning nil))
 #+end_src
 
 **** nodejs-repl
@@ -3768,11 +3749,15 @@ REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
 (use-package slime
   :ensure t
+  :preface
+  (defun slime-load-file-and-other-file ()
+    "Load buffer file and then load other (test) file."
+    (interactive)
+    (dolist (file `(,buffer-file-name ,(ff-test-other-file-name)))
+      (when (and file (file-exists-p file))
+        (slime-load-file file))))
   :hook
   (lisp-mode-hook . slime-mode)
-  :custom
-  (inferior-lisp-program "sbcl")
-  (slime-contribs '(slime-fancy slime-repl))
   :general
   (:keymaps
    'slime-mode-map
@@ -3783,13 +3768,9 @@ REPL for nodejs.
    :prefix local-leader-key
    "o" 'slime
    "t" 'slime-load-file-and-other-file)
-  :preface
-  (defun slime-load-file-and-other-file ()
-    "Load buffer file and then load other (test) file."
-    (interactive)
-    (dolist (file `(,buffer-file-name ,(ff-test-other-file-name)))
-      (when (and file (file-exists-p file))
-        (slime-load-file file)))))
+  :init
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy slime-repl)))
 #+end_src
 
 ** lua
@@ -3797,13 +3778,13 @@ REPL for nodejs.
 (use-package lua-mode
   :ensure t
   :mode "\\.lua\\'"
-  :custom
-  (lua-documentation-function 'eww)
   :general
   (:keymaps
    'lua-mode-map
    :prefix nav-prefix
-   "k" 'lua-search-documentation))
+   "k" 'lua-search-documentation)
+  :init
+  (setq lua-documentation-function 'eww))
 #+end_src
 
 ** markdown
@@ -3815,20 +3796,20 @@ REPL for nodejs.
   "\\.md\\'"
   :hook
   (markdown-mode-hook . auto-fill-mode)
-  :custom
-  (markdown-enable-wiki-links t)
-  (markdown-fontify-code-blocks-natively t)
-  (markdown-header-scaling t)
-  (markdown-hide-markup t)
-  (markdown-italic-underscore t)
-  (markdown-blockquote-display-char '("┃" ">"))
-  (markdown-list-item-bullets '("⏺" "▪"))
-  (markdown-make-gfm-checkboxes-buttons t)
   :general
   (:keymaps
    'markdown-mode-map
    :prefix local-leader-key
-   "v" 'markdown-toggle-markup-hiding))
+   "v" 'markdown-toggle-markup-hiding)
+  :init
+  (setq markdown-enable-wiki-links t)
+  (setq markdown-fontify-code-blocks-natively t)
+  (setq markdown-header-scaling t)
+  (setq markdown-hide-markup t)
+  (setq markdown-italic-underscore t)
+  (setq markdown-blockquote-display-char '("┃" ">"))
+  (setq markdown-list-item-bullets '("⏺" "▪"))
+  (setq markdown-make-gfm-checkboxes-buttons t))
 #+end_src
 
 *** Packages
@@ -3866,8 +3847,8 @@ Pretty check-boxes
 ** message
 #+begin_src emacs-lisp :tangle yes
 (use-package message
-  :custom
-  (message-expand-name-standard-ui t))
+  :init
+  (setq message-expand-name-standard-ui t))
 #+end_src
 
 ** nginx
@@ -3902,8 +3883,8 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package nxml-mode
   :mode "\\.plist\\'"
-  :custom
-  (nxml-slash-auto-complete-flag t)
+  :init
+  (setq nxml-slash-auto-complete-flag t)
   :config
   (with-eval-after-load 'smartparens
     (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
@@ -3939,8 +3920,8 @@ Pretty check-boxes
 (use-package plantuml-mode
   :ensure t
   :mode "\\.\\(plantuml\\|pum\\|plu\\)\\'"
-  :custom
-  (plantuml-default-exec-mode 'executable))
+  :init
+  (setq plantuml-default-exec-mode 'executable))
 #+end_src
 
 ** protobuf
@@ -3979,13 +3960,13 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package python-test
   :ensure t
-  :custom
-  (python-test-backend 'pytest)
   :general
   (:keymaps
    'python-mode-map
    :prefix local-leader-key
    "t" 'python-test-project)
+  :init
+  (setq python-test-backend 'pytest)
   :config
   (setq python-test-project-root-files
         (append '("README.md") python-test-project-root-files)))
@@ -4019,11 +4000,11 @@ Pretty check-boxes
 ** rst
 #+begin_src emacs-lisp :tangle yes
 (use-package rst
-  :hook
-  (rst-mode-hook . auto-fill-mode)
   :preface
   (defvar rst-adornment-regexp nil
     "Regular expression to match adornments.")
+  :hook
+  (rst-mode-hook . auto-fill-mode)
   :config
   (setq rst-adornment-regexp
         (concat "^[" rst-adornment-chars "]\\{3,\\}$")))
@@ -4063,16 +4044,16 @@ Pretty check-boxes as well as bullet lists.
 ** ruby
 #+begin_src emacs-lisp :tangle yes
 (use-package ruby-mode
-  :hook
-  (ruby-mode-hook . init-ruby-find-file)
-  :custom
-  (ruby-align-chained-calls t)
   :preface
   (defun init-ruby-find-file ()
     "Setup `ff-test-find-other-file' support for `ruby-mode'."
     (setq ff-test-suffixes '("_test" "_spec")
           ff-test-search-implementation-project-directories '("app" "lib")
           ff-test-search-test-project-directories '("test" "spec")))
+  :hook
+  (ruby-mode-hook . init-ruby-find-file)
+  :init
+  (setq ruby-align-chained-calls t)
   :config
   (with-eval-after-load 'hideshow
     (cl-pushnew `(ruby-mode
@@ -4125,13 +4106,13 @@ Pretty check-boxes as well as bullet lists.
   (ruby-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
   (compilation-filter . inf-ruby-auto-enter)
-  :custom
-  (inf-ruby-default-implementation "pry")
   :general
   (:keymaps
    'ruby-mode-map
    :prefix local-leader-key
-   "r" 'inf-ruby))
+   "r" 'inf-ruby)
+  :init
+  (setq inf-ruby-default-implementation "pry"))
 #+end_src
 
 **** minitest
@@ -4146,9 +4127,9 @@ Pretty check-boxes as well as bullet lists.
 #+begin_src emacs-lisp :tangle yes
 (use-package rake
   :ensure t
-  :custom
-  (rake-completion-system 'default)
-  (rake-cache-file (expand-file-name "rake.cache" cache-dir)))
+  :init
+  (setq rake-completion-system 'default)
+  (setq rake-cache-file (expand-file-name "rake.cache" cache-dir)))
 #+end_src
 
 **** rspec-mode
@@ -4157,10 +4138,10 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :hook
   (ruby-mode-hook . rspec-enable-appropriate-mode)
-  :custom
-  (rspec-use-relative-path t)
-  (rspec-use-opts-file-when-available nil)
-  (rspec-command-options "--format progress"))
+  :init
+  (setq rspec-use-relative-path t)
+  (setq rspec-use-opts-file-when-available nil)
+  (setq rspec-command-options "--format progress"))
 #+end_src
 
 **** ruby-refactor
@@ -4199,14 +4180,13 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :mode
   ("\\.rs\\'" . rustic-mode)
-  :custom
-  (rustic-rls-pkg 'eglot)
   :general
   (:keymaps
    'rustic-mode-map
    :prefix local-leader-key
    "t" 'rustic-cargo-test)
   :init
+  (setq rustic-lsp-client 'eglot)
   (with-eval-after-load 'org
     (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal))
   :config
@@ -4218,14 +4198,14 @@ Pretty check-boxes as well as bullet lists.
 (use-package scala-mode
   :ensure t
   :mode "\\.\\(scala\\|sbt\\)\\'"
-  :hook
-  (scala-mode-hook . init-scala-prettify-symbols)
-  :custom
-  (scala-indent:align-parameters t)
   :preface
   (defun init-scala-prettify-symbols ()
     (setq prettify-symbols-alist scala-prettify-symbols-alist)
-    (prettify-symbols-mode 1)))
+    (prettify-symbols-mode 1))
+  :hook
+  (scala-mode-hook . init-scala-prettify-symbols)
+  :init
+  (setq scala-indent:align-parameters t))
 #+end_src
 
 *** Packages
@@ -4237,14 +4217,14 @@ Pretty check-boxes as well as bullet lists.
 ** sh
 #+begin_src emacs-lisp :tangle yes
 (use-package sh-script
-  :custom
-  ;; Use regular indentation for line-continuation
-  (sh-indent-after-continuation 'always)
   :general
   (:keymaps
    'sh-mode-map
    :prefix nav-prefix
-   "k" 'man))
+   "k" 'man)
+  :init
+  ;; Use regular indentation for line-continuation
+  (setq sh-indent-after-continuation 'always))
 #+end_src
 
 *** Packages
@@ -4260,8 +4240,8 @@ Pretty check-boxes as well as bullet lists.
 ** sql
 #+begin_src emacs-lisp :tangle yes
 (use-package sql
-  :custom
-  (sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
+  :init
+  (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
 #+end_src
 
 ** typescript
@@ -4269,18 +4249,18 @@ Pretty check-boxes as well as bullet lists.
 (use-package typescript-mode
   :ensure t
   :mode "\\.ts$"
-  :hook
-  (typescript-mode-hook . init-typescript-find-file)
-  :general
-  (:keymaps
-   'typescript-mode-map
-   "C-c '" 'nil)
   :preface
   (defun init-typescript-find-file ()
     "Setup `ff-test-find-other-file' support for `typescript-mode'."
     (setq ff-test-search-implementation-project-directories '("src")
           ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__"))))
+          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
+  :hook
+  (typescript-mode-hook . init-typescript-find-file)
+  :general
+  (:keymaps
+   'typescript-mode-map
+   "C-c '" 'nil))
 #+end_src
 
 *** Packages
@@ -4289,8 +4269,8 @@ TypeScript REPL.
 #+begin_src emacs-lisp :tangle yes
 (use-package ts-comint
   :ensure t
-  :custom
-  (ts-comint-program-command "ts-node"))
+  :init
+  (setq ts-comint-program-command "ts-node"))
 #+end_src
 
 **** jest
@@ -4325,13 +4305,13 @@ Display current path for HTML/XML/CSS.
 (use-package web-mode
   :ensure t
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
-  :custom
-  (web-mode-enable-html-entities-fontification t)
+  :init
+  (setq web-mode-enable-html-entities-fontification t)
   ;; Highlight enclosing tags of the element under cursor
-  (web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
   ;; No extra indentation for blocks.
-  (web-mode-script-padding 0)
-  (web-mode-style-padding 0))
+  (setq web-mode-script-padding 0)
+  (setq web-mode-style-padding 0))
 #+end_src
 
 ** yaml
@@ -4356,9 +4336,9 @@ Import contacts from Gmail vCard data.
 #+begin_src emacs-lisp :tangle yes
 (use-package gmail2bbdb
   :ensure t
-  :config
-  (setq gmail2bbdb-bbdb-file bbdb-file
-        gmail2bbdb-exclude-people-without-name t))
+  :init
+  (setq gmail2bbdb-bbdb-file bbdb-file)
+  (setq gmail2bbdb-exclude-people-without-name t))
 #+end_src
 
 ** Focus
@@ -4371,8 +4351,8 @@ Dim out the surrounding text except the current focused paragraph or expression.
 #+begin_src emacs-lisp :tangle yes
 (use-package indent-guide
   :ensure t
-  :custom
-  (indent-guide-char "\x2502"))
+  :init
+  (setq indent-guide-char "\x2502"))
 #+end_src
 
 ** Pomodoro
@@ -4394,11 +4374,11 @@ it really useful.
 #+begin_src emacs-lisp :tangle yes
 (use-package desktop
   :demand t
-  :custom
-  (desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
-  (desktop-restore-eager 0)
-  (desktop-save (daemonp))
-  (desktop-load-locked-desktop (daemonp))
+  :init
+  (setq desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
+  (setq desktop-restore-eager 0)
+  (setq desktop-save (daemonp))
+  (setq desktop-load-locked-desktop (daemonp))
   :config
   (dolist (var '(buffer-undo-list ivy-views))
     (cl-pushnew var desktop-locals-to-save :test #'equal))
@@ -4409,17 +4389,17 @@ it really useful.
 #+begin_src emacs-lisp :tangle yes
 (use-package spray
   :ensure t
-  :custom
-  (spray-height 500)
-  (spray-margin-left 2)
-  :config
-  (setq spray-unsupported-minor-modes
-        (append '(beacon-mode centered-window-mode visual-fill-column-mode)
-                spray-unsupported-minor-modes))
   :general
   (:prefix
    launch-prefix
-   "s" 'spray-mode))
+   "s" 'spray-mode)
+  :init
+  (setq spray-height 500)
+  (setq spray-margin-left 2)
+  :config
+  (setq spray-unsupported-minor-modes
+        (append '(beacon-mode centered-window-mode visual-fill-column-mode)
+                spray-unsupported-minor-modes)))
 #+end_src
 
 ** Spell checking
@@ -4430,13 +4410,13 @@ it really useful.
     org-mode-hook
     text-mode-hook) . flyspell-mode)
   (prog-mode-hook . flyspell-prog-mode)
-  :custom
-  (flyspell-persistent-highlight nil)
   :general
   (:keymaps
    'flyspell-mode-map
    "C-," 'nil
-   "C-." 'nil))
+   "C-." 'nil)
+  :init
+  (setq flyspell-persistent-highlight nil))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
@@ -4467,22 +4447,10 @@ Make less work inside Emacs shells. But disable it as the default pager.
 *** eshell
 #+begin_src emacs-lisp :tangle yes
 (use-package eshell
-  :hook
-  (eshell-mode-hook . abbrev-mode)
-  (eshell-mode-hook . init-eshell-define-keys)
-  (eshell-mode-hook . init-eshell-set-visual-commands)
-  :custom
-  (eshell-buffer-maximum-lines 20000)
-  (eshell-history-size 1000)
-  (eshell-hist-ignoredups t)
-  (eshell-error-if-no-glob t)
-  (eshell-destroy-buffer-when-process-dies t)
-  :general
-  ("C-!" 'eshell)
-  (:prefix
-   launch-prefix
-   "t" 'eshell)
   :preface
+  (eval-when-compile
+    (require 'em-hist)
+    (require 'em-term))
   (defvar eshell-visual-commands)
   (defun init-eshell-define-keys ()
     (general-define-key
@@ -4496,7 +4464,22 @@ Make less work inside Emacs shells. But disable it as the default pager.
           (append
            '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
            eshell-visual-commands)))
+  :hook
+  (eshell-mode-hook . abbrev-mode)
+  (eshell-mode-hook . init-eshell-define-keys)
+  (eshell-mode-hook . init-eshell-set-visual-commands)
+  :general
+  ("C-!" 'eshell)
+  (:prefix
+   launch-prefix
+   "t" 'eshell)
   :init
+  (setq eshell-buffer-maximum-lines 20000)
+  (setq eshell-history-size 1000)
+  (setq eshell-hist-ignoredups t)
+  (setq eshell-error-if-no-glob t)
+  (setq eshell-destroy-buffer-when-process-dies t)
+
   (autoload 'eshell-smart-initialize "em-smart"))
 #+end_src
 
@@ -4577,13 +4560,13 @@ Fast terminal emulator utilizing =libvterm=.
 #+begin_src emacs-lisp :tangle yes
 (use-package vterm
   :ensure t
-  :custom
-  (vterm-max-scrollback 100000)
-  (vterm-shell "fish")
   :general
   (:prefix
    launch-prefix
-   "T" 'vterm))
+   "T" 'vterm)
+  :init
+  (setq vterm-max-scrollback 100000)
+  (setq vterm-shell "fish"))
 #+end_src
 
 **** Packages
@@ -4646,8 +4629,6 @@ Packages that I am currently testing or evaluating.
 (use-package consult
   :ensure t
   :commands (consult-preview-mode)
-  :custom
-  (consult--fd-cmd '("fd" "--color=never" "--full-path"))
   :general
   ("M-y" 'consult-yank-pop
    "C-c r" 'consult-recent-file)
@@ -4702,8 +4683,8 @@ Packages that I am currently testing or evaluating.
 (use-package marginalia
   :ensure t
   :defer 2
-  :custom
-  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :config
   (advice-add #'marginalia-cycle :after
               (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
