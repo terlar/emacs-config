@@ -13,8 +13,8 @@ package. Currently GNU Emacs 28.0.50.
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
-- menu completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
 - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]]
+- minibuffer completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
@@ -998,6 +998,248 @@ Display available keybindings in a popup as you press keys.
  "w" 'eww)
 #+end_src
 
+* Completion
+No completion with tab.
+#+begin_src emacs-lisp :tangle yes
+(setq tab-always-indent t)
+#+end_src
+
+** Style
+*** orderless
+Space-separated matching components matching in any order.
+#+begin_src emacs-lisp :tangle yes
+(use-package orderless
+  :ensure t
+  :init
+  (setq orderless-matching-styles '(orderless-regexp orderless-flex))
+  (setq selectrum-refine-candidates-function #'orderless-filter)
+  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches))
+#+end_src
+
+** Sorting
+*** prescient
+#+begin_src emacs-lisp :tangle yes
+(use-package prescient
+  :ensure t
+  :hook
+  (after-init-hook . prescient-persist-mode))
+
+(use-package selectrum-prescient
+  :ensure t
+  :commands
+  (selectrum-prescient--preprocess)
+  :init
+  (setq selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
+#+end_src
+
+** Expansion (hippie)
+Smart expansion completions, excellent for completing lines.
+Replace abbrev completion (=M-/=) with hippie expand.
+
+Complete in the following order:
+- Try to expand word "dynamically", searching the current buffer.
+- Try to expand word "dynamically", searching all other buffers.
+- Try to expand word "dynamically", searching the kill ring.
+- Try to complete text as a file name, as many characters as unique.
+- Try to complete text as a file name.
+- Try to expand word before point according to all abbrev tables.
+- Try to complete the current line to an entire line in the buffer.
+- Try to complete as an Emacs Lisp symbol, as many characters as unique.
+- Try to complete word as an Emacs Lisp symbol.
+#+begin_src emacs-lisp :tangle yes
+(use-package hippie-exp
+  :general
+  ([remap dabbrev-expand] 'hippie-expand)
+  :init
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev-visible
+          try-expand-dabbrev
+          try-complete-file-name-partially
+          try-complete-file-name
+          try-expand-all-abbrevs
+          try-expand-list
+          try-expand-line
+          try-expand-line-all-buffers
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol)))
+#+end_src
+
+** Buffer (company)
+#+begin_src emacs-lisp :tangle yes
+(use-package company
+  :ensure t
+  :preface
+  (eval-when-compile
+    (require 'company-dabbrev))
+  :hook
+  (ielm-mode-hook . company-mode)
+  (prog-mode-hook . company-mode)
+  :general
+  (:keymaps
+   'company-mode-map
+   "C-?" 'company-complete)
+  (:keymaps
+   'company-active-map
+   ;; No interference with return key
+   [return]  'nil
+   "RET"     'nil
+   "C-e" 'company-complete-selection
+   "C-f" 'company-complete-selection
+   "C-n" 'company-select-next
+   "C-p" 'company-select-previous)
+  :init
+  (setq company-backends
+        '((company-files
+           company-keywords
+           company-capf
+           company-dabbrev-code)))
+  (setq company-dabbrev-downcase nil)
+  (setq company-show-numbers t)
+  (setq company-tooltip-align-annotations t))
+#+end_src
+
+*** company-fuzzy
+#+begin_src emacs-lisp :tangle yes
+(use-package company-fuzzy
+  :ensure t
+  :defer 5
+  :config
+  (global-company-fuzzy-mode 1))
+#+end_src
+
+** Minibuffer (selectrum/ivy)
+*** Selectrum
+Incremental selection narrowing interface for completions.
+#+begin_src emacs-lisp :tangle yes
+(use-package selectrum
+  :ensure t
+  :preface
+  (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
+    "Move to end of line or insert current candidate.
+   ARG lines can be used."
+    (interactive "p")
+    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
+  :hook
+  (after-init-hook . selectrum-mode)
+  :general
+  ("C-c SPC" 'selectrum-repeat)
+  (:keymaps
+   'selectrum-minibuffer-map
+   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
+  :init
+  (setq selectrum-extend-current-candidate-highlight t)
+  (setq selectrum-show-indices t)
+  :config
+  (dotimes (i (min selectrum-num-candidates-displayed 10))
+    (general-define-key
+     :keymaps 'selectrum-minibuffer-map
+     (format "M-%d" (mod (1+ i) 10))
+     `(lambda () (interactive)
+        (selectrum-select-current-candidate ,(1+ i))))))
+#+end_src
+
+*** Ivy
+#+begin_src emacs-lisp :tangle yes
+(use-package ivy
+  :ensure t
+  :preface
+  (defun +ivy-move-end-of-line-or-done (arg)
+    "Move to end of current line or consider ivy operation done.
+   ARG lines can be used."
+    (interactive "p")
+    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
+  (defun +ivy-forward-or-done (n)
+    "Move point forward or consider ivy operation done.
+      N characters can be used."
+    (interactive "p")
+    (if (eolp) (ivy-alt-done) (forward-char n)))
+  :general
+  (:keymaps
+   'ivy-mode-map
+   :prefix
+   window-prefix
+   "v" 'ivy-push-view
+   "V" 'ivy-pop-view
+   "'" 'ivy-switch-view)
+  (:keymaps
+   'ivy-occur-grep-mode-map
+   "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
+  (:keymaps
+   'ivy-minibuffer-map
+   "C-<return>" 'ivy-immediate-done
+   "C-e"        '+ivy-move-end-of-line-or-done
+   "C-f"        '+ivy-forward-or-done
+   "C-l"        'ivy-alt-done
+   "C-u"        'ivy-kill-line
+   "C-w"        'ivy-backward-kill-word)
+  :init
+  (setq ivy-hooks-alist '((t . hl-line-mode)))
+  (setq ivy-wrap t)
+  (setq ivy-on-del-error-function #'ignore)
+  (setq ivy-use-virtual-buffers t)
+  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
+  (setq ivy-use-selectable-prompt t)
+  (setq ivy-fixed-height-minibuffer t)
+  ;; Don't use ^ as initial input.
+  (setq ivy-initial-inputs-alist nil))
+#+end_src
+
+**** counsel-tramp
+Navigate tramp files.
+#+begin_src emacs-lisp :tangle yes
+(use-package counsel-tramp
+  :ensure t
+  :general
+  (:prefix
+   leader-key
+   "t" 'counsel-tramp))
+#+end_src
+
+**** ivy-yasnippet
+Snippets with preview.
+#+begin_src emacs-lisp :tangle yes
+(use-package ivy-yasnippet
+  :ensure t
+  :general
+  ([remap yas-insert-snippet] 'ivy-yasnippet)
+  (:keymaps
+   'yas-minor-mode-map
+   :prefix
+   leader-key
+   "y" 'ivy-yasnippet))
+#+end_src
+
+** Extensions
+*** consult
+#+begin_src emacs-lisp :tangle yes
+(use-package consult
+  :ensure t
+  :general
+  ("M-y" 'consult-yank-pop
+   "C-c r" 'consult-recent-file)
+  (:prefix search-prefix "g" 'consult-ripgrep))
+#+end_src
+
+*** embark
+#+begin_src emacs-lisp :tangle yes
+(use-package embark :ensure t)
+(use-package embark-consult :ensure t)
+#+end_src
+
+*** marginalia
+#+begin_src emacs-lisp :tangle yes
+(use-package marginalia
+  :ensure t
+  :defer 2
+  :init
+  (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :config
+  (advice-add #'marginalia-cycle :after
+              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
+
+  (marginalia-mode 1))
+#+end_src
+
 * Help
 #+begin_src emacs-lisp :tangle yes
 (use-package help
@@ -1863,190 +2105,6 @@ Manage project repositories.
   ("C-c p" 'ivy-ghq-open)
   :init
   (setq ivy-ghq-short-list t))
-#+end_src
-
-* Completion
-No completion with tab.
-#+begin_src emacs-lisp :tangle yes
-(setq tab-always-indent t)
-#+end_src
-
-** Company
-#+begin_src emacs-lisp :tangle yes
-(use-package company
-  :ensure t
-  :preface
-  (eval-when-compile
-    (require 'company-dabbrev))
-  :hook
-  (ielm-mode-hook . company-mode)
-  (prog-mode-hook . company-mode)
-  :general
-  (:keymaps
-   'company-mode-map
-   "C-?" 'company-complete)
-  (:keymaps
-   'company-active-map
-   ;; No interference with return key
-   [return]  'nil
-   "RET"     'nil
-   "C-e" 'company-complete-selection
-   "C-f" 'company-complete-selection
-   "C-n" 'company-select-next
-   "C-p" 'company-select-previous)
-  :init
-  (setq company-backends
-        '((company-files
-           company-keywords
-           company-capf
-           company-dabbrev-code
-           company-dabbrev)))
-  (setq company-dabbrev-downcase nil)
-  (setq company-show-numbers t)
-  (setq company-tooltip-align-annotations t))
-#+end_src
-
-** Hippie
-Smart expansion completions, excellent for completing lines.
-Replace abbrev completion (=M-/=) with hippie expand.
-
-Complete in the following order:
-- Try to expand word "dynamically", searching the current buffer.
-- Try to expand word "dynamically", searching all other buffers.
-- Try to expand word "dynamically", searching the kill ring.
-- Try to complete text as a file name, as many characters as unique.
-- Try to complete text as a file name.
-- Try to expand word before point according to all abbrev tables.
-- Try to complete the current line to an entire line in the buffer.
-- Try to complete as an Emacs Lisp symbol, as many characters as unique.
-- Try to complete word as an Emacs Lisp symbol.
-#+begin_src emacs-lisp :tangle yes
-(use-package hippie-exp
-  :general
-  ([remap dabbrev-expand] 'hippie-expand)
-  :init
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev-visible
-          try-expand-dabbrev
-          try-complete-file-name-partially
-          try-complete-file-name
-          try-expand-all-abbrevs
-          try-expand-list
-          try-expand-line
-          try-expand-line-all-buffers
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol)))
-#+end_src
-
-** Selectrum
-Incremental selection narrowing interface for completions.
-#+begin_src emacs-lisp :tangle yes
-(use-package selectrum
-  :ensure t
-  :preface
-  (defun selectrum-define-keys ()
-    (dotimes (i (min selectrum-num-candidates-displayed 10))
-      (general-define-key
-       :keymaps 'selectrum-minibuffer-map
-       (format "M-%d" (mod (1+ i) 10))
-       `(lambda () (interactive)
-          (selectrum-select-current-candidate ,(1+ i))))))
-
-  (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
-    "Move to end of line or insert current candidate.
-   ARG lines can be used."
-    (interactive "p")
-    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
-  :hook
-  (after-init-hook . selectrum-mode)
-  (selectrum-mode-hook . selectrum-define-keys)
-  :general
-  ("C-c SPC" 'selectrum-repeat)
-  (:keymaps
-   'selectrum-minibuffer-map
-   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
-  :init
-  (setq selectrum-extend-current-candidate-highlight t)
-  (setq selectrum-show-indices t))
-
-(use-package orderless
-  :ensure t
-  :init
-  (setq orderless-matching-styles '(orderless-regexp orderless-flex))
-  (setq selectrum-refine-candidates-function #'orderless-filter)
-  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches))
-#+end_src
-
-** Ivy
-#+begin_src emacs-lisp :tangle yes
-(use-package ivy
-  :ensure t
-  :preface
-  (defun +ivy-move-end-of-line-or-done (arg)
-    "Move to end of current line or consider ivy operation done.
-   ARG lines can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
-  (defun +ivy-forward-or-done (n)
-    "Move point forward or consider ivy operation done.
-      N characters can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (forward-char n)))
-  :general
-  (:keymaps
-   'ivy-mode-map
-   :prefix
-   window-prefix
-   "v" 'ivy-push-view
-   "V" 'ivy-pop-view
-   "'" 'ivy-switch-view)
-  (:keymaps
-   'ivy-occur-grep-mode-map
-   "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
-  (:keymaps
-   'ivy-minibuffer-map
-   "C-<return>" 'ivy-immediate-done
-   "C-e"        '+ivy-move-end-of-line-or-done
-   "C-f"        '+ivy-forward-or-done
-   "C-l"        'ivy-alt-done
-   "C-u"        'ivy-kill-line
-   "C-w"        'ivy-backward-kill-word)
-  :init
-  (setq ivy-hooks-alist '((t . hl-line-mode)))
-  (setq ivy-wrap t)
-  (setq ivy-on-del-error-function #'ignore)
-  (setq ivy-use-virtual-buffers t)
-  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
-  (setq ivy-use-selectable-prompt t)
-  (setq ivy-fixed-height-minibuffer t)
-  ;; Don't use ^ as initial input.
-  (setq ivy-initial-inputs-alist nil))
-#+end_src
-
-*** Packages
-**** counsel-tramp
-Navigate tramp files.
-#+begin_src emacs-lisp :tangle yes
-(use-package counsel-tramp
-  :ensure t
-  :general
-  (:prefix
-   leader-key
-   "t" 'counsel-tramp))
-#+end_src
-
-**** ivy-yasnippet
-Snippets with preview.
-#+begin_src emacs-lisp :tangle yes
-(use-package ivy-yasnippet
-  :ensure t
-  :general
-  ([remap yas-insert-snippet] 'ivy-yasnippet)
-  (:keymaps
-   'yas-minor-mode-map
-   :prefix
-   leader-key
-   "y" 'ivy-yasnippet))
 #+end_src
 
 * Development
@@ -4615,26 +4673,6 @@ Packages that I am currently testing or evaluating.
 (use-package comment-or-uncomment-sexp :ensure t)
 #+end_src
 
-** company-fuzzy
-#+begin_src emacs-lisp :tangle yes
-(use-package company-fuzzy
-  :ensure t
-  :defer 5
-  :config
-  (global-company-fuzzy-mode 1))
-#+end_src
-
-** consult
-#+begin_src emacs-lisp :tangle yes
-(use-package consult
-  :ensure t
-  :general
-  ("M-y" 'consult-yank-pop
-   "C-c r" 'consult-recent-file)
-  (:prefix search-prefix "g" 'consult-ripgrep))
-(use-package consult-selectrum :ensure t :demand t)
-#+end_src
-
 ** eglot-x
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot-x :ensure t)
@@ -4650,11 +4688,6 @@ Packages that I am currently testing or evaluating.
 (use-package elsa :disabled t)
 #+end_src
 
-** embark
-#+begin_src emacs-lisp :tangle yes
-(use-package embark :ensure t)
-#+end_src
-
 ** fit-text-scale
 #+begin_src emacs-lisp :tangle yes
 (use-package fit-text-scale :ensure t)
@@ -4668,20 +4701,6 @@ Packages that I am currently testing or evaluating.
 ** freeze-it
 #+begin_src emacs-lisp :tangle yes
 (use-package freeze-it :ensure t)
-#+end_src
-
-** marginalia
-#+begin_src emacs-lisp :tangle yes
-(use-package marginalia
-  :ensure t
-  :defer 2
-  :init
-  (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :config
-  (advice-add #'marginalia-cycle :after
-              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
-
-  (marginalia-mode 1))
 #+end_src
 
 ** messages-are-flowing
@@ -4779,3 +4798,4 @@ Packages that I am currently testing or evaluating.
 - One theme for the mode-line
 ** TODO Flymake + Elsa
 ** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
+** TODO Evaluate skeleton
