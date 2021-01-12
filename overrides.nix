@@ -16,6 +16,28 @@ in epkgs // {
     ];
   });
 
+  indent-info = epkgs.melpaPackages.indent-info.overrideAttrs (attrs: {
+    version = "20210111.845";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "indent-info.el";
+      rev = "05a787afeb9946714d8b0c724868195a678db49e";
+      sha256 = "14qjl5mw7zmrc2zbcid1alqh67f704giq49qyda8q8n82vi6g8a9";
+      # date = 2021-01-11T08:45:10+01:00;
+    };
+  });
+
+  nix-mode = epkgs.melpaPackages.nix-mode.overrideAttrs (attrs: {
+    version = "20210111.808";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "nix-mode";
+      rev = "57a0746e87e0c23f280d28c8d3fadedcc94cf0e2";
+      sha256 = "1m2m1sdcrfcwj1swyanfvsh3cmk8iy6rff1xl0g4a3am06miywba";
+      # date = 2021-01-11T08:08:08+01:00;
+    };
+  });
+
   # Forks.
   flymake-diagnostic-at-point =
     epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs (attrs: {

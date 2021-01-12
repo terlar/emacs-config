@@ -4628,24 +4628,16 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
-  :commands (consult-preview-mode)
   :general
   ("M-y" 'consult-yank-pop
    "C-c r" 'consult-recent-file)
-  (:prefix search-prefix "g" 'consult-ripgrep)
-  :config
-  (consult-preview-mode 1))
+  (:prefix search-prefix "g" 'consult-ripgrep))
 (use-package consult-selectrum :ensure t :demand t)
 #+end_src
 
 ** eglot-x
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot-x :ensure t)
-#+end_src
-
-** ejira
-#+begin_src emacs-lisp :tangle yes
-(use-package ejira :ensure t)
 #+end_src
 
 ** elfeed
