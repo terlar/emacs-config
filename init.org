@@ -1010,6 +1010,9 @@ Space-separated matching components matching in any order.
 #+begin_src emacs-lisp :tangle yes
 (use-package orderless
   :ensure t
+  :preface
+  (eval-when-compile
+    (require 'selectrum))
   :init
   (setq completion-styles '(orderless))
   (setq orderless-matching-styles '(orderless-regexp orderless-flex))
