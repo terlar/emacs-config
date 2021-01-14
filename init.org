@@ -1980,23 +1980,6 @@ Keep track of recently opened files.
 #+begin_src emacs-lisp :tangle yes
 (use-package recentf
   :defer 1
-  :preface
-  (defun completing-read-file-candidate (candidate)
-    "Format `completing-read' file CANDIDATE with `abbreviate-file-name'
-and icon prefix from `all-the-icons-icon-for-file'."
-    (propertize candidate
-                'selectrum-candidate-display-prefix
-                (concat
-                 (cond
-                  ((file-directory-p candidate) (all-the-icons-icon-for-dir candidate))
-                  (t (all-the-icons-icon-for-file candidate)))
-                 "\t")))
-
-  (defun recentf-open-files+ ()
-    "Use `completing-read' to open a recent file."
-    (interactive)
-    (let ((files (cl-mapcar #'completing-read-file-candidate recentf-list)))
-      (find-file (completing-read "Find recent file: " files nil t))))
   :init
   (setq recentf-exclude
 	(list "/tmp/"                        ; Temp-files
