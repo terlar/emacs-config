@@ -2,8 +2,7 @@
 }:
 
 let
-  src = let filter = name: type: type != "symlink";
-  in lib.sourceByRegex ./. [
+  src = lib.sourceByRegex ./. [
     "early-init.el"
     "init.org"
     "lisp"
@@ -40,7 +39,7 @@ let
   lisp = trivialBuild {
     pname = "config-lisp";
     inherit version;
-    src = "${src}/lisp";
+    src = lib.sourceFilesBySuffices ./lisp [ ".el" ];
   };
 in stdenv.mkDerivation {
   pname = "emacs-config";
