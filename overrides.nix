@@ -16,17 +16,7 @@ in epkgs // {
     ];
   });
 
-  indent-info = epkgs.melpaPackages.indent-info.overrideAttrs (attrs: {
-    version = "20210111.845";
-    src = fetchFromGitHub {
-      owner = "terlar";
-      repo = "indent-info.el";
-      rev = "05a787afeb9946714d8b0c724868195a678db49e";
-      sha256 = "14qjl5mw7zmrc2zbcid1alqh67f704giq49qyda8q8n82vi6g8a9";
-      # date = 2021-01-11T08:45:10+01:00;
-    };
-  });
-
+  # Compatibility.
   nix-mode = epkgs.melpaPackages.nix-mode.overrideAttrs (attrs: {
     version = "20210111.808";
     src = fetchFromGitHub {
@@ -35,6 +25,18 @@ in epkgs // {
       rev = "57a0746e87e0c23f280d28c8d3fadedcc94cf0e2";
       sha256 = "1m2m1sdcrfcwj1swyanfvsh3cmk8iy6rff1xl0g4a3am06miywba";
       # date = 2021-01-11T08:08:08+01:00;
+    };
+  });
+
+  # Temporary.
+  marginalia = epkgs.melpaPackages.marginalia.overrideAttrs (attrs: {
+    version = "20210114.1752";
+    src = fetchFromGitHub {
+      owner = "minad";
+      repo = "marginalia";
+      rev = "327ad58bd69a372dc10dbb5b5d3d47f246e28020";
+      sha256 = "0nx5322278vr44aq27kaj5nr0rcq4d3wcbfyb3fpl80asj672m09";
+      # date = 2021-01-14T17:52:23+01:00
     };
   });
 
@@ -75,7 +77,7 @@ in epkgs // {
     };
   });
 
-  # Packages not in MELPA/GNU ELPA.
+  # New.
   apheleia = trivialBuild rec {
     pname = "apheleia";
     version = "20201107.704";
