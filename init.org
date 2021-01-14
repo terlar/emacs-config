@@ -1011,6 +1011,7 @@ Space-separated matching components matching in any order.
 (use-package orderless
   :ensure t
   :init
+  (setq completion-styles '(orderless))
   (setq orderless-matching-styles '(orderless-regexp orderless-flex))
   (setq selectrum-refine-candidates-function #'orderless-filter)
   (setq selectrum-highlight-candidates-function #'orderless-highlight-matches))
@@ -1030,6 +1031,11 @@ Space-separated matching components matching in any order.
   (selectrum-prescient--preprocess)
   :init
   (setq selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
+
+(use-package company-prescient
+  :ensure t
+  :hook
+  (company-mode-hook . company-prescient-mode))
 #+end_src
 
 ** Expansion (hippie)
@@ -1096,15 +1102,6 @@ Complete in the following order:
   (setq company-dabbrev-downcase nil)
   (setq company-show-numbers t)
   (setq company-tooltip-align-annotations t))
-#+end_src
-
-*** company-fuzzy
-#+begin_src emacs-lisp :tangle yes
-(use-package company-fuzzy
-  :ensure t
-  :defer 5
-  :config
-  (global-company-fuzzy-mode 1))
 #+end_src
 
 ** Minibuffer (selectrum/ivy)
