@@ -1655,12 +1655,9 @@ Give some more room to the minbuffer.
 *** No fringes
 Don't show fringes in the minibuffer.
 #+begin_src emacs-lisp :tangle yes
-(defun disable-minibuffer-window-fringes (&optional frame)
-  "Disable the window fringes for minibuffer window in FRAME."
-  (let ((target (if frame frame (selected-frame))))
-    (with-selected-frame target
-      (set-window-fringes (minibuffer-window) 0 0 nil))))
-(add-hook 'after-make-frame-functions #'disable-minibuffer-window-fringes)
+(defun disable-minibuffer-window-fringes (&rest _)
+  "Disable the window fringes for minibuffer window."
+  (set-window-fringes (minibuffer-window) 0 0 nil))
 (add-hook 'minibuffer-setup-hook #'disable-minibuffer-window-fringes)
 #+end_src
 
