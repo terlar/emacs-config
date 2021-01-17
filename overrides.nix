@@ -28,18 +28,6 @@ in epkgs // {
     };
   });
 
-  # Temporary.
-  marginalia = epkgs.melpaPackages.marginalia.overrideAttrs (attrs: {
-    version = "20210114.1752";
-    src = fetchFromGitHub {
-      owner = "minad";
-      repo = "marginalia";
-      rev = "327ad58bd69a372dc10dbb5b5d3d47f246e28020";
-      sha256 = "0nx5322278vr44aq27kaj5nr0rcq4d3wcbfyb3fpl80asj672m09";
-      # date = 2021-01-14T17:52:23+01:00
-    };
-  });
-
   # Forks.
   flymake-diagnostic-at-point =
     epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs (attrs: {
