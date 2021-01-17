@@ -2016,68 +2016,6 @@ Keep track of last point place to resume editing in the same file.
 #+end_src
 
 ** Project
-Project interactions. Prefix project buffer files with the project name and relative path.
-#+begin_src emacs-lisp :tangle yes
-(use-package projectile
-  :ensure t
-  :defer 5
-  :preface
-  (defun +projectile-cache-current-file (orig-fun &rest args)
-    "Don't cache ignored files."
-    (unless (cl-some (lambda (path)
-                       (string-prefix-p buffer-file-name
-                                        (expand-file-name path)))
-                     (projectile-ignored-directories))
-      (apply orig-fun args)))
-  :general
-  (:keymaps
-   'projectile-mode-map
-   [remap eshell] (general-predicate-dispatch #'eshell
-                    :docstring "Creat an interactive Eshell buffer (project aware)"
-                    (projectile-project-p) #'projectile-run-eshell)
-   [remap term] (general-predicate-dispatch #'term
-                  :docstring "Create an interactive terminal buffer (project aware)"
-                  (projectile-project-p) #'projectile-run-term))
-  (:keymaps
-   'projectile-mode-map
-   :prefix
-   leader-key
-   "p" '(:keymap projectile-command-map :package projectile :wk "project"))
-  :init
-  (setq projectile-completion-system 'default)
-  (setq projectile-enable-caching nil)
-  (setq projectile-file-exists-remote-cache-expire nil)
-  (setq projectile-globally-ignored-file-suffixes
-        '(".elc" ".pyc" ".o" ".hi" ".class" ".cache"))
-  (setq projectile-globally-ignored-files
-        '("TAGS" "GPATH" "GRTAGS" "GTAGS"))
-  (setq projectile-ignored-projects (list data-dir))
-  (setq projectile-indexing-method 'alien)
-  (advice-add 'projectile-cache-current-file :around #'+projectile-cache-current-file)
-  :config
-  (setq projectile-globally-ignored-directories
-        (append '("_build"
-                  "target" "project/target"
-                  "vendor/bundle" "vendor/cache"
-                  "elm-stuff" "tests/elm-stuff")
-                projectile-globally-ignored-directories))
-  (setq projectile-other-file-alist
-        (append '(("less" "css")
-                  ("styl" "css")
-                  ("sass" "css")
-                  ("scss" "css")
-                  ("css" "scss" "sass" "less" "styl")
-                  ("jade" "html")
-                  ("pug" "html")
-                  ("html" "jade" "pug" "jsx" "tsx"))
-                projectile-other-file-alist))
-  (setq projectile-project-root-files
-        (append '("package.json" "Package.swift" "README.md")
-                projectile-project-root-files))
-
-  (projectile-mode 1))
-#+end_src
-
 Manage project repositories.
 #+begin_src emacs-lisp :tangle yes
 (use-package ivy-ghq
@@ -4762,7 +4700,6 @@ Packages that I am currently testing or evaluating.
 ** TODO Daily tasks
 ** TODO Write ghq tool using ~completing-read~
 ** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
-** TODO Evaluate if I need projectile, I only use it for other file and project eshell
 ** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
 - Diff merge-base =C-x v M D=, =C-x v M L=
