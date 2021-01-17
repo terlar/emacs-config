@@ -1114,6 +1114,8 @@ Incremental selection narrowing interface for completions.
 (use-package selectrum
   :ensure t
   :preface
+  (autoload 'selectrum-exhibit "selectrum")
+  (autoload 'selectrum-insert-current-candidate "selectrum")
   (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
     "Move to end of line or insert current candidate.
    ARG lines can be used."
@@ -2120,7 +2122,7 @@ Kill compilation process before stating another and save all buffers on ~compile
 #+begin_src emacs-lisp :tangle yes
 (use-package ansi-color
   :preface
-  (autoload #'ansi-color-apply-on-region "ansi-color")
+  (autoload 'ansi-color-apply-on-region "ansi-color")
   (defun ansi-color-colorize-compilation ()
     "Colorize from `compilation-filter-start' to `point'."
     (let ((inhibit-read-only t))
@@ -4332,8 +4334,7 @@ Display current path for HTML/XML/CSS.
 #+begin_src emacs-lisp :tangle yes
 (use-package cakecrumbs
   :ensure t
-  :functions
-  (cakecrumbs-auto-setup)
+  :defer 3
   :config
   (cakecrumbs-auto-setup))
 #+end_src
