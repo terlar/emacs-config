@@ -82,6 +82,7 @@
           '';
         in pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
+            gdb
             git
             nixfmt
 
