@@ -2617,10 +2617,10 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
   :defer 1
   :init
   (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  (setq editorconfig-exclude-modes '(emacs-lisp-mode
+                                     lisp-mode
+                                     org-mode))
   :config
-  (dolist (mode '(emacs-lisp-mode lisp-mode))
-    (setq editorconfig-indentation-alist
-          (assq-delete-all mode editorconfig-indentation-alist)))
   (editorconfig-mode 1))
 #+end_src
 
