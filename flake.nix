@@ -29,13 +29,13 @@
             inherit override;
           };
 
-          emacsConfig = prev.callPackage ./. {
+          emacsConfig = prev.callPackage ./. ({
             # Ensure build includes packages.
             trivialBuild =
               prev.emacsPackages.trivialBuild.override { emacs = emacsEnv; };
-          } // lib.mkIf (self ? lastModifiedDate) {
+          } // lib.optionalAttrs (self ? lastModifiedDate) {
             version = lib.substring 0 8 self.lastModifiedDate;
-          };
+          });
 
           emacsUtils = prev.callPackage ./utils.nix { };
         };
