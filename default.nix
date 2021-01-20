@@ -2,20 +2,11 @@
 }:
 
 let
-  src = lib.sourceByRegex ./. [
-    "early-init.el"
-    "init.org"
-    "lisp"
-    "lisp/.*.el$"
-    "snippets"
-    "snippets/.*"
-    "templates"
-    "templates/.*"
-  ];
-
   init = trivialBuild {
     pname = "config-init";
-    inherit version src;
+    inherit version;
+
+    src = lib.sourceByRegex ./. [ "init.org" "lisp" "lisp/.*.el$" ];
 
     preBuild = ''
       # Tangle org files
@@ -43,7 +34,15 @@ let
   };
 in stdenv.mkDerivation {
   pname = "emacs-config";
-  inherit src version;
+  inherit version;
+
+  src = lib.sourceByRegex ./. [
+    "snippets"
+    "snippets/.*"
+    "templates"
+    "templates/.*"
+  ];
+
   dontUnpack = true;
 
   buildInputs = [ emacs-all-the-icons-fonts ripgrep ];
