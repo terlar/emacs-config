@@ -4414,11 +4414,10 @@ Automatically infer dictionary.
 #+end_src
 
 ** Terminal
-*** Pager
-Make less work inside Emacs shells. But disable it as the default pager.
+*** Color
+Avoid color when possible.
 #+begin_src emacs-lisp :tangle yes
-(setenv "LESS" "--dumb --prompt=s")
-(setenv "PAGER" "")
+(setenv "NO_COLOR" "1")
 #+end_src
 
 *** eshell
