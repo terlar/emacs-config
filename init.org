@@ -1295,6 +1295,11 @@ Better =*help*= buffer.
 (setq split-width-threshold nil)
 #+end_src
 
+*** Resize pixelwise
+#+begin_src emacs-lisp :tangle yes
+(setq window-resize-pixelwise t)
+#+end_src
+
 *** Manage layouts
 Undo/redo between window layouts.
 #+begin_src emacs-lisp :tangle yes
