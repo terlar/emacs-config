@@ -3192,8 +3192,6 @@ Use symbols to represent task state.
 #+begin_src emacs-lisp :tangle yes
 (use-package valign
   :ensure t
-  :hook
-  (org-mode-hook . valign-mode)
   :init
   (setq valign-fancy-bar t))
 #+end_src
