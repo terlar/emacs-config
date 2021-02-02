@@ -16,18 +16,6 @@ in epkgs // {
     ];
   });
 
-  # Updates while emacs-overlay MELPA update is broken.
-  ctrlf = epkgs.melpaPackages.ctrlf.overrideAttrs (attrs: {
-    version = "20210117.1732";
-    src = fetchFromGitHub {
-      owner = "raxod502";
-      repo = "ctrlf";
-      rev = "928f98da5fdb8ca50c0957015f964dea8cde8b5f";
-      sha256 = "0sp09rk63dfvc1h40rmzwhac0dzp19w6zqzqigdsn6zrpk8g9vjg";
-      # date = 2021-01-17T17:32:31-08:00;
-    };
-  });
-
   # Compatibility.
   nix-mode = epkgs.melpaPackages.nix-mode.overrideAttrs (attrs: {
     version = "20210111.808";
