@@ -1921,7 +1921,11 @@ Keep track of bookmarks
 (use-package ctrlf
   :ensure t
   :hook
-  (after-init-hook . ctrlf-mode))
+  (after-init-hook . ctrlf-mode)
+  :config
+  ;; Fix annoying issue with jumping to the wronge place when having split windows and
+  ;; searching.
+  (advice-add 'ctrlf--finalize :override #'ignore))
 #+end_src
 
 *** ctrlxo
