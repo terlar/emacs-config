@@ -84,6 +84,7 @@
           nativeBuildInputs = with pkgs; [
             gdb
             git
+            nixUnstable
             nixfmt
 
             devEmacsConfig
