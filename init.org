@@ -4641,7 +4641,9 @@ Packages that I am currently testing or evaluating.
 
 ** iscroll
 #+begin_src emacs-lisp :tangle yes
-(use-package iscroll :ensure t)
+(use-package iscroll :ensure t
+  :hook
+  (org-mode-hook . iscroll-mode))
 #+end_src
 
 ** messages-are-flowing
