@@ -2630,6 +2630,7 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
                                      lisp-mode
                                      org-mode))
   :config
+  (cl-pushnew '(plantuml-mode plantuml-indent-level) editorconfig-indentation-alist :test #'equal)
   (editorconfig-mode 1))
 #+end_src
 
@@ -4596,6 +4597,16 @@ Packages that I am currently testing or evaluating.
 ** comment-or-uncomment-sexp
 #+begin_src emacs-lisp :tangle yes
 (use-package comment-or-uncomment-sexp :ensure t)
+#+end_src
+
+** dtrt-indent
+#+begin_src emacs-lisp :tangle yes
+(use-package dtrt-indent
+  :ensure t
+  :hook
+  (after-init-hook . dtrt-indent-global-mode)
+  :config
+  (cl-pushnew '(plantuml-mode default plantuml-indent-level) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
 ** eglot-x
