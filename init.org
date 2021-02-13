@@ -4586,9 +4586,7 @@ Packages that I am currently testing or evaluating.
 (use-package dtrt-indent
   :ensure t
   :hook
-  (after-init-hook . dtrt-indent-global-mode)
-  :config
-  (cl-pushnew '(plantuml-mode default plantuml-indent-level) dtrt-indent-hook-mapping-list :test #'equal))
+  (after-init-hook . dtrt-indent-global-mode))
 #+end_src
 
 ** eglot-x
