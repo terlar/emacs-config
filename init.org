@@ -2218,6 +2218,8 @@ Reformat buffer without moving point.
 #+begin_src emacs-lisp :tangle yes
 (use-package apheleia
   :ensure t
+  :hook
+  (prog-mode-hook . apheleia-mode)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
@@ -2228,25 +2230,6 @@ Reformat buffer without moving point.
   (progn ;; Ruby
     (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
-#+end_src
-
-*** reformatter
-Custom formatters. Use in a specific project via =.dir-locals.el=, this can be achieved via
-the mode mechanism:
-#+begin_src text
-((some-major-mode
-   (mode . FORMATTER-on-save)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package reformatter
-  :ensure t
-  :demand t
-  :config
-  (defgroup reformatter nil "Simple formatters defined by reformatter."
-    :group 'reformatter)
-  (reformatter-define black :program "black" :args '("-"))
-  (reformatter-define nixfmt :program "nixfmt"))
 #+end_src
 
 ** Jump to definition
