@@ -1949,7 +1949,9 @@ Keep track of bookmarks
 (use-package find-file
   :init
   (setq-default ff-quiet-mode t)
-  (put 'ff-search-directories 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
+  (put 'ff-search-directories
+       'safe-local-variable
+       (lambda (x) (cl-every #'stringp x))))
 
 (use-package ff-test :demand t)
 #+end_src
@@ -2217,8 +2219,6 @@ Reformat buffer without moving point.
 #+begin_src emacs-lisp :tangle yes
 (use-package apheleia
   :ensure t
-  :hook
-  (prog-mode-hook . apheleia-mode)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
@@ -2230,6 +2230,29 @@ Reformat buffer without moving point.
   (progn ;; Ruby
     (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
+#+end_src
+
+*** format-all
+Auto-format source code with wide support for languages.
+#+begin_src emacs-lisp :tangle yes
+(use-package format-all
+  :ensure t
+  :hook
+  (prog-mode-hook . format-all-mode)
+  (format-all-mode-hook . format-all-ensure-formatter)
+  :init
+  (put 'format-all-formatters
+       'safe-local-variable
+       (lambda (xs)
+         (and (listp xs)
+              (cl-every
+               (lambda (x)
+                 (and (stringp (car x))
+                      (or (symbolp (cadr x))
+                          (and (listp (cadr x))
+                               (symbolp (caadr x))
+                               (cl-every #'stringp (cdadr x))))))
+               xs)))))
 #+end_src
 
 ** Jump to definition
@@ -3512,7 +3535,9 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (setq haskell-mode-stylish-haskell-path "brittany")
 
   ;; Allow configuring project local cabal repl commands.
-  (put 'haskell-process-args-cabal-repl 'safe-local-variable (lambda (x) (seq-every-p #'stringp x))))
+  (put 'haskell-process-args-cabal-repl
+       'safe-local-variable
+       (lambda (x) (cl-every #'stringp x))))
 #+end_src
 
 *** REPL
@@ -4608,11 +4633,6 @@ Packages that I am currently testing or evaluating.
 ** fit-text-scale
 #+begin_src emacs-lisp :tangle yes
 (use-package fit-text-scale :ensure t)
-#+end_src
-
-** format-all
-#+begin_src emacs-lisp :tangle yes
-(use-package format-all :ensure t)
 #+end_src
 
 ** freeze-it
