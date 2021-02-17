@@ -2239,20 +2239,7 @@ Auto-format source code with wide support for languages.
   :ensure t
   :hook
   (prog-mode-hook . format-all-mode)
-  (format-all-mode-hook . format-all-ensure-formatter)
-  :init
-  (put 'format-all-formatters
-       'safe-local-variable
-       (lambda (xs)
-         (and (listp xs)
-              (cl-every
-               (lambda (x)
-                 (and (stringp (car x))
-                      (or (symbolp (cadr x))
-                          (and (listp (cadr x))
-                               (symbolp (caadr x))
-                               (cl-every #'stringp (cdadr x))))))
-               xs)))))
+  (format-all-mode-hook . format-all-ensure-formatter))
 #+end_src
 
 ** Jump to definition
