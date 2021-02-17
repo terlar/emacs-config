@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     utils.url = "github:numtide/flake-utils";
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
@@ -13,7 +17,7 @@
     };
   };
 
-  outputs = { home-manager, emacs-overlay, nixpkgs, utils, self }:
+  outputs = { home-manager, emacs-overlay, nixpkgs, utils, self, ... }:
     with nixpkgs;
 
     {
