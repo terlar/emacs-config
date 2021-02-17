@@ -2239,7 +2239,12 @@ Auto-format source code with wide support for languages.
   :ensure t
   :hook
   (prog-mode-hook . format-all-mode)
-  (format-all-mode-hook . format-all-ensure-formatter))
+  (format-all-mode-hook . format-all-ensure-formatter)
+  :general
+  (:keymaps
+   'prog-mode-map
+   :prefix local-leader-key
+   "f" 'format-all-buffer))
 #+end_src
 
 ** Jump to definition
