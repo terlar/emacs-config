@@ -1,10 +1,22 @@
-{ stdenv, fetchFromGitHub, substituteAll, texinfo, perl, python3, pywal, which
-, gcc, pkg-config, glib-networking, gtk3, webkitgtk }:
+{ stdenv
+, fetchFromGitHub
+, substituteAll
+, texinfo
+, perl
+, python3
+, pywal
+, which
+, gcc
+, pkg-config
+, glib-networking
+, gtk3
+, webkitgtk
+}:
 
 epkgs:
-
 let inherit (epkgs) trivialBuild;
-in epkgs // {
+in
+epkgs // {
   # Patched.
   theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
     patches = [

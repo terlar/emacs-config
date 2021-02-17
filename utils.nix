@@ -1,5 +1,4 @@
 { makeDesktopItem, symlinkJoin, writeShellScriptBin }:
-
 let
   emacseditorScript = writeShellScriptBin "emacseditor" ''
     if [ -z "$1" ]; then
@@ -37,7 +36,8 @@ let
     genericName = "Mail/News Client";
     mimeType = "x-scheme-handler/mailto;";
   };
-in symlinkJoin {
+in
+symlinkJoin {
   name = "emacs-utils";
   paths = [
     emacseditorScript

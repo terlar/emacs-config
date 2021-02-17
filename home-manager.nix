@@ -2,19 +2,21 @@
 
 with builtins;
 with lib;
-
 let
   cfg = config.custom.emacsConfig;
 
-  emacsEdit = if cfg.enableUtils then
-    "emacseditor"
-  else
-    (if enableServer then "emacsclient" else "emacs");
+  emacsEdit =
+    if cfg.enableUtils then
+      "emacseditor"
+    else
+      (if enableServer then "emacsclient" else "emacs");
 
   mkEmacsConfigFiles = path:
     foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
-    { } (attrNames (readDir path));
-in {
+      { }
+      (attrNames (readDir path));
+in
+{
   options.custom.emacsConfig = {
     enable = mkEnableOption "custom emacs configuration";
 

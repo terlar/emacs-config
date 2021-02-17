@@ -1,6 +1,10 @@
-{ version ? "dev", lib, stdenv, trivialBuild, emacs-all-the-icons-fonts, ripgrep
+{ version ? "dev"
+, lib
+, stdenv
+, trivialBuild
+, emacs-all-the-icons-fonts
+, ripgrep
 }:
-
 let
   init = trivialBuild {
     pname = "config-init";
@@ -32,7 +36,8 @@ let
     inherit version;
     src = lib.sourceFilesBySuffices ./lisp [ ".el" ];
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   pname = "emacs-config";
   inherit version;
 

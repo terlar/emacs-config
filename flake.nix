@@ -23,7 +23,8 @@
     {
       overlay = final: prev:
         let override = prev.callPackage ./overrides.nix { };
-        in (emacs-overlay.overlay final prev) // rec {
+        in
+        (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
             config = ./init.org;
             package = final.emacsPgtk;
@@ -51,51 +52,54 @@
           inherit system;
           overlays = [ self.overlay ];
         };
-      in {
+      in
+      {
         packages = { inherit (pkgs) emacsConfig emacsEnv emacsUtils; };
         defaultPackage = self.packages.${system}.emacsConfig;
 
-        devShell = let
-          reloadEmacsConfig = pkgs.writeShellScriptBin "reload-emacs-config" ''
-            set -euo pipefail
-            systemctl --user restart emacs.service
-            while ! emacsclient -a false -e t 2>/dev/null
-            do sleep 1; done
-            emacsclient -nc
-          '';
+        devShell =
+          let
+            reloadEmacsConfig = pkgs.writeShellScriptBin "reload-emacs-config" ''
+              set -euo pipefail
+              systemctl --user restart emacs.service
+              while ! emacsclient -a false -e t 2>/dev/null
+              do sleep 1; done
+              emacsclient -nc
+            '';
 
-          devEmacsConfig = pkgs.writeShellScriptBin "dev-emacs-config" ''
-            set -euo pipefail
-            export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-            mkdir -p $XDG_CONFIG_HOME/emacs
-            ${pkgs.xorg.lndir}/bin/lndir -silent $PWD $XDG_CONFIG_HOME/emacs
-            ${pkgs.emacsEnv}/bin/emacs "$@"
-          '';
+            devEmacsConfig = pkgs.writeShellScriptBin "dev-emacs-config" ''
+              set -euo pipefail
+              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
+              mkdir -p $XDG_CONFIG_HOME/emacs
+              ${pkgs.xorg.lndir}/bin/lndir -silent $PWD $XDG_CONFIG_HOME/emacs
+              ${pkgs.emacsEnv}/bin/emacs "$@"
+            '';
 
-          testEmacsConfig = pkgs.writeShellScriptBin "test-emacs-config" ''
-            set -euo pipefail
-            export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-            mkdir -p $XDG_CONFIG_HOME/emacs
-            ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
-            ${pkgs.emacsEnv}/bin/emacs "$@"
-          '';
+            testEmacsConfig = pkgs.writeShellScriptBin "test-emacs-config" ''
+              set -euo pipefail
+              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
+              mkdir -p $XDG_CONFIG_HOME/emacs
+              ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
+              ${pkgs.emacsEnv}/bin/emacs "$@"
+            '';
 
-          updateCaches = pkgs.writeShellScriptBin "update-caches" ''
-            ${pkgs.cachix}/bin/cachix use -O . nix-community
-            ${pkgs.cachix}/bin/cachix use -O . terlar
-          '';
-        in pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
-            gdb
-            git
-            nixUnstable
-            nixfmt
+            updateCaches = pkgs.writeShellScriptBin "update-caches" ''
+              ${pkgs.cachix}/bin/cachix use -O . nix-community
+              ${pkgs.cachix}/bin/cachix use -O . terlar
+            '';
+          in
+          pkgs.mkShell {
+            nativeBuildInputs = with pkgs; [
+              gdb
+              git
+              nixUnstable
+              nixpkgs-fmt
 
-            devEmacsConfig
-            reloadEmacsConfig
-            testEmacsConfig
-            updateCaches
-          ];
-        };
+              devEmacsConfig
+              reloadEmacsConfig
+              testEmacsConfig
+              updateCaches
+            ];
+          };
       });
 }
