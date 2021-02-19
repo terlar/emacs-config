@@ -4604,7 +4604,9 @@ Packages that I am currently testing or evaluating.
 (use-package dtrt-indent
   :ensure t
   :hook
-  (after-init-hook . dtrt-indent-global-mode))
+  (after-init-hook . dtrt-indent-global-mode)
+  :init
+  (setq dtrt-indent-verbosity 0))
 #+end_src
 
 ** eglot-x
