@@ -26,8 +26,10 @@
         in
         (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
-            config = ./init.org;
             package = final.emacsPgtk;
+
+            config = ./init.org;
+            alwaysEnsure = false;
 
             extraEmacsPackages = epkgs: [ epkgs.org-plus-contrib ];
 
