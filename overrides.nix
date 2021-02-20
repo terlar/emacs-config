@@ -139,15 +139,15 @@ epkgs // {
 
   ghelp = trivialBuild {
     pname = "ghelp";
-    version = "20201229.1615";
+    version = "20210214.1540";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "ghelp";
-      rev = "547fbf66a0cb7a1896f68920ea768d9709f18199";
-      sha256 = "04azmw4fcvw98bdhxv4sdvcl3p3a2rzzqg9qlb8ifs1q2lvy5fh8";
-      # date = 2020-12-29T16:15:12-05:00;
+      rev = "f85a223aa658637cd93e6b4443f9f53b901dedba";
+      sha256 = "1sb1hdsw0bhnbm28kdyps8vkjxdzx6cz3fd6gqxqxayyikils395";
+      # date = 2021-02-14T15:40:22-05:00;
     };
-    packageRequires = with epkgs; [ eglot geiser helpful ];
+    packageRequires = with epkgs; [ eglot geiser helpful sly ];
   };
 
   ivy-ghq = trivialBuild {
