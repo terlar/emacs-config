@@ -1218,7 +1218,9 @@ Snippets with preview.
   :general
   ("M-y" 'consult-yank-pop
    "C-c r" 'consult-recent-file)
-  (:prefix search-prefix "g" 'consult-ripgrep))
+  (:prefix search-prefix "g" 'consult-ripgrep)
+  :init
+  (setq consult-preview-key (kbd "M-RET")))
 #+end_src
 
 *** embark
