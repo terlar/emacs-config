@@ -100,6 +100,18 @@ epkgs // {
     };
   };
 
+  completing-read-xref = trivialBuild rec {
+    pname = "completing-read-xref";
+    version = "20201130.2235";
+    src = fetchFromGitHub {
+      owner = "travitch";
+      repo = "completing-read-xref.el";
+      rev = "5041ddea5c8bcdfc439fd7313ef590b521fa6c8f";
+      sha256 = "13j48idgsm2mnagdg3v34lmrl3dhw1k266g5kg05b4ca736yw32r";
+      # date = 2020-11-30T22:35:07-08:00;
+    };
+  };
+
   eglot-x = trivialBuild rec {
     pname = "eglot-x";
     version = "20200104.1435";

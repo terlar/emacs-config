@@ -4601,6 +4601,16 @@ Packages that I am currently testing or evaluating.
 (use-package comment-or-uncomment-sexp :ensure t)
 #+end_src
 
+** completing-read-xref
+#+begin_src emacs-lisp :tangle yes
+(use-package completing-read-xref
+  :ensure t
+  :commands
+  (completing-read-xref-show-defs completing-read-xref-show-xrefs)
+  :init
+  (setq xref-show-xrefs-function #'completing-read-xref-show-defs))
+#+end_src
+
 ** dtrt-indent
 #+begin_src emacs-lisp :tangle yes
 (use-package dtrt-indent
