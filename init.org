@@ -25,14 +25,15 @@ The rough details:
 ** Screenshots
 *** org-mode
 #+CAPTION: org-mode
-
+[[./media/org-mode.svg]]
 
 *** markdown-mode
 #+CAPTION: markdown-mode
-
+[[./media/markdown-mode.svg]]
 
 *** emacs-lisp-mode
 #+CAPTION: emacs-lisp-mode
+[[./media/emacs-lisp-mode.svg]]
 
 * Early initialization
 #+begin_src emacs-lisp :tangle early-init.el

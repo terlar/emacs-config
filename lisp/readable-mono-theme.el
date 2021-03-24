@@ -468,6 +468,7 @@ For example links."
      ((((background light)) (:foreground ,l-bg))
       (((background dark)) (:foreground ,d-bg))))
    `(org-table ((t (:foreground nil))))
+   `(org-quote ((t (:foreground nil))))
 
    `(org-agenda-structure ((t (:foreground nil))))
    `(org-agenda-date ((t (:foreground nil))))
@@ -512,7 +513,7 @@ For example links."
 ;;;;; smartparens
    `(sp-show-pair-match-face ((t (:inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((t (:inherit show-paren-mismatch))))
- 
+
 ;;;;; spray
    `(spray-accent-face
      ((((background light)) (:foreground ,l-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))

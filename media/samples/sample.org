@@ -1,0 +1,56 @@
+#+TITLE: Sample
+
+* Header
+This is is a paragraph with enough text to make it wrap at 80 characters, so to reach that
+it has to contain at least a few more words, there, that hit the spot and some more.
+
+** Subheading
+This is a paragraph of a subheading.
+
+** Formatting
+Text can be formatted in different ways, for example: *bold*, /italic/, _underlined_ and =monospaced=.
+
+** Quotation
+#+BEGIN_QUOTE
+This is a quote
+#+END_QUOTE
+
+** Lists
+*** Bullet lists
+- This an item in a list
+- A list can have multiple items
+  - A list can also contain other lists
+- Long lines of text in a list will make the text wrap, now one may ask: What does that
+  look like? It looks like this.
+
+*** Numbered lists
+1) This is an item in a numbered list
+2) This is another item in a numbered list
+
+*** Checklists [2/8]
+- [ ] This is an item in a checklist
+- [X] This is a checked item in a checklist
+- [-] A checklist can also contain sub-checklists
+  - [ ] This is an item in a sub-checklist
+  - [X] This is a checked item in a sub-checklist
+
+*** Definition lists
+- Definition lists :: lists that define things
+- Definition list item :: a member of the definition list
+
+** Table
+| Header for column A       | Header for column B       |
+|---------------------------+---------------------------|
+| An entry in column A      | An entry in column B      |
+| Another entry in column A | Another entry in column B |
+
+** Code
+Code can be described ~inline~ or as a source block:
+#+BEGIN_SRC python
+def hello:
+  print "hello"
+
+hello()
+#+END_SRC
+
+#+RESULTS:
