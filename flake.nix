@@ -74,6 +74,7 @@
               export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
               mkdir -p $XDG_CONFIG_HOME/emacs
               ${pkgs.xorg.lndir}/bin/lndir -silent $PWD $XDG_CONFIG_HOME/emacs
+              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
               ${pkgs.emacsEnv}/bin/emacs "$@"
             '';
 
@@ -82,12 +83,22 @@
               export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
               mkdir -p $XDG_CONFIG_HOME/emacs
               ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
+              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
               ${pkgs.emacsEnv}/bin/emacs "$@"
             '';
 
             updateCaches = pkgs.writeShellScriptBin "update-caches" ''
               ${pkgs.cachix}/bin/cachix use -O . nix-community
               ${pkgs.cachix}/bin/cachix use -O . terlar
+            '';
+
+            updateScreenshots = pkgs.writeShellScriptBin "update-screenshots" ''
+              set -euo pipefail
+              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
+              mkdir -p $XDG_CONFIG_HOME/emacs
+              ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
+              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
+              ${pkgs.emacsEnv}/bin/emacs -fs --load ${./screenshots.el} --eval '(kill-emacs)'
             '';
           in
           pkgs.mkShell {
@@ -101,6 +112,7 @@
               reloadEmacsConfig
               testEmacsConfig
               updateCaches
+              updateScreenshots
             ];
           };
       });
