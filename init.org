@@ -3158,7 +3158,7 @@ Use variable-pitch font but still make sure everything aligns.
 #+begin_src emacs-lisp :tangle yes
 (use-package org
   :init
-  (setq org-ellipsis " ⌄ ")
+  (setq org-ellipsis " ┅ ")
   (setq org-fontify-whole-heading-line t)
   (setq org-fontify-todo-headline t)
   (setq org-fontify-done-headline t))
