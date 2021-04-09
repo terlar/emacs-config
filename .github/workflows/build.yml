@@ -1,10 +1,12 @@
 ---
 name: Build
+
 on:
   pull_request:
   push:
+
 jobs:
-  builds:
+  build:
     strategy:
       matrix:
         include:
@@ -12,17 +14,25 @@ jobs:
             system: x86_64-linux
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - uses: cachix/install-nix-action@v13
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v13
       with:
         install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210207_fd6eaa1/install
         extra_nix_config: |
           experimental-features = nix-command flakes
-    - uses: cachix/cachix-action@v10
+
+    - name: Use cachix
+      uses: cachix/cachix-action@v10
       with:
         name: terlar
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         extraPullNames: nix-community
-    - run: nix build --print-build-logs .#defaultPackage.${{matrix.system}}
+
+    - name: Build default package
+      run: |
+        nix build --print-build-logs .#defaultPackage.${{matrix.system}}
