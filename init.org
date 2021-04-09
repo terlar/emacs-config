@@ -2025,15 +2025,24 @@ Keep track of last point place to resume editing in the same file.
 #+end_src
 
 ** Project
-Manage project repositories.
+Retrieve project list via ghq.
 #+begin_src emacs-lisp :tangle yes
-(use-package ivy-ghq
-  :ensure t
-  :defer 2
-  :general
-  ("C-c p" 'ivy-ghq-open)
+(use-package project
+  :preface
+  (defun project--read-project-list-from-ghq ()
+    "Initialize `project--list' using contents of command ghq output."
+    (with-temp-buffer
+      (call-process "ghq" nil t nil "list" "--full-path")
+      (let ((paths))
+        (goto-char (point-min))
+        (while (not (eobp))
+          (cl-pushnew
+           (list (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+           project--list
+           :test #'equal)
+          (forward-line 1)))))
   :init
-  (setq ivy-ghq-short-list t))
+  (advice-add 'project--read-project-list :after #'project--read-project-list-from-ghq))
 #+end_src
 
 * Development
