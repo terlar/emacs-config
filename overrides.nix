@@ -35,16 +35,6 @@ in
 epkgs // {
   inherit geiser;
 
-  # Patched.
-  smartparens = epkgs.melpaPackages.smartparens.overrideAttrs (attrs: {
-    patches = [
-      (fetchpatch {
-        url = "https://github.com/Fuco1/smartparens/commit/a010b090c88c20d6066e20c43fd51b7f6ba8ec6f.patch";
-        sha256 = "sha256-eCLFVXxyCGq6dPfgjiM+sxJKBvzqqNH9SSObouDMyk4=";
-      })
-    ];
-  });
-
   theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
     patches = [
       (substituteAll {
