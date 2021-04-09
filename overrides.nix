@@ -1,5 +1,6 @@
 { stdenv
 , fetchFromGitHub
+, fetchFromGitLab
 , fetchpatch
 , substituteAll
 , texinfo
@@ -15,18 +16,24 @@
 }:
 
 epkgs:
-let inherit (epkgs) trivialBuild;
+let
+  inherit (epkgs) trivialBuild;
+  # Broken.
+  geiser = epkgs.melpaPackages.geiser.overrideAttrs (attrs: {
+    src = fetchFromGitLab {
+      owner = "emacs-geiser";
+      repo = "geiser";
+      rev = "d7ba81b402787e3315b40f60952f95816a1cf99c";
+      sha256 = "sha256-we0un+EYB2ByA57g+TVMuP21HBmXRaTLt5JC4QWjGAE=";
+    };
+
+    meta = attrs.meta // {
+      broken = false;
+    };
+  });
 in
 epkgs // {
-  # Patched.
-  smartparens = epkgs.melpaPackages.smartparens.overrideAttrs (attrs: {
-    patches = [
-      (fetchpatch {
-        url = "https://github.com/Fuco1/smartparens/commit/a010b090c88c20d6066e20c43fd51b7f6ba8ec6f.patch";
-        sha256 = "sha256-eCLFVXxyCGq6dPfgjiM+sxJKBvzqqNH9SSObouDMyk4=";
-      })
-    ];
-  });
+  inherit geiser;
 
   theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
     patches = [
