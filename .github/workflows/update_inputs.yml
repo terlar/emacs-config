@@ -32,7 +32,13 @@ jobs:
       run: |
         nix flake update --recreate-lock-file --commit-lock-file
 
-    - name: Push commit with updated inputs
-      run: |
-        git pull --rebase
-        git push
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        title: "Update flake inputs"
+        branch: "update-flake-inputs"
+        delete-branch: true
+        labels: |
+          chore
+          inputs
+          automated
