@@ -1,7 +1,6 @@
 { nixpkgs ? import <nixpkgs> {}, compiler ? "ghc865" }:
 
 let
-  all-hies = import (fetchTarball "https://github.com/infinisil/all-hies/tarball/master") {};
   haskellPackages = nixpkgs.haskell.packages.\${compiler};
 
   projectEnvDrv = (import ./default.nix { inherit nixpkgs compiler; }).env.overrideAttrs (oldAttrs: rec {
@@ -11,7 +10,6 @@ let
       haskellPackages.hoogle
       haskellPackages.structured-haskell-mode
       haskellPackages.stylish-haskell
-      all-hies.versions.\${compiler}
     ];
   });
 in projectEnvDrv
