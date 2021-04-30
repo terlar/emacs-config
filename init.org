@@ -2275,6 +2275,10 @@ Don't ask about keeping current list of tags tables.
    nav-prefix
    "i" 'xref-find-definitions
    "o" 'xref-find-definitions-other-window)
+  :commands
+  (xref-show-definitions-completing-read)
+  :init
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
   :config
   (remove-hook 'xref-backend-functions #'etags--xref-backend))
 #+end_src
@@ -4612,16 +4616,6 @@ Packages that I am currently testing or evaluating.
 (use-package comment-or-uncomment-sexp :ensure t)
 #+end_src
 
-** completing-read-xref
-#+begin_src emacs-lisp :tangle yes
-(use-package completing-read-xref
-  :ensure t
-  :commands
-  (completing-read-xref-show-defs completing-read-xref-show-xrefs)
-  :init
-  (setq xref-show-xrefs-function #'completing-read-xref-show-defs))
-#+end_src
-
 ** dtrt-indent
 #+begin_src emacs-lisp :tangle yes
 (use-package dtrt-indent
@@ -4748,7 +4742,7 @@ Packages that I am currently testing or evaluating.
 - ~vc-log-search~
 ** TODO Use ChangeLog entries =C-x 4 a=
 ** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
-** TODO ~xref-quick-peek~ / ~xref-completing-read~ (~xref-show-xrefs-function~)
+** TODO ~xref-quick-peek~
 ** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
 ** TODO solarized colorless config?
