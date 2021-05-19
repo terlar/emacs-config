@@ -1397,22 +1397,6 @@ Save clipboard contents into kill-ring before replacing them.
 #+end_src
 
 ** Packages
-*** avy
-Jump to things.
-#+begin_src emacs-lisp :tangle yes
-(use-package avy
-  :ensure t
-  :general
-  (:prefix
-   search-prefix
-   "SPC" 'avy-goto-word-or-subword-1
-   "s" 'avy-goto-char
-   "l" 'avy-goto-line
-   "m" 'avy-pop-mark)
-  :init
-  (setq avy-all-windows nil))
-#+end_src
-
 *** cycle-quotes
 #+begin_src emacs-lisp :tangle yes
 (use-package cycle-quotes
