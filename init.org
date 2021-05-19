@@ -4726,7 +4726,7 @@ Packages that I am currently testing or evaluating.
 - ~vc-log-search~
 ** TODO Use ChangeLog entries =C-x 4 a=
 ** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
-** TODO ~xref-quick-peek~
+** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
 ** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
 ** TODO solarized colorless config?
