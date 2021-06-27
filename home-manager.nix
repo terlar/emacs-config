@@ -107,6 +107,7 @@ in
       services.emacs = {
         enable = cfg.enableServer;
         package = cfg.package;
+        socketActivation.enable = true;
       };
 
       programs.git.extraConfig = {
