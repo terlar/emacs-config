@@ -3201,6 +3201,11 @@ Use symbols to represent task state.
 #+end_src
 
 *** Export
+**** epub
+#+begin_src emacs-lisp :tangle yes
+(use-package ox-epub)
+#+end_src
+
 **** LaTeX
 Disable link colors.
 #+begin_src emacs-lisp :tangle yes
