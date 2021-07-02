@@ -3203,7 +3203,7 @@ Use symbols to represent task state.
 *** Export
 **** epub
 #+begin_src emacs-lisp :tangle yes
-(use-package ox-epub)
+(use-package ox-epub :ensure t)
 #+end_src
 
 **** LaTeX
