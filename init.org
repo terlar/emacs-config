@@ -3206,6 +3206,14 @@ Use symbols to represent task state.
 (use-package ox-epub :ensure t)
 #+end_src
 
+**** HTML
+#+begin_src emacs-lisp :tangle yes
+(use-package ox-html
+  :init
+  (setq org-html-postamble nil)
+  (setq org-html-validation-link nil))
+#+end_src
+
 **** LaTeX
 Disable link colors.
 #+begin_src emacs-lisp :tangle yes
