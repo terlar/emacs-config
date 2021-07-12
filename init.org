@@ -4700,6 +4700,11 @@ Packages that I am currently testing or evaluating.
 (use-package virtual-auto-fill :ensure t)
 #+end_src
 
+** vundo
+#+begin_src emacs-lisp :tangle yes
+(use-package vundo :ensure t)
+#+end_src
+
 ** webkit
 #+begin_src emacs-lisp :tangle yes
 (use-package webkit :ensure t)

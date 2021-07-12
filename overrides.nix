@@ -204,6 +204,18 @@ epkgs // {
     packageRequires = with epkgs; [ quick-peek ];
   };
 
+  vundo = trivialBuild {
+    pname = "vundo";
+    version = "20210707.2224";
+    src = fetchFromGitHub {
+      owner = "casouri";
+      repo = "vundo";
+      rev = "e136164f779e9a91ef722778acc704048ba0809a";
+      sha256 = "1c2yqwjq7wizfcn94hk5wp5yn4xqaakxq27wm2r98qdh71ga7xhb";
+      # date = 2021-07-07T22:24:35-04:00;
+    };
+  };
+
   webkit = trivialBuild {
     pname = "webkit";
     version = "20201206.1401";
