@@ -95,6 +95,19 @@ epkgs // {
   });
 
   # New.
+  all-the-icons-completion = trivialBuild rec {
+    pname = "all-the-icons-completion";
+    version = "";
+    src = fetchFromGitHub {
+      owner = "iyefrat";
+      repo = "all-the-icons-completion";
+      rev = "d1d4b2f0dfbfa94d33fe50e8089c06601adfe674";
+      sha256 = "05nwi58l4y6l60rmsddf73s4awppgsyqarhiz14r21dcqq0kfa4g";
+      # date = 2021-07-29T00:41:27+03:00;
+    };
+    packageRequires = with epkgs; [ all-the-icons ];
+  };
+
   apheleia = trivialBuild rec {
     pname = "apheleia";
     version = "20210225.2016";

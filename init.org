@@ -1212,6 +1212,14 @@ Snippets with preview.
 #+end_src
 
 ** Extensions
+*** all-the-icons-completion
+#+begin_src emacs-lisp :tangle yes
+(use-package all-the-icons-completion
+  :ensure t
+  :hook
+  (marginalia-mode-hook . all-the-icons-completion-marginalia-setup))
+#+end_src
+
 *** consult
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
