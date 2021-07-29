@@ -18,23 +18,8 @@
 epkgs:
 let
   inherit (epkgs) trivialBuild;
-  # Broken.
-  geiser = epkgs.melpaPackages.geiser.overrideAttrs (attrs: {
-    src = fetchFromGitLab {
-      owner = "emacs-geiser";
-      repo = "geiser";
-      rev = "d7ba81b402787e3315b40f60952f95816a1cf99c";
-      sha256 = "sha256-we0un+EYB2ByA57g+TVMuP21HBmXRaTLt5JC4QWjGAE=";
-    };
-
-    meta = attrs.meta // {
-      broken = false;
-    };
-  });
 in
 epkgs // {
-  inherit geiser;
-
   theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
     patches = [
       (substituteAll {
