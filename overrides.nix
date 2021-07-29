@@ -95,13 +95,13 @@ epkgs // {
 
   apheleia = trivialBuild rec {
     pname = "apheleia";
-    version = "20210225.2016";
+    version = "20210722.1916";
     src = fetchFromGitHub {
       owner = "raxod502";
       repo = "apheleia";
-      rev = "02368ee1c73df691356ebcfff06b785b585d92a6";
-      sha256 = "1hy1mrga5pzb872p3yzk5knrvlbdykmfw7d7fc4bhqnfljj18wa9";
-      # date = 2021-02-25T20:16:50-08:00;
+      rev = "52e0a140a8414699e2ed58000300f526995237f5";
+      sha256 = "1wsbj6rmzx490p07qyig5djznpizhixqf4czyc12wimm47knrn46";
+      # date = 2021-07-22T19:16:42-07:00;
     };
   };
 
