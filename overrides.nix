@@ -165,18 +165,6 @@ epkgs // {
     packageRequires = with epkgs; [ eglot geiser helpful sly ];
   };
 
-  ivy-ghq = trivialBuild {
-    pname = "ivy-ghq";
-    version = "20191231.1957";
-    src = fetchFromGitHub {
-      owner = "analyticd";
-      repo = "ivy-ghq";
-      rev = "78a4cd32a7d7556c7c987b0089ea354e41b6f901";
-      sha256 = "1ddpdhg26nhqdd30k36c3mkciv5k2ca7vqmy3q855qnimir97zxz";
-      # date = 2019-12-31T19:57:04-08:00;
-    };
-  };
-
   ligature = trivialBuild {
     pname = "ligature";
     version = "20210218.2126";
