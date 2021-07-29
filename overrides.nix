@@ -154,13 +154,13 @@ epkgs // {
 
   ghelp = trivialBuild {
     pname = "ghelp";
-    version = "20210214.1540";
+    version = "20210727.1618";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "ghelp";
-      rev = "f85a223aa658637cd93e6b4443f9f53b901dedba";
-      sha256 = "1sb1hdsw0bhnbm28kdyps8vkjxdzx6cz3fd6gqxqxayyikils395";
-      # date = 2021-02-14T15:40:22-05:00;
+      rev = "e6f0674869b7382a688eac6d8fa6da00fb134a20";
+      sha256 = "19aahddvpsczhb9qlgqzlphx9icknaj35xp0qkz612zsvzjk5bxr";
+      # date = 2021-07-27T16:18:26-04:00;
     };
     packageRequires = with epkgs; [ eglot geiser helpful sly ];
   };
