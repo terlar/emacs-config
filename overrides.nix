@@ -120,13 +120,13 @@ epkgs // {
 
   ejira = trivialBuild {
     pname = "ejira";
-    version = "20201208.1659";
+    version = "20210305.1818";
     src = fetchFromGitHub {
       owner = "nyyManni";
       repo = "ejira";
-      rev = "8675aaef6f8774f2c8aa6cf0957aba012743760b";
-      sha256 = "03xv75b143rblpslrwynpqd9ypzmmw5w007ncr14jcbzkw4n6amg";
-      # date = 2020-12-08T16:59:33+02:00;
+      rev = "a1d46d6959c42b14ccb0c3714209fac1b38dd3d4";
+      sha256 = "172ryx07k30zs87768qrjrdsfkc2zvmrmnpnzxd2hlgp3i5875pk";
+      # date = 2021-03-05T18:18:59+02:00;
     };
     packageRequires = with epkgs; [
       dash-functional
