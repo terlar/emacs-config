@@ -5,11 +5,9 @@ with lib;
 let
   cfg = config.custom.emacsConfig;
 
-  emacsEdit =
-    if cfg.enableUtils then
-      "emacseditor"
-    else
-      (if enableServer then "emacsclient" else "emacs");
+  emacsEdit = if enableServer then "emacsclient" else "emacs";
+  emacsDesktop = if enableServer then "emacsclient.desktop" else "emacs.desktop";
+  emacsMailDesktop = if enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
 
   mkEmacsConfigFiles = path:
     foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
@@ -32,13 +30,6 @@ in
       default = pkgs.emacsConfig;
       defaultText = literalExample "pkgs.emacsConfig";
       description = "The default Emacs config derivation to use.";
-    };
-
-    utilsPackage = mkOption {
-      type = types.package;
-      default = pkgs.emacsUtils;
-      defaultText = literalExample "pkgs.emacsUtils";
-      description = "The default Emacs utils derivation to use.";
     };
 
     enableUserDirectory = mkOption {
@@ -75,12 +66,6 @@ in
       default = false;
       type = types.bool;
       description = "Whether to use Emacs as default PDF application.";
-    };
-
-    enableUtils = mkOption {
-      default = true;
-      type = types.bool;
-      description = "Whether to enable Emacs utils.";
     };
 
     gnus = mkOption {
@@ -121,8 +106,7 @@ in
       };
 
       home.packages = [ cfg.package ]
-        ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs
-        ++ optional cfg.enableUtils cfg.utilsPackage;
+        ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
     }
     (mkIf cfg.enableUserDirectory {
       xdg.configFile = mkEmacsConfigFiles cfg.configPackage;
@@ -132,13 +116,13 @@ in
     (mkIf cfg.defaultEditor {
       programs.qutebrowser.settings.editor.command = [ emacsEdit "{}" ];
     })
-    (mkIf (cfg.enableUtils && cfg.defaultEmailApplication) {
+    (mkIf cfg.defaultEmailApplication {
       xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" =
-        "emacsmail.desktop";
+        emacsMailDesktop;
     })
-    (mkIf (cfg.enableUtils && cfg.defaultPdfApplication) {
+    (mkIf cfg.defaultPdfApplication {
       xdg.mimeApps.defaultApplications."application/pdf" =
-        "emacseditor.desktop";
+        emacsDesktop;
     })
     (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
     (mkIf (cfg.erc != null) {

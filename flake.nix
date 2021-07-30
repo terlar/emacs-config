@@ -43,8 +43,6 @@
           } // lib.optionalAttrs (self ? lastModifiedDate) {
             version = lib.substring 0 8 self.lastModifiedDate;
           });
-
-          emacsUtils = prev.callPackage ./utils.nix { };
         };
 
       homeManagerModules = { emacsConfig = import ./home-manager.nix; };
@@ -56,7 +54,7 @@
         };
       in
       {
-        packages = { inherit (pkgs) emacsConfig emacsEnv emacsUtils; };
+        packages = { inherit (pkgs) emacsConfig emacsEnv; };
         defaultPackage = self.packages.${system}.emacsConfig;
 
         devShell =
