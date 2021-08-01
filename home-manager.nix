@@ -5,9 +5,9 @@ with lib;
 let
   cfg = config.custom.emacsConfig;
 
-  emacsEdit = if enableServer then "emacsclient" else "emacs";
-  emacsDesktop = if enableServer then "emacsclient.desktop" else "emacs.desktop";
-  emacsMailDesktop = if enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
+  emacsEdit = if cfg.enableServer then "emacsclient" else "emacs";
+  emacsDesktop = if cfg.enableServer then "emacsclient.desktop" else "emacs.desktop";
+  emacsMailDesktop = if cfg.enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
 
   mkEmacsConfigFiles = path:
     foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
