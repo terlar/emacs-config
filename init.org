@@ -14,7 +14,7 @@ The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
 - buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]]
-- minibuffer completion :: [[https://github.com/raxod502/selectrum][selectrum]], [[https://github.com/abo-abo/swiper][ivy]]
+- minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
@@ -1088,7 +1088,7 @@ Complete in the following order:
   (setq company-tooltip-align-annotations t))
 #+end_src
 
-** Minibuffer (selectrum/ivy)
+** Minibuffer (vertico)
 *** vertico
 Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
@@ -1113,109 +1113,6 @@ Vertical interactive completion UI.
   (:keymaps
    'vertico-map
    "C-e" 'vertico-move-end-of-line-or-insert))
-#+end_src
-
-*** Selectrum
-Incremental selection narrowing interface for completions.
-#+begin_src emacs-lisp :tangle yes
-(use-package selectrum
-  :ensure t
-  :preface
-  (autoload 'selectrum-exhibit "selectrum")
-  (autoload 'selectrum-insert-current-candidate "selectrum")
-  (defun selectrum-move-end-of-line-or-insert-current-candidate (arg)
-    "Move to end of line or insert current candidate.
-   ARG lines can be used."
-    (interactive "p")
-    (if (eolp) (selectrum-insert-current-candidate) (move-end-of-line arg)))
-  :hook
-  (after-init-hook . selectrum-mode)
-  :general
-  ("C-c SPC" 'selectrum-repeat)
-  (:keymaps
-   'selectrum-minibuffer-map
-   "C-e" 'selectrum-move-end-of-line-or-insert-current-candidate)
-  :init
-  (setq selectrum-extend-current-candidate-highlight t)
-  (setq selectrum-show-indices t)
-  :config
-  (dotimes (i 10)
-    (general-define-key
-     :keymaps 'selectrum-minibuffer-map
-     (format "M-%d" (mod (1+ i) 10))
-     `(lambda () (interactive)
-        (selectrum-select-current-candidate ,(1+ i))))))
-#+end_src
-
-*** Ivy
-#+begin_src emacs-lisp :tangle yes
-(use-package ivy
-  :ensure t
-  :preface
-  (defun +ivy-move-end-of-line-or-done (arg)
-    "Move to end of current line or consider ivy operation done.
-   ARG lines can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (move-end-of-line arg)))
-  (defun +ivy-forward-or-done (n)
-    "Move point forward or consider ivy operation done.
-      N characters can be used."
-    (interactive "p")
-    (if (eolp) (ivy-alt-done) (forward-char n)))
-  :general
-  (:keymaps
-   'ivy-mode-map
-   :prefix
-   window-prefix
-   "v" 'ivy-push-view
-   "V" 'ivy-pop-view
-   "'" 'ivy-switch-view)
-  (:keymaps
-   'ivy-occur-grep-mode-map
-   "C-c '" 'ivy-wgrep-change-to-wgrep-mode)
-  (:keymaps
-   'ivy-minibuffer-map
-   "C-<return>" 'ivy-immediate-done
-   "C-e"        '+ivy-move-end-of-line-or-done
-   "C-f"        '+ivy-forward-or-done
-   "C-l"        'ivy-alt-done
-   "C-u"        'ivy-kill-line
-   "C-w"        'ivy-backward-kill-word)
-  :init
-  (setq ivy-hooks-alist '((t . hl-line-mode)))
-  (setq ivy-wrap t)
-  (setq ivy-on-del-error-function #'ignore)
-  (setq ivy-use-virtual-buffers t)
-  ;; Allow selecting the prompt as a candidate (e.g for creating a new file)
-  (setq ivy-use-selectable-prompt t)
-  (setq ivy-fixed-height-minibuffer t)
-  ;; Don't use ^ as initial input.
-  (setq ivy-initial-inputs-alist nil))
-#+end_src
-
-**** counsel-tramp
-Navigate tramp files.
-#+begin_src emacs-lisp :tangle yes
-(use-package counsel-tramp
-  :ensure t
-  :general
-  (:prefix
-   leader-key
-   "t" 'counsel-tramp))
-#+end_src
-
-**** ivy-yasnippet
-Snippets with preview.
-#+begin_src emacs-lisp :tangle yes
-(use-package ivy-yasnippet
-  :ensure t
-  :general
-  ([remap yas-insert-snippet] 'ivy-yasnippet)
-  (:keymaps
-   'yas-minor-mode-map
-   :prefix
-   leader-key
-   "y" 'ivy-yasnippet))
 #+end_src
 
 ** Extensions
@@ -1253,9 +1150,6 @@ Snippets with preview.
   :init
   (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :config
-  (advice-add #'marginalia-cycle :after
-              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
-
   (marginalia-mode 1))
 #+end_src
 
@@ -4401,7 +4295,7 @@ it really useful.
   (setq desktop-save (daemonp))
   (setq desktop-load-locked-desktop (daemonp))
   :config
-  (dolist (var '(buffer-undo-list ivy-views))
+  (dolist (var '(buffer-undo-list))
     (cl-pushnew var desktop-locals-to-save :test #'equal))
   (desktop-save-mode 1))
 #+end_src
@@ -4476,8 +4370,7 @@ Avoid color when possible.
     (general-define-key
      :keymaps 'eshell-mode-map
      "RET" '+eshell-expand-abbrev-and-send-input
-     "<tab>" 'completion-at-point
-     "C-r" 'counsel-esh-history))
+     "<tab>" 'completion-at-point))
 
   (defun init-eshell-set-visual-commands ()
     (setq eshell-visual-commands
