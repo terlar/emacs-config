@@ -443,6 +443,11 @@ Use =y= / =n= instead of =yes= / =no.=
 (fset #'yes-or-no-p #'y-or-n-p)
 #+end_src
 
+Hide M-x commands which does not work in the current buffer.
+#+begin_src emacs-lisp :tangle yes
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+#+end_src
+
 * Appearance
 ** Typography
 *** Size
@@ -1011,34 +1016,10 @@ Space-separated matching components matching in any order.
 #+begin_src emacs-lisp :tangle yes
 (use-package orderless
   :ensure t
-  :preface
-  (eval-when-compile
-    (require 'selectrum))
   :init
-  (setq completion-styles '(orderless))
-  (setq selectrum-refine-candidates-function #'orderless-filter)
-  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches))
-#+end_src
-
-** Sorting
-*** prescient
-#+begin_src emacs-lisp :tangle yes
-(use-package prescient
-  :ensure t
-  :hook
-  (after-init-hook . prescient-persist-mode))
-
-(use-package selectrum-prescient
-  :ensure t
-  :commands
-  (selectrum-prescient--preprocess)
-  :init
-  (setq selectrum-preprocess-candidates-function #'selectrum-prescient--preprocess))
-
-(use-package company-prescient
-  :ensure t
-  :hook
-  (company-mode-hook . company-prescient-mode))
+  (setq completion-styles '(substring orderless))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
 ** Expansion (hippie)
@@ -1108,6 +1089,32 @@ Complete in the following order:
 #+end_src
 
 ** Minibuffer (selectrum/ivy)
+*** vertico
+Vertical interactive completion UI.
+#+begin_src emacs-lisp :tangle yes
+(use-package vertico
+  :ensure t
+  :hook
+  (after-init-hook . vertico-mode)
+  :init
+  (defun vertico-move-end-of-line-or-insert (arg)
+    "Move to end of line or insert current candidate.
+   ARG lines can be used.
+
+   When only one candidate exists exit input after insert."
+    (interactive "p")
+    (if (eolp)
+        (progn
+          (vertico-insert)
+          (when (= vertico--total 1)
+            (vertico-exit)))
+      (move-end-of-line arg)))
+  :general
+  (:keymaps
+   'vertico-map
+   "C-e" 'vertico-move-end-of-line-or-insert))
+#+end_src
+
 *** Selectrum
 Incremental selection narrowing interface for completions.
 #+begin_src emacs-lisp :tangle yes
@@ -1643,11 +1650,16 @@ Remove visual indicators from non-selected windows
 #+end_src
 
 ** Minibuffer
-Enable recursive minibuffers and keep the point out of the minibuffer.
+Enable recursive minibuffers.
 #+begin_src emacs-lisp :tangle yes
 (setq enable-recursive-minibuffers t)
+#+end_src
+
+Do not allow the cursor in the minibuffer prompt.
+#+begin_src emacs-lisp :tangle yes
 (setq minibuffer-prompt-properties
-      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
 
 Give some more room to the minbuffer.
@@ -1683,7 +1695,9 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
      minibuffer-local-ns-map
      minibuffer-local-completion-map
      minibuffer-local-must-match-map)
-   "C-c '" 'miniedit))
+   "C-c '" 'miniedit)
+  :init
+  (setq miniedit-show-help-p nil))
 #+end_src
 
 ** Scrolling
@@ -4711,11 +4725,6 @@ Packages that I am currently testing or evaluating.
 ** theme-magic
 #+begin_src emacs-lisp :tangle yes
 (use-package theme-magic :ensure t)
-#+end_src
-
-** vertico
-#+begin_src emacs-lisp :tangle yes
-(use-package vertico :ensure t)
 #+end_src
 
 ** virtual-auto-fill
