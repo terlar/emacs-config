@@ -4605,6 +4605,20 @@ Packages that I am currently testing or evaluating.
 (use-package org-roam :ensure t)
 #+end_src
 
+** popper
+#+begin_src emacs-lisp :tangle yes
+(use-package popper
+  :ensure t
+  :hook
+  (after-init-hook . popper-mode)
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          help-mode
+          compilation-mode)))
+#+end_src
+
 ** shrface
 #+begin_src emacs-lisp :tangle yes
 (use-package shrface :ensure t)
