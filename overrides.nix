@@ -82,7 +82,7 @@ epkgs // {
   # New.
   all-the-icons-completion = trivialBuild rec {
     pname = "all-the-icons-completion";
-    version = "";
+    version = "20210729.0041";
     src = fetchFromGitHub {
       owner = "iyefrat";
       repo = "all-the-icons-completion";
@@ -174,6 +174,18 @@ epkgs // {
       rev = "3923baf1fb9bf509cc95b4b14d7d0e2f7c88e53c";
       sha256 = "1zayga9072i4n6a90747d8h3w21zx042gnkcyimbb7jxxjyyiw7b";
       # date = 2021-05-08T08:14:09+01:00;
+    };
+  };
+
+  puni = trivialBuild rec {
+    pname = "puni";
+    version = "20210814.2343";
+    src = fetchFromGitHub {
+      owner = "AmaiKinono";
+      repo = "puni";
+      rev = "2a74b5179b08a13a78d31c3266cded28f33762a9";
+      sha256 = "159xw6vlf5fv84rhkrkvb0h383mdamdmq57dr2rd57hgqm21f8fk";
+      # date = 2021-08-14T23:43:21+08:00;
     };
   };
 
