@@ -1305,6 +1305,13 @@ Save clipboard contents into kill-ring before replacing them.
 (setq save-interprogram-paste-before-kill t)
 #+end_src
 
+** Parenthesis
+Automatic parenthesis pairing and highlighting.
+#+begin_src emacs-lisp :tangle yes
+(electric-pair-mode 1)
+(show-paren-mode 1)
+#+end_src
+
 ** Packages
 *** cycle-quotes
 #+begin_src emacs-lisp :tangle yes
@@ -1348,10 +1355,40 @@ Cycle through words, symbols and patterns.
   :config
   (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute"))
+  (grugru-define-global 'symbol '("yes" "no"))
   (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
 #+end_src
 
-*** string-inflection-cycle
+*** puni
+Soft deletion and balanced expressions.
+#+begin_src emacs-lisp :tangle yes
+(use-package puni
+  :ensure t
+  :preface
+  (defun puni-kill-whole-line-or-region (arg)
+    "Kill whole line(s) based on ARG or active region."
+    (interactive "P")
+    (unless (use-region-p)
+      (move-beginning-of-line nil)
+      (set-mark-command nil)
+      (next-line arg))
+
+    (unless (puni-kill-active-region)
+      (pop-to-mark-command)))
+  :hook
+  (after-init-hook . puni-global-mode)
+  :general
+  (:prefix
+   toggle-prefix
+   "p" 'puni-mode)
+  (:keymaps
+   'puni-mode-map
+   "C-w" 'puni-kill-whole-line-or-region))
+#+end_src
+
+*** string-inflection
+Conversion between different variable naming conventions.
+Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
 #+begin_src emacs-lisp :tangle yes
 (use-package string-inflection
   :ensure t
@@ -1364,56 +1401,12 @@ Auto-insert matching parenthesis and highlight matching parenthesis.
 #+begin_src emacs-lisp :tangle yes
 (use-package smartparens
   :ensure t
-  :preface
-  (defun smartparens-no-autoinsert-pair-advice (orig-fn &rest args)
-    "Disable command smartparens autoinsert when running ORIG-FN with ARGS."
-    (let ((sp-autoinsert-pair nil))
-      (apply orig-fn args)))
-  :hook
-  (after-init-hook . smartparens-global-strict-mode)
-  (after-init-hook . show-smartparens-global-mode)
-  (eval-expression-minibuffer-setup-hook . smartparens-strict-mode)
   :general
-  (:prefix
-   toggle-prefix
-   "p" 'smartparens-strict-mode)
-  (:keymaps
-   'smartparens-mode-map
-   "M-'" 'sp-change-inner
+  ("M-'" 'sp-change-inner
    "M-C" 'sp-clone-sexp
    "M-D" 'sp-unwrap-sexp
    "M-R" 'sp-rewrap-sexp
-   "M-W" 'sp-wrap-round)
-  (:keymaps
-   'smartparens-strict-mode-map
-   [remap kill-region] 'nil)
-  :config
-  (require 'smartparens-config)
-
-  (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-
-  (sp-with-modes 'org-mode
-    (sp-local-pair "*" "*"
-                   :actions '(insert wrap)
-                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                   :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-    (sp-local-pair "_" "_" :unless '(sp-point-after-word-p)
-                   :wrap "C-_")
-    (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "«" "»"))
-
-  (sp-with-modes 'nix-mode
-    (sp-local-pair "\"" "\"")
-    (sp-local-pair "''" "''"
-                   :unless '(sp-in-comment-p
-                             sp-in-string-quotes-p)))
-
-  (advice-add 'hippie-expand :around #'smartparens-no-autoinsert-pair-advice))
+   "M-W" 'sp-wrap-round))
 #+end_src
 
 *** visual-regexp
@@ -2765,12 +2758,6 @@ Persist ielm history.
   (setq +ielm-comint-input-ring comint-input-ring))
 
 (add-hook 'ielm-mode-hook #'+ielm-set-comint-input-ring)
-#+end_src
-
-*** eval-expression
-Highlight parenthesis.
-#+begin_src emacs-lisp :tangle yes
-(add-hook 'eval-expression-minibuffer-setup-hook #'show-paren-mode)
 #+end_src
 
 *** Packages
@@ -4617,11 +4604,6 @@ Packages that I am currently testing or evaluating.
           "Output\\*$"
           help-mode
           compilation-mode)))
-#+end_src
-
-** puni
-#+begin_src emacs-lisp :tangle yes
-(use-package puni :ensure t)
 #+end_src
 
 ** shrface
