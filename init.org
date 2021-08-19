@@ -4560,6 +4560,11 @@ Packages that I am currently testing or evaluating.
 (use-package freeze-it :ensure t)
 #+end_src
 
+** gif-screencast
+#+begin_src emacs-lisp :tangle yes
+(use-package gif-screencast :ensure t)
+#+end_src
+
 ** iscroll
 #+begin_src emacs-lisp :tangle yes
 (use-package iscroll :ensure t
