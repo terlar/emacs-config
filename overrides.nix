@@ -179,13 +179,13 @@ epkgs // {
 
   puni = trivialBuild rec {
     pname = "puni";
-    version = "20210818.244";
+    version = "20210820.103";
     src = fetchFromGitHub {
       owner = "AmaiKinono";
       repo = "puni";
-      rev = "7c03b40f470ce453da49a34be9d4642e53a04b54";
-      sha256 = "1i39k4nqf2rgp1jqd4dbm0wq8yf1pffx9wbbcqhh6383aig626an";
-      # date = 2021-08-18T02:44:56+08:00;
+      rev = "9eafbb3ab6fc2f4f3a45982843072122b7ec9832";
+      sha256 = "0ybkljsk8wmz6myd71n4457d3zd4164vd3wf3j9nqfvn76shwq9x";
+      # date = 2021-08-20T01:03:05+08:00;
     };
   };
 
