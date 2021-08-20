@@ -1371,7 +1371,8 @@ Soft deletion and balanced expressions.
     (unless (use-region-p)
       (move-beginning-of-line nil)
       (set-mark-command nil)
-      (next-line arg))
+      (next-line arg)
+      (move-beginning-of-line nil))
 
     (unless (puni-kill-active-region)
       (pop-to-mark-command)))
