@@ -179,13 +179,13 @@ epkgs // {
 
   webkit = trivialBuild {
     pname = "webkit";
-    version = "20201206.1401";
+    version = "20210830.1807";
     src = fetchFromGitHub {
       owner = "akirakyle";
       repo = "emacs-webkit";
-      rev = "5f5f8c2b1f0c97a43533c1e16cb0dd93f75ea626";
-      sha256 = "00dgzyyka9n9bwsdysv97cpwcczpr8m3k5s88z5lilidz22qc1rk";
-      # date = 2020-12-06T14:01:38-07:00;
+      rev = "96a4850676b74ffa55b52ff8e9824f7537df6a47";
+      sha256 = "0ifdngan6jhbz6p72igwvmz7lhmz7hl8ak5n7zjkvxmq05kxkc5a";
+      # date = 2021-08-30T18:07:40-06:00;
     };
 
     packageRequires = with epkgs; [ gtk3 webkitgtk ];
