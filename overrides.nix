@@ -142,13 +142,13 @@ epkgs // {
 
   ligature = trivialBuild {
     pname = "ligature";
-    version = "20210508.1409";
+    version = "20210827.940";
     src = fetchFromGitHub {
       owner = "mickeynp";
       repo = "ligature.el";
-      rev = "3923baf1fb9bf509cc95b4b14d7d0e2f7c88e53c";
-      sha256 = "1zayga9072i4n6a90747d8h3w21zx042gnkcyimbb7jxxjyyiw7b";
-      # date = 2021-05-08T08:14:09+01:00;
+      rev = "d3426509cc5436a12484d91e48abd7b62429b7ef";
+      sha256 = "1a1sff38mwhpwz7dg9swp6q9zi1qwy9k48b4bcc66cqbyj8l78bd";
+      # date = 2021-08-27T09:40:16+01:00;
     };
   };
 
