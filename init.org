@@ -3353,11 +3353,12 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 
 ** git
 *** Packages
-**** gitignore-mode
+**** git-modes
 #+begin_src emacs-lisp :tangle yes
-(use-package gitignore-mode
+(use-package git-modes
   :ensure t
-  :mode "/\\.dockerignore\\'")
+  :mode
+  ("/\\.dockerignore\\'" . gitignore-mode))
 #+end_src
 
 ** go
