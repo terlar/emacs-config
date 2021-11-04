@@ -43,6 +43,17 @@ epkgs // {
       };
     });
 
+  indent-info = epkgs.melpaPackages.indent-info.overrideAttrs (attrs: {
+    version = "20211104.2320";
+    src = fetchFromGitHub {
+      owner = "terlar";
+      repo = "indent-info.el";
+      rev = "ad8bcff8732511bb374a17c2028b17b500915c54";
+      sha256 = "1qg8qzrfpmr915n8bmawkadalfxslv26lqsyfmbk0idh3r2hm2rq";
+      # date = 2021-11-04T23:20:37+01:00;
+    };
+  });
+
   relative-buffers = trivialBuild {
     pname = "relative-buffers";
     version = "20200908.1228";
