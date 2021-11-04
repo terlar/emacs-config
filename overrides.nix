@@ -57,13 +57,13 @@ epkgs // {
   };
 
   ws-butler = epkgs.melpaPackages.ws-butler.overrideAttrs (attrs: {
-    version = "20200403.107";
+    version = "20211018.52";
     src = fetchFromGitHub {
       owner = "hlissner";
       repo = "ws-butler";
-      rev = "2bb49d3ee7d2cba133bc7e9cdac416cd1c5e4fe0";
-      sha256 = "1ifrcxlb6hinjv4bn54c8fars4avcm5ijaj44h606mqymj37dvn1";
-      # date = 2020-04-03T01:07:46-04:00;
+      rev = "572a10c11b6cb88293de48acbb59a059d36f9ba5";
+      sha256 = "14pis00zbcr0w0wxd25520apxavzs2v3b6p7jf7q1i3izdjb8k3k";
+      # date = 2021-10-18T00:52:06+02:00;
     };
   });
 
