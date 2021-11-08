@@ -44,13 +44,13 @@ epkgs // {
     });
 
   indent-info = epkgs.melpaPackages.indent-info.overrideAttrs (attrs: {
-    version = "20211104.2320";
+    version = "20211108.2345";
     src = fetchFromGitHub {
       owner = "terlar";
       repo = "indent-info.el";
-      rev = "ad8bcff8732511bb374a17c2028b17b500915c54";
-      sha256 = "1qg8qzrfpmr915n8bmawkadalfxslv26lqsyfmbk0idh3r2hm2rq";
-      # date = 2021-11-04T23:20:37+01:00;
+      rev = "b22ca7e401345d4abeb81038efd887d57a1ac4a6";
+      sha256 = "0ixfy9k6a62rxc038fcrzy9pwf7b2qaxaxi0dh824hv87pbc8yys";
+      # date = 2021-11-08T23:45:40+01:00;
     };
   });
 
