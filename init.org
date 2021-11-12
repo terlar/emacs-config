@@ -903,6 +903,8 @@ Display available keybindings in a popup as you press keys.
  ;; Files
  "C-c o" 'ff-find-other-file
  "C-c O" 'ff-test-find-other-file
+ ;; Region
+ "C-x r S" 'sort-lines
  ;; Window
  "C-`" 'window-toggle-side-windows)
 #+end_src
