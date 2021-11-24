@@ -12,7 +12,6 @@
 , pkg-config
 , glib-networking
 , gtk3
-, webkitgtk
 }:
 
 epkgs:
@@ -186,36 +185,5 @@ epkgs // {
       sha256 = "1c2yqwjq7wizfcn94hk5wp5yn4xqaakxq27wm2r98qdh71ga7xhb";
       # date = 2021-07-07T22:24:35-04:00;
     };
-  };
-
-  webkit = trivialBuild {
-    pname = "webkit";
-    version = "20210830.1807";
-    src = fetchFromGitHub {
-      owner = "akirakyle";
-      repo = "emacs-webkit";
-      rev = "96a4850676b74ffa55b52ff8e9824f7537df6a47";
-      sha256 = "0ifdngan6jhbz6p72igwvmz7lhmz7hl8ak5n7zjkvxmq05kxkc5a";
-      # date = 2021-08-30T18:07:40-06:00;
-    };
-
-    packageRequires = with epkgs; [ gtk3 webkitgtk ];
-
-    postPatch = ''
-      rm tests.el
-      rm evil-collection-webkit.el
-      rm webkit-ace.el
-      rm webkit-dark.el
-    '';
-
-    buildInputs = [ gcc pkg-config glib-networking ];
-
-    preBuild = ''
-      make
-    '';
-
-    postInstall = ''
-      install -m444 -t $out/share/emacs/site-lisp webkit-module.* *.{js,css}
-    '';
   };
 }

@@ -4641,11 +4641,6 @@ Packages that I am currently testing or evaluating.
 (use-package vundo :ensure t)
 #+end_src
 
-** webkit
-#+begin_src emacs-lisp :tangle yes
-(use-package webkit :ensure t)
-#+end_src
-
 * Private
 #+begin_src emacs-lisp :tangle yes
 (require 'private nil t)
