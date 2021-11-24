@@ -78,18 +78,6 @@ epkgs // {
   });
 
   # New.
-  apheleia = trivialBuild rec {
-    pname = "apheleia";
-    version = "20210808.607";
-    src = fetchFromGitHub {
-      owner = "raxod502";
-      repo = "apheleia";
-      rev = "8e022c67fea4248f831c678b31c19646cbcbbf6f";
-      sha256 = "171wd33j7mifcr8hrd6n63wx6pikv9bj252z1fvqsmrv2h27zsry";
-      # date = 2021-08-08T06:07:08-07:00;
-    };
-  };
-
   eglot-x = trivialBuild rec {
     pname = "eglot-x";
     version = "20200104.1435";
