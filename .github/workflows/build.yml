@@ -37,6 +37,9 @@ jobs:
       - name: Enable incremental cache upload
         run: cachix watch-store terlar &
 
+      - name: Check flake
+        run: nix flake check
+
       - name: Build default package
         run: |
           nix build --print-build-logs .#defaultPackage.${{matrix.system}}
