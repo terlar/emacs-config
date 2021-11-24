@@ -3476,18 +3476,6 @@ Persist REPL history.
   (cl-pushnew '+haskell-interactive-global-history savehist-additional-variables :test #'equal))
 #+end_src
 
-*** Packages
-**** hasky-stack
-#+begin_src emacs-lisp :tangle yes
-(use-package hasky-stack
-  :ensure t
-  :general
-  (:keymaps
-   'haskell-mode-map
-   :prefix local-leader-key
-   "t" 'hasky-stack-test))
-#+end_src
-
 ** java
 *** Packages
 **** gradle-mode
