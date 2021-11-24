@@ -26,7 +26,7 @@
         in
         (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
-            package = final.emacsPgtk;
+            package = final.emacsPgtkGcc;
 
             config = ./init.org;
             alwaysEnsure = false;
