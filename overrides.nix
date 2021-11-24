@@ -165,13 +165,13 @@ epkgs // {
 
   vundo = trivialBuild {
     pname = "vundo";
-    version = "20210707.2224";
+    version = "20211107.41";
     src = fetchFromGitHub {
       owner = "casouri";
       repo = "vundo";
-      rev = "e136164f779e9a91ef722778acc704048ba0809a";
-      sha256 = "1c2yqwjq7wizfcn94hk5wp5yn4xqaakxq27wm2r98qdh71ga7xhb";
-      # date = 2021-07-07T22:24:35-04:00;
+      rev = "578a9f6be1a8d4827d05888aa10539989976e696";
+      sha256 = "17zdjpp0218h39gy78cy6lqj1lla6nrqnfl9jmzdjpdq1ln8sfmh";
+      # date = 2021-11-07T00:41:48-07:00;
     };
   };
 }
