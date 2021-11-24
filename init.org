@@ -3759,7 +3759,12 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package nix-mode
   :ensure t
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :general
+  (:keymaps
+   'nix-mode-map
+   :prefix local-leader-key
+   "f" 'nix-flake))
 #+end_src
 
 *** Packages
