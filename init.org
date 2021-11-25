@@ -1086,7 +1086,7 @@ Complete in the following order:
            company-capf
            company-dabbrev-code)))
   (setq company-dabbrev-downcase nil)
-  (setq company-show-numbers t)
+  (setq company-show-quick-access t)
   (setq company-tooltip-align-annotations t))
 #+end_src
 
@@ -1149,8 +1149,6 @@ Vertical interactive completion UI.
 (use-package marginalia
   :ensure t
   :defer 2
-  :init
-  (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :config
   (marginalia-mode 1))
 #+end_src
@@ -1373,7 +1371,7 @@ Soft deletion and balanced expressions.
     (unless (use-region-p)
       (move-beginning-of-line nil)
       (set-mark-command nil)
-      (next-line arg)
+      (forward-line arg)
       (move-beginning-of-line nil))
 
     (unless (puni-kill-active-region)
@@ -1929,14 +1927,13 @@ Retrieve project list via ghq.
     "Initialize `project--list' using contents of command ghq output."
     (with-temp-buffer
       (call-process "ghq" nil t nil "list" "--full-path")
-      (let ((paths))
-        (goto-char (point-min))
-        (while (not (eobp))
-          (cl-pushnew
-           (list (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
-           project--list
-           :test #'equal)
-          (forward-line 1)))))
+      (goto-char (point-min))
+      (while (not (eobp))
+        (cl-pushnew
+         (list (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+         project--list
+         :test #'equal)
+        (forward-line 1))))
   :init
   (advice-add 'project--read-project-list :after #'project--read-project-list-from-ghq))
 #+end_src
@@ -2322,7 +2319,7 @@ Haskell one).
    'flymake-mode-map
    :prefix
    local-leader-key
-   "!" 'flymake-show-diagnostics-buffer)
+   "!" 'flymake-show-buffer-diagnostics)
   (:keymaps
    'flymake-mode-map
    :prefix next-prefix
@@ -2361,7 +2358,6 @@ Haskell one).
 
 ** Version control
 #+begin_src emacs-lisp :tangle yes
-(setq diff-font-lock-prettify t)
 (setq vc-follow-symlinks t)
 (setq vc-make-backup-files nil)
 #+end_src
@@ -2391,7 +2387,9 @@ Open link to files in the web UI connected to a repository.
    :prefix prev-prefix
    "d" '(diff-hunk-prev :wk "Diff Hunk"))
   ([remap diff-hunk-next] 'diff-hunk-next-repeat
-   [remap diff-hunk-prev] 'diff-hunk-prev-repeat))
+   [remap diff-hunk-prev] 'diff-hunk-prev-repeat)
+  :init
+  (setq diff-font-lock-prettify t))
 #+end_src
 
 *** ediff
