@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    utils.url = "github:numtide/flake-utils";
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -17,9 +16,23 @@
     };
   };
 
-  outputs = { home-manager, emacs-overlay, nixpkgs, utils, self, ... }:
-    with nixpkgs;
+  outputs = { home-manager, emacs-overlay, nixpkgs, self, ... }:
+    let
+      inherit (nixpkgs) lib;
 
+      supportedSystems = [
+        "aarch64-linux"
+        "aarch64-darwin"
+        "i686-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+      forAllSystems = f: lib.genAttrs supportedSystems (system: f system);
+      nixpkgsFor = forAllSystems (system: import nixpkgs {
+        inherit system;
+        overlays = [ self.overlay ];
+      });
+    in
     {
       overlay = final: prev:
         let override = prev.callPackage ./overrides.nix { };
@@ -45,20 +58,31 @@
           });
         };
 
-      homeManagerModules = { emacsConfig = import ./home-manager.nix; };
-    } // utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ self.overlay ];
-        };
-      in
-      {
-        packages = { inherit (pkgs) emacsConfig emacsEnv; };
-        defaultPackage = self.packages.${system}.emacsConfig;
+      packages = forAllSystems (system: { inherit (nixpkgsFor.${system}) emacsConfig emacsEnv; });
+      defaultPackage = forAllSystems (system: self.packages.${system}.emacsConfig);
 
-        devShell =
+      homeManagerModules = { emacsConfig = import ./home-manager.nix; };
+      homeConfigurations = forAllSystems (system: home-manager.lib.homeManagerConfiguration {
+        inherit system;
+        pkgs = nixpkgsFor.${system};
+        username = "test";
+        homeDirectory = "/home/test";
+        extraModules = [ self.homeManagerModules.emacsConfig ];
+        configuration = {
+          custom.emacsConfig.enable = true;
+        };
+      });
+
+      checks = forAllSystems (system: {
+        build-home-configuration =
+          self.homeConfigurations.${system}.activationPackage;
+      });
+
+      devShell = forAllSystems
+        (system:
           let
+            pkgs = nixpkgsFor.${system};
+
             reloadEmacsConfig = pkgs.writeShellScriptBin "reload-emacs-config" ''
               set -euo pipefail
               systemctl --user restart emacs.service
@@ -112,6 +136,6 @@
               updateCaches
               updateScreenshots
             ];
-          };
-      });
+          });
+    };
 }
