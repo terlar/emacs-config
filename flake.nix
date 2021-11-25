@@ -69,7 +69,12 @@
         homeDirectory = "/home/test";
         extraModules = [ self.homeManagerModules.emacsConfig ];
         configuration = {
-          custom.emacsConfig.enable = true;
+          custom.emacsConfig = {
+            enable = true;
+            erc = nixpkgsFor.${system}.writeText "ercrc.el" ''
+              ;; Testing testing
+            '';
+          };
         };
       });
 

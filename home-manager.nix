@@ -8,6 +8,11 @@ let
   emacsEdit = if cfg.enableServer then "emacsclient" else "emacs";
   emacsDesktop = if cfg.enableServer then "emacsclient.desktop" else "emacs.desktop";
   emacsMailDesktop = if cfg.enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
+
+  mkEmacsConfigFiles = path:
+    foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
+      { }
+      (attrNames (readDir path));
 in
 {
   options.custom.emacsConfig = {
@@ -104,7 +109,7 @@ in
         ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
     }
     (mkIf cfg.enableUserDirectory {
-      xdg.configFile.emacs.source = cfg.configPackage;
+      xdg.configFile = mkEmacsConfigFiles cfg.configPackage;
     })
     (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
     (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
