@@ -11,35 +11,39 @@ on:
     types: [opened, reopened]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            system: x86_64-linux
-    runs-on: ${{ matrix.os }}
+  check:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v16
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v16
-
-      - name: Use cachix
-        uses: cachix/cachix-action@v10
+      - uses: cachix/cachix-action@v10
         with:
           name: terlar
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           extraPullNames: nix-community
-
       - name: Enable incremental cache upload
         run: cachix watch-store terlar &
 
       - name: Check flake
         run: nix flake check
 
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v16
+
+      - uses: cachix/cachix-action@v10
+        with:
+          name: terlar
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          extraPullNames: nix-community
+      - name: Enable incremental cache upload
+        run: cachix watch-store terlar &
+
       - name: Build default package
-        run: |
-          nix build --print-build-logs .#defaultPackage.${{matrix.system}}
+        run: nix build --print-build-logs
