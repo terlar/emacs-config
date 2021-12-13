@@ -37,9 +37,6 @@
 
             config = ./init.org;
             alwaysEnsure = false;
-
-            extraEmacsPackages = epkgs: [ epkgs.org-plus-contrib ];
-
             inherit override;
           };
 

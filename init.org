@@ -2891,6 +2891,12 @@ Improve readability of escape characters in regular expressions.
 #+end_src
 
 *** Packages
+**** org-contrib
+Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
+#+begin_src emacs-lisp :tangle yes
+(use-package org-contrib :ensure t)
+#+end_src
+
 **** org-babel-eval-in-repl
 Evaluation of source code blocks in REPL.
 #+begin_src emacs-lisp :tangle yes
@@ -2934,16 +2940,11 @@ Eldoc support, showing path to current section.
 (use-package org-eldoc
   :after eldoc
   :preface
-  (defun init-org-eldoc ()
-    "Initialize `org-eldoc'."
-    (org-eldoc-load)
-    (eldoc-mode 1))
-
   (defun +org-eldoc-get-breadcrumb-no-properties (string)
     "Remove properties from STRING."
     (when string (substring-no-properties string)))
   :hook
-  (org-mode-hook . init-org-eldoc)
+  (org-mode-hook . org-eldoc-load)
   :config
   (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties))
 #+end_src
