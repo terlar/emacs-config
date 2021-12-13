@@ -637,15 +637,13 @@ Setup the right aligned mode line and helper functions to display it.
 
 (defun mode-line-right ()
   "Render the `mode-line-right-format'."
-  (let* ((formatted-line (format-mode-line mode-line-right-format))
-         (height (face-attribute 'mode-line :height))
-         (scale (if (floatp height) height 1.0)))
+  (let ((formatted-line (format-mode-line mode-line-right-format)))
     (list
      (propertize
       " "
       'display
-      `(space :align-to (- (+ right right-fringe right-margin)
-                           ,(* (string-width formatted-line) scale))))
+      `(space :align-to (- right
+                           (+ ,(string-width formatted-line) right-fringe right-margin))))
      formatted-line)))
 #+end_src
 
