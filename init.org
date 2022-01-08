@@ -2119,6 +2119,13 @@ Reformat buffer without moving point.
 #+begin_src emacs-lisp :tangle yes
 (use-package apheleia
   :ensure t
+  :hook
+  (prog-mode-hook . apheleia-mode)
+  :general
+  (:keymaps
+   'prog-mode-map
+   :prefix local-leader-key
+   "f" 'apheleia-format-buffer)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   :config
@@ -2126,25 +2133,11 @@ Reformat buffer without moving point.
     (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
   (progn ;; Nix
     (cl-pushnew '(nixfmt . ("nixfmt")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nix-mode . nixfmt) apheleia-mode-alist :test #'equal))
+    (cl-pushnew '(nixpkgs-fmt . ("nixpkgs-fmt")) apheleia-formatters :test #'equal)
+    (cl-pushnew '(nix-mode . nixpkgs-fmt) apheleia-mode-alist :test #'equal))
   (progn ;; Ruby
     (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
-#+end_src
-
-*** format-all
-Auto-format source code with wide support for languages.
-#+begin_src emacs-lisp :tangle yes
-(use-package format-all
-  :ensure t
-  :hook
-  (prog-mode-hook . format-all-mode)
-  (format-all-mode-hook . format-all-ensure-formatter)
-  :general
-  (:keymaps
-   'prog-mode-map
-   :prefix local-leader-key
-   "f" 'format-all-buffer))
 #+end_src
 
 ** Jump to definition
