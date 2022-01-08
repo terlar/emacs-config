@@ -1366,14 +1366,15 @@ Soft deletion and balanced expressions.
   (defun puni-kill-whole-line-or-region (arg)
     "Kill whole line(s) based on ARG or active region."
     (interactive "P")
-    (unless (use-region-p)
-      (move-beginning-of-line nil)
-      (set-mark-command nil)
-      (forward-line arg)
-      (move-beginning-of-line nil))
-
-    (unless (puni-kill-active-region)
-      (pop-to-mark-command)))
+    (if (use-region-p)
+        (puni-kill-active-region)
+      (if (or (> (or arg 1) 1)
+              (looking-at-p "^[[:blank:]]*$"))
+          (save-excursion
+            (set-mark (line-beginning-position 1))
+            (goto-char (line-beginning-position (+ 1 (or arg 1))))
+            (puni-kill-active-region))
+        (puni-kill-line 1))))
   :hook
   (after-init-hook . puni-global-mode)
   :general
