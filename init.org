@@ -4503,6 +4503,11 @@ Packages that I am currently testing or evaluating.
 (use-package awscli-capf :ensure t)
 #+end_src
 
+** cape
+#+begin_src emacs-lisp :tangle yes
+(use-package cape :ensure t)
+#+end_src
+
 ** comment-or-uncomment-sexp
 #+begin_src emacs-lisp :tangle yes
 (use-package comment-or-uncomment-sexp :ensure t)
@@ -4537,6 +4542,11 @@ Packages that I am currently testing or evaluating.
 ** elsa
 #+begin_src emacs-lisp :tangle yes
 (use-package elsa :disabled t)
+#+end_src
+
+** fancy-dabbrev
+#+begin_src emacs-lisp :tangle yes
+(use-package fancy-dabbrev :ensure t)
 #+end_src
 
 ** fit-text-scale
