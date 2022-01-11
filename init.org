@@ -1128,12 +1128,28 @@ Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
+  :preface
+  (defun consult-project-root-project ()
+    (when-let (project (project-current))
+            (car (project-roots project))))
   :general
-  ("M-y" 'consult-yank-pop
+  ([remap bookmark-jump] 'consult-bookmark
+   [remap goto-line] 'consult-goto-line
+   [remap switch-to-buffer] 'consult-buffer
+   [remap imenu] 'consult-imenu
+   [remap yank-pop] 'consult-yank-pop
+   "C-c k" 'consult-kmacro
    "C-c r" 'consult-recent-file)
-  (:prefix search-prefix "g" 'consult-ripgrep)
+  (:prefix
+   search-prefix
+   "g" 'consult-ripgrep
+   "m" 'consult-mark
+   "M-m" 'consult-global-mark)
   :init
-  (setq consult-preview-key (kbd "M-RET")))
+  (setq consult-preview-key (kbd "M-RET"))
+  (setq consult-project-root-function #'consult-project-root-project)
+  (setq xref-show-xrefs-function #'consult-xref)
+  (setq xref-show-definitions-function #'consult-xref))
 #+end_src
 
 *** embark
@@ -2162,8 +2178,6 @@ Don't ask about keeping current list of tags tables.
    "o" 'xref-find-definitions-other-window)
   :commands
   (xref-show-definitions-completing-read)
-  :init
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
   :config
   (remove-hook 'xref-backend-functions #'etags--xref-backend))
 #+end_src
