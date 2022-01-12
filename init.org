@@ -1005,9 +1005,9 @@ Display available keybindings in a popup as you press keys.
 #+end_src
 
 * Completion
-No completion with tab.
+Enable indentation and completion with the =TAB= key.
 #+begin_src emacs-lisp :tangle yes
-(setq tab-always-indent t)
+(setq tab-always-indent 'complete)
 #+end_src
 
 ** Style
