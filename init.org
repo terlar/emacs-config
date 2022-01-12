@@ -2867,6 +2867,11 @@ Improve readability of escape characters in regular expressions.
   :defer 5
   :preface
   (autoload 'org-get-outline-path "org-refile" nil t)
+  (defun org-toggle-emphasis ()
+    "Toggle hiding/showing of org emphasize markers."
+    (interactive)
+    (set-variable 'org-hide-emphasis-markers (not org-hide-emphasis-markers))
+    (org-mode-restart))
   :hook
   (org-mode-hook . auto-fill-mode)
   :general
@@ -2875,6 +2880,10 @@ Improve readability of escape characters in regular expressions.
    'org-mode-map
    "C-'" 'nil
    "C-," 'nil)
+  (:keymaps
+   'org-mode-map
+   :prefix local-leader-key
+   "v" 'org-toggle-emphasis)
   :init
   (setq org-agenda-files
         '("~/org/Personal.org" "~/org/Work.org"))
