@@ -13,7 +13,7 @@ package. Currently GNU Emacs 28.0.50.
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
-- buffer completion :: [[https://github.com/company-mode/company-mode][company-mode]]
+- buffer completion :: [[https://github.com/minad/corfu][corfu]]
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
@@ -1010,6 +1010,11 @@ Enable indentation and completion with the =TAB= key.
 (setq tab-always-indent 'complete)
 #+end_src
 
+Cycle with the =TAB= key if there are only few candidates.
+#+begin_src emacs-lisp :tangle yes
+(setq completion-cycle-threshold 3)
+#+end_src
+
 ** Style
 *** orderless
 Space-separated matching components matching in any order.
@@ -1054,41 +1059,38 @@ Complete in the following order:
           try-complete-lisp-symbol)))
 #+end_src
 
-** Buffer (company)
+** Buffer
+*** corfu
+Completion Overlay Region FUnction.
 #+begin_src emacs-lisp :tangle yes
-(use-package company
+(use-package corfu
   :ensure t
-  :preface
-  (eval-when-compile
-    (require 'company-dabbrev))
-  :hook
-  (ielm-mode-hook . company-mode)
-  (prog-mode-hook . company-mode)
+  :init
+  (setq corfu-auto t)
+  (setq corfu-cycle t)
+  (setq corfu-preselect-first nil)
   :general
   (:keymaps
-   'company-mode-map
-   "C-?" 'company-complete)
-  (:keymaps
-   'company-active-map
-   ;; No interference with return key
-   [return]  'nil
-   "RET"     'nil
-   "C-e" 'company-complete-selection
-   "C-f" 'company-complete-selection
-   "C-n" 'company-select-next
-   "C-p" 'company-select-previous)
+   'corfu-map
+   [return] 'nil
+   "RET" 'nil
+   "TAB" 'corfu-next
+   [tab] 'corfu-next
+   "S-TAB" 'corfu-previous
+   [backtab] 'corfu-previous
+   "C-e" 'corfu-insert)
   :init
-  (setq company-backends
-        '((company-files
-           company-keywords
-           company-capf
-           company-dabbrev-code)))
-  (setq company-dabbrev-downcase nil)
-  (setq company-show-quick-access t)
-  (setq company-tooltip-align-annotations t))
+  (corfu-global-mode 1))
 #+end_src
 
-** Minibuffer (vertico)
+*** corfu-doc
+#+begin_src emacs-lisp :tangle yes
+(use-package corfu-doc
+  :hook
+  (corfu-mode-hook . corfu-doc-mode))
+#+end_src
+
+** Minibuffer
 *** vertico
 Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
@@ -4535,11 +4537,6 @@ Packages that I am currently testing or evaluating.
 ** comment-or-uncomment-sexp
 #+begin_src emacs-lisp :tangle yes
 (use-package comment-or-uncomment-sexp :ensure t)
-#+end_src
-
-** corfu
-#+begin_src emacs-lisp :tangle yes
-(use-package corfu :ensure t)
 #+end_src
 
 ** dtrt-indent

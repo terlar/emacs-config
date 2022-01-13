@@ -352,6 +352,11 @@ For example links."
    `(company-tooltip-common ((t (:inherit completions-common-part))))
    `(company-tooltip-selection ((t (:inherit highlight))))
 
+;;;;; corfu
+   `(corfu-default ((t (:inherit readable-mono-theme-secondary))))
+   `(corfu-bar ((t (:inherit nil :inverse-video t))))
+   `(corfu-current ((t (:inherit highlight))))
+
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground nil))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
