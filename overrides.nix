@@ -78,6 +78,18 @@ epkgs // {
   });
 
   # New.
+  corfu-doc = trivialBuild rec {
+    pname = "corfu-doc";
+    version = "20220108.1333";
+    src = fetchFromGitHub {
+      owner = "galeo";
+      repo = "corfu-doc";
+      rev = "488da677535b02e6e3b62b802928a6f9a61d33bf";
+      sha256 = "sha256-5hMvAM2Sya/b2z2T8BvfOv18J2BDhpxAw0Vu2geApz0=";
+    };
+    packageRequires = with epkgs; [ corfu ];
+  };
+
   eglot-x = trivialBuild rec {
     pname = "eglot-x";
     version = "20200104.1435";

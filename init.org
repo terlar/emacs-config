@@ -1086,6 +1086,7 @@ Completion Overlay Region FUnction.
 *** corfu-doc
 #+begin_src emacs-lisp :tangle yes
 (use-package corfu-doc
+  :ensure t
   :hook
   (corfu-mode-hook . corfu-doc-mode))
 #+end_src
