@@ -1393,7 +1393,9 @@ Soft deletion and balanced expressions.
             (set-mark (line-beginning-position 1))
             (goto-char (line-beginning-position (+ 1 (or arg 1))))
             (puni-kill-active-region))
-        (puni-kill-line 1))))
+        (save-excursion
+          (beginning-of-line)
+          (puni-kill-line 1)))))
   :hook
   (after-init-hook . puni-global-mode)
   :general
