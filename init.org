@@ -3855,6 +3855,7 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package python
   :ensure t
+  :hook (python-mode-hook . indent-guide-mode)
   :general
   (:keymaps
    'python-mode-map
