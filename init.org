@@ -4166,6 +4166,13 @@ Pretty check-boxes as well as bullet lists.
   (setq sql-mysql-options '("--protocol=tcp" "--prompt=" "--disable-pager")))
 #+end_src
 
+** terraform
+#+begin_src emacs-lisp :tangle yes
+(use-package terraform-mode
+  :ensure t
+  :mode "\\.tf$")
+#+end_src
+
 ** typescript
 #+begin_src emacs-lisp :tangle yes
 (use-package typescript-mode
