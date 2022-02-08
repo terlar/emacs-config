@@ -539,6 +539,10 @@ For example links."
    `(term-color-cyan ((t (:inherit term-color-black))))
    `(term-color-white ((t (:inherit term-color-black))))
 
+;;;;; terraform
+   `(terraform--resource-name-face ((t (:foreground nil))))
+   `(terraform--resource-type-face ((t (:foreground nil))))
+
 ;;;;; visual-regexp
    `(vr/match-0 ((t (:inverse-video t))))
    `(vr/match-1 ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
