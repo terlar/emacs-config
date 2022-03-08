@@ -1505,6 +1505,15 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+end_src
 
 ** Appearance
+*** Line highlight
+Disabled by default. When enabled, only highlight in the selected window.
+#+begin_src emacs-lisp :tangle yes
+(use-package hl-line
+  :init
+  (setq hl-line-sticky-flag nil)
+  (setq global-hl-line-sticky-flag nil))
+#+end_src
+
 *** Page breaks
 Display page breaks as a horizontal line.
 #+begin_src emacs-lisp :tangle yes
@@ -1515,15 +1524,6 @@ Display page breaks as a horizontal line.
   (global-page-break-lines-mode 1))
 #+end_src
 
-*** Line highlight
-Disabled by default. When enabled, only highlight in the selected window.
-#+begin_src emacs-lisp :tangle yes
-(use-package hl-line
-  :init
-  (setq hl-line-sticky-flag nil)
-  (setq global-hl-line-sticky-flag nil))
-#+end_src
-
 *** Visible
 Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
@@ -1532,6 +1532,17 @@ Making invisible text temporarily visible.
   (:prefix
    local-leader-key
    "v" 'visible-mode))
+#+end_src
+
+*** Tables
+#+begin_src emacs-lisp :tangle yes
+(use-package valign
+  :ensure t
+  :hook
+  (markdown-mode-hook . valign-mode)
+  (org-mode-hook . valign-mode)
+  :init
+  (setq valign-fancy-bar t))
 #+end_src
 
 * Buffers
@@ -2894,14 +2905,19 @@ Improve readability of escape characters in regular expressions.
   :init
   (setq org-agenda-files
         '("~/org/Personal.org" "~/org/Work.org"))
-  (setq org-confirm-babel-evaluate nil)
-  (setq org-edit-src-content-indentation 0)
+  (setq org-insert-heading-respect-content t)
   (setq org-log-done 'time)
   (setq org-modules nil)
   (setq org-special-ctrl-a/e t)
+  
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-edit-src-content-indentation 0)
   (setq org-src-preserve-indentation nil)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
+  
+  (setq org-auto-align-tags nil)
+  (setq org-tags-column 0)
   (setq org-tag-alist
         '(("@work"  . ?w)
           ("@home"  . ?h)
@@ -3026,36 +3042,23 @@ This sections makes ~org-mode~ look more beautiful and appealing.
 
 #+begin_src emacs-lisp :tangle yes
 (use-package org
-  :preface
-  (defun init-org-prettify-syntax ()
-    "Prettify syntax with symbols."
-    (dolist (symbol '(("#+title:" . "⋮")
-                      ("#+TITLE:" . "⋮")
-                      ("#+subtitle:" . "⋮")
-                      ("#+SUBTITLE:" . "⋮")
-                      ("#+begin_src" . "λ")
-                      ("#+BEGIN_SRC" . "λ")
-                      ("#+end_src" . "≋")
-                      ("#+end_src" . "≋")
-                      ("#+begin_quote" . "“")
-                      ("#+BEGIN_QUOTE" . "“")
-                      ("#+end_quote" . "”")
-                      ("#+END_QUOTE" . "”")))
-      (cl-pushnew symbol prettify-symbols-alist :test #'equal))
-    (dolist (n (number-sequence 1 8 1))
-      (let ((symbol (cons (concat (make-string n ?*) " ") (-interpose '(Br . Bl) (make-list (+ 1 n) ?\s)))))
-        (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-    (prettify-symbols-mode 1))
   :hook
-  (org-mode-hook . init-org-prettify-syntax)
   (org-babel-after-execute-hook . org-redisplay-inline-images)
   :init
+  (setq org-catch-invisible-edits 'show-and-error)
   (setq org-fontify-quote-and-verse-blocks t)
   (setq org-hide-emphasis-markers t)
   (setq org-pretty-entities t)
   (setq org-src-fontify-natively t)
-  (setq org-startup-indented t)
   (setq org-startup-with-inline-images t))
+
+(use-package org-modern
+  :ensure t
+  :hook
+  (org-mode-hook . org-modern-mode)
+  :init
+  (setq org-modern-hide-stars t)
+  (setq org-modern-table nil))
 #+end_src
 
 **** Emphasis
@@ -3073,9 +3076,7 @@ Use variable-pitch font but still make sure everything aligns.
 (use-package org-variable-pitch
   :ensure t
   :hook
-  (org-mode-hook . org-variable-pitch-minor-mode)
-  :init
-  (setq org-variable-pitch-fontify-headline-prefix t))
+  (org-mode-hook . org-variable-pitch-minor-mode))
 #+end_src
 
 **** Headings
@@ -3086,45 +3087,6 @@ Use variable-pitch font but still make sure everything aligns.
   (setq org-fontify-whole-heading-line t)
   (setq org-fontify-todo-headline t)
   (setq org-fontify-done-headline t))
-#+end_src
-
-**** Bullet lists
-#+begin_src emacs-lisp :tangle yes
-(font-lock-add-keywords
- 'org-mode
- '(("^ +\\([-*+]\\) "
-    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "⏺"))))
-   ("^ *[-*+] \\[\\(X\\)\\] "
-    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
-#+end_src
-
-**** Task lists
-Use symbols to represent task state.
-#+begin_src emacs-lisp :tangle yes
-(defun init-org-prettify-task-symbols ()
-  "Prettify task list symbols."
-  (dolist (symbol '(("TODO"      . "⚑")
-                    ("DOING"     . "⚐")
-                    ("NEXT"      . "⚐")
-                    ("WAITING"   . "⏳")
-                    ("SOMEDAY"   . "⛅")
-                    ("PROJECT"   . "📁")
-                    ("DONE"      . "✔")
-                    ("CANCELED"  . "✘")
-                    ("CANCELLED" . "✘")))
-    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
-(add-hook 'org-mode-hook #'init-org-prettify-task-symbols)
-#+end_src
-
-**** Tables
-#+begin_src emacs-lisp :tangle yes
-(use-package valign
-  :ensure t
-  :hook
-  (org-mode-hook . valign-mode)
-  (markdown-mode-hook . valign-mode)
-  :init
-  (setq valign-fancy-bar t))
 #+end_src
 
 *** Export
@@ -4622,11 +4584,6 @@ Packages that I am currently testing or evaluating.
 ** org-fragtog
 #+begin_src emacs-lisp :tangle yes
 (use-package org-fragtog :ensure t)
-#+end_src
-
-** org-modern
-#+begin_src emacs-lisp :tangle yes
-(use-package org-modern :ensure t)
 #+end_src
 
 ** org-roam
