@@ -1875,7 +1875,12 @@ Keep track of bookmarks
   :ensure t
   :general
   (:prefix search-prefix "G" 'deadgrep)
-  (:keymaps 'deadgrep-mode-map "C-c '" 'deadgrep-edit-mode))
+  (:keymaps
+   'deadgrep-mode-map
+   "C-c '" 'deadgrep-edit-mode)
+  (:keymaps
+   'deadgrep-edit-mode-map
+   "C-c C-c" 'deadgrep-mode))
 #+end_src
 
 *** find-file
