@@ -1155,12 +1155,6 @@ Vertical interactive completion UI.
   (setq xref-show-definitions-function #'consult-xref))
 #+end_src
 
-*** embark
-#+begin_src emacs-lisp :tangle yes
-(use-package embark :ensure t)
-(use-package embark-consult :ensure t)
-#+end_src
-
 *** marginalia
 #+begin_src emacs-lisp :tangle yes
 (use-package marginalia
@@ -1611,6 +1605,22 @@ Track minibuffer history
 #+begin_src emacs-lisp :tangle yes
 (setq history-delete-duplicates t)
 (setq history-length 500)
+#+end_src
+
+*** embark
+#+begin_src emacs-lisp :tangle yes
+(use-package embark
+  :ensure t
+  :general
+  (:keymaps
+   '(minibuffer-local-map
+     minibuffer-local-ns-map
+     minibuffer-local-completion-map
+     minibuffer-local-must-match-map)
+   "C-." 'embark-act
+   "C-;" 'embark-dwim))
+
+(use-package embark-consult :ensure t)
 #+end_src
 
 *** Miniedit
