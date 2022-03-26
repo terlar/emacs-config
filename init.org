@@ -4485,14 +4485,15 @@ Fast terminal emulator utilizing =libvterm=.
 #+end_src
 
 ** Undo
-Navigate through undo history.
+*** vundo
+Visual undo history navigation.
 #+begin_src emacs-lisp :tangle yes
-(use-package undo-propose
+(use-package vundo
   :ensure t
   :general
   (:prefix
    launch-prefix
-   "u" 'undo-propose))
+   "u" 'vundo))
 #+end_src
 
 * Testing
@@ -4638,11 +4639,6 @@ Packages that I am currently testing or evaluating.
 ** virtual-auto-fill
 #+begin_src emacs-lisp :tangle yes
 (use-package virtual-auto-fill :ensure t)
-#+end_src
-
-** vundo
-#+begin_src emacs-lisp :tangle yes
-(use-package vundo :ensure t)
 #+end_src
 
 * Private
