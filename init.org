@@ -3896,6 +3896,11 @@ Pretty check-boxes
   (racket-mode-hook . flymake-racket-add-hook))
 #+end_src
 
+** rego
+#+begin_src emacs-lisp :tangle yes
+(use-package rego-mode :ensure t)
+#+end_src
+
 ** rst
 #+begin_src emacs-lisp :tangle yes
 (use-package rst
