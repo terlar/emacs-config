@@ -128,7 +128,7 @@
             nativeBuildInputs = with pkgs; [
               gdb
               git
-              nix_2_4
+              nixVersions.stable
               nixpkgs-fmt
 
               devEmacsConfig
