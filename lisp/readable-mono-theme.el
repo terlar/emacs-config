@@ -283,6 +283,7 @@ For example links."
 ;;;;; Diff
    `(diff-header ((t (:inherit readable-mono-theme-secondary))))
    `(diff-file-header ((t (:inherit header-line))))
+   `(diff-hunk-header ((t (:inherit shadow))))
    `(diff-indicator-removed
      ((((background light)) (:background ,l-red :foreground ,l-red))
       (((background dark)) (:background ,d-red :foreground ,d-red))))
