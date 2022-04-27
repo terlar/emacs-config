@@ -55,17 +55,12 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-contrast-foreground "#002b37"
-  "Contrast foreground for light theme."
-  :type 'string
-  :group 'readable-mono-theme-light)
-
-(defcustom readable-mono-theme-light-foreground "#596e76"
+(defcustom readable-mono-theme-light-foreground "#002b37"
   "Default foreground for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-secondary-foreground "#98a6a6"
+(defcustom readable-mono-theme-light-secondary-foreground "#596e76"
   "Secondary foreground for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
@@ -95,17 +90,12 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-dark-contrast-foreground "#ffffee"
-  "Contrast foreground for dark theme."
-  :type 'string
-  :group 'readable-mono-theme-light)
-
-(defcustom readable-mono-theme-dark-foreground "#8d9fa1"
+(defcustom readable-mono-theme-dark-foreground "#ffffee"
   "Default foreground for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-secondary-foreground "#62787f"
+(defcustom readable-mono-theme-dark-secondary-foreground "#8d9fa1"
   "Secondary foreground for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
