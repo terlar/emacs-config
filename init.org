@@ -1080,7 +1080,7 @@ Completion Overlay Region FUnction.
    [backtab] 'corfu-previous
    "C-e" 'corfu-insert)
   :init
-  (corfu-global-mode 1))
+  (corfu-mode 1))
 #+end_src
 
 *** corfu-doc
@@ -1131,10 +1131,6 @@ Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
-  :preface
-  (defun consult-project-root-project ()
-    (when-let (project (project-current))
-            (car (project-roots project))))
   :general
   ([remap bookmark-jump] 'consult-bookmark
    [remap goto-line] 'consult-goto-line
@@ -1150,9 +1146,9 @@ Vertical interactive completion UI.
    "M-m" 'consult-global-mark)
   :init
   (setq consult-preview-key (kbd "M-RET"))
-  (setq consult-project-root-function #'consult-project-root-project)
-  (setq xref-show-xrefs-function #'consult-xref)
-  (setq xref-show-definitions-function #'consult-xref))
+  (with-eval-after-load 'xref
+    (setq xref-show-xrefs-function #'consult-xref)
+    (setq xref-show-definitions-function #'consult-xref)))
 #+end_src
 
 *** marginalia
@@ -1521,7 +1517,7 @@ Display page breaks as a horizontal line.
 *** Visible
 Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
-(use-package visible
+(use-package simple
   :general
   (:prefix
    local-leader-key
@@ -2540,8 +2536,6 @@ Enhanced git related views and commands.
   (setq magit-refs-show-commit-count 'all)
   (setq magit-save-repository-buffers 'dontask)
   (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
-  (eval-after-load 'vc-msg-git
-    (setq vc-msg-git-show-commit-function 'magit-show-commit))
   :config
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" ""))
