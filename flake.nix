@@ -38,7 +38,7 @@
         in
         (emacs-overlay.overlay final prev) // rec {
           emacsEnv = final.emacsWithPackagesFromUsePackage {
-            package = final.emacsPgtk;
+            package = final.emacsPgtkNativeComp;
 
             config = ./init.org;
             alwaysEnsure = false;
