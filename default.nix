@@ -1,33 +1,28 @@
 { version ? "dev"
+, packageRequires
 , lib
 , stdenv
 , trivialBuild
 , emacs-all-the-icons-fonts
 , ripgrep
+, tree
 }:
 let
-  init = trivialBuild {
-    pname = "config-init";
-    inherit version;
+  package-quickstart = trivialBuild {
+    pname = "config-package-quickstart";
+    inherit version packageRequires;
 
-    src = lib.sourceByRegex ./. [ "init.org" "lisp" "lisp/.*.el$" ];
+    dontUnpack = true;
 
-    preBuild = ''
-      # Tangle org files
-      emacs --batch -Q \
-        -l org \
-        *.org \
-        -f org-babel-tangle
-
-      # Fake config directory in order to have files on load-path
+    buildPhase = ''
       mkdir -p .xdg-config
       ln -s $PWD .xdg-config/emacs
       export XDG_CONFIG_HOME="$PWD/.xdg-config"
 
-      emacs --batch -Q \
-        -l package \
+      emacs --batch --quick \
+        --load package \
         --eval '(setq package-quickstart t)' \
-        -f package-quickstart-refresh
+        --funcall package-quickstart-refresh
     '';
   };
 
@@ -35,6 +30,26 @@ let
     pname = "config-lisp";
     inherit version;
     src = lib.sourceFilesBySuffices ./lisp [ ".el" ];
+  };
+
+  init = trivialBuild {
+    pname = "config-init";
+    inherit version packageRequires;
+
+    src = lib.sourceByRegex ./. [ "init.org" "lisp" "lisp/.*.el$" ];
+
+    buildPhase = ''
+      emacs --batch --quick \
+        --load org \
+        *.org \
+        --funcall org-babel-tangle
+
+      mkdir -p .xdg-config
+      ln -s $PWD .xdg-config/emacs
+      export XDG_CONFIG_HOME="$PWD/.xdg-config"
+
+      emacs -L . --batch --eval '(setq byte-compile-error-on-warn t)' -f batch-byte-compile *.el
+    '';
   };
 in
 stdenv.mkDerivation {
@@ -50,11 +65,19 @@ stdenv.mkDerivation {
 
   dontUnpack = true;
 
-  buildInputs = [ emacs-all-the-icons-fonts ripgrep ];
+  buildInputs = [
+    emacs-all-the-icons-fonts
+    ripgrep
+  ];
+
+  passthru.components = {
+    inherit package-quickstart lisp init;
+  };
 
   installPhase = ''
-    install -D -t $out ${init}/share/emacs/site-lisp/*
+    install -D -t $out ${package-quickstart}/share/emacs/site-lisp/*
     install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
+    install -D -t $out ${init}/share/emacs/site-lisp/*
     cp -R $src/{snippets,templates} $out/.
   '';
 }

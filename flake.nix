@@ -45,10 +45,8 @@
             inherit override;
           };
 
-          emacsConfig = prev.callPackage ./. ({
-            # Ensure build includes packages.
-            trivialBuild =
-              prev.emacsPackages.trivialBuild.override { emacs = emacsEnv; };
+          emacsConfig = (prev.emacsPackagesFor emacsEnv.emacs).callPackage ./. ({
+            packageRequires = emacsEnv.explicitRequires;
           } // lib.optionalAttrs (self ? lastModifiedDate) {
             version = lib.substring 0 8 self.lastModifiedDate;
           });
