@@ -85,7 +85,7 @@ of hooks.
 Disable runtime compilation as everything will be compiled at build time via Nix.
 #+begin_src emacs-lisp :tangle early-init.el
 (when (featurep 'nativecomp)
-  (setq comp-deferred-compilation nil))
+  (setq native-comp-deferred-compilation nil))
 #+end_src
 
 ** UI
@@ -289,6 +289,7 @@ Library providing functions inspired by Common Lisp. In many cases these functio
 more natural to use.
 #+begin_src emacs-lisp :tangle yes
 (require 'cl-lib)
+(require 'cl-extra)
 #+end_src
 
 *** flymake-quickdef
@@ -300,13 +301,17 @@ Library to quickly define backends for =flymake=.
 *** hide-lines
 Library to hide lines based on a regular expressions.
 #+begin_src emacs-lisp :tangle yes
-(use-package hide-lines :ensure t)
+(use-package hide-lines
+  :ensure t
+  :commands (hide-lines-matching))
 #+end_src
 
 *** quick-peek
 Library to display inline popups; used by ~source-peek~.
 #+begin_src emacs-lisp :tangle yes
-(use-package quick-peek :ensure t)
+(use-package quick-peek
+  :ensure t
+  :commands (quick-peek-show))
 #+end_src
 
 ** Functions
@@ -881,6 +886,10 @@ Display available keybindings in a popup as you press keys.
 (use-package which-key
   :ensure t
   :defer 3
+  :commands
+  (which-key-mode
+   which-key-setup-side-window-bottom
+   which-key-key-order-alpha)
   :init
   (setq which-key-sort-order #'which-key-key-order-alpha)
   (setq which-key-sort-uppercase-first nil)
@@ -927,6 +936,9 @@ Display available keybindings in a popup as you press keys.
 
 ** Next
 #+begin_src emacs-lisp :tangle yes
+(autoload 'smerge-next "smerge-mode")
+(autoload 'flyspell-goto-next-error "flyspell")
+
 (general-define-key
  :prefix next-prefix
  ""  '(:ignore t :wk "next...")
@@ -953,6 +965,8 @@ Display available keybindings in a popup as you press keys.
 
 ** Previous
 #+begin_src emacs-lisp :tangle yes
+(autoload 'smerge-prev "smerge-mode")
+
 (general-define-key
  :prefix prev-prefix
  ""  '(:ignore t :wk "previous...")
@@ -1065,10 +1079,8 @@ Completion Overlay Region FUnction.
 #+begin_src emacs-lisp :tangle yes
 (use-package corfu
   :ensure t
-  :init
-  (setq corfu-auto t)
-  (setq corfu-cycle t)
-  (setq corfu-preselect-first nil)
+  :commands
+  (corfu-mode)
   :general
   (:keymaps
    'corfu-map
@@ -1080,6 +1092,9 @@ Completion Overlay Region FUnction.
    [backtab] 'corfu-previous
    "C-e" 'corfu-insert)
   :init
+  (setq corfu-auto t)
+  (setq corfu-cycle t)
+  (setq corfu-preselect-first nil)
   (corfu-mode 1))
 #+end_src
 
@@ -1099,6 +1114,9 @@ Vertical interactive completion UI.
   :ensure t
   :hook
   (after-init-hook . vertico-mode)
+  :commands
+  (vertico-insert
+   vertico-exit)
   :init
   (defun vertico-move-end-of-line-or-insert (arg)
     "Move to end of line or insert current candidate.
@@ -1131,6 +1149,8 @@ Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
+  :preface
+  (autoload 'consult-xref "consult-xref")
   :general
   ([remap bookmark-jump] 'consult-bookmark
    [remap goto-line] 'consult-goto-line
@@ -1146,6 +1166,7 @@ Vertical interactive completion UI.
    "M-m" 'consult-global-mark)
   :init
   (setq consult-preview-key (kbd "M-RET"))
+  (eval-when-compile (require 'xref))
   (with-eval-after-load 'xref
     (setq xref-show-xrefs-function #'consult-xref)
     (setq xref-show-definitions-function #'consult-xref)))
@@ -1156,6 +1177,8 @@ Vertical interactive completion UI.
 (use-package marginalia
   :ensure t
   :defer 2
+  :commands
+  (marginalia-mode)
   :config
   (marginalia-mode 1))
 #+end_src
@@ -1345,6 +1368,10 @@ Cycle through words, symbols and patterns.
 #+begin_src emacs-lisp :tangle yes
 (use-package grugru
   :ensure t
+  :commands
+  (grugru-default-setup
+   grugru-define-global
+   grugru-define-on-major-mode)
   :preface
   (eval-when-compile
     (require 'grugru-default))
@@ -1371,6 +1398,9 @@ Soft deletion and balanced expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package puni
   :ensure t
+  :commands
+  (puni-kill-line
+   puni-kill-active-region)
   :preface
   (defun puni-kill-whole-line-or-region (arg)
     "Kill whole line(s) based on ARG or active region."
@@ -1510,6 +1540,8 @@ Display page breaks as a horizontal line.
 (use-package page-break-lines
   :ensure t
   :defer 3
+  :commands
+  (global-page-break-lines-mode)
   :config
   (global-page-break-lines-mode 1))
 #+end_src
@@ -2013,10 +2045,10 @@ Kill compilation process before stating another and save all buffers on ~compile
   :init
   (setq compilation-always-kill t)
   (setq compilation-ask-about-save nil)
-  (setq compilation-scroll-output t)
+  (setq compilation-scroll-output t))
 
-  (make-variable-buffer-local 'compile-command)
-  (put 'compile-command 'safe-local-variable 'stringp))
+(make-variable-buffer-local 'compile-command)
+(put 'compile-command 'safe-local-variable 'stringp)
 #+end_src
 
 *** ANSI escape
@@ -2073,6 +2105,9 @@ Support for Docker related files.
 #+begin_src emacs-lisp :tangle yes
 (use-package coverlay
   :ensure t
+  :commands
+  (coverlay-minor-mode
+   coverlay-watch-file)
   :preface
   (defun init-coverlay ()
     "Setup `coverlay-mode'."
@@ -2209,13 +2244,13 @@ Don't ask about keeping current list of tags tables.
 *** xref
 #+begin_src emacs-lisp :tangle yes
 (use-package xref
+  :commands
+  (xref-show-definitions-completing-read)
   :general
   (:prefix
    nav-prefix
    "i" 'xref-find-definitions
    "o" 'xref-find-definitions-other-window)
-  :commands
-  (xref-show-definitions-completing-read)
   :config
   (remove-hook 'xref-backend-functions #'etags--xref-backend))
 #+end_src
@@ -2246,6 +2281,8 @@ Refactoring commands for various languages.
 *** comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
+  :commands
+  (comint-send-string)
   :preface
   (defun comint-process-tab-complete ()
     "Complete by sending the current input and TAB character to the process."
@@ -2305,6 +2342,9 @@ Refactoring commands for various languages.
 
 *** Persistent history in comint
 #+begin_src emacs-lisp :tangle yes
+(autoload 'comint-read-input-ring "comint")
+(autoload 'comint-write-input-ring "comint")
+
 (defun +comint-history-write-on-exit (process event)
   "Write `comint' history on exit.
 Receives PROCESS and EVENT."
@@ -2443,6 +2483,10 @@ Open link to files in the web UI connected to a repository.
 #+begin_src emacs-lisp :tangle yes
 (use-package ediff
   :preface
+  (autoload 'ediff-copy-diff "ediff-util")
+  (autoload 'ediff-get-region-contents "ediff-util")
+  (autoload 'ediff-setup-windows-plain "ediff-wind")
+
   (defun ediff-copy-both-to-C ()
     "Copy change from both A and B to C."
     (interactive)
@@ -2475,6 +2519,8 @@ Diff indicators in fringe
 (use-package diff-hl
   :ensure t
   :defer 2
+  :commands
+  (global-diff-hl-mode)
   :preface
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
@@ -2558,6 +2604,8 @@ Project-specific environment variables via =direnv=.
   :ensure t
   :if (executable-find "direnv")
   :defer 1
+  :commands
+  (envrc-global-mode)
   :general
   (:keymaps
    'envrc-mode-map
@@ -2572,6 +2620,8 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 (use-package editorconfig
   :ensure t
   :defer 1
+  :commands
+  (editorconfig-mode)
   :init
   (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   (setq editorconfig-exclude-modes '(emacs-lisp-mode
@@ -2731,6 +2781,8 @@ Highlight source code identifiers based on their name.
 #+begin_src emacs-lisp :tangle yes
 (use-package ligature
   :ensure t
+  :commands
+  (ligature-set-ligatures)
   :hook
   (prog-mode-hook . ligature-mode)
   :config
@@ -2838,13 +2890,14 @@ Evaluation results in overlay.
 #+begin_src emacs-lisp :tangle yes
 (use-package package-lint-flymake
   :ensure t
+  :commands (package-lint-flymake-setup)
   :preface
+  (autoload 'package-lint--provided-feature "package-lint")
+
   (defun package-lint-flymake-setup-when-package ()
     "Enable `package-lint-flymake' when buffer seems to be a package."
-    (autoload 'package-lint--provided-feature "package-lint")
     (when (package-lint--provided-feature)
       (package-lint-flymake-setup)))
-  :commands (package-lint-flymake-setup)
   :hook
   (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package))
 #+end_src
@@ -2854,6 +2907,7 @@ Discover functions.
 #+begin_src emacs-lisp :tangle yes
 (use-package suggest
   :ensure t
+  :commands (suggest)
   :preface
   (defun +suggest-popup ()
     "Open suggest as a popup."
@@ -2863,8 +2917,6 @@ Discover functions.
       (set-window-dedicated-p window t)
       (suggest)
       (set-window-dedicated-p window dedicated-flag)))
-  :commands
-  (suggest)
   :general
   (:keymaps
    'emacs-lisp-mode-map
@@ -2885,13 +2937,6 @@ Improve readability of escape characters in regular expressions.
 ** erc
 #+begin_src emacs-lisp :tangle yes
 (use-package erc
-  :preface
-  (defun init-erc-parens ()
-    "Parenthesis configuration for `erc-mode'."
-    (smartparens-strict-mode 0)
-    (smartparens-mode 1))
-  :hook
-  (erc-mode-hook . init-erc-parens)
   :init
   (setq erc-hide-list '("JOIN" "PART" "QUIT"))
   (setq erc-prompt-for-password nil))
@@ -2949,15 +2994,24 @@ Evaluation of source code blocks in REPL.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-babel-eval-in-repl
   :ensure t
+  :commands
+  (ober-eval-in-repl
+   ober-eval-block-in-repl)
   :preface
+  (autoload 'org-in-block-p "org")
+  (autoload 'org-insert-heading-respect-content "org")
+  (autoload 'org-meta-return "org")
+
   (defun +org-ctrl-return ()
-    "Run `ober-eval-in-repl' if in source code block and `org-insert-heading-respect-content' otherwise."
+    "Run `ober-eval-in-repl' if in source code block.
+Fallback to `org-insert-heading-respect-content' otherwise."
     (interactive)
     (if (org-in-block-p '("src" "example"))
         (ober-eval-in-repl)
       (call-interactively #'org-insert-heading-respect-content)))
   (defun +org-meta-return ()
-    "Run `ober-eval-block-in-repl' if in source code block or example block and `org-meta-return' otherwise."
+    "Run `ober-eval-block-in-repl' if in source code block or example block.
+Fallback to `org-meta-return' otherwise."
     (interactive)
     (if (org-in-block-p '("src" "example"))
         (ober-eval-block-in-repl)
@@ -3074,6 +3128,8 @@ This sections makes ~org-mode~ look more beautiful and appealing.
 Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
 #+begin_src emacs-lisp :tangle yes
 (use-package org
+  :preface
+  (autoload 'org-set-emph-re "org")
   :config
   (setcar (nthcdr 4 org-emphasis-regexp-components) 4)
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
@@ -3162,7 +3218,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :after outline
   :hook
-  (outline-minor-mode-hook . outline-minor-faces-add-font-lock-keywords))
+  (outline-minor-mode-hook . outline-minor-faces-mode))
 #+end_src
 
 ** clojure
@@ -3181,6 +3237,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package cider
   :ensure t
+  :commands
+  (cider-current-repl)
   :hook
   (cider-mode-hook . cider-auto-test-mode)
   :general
@@ -3525,11 +3583,13 @@ Debugger
 #+begin_src emacs-lisp :tangle yes
 (use-package indium
   :ensure t
+  :commands
+  (indium-interaction-mode
+   indium-client-process-live-p
+   indium-switch-to-repl-buffer)
   :preface
   (defun +indium-interaction-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
-  :commands
-  (indium-interaction-mode)
   :hook
   (js-mode-hook . +indium-interaction-unless-json-mode)
   :general
@@ -3576,7 +3636,9 @@ Test framework execution.
 **** nodejs-repl
 REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
-(use-package nodejs-repl :ensure t)
+(use-package nodejs-repl
+  :ensure t
+  :commands (nodejs-repl))
 #+end_src
 
 ** json
@@ -3584,33 +3646,35 @@ REPL for nodejs.
 (use-package json-mode
   :ensure t
   :mode
-  "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)"
+  "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)")
+#+end_src
+
+*** Syntax checker
+#+begin_src emacs-lisp :tangle no
+(use-package json-mode
   :preface
+  (flymake-quickdef-backend flymake-check-jsonlint
+    :pre-let ((jsonlint-exec (executable-find "jsonlint")))
+    :pre-check (unless jsonlint-exec (error "Cannot find jsonlint executable"))
+    :write-type 'file
+    :proc-form (list jsonlint-exec "-c" "-q" fmqd-temp-file)
+    :search-regexp "^\\(.+\\)\: line \\([0-9]+\\), col \\([0-9]+\\), \\(.+\\)$"
+    :prep-diagnostic
+    (let* ((lnum (string-to-number (match-string 2)))
+           (col (string-to-number (match-string 3)))
+           (msg (match-string 4))
+           (pos (flymake-diag-region fmqd-source lnum col))
+           (beg (car pos))
+           (end (cdr pos))
+           (type :error))
+      (list fmqd-source beg end type msg)))
+
   (defun init-json-mode-flymake ()
     "Setup `json-mode' integration with Flymake."
     (add-hook 'flymake-diagnostic-functions #'flymake-check-jsonlint nil t)
     (flymake-mode))
   :hook
   (json-mode-hook . init-json-mode-flymake))
-#+end_src
-
-*** Syntax checker
-#+begin_src emacs-lisp :tangle yes
-(flymake-quickdef-backend flymake-check-jsonlint
-  :pre-let ((jsonlint-exec (executable-find "jsonlint")))
-  :pre-check (unless jsonlint-exec (error "Cannot find jsonlint executable"))
-  :write-type 'file
-  :proc-form (list jsonlint-exec "-c" "-q" fmqd-temp-file)
-  :search-regexp "^\\(.+\\)\: line \\([0-9]+\\), col \\([0-9]+\\), \\(.+\\)$"
-  :prep-diagnostic
-  (let* ((lnum (string-to-number (match-string 2)))
-         (col (string-to-number (match-string 3)))
-         (msg (match-string 4))
-         (pos (flymake-diag-region fmqd-source lnum col))
-         (beg (car pos))
-         (end (cdr pos))
-         (type :error))
-    (list fmqd-source beg end type msg)))
 #+end_src
 
 *** Packages
@@ -3637,6 +3701,9 @@ REPL for nodejs.
 (use-package slime
   :ensure t
   :preface
+  (autoload 'slime-load-file "slime")
+  (autoload 'ff-test-other-file-name "ff-test")
+
   (defun slime-load-file-and-other-file ()
     "Load buffer file and then load other (test) file."
     (interactive)
@@ -3665,6 +3732,8 @@ REPL for nodejs.
 (use-package lua-mode
   :ensure t
   :mode "\\.lua\\'"
+  :commands
+  (lua-get-create-process)
   :general
   (:keymaps
    'lua-mode-map
@@ -3776,10 +3845,7 @@ Pretty check-boxes
 (use-package nxml-mode
   :mode "\\.plist\\'"
   :init
-  (setq nxml-slash-auto-complete-flag t)
-  :config
-  (with-eval-after-load 'smartparens
-    (sp-local-pair '(nxml-mode) "<" ">" :actions :rem)))
+  (setq nxml-slash-auto-complete-flag t))
 #+end_src
 
 ** ocaml
@@ -3966,33 +4032,19 @@ Pretty check-boxes as well as bullet lists.
 
 *** Testing
 #+begin_src emacs-lisp :tangle yes
-(defun ruby-test-all ()
-  "Test all files using either RSpec or MiniTest."
-  (interactive)
-  (if (bound-and-true-p rspec-mode)
-      (rspec-verify-all)
-    (minitest-verify-all)))
-
-(defun ruby-test-file ()
-  "Test current file using either RSpec or MiniTest."
-  (interactive)
-  (if (bound-and-true-p rspec-mode)
-      (rspec-verify)
-    (minitest-verify)))
-
-(defun ruby-test-at-point ()
-  "Test definition at point using either RSpec or MiniTest."
-  (interactive)
-  (if (bound-and-true-p rspec-mode)
-      (rspec-verify-single)
-    (minitest-verify-single)))
+(general-define-key
+ :keymaps 'minitest-mode-map
+ :prefix local-leader-key
+ "t" 'minitest-verify-single
+ "T" 'minitest-verify
+ "s" 'minitest-verify-all)
 
 (general-define-key
- :keymaps 'ruby-mode-map
+ :keymaps 'rspec-mode-map
  :prefix local-leader-key
- "t" 'ruby-test-at-point
- "T" 'ruby-test-file
- "s" 'ruby-test-all)
+ "t" 'rspec-verify-single
+ "T" 'rspec-verify
+ "s" 'rspec-verify-all)
 #+end_src
 
 *** Packages
@@ -4200,6 +4252,8 @@ Display current path for HTML/XML/CSS.
 (use-package cakecrumbs
   :ensure t
   :defer 3
+  :commands
+  (cakecrumbs-auto-setup)
   :config
   (cakecrumbs-auto-setup))
 #+end_src
@@ -4381,48 +4435,53 @@ Avoid color when possible.
   (setq eshell-hist-ignoredups t)
   (setq eshell-error-if-no-glob t)
   (setq eshell-destroy-buffer-when-process-dies t)
-
   (autoload 'eshell-smart-initialize "em-smart"))
 #+end_src
 
 **** Abbreviations
 Fish-like abbreviations that expand on space or enter.
 #+begin_src emacs-lisp :tangle yes
-(defun +eshell-expand-abbrev-and-send-input ()
-  "Expand abbreviation and send input to `eshell'."
-  (interactive)
-  (expand-abbrev)
-  (call-interactively #'eshell-send-input))
+(use-package eshell
+  :preface
+  (autoload 'eshell-parse-arguments "esh-arg")
+  (autoload 'eshell-bol "esh-mode")
+  (autoload 'eshell-send-input "esh-mode")
 
-(defun +eshell-abbrev-expand-p ()
-  "Return t if abbreviation should be expanded.
+  (defun +eshell-expand-abbrev-and-send-input ()
+    "Expand abbreviation and send input to `eshell'."
+    (interactive)
+    (expand-abbrev)
+    (call-interactively #'eshell-send-input))
+
+  (defun +eshell-abbrev-expand-p ()
+    "Return t if abbreviation should be expanded.
 Expansion should happen when abbreviation is at the beginning of
 the line or after an eshell operator."
-  (let* ((end (point-marker))
-         (begin (save-excursion (eshell-bol) (point)))
-         (args (catch 'eshell-incomplete (eshell-parse-arguments begin end))))
-    (or (= 1 (length args))
-        (let ((last-two-args (last args 2)))
-          (and (consp (car last-two-args))
-               (eq (caar last-two-args)
-                   'eshell-operator))))))
-
-(define-abbrev-table 'eshell-mode-abbrev-table
-  '(("base64" "base64 -w0")
-    ("d" "docker")
-    ("dim" "docker images")
-    ("dp" "docker ps")
-    ("dc" "docker-compose")
-    ("dcl" "docker-compose logs")
-    ("e" "find-file-other-window")
-    ("E" "dired")
-    ("gd" "magit-diff-unstaged")
-    ("gds" "magit-diff-staged")
-    ("gs" "magit-status")
-    ("time" "time -p")
-    ("tree" "tree -a")
-    ("week" "date '+%V'"))
-  :enable-function #'+eshell-abbrev-expand-p)
+    (let* ((end (point-marker))
+           (begin (save-excursion (eshell-bol) (point)))
+           (args (catch 'eshell-incomplete (eshell-parse-arguments begin end))))
+      (or (= 1 (length args))
+          (let ((last-two-args (last args 2)))
+            (and (consp (car last-two-args))
+                 (eq (caar last-two-args)
+                     'eshell-operator))))))
+  :init
+  (define-abbrev-table 'eshell-mode-abbrev-table
+    '(("base64" "base64 -w0")
+      ("d" "docker")
+      ("dim" "docker images")
+      ("dp" "docker ps")
+      ("dc" "docker-compose")
+      ("dcl" "docker-compose logs")
+      ("e" "find-file-other-window")
+      ("E" "dired")
+      ("gd" "magit-diff-unstaged")
+      ("gds" "magit-diff-staged")
+      ("gs" "magit-status")
+      ("time" "time -p")
+      ("tree" "tree -a")
+      ("week" "date '+%V'"))
+    :enable-function #'+eshell-abbrev-expand-p))
 #+end_src
 
 **** Packages
