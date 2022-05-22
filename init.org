@@ -4386,12 +4386,12 @@ it really useful.
    "C-;" 'flyspell-correct-wrapper))
 #+end_src
 
-Automatically infer dictionary.
+Automatic language detection that updates the spell checker.
 #+begin_src emacs-lisp :tangle yes
-(use-package auto-dictionary
+(use-package guess-language
   :ensure t
   :commands
-  (adict-mode))
+  (guess-language-mode))
 #+end_src
 
 ** Terminal
