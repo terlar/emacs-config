@@ -5,7 +5,6 @@
 , trivialBuild
 , emacs-all-the-icons-fonts
 , ripgrep
-, tree
 }:
 let
   package-quickstart = trivialBuild {
@@ -15,12 +14,9 @@ let
     dontUnpack = true;
 
     buildPhase = ''
-      mkdir -p .xdg-config
-      ln -s $PWD .xdg-config/emacs
-      export XDG_CONFIG_HOME="$PWD/.xdg-config"
-
       emacs --batch --quick \
         --load package \
+        --eval '(setq package-quickstart-file "package-quickstart.el")' \
         --eval '(setq package-quickstart t)' \
         --funcall package-quickstart-refresh
     '';
