@@ -84,7 +84,7 @@ of hooks.
 ** Native compile
 Disable runtime compilation as everything will be compiled at build time via Nix.
 #+begin_src emacs-lisp :tangle early-init.el
-(when (featurep 'nativecomp)
+(when (featurep 'comp)
   (setq native-comp-deferred-compilation nil))
 #+end_src
 
