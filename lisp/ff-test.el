@@ -5,7 +5,8 @@
 
 ;; Author: Terje Larsen <terlar@gmail.com>
 ;; Keywords: files
-;; Package-Requires: ((emacs "26.1") (project "0.3.0"))
+;; URL: https://github.com/terlar/emacs-config/blob/main/lisp/ff-test.el
+;; Package-Requires: ((emacs "28.1"))
 ;; Version: 0.1
 
 ;; This file is NOT part of GNU Emacs.
@@ -53,7 +54,7 @@
   :safe (lambda (x) (seq-every-p #'file-directory-p x)))
 
 (defcustom ff-test-search-implementation-project-directories '("src")
-  "List of project relative directories to look for associated implementation files."
+  "List of project relative directories to look for related implementation files."
   :type '(repeat string)
   :group 'ff-test
   :safe (lambda (x) (seq-every-p #'stringp x)))
@@ -82,9 +83,11 @@
 (make-variable-buffer-local 'ff-test-suffixes)
 
 (defvar-local ff-test-expanded-search-implementation-project-directories nil
-  "List of expanded `ff-test-search-implementation-project-directories' using `ff-test-project-root-function'.")
+  "List of expanded `ff-test-search-implementation-project-directories'.
+Using `ff-test-project-root-function'.")
 (defvar-local ff-test-expanded-search-test-project-directories nil
-  "List of expanded `ff-test-search-test-project-directories' using `ff-test-project-root-function'.")
+  "List of expanded `ff-test-search-test-project-directories'.
+Using `ff-test-project-root-function'.")
 
 ;; Optional dependencies to set project local directories.
 (autoload 'project-root "project")
@@ -167,7 +170,7 @@
          (ff-other-file-alist
           `((,test-regexp ,'ff-test-converter)
             (,implementation-regxp ,'ff-test-converter))))
-    (ff-other-file-name)))
+    (ff-find-the-other-file)))
 
 ;;;###autoload
 (defun ff-test-find-other-file (&optional in-other-window)
