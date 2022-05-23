@@ -8,7 +8,7 @@ will have time to write down some more details later.
 This configuration is making a lot of assumptions as it is built as a package with
 Nix. This means that all packages are expected to be on the =load-path= already and
 compatibility is only guaranteed with the GNU Emacs version that is part of this
-package. Currently GNU Emacs 28.0.50.
+package. Currently GNU Emacs 29.0.50.
 
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
