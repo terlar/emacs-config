@@ -81,13 +81,6 @@ of hooks.
 (setq initial-major-mode 'fundamental-mode)
 #+end_src
 
-** Native compile
-Disable runtime compilation as everything will be compiled at build time via Nix.
-#+begin_src emacs-lisp :tangle early-init.el
-(when (featurep 'comp)
-  (setq native-comp-deferred-compilation nil))
-#+end_src
-
 ** UI
 Disable GUI components.
 #+begin_src emacs-lisp :tangle early-init.el
