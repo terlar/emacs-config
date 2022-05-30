@@ -319,10 +319,9 @@ Prevent forms from producing output or other noise.
 
 (defun quiet-function-advice (orig-fn &rest args)
   "Advice used to make a function quiet.
-Call ORIG-FN with ARGS and suppress the output.
+Call ORIG-FN with ARGS and suppress the output.  Usage:
 
-Example:
-  (advice-add 'orig-fn :around #'quiet-function-advice)"
+  (advice-add \\='orig-fn :around #\\='quiet-function-advice)"
   (quiet! (apply orig-fn args)))
 #+end_src
 
