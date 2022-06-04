@@ -3181,6 +3181,8 @@ Disable link colors.
 
 Add links in footnotes.
 #+begin_src emacs-lisp :tangle yes
+(autoload 'org-export-derived-backend-p "ox")
+
 (defvar org-export-latex-add-link-footnotes t
   "If non-nil links will be added as footnotes if exported to latex.")
 
