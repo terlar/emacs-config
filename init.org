@@ -2325,7 +2325,6 @@ Refactoring commands for various languages.
           (elm-mode . elm-repl-load)
           (go-mode . gorepl-run)
           (js-mode . js-repl)
-          (lisp-mode . slime)
           (lua-mode . lua-repl)
           (nix-mode . nix-repl)
           (racket-mode . racket-repl)
@@ -3689,9 +3688,15 @@ REPL for nodejs.
 #+end_src
 
 ** lisp
+#+begin_src emacs-lisp :tangle yes
+(use-package inf-lisp
+  :init
+  (setq inferior-lisp-program "sbcl"))
+#+end_src
+
 *** Packages
 **** slime
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package slime
   :ensure t
   :preface
@@ -3717,8 +3722,12 @@ REPL for nodejs.
    "o" 'slime
    "t" 'slime-load-file-and-other-file)
   :init
-  (setq inferior-lisp-program "sbcl")
   (setq slime-contribs '(slime-fancy slime-repl)))
+#+end_src
+
+**** sly
+#+begin_src emacs-lisp :tangle yes
+(use-package sly :ensure t)
 #+end_src
 
 ** lua
