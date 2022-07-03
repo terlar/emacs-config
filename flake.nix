@@ -57,19 +57,25 @@
 
       homeManagerModules = { emacsConfig = import ./home-manager.nix; };
       homeConfigurations = forAllSystems (system: home-manager.lib.homeManagerConfiguration {
-        inherit system;
         pkgs = nixpkgsFor.${system};
-        username = "test";
-        homeDirectory = "/home/test";
-        extraModules = [ self.homeManagerModules.emacsConfig ];
-        configuration = {
-          custom.emacsConfig = {
-            enable = true;
-            erc = nixpkgsFor.${system}.writeText "ercrc.el" ''
-              ;; Testing testing
-            '';
-          };
-        };
+
+        modules = [
+          self.homeManagerModules.emacsConfig
+          {
+            home = {
+              stateVersion = "22.05";
+              username = "test";
+              homeDirectory = "/home/test";
+            };
+
+            custom.emacsConfig = {
+              enable = true;
+              erc = nixpkgsFor.${system}.writeText "ercrc.el" ''
+                ;; Testing testing
+              '';
+            };
+          }
+        ];
       });
 
       checks = forAllSystems (system: {
