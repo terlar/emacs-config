@@ -4616,6 +4616,11 @@ Packages that I am currently testing or evaluating.
 (use-package elsa :disabled t)
 #+end_src
 
+** epithet
+#+begin_src emacs-lisp :tangle yes
+(use-package epithet :ensure t)
+#+end_src
+
 ** fancy-dabbrev
 #+begin_src emacs-lisp :tangle yes
 (use-package fancy-dabbrev :ensure t)

@@ -125,6 +125,17 @@ epkgs // {
     ];
   };
 
+  epithet = trivialBuild {
+    pname = "epithet";
+    version = "20210215.1633";
+    src = fetchFromGitHub {
+      owner = "oantolin";
+      repo = "epithet";
+      rev = "cc42338376c2c58da561214c554be8e8856f6a2b";
+      hash = "sha256-QJ5kUaTp+poHBfblcKICxlBTVUXeZq5tArU+9qB+ORo=";
+    };
+  };
+
   explain-pause-mode = trivialBuild {
     pname = "explain-pause-mode";
     version = "20200727.227";
