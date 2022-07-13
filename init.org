@@ -3608,20 +3608,6 @@ Test framework execution.
    "s" 'jest-popup))
 #+end_src
 
-**** js2
-#+begin_src emacs-lisp :tangle yes
-(use-package js2-mode
-  :ensure t
-  :hook
-  (js-mode-hook . js2-minor-mode)
-  :init
-  (setq js2-highlight-external-variables nil)
-  (setq js2-mode-show-parse-errors nil)
-  (setq js2-skip-preprocessor-directives t)
-  (setq js2-strict-missing-semi-warning nil)
-  (setq js2-strict-trailing-comma-warning nil))
-#+end_src
-
 **** nodejs-repl
 REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
