@@ -2655,11 +2655,7 @@ Generic Language Server Protocol integration via ~eglot~.
   :init
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
-  (setq eglot-sync-connect nil)
-  :config
-  (cl-pushnew '((js-mode typescript-mode) . ("typescript-language-server" "--stdio"))
-              eglot-server-programs
-              :test #'equal))
+  (setq eglot-sync-connect nil))
 #+end_src
 
 *** hl-todo
