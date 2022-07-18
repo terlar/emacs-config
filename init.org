@@ -2212,10 +2212,8 @@ Reformat buffer without moving point.
   (progn ;; JavaScript/TypeScript
     (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
   (progn ;; Nix
-    (cl-pushnew '(alejandra . ("alejandra")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nixfmt . ("nixfmt")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nixpkgs-fmt . ("nixpkgs-fmt")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nix-mode . nixpkgs-fmt) apheleia-mode-alist :test #'equal))
+    (cl-pushnew '(nix . ("nix" "fmt" "--" "-")) apheleia-formatters :test #'equal)
+    (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
   (progn ;; Ruby
     (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
     (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
