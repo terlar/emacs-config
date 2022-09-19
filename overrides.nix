@@ -29,6 +29,18 @@ epkgs // {
     ];
   });
 
+  # Temporary fixes for stale MELPA sync.
+  haskell-mode = epkgs.melpaPackages.haskell-mode.overrideAttrs (attrs: {
+    version = "20220917.1553";
+    src = fetchFromGitHub {
+      owner = "haskell";
+      repo = "haskell-mode";
+      rev = "90503413f4cdb0ed26871e39c4e6e2552b57f7db";
+      sha256 = "19f9zqb6pfa71hpv4vk7ym8hcsy8hn0jmp3k2xk36vc38g1mr8ma";
+      # date = 2022-09-17T15:53:59+02:00;
+    };
+  });
+
   # Forks.
   flymake-diagnostic-at-point =
     epkgs.melpaPackages.flymake-diagnostic-at-point.overrideAttrs (attrs: {
