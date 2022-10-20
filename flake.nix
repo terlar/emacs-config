@@ -41,7 +41,7 @@
       flake = {
         overlays.default = nixpkgs.lib.composeManyExtensions [
           emacs-overlay.overlays.default
-          (final: prev: rec {
+          (final: prev: {
             emacsEnv = final.emacsWithPackagesFromUsePackage {
               package = final.emacsPgtkNativeComp;
 
@@ -50,8 +50,8 @@
               override = final.callPackage ./nix/overrides.nix {};
             };
 
-            emacsConfig = (prev.emacsPackagesFor emacsEnv.emacs).callPackage ./. ({
-                packageRequires = emacsEnv.explicitRequires;
+            emacsConfig = (prev.emacsPackagesFor final.emacsEnv.emacs).callPackage ./. ({
+                packageRequires = final.emacsEnv.explicitRequires;
               }
               // nixpkgs.lib.optionalAttrs (self ? lastModifiedDate) {
                 version = nixpkgs.lib.substring 0 8 self.lastModifiedDate;
