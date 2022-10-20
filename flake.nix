@@ -8,139 +8,73 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    devshell.url = "github:numtide/devshell";
+
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    devshell.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { home-manager, emacs-overlay, nixpkgs, self, ... }:
-    let
-      inherit (nixpkgs) lib;
+  outputs = {
+    self,
+    nixpkgs,
+    flake-parts,
+    devshell,
+    emacs-overlay,
+    home-manager,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit self;} {
+      systems = ["x86_64-linux"];
 
-      systems = [ "x86_64-linux" ];
-      forAllSystems = f: lib.genAttrs systems (system: f system);
-      nixpkgsFor = forAllSystems (system: import nixpkgs {
-        inherit system;
-        overlays = [ self.overlay ];
-      });
-    in
-    {
-      overlay = final: prev:
-        let override = prev.callPackage ./overrides.nix { };
-        in
-        (emacs-overlay.overlay final prev) // rec {
-          emacsEnv = final.emacsWithPackagesFromUsePackage {
-            package = final.emacsPgtkNativeComp;
+      imports = [
+        ./nix/flake/development.nix
+        ./nix/flake/test-home-configuration.nix
+      ];
 
-            config = ./init.org;
-            alwaysEnsure = false;
-            inherit override;
-          };
+      flake = {
+        overlays.default = nixpkgs.lib.composeManyExtensions [
+          emacs-overlay.overlays.default
+          (final: prev: rec {
+            emacsEnv = final.emacsWithPackagesFromUsePackage {
+              package = final.emacsPgtkNativeComp;
 
-          emacsConfig = (prev.emacsPackagesFor emacsEnv.emacs).callPackage ./. ({
-            packageRequires = emacsEnv.explicitRequires;
-          } // lib.optionalAttrs (self ? lastModifiedDate) {
-            version = lib.substring 0 8 self.lastModifiedDate;
-          });
+              config = ./init.org;
+              alwaysEnsure = false;
+              override = final.callPackage ./nix/overrides.nix {};
+            };
+
+            emacsConfig = (prev.emacsPackagesFor emacsEnv.emacs).callPackage ./. ({
+                packageRequires = emacsEnv.explicitRequires;
+              }
+              // nixpkgs.lib.optionalAttrs (self ? lastModifiedDate) {
+                version = nixpkgs.lib.substring 0 8 self.lastModifiedDate;
+              });
+          })
+        ];
+        homeManagerModules = {emacsConfig = import ./nix/home-manager.nix;};
+      };
+
+      perSystem = {
+        pkgs,
+        self',
+        ...
+      }: {
+        legacyPackages = pkgs.extend self.overlays.default;
+
+        packages = {
+          inherit (self'.legacyPackages) emacsConfig emacsEnv;
+          default = self'.legacyPackages.emacsConfig;
         };
 
-      packages = forAllSystems (system: { inherit (nixpkgsFor.${system}) emacsConfig emacsEnv; });
-      defaultPackage = forAllSystems (system: self.packages.${system}.emacsConfig);
-
-      homeManagerModules = { emacsConfig = import ./home-manager.nix; };
-      homeConfigurations = forAllSystems (system: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgsFor.${system};
-
-        modules = [
-          self.homeManagerModules.emacsConfig
-          {
-            home = {
-              stateVersion = "22.05";
-              username = "test";
-              homeDirectory = "/home/test";
-            };
-
-            custom.emacsConfig = {
-              enable = true;
-              erc = nixpkgsFor.${system}.writeText "ercrc.el" ''
-                ;; Testing testing
-              '';
-            };
-          }
-        ];
-      });
-
-      checks = forAllSystems (system: {
-        build-home-configuration =
-          self.homeConfigurations.${system}.activationPackage;
-      });
-
-      devShell = forAllSystems
-        (system:
-          let
-            pkgs = nixpkgsFor.${system};
-
-            reloadEmacsConfig = pkgs.writeShellScriptBin "reload-emacs-config" ''
-              set -euo pipefail
-              systemctl --user restart emacs.service
-              while ! emacsclient -a false -e t 2>/dev/null
-              do sleep 1; done
-              emacsclient -nc
-            '';
-
-            devEmacsConfig = pkgs.writeShellScriptBin "dev-emacs-config" ''
-              set -euo pipefail
-              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-              mkdir -p $XDG_CONFIG_HOME/emacs
-              ${pkgs.xorg.lndir}/bin/lndir -silent $PWD $XDG_CONFIG_HOME/emacs
-              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
-              ${pkgs.emacsEnv}/bin/emacs "$@"
-            '';
-
-            testEmacsConfig = pkgs.writeShellScriptBin "test-emacs-config" ''
-              set -euo pipefail
-              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-              mkdir -p $XDG_CONFIG_HOME/emacs
-              ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
-              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
-              ${pkgs.emacsEnv}/bin/emacs "$@"
-            '';
-
-            updateCaches = pkgs.writeShellScriptBin "update-caches" ''
-              ${pkgs.cachix}/bin/cachix use -O . nix-community
-              ${pkgs.cachix}/bin/cachix use -O . terlar
-            '';
-
-            updateScreenshots = pkgs.writeShellScriptBin "update-screenshots" ''
-              set -euo pipefail
-              export XDG_CONFIG_HOME=$(mktemp -td xdg-config.XXXXXXXXXX)
-              mkdir -p $XDG_CONFIG_HOME/emacs
-              ${pkgs.xorg.lndir}/bin/lndir -silent ${pkgs.emacsConfig} $XDG_CONFIG_HOME/emacs
-              ln -s $HOME/.config/fontconfig $XDG_CONFIG_HOME/.
-              ${pkgs.emacsEnv}/bin/emacs -fs --load ${./screenshots.el} --eval '(kill-emacs)'
-            '';
-          in
-          pkgs.mkShell {
-            nativeBuildInputs = with pkgs; [
-              gdb
-              git
-              nixVersions.stable
-              nixpkgs-fmt
-
-              devEmacsConfig
-              reloadEmacsConfig
-              testEmacsConfig
-              updateCaches
-              updateScreenshots
-            ];
-          });
+        checks.build-config = self'.packages.emacsConfig;
+        checks.build-env = self'.packages.emacsEnv;
+      };
     };
 }

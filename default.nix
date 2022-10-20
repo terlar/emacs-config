@@ -1,12 +1,12 @@
-{ version ? "dev"
-, packageRequires
-, lib
-, stdenv
-, trivialBuild
-, emacs-all-the-icons-fonts
-, ripgrep
-}:
-let
+{
+  version ? "dev",
+  packageRequires,
+  lib,
+  stdenv,
+  trivialBuild,
+  emacs-all-the-icons-fonts,
+  ripgrep,
+}: let
   package-quickstart = trivialBuild {
     pname = "config-package-quickstart";
     inherit version packageRequires;
@@ -25,14 +25,14 @@ let
   lisp = trivialBuild {
     pname = "config-lisp";
     inherit version;
-    src = lib.sourceFilesBySuffices ./lisp [ ".el" ];
+    src = lib.sourceFilesBySuffices ./lisp [".el"];
   };
 
   init = trivialBuild {
     pname = "config-init";
     inherit version packageRequires;
 
-    src = lib.sourceByRegex ./. [ "init.org" "lisp" "lisp/.*.el$" ];
+    src = lib.sourceByRegex ./. ["init.org" "lisp" "lisp/.*.el$"];
 
     buildPhase = ''
       emacs --batch --quick \
@@ -48,32 +48,32 @@ let
     '';
   };
 in
-stdenv.mkDerivation {
-  pname = "emacs-config";
-  inherit version;
+  stdenv.mkDerivation {
+    pname = "emacs-config";
+    inherit version;
 
-  src = lib.sourceByRegex ./. [
-    "snippets"
-    "snippets/.*"
-    "templates"
-    "templates/.*"
-  ];
+    src = lib.sourceByRegex ./. [
+      "snippets"
+      "snippets/.*"
+      "templates"
+      "templates/.*"
+    ];
 
-  dontUnpack = true;
+    dontUnpack = true;
 
-  buildInputs = [
-    emacs-all-the-icons-fonts
-    ripgrep
-  ];
+    buildInputs = [
+      emacs-all-the-icons-fonts
+      ripgrep
+    ];
 
-  passthru.components = {
-    inherit package-quickstart lisp init;
-  };
+    passthru.components = {
+      inherit package-quickstart lisp init;
+    };
 
-  installPhase = ''
-    install -D -t $out ${package-quickstart}/share/emacs/site-lisp/*
-    install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
-    install -D -t $out ${init}/share/emacs/site-lisp/*
-    cp -R $src/{snippets,templates} $out/.
-  '';
-}
+    installPhase = ''
+      install -D -t $out ${package-quickstart}/share/emacs/site-lisp/*
+      install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
+      install -D -t $out ${init}/share/emacs/site-lisp/*
+      cp -R $src/{snippets,templates} $out/.
+    '';
+  }

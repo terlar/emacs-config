@@ -1,20 +1,31 @@
-{ config, lib, pkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with builtins;
-with lib;
-let
+with lib; let
   cfg = config.custom.emacsConfig;
 
-  emacsEdit = if cfg.enableServer then "emacsclient" else "emacs";
-  emacsDesktop = if cfg.enableServer then "emacsclient.desktop" else "emacs.desktop";
-  emacsMailDesktop = if cfg.enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
+  emacsEdit =
+    if cfg.enableServer
+    then "emacsclient"
+    else "emacs";
+  emacsDesktop =
+    if cfg.enableServer
+    then "emacsclient.desktop"
+    else "emacs.desktop";
+  emacsMailDesktop =
+    if cfg.enableServer
+    then "emacsclient-mail.desktop"
+    else "emacs-mail.desktop";
 
   mkEmacsConfigFiles = path:
-    foldl' (acc: file: acc // { "emacs/${file}".source = "${path}/${file}"; })
-      { }
-      (attrNames (readDir path));
-in
-{
+    foldl' (acc: file: acc // {"emacs/${file}".source = "${path}/${file}";})
+    {}
+    (attrNames (readDir path));
+in {
   options.custom.emacsConfig = {
     enable = mkEnableOption "custom emacs configuration";
 
@@ -105,16 +116,17 @@ in
         '';
       };
 
-      home.packages = [ cfg.package ]
+      home.packages =
+        [cfg.package]
         ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
     }
     (mkIf cfg.enableUserDirectory {
       xdg.configFile = mkEmacsConfigFiles cfg.configPackage;
     })
-    (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
-    (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
+    (mkIf cfg.defaultEditor {home.sessionVariables.EDITOR = emacsEdit;})
+    (mkIf cfg.enableGitDiff {programs.git.extraConfig.diff.tool = "ediff";})
     (mkIf cfg.defaultEditor {
-      programs.qutebrowser.settings.editor.command = [ emacsEdit "{}" ];
+      programs.qutebrowser.settings.editor.command = [emacsEdit "{}"];
     })
     (mkIf cfg.defaultEmailApplication {
       xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" =
@@ -124,7 +136,7 @@ in
       xdg.mimeApps.defaultApplications."application/pdf" =
         emacsDesktop;
     })
-    (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
+    (mkIf (cfg.gnus != null) {home.file.".gnus.el".source = cfg.gnus;})
     (mkIf (cfg.erc != null) {
       xdg.configFile."emacs/.ercrc.el".source = cfg.erc;
     })
