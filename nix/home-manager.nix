@@ -20,11 +20,6 @@ with lib; let
     if cfg.enableServer
     then "emacsclient-mail.desktop"
     else "emacs-mail.desktop";
-
-  mkEmacsConfigFiles = path:
-    foldl' (acc: file: acc // {"emacs/${file}".source = "${path}/${file}";})
-    {}
-    (attrNames (readDir path));
 in {
   options.custom.emacsConfig = {
     enable = mkEnableOption "custom emacs configuration";
@@ -121,7 +116,10 @@ in {
         ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
     }
     (mkIf cfg.enableUserDirectory {
-      xdg.configFile = mkEmacsConfigFiles cfg.configPackage;
+      xdg.configFile.emacs = {
+        source = cfg.configPackage;
+        recursive = true;
+      };
     })
     (mkIf cfg.defaultEditor {home.sessionVariables.EDITOR = emacsEdit;})
     (mkIf cfg.enableGitDiff {programs.git.extraConfig.diff.tool = "ediff";})
