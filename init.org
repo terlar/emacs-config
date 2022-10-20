@@ -2075,22 +2075,9 @@ Support for Docker related files.
 (use-package docker-compose-mode :ensure t)
 #+end_src
 
-**** Tramp
-#+begin_src emacs-lisp :tangle yes
-(use-package docker-tramp
-  :ensure t
-  :init
-  (setq docker-tramp-use-names t))
-#+end_src
-
 *** Kubernetes
 #+begin_src emacs-lisp :tangle yes
 (use-package kubernetes :ensure t)
-#+end_src
-
-**** Tramp
-#+begin_src emacs-lisp :tangle yes
-(use-package kubernetes-tramp :ensure t)
 #+end_src
 
 ** Coverage
