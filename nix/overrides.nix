@@ -18,6 +18,18 @@
 in
   epkgs
   // {
+    docker = epkgs.melpaPackages.docker.overrideAttrs (attrs: {
+      patches = [
+        (fetchpatch {
+          name = "remove-dependency-docker-tramp.patch";
+          url = "https://github.com/Silex/docker.el/commit/42765f04010da268e183f0632f1c8a34a3aa822f.patch";
+          sha256 = "sha256-gFwoFUc2VC47y/4jC1MCSOB0Qgo5Yvim2fN5x8OqwJY=";
+        })
+      ];
+
+      propagatedUserEnvPkgs = builtins.filter (x: x.pname != "docker-tramp") attrs.propagatedUserEnvPkgs;
+    });
+
     theme-magic = epkgs.melpaPackages.theme-magic.overrideAttrs (attrs: {
       patches = [
         (substituteAll {
