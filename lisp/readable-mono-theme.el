@@ -175,26 +175,26 @@ For example links."
    `(default
       ((((type graphic) (background light)) (:background ,l-bg :foreground ,l-fg))
        (((type graphic) (background dark)) (:background ,d-bg :foreground ,d-fg))
-       (((type tty) (background light)) (:background nil :foreground ,l-fg))
-       (((type tty) (background dark)) (:background nil :foreground ,d-fg))))
+       (((type tty) (background light)) (:background unspecified :foreground ,l-fg))
+       (((type tty) (background dark)) (:background unspecified :foreground ,d-fg))))
 
 ;;;;; Semantic
    `(bold ((t (:inherit readable-mono-theme-strong))))
    `(bold-italic ((t (:inherit readable-mono-theme-strong))))
    `(link ((t (:inherit readable-mono-theme-actionable :underline t))))
    `(shadow ((t (:inherit readable-mono-theme-subordinate))))
-   `(success ((t (:foreground nil))))
+   `(success ((t (:foreground unspecified))))
    `(warning ((t (:inherit readable-mono-theme-emphasis))))
    `(error ((t (:inherit readable-mono-theme-critical))))
    `(font-lock-comment-face ((t (:italic t))))
-   `(font-lock-function-name-face ((t (:foreground nil))))
-   `(font-lock-variable-name-face ((t (:foreground nil))))
-   `(font-lock-constant-face ((t (:foreground nil))))
-   `(font-lock-doc-string-face ((t (:foreground nil))))
-   `(font-lock-doc-face ((t (:foreground nil))))
-   `(font-lock-preprocessor-face ((t (:foreground nil))))
-   `(font-lock-reference-face ((t (:foreground nil))))
-   `(font-lock-string-face ((t (:foreground nil))))
+   `(font-lock-function-name-face ((t (:foreground unspecified))))
+   `(font-lock-variable-name-face ((t (:foreground unspecified))))
+   `(font-lock-constant-face ((t (:foreground unspecified))))
+   `(font-lock-doc-string-face ((t (:foreground unspecified))))
+   `(font-lock-doc-face ((t (:foreground unspecified))))
+   `(font-lock-preprocessor-face ((t (:foreground unspecified))))
+   `(font-lock-reference-face ((t (:foreground unspecified))))
+   `(font-lock-string-face ((t (:foreground unspecified))))
    `(font-lock-type-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-builtin-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-keyword-face ((t (:inherit readable-mono-theme-strong))))
@@ -244,8 +244,8 @@ For example links."
    `(mode-line-inactive
      ((((type graphic) (background light)) (:background ,l-bg :box (:line-width 6 :color ,l-bg)))
       (((type graphic) (background dark)) (:background ,d-bg :box (:line-width 6 :color ,d-bg)))
-      (((type tty) (background light)) (:background nil :foreground ,l-fg-s))
-      (((type tty) (background dark)) (:background nil :foreground ,d-fg-s))))
+      (((type tty) (background light)) (:background unspecified :foreground ,l-fg-s))
+      (((type tty) (background dark)) (:background unspecified :foreground ,d-fg-s))))
    `(mode-line-emphasis ((t :bold nil)))
    `(mode-line-buffer-id ((t :inherit readable-mono-theme-strong)))
 
@@ -312,8 +312,8 @@ For example links."
    `(ediff-fine-diff-Ancestor ((t (:inherit highlight))))
 
    `(smerge-base ((t (:inherit readable-mono-theme-secondary))))
-   `(smerge-lower ((t (:background nil))))
-   `(smerge-upper ((t (:background nil))))
+   `(smerge-lower ((t (:background unspecified))))
+   `(smerge-upper ((t (:background unspecified))))
    `(smerge-refined-added ((t (:inherit diff-refine-added))))
    `(smerge-refined-changed ((t (:inherit diff-refine-changed))))
    `(smerge-refined-removed ((t (:inherit diff-refine-removed))))
@@ -349,7 +349,7 @@ For example links."
    `(corfu-current ((t (:inherit highlight))))
 
 ;;;;; dired
-   `(all-the-icons-dired-dir-face ((t (:foreground nil))))
+   `(all-the-icons-dired-dir-face ((t (:foreground unspecified))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
    `(dired-broken-symlink ((t (:inherit readable-mono-theme-critical))))
    `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
@@ -411,7 +411,7 @@ For example links."
 ;;;;; magit
    `(magit-section-heading ((t (:inherit header-line))))
    `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
-   `(magit-diff-context ((t (:background nil))))
+   `(magit-diff-context ((t (:background unspecified))))
    `(magit-diff-context-highlight ((t (:inherit readable-mono-theme-secondary))))
    `(magit-diff-removed ((t (:inherit diff-removed))))
    `(magit-diff-removed-highlight ((t (:inherit diff-refine-removed))))
@@ -427,18 +427,18 @@ For example links."
       (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
 
 ;;;;; message
-   `(message-cited-text-1 ((t (:foreground nil))))
-   `(message-cited-text-2 ((t (:foreground nil))))
-   `(message-cited-text-3 ((t (:foreground nil))))
-   `(message-cited-text-4 ((t (:foreground nil))))
-   `(message-header-cc ((t (:foreground nil))))
-   `(message-header-name ((t (:foreground nil))))
+   `(message-cited-text-1 ((t (:foreground unspecified))))
+   `(message-cited-text-2 ((t (:foreground unspecified))))
+   `(message-cited-text-3 ((t (:foreground unspecified))))
+   `(message-cited-text-4 ((t (:foreground unspecified))))
+   `(message-header-cc ((t (:foreground unspecified))))
+   `(message-header-name ((t (:foreground unspecified))))
    `(message-header-newsgroups ((t (:inherit readable-mono-theme-strong))))
-   `(message-header-other ((t (:foreground nil))))
+   `(message-header-other ((t (:foreground unspecified))))
    `(message-header-subject ((t (:inherit readable-mono-theme-strong))))
    `(message-header-to ((t (:inherit readable-mono-theme-strong))))
-   `(message-header-xheader ((t (:foreground nil))))
-   `(message-mml ((t (:foreground nil))))
+   `(message-header-xheader ((t (:foreground unspecified))))
+   `(message-mml ((t (:foreground unspecified))))
    `(message-separator ((t (:inherit readable-mono-theme-subordinate))))
 
 ;;;;; orderless
@@ -449,28 +449,28 @@ For example links."
 
 ;;;;; org
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
-   `(org-done ((t (:foreground nil))))
+   `(org-done ((t (:foreground unspecified))))
    `(org-todo ((t (:inherit readable-mono-theme-strong))))
-   `(org-headline-done ((t (:foreground nil))))
-   `(org-headline-todo ((t (:foreground nil))))
+   `(org-headline-done ((t (:foreground unspecified))))
+   `(org-headline-todo ((t (:foreground unspecified))))
    `(org-block ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(org-code
      ((((background light)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,l-bg)))
       (((background dark)) (:inherit readable-mono-theme-secondary :box (:line-width 1 :color ,d-bg)))))
-   `(org-date ((t (:foreground nil :underline nil))))
-   `(org-document-info ((t (:foreground nil))))
+   `(org-date ((t (:foreground unspecified :underline nil))))
+   `(org-document-info ((t (:foreground unspecified))))
    `(org-drawer ((t (:inherit readable-mono-theme-subordinate))))
    `(org-hide
      ((((background light)) (:foreground ,l-bg))
       (((background dark)) (:foreground ,d-bg))))
-   `(org-table ((t (:foreground nil))))
-   `(org-quote ((t (:foreground nil))))
+   `(org-table ((t (:foreground unspecified))))
+   `(org-quote ((t (:foreground unspecified))))
 
-   `(org-agenda-structure ((t (:foreground nil))))
-   `(org-agenda-date ((t (:foreground nil))))
+   `(org-agenda-structure ((t (:foreground unspecified))))
+   `(org-agenda-date ((t (:foreground unspecified))))
    `(org-agenda-date-today ((t (:inherit readable-mono-theme-strong))))
    `(org-agenda-date-weekend ((t (:inherit readable-mono-theme-emphasis))))
-   `(org-scheduled ((t (:foreground nil))))
+   `(org-scheduled ((t (:foreground unspecified))))
    `(org-scheduled-today ((t (:inherit readable-mono-theme-actionable))))
    `(org-scheduled-previously ((t (:inherit readable-mono-theme-emphasis))))
 
@@ -478,7 +478,7 @@ For example links."
    `(org-tree-slide-header-overlay-face ((t (:inherit header-line))))
 
 ;;;;; outline
-   `(outline-minor-0 ((t (:background nil))))
+   `(outline-minor-0 ((t (:background unspecified))))
 
 ;;;;; popup
    `(popup-face ((t (:inherit (readable-mono-theme-secondary default)))))
@@ -531,8 +531,8 @@ For example links."
    `(term-color-white ((t (:inherit term-color-black))))
 
 ;;;;; terraform
-   `(terraform--resource-name-face ((t (:foreground nil))))
-   `(terraform--resource-type-face ((t (:foreground nil))))
+   `(terraform--resource-name-face ((t (:foreground unspecified))))
+   `(terraform--resource-type-face ((t (:foreground unspecified))))
 
 ;;;;; visual-regexp
    `(vr/match-0 ((t (:inverse-video t))))
