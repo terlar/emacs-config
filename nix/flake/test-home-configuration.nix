@@ -1,37 +1,33 @@
-{
-  self,
-  lib,
-  config,
-  ...
-}: {
-  flake = {
-    homeConfigurations = lib.genAttrs config.systems (system: let
-      pkgs = self.legacyPackages.${system};
-    in
-      self.inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+{self, ...}: {
+  transposition.homeConfigurations.adHoc = true;
 
-        modules = [
-          self.homeManagerModules.emacsConfig
-          {
-            home = {
-              stateVersion = "22.05";
-              username = "test";
-              homeDirectory = "/home/test";
-            };
+  perSystem = {
+    self',
+    pkgs,
+    ...
+  }: {
+    homeConfigurations = self.inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = self'.legacyPackages;
 
-            custom.emacsConfig = {
-              enable = true;
-              erc = pkgs.writeText "ercrc.el" ''
-                ;; Testing testing
-              '';
-            };
-          }
-        ];
-      });
-  };
+      modules = [
+        self.homeManagerModules.emacsConfig
+        {
+          home = {
+            stateVersion = "22.05";
+            username = "test";
+            homeDirectory = "/home/test";
+          };
 
-  perSystem = {system, ...}: {
-    checks.build-home-configuration = self.homeConfigurations.${system}.activationPackage;
+          custom.emacsConfig = {
+            enable = true;
+            erc = pkgs.writeText "ercrc.el" ''
+              ;; Testing testing
+            '';
+          };
+        }
+      ];
+    };
+
+    checks.build-home-configuration = self'.homeConfigurations.activationPackage;
   };
 }
