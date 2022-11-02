@@ -1072,7 +1072,8 @@ Completion Overlay Region FUnction.
 (use-package corfu
   :ensure t
   :commands
-  (corfu-mode)
+  (global-corfu-mode
+   corfu-indexed-mode)
   :general
   (:keymaps
    'corfu-map
@@ -1087,7 +1088,8 @@ Completion Overlay Region FUnction.
   (setq corfu-auto t)
   (setq corfu-cycle t)
   (setq corfu-preselect-first nil)
-  (corfu-mode 1))
+  (global-corfu-mode 1)
+  (corfu-indexed-mode 1))
 #+end_src
 
 *** corfu-doc
@@ -1135,6 +1137,40 @@ Vertical interactive completion UI.
   :ensure t
   :hook
   (marginalia-mode-hook . all-the-icons-completion-marginalia-setup))
+#+end_src
+
+** cape
+#+begin_src emacs-lisp :tangle yes
+(use-package cape
+  :ensure t
+  :commands
+  (cape-wrap-silent
+   cape-wrap-purify)
+  :preface
+  (defun init-cape-capf ()
+    (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
+    (cl-pushnew #'cape-symbol completion-at-point-functions :test #'equal)
+    (cl-pushnew #'cape-file completion-at-point-functions :test #'equal))
+  :hook
+  (prog-mode-hook . init-cape-capf)
+  :general
+  (:prefix "M-p"
+	   "p" 'completion-at-point
+	   "d" 'cape-dabbrev
+	   "h" 'cape-history
+	   "f" 'cape-file
+	   "k" 'cape-keyword
+	   "s" 'cape-symbol
+	   "a" 'cape-abbrev
+	   "i" 'cape-ispell
+	   "l" 'cape-line
+	   "w" 'cape-dict
+	   "\\" 'cape-tex
+	   "&" 'cape-sgml
+	   "r" 'cape-rfc1345)
+  :config
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 #+end_src
 
 *** consult
@@ -2258,21 +2294,9 @@ Refactoring commands for various languages.
 *** comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
-  :commands
-  (comint-send-string)
-  :preface
-  (defun comint-process-tab-complete ()
-    "Complete by sending the current input and TAB character to the process."
-    (interactive)
-    (let* ((buffer (current-buffer))
-           (pmark (process-mark (get-buffer-process buffer))))
-      (when (> (point) (marker-position pmark))
-        (kill-region pmark (point))
-        (comint-send-string buffer (concat (pop kill-ring) "\t")))))
   :general
   (:keymaps
    'comint-mode-map
-   "<tab>" 'comint-process-tab-complete
    "C-c C-k" 'term-char-mode)
   :init
   (setq comint-use-prompt-regexp t))
@@ -4545,11 +4569,6 @@ Packages that I am currently testing or evaluating.
 ** awscli-capf
 #+begin_src emacs-lisp :tangle yes
 (use-package awscli-capf :ensure t)
-#+end_src
-
-** cape
-#+begin_src emacs-lisp :tangle yes
-(use-package cape :ensure t)
 #+end_src
 
 ** comment-or-uncomment-sexp
