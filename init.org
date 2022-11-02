@@ -4629,9 +4629,23 @@ Packages that I am currently testing or evaluating.
 
 ** iscroll
 #+begin_src emacs-lisp :tangle yes
-(use-package iscroll :ensure t
+(use-package iscroll
+  :ensure t
   :hook
   (org-mode-hook . iscroll-mode))
+#+end_src
+
+** kind-icon
+#+begin_src emacs-lisp :tangle yes
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :commands
+  (kind-icon-margin-formatter)
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
 ** messages-are-flowing
