@@ -2,12 +2,12 @@
   transposition.homeConfigurations.adHoc = true;
 
   perSystem = {
-    self',
+    config,
     pkgs,
     ...
   }: {
     homeConfigurations = self.inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = self'.legacyPackages;
+      pkgs = config.legacyPackages;
 
       modules = [
         self.homeManagerModules.emacsConfig
@@ -28,6 +28,6 @@
       ];
     };
 
-    checks.build-home-configuration = self'.homeConfigurations.activationPackage;
+    checks.build-home-configuration = config.homeConfigurations.activationPackage;
   };
 }

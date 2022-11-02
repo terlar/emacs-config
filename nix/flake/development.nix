@@ -1,7 +1,7 @@
 {self, ...}: {
   perSystem = {
+    config,
     pkgs,
-    self',
     inputs',
     ...
   }: {
@@ -14,27 +14,27 @@
 
       commands = [
         {
-          package = self'.packages.devEmacsConfig;
+          package = config.packages.devEmacsConfig;
           help = "launch bundled Emacs with configuration from source";
           category = "emacs";
         }
         {
-          package = self'.packages.reloadEmacsConfig;
+          package = config.packages.reloadEmacsConfig;
           help = "reload and launch Emacs service";
           category = "emacs";
         }
         {
-          package = self'.packages.testEmacsConfig;
+          package = config.packages.testEmacsConfig;
           help = "launch bundled Emacs with fixed configuration";
           category = "emacs";
         }
         {
-          package = self'.packages.updateCaches;
+          package = config.packages.updateCaches;
           help = "update Nix caches";
           category = "nix";
         }
         {
-          package = self'.packages.updateScreenshots;
+          package = config.packages.updateScreenshots;
           help = "generate new screenshots";
           category = "emacs";
         }
@@ -56,7 +56,7 @@
         name = "dev-emacs-config";
         runtimeInputs = [
           pkgs.xorg.lndir
-          self'.packages.emacsEnv
+          config.packages.emacsEnv
         ];
         text = ''
           XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
@@ -72,13 +72,13 @@
         name = "test-emacs-config";
         runtimeInputs = [
           pkgs.xorg.lndir
-          self'.packages.emacsEnv
+          config.packages.emacsEnv
         ];
         text = ''
           XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
           export XDG_CONFIG_HOME
           mkdir -p "$XDG_CONFIG_HOME/emacs"
-          lndir -silent ${self'.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
+          lndir -silent ${config.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
           ln -s "$HOME/.config/fontconfig" "$XDG_CONFIG_HOME/."
           emacs "$@"
         '';
@@ -97,13 +97,13 @@
         name = "update-screenshots";
         runtimeInputs = [
           pkgs.xorg.lndir
-          self'.packages.emacsEnv
+          config.packages.emacsEnv
         ];
         text = ''
           XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
           export XDG_CONFIG_HOME
           mkdir -p "$XDG_CONFIG_HOME/emacs"
-          lndir -silent ${self'.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
+          lndir -silent ${config.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
           ln -s "$HOME/.config/fontconfig" "$XDG_CONFIG_HOME/."
           emacs -fs --load ${../../screenshots.el} --eval '(kill-emacs)'
         '';

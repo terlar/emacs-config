@@ -62,19 +62,19 @@
       };
 
       perSystem = {
+        config,
         pkgs,
-        self',
         ...
       }: {
         legacyPackages = pkgs.extend self.overlays.default;
 
         packages = {
-          inherit (self'.legacyPackages) emacsConfig emacsEnv;
-          default = self'.legacyPackages.emacsConfig;
+          inherit (config.legacyPackages) emacsConfig emacsEnv;
+          default = config.legacyPackages.emacsConfig;
         };
 
-        checks.build-config = self'.packages.emacsConfig;
-        checks.build-env = self'.packages.emacsEnv;
+        checks.build-config = config.packages.emacsConfig;
+        checks.build-env = config.packages.emacsEnv;
       };
     };
 }
