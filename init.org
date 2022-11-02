@@ -1097,7 +1097,12 @@ Completion Overlay Region FUnction.
 (use-package corfu-doc
   :ensure t
   :hook
-  (corfu-mode-hook . corfu-doc-mode))
+  (corfu-mode-hook . corfu-doc-mode)
+  :general
+  (:keymaps 'corfu-map
+            [remap corfu-show-documentation] #'corfu-doc-toggle
+            "M-n" #'corfu-doc-scroll-up
+            "M-p" #'corfu-doc-scroll-down))
 #+end_src
 
 ** Minibuffer
