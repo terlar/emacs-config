@@ -1072,8 +1072,16 @@ Completion Overlay Region FUnction.
 (use-package corfu
   :ensure t
   :commands
-  (global-corfu-mode
-   corfu-indexed-mode)
+  (corfu-mode
+   corfu-indexed-mode
+   global-corfu-mode)
+  :preface
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu completion in the minibuffer, e.g., `eval-expression'."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1)))
+  :hook
+  (minibuffer-setup-hook . corfu-enable-in-minibuffer)
   :general
   (:keymaps
    'corfu-map
