@@ -167,6 +167,9 @@
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))
 
+;;;;; corfu
+   `(corfu-default ((t (:family ,fixed-pitch))))
+
 ;;;;; Info
    `(info-title-1 ((t (:height ,level-1-height))))
    `(info-title-2 ((t (:height ,level-2-height))))
