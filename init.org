@@ -1033,38 +1033,6 @@ Space-separated matching components matching in any order.
   (setq completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
-** Expansion (hippie)
-Smart expansion completions, excellent for completing lines.
-Replace abbrev completion (=M-/=) with hippie expand.
-
-Complete in the following order:
-- Try to expand word "dynamically", searching the current buffer.
-- Try to expand word "dynamically", searching all other buffers.
-- Try to expand word "dynamically", searching the kill ring.
-- Try to complete text as a file name, as many characters as unique.
-- Try to complete text as a file name.
-- Try to expand word before point according to all abbrev tables.
-- Try to complete the current line to an entire line in the buffer.
-- Try to complete as an Emacs Lisp symbol, as many characters as unique.
-- Try to complete word as an Emacs Lisp symbol.
-#+begin_src emacs-lisp :tangle yes
-(use-package hippie-exp
-  :general
-  ([remap dabbrev-expand] 'hippie-expand)
-  :init
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev-visible
-          try-expand-dabbrev
-          try-complete-file-name-partially
-          try-complete-file-name
-          try-expand-all-abbrevs
-          try-expand-list
-          try-expand-line
-          try-expand-line-all-buffers
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol)))
-#+end_src
-
 ** Buffer
 *** corfu
 Completion Overlay Region FUnction.
@@ -1211,6 +1179,17 @@ Vertical interactive completion UI.
   (with-eval-after-load 'xref
     (setq xref-show-xrefs-function #'consult-xref)
     (setq xref-show-definitions-function #'consult-xref)))
+#+end_src
+
+*** dabbrev
+#+begin_src emacs-lisp :tangle yes
+(use-package dabbrev
+  :general
+  ;; Swap M-/ and C-M-/
+  ("M-/" 'dabbrev-completion
+   "C-M-/" 'dabbrev-expand)
+  :init
+  (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 #+end_src
 
 *** marginalia
@@ -4619,11 +4598,6 @@ Packages that I am currently testing or evaluating.
 ** epithet
 #+begin_src emacs-lisp :tangle yes
 (use-package epithet :ensure t)
-#+end_src
-
-** fancy-dabbrev
-#+begin_src emacs-lisp :tangle yes
-(use-package fancy-dabbrev :ensure t)
 #+end_src
 
 ** fit-text-scale
