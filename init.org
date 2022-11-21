@@ -4535,11 +4535,6 @@ Packages that I am currently testing or evaluating.
 (use-package adaptive-wrap :ensure t)
 #+end_src
 
-** affe
-#+begin_src emacs-lisp :tangle yes
-(use-package affe :ensure t)
-#+end_src
-
 ** annotate
 #+begin_src emacs-lisp :tangle yes
 (use-package annotate :ensure t)
