@@ -4558,6 +4558,11 @@ Packages that I am currently testing or evaluating.
 (use-package annotate :ensure t)
 #+end_src
 
+** attrap
+#+begin_src emacs-lisp :tangle yes
+(use-package attrap :ensure t)
+#+end_src
+
 ** awscli-capf
 #+begin_src emacs-lisp :tangle yes
 (use-package awscli-capf :ensure t)
