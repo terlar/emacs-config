@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: plantuml
-# key: plantuml
-# --
-#+BEGIN_SRC plantuml :file ${1:file} :cmdline -SbackgroundColor=transparent
-$0
-#+END_SRC

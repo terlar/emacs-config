@@ -1,0 +1,28 @@
+fundamental-mode
+
+(today (format-time-string "%Y-%m-%d"))
+
+prog-mode
+
+(fixme (if (derived-mode-p 'emacs-lisp-mode) ";; " comment-start) "FIXME ")
+(todo (if (derived-mode-p 'emacs-lisp-mode) ";; " comment-start) "TODO ")
+(bug (if (derived-mode-p 'emacs-lisp-mode) ";; " comment-start) "BUG ")
+(hack (if (derived-mode-p 'emacs-lisp-mode) ";; " comment-start) "HACK ")
+
+nix-mode
+
+(empty-sha256-hash "0000000000000000000000000000000000000000000000000000")
+(empty-sri-hash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
+(mkOption > "mkOption {" n> "type = " (p "type" type) ";" n> "default = " (p "default" default) ";" n> "description = \"" (p "description" description) "\";" n> "};")
+(fetchFromGitHub > "fetchFromGitHub {" n> "owner = \"" (p "owner" owner) "\";" n> "repo = \"" (p "repo" repo) "\";" n> "rev = \"" (p "rev" rev) "\";" n> "hash = \"" (p "hash" hash) "\";" n> "};")
+
+org-mode
+
+(title "#+title: " p n "#+author: " p n "#+language: " p n n)
+(quote "#+begin_quote" n> r> n> "#+end_quote")
+(example "#+begin_example" n> r> n> "#+end_example")
+(center "#+begin_center" n> r> n> "#+end_center")
+(comment "#+begin_comment" n> r> n> "#+end_comment")
+(verse "#+begin_verse" n> r> n> "#+end_verse")
+(src "#+begin_src " p n> r> n> "#+end_src" :post (org-edit-src-code))
+(elisp "#+begin_src emacs-lisp :tangle yes" n> r> n "#+end_src" :post (org-edit-src-code))

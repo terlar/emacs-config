@@ -1340,7 +1340,7 @@ Convert between tabs and spaces (only tabify initial white-space).
 #+end_src
 
 ** Text flow
-Wrap at words and don't require double spaces to end a sentence.
+Wrap at words.
 #+begin_src emacs-lisp :tangle yes
 (setq-default word-wrap t)
 #+end_src
@@ -1356,6 +1356,26 @@ Automatic parenthesis pairing and highlighting.
 #+begin_src emacs-lisp :tangle yes
 (electric-pair-mode 1)
 (show-paren-mode 1)
+#+end_src
+
+** Autotyping
+*** tempel
+#+begin_src emacs-lisp :tangle yes
+(use-package tempel
+  :ensure t
+  :commands
+  (tempel-expand)
+  :preface
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+  :hook
+  (prog-mode-hook . tempel-setup-capf)
+  (text-mode-hook . tempel-setup-capf)
+  :general
+  ("M-+" 'tempel-complete)
+  ("M-*" 'tempel-insert))
 #+end_src
 
 ** Packages
@@ -1497,47 +1517,6 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   :ensure t
   :hook
   (after-init-hook . whole-line-or-region-global-mode))
-#+end_src
-
-*** yasnippet
-#+begin_src emacs-lisp :tangle yes
-(use-package yasnippet
-  :ensure t
-  :hook
-  (after-init-hook . yas-global-mode)
-  :general
-  (:keymaps
-   'yas-minor-mode-map
-   [tab] 'nil
-   "TAB" 'nil
-   "M-o" 'yas-insert-snippet)
-  :init
-  (setq yas-verbosity 0)
-  (setq yas-also-auto-indent-first-line t)
-  (setq yas-snippet-dirs
-        (list (expand-file-name "snippets" user-emacs-directory)))
-  ;; Nested snippets
-  (setq yas-triggers-in-field t)
-  (setq yas-wrap-around-region t))
-
-(use-package yasnippet-snippets
-  :ensure t
-  :hook
-  (yas-minor-mode-hook . yasnippet-snippets-initialize))
-#+end_src
-
-*** yatemplate
-#+begin_src emacs-lisp :tangle yes
-(use-package autoinsert
-  :hook
-  (after-init-hook . auto-insert-mode)
-  :init
-  (setq auto-insert-query nil))
-
-(use-package yatemplate
-  :ensure t
-  :hook
-  (auto-insert-mode-hook . yatemplate-fill-alist))
 #+end_src
 
 ** Appearance

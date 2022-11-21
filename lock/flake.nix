@@ -1310,6 +1310,12 @@
       repo = "tablist";
       type = "github";
     };
+    tempel = {
+      flake = false;
+      owner = "minad";
+      repo = "tempel";
+      type = "github";
+    };
     terraform-doc = {
       flake = false;
       owner = "TxGVNN";
@@ -1481,24 +1487,6 @@
       flake = false;
       owner = "hron";
       repo = "yari.el";
-      type = "github";
-    };
-    yasnippet = {
-      flake = false;
-      owner = "joaotavora";
-      repo = "yasnippet";
-      type = "github";
-    };
-    yasnippet-snippets = {
-      flake = false;
-      owner = "AndreaCrotti";
-      repo = "yasnippet-snippets";
-      type = "github";
-    };
-    yatemplate = {
-      flake = false;
-      owner = "mineo";
-      repo = "yatemplate";
       type = "github";
     };
     zoom-window = {

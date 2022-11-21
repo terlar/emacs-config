@@ -1,4 +1,0 @@
-FROM ${1:alpine:latest}
-MAINTAINER ${2:Terje Larsen <terlar@gmail.com>}
-
-$0
