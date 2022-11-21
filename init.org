@@ -1068,19 +1068,6 @@ Completion Overlay Region FUnction.
   (corfu-indexed-mode 1))
 #+end_src
 
-*** corfu-doc
-#+begin_src emacs-lisp :tangle yes
-(use-package corfu-doc
-  :ensure t
-  :hook
-  (corfu-mode-hook . corfu-doc-mode)
-  :general
-  (:keymaps 'corfu-map
-            [remap corfu-show-documentation] #'corfu-doc-toggle
-            "M-n" #'corfu-doc-scroll-up
-            "M-p" #'corfu-doc-scroll-down))
-#+end_src
-
 ** Minibuffer
 *** vertico
 Vertical interactive completion UI.
