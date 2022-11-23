@@ -4555,6 +4555,14 @@ Packages that I am currently testing or evaluating.
 (use-package comment-or-uncomment-sexp :ensure t)
 #+end_src
 
+** consult-git-log-grep
+#+begin_src emacs-lisp :tangle yes
+(use-package consult-git-log-grep :ensure t
+  :after magit
+  :init
+  (setq consult-git-log-grep-open-function #'magit-show-commit))
+#+end_src
+
 ** dtrt-indent
 #+begin_src emacs-lisp :tangle yes
 (use-package dtrt-indent
