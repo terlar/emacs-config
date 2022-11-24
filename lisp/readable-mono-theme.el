@@ -235,6 +235,7 @@ For example links."
    `(show-paren-match ((t (:inherit readable-mono-theme-strong :underline t))))
    `(show-paren-mismatch ((t (:inherit readable-mono-theme-critical))))
    `(trailing-whitespace ((t (:inherit readable-mono-theme-critical))))
+   `(whitespace-line ((t (:inherit readable-mono-theme-critical))))
    `(whitespace-trailing ((t (:inherit readable-mono-theme-critical))))
 
 ;;;;; Interface
