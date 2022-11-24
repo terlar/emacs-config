@@ -1,6 +1,6 @@
 ;;; auto-tangle.el --- Automatically tangle Emacs Lisp libraries  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2018 Terje Larsen
+;; Copyright (C) 2022 Terje Larsen
 
 ;; Author: Terje Larse <terlar@gmail.com>
 ;; URL: https://github.com/terlar/auto-tangle

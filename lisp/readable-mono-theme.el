@@ -1,6 +1,6 @@
 ;;; readable-mono-theme.el --- Readable mostly monochromatic theme -*- coding: utf-8; lexical-binding: t -*-
 
-;; Copyright (C) 2020 Terje Larsen
+;; Copyright (C) 2022 Terje Larsen
 ;; All rights reserved.
 
 ;; Author: Terje Larsen <terlar@gmail.com>
@@ -34,7 +34,7 @@
 ;; - ert
 
 ;;; Code:
-(deftheme readable-mono "Minimal and monochromatic theme")
+(deftheme readable-mono "Minimal and monochromatic theme.")
 
 (defgroup readable-mono-theme nil
   "Minimal and monochromatic theme customization options."

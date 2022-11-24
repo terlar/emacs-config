@@ -1,6 +1,6 @@
 ;;; ff-test.el --- Find a test/implementation file related to current file -*- coding: utf-8; lexical-binding: t; -*-
 
-;; Copyright (C) 2019 Terje Larsen
+;; Copyright (C) 2022 Terje Larsen
 ;; All rights reserved.
 
 ;; Author: Terje Larsen <terlar@gmail.com>

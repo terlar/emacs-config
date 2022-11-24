@@ -1,6 +1,6 @@
 ;;; readable-typo-theme.el --- Readable typographic theme -*- coding: utf-8; lexical-binding: t -*-
 
-;; Copyright (C) 2020 Terje Larsen
+;; Copyright (C) 2022 Terje Larsen
 ;; All rights reserved.
 
 ;; Author: Terje Larsen <terlar@gmail.com>
@@ -26,7 +26,7 @@
 ;; Typographic theme to achieve a more readable and pleasant experience.
 
 ;;; Code:
-(deftheme readable-typo "Readable typographic theme")
+(deftheme readable-typo "Readable typographic theme.")
 
 (defgroup readable-typo-theme nil
   "Readable typographic theme customization options."

@@ -1,6 +1,6 @@
 ;;; readable.el --- A minor-mode to make text more readable -*- coding: utf-8; lexical-binding: t -*-
 
-;; Copyright (C) 2018 Terje Larsen
+;; Copyright (C) 2022 Terje Larsen
 ;; All rights reserved.
 
 ;; Author: Terje Larsen <terlar@gmail.com>
