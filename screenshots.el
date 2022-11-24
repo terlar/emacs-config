@@ -1,4 +1,25 @@
-;; (run-with-timer 1 nil `(lambda () ))
+;;; screenshots.el --- Configuration screenshots -*- coding: utf-8; lexical-binding: t -*-
+
+;; Copyright (C) 2022 Terje Larsen
+;; All rights reserved.
+
+;; This file is NOT part of GNU Emacs.
+
+;; screenshots is free software: you can redistribute it and/or modify it under the
+;; terms of the GNU General Public License as published by the Free Software Foundation,
+;; either version 3 of the License, or (at your option) any later version.
+
+;; screenshots is distributed in the hope that it will be useful, but WITHOUT ANY
+;; WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+;; PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;; Script to take screenshots to demo configuration.
+
+;;; Code:
 (let* ((media-dir (expand-file-name "media"))
        (captures
         `((org-mode
@@ -45,3 +66,6 @@
                                                  ".svg")
                                          media-dir)
                           (insert (x-export-frames nil 'svg))))))))
+
+(provide 'screenshots)
+;;; screenshots.el ends here
