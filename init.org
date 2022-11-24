@@ -2533,6 +2533,8 @@ Enhanced git related views and commands.
   :ensure t
   :defer 2
   :preface
+  (autoload 'magit-show-commit "magit-diff" nil t)
+
   (eval-when-compile
     (require 'vc-msg-git))
   (defun +git-commit-set-fill-column ()
@@ -4557,7 +4559,8 @@ Packages that I am currently testing or evaluating.
 
 ** consult-git-log-grep
 #+begin_src emacs-lisp :tangle yes
-(use-package consult-git-log-grep :ensure t
+(use-package consult-git-log-grep
+  :ensure t
   :after magit
   :init
   (setq consult-git-log-grep-open-function #'magit-show-commit))
