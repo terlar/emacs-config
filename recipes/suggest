@@ -1,0 +1,3 @@
+(suggest :repo "Wilfred/suggest.el"
+         :fetcher github
+         :files ("suggest.el"))

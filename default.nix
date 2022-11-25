@@ -1,6 +1,5 @@
 {
   version ? "dev",
-  packageRequires,
   lib,
   stdenv,
   trivialBuild,
@@ -9,7 +8,7 @@
 }: let
   package-quickstart = trivialBuild {
     pname = "config-package-quickstart";
-    inherit version packageRequires;
+    inherit version;
 
     dontUnpack = true;
 
@@ -30,7 +29,7 @@
 
   init = trivialBuild {
     pname = "config-init";
-    inherit version packageRequires;
+    inherit version;
 
     src = lib.sourceByRegex ./. ["init.org" "lisp" "lisp/.*.el$"];
 

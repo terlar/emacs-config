@@ -1,0 +1,85 @@
+{
+  "adaptive-wrap": {
+    "archive": {
+      "narHash": "sha256-AnDqA7uYSRiLMVAKzw0S2bV+QMagbGxgy38paPaUN4o=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/adaptive-wrap-0.8.tar"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {},
+    "version": "0.8"
+  },
+  "csv-mode": {
+    "archive": {
+      "narHash": "sha256-EH+Vm5v6bdXVyWUxl3dM/JB17N2OS1NqZuUkJUFe8tQ=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/csv-mode-1.21.tar"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {
+      "cl-lib": "0.5",
+      "emacs": "27.1"
+    },
+    "version": "1.21"
+  },
+  "cycle-quotes": {
+    "archive": {
+      "narHash": "sha256-kLKvs9anXuLEqCkuR8hF9XWBtMvMeCFNcabOOI/RXrY=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/cycle-quotes-0.1.tar"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {},
+    "version": "0.1"
+  },
+  "dired-git-info": {
+    "archive": {
+      "narHash": "sha256-jAO2VpVAFfBRmGiT8MJglYUr1TYl2RkvHfsbJsPovRw=",
+      "type": "file",
+      "url": "https://elpa.gnu.org/packages/dired-git-info-0.3.1.el"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {
+      "emacs": "25"
+    },
+    "version": "0.3.1"
+  },
+  "queue": {
+    "archive": {
+      "narHash": "sha256-cbv1sqH7LJXdRZ/teyScnysvsn8/JcaPqrRBc7jGrZw=",
+      "type": "file",
+      "url": "https://elpa.gnu.org/packages/queue-0.2.el"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {},
+    "version": "0.2"
+  },
+  "rainbow-mode": {
+    "archive": {
+      "narHash": "sha256-Qd5M2ellyZW+UPAxUarkS6s5dv4k3xyTpJtMmKTH9Ug=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/rainbow-mode-1.0.6.tar"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {},
+    "version": "1.0.6"
+  }
+}

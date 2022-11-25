@@ -1,0 +1,2 @@
+(flymake-diagnostic-at-point :fetcher github
+                             :repo "terlar/flymake-diagnostic-at-point")

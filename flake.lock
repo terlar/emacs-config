@@ -21,6 +21,22 @@
         "type": "github"
       }
     },
+    "elisp-helpers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665027644,
+        "narHash": "sha256-S55qcQBNZcwA2UKRd3Xxv+T9liuWNiGhi2u0GvzYoeo=",
+        "owner": "emacs-twist",
+        "repo": "elisp-helpers",
+        "rev": "f3ff71386581b89eff58074ec7080c7326a17dca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emacs-twist",
+        "repo": "elisp-helpers",
+        "type": "github"
+      }
+    },
     "emacs-overlay": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -105,6 +121,39 @@
         "type": "github"
       }
     },
+    "fromElisp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1649625973,
+        "narHash": "sha256-y/7IsibjBGY3uUN9K/VMKPTVAbgsV0Xdi8Hnv6Nq76E=",
+        "owner": "talyz",
+        "repo": "fromElisp",
+        "rev": "edd1301d1fc35440ae6c918ca92039233e3d770f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "talyz",
+        "repo": "fromElisp",
+        "type": "github"
+      }
+    },
+    "gnu-elpa": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1668818687,
+        "narHash": "sha256-TDZR/kbhbmvWr7hMtdE+G6zeoW/2PknJRjYRA9v8Vz0=",
+        "ref": "main",
+        "rev": "c1e7d260a3e9305188aea0b5a372f4ccd4dfb22c",
+        "revCount": 464,
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -123,6 +172,22 @@
       "original": {
         "id": "home-manager",
         "type": "indirect"
+      }
+    },
+    "melpa": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669138110,
+        "narHash": "sha256-ZmaSjtVlvTi3h6q4N4toioXmsFkZTXSTcVJJSAa7V9Y=",
+        "owner": "melpa",
+        "repo": "melpa",
+        "rev": "d63e2c2812b3b0932d16bb945da13d4498cc59fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "melpa",
+        "repo": "melpa",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -159,14 +224,70 @@
         "type": "github"
       }
     },
+    "nongnu-elpa": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669346735,
+        "narHash": "sha256-OmSCYhVCDgYmPMVo0Gbar9v8Godp6ScI4ikTd81O3UE=",
+        "ref": "main",
+        "rev": "20e4ce4ff661d449065eb646fd4569d147eb4191",
+        "revCount": 236,
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
+      }
+    },
+    "org-babel": {
+      "locked": {
+        "lastModified": 1644384285,
+        "narHash": "sha256-BneIKs+q5qCOdeiOIp2ay73wW6SI5IfBKBHvgT4lpIw=",
+        "owner": "emacs-twist",
+        "repo": "org-babel",
+        "rev": "32c28e885f2c671891bd71d7742f6383d9fd6762",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emacs-twist",
+        "repo": "org-babel",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "devshell": "devshell",
         "emacs-overlay": "emacs-overlay",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
+        "gnu-elpa": "gnu-elpa",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "melpa": "melpa",
+        "nixpkgs": "nixpkgs",
+        "nongnu-elpa": "nongnu-elpa",
+        "org-babel": "org-babel",
+        "twist": "twist"
+      }
+    },
+    "twist": {
+      "inputs": {
+        "elisp-helpers": "elisp-helpers",
+        "fromElisp": "fromElisp"
+      },
+      "locked": {
+        "lastModified": 1669443990,
+        "narHash": "sha256-KJ30MFXE6RXx4JceOu/6svpuj74ZXesA2UdW08ovgi4=",
+        "owner": "emacs-twist",
+        "repo": "twist.nix",
+        "rev": "1bda641feb63ea7ca4feec28b3796c4488d95dbd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emacs-twist",
+        "repo": "twist.nix",
+        "type": "github"
       }
     },
     "utils": {

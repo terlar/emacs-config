@@ -1,0 +1,2 @@
+(explain-pause-mode :fetcher github
+                    :repo "lastquestion/explain-pause-mode")
