@@ -2300,11 +2300,6 @@ Refactoring commands for various languages.
     (interactive)
     (pop-to-buffer (cider-current-repl nil 'ensure)))
 
-  (defun js-repl ()
-    "Open a JavaScript REPL."
-    (interactive)
-    (if (indium-client-process-live-p) (indium-switch-to-repl-buffer) (nodejs-repl)))
-
   (defun lua-repl ()
     "Open a Lua REPL."
     (interactive)
@@ -2321,7 +2316,7 @@ Refactoring commands for various languages.
           (clojure-mode . clojure-repl)
           (elm-mode . elm-repl-load)
           (go-mode . gorepl-run)
-          (js-mode . js-repl)
+          (js-mode . nodejs-repl)
           (lua-mode . lua-repl)
           (nix-mode . nix-repl)
           (racket-mode . racket-repl)
@@ -3048,15 +3043,6 @@ Preview org-file in an ~eww~ buffer.
 (use-package org-preview-html :ensure t)
 #+end_src
 
-**** org-radiobutton
-Support for radiobuttons.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-radiobutton
-  :ensure t
-  :hook
-  (org-mode-hook . org-radiobutton-mode))
-#+end_src
-
 **** org-tree-slide
 Presentation mode.
 #+begin_src emacs-lisp :tangle yes
@@ -3297,27 +3283,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.elixir\\'"
   "\\.ex\\'"
   "\\.exs\\'")
-#+end_src
-
-*** Packages
-**** alchemist
-#+begin_src emacs-lisp :tangle yes
-(use-package alchemist
-  :ensure t
-  :hook
-  (elixir-mode-hook . alchemist-mode)
-  :general
-  (:keymaps
-   'alchemist-mode-map
-   :prefix nav-prefix
-   "k" 'alchemist-help-search-at-point)
-  (:keymaps
-   'alchemist-mode-map
-   :prefix local-leader-key
-   "r" 'alchemist-iex-run
-   "s" 'alchemist-mix-test
-   "t" 'alchemist-mix-test-at-point
-   "T" 'alchemist-mix-test-this-buffer))
 #+end_src
 
 ** elm
@@ -3564,33 +3529,6 @@ Persist REPL history.
   :init
   (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
   (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
-#+end_src
-
-**** indium
-Debugger
-#+begin_src emacs-lisp :tangle yes
-(use-package indium
-  :ensure t
-  :commands
-  (indium-interaction-mode
-   indium-client-process-live-p
-   indium-switch-to-repl-buffer)
-  :preface
-  (defun +indium-interaction-unless-json-mode ()
-    (unless (derived-mode-p 'json-mode) (indium-interaction-mode)))
-  :hook
-  (js-mode-hook . +indium-interaction-unless-json-mode)
-  :general
-  (:keymaps
-   'js-mode-map
-   :prefix local-leader-key
-   "s" 'indium-scratch
-   "o" 'indium-launch
-   "O" 'indium-connect)
-  (:keymaps
-   'indium-debugger-mode
-   :definer 'minor-mode
-   "RET" 'indium-debugger-step-over))
 #+end_src
 
 **** jest
