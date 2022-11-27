@@ -3043,15 +3043,6 @@ Preview org-file in an ~eww~ buffer.
 (use-package org-preview-html :ensure t)
 #+end_src
 
-**** org-radiobutton
-Support for radiobuttons.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-radiobutton
-  :ensure t
-  :hook
-  (org-mode-hook . org-radiobutton-mode))
-#+end_src
-
 **** org-tree-slide
 Presentation mode.
 #+begin_src emacs-lisp :tangle yes
