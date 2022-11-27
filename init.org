@@ -3285,27 +3285,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.exs\\'")
 #+end_src
 
-*** Packages
-**** alchemist
-#+begin_src emacs-lisp :tangle yes
-(use-package alchemist
-  :ensure t
-  :hook
-  (elixir-mode-hook . alchemist-mode)
-  :general
-  (:keymaps
-   'alchemist-mode-map
-   :prefix nav-prefix
-   "k" 'alchemist-help-search-at-point)
-  (:keymaps
-   'alchemist-mode-map
-   :prefix local-leader-key
-   "r" 'alchemist-iex-run
-   "s" 'alchemist-mix-test
-   "t" 'alchemist-mix-test-at-point
-   "T" 'alchemist-mix-test-this-buffer))
-#+end_src
-
 ** elm
 #+begin_src emacs-lisp :tangle yes
 (use-package elm-mode
