@@ -1059,6 +1059,7 @@ Completion Overlay Region FUnction.
       (corfu-mode 1)))
   :hook
   (minibuffer-setup-hook . corfu-enable-in-minibuffer)
+  (corfu-mode-hook . corfu-popupinfo-mode)
   :general
   (:keymaps
    'corfu-map
