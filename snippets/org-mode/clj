@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: clj
-# key: clj
-# --
-#+begin_src clojure :sessions
-$0
-#+end_src

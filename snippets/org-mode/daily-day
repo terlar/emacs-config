@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: daily-day
-# key: daily-day			
-# --
-*** `(format-time-string "%Y-%m-%d %A [/]")`
-- [ ] $0

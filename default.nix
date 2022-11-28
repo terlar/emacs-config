@@ -51,12 +51,7 @@ in
     pname = "emacs-config";
     inherit version;
 
-    src = lib.sourceByRegex ./. [
-      "snippets"
-      "snippets/.*"
-      "templates"
-      "templates/.*"
-    ];
+    src = lib.sourceByRegex ./. ["templates"];
 
     dontUnpack = true;
 
@@ -73,6 +68,6 @@ in
       install -D -t $out ${package-quickstart}/share/emacs/site-lisp/*
       install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
       install -D -t $out ${init}/share/emacs/site-lisp/*
-      cp -R $src/{snippets,templates} $out/.
+      install -D -t $out $src/templates
     '';
   }

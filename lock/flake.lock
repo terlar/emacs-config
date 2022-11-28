@@ -3390,6 +3390,7 @@
         "suggest": "suggest",
         "svg-lib": "svg-lib",
         "tablist": "tablist",
+        "tempel": "tempel",
         "terraform-doc": "terraform-doc",
         "terraform-mode": "terraform-mode",
         "theme-magic": "theme-magic",
@@ -3419,9 +3420,6 @@
         "yaml-mode": "yaml-mode",
         "yard-mode": "yard-mode",
         "yari": "yari",
-        "yasnippet": "yasnippet",
-        "yasnippet-snippets": "yasnippet-snippets",
-        "yatemplate": "yatemplate",
         "zoom-window": "zoom-window"
       }
     },
@@ -3774,6 +3772,22 @@
       "original": {
         "owner": "politza",
         "repo": "tablist",
+        "type": "github"
+      }
+    },
+    "tempel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669524868,
+        "narHash": "sha256-ksg/FChz5h0d/EcRyqgy58CCr7nV5GI7vtlKD54kVwU=",
+        "owner": "minad",
+        "repo": "tempel",
+        "rev": "1203094cad705b4b9c861eee120e57a5a26e6ef1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "minad",
+        "repo": "tempel",
         "type": "github"
       }
     },
@@ -4238,54 +4252,6 @@
       "original": {
         "owner": "hron",
         "repo": "yari.el",
-        "type": "github"
-      }
-    },
-    "yasnippet": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1591238778,
-        "narHash": "sha256-dBOScefnGJAYoqgOL66sIJwxUFXqHEqEZ+8i5urT4bI=",
-        "owner": "joaotavora",
-        "repo": "yasnippet",
-        "rev": "5cbdbf0d2015540c59ed8ee0fcf4788effdf75b6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "joaotavora",
-        "repo": "yasnippet",
-        "type": "github"
-      }
-    },
-    "yasnippet-snippets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1657715671,
-        "narHash": "sha256-/ITJvj3BLY60lqZ0/BrwoBMjz6tyYb+Hde6iWWOwfoQ=",
-        "owner": "AndreaCrotti",
-        "repo": "yasnippet-snippets",
-        "rev": "cd665c9cba4bab646f6d50ac098bee63573a4ca5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "AndreaCrotti",
-        "repo": "yasnippet-snippets",
-        "type": "github"
-      }
-    },
-    "yatemplate": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1636978123,
-        "narHash": "sha256-MTV5V5+mx5dbfyd6Iu1dE3IOJgCRj7g8tyOFX/X+fbY=",
-        "owner": "mineo",
-        "repo": "yatemplate",
-        "rev": "275745ce1482edc08efb0b7807bc86d832bcc734",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mineo",
-        "repo": "yatemplate",
         "type": "github"
       }
     },

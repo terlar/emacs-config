@@ -1,3 +1,0 @@
-{ nixpkgs ? import <nixpkgs> {}, compiler ? "ghc865" }:
-# Generate project.nix via cabal2nix . > project.nix
-nixpkgs.pkgs.haskell.packages.\${compiler}.callPackage ./project.nix { }
