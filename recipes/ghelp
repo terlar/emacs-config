@@ -1,0 +1,2 @@
+(ghelp :fetcher github
+       :repo "casouri/ghelp")

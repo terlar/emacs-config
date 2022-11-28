@@ -15,6 +15,22 @@
     devshell.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    twist.url = "github:emacs-twist/twist.nix";
+    org-babel.url = "github:emacs-twist/org-babel";
+
+    gnu-elpa = {
+      url = "git+https://git.savannah.gnu.org/git/emacs/elpa.git?ref=main";
+      flake = false;
+    };
+    melpa = {
+      url = "github:melpa/melpa";
+      flake = false;
+    };
+    nongnu-elpa = {
+      url = "git+https://git.savannah.gnu.org/git/emacs/nongnu.git?ref=main";
+      flake = false;
+    };
+
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -28,6 +44,11 @@
     devshell,
     emacs-overlay,
     home-manager,
+    twist,
+    org-babel,
+    melpa,
+    gnu-elpa,
+    nongnu-elpa,
     ...
   }:
     flake-parts.lib.mkFlake {inherit self;} {
@@ -40,22 +61,46 @@
 
       flake = {
         overlays.default = nixpkgs.lib.composeManyExtensions [
-          emacs-overlay.overlays.default
+          emacs-overlay.overlays.emacs
+          org-babel.overlay
+          twist.overlay
           (final: prev: {
-            emacsEnv = final.emacsWithPackagesFromUsePackage {
-              package = final.emacsPgtkNativeComp;
+            emacsEnv =
+              (final.emacsTwist {
+                emacsPackage = final.emacsPgtkNativeComp.overrideAttrs (_: {version = "29.0.50";});
 
-              config = ./init.org;
-              alwaysEnsure = false;
-              override = final.callPackage ./nix/overrides.nix {};
-            };
+                initFiles = [(final.tangleOrgBabelFile "init.el" ./init.org {})];
 
-            emacsConfig = (prev.emacsPackagesFor final.emacsEnv.emacs).callPackage ./. ({
-                packageRequires = final.emacsEnv.explicitRequires;
-              }
-              // nixpkgs.lib.optionalAttrs (self ? lastModifiedDate) {
-                version = nixpkgs.lib.substring 0 8 self.lastModifiedDate;
+                lockDir = ./lock;
+                inventories = import ./nix/inventories.nix {
+                  inherit self;
+                  emacsSrc = final.emacsPgtkNativeComp.src.outPath;
+                };
+
+                inputOverrides = import ./nix/inputOverrides.nix;
+              })
+              .overrideScope' (tfinal: tprev: {
+                elispPackages = tprev.elispPackages.overrideScope' (
+                  prev.callPackage ./nix/packageOverrides.nix {inherit (tprev) emacs;}
+                );
               });
+
+            emacsConfig = let
+              emacs = let
+                self =
+                  final.emacsEnv
+                  // {
+                    inherit (final.emacsEnv.emacs) meta;
+                    overrideAttrs = _: self;
+                  };
+              in
+                self;
+
+              attrs = nixpkgs.lib.optionalAttrs (self ? lastModifiedDate) {
+                version = nixpkgs.lib.substring 0 8 self.lastModifiedDate;
+              };
+            in
+              (prev.emacsPackagesFor emacs).callPackage ./. attrs;
           })
         ];
         homeManagerModules = {emacsConfig = import ./nix/home-manager.nix;};
@@ -75,6 +120,10 @@
 
         checks.build-config = config.packages.emacsConfig;
         checks.build-env = config.packages.emacsEnv;
+
+        apps = config.legacyPackages.emacsEnv.makeApps {
+          lockDirName = "lock";
+        };
       };
     };
 }
