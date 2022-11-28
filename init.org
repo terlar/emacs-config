@@ -90,7 +90,7 @@ of hooks.
 (setq initial-major-mode 'fundamental-mode)
 #+end_src
 
-Disable =package.el= support. Packages are managed via Nix and this gives a slight
+Disable =package.el= support. Packages are managed via Nix and disabling this gives a slight
 performance boost.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq package-enable-at-startup nil)
