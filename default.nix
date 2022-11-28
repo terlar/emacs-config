@@ -6,21 +6,6 @@
   emacs-all-the-icons-fonts,
   ripgrep,
 }: let
-  package-quickstart = trivialBuild {
-    pname = "config-package-quickstart";
-    inherit version;
-
-    dontUnpack = true;
-
-    buildPhase = ''
-      emacs --batch --quick \
-        --load package \
-        --eval '(setq package-quickstart-file "package-quickstart.el")' \
-        --eval '(setq package-quickstart t)' \
-        --funcall package-quickstart-refresh
-    '';
-  };
-
   lisp = trivialBuild {
     pname = "config-lisp";
     inherit version;
@@ -61,11 +46,10 @@ in
     ];
 
     passthru.components = {
-      inherit package-quickstart lisp init;
+      inherit lisp init;
     };
 
     installPhase = ''
-      install -D -t $out ${package-quickstart}/share/emacs/site-lisp/*
       install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
       install -D -t $out ${init}/share/emacs/site-lisp/*
       install -D -t $out $src/templates

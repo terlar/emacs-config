@@ -90,6 +90,12 @@ of hooks.
 (setq initial-major-mode 'fundamental-mode)
 #+end_src
 
+Disable =package.el= support. Packages are managed via Nix and this gives a slight
+performance boost.
+#+begin_src emacs-lisp :tangle early-init.el
+(setq package-enable-at-startup nil)
+#+end_src
+
 ** UI
 Disable GUI components.
 #+begin_src emacs-lisp :tangle early-init.el
@@ -143,12 +149,6 @@ Provide a location where Emacs can store data and cache.
     (or (getenv "XDG_PICTURES_DIR")
         (expand-file-name "~/Pictures/"))
     "Directory for pictures."))
-#+end_src
-
-** Package management
-Use generated package autoloads. These will be provided by the Nix package.
-#+begin_src emacs-lisp :tangle yes
-(defvar package-quickstart t)
 #+end_src
 
 *** Load path
