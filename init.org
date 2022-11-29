@@ -1699,6 +1699,11 @@ Revert buffers when underlying files change.
   (after-init-hook . global-eldoc-mode))
 #+end_src
 
+*** pairable
+#+begin_src emacs-lisp :tangle yes
+(use-package pairable)
+#+end_src
+
 *** rainbow-mode
 Display colors inline.
 #+begin_src emacs-lisp :tangle yes
