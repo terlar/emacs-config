@@ -151,16 +151,6 @@ Provide a location where Emacs can store data and cache.
     "Directory for pictures."))
 #+end_src
 
-*** Load path
-Add local and private libraries to ~load-path~.
-#+begin_src emacs-lisp :tangle yes
-(eval-and-compile
-  (setq load-path
-        (append (delete-dups load-path)
-                (list (expand-file-name "lisp" user-emacs-directory)
-                      (expand-file-name "private" user-emacs-directory)))))
-#+end_src
-
 *** Customization
 Put custom definitions in a temporary file so it doesn't grow over time. This means all
 customization will disappear upon reboot and instead needs to be managed via the
@@ -509,6 +499,7 @@ Use a bar cursor by default.
 *** Readable typography
 #+begin_src emacs-lisp :tangle yes
 (use-package readable-typo-theme
+  :ensure t
   :demand t
   :init
   (setq readable-typo-theme-default-font-height init-default-font-height)
@@ -524,6 +515,7 @@ Use a bar cursor by default.
 *** Readable monochrome
 #+begin_src emacs-lisp :tangle yes
 (use-package readable-mono-theme
+  :ensure t
   :demand t
   :config
   (load-theme 'readable-mono t))
@@ -1701,7 +1693,7 @@ Revert buffers when underlying files change.
 
 *** pairable
 #+begin_src emacs-lisp :tangle yes
-(use-package pairable)
+(use-package pairable :ensure t)
 #+end_src
 
 *** rainbow-mode
@@ -1718,6 +1710,7 @@ Display colors inline.
 *** readable
 #+begin_src emacs-lisp :tangle yes
 (use-package readable
+  :ensure t
   :hook
   ((eww-mode-hook
     Info-mode-hook

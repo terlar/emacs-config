@@ -1,0 +1,3 @@
+(readable-mono-theme :fetcher github
+                     :repo "terlar/emacs-config"
+                     :files ("lisp/readable-mono-theme.el"))

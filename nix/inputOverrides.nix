@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   bbdb = _: prev: {
     files =
       prev.files
@@ -83,5 +83,21 @@
       # Unused integrations.
       "rustic-flycheck.el"
     ];
+  };
+
+  pairable = _: _: {
+    src = lib.sourceByRegex ../. ["lisp" "lisp/pairable.el"];
+  };
+
+  readable = _: _: {
+    src = lib.sourceByRegex ../. ["lisp" "lisp/readable.el"];
+  };
+
+  readable-mono-theme = _: _: {
+    src = lib.sourceByRegex ../. ["lisp" "lisp/readable-mono-theme.el"];
+  };
+
+  readable-typo-theme = _: _: {
+    src = lib.sourceByRegex ../. ["lisp" "lisp/readable-typo-theme.el"];
   };
 }

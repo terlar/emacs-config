@@ -76,7 +76,7 @@
                   inherit self;
                   emacsSrc = final.emacsPgtkNativeComp.src.outPath;
                 };
-                inputOverrides = import ./nix/inputOverrides.nix;
+                inputOverrides = import ./nix/inputOverrides.nix {inherit (nixpkgs) lib;};
               })
               .overrideScope' (tfinal: tprev: {
                 elispPackages = tprev.elispPackages.overrideScope' (
