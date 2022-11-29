@@ -908,9 +908,6 @@ Display available keybindings in a popup as you press keys.
  :keymaps 'global
  ;; Editing
  "C-z" 'zap-up-to-char
- ;; Files
- "C-c o" 'ff-find-other-file
- "C-c O" 'ff-test-find-other-file
  ;; Region
  "C-x r S" 'sort-lines
  ;; Window
@@ -1925,8 +1922,6 @@ Keep track of bookmarks
   (put 'ff-search-directories
        'safe-local-variable
        (lambda (x) (cl-every #'stringp x))))
-
-(use-package ff-test :demand t)
 #+end_src
 
 *** find-file-rg
@@ -3490,15 +3485,7 @@ Persist REPL history.
 (use-package js
   :mode
   ("\\.js[mx]?\\'" . javascript-mode)
-  ("\\.har\\'" . javascript-mode)
-  :preface
-  (defun init-js-find-file ()
-    "Setup `ff-test-find-other-file' support for `js-mode'."
-    (setq ff-test-search-implementation-project-directories '("src")
-          ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
-  :hook
-  (js-mode-hook . init-js-find-file))
+  ("\\.har\\'" . javascript-mode))
 #+end_src
 
 *** Packages
@@ -3600,14 +3587,6 @@ REPL for nodejs.
   :ensure t
   :preface
   (autoload 'slime-load-file "slime")
-  (autoload 'ff-test-other-file-name "ff-test")
-
-  (defun slime-load-file-and-other-file ()
-    "Load buffer file and then load other (test) file."
-    (interactive)
-    (dolist (file `(,buffer-file-name ,(ff-test-other-file-name)))
-      (when (and file (file-exists-p file))
-        (slime-load-file file))))
   :hook
   (lisp-mode-hook . slime-mode)
   :general
@@ -3618,8 +3597,7 @@ REPL for nodejs.
   (:keymaps
    'slime-mode-map
    :prefix local-leader-key
-   "o" 'slime
-   "t" 'slime-load-file-and-other-file)
+   "o" 'slime)
   :init
   (setq slime-contribs '(slime-fancy slime-repl)))
 #+end_src
@@ -3910,14 +3888,6 @@ Pretty check-boxes as well as bullet lists.
 ** ruby
 #+begin_src emacs-lisp :tangle yes
 (use-package ruby-mode
-  :preface
-  (defun init-ruby-find-file ()
-    "Setup `ff-test-find-other-file' support for `ruby-mode'."
-    (setq ff-test-suffixes '("_test" "_spec")
-          ff-test-search-implementation-project-directories '("app" "lib")
-          ff-test-search-test-project-directories '("test" "spec")))
-  :hook
-  (ruby-mode-hook . init-ruby-find-file)
   :init
   (setq ruby-align-chained-calls t)
   :config
@@ -4108,14 +4078,6 @@ Pretty check-boxes as well as bullet lists.
 (use-package typescript-mode
   :ensure t
   :mode "\\.ts$"
-  :preface
-  (defun init-typescript-find-file ()
-    "Setup `ff-test-find-other-file' support for `typescript-mode'."
-    (setq ff-test-search-implementation-project-directories '("src")
-          ff-test-search-test-directories '("." "__tests__")
-          ff-test-search-test-project-directories '("test" "spec" "__tests__")))
-  :hook
-  (typescript-mode-hook . init-typescript-find-file)
   :general
   (:keymaps
    'typescript-mode-map
@@ -4598,6 +4560,14 @@ Packages that I am currently testing or evaluating.
           "Output\\*$"
           help-mode
           compilation-mode)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package related-files
+  :ensure t
+  :general
+  ("C-x j" 'related-files-jump
+   "C-x J" 'related-files-make))
 #+end_src
 
 ** shrface

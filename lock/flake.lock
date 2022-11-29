@@ -3120,6 +3120,22 @@
         "type": "github"
       }
     },
+    "related-files": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669400695,
+        "narHash": "sha256-qJT5TTmyI/VQ95/CpDrZ0647s3O/qHuAYfNYS+PoB1k=",
+        "owner": "DamienCassou",
+        "repo": "related-files",
+        "rev": "0c2e38d0bb0db45a50a082d3e8362c07fc60a1f2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DamienCassou",
+        "repo": "related-files",
+        "type": "github"
+      }
+    },
     "relative-buffers": {
       "flake": false,
       "locked": {
@@ -3365,6 +3381,7 @@
         "redtick": "redtick",
         "reformatter": "reformatter",
         "rego-mode": "rego-mode",
+        "related-files": "related-files",
         "relative-buffers": "relative-buffers",
         "repl-toggle": "repl-toggle",
         "request": "request",
