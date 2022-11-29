@@ -1,43 +1,44 @@
 {
-  version ? "dev",
   lib,
   stdenv,
   trivialBuild,
   emacs-all-the-icons-fonts,
   ripgrep,
+  xorg,
 }: let
-  lisp = trivialBuild {
-    pname = "config-lisp";
-    inherit version;
-    src = lib.sourceFilesBySuffices ./lisp [".el"];
-  };
-
   init = trivialBuild {
     pname = "config-init";
-    inherit version;
 
-    src = lib.sourceByRegex ./. ["init.org" "lisp" "lisp/.*.el$"];
+    src = lib.sourceByRegex ./. ["init.org"];
 
-    buildPhase = ''
+    preBuild = ''
       emacs --batch --quick \
         --load org \
         *.org \
         --funcall org-babel-tangle
+    '';
 
-      mkdir -p .xdg-config
-      ln -s $PWD .xdg-config/emacs
-      export XDG_CONFIG_HOME="$PWD/.xdg-config"
+    buildPhase = ''
+      runHook preBuild
 
+      export HOME="$(mktemp -d)"
       emacs -L . --batch --eval '(setq byte-compile-error-on-warn t)' -f batch-byte-compile *.el
+
+      runHook postBuild
+    '';
+
+    # Temporary hack because the Emacs native load path is not respected.
+    fixupPhase = ''
+      if [ -d "$HOME/.emacs.d/eln-cache" ]; then
+        mv $HOME/.emacs.d/eln-cache/* $out/share/emacs/native-lisp
+      fi
     '';
   };
 in
   stdenv.mkDerivation {
-    pname = "emacs-config";
-    inherit version;
+    name = "emacs-config";
 
     src = lib.sourceByRegex ./. ["templates"];
-
     dontUnpack = true;
 
     buildInputs = [
@@ -46,12 +47,18 @@ in
     ];
 
     passthru.components = {
-      inherit lisp init;
+      inherit init;
     };
 
     installPhase = ''
-      install -D -t $out/lisp ${lisp}/share/emacs/site-lisp/*
-      install -D -t $out ${init}/share/emacs/site-lisp/*
+      mkdir -p $out
+      ${xorg.lndir}/bin/lndir -silent ${init}/share/emacs/site-lisp $out
+
+      if [ -d "${init}/share/emacs/native-lisp" ]; then
+        mkdir -p $out/eln-cache
+        ${xorg.lndir}/bin/lndir -silent ${init}/share/emacs/native-lisp $out/eln-cache
+      fi
+
       install -D -t $out $src/templates
     '';
   }

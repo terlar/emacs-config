@@ -84,22 +84,11 @@
                 );
               });
 
-            emacsConfig = let
-              emacs = let
-                self =
-                  final.emacsEnv
-                  // {
-                    inherit (final.emacsEnv.emacs) meta;
-                    overrideAttrs = _: self;
-                  };
-              in
-                self;
-
-              attrs = nixpkgs.lib.optionalAttrs (self ? lastModifiedDate) {
-                version = nixpkgs.lib.substring 0 8 self.lastModifiedDate;
+            emacsConfig = prev.callPackage self {
+              trivialBuild = final.callPackage "${nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
+                emacs = (x: x // {inherit (x.emacs) meta nativeComp;}) final.emacsEnv;
               };
-            in
-              (prev.emacsPackagesFor emacs).callPackage ./. attrs;
+            };
           })
         ];
         homeManagerModules = {emacsConfig = import ./nix/home-manager.nix;};
