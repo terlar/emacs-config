@@ -76,7 +76,6 @@
                   inherit self;
                   emacsSrc = final.emacsPgtkNativeComp.src.outPath;
                 };
-
                 inputOverrides = import ./nix/inputOverrides.nix;
               })
               .overrideScope' (tfinal: tprev: {

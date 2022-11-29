@@ -3586,30 +3586,19 @@ REPL for nodejs.
 #+end_src
 
 *** Packages
-**** slime
-#+begin_src emacs-lisp :tangle no
-(use-package slime
-  :ensure t
-  :preface
-  (autoload 'slime-load-file "slime")
-  :hook
-  (lisp-mode-hook . slime-mode)
-  :general
-  (:keymaps
-   'slime-mode-map
-   :prefix nav-prefix
-   "k" 'slime-describe-symbol)
-  (:keymaps
-   'slime-mode-map
-   :prefix local-leader-key
-   "o" 'slime)
-  :init
-  (setq slime-contribs '(slime-fancy slime-repl)))
-#+end_src
-
 **** sly
 #+begin_src emacs-lisp :tangle yes
-(use-package sly :ensure t)
+(use-package sly
+  :ensure t
+  :general
+  (:keymaps
+   'sly-mode-map
+   :prefix nav-prefix
+   "k" 'sly-describe-symbol)
+  (:keymaps
+   'sly-mode-map
+   :prefix local-leader-key
+   "o" 'sly))
 #+end_src
 
 ** lua
