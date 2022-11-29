@@ -3599,6 +3599,8 @@ REPL for nodejs.
    'sly-mode-map
    :prefix local-leader-key
    "o" 'sly))
+
+(use-package sly-quicklisp :ensure t)
 #+end_src
 
 ** lua

@@ -3396,6 +3396,7 @@
         "sesman": "sesman",
         "shrface": "shrface",
         "sly": "sly",
+        "sly-quicklisp": "sly-quicklisp",
         "smartparens": "smartparens",
         "source-peek": "source-peek",
         "spark": "spark",
@@ -3613,6 +3614,22 @@
       "original": {
         "owner": "joaotavora",
         "repo": "sly",
+        "type": "github"
+      }
+    },
+    "sly-quicklisp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1638784132,
+        "narHash": "sha256-YIP4yIuYFPXTs3GODcJuf9txDen0LX/3Ouvf9TTTEo8=",
+        "owner": "joaotavora",
+        "repo": "sly-quicklisp",
+        "rev": "34c73d43dd9066262387c626c17a9b486db07b2d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "joaotavora",
+        "repo": "sly-quicklisp",
         "type": "github"
       }
     },

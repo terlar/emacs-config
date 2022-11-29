@@ -1251,6 +1251,12 @@
       repo = "sly";
       type = "github";
     };
+    sly-quicklisp = {
+      flake = false;
+      owner = "joaotavora";
+      repo = "sly-quicklisp";
+      type = "github";
+    };
     smartparens = {
       flake = false;
       owner = "Fuco1";
