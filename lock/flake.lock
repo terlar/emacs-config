@@ -2755,15 +2755,15 @@
     "packed": {
       "flake": false,
       "locked": {
-        "lastModified": 1668953238,
-        "narHash": "sha256-wG6f4r5y7YwnJcooFCYnjlOafCDCnTAGzGTDbqYvUkQ=",
-        "owner": "emacscollective",
+        "lastModified": 1669847330,
+        "narHash": "sha256-3ba+IkCAqDwbctICkg+ObMTwmHsM+N1/4lWX3JVfbfg=",
+        "owner": "emacsorphanage",
         "repo": "packed",
-        "rev": "c0d075fa02424b39bd5a3492167f914b8522f686",
+        "rev": "169064f7acfe198cc7dd43d02518b773691e1314",
         "type": "github"
       },
       "original": {
-        "owner": "emacscollective",
+        "owner": "emacsorphanage",
         "repo": "packed",
         "type": "github"
       }
@@ -2781,6 +2781,22 @@
       "original": {
         "owner": "purcell",
         "repo": "page-break-lines",
+        "type": "github"
+      }
+    },
+    "pairable": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669729435,
+        "narHash": "sha256-uDEQoS/JTvN8CgqmGC2H3FAGVAYvvZJvJ1ev6bzk+88=",
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "rev": "991a8f84bf29d2d291a5ef35f15e602116338085",
+        "type": "github"
+      },
+      "original": {
+        "owner": "terlar",
+        "repo": "emacs-config",
         "type": "github"
       }
     },
@@ -3072,6 +3088,54 @@
         "type": "github"
       }
     },
+    "readable": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669729435,
+        "narHash": "sha256-uDEQoS/JTvN8CgqmGC2H3FAGVAYvvZJvJ1ev6bzk+88=",
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "rev": "991a8f84bf29d2d291a5ef35f15e602116338085",
+        "type": "github"
+      },
+      "original": {
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "type": "github"
+      }
+    },
+    "readable-mono-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669729435,
+        "narHash": "sha256-uDEQoS/JTvN8CgqmGC2H3FAGVAYvvZJvJ1ev6bzk+88=",
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "rev": "991a8f84bf29d2d291a5ef35f15e602116338085",
+        "type": "github"
+      },
+      "original": {
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "type": "github"
+      }
+    },
+    "readable-typo-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669729435,
+        "narHash": "sha256-uDEQoS/JTvN8CgqmGC2H3FAGVAYvvZJvJ1ev6bzk+88=",
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "rev": "991a8f84bf29d2d291a5ef35f15e602116338085",
+        "type": "github"
+      },
+      "original": {
+        "owner": "terlar",
+        "repo": "emacs-config",
+        "type": "github"
+      }
+    },
     "redtick": {
       "flake": false,
       "locked": {
@@ -3360,6 +3424,7 @@
         "package-lint-flymake": "package-lint-flymake",
         "packed": "packed",
         "page-break-lines": "page-break-lines",
+        "pairable": "pairable",
         "paredit": "paredit",
         "parseclj": "parseclj",
         "parseedn": "parseedn",
@@ -3378,6 +3443,9 @@
         "rainbow-delimiters": "rainbow-delimiters",
         "rainbow-identifiers": "rainbow-identifiers",
         "rake": "rake",
+        "readable": "readable",
+        "readable-mono-theme": "readable-mono-theme",
+        "readable-typo-theme": "readable-typo-theme",
         "redtick": "redtick",
         "reformatter": "reformatter",
         "rego-mode": "rego-mode",

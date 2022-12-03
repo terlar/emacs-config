@@ -62,19 +62,19 @@
       flake = {
         overlays.default = nixpkgs.lib.composeManyExtensions [
           emacs-overlay.overlays.emacs
-          org-babel.overlay
+          org-babel.overlays.default
           twist.overlay
           (final: prev: {
             emacsEnv =
               (final.emacsTwist {
-                emacsPackage = final.emacsPgtkNativeComp.overrideAttrs (_: {version = "29.0.50";});
+                emacsPackage = final.emacsPgtk.overrideAttrs (_: {version = "30.0.50";});
 
                 initFiles = [(final.tangleOrgBabelFile "init.el" ./init.org {})];
 
                 lockDir = ./lock;
                 inventories = import ./nix/inventories.nix {
                   inherit self;
-                  emacsSrc = final.emacsPgtkNativeComp.src.outPath;
+                  emacsSrc = final.emacsPgtk.src.outPath;
                 };
                 inputOverrides = import ./nix/inputOverrides.nix {inherit (nixpkgs) lib;};
               })
