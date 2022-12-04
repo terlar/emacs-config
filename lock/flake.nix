@@ -1026,7 +1026,7 @@
     };
     packed = {
       flake = false;
-      owner = "emacscollective";
+      owner = "emacsorphanage";
       repo = "packed";
       type = "github";
     };
@@ -1034,6 +1034,12 @@
       flake = false;
       owner = "purcell";
       repo = "page-break-lines";
+      type = "github";
+    };
+    pairable = {
+      flake = false;
+      owner = "terlar";
+      repo = "emacs-config";
       type = "github";
     };
     paredit = {
@@ -1141,6 +1147,24 @@
       flake = false;
       owner = "asok";
       repo = "rake";
+      type = "github";
+    };
+    readable = {
+      flake = false;
+      owner = "terlar";
+      repo = "emacs-config";
+      type = "github";
+    };
+    readable-mono-theme = {
+      flake = false;
+      owner = "terlar";
+      repo = "emacs-config";
+      type = "github";
+    };
+    readable-typo-theme = {
+      flake = false;
+      owner = "terlar";
+      repo = "emacs-config";
       type = "github";
     };
     redtick = {

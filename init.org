@@ -3053,7 +3053,7 @@ This sections makes ~org-mode~ look more beautiful and appealing.
   :hook
   (org-babel-after-execute-hook . org-redisplay-inline-images)
   :init
-  (setq org-catch-invisible-edits 'show-and-error)
+  (setq org-fold-catch-invisible-edits 'show-and-error)
   (setq org-fontify-quote-and-verse-blocks t)
   (setq org-hide-emphasis-markers t)
   (setq org-pretty-entities t)
