@@ -63,7 +63,7 @@
         overlays.default = nixpkgs.lib.composeManyExtensions [
           emacs-overlay.overlays.emacs
           org-babel.overlays.default
-          twist.overlay
+          twist.overlays.default
           (final: prev: {
             emacsEnv =
               (final.emacsTwist {
