@@ -1024,12 +1024,6 @@
       repo = "package-lint";
       type = "github";
     };
-    packed = {
-      flake = false;
-      owner = "emacsorphanage";
-      repo = "packed";
-      type = "github";
-    };
     page-break-lines = {
       flake = false;
       owner = "purcell";
