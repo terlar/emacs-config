@@ -64,17 +64,19 @@
           emacs-overlay.overlays.emacs
           org-babel.overlays.default
           twist.overlays.default
-          (final: prev: {
+          (final: prev: let
+            emacs = final.emacsPgtk.overrideAttrs (_: {version = "30.0.50";});
+          in {
             emacsEnv =
               (final.emacsTwist {
-                emacsPackage = final.emacsPgtk.overrideAttrs (_: {version = "30.0.50";});
+                emacsPackage = emacs;
 
                 initFiles = [(final.tangleOrgBabelFile "init.el" ./init.org {})];
 
                 lockDir = ./lock;
                 inventories = import ./nix/inventories.nix {
                   inherit self;
-                  emacsSrc = final.emacsPgtk.src.outPath;
+                  emacsSrc = emacs.src;
                 };
                 inputOverrides = import ./nix/inputOverrides.nix {inherit (nixpkgs) lib;};
               })
