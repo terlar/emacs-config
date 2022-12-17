@@ -65,7 +65,7 @@
           org-babel.overlays.default
           twist.overlays.default
           (final: prev: let
-            emacs = final.emacsPgtk.overrideAttrs (_: {version = "30.0.50";});
+            emacs = final.emacsPgtk;
           in {
             emacsEnv =
               (final.emacsTwist {
