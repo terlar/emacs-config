@@ -91,12 +91,6 @@
       repo = "elisp";
       type = "github";
     };
-    bind-key = {
-      flake = false;
-      owner = "jwiegley";
-      repo = "use-package";
-      type = "github";
-    };
     browse-at-remote = {
       flake = false;
       owner = "rmuslimov";
@@ -1386,12 +1380,6 @@
       flake = false;
       owner = "emacs-typescript";
       repo = "typescript.el";
-      type = "github";
-    };
-    use-package = {
-      flake = false;
-      owner = "jwiegley";
-      repo = "use-package";
       type = "github";
     };
     valign = {
