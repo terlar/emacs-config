@@ -37,21 +37,17 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
+  outputs = inputs@{
     flake-parts,
-    devshell,
     emacs-overlay,
-    home-manager,
-    twist,
-    org-babel,
     melpa,
-    gnu-elpa,
-    nongnu-elpa,
+    nixpkgs,
+    org-babel,
+    self,
+    twist,
     ...
   }:
-    flake-parts.lib.mkFlake {inherit self;} {
+    flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
       imports = [
