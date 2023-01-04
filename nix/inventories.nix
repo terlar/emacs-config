@@ -1,6 +1,7 @@
-{ self, emacsSrc }:
-
-[
+{
+  self,
+  emacsSrc,
+}: [
   {
     name = "custom";
     type = "melpa";

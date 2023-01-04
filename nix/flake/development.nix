@@ -13,6 +13,8 @@
       check.enable = true;
       settings = {
         hooks.alejandra.enable = true;
+        settings.alejandra.exclude = ["lock"];
+
         hooks.deadnix.enable = true;
 
         hooks.statix.enable = true;

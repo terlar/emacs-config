@@ -6,7 +6,7 @@
   python3,
   pywal,
   substituteAll,
-}: final: prev: {
+}: _final: prev: {
   bbdb = prev.bbdb.overrideAttrs (old: {
     preBuild = ''
       substituteInPlace bbdb-site.el.in \
