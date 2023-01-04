@@ -10,9 +10,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     devshell.url = "github:numtide/devshell";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     devshell.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     twist.url = "github:emacs-twist/twist.nix";
@@ -37,10 +39,9 @@
     };
   };
 
-  outputs = inputs@{
+  outputs = inputs @ {
     flake-parts,
     emacs-overlay,
-    melpa,
     nixpkgs,
     org-babel,
     self,
@@ -76,7 +77,7 @@
                 };
                 inputOverrides = import ./nix/inputOverrides.nix {inherit (nixpkgs) lib;};
               })
-              .overrideScope' (tfinal: tprev: {
+              .overrideScope' (_tfinal: tprev: {
                 elispPackages = tprev.elispPackages.overrideScope' (
                   prev.callPackage ./nix/packageOverrides.nix {inherit (tprev) emacs;}
                 );

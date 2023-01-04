@@ -1,4 +1,6 @@
-{self, ...}: {
+{inputs, ...}: {
+  imports = [inputs.pre-commit-hooks.flakeModule];
+
   perSystem = {
     config,
     pkgs,
@@ -7,8 +9,21 @@
   }: {
     formatter = pkgs.alejandra;
 
+    pre-commit = {
+      check.enable = true;
+      settings = {
+        hooks.alejandra.enable = true;
+        hooks.deadnix.enable = true;
+
+        hooks.statix.enable = true;
+        settings.statix.ignore = ["lock"];
+      };
+    };
+
     devShells.default = inputs'.devshell.legacyPackages.mkShell {
       name = "emacs-config-dev";
+
+      devshell.startup.pre-commit-install.text = config.pre-commit.installationScript;
 
       packages = [pkgs.gdb pkgs.git pkgs.nixVersions.stable];
 

@@ -97,7 +97,7 @@ in {
     {
       services.emacs = {
         enable = cfg.enableServer;
-        package = cfg.package;
+        inherit (cfg) package;
         socketActivation.enable = true;
       };
 
