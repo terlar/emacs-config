@@ -963,11 +963,11 @@
     "envrc": {
       "flake": false,
       "locked": {
-        "lastModified": 1670491926,
-        "narHash": "sha256-Kic9vN9jsYylZbboFSlqSKczGY5/OV3vATvc3bCKCbY=",
+        "lastModified": 1672903192,
+        "narHash": "sha256-IEYhOOZ2Do90GXX4QJPFMy4gCQvBOAvKfFb3NMtEU24=",
         "owner": "purcell",
         "repo": "envrc",
-        "rev": "417285c4e259abab8ae43e2d72b0e1110563efbc",
+        "rev": "1954e8c0b5c8440ea9852eeb7c046a677fa544f6",
         "type": "github"
       },
       "original": {
