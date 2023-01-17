@@ -2624,6 +2624,7 @@ Generic Language Server Protocol integration via ~eglot~.
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
   (setq eglot-sync-connect nil)
+  :config
   (cl-pushnew '(elixir-mode . ("elixir-ls")) eglot-server-programs :test #'equal))
 #+end_src
 
