@@ -2600,7 +2600,8 @@ Generic Language Server Protocol integration via ~eglot~.
   (defun +eglot-ensure-unless-json-mode ()
     (unless (derived-mode-p 'json-mode) (eglot-ensure)))
   :hook
-  ((haskell-mode-hook
+  ((elixir-mode-hook
+    haskell-mode-hook
     java-mode-hook
     ruby-mode-hook
     rustic-mode-hook
@@ -2622,7 +2623,8 @@ Generic Language Server Protocol integration via ~eglot~.
   :init
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-initiated-edits nil)
-  (setq eglot-sync-connect nil))
+  (setq eglot-sync-connect nil)
+  (cl-pushnew '(elixir-mode . ("elixir-ls")) eglot-server-programs :test #'equal))
 #+end_src
 
 *** hl-todo
