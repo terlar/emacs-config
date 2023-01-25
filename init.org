@@ -2601,6 +2601,7 @@ Generic Language Server Protocol integration via ~eglot~.
     (unless (derived-mode-p 'json-mode) (eglot-ensure)))
   :hook
   ((elixir-mode-hook
+    go-mode-hook
     haskell-mode-hook
     java-mode-hook
     ruby-mode-hook
