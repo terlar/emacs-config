@@ -83,7 +83,7 @@
     bbdb = {
       flake = false;
       type = "git";
-      url = "git://git.savannah.nongnu.org/bbdb.git";
+      url = "https://git.savannah.nongnu.org/git/bbdb.git";
     };
     bibliothek = {
       flake = false;
@@ -153,8 +153,9 @@
     };
     compat = {
       flake = false;
-      type = "git";
-      url = "https://git.sr.ht/~pkal/compat";
+      owner = "emacs-compat";
+      repo = "compat";
+      type = "github";
     };
     consult = {
       flake = false;
@@ -434,8 +435,9 @@
     };
     fish-completion = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/Ambrevar/emacs-fish-completion.git";
+      owner = "Ambrevar";
+      repo = "emacs-fish-completion";
+      type = "gitlab";
     };
     fish-mode = {
       flake = false;
@@ -445,8 +447,9 @@
     };
     fit-text-scale = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/marcowahl/fit-text-scale.git";
+      owner = "marcowahl";
+      repo = "fit-text-scale";
+      type = "gitlab";
     };
     flymake-diagnostic-at-point = {
       flake = false;
@@ -504,8 +507,9 @@
     };
     gcmh = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/koral/gcmh.git";
+      owner = "koral";
+      repo = "gcmh";
+      type = "gitlab";
     };
     general = {
       flake = false;
@@ -521,8 +525,9 @@
     };
     gif-screencast = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/Ambrevar/emacs-gif-screencast.git";
+      owner = "Ambrevar";
+      repo = "emacs-gif-screencast";
+      type = "gitlab";
     };
     git-commit = {
       flake = false;
@@ -1301,8 +1306,9 @@
     };
     stem-reading-mode = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/wavexx/stem-reading-mode.el.git";
+      owner = "wavexx";
+      repo = "stem-reading-mode.el";
+      type = "gitlab";
     };
     string-inflection = {
       flake = false;

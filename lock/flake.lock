@@ -217,11 +217,11 @@
         "rev": "1b121e94871f5d931c75793257db732ba82fdddb",
         "revCount": 1333,
         "type": "git",
-        "url": "git://git.savannah.nongnu.org/bbdb.git"
+        "url": "https://git.savannah.nongnu.org/git/bbdb.git"
       },
       "original": {
         "type": "git",
-        "url": "git://git.savannah.nongnu.org/bbdb.git"
+        "url": "https://git.savannah.nongnu.org/git/bbdb.git"
       }
     },
     "bibliothek": {
@@ -403,17 +403,17 @@
     "compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1669157406,
-        "narHash": "sha256-gF67NJPKM+UtB1glp5mee8R0pSYbJpDr+U2ycC6DLe0=",
-        "ref": "refs/heads/master",
-        "rev": "1573aa2e6d478c30cc7f394b72cbaa4db77ef811",
-        "revCount": 418,
-        "type": "git",
-        "url": "https://git.sr.ht/~pkal/compat"
+        "lastModified": 1676134998,
+        "narHash": "sha256-6GMRvwscD86Ltic4cM+5K1LZC938VHoXz9te1MMzot4=",
+        "owner": "emacs-compat",
+        "repo": "compat",
+        "rev": "b2930079f10a843f70a7cb2e4ce0772a5e959180",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~pkal/compat"
+        "owner": "emacs-compat",
+        "repo": "compat",
+        "type": "github"
       }
     },
     "consult": {
@@ -1157,15 +1157,15 @@
       "locked": {
         "lastModified": 1572783014,
         "narHash": "sha256-+Ixrqb+IudqxkXo8HjMcjW8XHM6pL/J/3zrnEMONmJ4=",
-        "ref": "refs/heads/master",
+        "owner": "Ambrevar",
+        "repo": "emacs-fish-completion",
         "rev": "10384881817b5ae38cf6197a077a663420090d2c",
-        "revCount": 39,
-        "type": "git",
-        "url": "https://gitlab.com/Ambrevar/emacs-fish-completion.git"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/Ambrevar/emacs-fish-completion.git"
+        "owner": "Ambrevar",
+        "repo": "emacs-fish-completion",
+        "type": "gitlab"
       }
     },
     "fish-mode": {
@@ -1189,15 +1189,15 @@
       "locked": {
         "lastModified": 1640894574,
         "narHash": "sha256-NyPmPUmEAF2UECm/oRXHai1lT1XyJds/DYCLM0V0SwI=",
-        "ref": "refs/heads/master",
+        "owner": "marcowahl",
+        "repo": "fit-text-scale",
         "rev": "c53c8ce606380088643463848a9ee3502b0c64f4",
-        "revCount": 135,
-        "type": "git",
-        "url": "https://gitlab.com/marcowahl/fit-text-scale.git"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/marcowahl/fit-text-scale.git"
+        "owner": "marcowahl",
+        "repo": "fit-text-scale",
+        "type": "gitlab"
       }
     },
     "flymake-diagnostic-at-point": {
@@ -1349,15 +1349,15 @@
       "locked": {
         "lastModified": 1605567102,
         "narHash": "sha256-RXSs1ANy04eZAoz0ZdVVguNOEPome3AzIX1seNFVAXo=",
-        "ref": "refs/heads/master",
+        "owner": "koral",
+        "repo": "gcmh",
         "rev": "0089f9c3a6d4e9a310d0791cf6fa8f35642ecfd9",
-        "revCount": 34,
-        "type": "git",
-        "url": "https://gitlab.com/koral/gcmh.git"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/koral/gcmh.git"
+        "owner": "koral",
+        "repo": "gcmh",
+        "type": "gitlab"
       }
     },
     "general": {
@@ -1397,15 +1397,15 @@
       "locked": {
         "lastModified": 1657803635,
         "narHash": "sha256-/qC9oM49xddWErRXHqUYIBbD4enUWDm36iBDksCn+m0=",
-        "ref": "refs/heads/master",
+        "owner": "Ambrevar",
+        "repo": "emacs-gif-screencast",
         "rev": "adec408e6adab2e8e057fe0ad828749f473bfb83",
-        "revCount": 42,
-        "type": "git",
-        "url": "https://gitlab.com/Ambrevar/emacs-gif-screencast.git"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/Ambrevar/emacs-gif-screencast.git"
+        "owner": "Ambrevar",
+        "repo": "emacs-gif-screencast",
+        "type": "gitlab"
       }
     },
     "git-commit": {
@@ -3751,15 +3751,15 @@
       "locked": {
         "lastModified": 1653216834,
         "narHash": "sha256-X6XyhjfnXmKkj5xwspwhbCARq2cc3Xyj2cbc7pdxchI=",
-        "ref": "refs/heads/master",
+        "owner": "wavexx",
+        "repo": "stem-reading-mode.el",
         "rev": "6efc9962e3a19a452c7ab9636cf1e2566a51bd38",
-        "revCount": 11,
-        "type": "git",
-        "url": "https://gitlab.com/wavexx/stem-reading-mode.el.git"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/wavexx/stem-reading-mode.el.git"
+        "owner": "wavexx",
+        "repo": "stem-reading-mode.el",
+        "type": "gitlab"
       }
     },
     "string-inflection": {
