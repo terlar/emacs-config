@@ -1062,7 +1062,7 @@ Completion Overlay Region FUnction.
   :init
   (setq corfu-auto t)
   (setq corfu-cycle t)
-  (setq corfu-preselect-first nil)
+  (setq corfu-preselect 'first)
   (global-corfu-mode 1)
   (corfu-indexed-mode 1))
 #+end_src
