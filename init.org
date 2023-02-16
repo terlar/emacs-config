@@ -1160,7 +1160,7 @@ Vertical interactive completion UI.
    "m" 'consult-mark
    "M-m" 'consult-global-mark)
   :init
-  (setq consult-preview-key (kbd "M-RET"))
+  (setq consult-preview-key "M-RET")
   (eval-when-compile (require 'xref))
   (with-eval-after-load 'xref
     (setq xref-show-xrefs-function #'consult-xref)
