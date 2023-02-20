@@ -151,12 +151,6 @@
       repo = "company-mode";
       type = "github";
     };
-    compat = {
-      flake = false;
-      owner = "emacs-compat";
-      repo = "compat";
-      type = "github";
-    };
     consult = {
       flake = false;
       owner = "minad";
@@ -167,12 +161,6 @@
       flake = false;
       owner = "ghosty141";
       repo = "consult-git-log-grep";
-      type = "github";
-    };
-    corfu = {
-      flake = false;
-      owner = "minad";
-      repo = "corfu";
       type = "github";
     };
     coverlay = {
@@ -750,12 +738,6 @@
       repo = "json-snatcher";
       type = "github";
     };
-    kind-icon = {
-      flake = false;
-      owner = "jdtsmith";
-      repo = "kind-icon";
-      type = "github";
-    };
     kotlin-mode = {
       flake = false;
       owner = "Emacs-Kotlin-Mode-Maintainers";
@@ -1292,12 +1274,6 @@
       repo = "spark";
       type = "github";
     };
-    spinner = {
-      flake = false;
-      owner = "Malabarba";
-      repo = "spinner.el";
-      type = "github";
-    };
     spray = {
       flake = false;
       owner = "~iank";
@@ -1326,12 +1302,6 @@
       flake = false;
       owner = "Wilfred";
       repo = "suggest.el";
-      type = "github";
-    };
-    svg-lib = {
-      flake = false;
-      owner = "rougier";
-      repo = "svg-lib";
       type = "github";
     };
     tablist = {
@@ -1400,12 +1370,6 @@
       repo = "vc-msg";
       type = "github";
     };
-    vertico = {
-      flake = false;
-      owner = "minad";
-      repo = "vertico";
-      type = "github";
-    };
     virtual-auto-fill = {
       flake = false;
       owner = "luisgerhorst";
@@ -1439,12 +1403,6 @@
       flake = false;
       owner = "jixiuf";
       repo = "vterm-toggle";
-      type = "github";
-    };
-    vundo = {
-      flake = false;
-      owner = "casouri";
-      repo = "vundo";
       type = "github";
     };
     web-mode = {
