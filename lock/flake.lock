@@ -400,22 +400,6 @@
         "type": "github"
       }
     },
-    "compat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676134998,
-        "narHash": "sha256-6GMRvwscD86Ltic4cM+5K1LZC938VHoXz9te1MMzot4=",
-        "owner": "emacs-compat",
-        "repo": "compat",
-        "rev": "b2930079f10a843f70a7cb2e4ce0772a5e959180",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacs-compat",
-        "repo": "compat",
-        "type": "github"
-      }
-    },
     "consult": {
       "flake": false,
       "locked": {
@@ -445,22 +429,6 @@
       "original": {
         "owner": "ghosty141",
         "repo": "consult-git-log-grep",
-        "type": "github"
-      }
-    },
-    "corfu": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676199864,
-        "narHash": "sha256-7YufbxHIueqA/tFwPN+eTVYipHv+7LnXJEWR3YIuQ+c=",
-        "owner": "minad",
-        "repo": "corfu",
-        "rev": "1575e42dd5aa9a10932e6f2ecd063968210c258b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "minad",
-        "repo": "corfu",
         "type": "github"
       }
     },
@@ -2000,22 +1968,6 @@
         "type": "github"
       }
     },
-    "kind-icon": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1675630408,
-        "narHash": "sha256-gjdm5JrQioMgjpW0dw9mwSBKwGf+7Zgt1Qrh6Gbql0Y=",
-        "owner": "jdtsmith",
-        "repo": "kind-icon",
-        "rev": "00f36b892800a06c39ad98145d77026c8b6d6508",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jdtsmith",
-        "repo": "kind-icon",
-        "type": "github"
-      }
-    },
     "kotlin-mode": {
       "flake": false,
       "locked": {
@@ -3243,10 +3195,8 @@
         "color-identifiers-mode": "color-identifiers-mode",
         "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
         "company": "company",
-        "compat": "compat",
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
-        "corfu": "corfu",
         "coverlay": "coverlay",
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
@@ -3343,7 +3293,6 @@
         "json-mode": "json-mode",
         "json-navigator": "json-navigator",
         "json-snatcher": "json-snatcher",
-        "kind-icon": "kind-icon",
         "kotlin-mode": "kotlin-mode",
         "kubernetes": "kubernetes",
         "kv": "kv",
@@ -3434,13 +3383,11 @@
         "smartparens": "smartparens",
         "source-peek": "source-peek",
         "spark": "spark",
-        "spinner": "spinner",
         "spray": "spray",
         "stem-reading-mode": "stem-reading-mode",
         "string-inflection": "string-inflection",
         "stripe-buffer": "stripe-buffer",
         "suggest": "suggest",
-        "svg-lib": "svg-lib",
         "tablist": "tablist",
         "tempel": "tempel",
         "terraform-doc": "terraform-doc",
@@ -3452,14 +3399,12 @@
         "typescript-mode": "typescript-mode",
         "valign": "valign",
         "vc-msg": "vc-msg",
-        "vertico": "vertico",
         "virtual-auto-fill": "virtual-auto-fill",
         "visual-fill-column": "visual-fill-column",
         "visual-regexp": "visual-regexp",
         "vlf": "vlf",
         "vterm": "vterm",
         "vterm-toggle": "vterm-toggle",
-        "vundo": "vundo",
         "web-mode": "web-mode",
         "wgrep": "wgrep",
         "wgrep-ag": "wgrep-ag",
@@ -3714,22 +3659,6 @@
         "type": "github"
       }
     },
-    "spinner": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663246199,
-        "narHash": "sha256-Ad6J3xGUWD+WDP3BbsgKvxJb90VMOkjJuIt/fhBu+rs=",
-        "owner": "Malabarba",
-        "repo": "spinner.el",
-        "rev": "d4647ae87fb0cd24bc9081a3d287c860ff061c21",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Malabarba",
-        "repo": "spinner.el",
-        "type": "github"
-      }
-    },
     "spray": {
       "flake": false,
       "locked": {
@@ -3807,22 +3736,6 @@
       "original": {
         "owner": "Wilfred",
         "repo": "suggest.el",
-        "type": "github"
-      }
-    },
-    "svg-lib": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663752251,
-        "narHash": "sha256-vzP+xTzkDXVsUWcGs2A+hA5HSohKJ5xK2NJMCop/Sc8=",
-        "owner": "rougier",
-        "repo": "svg-lib",
-        "rev": "67d4a38bd724c49ad15806e6ca118236cdb1cf26",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rougier",
-        "repo": "svg-lib",
         "type": "github"
       }
     },
@@ -4002,22 +3915,6 @@
         "type": "github"
       }
     },
-    "vertico": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676215062,
-        "narHash": "sha256-d3S8VHD+kB7ovHtQiG2XLH6W9JWyqfkGGd+fTkDHPNI=",
-        "owner": "minad",
-        "repo": "vertico",
-        "rev": "25bd6f188cadfe987a5e14ae1d09a7da5a510b43",
-        "type": "github"
-      },
-      "original": {
-        "owner": "minad",
-        "repo": "vertico",
-        "type": "github"
-      }
-    },
     "virtual-auto-fill": {
       "flake": false,
       "locked": {
@@ -4111,22 +4008,6 @@
       "original": {
         "owner": "jixiuf",
         "repo": "vterm-toggle",
-        "type": "github"
-      }
-    },
-    "vundo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673924794,
-        "narHash": "sha256-2UWh0NagGcemUeL8W9iq7oNSl9uiKsvMKILOmTAzg7o=",
-        "owner": "casouri",
-        "repo": "vundo",
-        "rev": "12862c673d274adab2b9232a281f64898016c3e4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "casouri",
-        "repo": "vundo",
         "type": "github"
       }
     },
