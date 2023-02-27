@@ -47,6 +47,7 @@
     files = builtins.removeAttrs prev.files [
       # Unused integrations.
       "ghelp-geiser.el"
+      "ghelp-lspce.el"
     ];
 
     packageRequires =
