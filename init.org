@@ -927,7 +927,6 @@ Display available keybindings in a popup as you press keys.
 ** Next
 #+begin_src emacs-lisp :tangle yes
 (autoload 'smerge-next "smerge-mode")
-(autoload 'flyspell-goto-next-error "flyspell")
 
 (general-define-key
  :prefix next-prefix
@@ -935,22 +934,19 @@ Display available keybindings in a popup as you press keys.
  "]" '(text-scale-increase      :wk "Text size")
  "b" '(next-buffer              :wk "Buffer")
  "c" '(smerge-next              :wk "Conflict")
- "e" '(next-error               :wk "Error")
- "s" '(flyspell-goto-next-error :wk "Spell error"))
+ "e" '(next-error               :wk "Error"))
 
 (eval-and-compile
   (defrepeater #'text-scale-increase)
   (defrepeater #'next-buffer)
   (defrepeater #'smerge-next)
-  (defrepeater #'next-error)
-  (defrepeater #'flyspell-goto-next-error))
+  (defrepeater #'next-error))
 
 (general-define-key
  [remap text-scale-increase] 'text-scale-increase-repeat
  [remap next-buffer] 'next-buffer-repeat
  [remap smerge-next] 'smerge-next-repeat
- [remap next-error] 'next-error-repeat
- [remap flyspell-goto-next-error] 'flyspell-goto-next-error-repeat)
+ [remap next-error] 'next-error-repeat)
 #+end_src
 
 ** Previous
@@ -4233,28 +4229,15 @@ it really useful.
 
 ** Spell checking
 #+begin_src emacs-lisp :tangle yes
-(use-package flyspell
-  :hook
-  ((message-mode-hook
-    org-mode-hook
-    text-mode-hook) . flyspell-mode)
-  (prog-mode-hook . flyspell-prog-mode)
-  :general
-  (:keymaps
-   'flyspell-mode-map
-   "C-," 'nil
-   "C-." 'nil)
-  :init
-  (setq flyspell-persistent-highlight nil))
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package flyspell-correct
+(use-package jit-spell
   :ensure t
+  :hook
+  (prog-mode-hook . jit-spell-mode)
+  (text-mode-hook . jit-spell-mode)
   :general
   (:keymaps
-   'flyspell-mode-map
-   "C-;" 'flyspell-correct-wrapper))
+   'jit-spell-mode-map
+   "C-;" 'jit-spell-correct-word))
 #+end_src
 
 Automatic language detection that updates the spell checker.
