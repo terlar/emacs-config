@@ -403,11 +403,11 @@
     "consult": {
       "flake": false,
       "locked": {
-        "lastModified": 1677485199,
-        "narHash": "sha256-ttCO8dJhYSjUre0brQhJ1aUXvbp/8Cv5ukfg0Mc9nAU=",
+        "lastModified": 1678111838,
+        "narHash": "sha256-yskQpsrKqSfvI+asrBOXz0Qk2vsa4Gt89QRZbsjV4a0=",
         "owner": "minad",
         "repo": "consult",
-        "rev": "c98dc3bc772dcc549312d9c114c5c174e18cecf8",
+        "rev": "e6469a790ed72224a99e5e1e23ae95b2ac0b48df",
         "type": "github"
       },
       "original": {
