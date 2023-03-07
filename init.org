@@ -2604,7 +2604,7 @@ Generic Language Server Protocol integration via ~eglot~.
     go-mode-hook
     haskell-mode-hook
     java-mode-hook
-    nix-mode
+    nix-mode-hook
     ruby-mode-hook
     rustic-mode-hook
     typescript-mode-hook) . eglot-ensure)
