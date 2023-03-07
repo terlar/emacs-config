@@ -487,12 +487,6 @@
       repo = "flymake-shellcheck";
       type = "github";
     };
-    flyspell-correct = {
-      flake = false;
-      owner = "d12frosted";
-      repo = "flyspell-correct";
-      type = "github";
-    };
     focus = {
       flake = false;
       owner = "larstvei";
@@ -729,6 +723,12 @@
       flake = false;
       owner = "Emiller88";
       repo = "emacs-jest";
+      type = "github";
+    };
+    jit-spell = {
+      flake = false;
+      owner = "astoff";
+      repo = "jit-spell";
       type = "github";
     };
     js2-mode = {
