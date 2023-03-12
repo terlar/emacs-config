@@ -99,6 +99,7 @@ in {
         enable = cfg.enableServer;
         inherit (cfg) package;
         socketActivation.enable = true;
+        extraOptions = ["--no-desktop"];
       };
 
       programs.git.extraConfig = {
