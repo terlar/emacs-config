@@ -1341,7 +1341,7 @@
     };
     tablist = {
       flake = false;
-      owner = "politza";
+      owner = "emacsorphanage";
       repo = "tablist";
       type = "github";
     };
