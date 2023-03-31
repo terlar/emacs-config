@@ -3846,15 +3846,15 @@
     "tablist": {
       "flake": false,
       "locked": {
-        "lastModified": 1588025158,
-        "narHash": "sha256-/xF2bgnPZ7YsrTV5+nT44bgoZAficNDtXfGbJss+F9s=",
-        "owner": "politza",
+        "lastModified": 1679382345,
+        "narHash": "sha256-wiSdo+e9UU9rIWzzEc8JZ8aFCrvNyiPdOsl3XWHedYc=",
+        "owner": "emacsorphanage",
         "repo": "tablist",
-        "rev": "faab7a035ef2258cc4ea2182f67e3aedab7e2af9",
+        "rev": "5f7b71a92bfb25418d7da86ad9c45f14b149496f",
         "type": "github"
       },
       "original": {
-        "owner": "politza",
+        "owner": "emacsorphanage",
         "repo": "tablist",
         "type": "github"
       }
