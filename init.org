@@ -1380,6 +1380,19 @@ Automatic parenthesis pairing and highlighting.
   ([remap cycle-quotes] 'cycle-quotes-repeat))
 #+end_src
 
+*** dtrt-indent
+#+begin_src emacs-lisp :tangle yes
+(use-package dtrt-indent
+  :ensure t
+  :hook
+  (after-init-hook . dtrt-indent-global-mode)
+  :init
+  (setq dtrt-indent-ignore-single-chars-flag t)
+  (setq dtrt-indent-run-after-smie t)
+  (setq dtrt-indent-verbosity 0)
+  (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
+#+end_src
+
 *** goto-addr
 Buttonize URLs and e-mail addresses in the current buffer.
 #+begin_src emacs-lisp :tangle yes
@@ -4446,18 +4459,6 @@ Packages that I am currently testing or evaluating.
   :after magit
   :init
   (setq consult-git-log-grep-open-function #'magit-show-commit))
-#+end_src
-
-** dtrt-indent
-#+begin_src emacs-lisp :tangle yes
-(use-package dtrt-indent
-  :ensure t
-  :hook
-  (after-init-hook . dtrt-indent-global-mode)
-  :init
-  (setq dtrt-indent-ignore-single-chars-flag t)
-  (setq dtrt-indent-run-after-smie t)
-  (setq dtrt-indent-verbosity 0))
 #+end_src
 
 ** eglot-x
