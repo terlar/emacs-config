@@ -1386,6 +1386,7 @@ Automatic parenthesis pairing and highlighting.
   (setq dtrt-indent-ignore-single-chars-flag t)
   (setq dtrt-indent-run-after-smie t)
   (setq dtrt-indent-verbosity 0)
+  :config
   (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
