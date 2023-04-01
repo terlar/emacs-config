@@ -18,7 +18,7 @@ The rough details:
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
-- syntax checker :: flymake
+- syntax checker :: =flymake=
 - persistent undo :: via built-in ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
 
@@ -1302,7 +1302,7 @@ Always display pop up buffers at the bottom and regard all star buffers as such 
   (cl-pushnew rule display-buffer-alist :test #'equal))
 #+end_src
 
-*** Hide async shell command buffers
+*** Hide asynchronous shell command buffers
 #+begin_src emacs-lisp :tangle yes
 (cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
             display-buffer-alist
@@ -1344,7 +1344,7 @@ Automatic parenthesis pairing and highlighting.
 (show-paren-mode 1)
 #+end_src
 
-** Autotyping
+** Auto-typing
 *** tempel
 #+begin_src emacs-lisp :tangle yes
 (use-package tempel
@@ -4584,11 +4584,11 @@ Packages that I am currently testing or evaluating.
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Look into ~set-selective-display~
 ** TODO Look into ~semantic-decoration-mode~
-** TODO Add binding for org-noter
+** TODO Add binding for =org-noter=
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
 ** TODO Improve find char keys
-** TODO Extract history persistance code (persistory)
+** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
@@ -4599,7 +4599,7 @@ Packages that I am currently testing or evaluating.
 ** TODO Use ~ielm~ as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
-** TODO Write ghq tool using ~completing-read~
+** TODO Write =ghq= tool using ~completing-read~
 ** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 ** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
@@ -4608,9 +4608,9 @@ Packages that I am currently testing or evaluating.
 ** TODO Use ChangeLog entries =C-x 4 a=
 ** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
 ** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
-** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with ~edit-last-kbd-macro~.
+** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
-** TODO solarized colorless config?
+** TODO solarized colorless configuration?
 ** TODO Split theme into several sections
 - One theme to set big headers and such things
 - One theme to highlight errors
