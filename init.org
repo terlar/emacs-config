@@ -2201,7 +2201,6 @@ Reformat buffer without moving point.
    :prefix local-leader-key
    "f" 'apheleia-format-buffer)
   :init
-  (put 'apheleia-formatter 'safe-local-variable 'symbolp)
   (eval-after-load 'apheleia-formatters
     '(progn
        (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
