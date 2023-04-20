@@ -2200,16 +2200,14 @@ Reformat buffer without moving point.
    'prog-mode-map
    :prefix local-leader-key
    "f" 'apheleia-format-buffer)
-  :init
-  (eval-after-load 'apheleia-formatters
-    '(progn
-       (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
-                            (nix . ("nix" "fmt" "--" "-"))
-                            (rufo . ("rufo" "--simple-exit"))))
-         (cl-pushnew formatter apheleia-formatters :test #'equal))
-       (dolist (mode-formatter '((nix-mode . nix)
-                                 (ruby-mode . rufo)))
-         (cl-pushnew mode-formatter apheleia-mode-alist :test #'equal)))))
+  :config
+  (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
+                       (nix . ("nix" "fmt" "--" "-"))
+                       (rufo . ("rufo" "--simple-exit"))))
+    (cl-pushnew formatter apheleia-formatters :test #'equal))
+  (dolist (mode-formatter '((nix-mode . nix)
+                            (ruby-mode . rufo)))
+    (cl-pushnew mode-formatter apheleia-mode-alist :test #'equal)))
 #+end_src
 
 ** Jump to definition

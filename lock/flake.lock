@@ -115,11 +115,11 @@
     "apheleia": {
       "flake": false,
       "locked": {
-        "lastModified": 1680125702,
-        "narHash": "sha256-SXxSoQZ1ueWYF/k7UqA1Pnigp+Ha43PoIIEcgym+5Rg=",
+        "lastModified": 1681991219,
+        "narHash": "sha256-DXyICsq/kFcl7UJnImEYPwyNi53FwGsX7o4HqEPlvBo=",
         "owner": "radian-software",
         "repo": "apheleia",
-        "rev": "23c8b7d1ca3d855b38b8fe8bee760fa1234b6143",
+        "rev": "3abce6308e024ca5b4a8f1570d324ec00082f6fe",
         "type": "github"
       },
       "original": {
