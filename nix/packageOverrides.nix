@@ -1,8 +1,10 @@
 {
   cmake,
   emacs,
+  enchant2,
   gcc,
   libvterm-neovim,
+  pkg-config,
   python3,
   pywal,
   substituteAll,
@@ -15,6 +17,24 @@
 
       mv bbdb-site.el{.in,}
     '';
+  });
+
+  jinx = prev.jinx.overrideAttrs (old: {
+    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [pkg-config];
+    buildInputs = (old.buildInputs or []) ++ [enchant2];
+
+    postBuild = ''
+      NIX_CFLAGS_COMPILE="$($PKG_CONFIG --cflags enchant-2) $NIX_CFLAGS_COMPILE"
+      $CC -shared -o jinx-mod.so jinx-mod.c -lenchant-2
+    '';
+
+    postInstall =
+      (old.postInstall or "")
+      + ''
+        outd="$out/share/emacs/site-lisp"
+        install -m444 -t $outd jinx-mod.so
+        rm $outd/jinx-mod.c $outd/emacs-module.h
+      '';
   });
 
   magit = prev.magit.overrideAttrs (old: {
@@ -38,9 +58,7 @@
   vterm = prev.vterm.overrideAttrs (old: {
     nativeBuildInputs = [cmake gcc];
     buildInputs = old.buildInputs ++ [libvterm-neovim];
-    cmakeFlags = [
-      "-DEMACS_SOURCE=${emacs.src}"
-    ];
+    cmakeFlags = ["-DEMACS_SOURCE=${emacs.src}"];
     preBuild = ''
       mkdir -p build
       cd build
