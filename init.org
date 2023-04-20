@@ -2202,15 +2202,15 @@ Reformat buffer without moving point.
    "f" 'apheleia-format-buffer)
   :init
   (put 'apheleia-formatter 'safe-local-variable 'symbolp)
-  :config
-  (progn ;; JavaScript/TypeScript
-    (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
-  (progn ;; Nix
-    (cl-pushnew '(nix . ("nix" "fmt" "--" "-")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
-  (progn ;; Ruby
-    (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
+  (eval-after-load 'apheleia-formatters
+    '(progn
+       (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
+                            (nix . ("nix" "fmt" "--" "-"))
+                            (rufo . ("rufo" "--simple-exit"))))
+         (cl-pushnew formatter apheleia-formatters :test #'equal))
+       (dolist (mode-formatter '((nix-mode . nix)
+                                 (ruby-mode . rufo)))
+         (cl-pushnew mode-formatter apheleia-mode-alist :test #'equal)))))
 #+end_src
 
 ** Jump to definition
