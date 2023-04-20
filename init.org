@@ -4230,15 +4230,13 @@ it really useful.
 
 ** Spell checking
 #+begin_src emacs-lisp :tangle yes
-(use-package jit-spell
+(use-package jinx
   :ensure t
   :hook
-  (prog-mode-hook . jit-spell-mode)
-  (text-mode-hook . jit-spell-mode)
+  (prog-mode-hook . jinx-mode)
+  (text-mode-hook . jinx-mode)
   :general
-  (:keymaps
-   'jit-spell-mode-map
-   "C-;" 'jit-spell-correct-word))
+  ([remap ispell-word] 'jinx-correct))
 #+end_src
 
 Automatic language detection that updates the spell checker.

@@ -343,12 +343,6 @@
       repo = "emacsql";
       type = "github";
     };
-    emacsql-sqlite = {
-      flake = false;
-      owner = "magit";
-      repo = "emacsql";
-      type = "github";
-    };
     embark = {
       flake = false;
       owner = "oantolin";
@@ -723,12 +717,6 @@
       flake = false;
       owner = "Emiller88";
       repo = "emacs-jest";
-      type = "github";
-    };
-    jit-spell = {
-      flake = false;
-      owner = "astoff";
-      repo = "jit-spell";
       type = "github";
     };
     js2-mode = {

@@ -912,22 +912,6 @@
         "type": "github"
       }
     },
-    "emacsql-sqlite": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1677580800,
-        "narHash": "sha256-5hFay/aIwf3xOjGKk//jRCJqlXHG58cG9YRxr5Yn/QY=",
-        "owner": "magit",
-        "repo": "emacsql",
-        "rev": "415dbfd846f46d921a70a351695f0d0e8f75da35",
-        "type": "github"
-      },
-      "original": {
-        "owner": "magit",
-        "repo": "emacsql",
-        "type": "github"
-      }
-    },
     "embark": {
       "flake": false,
       "locked": {
@@ -1933,22 +1917,6 @@
       "original": {
         "owner": "Emiller88",
         "repo": "emacs-jest",
-        "type": "github"
-      }
-    },
-    "jit-spell": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1680195419,
-        "narHash": "sha256-b6oiIU4VzMaN0C3parWWceOHtSa+BF8bIW4RC1V6PYU=",
-        "owner": "astoff",
-        "repo": "jit-spell",
-        "rev": "365003e6e3c25c5e6210a2a4ce0654fa28063a23",
-        "type": "github"
-      },
-      "original": {
-        "owner": "astoff",
-        "repo": "jit-spell",
         "type": "github"
       }
     },
@@ -3291,7 +3259,6 @@
         "elixir-mode": "elixir-mode",
         "elm-mode": "elm-mode",
         "emacsql": "emacsql",
-        "emacsql-sqlite": "emacsql-sqlite",
         "embark": "embark",
         "embark-consult": "embark-consult",
         "emr": "emr",
@@ -3355,7 +3322,6 @@
         "iscroll": "iscroll",
         "javadoc-lookup": "javadoc-lookup",
         "jest": "jest",
-        "jit-spell": "jit-spell",
         "js2-mode": "js2-mode",
         "json-mode": "json-mode",
         "json-navigator": "json-navigator",
