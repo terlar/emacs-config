@@ -2603,7 +2603,6 @@ Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles us
 Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot
-  :ensure t
   :defer 3
   :preface
   (defun +eglot-ensure-unless-json-mode ()
