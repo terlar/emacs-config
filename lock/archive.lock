@@ -41,22 +41,6 @@
     "packageRequires": {},
     "version": "0.1"
   },
-  "jinx": {
-    "archive": {
-      "narHash": "sha256-NA2ulVZuhetCYxwvUgOv8nDAdC9LYFDpj7O42pD/wyI=",
-      "type": "tarball",
-      "url": "https://elpa.gnu.org/packages/jinx-0.6.tar"
-    },
-    "inventory": {
-      "type": "archive",
-      "url": "https://elpa.gnu.org/packages/"
-    },
-    "packageRequires": {
-      "compat": "29.1.4.0",
-      "emacs": "27.1"
-    },
-    "version": "0.6"
-  },
   "queue": {
     "archive": {
       "narHash": "sha256-cbv1sqH7LJXdRZ/teyScnysvsn8/JcaPqrRBc7jGrZw=",

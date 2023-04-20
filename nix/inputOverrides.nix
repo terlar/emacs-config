@@ -79,6 +79,14 @@
     ];
   };
 
+  org-noter = _: prev: {
+    packageRequires =
+      prev.packageRequires
+      // {
+        pdf-tools = "0";
+      };
+  };
+
   rustic = _: prev: {
     files = builtins.removeAttrs prev.files [
       # Unused integrations.
