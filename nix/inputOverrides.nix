@@ -56,7 +56,6 @@
         # Used integrations.
         sly = "0";
         helpful = "0";
-        eglot = "0";
       };
   };
 
