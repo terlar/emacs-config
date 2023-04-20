@@ -18,7 +18,7 @@ The rough details:
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
 - code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
-- syntax checker :: flymake
+- syntax checker :: =flymake=
 - persistent undo :: via built-in ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
 
@@ -927,7 +927,6 @@ Display available keybindings in a popup as you press keys.
 ** Next
 #+begin_src emacs-lisp :tangle yes
 (autoload 'smerge-next "smerge-mode")
-(autoload 'flyspell-goto-next-error "flyspell")
 
 (general-define-key
  :prefix next-prefix
@@ -935,22 +934,19 @@ Display available keybindings in a popup as you press keys.
  "]" '(text-scale-increase      :wk "Text size")
  "b" '(next-buffer              :wk "Buffer")
  "c" '(smerge-next              :wk "Conflict")
- "e" '(next-error               :wk "Error")
- "s" '(flyspell-goto-next-error :wk "Spell error"))
+ "e" '(next-error               :wk "Error"))
 
 (eval-and-compile
   (defrepeater #'text-scale-increase)
   (defrepeater #'next-buffer)
   (defrepeater #'smerge-next)
-  (defrepeater #'next-error)
-  (defrepeater #'flyspell-goto-next-error))
+  (defrepeater #'next-error))
 
 (general-define-key
  [remap text-scale-increase] 'text-scale-increase-repeat
  [remap next-buffer] 'next-buffer-repeat
  [remap smerge-next] 'smerge-next-repeat
- [remap next-error] 'next-error-repeat
- [remap flyspell-goto-next-error] 'flyspell-goto-next-error-repeat)
+ [remap next-error] 'next-error-repeat)
 #+end_src
 
 ** Previous
@@ -1306,7 +1302,7 @@ Always display pop up buffers at the bottom and regard all star buffers as such 
   (cl-pushnew rule display-buffer-alist :test #'equal))
 #+end_src
 
-*** Hide async shell command buffers
+*** Hide asynchronous shell command buffers
 #+begin_src emacs-lisp :tangle yes
 (cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
             display-buffer-alist
@@ -1348,7 +1344,7 @@ Automatic parenthesis pairing and highlighting.
 (show-paren-mode 1)
 #+end_src
 
-** Autotyping
+** Auto-typing
 *** tempel
 #+begin_src emacs-lisp :tangle yes
 (use-package tempel
@@ -1390,6 +1386,7 @@ Automatic parenthesis pairing and highlighting.
   (setq dtrt-indent-ignore-single-chars-flag t)
   (setq dtrt-indent-run-after-smie t)
   (setq dtrt-indent-verbosity 0)
+  :config
   (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
@@ -2204,16 +2201,15 @@ Reformat buffer without moving point.
    :prefix local-leader-key
    "f" 'apheleia-format-buffer)
   :init
-  (put 'apheleia-formatter 'safe-local-variable 'symbolp)
-  :config
-  (progn ;; JavaScript/TypeScript
-    (cl-pushnew '(eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file)) apheleia-formatters :test #'equal))
-  (progn ;; Nix
-    (cl-pushnew '(nix . ("nix" "fmt" "--" "-")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
-  (progn ;; Ruby
-    (cl-pushnew '(rufo . ("rufo" "--simple-exit")) apheleia-formatters :test #'equal)
-    (cl-pushnew '(ruby-mode . rufo) apheleia-mode-alist :test #'equal)))
+  (eval-after-load 'apheleia-formatters
+    '(progn
+       (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
+                            (nix . ("nix" "fmt" "--" "-"))
+                            (rufo . ("rufo" "--simple-exit"))))
+         (cl-pushnew formatter apheleia-formatters :test #'equal))
+       (dolist (mode-formatter '((nix-mode . nix)
+                                 (ruby-mode . rufo)))
+         (cl-pushnew mode-formatter apheleia-mode-alist :test #'equal)))))
 #+end_src
 
 ** Jump to definition
@@ -4233,28 +4229,13 @@ it really useful.
 
 ** Spell checking
 #+begin_src emacs-lisp :tangle yes
-(use-package flyspell
-  :hook
-  ((message-mode-hook
-    org-mode-hook
-    text-mode-hook) . flyspell-mode)
-  (prog-mode-hook . flyspell-prog-mode)
-  :general
-  (:keymaps
-   'flyspell-mode-map
-   "C-," 'nil
-   "C-." 'nil)
-  :init
-  (setq flyspell-persistent-highlight nil))
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package flyspell-correct
+(use-package jinx
   :ensure t
+  :hook
+  (prog-mode-hook . jinx-mode)
+  (text-mode-hook . jinx-mode)
   :general
-  (:keymaps
-   'flyspell-mode-map
-   "C-;" 'flyspell-correct-wrapper))
+  ([remap ispell-word] 'jinx-correct))
 #+end_src
 
 Automatic language detection that updates the spell checker.
@@ -4600,11 +4581,11 @@ Packages that I am currently testing or evaluating.
 ** TODO Look into generic code execution via =isend-mode=
 ** TODO Look into ~set-selective-display~
 ** TODO Look into ~semantic-decoration-mode~
-** TODO Add binding for org-noter
+** TODO Add binding for =org-noter=
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
 ** TODO Improve find char keys
-** TODO Extract history persistance code (persistory)
+** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
@@ -4615,7 +4596,7 @@ Packages that I am currently testing or evaluating.
 ** TODO Use ~ielm~ as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
-** TODO Write ghq tool using ~completing-read~
+** TODO Write =ghq= tool using ~completing-read~
 ** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 ** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
@@ -4624,9 +4605,9 @@ Packages that I am currently testing or evaluating.
 ** TODO Use ChangeLog entries =C-x 4 a=
 ** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
 ** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
-** TODO Create macros via checking =C-h l= ('view-lossage') then it can be used together with ~edit-last-kbd-macro~.
+** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
-** TODO solarized colorless config?
+** TODO solarized colorless configuration?
 ** TODO Split theme into several sections
 - One theme to set big headers and such things
 - One theme to highlight errors

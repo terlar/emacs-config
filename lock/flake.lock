@@ -912,22 +912,6 @@
         "type": "github"
       }
     },
-    "emacsql-sqlite": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1677580800,
-        "narHash": "sha256-5hFay/aIwf3xOjGKk//jRCJqlXHG58cG9YRxr5Yn/QY=",
-        "owner": "magit",
-        "repo": "emacsql",
-        "rev": "415dbfd846f46d921a70a351695f0d0e8f75da35",
-        "type": "github"
-      },
-      "original": {
-        "owner": "magit",
-        "repo": "emacsql",
-        "type": "github"
-      }
-    },
     "embark": {
       "flake": false,
       "locked": {
@@ -1293,22 +1277,6 @@
       "original": {
         "owner": "federicotdn",
         "repo": "flymake-shellcheck",
-        "type": "github"
-      }
-    },
-    "flyspell-correct": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1653028215,
-        "narHash": "sha256-ta6MMC2UaVaWTJvS/klogIc8n3aGb1dHCy29XiUf0Kw=",
-        "owner": "d12frosted",
-        "repo": "flyspell-correct",
-        "rev": "7d7b6b01188bd28e20a13736ac9f36c3367bd16e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "d12frosted",
-        "repo": "flyspell-correct",
         "type": "github"
       }
     },
@@ -1949,6 +1917,22 @@
       "original": {
         "owner": "Emiller88",
         "repo": "emacs-jest",
+        "type": "github"
+      }
+    },
+    "jinx": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681977865,
+        "narHash": "sha256-OX1fpqbZcmMLJrtUC+CdnXlUIun5Qj805MwgV8fgshc=",
+        "owner": "minad",
+        "repo": "jinx",
+        "rev": "ef5dd1625cc3ddd7c2345c9ce49d7f82be681c3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "minad",
+        "repo": "jinx",
         "type": "github"
       }
     },
@@ -2611,15 +2595,15 @@
     "org-noter": {
       "flake": false,
       "locked": {
-        "lastModified": 1573435704,
-        "narHash": "sha256-g55YtQVc8mGoUGrBIM6vmTdvc3Eq2qI20ZBN5cVGX/s=",
-        "owner": "weirdNox",
+        "lastModified": 1680577632,
+        "narHash": "sha256-W2Uy/YYgxX9rGZA4JhHgM1Oyx0LtGqq+eQx33gMpYzw=",
+        "owner": "org-noter",
         "repo": "org-noter",
-        "rev": "9ead81d42dd4dd5074782d239b2efddf9b8b7b3d",
+        "rev": "a24ba82f5c9ad2f2a93bd71ab60b78547a94463d",
         "type": "github"
       },
       "original": {
-        "owner": "weirdNox",
+        "owner": "org-noter",
         "repo": "org-noter",
         "type": "github"
       }
@@ -3291,7 +3275,6 @@
         "elixir-mode": "elixir-mode",
         "elm-mode": "elm-mode",
         "emacsql": "emacsql",
-        "emacsql-sqlite": "emacsql-sqlite",
         "embark": "embark",
         "embark-consult": "embark-consult",
         "emr": "emr",
@@ -3315,7 +3298,6 @@
         "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",
         "flymake-shellcheck": "flymake-shellcheck",
-        "flyspell-correct": "flyspell-correct",
         "focus": "focus",
         "freeze-it": "freeze-it",
         "fullframe": "fullframe",
@@ -3356,6 +3338,7 @@
         "iscroll": "iscroll",
         "javadoc-lookup": "javadoc-lookup",
         "jest": "jest",
+        "jinx": "jinx",
         "js2-mode": "js2-mode",
         "json-mode": "json-mode",
         "json-navigator": "json-navigator",

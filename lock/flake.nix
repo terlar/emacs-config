@@ -343,12 +343,6 @@
       repo = "emacsql";
       type = "github";
     };
-    emacsql-sqlite = {
-      flake = false;
-      owner = "magit";
-      repo = "emacsql";
-      type = "github";
-    };
     embark = {
       flake = false;
       owner = "oantolin";
@@ -485,12 +479,6 @@
       flake = false;
       owner = "federicotdn";
       repo = "flymake-shellcheck";
-      type = "github";
-    };
-    flyspell-correct = {
-      flake = false;
-      owner = "d12frosted";
-      repo = "flyspell-correct";
       type = "github";
     };
     focus = {
@@ -729,6 +717,12 @@
       flake = false;
       owner = "Emiller88";
       repo = "emacs-jest";
+      type = "github";
+    };
+    jinx = {
+      flake = false;
+      owner = "minad";
+      repo = "jinx";
       type = "github";
     };
     js2-mode = {
@@ -976,7 +970,7 @@
     };
     org-noter = {
       flake = false;
-      owner = "weirdNox";
+      owner = "org-noter";
       repo = "org-noter";
       type = "github";
     };
