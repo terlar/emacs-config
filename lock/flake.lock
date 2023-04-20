@@ -1920,6 +1920,22 @@
         "type": "github"
       }
     },
+    "jinx": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681977865,
+        "narHash": "sha256-OX1fpqbZcmMLJrtUC+CdnXlUIun5Qj805MwgV8fgshc=",
+        "owner": "minad",
+        "repo": "jinx",
+        "rev": "ef5dd1625cc3ddd7c2345c9ce49d7f82be681c3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "minad",
+        "repo": "jinx",
+        "type": "github"
+      }
+    },
     "js2-mode": {
       "flake": false,
       "locked": {
@@ -2579,15 +2595,15 @@
     "org-noter": {
       "flake": false,
       "locked": {
-        "lastModified": 1573435704,
-        "narHash": "sha256-g55YtQVc8mGoUGrBIM6vmTdvc3Eq2qI20ZBN5cVGX/s=",
-        "owner": "weirdNox",
+        "lastModified": 1680577632,
+        "narHash": "sha256-W2Uy/YYgxX9rGZA4JhHgM1Oyx0LtGqq+eQx33gMpYzw=",
+        "owner": "org-noter",
         "repo": "org-noter",
-        "rev": "9ead81d42dd4dd5074782d239b2efddf9b8b7b3d",
+        "rev": "a24ba82f5c9ad2f2a93bd71ab60b78547a94463d",
         "type": "github"
       },
       "original": {
-        "owner": "weirdNox",
+        "owner": "org-noter",
         "repo": "org-noter",
         "type": "github"
       }
@@ -3322,6 +3338,7 @@
         "iscroll": "iscroll",
         "javadoc-lookup": "javadoc-lookup",
         "jest": "jest",
+        "jinx": "jinx",
         "js2-mode": "js2-mode",
         "json-mode": "json-mode",
         "json-navigator": "json-navigator",

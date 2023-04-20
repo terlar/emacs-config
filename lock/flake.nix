@@ -719,6 +719,12 @@
       repo = "emacs-jest";
       type = "github";
     };
+    jinx = {
+      flake = false;
+      owner = "minad";
+      repo = "jinx";
+      type = "github";
+    };
     js2-mode = {
       flake = false;
       owner = "mooz";
@@ -964,7 +970,7 @@
     };
     org-noter = {
       flake = false;
-      owner = "weirdNox";
+      owner = "org-noter";
       repo = "org-noter";
       type = "github";
     };
