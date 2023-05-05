@@ -1125,7 +1125,6 @@ Vertical interactive completion UI.
 	   "k" 'cape-keyword
 	   "s" 'cape-symbol
 	   "a" 'cape-abbrev
-	   "i" 'cape-ispell
 	   "l" 'cape-line
 	   "w" 'cape-dict
 	   "\\" 'cape-tex
