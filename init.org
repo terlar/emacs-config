@@ -4230,7 +4230,9 @@ it really useful.
   (prog-mode-hook . jinx-mode)
   (text-mode-hook . jinx-mode)
   :general
-  ([remap ispell-word] 'jinx-correct))
+  ([remap ispell-word] 'jinx-correct)
+  (:prefix next-prefix "s" '(jinx-next :wk "Misspelling"))
+  (:prefix prev-prefix "s" '(jinx-previous :wk "Misspelling")))
 #+end_src
 
 Automatic language detection that updates the spell checker.
