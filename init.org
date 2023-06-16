@@ -697,9 +697,7 @@ Display information about the current indentation settings.
   (setq indent-info-display-change-message-p nil)
   (setq indent-info-insert-target 'mode-line-mule-info)
   (setq indent-info-space-format "Spaces: %s")
-  (setq indent-info-tab-format "Tab Size: %s")
-  (setq indent-info-sync-from-editorconfig t)
-  (setq indent-info-sync-to-editorconfig t))
+  (setq indent-info-tab-format "Tab Size: %s"))
 #+end_src
 
 *** Hide mode line
@@ -1391,6 +1389,7 @@ Automatic parenthesis pairing and highlighting.
   (setq dtrt-indent-run-after-smie t)
   (setq dtrt-indent-verbosity 0)
   :config
+  (cl-pushnew '(default default (standard-indent tab-width)) dtrt-indent-hook-mapping-list :test #'equal)
   (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
