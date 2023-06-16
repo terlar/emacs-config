@@ -2009,8 +2009,9 @@ Retrieve project list via ghq.
 #+begin_src emacs-lisp :tangle yes
 (use-package project
   :preface
-  (defun project--read-project-list-from-ghq ()
+  (defun project-read-project-list-from-ghq ()
     "Initialize `project--list' using contents of command ghq output."
+    (interactive)
     (with-temp-buffer
       (call-process "ghq" nil t nil "list" "--full-path")
       (goto-char (point-min))
@@ -2021,7 +2022,7 @@ Retrieve project list via ghq.
          :test #'equal)
         (forward-line 1))))
   :init
-  (advice-add 'project--read-project-list :after #'project--read-project-list-from-ghq))
+  (advice-add 'project--read-project-list :after #'project-read-project-list-from-ghq))
 #+end_src
 
 * Development
