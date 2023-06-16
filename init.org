@@ -4347,19 +4347,6 @@ Command execution status indicator in the fringe.
   (eshell-mode-hook . eshell-fringe-status-mode))
 #+end_src
 
-***** esh-autosuggest
-Autosuggestions from history similar to fish.
-#+begin_src emacs-lisp :tangle yes
-(use-package esh-autosuggest
-  :ensure t
-  :hook
-  (eshell-mode-hook . esh-autosuggest-mode)
-  :general
-  (:keymaps
-   'esh-autosuggest-active-map
-   "C-e" 'company-complete-selection))
-#+end_src
-
 ***** fish-completion
 Populate auto-completions from fish.
 #+begin_src emacs-lisp :tangle yes
