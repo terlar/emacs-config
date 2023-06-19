@@ -62,7 +62,13 @@
           org-babel.overlays.default
           twist.overlays.default
           (final: prev: let
-            emacs = final.emacs-pgtk;
+            emacs = final.emacs-pgtk.overrideAttrs (oldAttrs: {
+              passthru =
+                oldAttrs.passthru
+                // {
+                  nativeComp = oldAttrs.passthru.withNativeCompilation or oldAttrs.passthru.nativeComp;
+                };
+            });
           in {
             emacsEnv =
               (final.emacsTwist {
@@ -85,7 +91,7 @@
 
             emacsConfig = prev.callPackage self {
               trivialBuild = final.callPackage "${nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
-                emacs = (x: x // {inherit (x.emacs) meta nativeComp;}) final.emacsEnv;
+                emacs = (x: x // {inherit (x.emacs) meta nativeComp withNativeCompilation;}) final.emacsEnv;
               };
             };
           })
