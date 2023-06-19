@@ -105,6 +105,11 @@ Disable GUI components.
 (push '(vertical-scroll-bars) default-frame-alist)
 #+end_src
 
+Start maximized.
+#+begin_src emacs-lisp :tangle early-init.el
+(push '(fullscreen . maximized) initial-frame-alist)
+#+end_src
+
 Don't implicitly resize frames when changing various settings.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq frame-inhibit-implied-resize t)
@@ -692,9 +697,7 @@ Display information about the current indentation settings.
   (setq indent-info-display-change-message-p nil)
   (setq indent-info-insert-target 'mode-line-mule-info)
   (setq indent-info-space-format "Spaces: %s")
-  (setq indent-info-tab-format "Tab Size: %s")
-  (setq indent-info-sync-from-editorconfig t)
-  (setq indent-info-sync-to-editorconfig t))
+  (setq indent-info-tab-format "Tab Size: %s"))
 #+end_src
 
 *** Hide mode line
@@ -1386,6 +1389,7 @@ Automatic parenthesis pairing and highlighting.
   (setq dtrt-indent-run-after-smie t)
   (setq dtrt-indent-verbosity 0)
   :config
+  (cl-pushnew '(default default (standard-indent tab-width)) dtrt-indent-hook-mapping-list :test #'equal)
   (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
@@ -2005,8 +2009,9 @@ Retrieve project list via ghq.
 #+begin_src emacs-lisp :tangle yes
 (use-package project
   :preface
-  (defun project--read-project-list-from-ghq ()
+  (defun project-read-project-list-from-ghq ()
     "Initialize `project--list' using contents of command ghq output."
+    (interactive)
     (with-temp-buffer
       (call-process "ghq" nil t nil "list" "--full-path")
       (goto-char (point-min))
@@ -2017,7 +2022,7 @@ Retrieve project list via ghq.
          :test #'equal)
         (forward-line 1))))
   :init
-  (advice-add 'project--read-project-list :after #'project--read-project-list-from-ghq))
+  (advice-add 'project--read-project-list :after #'project-read-project-list-from-ghq))
 #+end_src
 
 * Development
@@ -4340,19 +4345,6 @@ Command execution status indicator in the fringe.
   :ensure t
   :hook
   (eshell-mode-hook . eshell-fringe-status-mode))
-#+end_src
-
-***** esh-autosuggest
-Autosuggestions from history similar to fish.
-#+begin_src emacs-lisp :tangle yes
-(use-package esh-autosuggest
-  :ensure t
-  :hook
-  (eshell-mode-hook . esh-autosuggest-mode)
-  :general
-  (:keymaps
-   'esh-autosuggest-active-map
-   "C-e" 'company-complete-selection))
 #+end_src
 
 ***** fish-completion

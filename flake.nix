@@ -62,7 +62,7 @@
           org-babel.overlays.default
           twist.overlays.default
           (final: prev: let
-            emacs = final.emacsPgtk;
+            emacs = final.emacs-pgtk;
           in {
             emacsEnv =
               (final.emacsTwist {
