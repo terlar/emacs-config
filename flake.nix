@@ -62,13 +62,7 @@
           org-babel.overlays.default
           twist.overlays.default
           (final: prev: let
-            emacs = final.emacs-pgtk.overrideAttrs (oldAttrs: {
-              passthru =
-                oldAttrs.passthru
-                // {
-                  nativeComp = oldAttrs.passthru.withNativeCompilation or oldAttrs.passthru.nativeComp;
-                };
-            });
+            emacs = final.emacs-pgtk;
           in {
             emacsEnv =
               (final.emacsTwist {
