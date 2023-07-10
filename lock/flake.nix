@@ -187,6 +187,12 @@
       repo = "corfu";
       type = "github";
     };
+    corfu-candidate-overlay = {
+      flake = false;
+      owner = "terlar";
+      repo = "corfu-candidate-overlay";
+      type = "github";
+    };
     cov = {
       flake = false;
       owner = "AdamNiederer";

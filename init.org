@@ -1038,7 +1038,6 @@ Completion Overlay Region FUnction.
    [backtab] 'corfu-previous
    "C-e" 'corfu-complete)
   :init
-  (setq corfu-auto t)
   (setq corfu-cycle t)
   (setq corfu-preselect 'first)
   (global-corfu-mode 1)
@@ -4466,6 +4465,23 @@ Packages that I am currently testing or evaluating.
 ** dape
 #+begin_src emacs-lisp :tangle yes
 (use-package dape :ensure t)
+#+end_src
+
+** corfu-candidate-overlay
+#+begin_src emacs-lisp :tangle yes
+(use-package corfu-candidate-overlay
+  :ensure t
+  :commands
+  (corfu-candidate-overlay-complete-at-point)
+  :preface
+  (defun corfu-candidate-overlay-end-of-line ()
+    "Move point to end of current line or trigger `completion-at-point'."
+    (interactive)
+    (or (corfu-candidate-overlay-complete-at-point) (end-of-line)))
+  :hook
+  (corfu-mode-hook . corfu-candidate-overlay-mode)
+  :general
+  ("C-e" 'corfu-candidate-overlay-end-of-line))
 #+end_src
 
 ** eglot-x

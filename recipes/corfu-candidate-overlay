@@ -1,0 +1,2 @@
+(corfu-candidate-overlay :fetcher github
+			 :repo "terlar/corfu-candidate-overlay")
