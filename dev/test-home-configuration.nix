@@ -1,4 +1,6 @@
-{self, ...}: {
+toplevel @ {self, ...}: let
+  inherit (toplevel.config.dev) rootFlake;
+in {
   transposition.homeConfigurations.adHoc = true;
 
   perSystem = {
@@ -7,11 +9,13 @@
     ...
   }: {
     homeConfigurations = self.inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = config.legacyPackages;
+      inherit pkgs;
 
       modules = [
-        self.homeManagerModules.emacsConfig
+        rootFlake.homeManagerModules.emacsConfig
         {
+          nixpkgs.overlays = [rootFlake.overlays.default];
+
           home = {
             stateVersion = "22.05";
             username = "test";
