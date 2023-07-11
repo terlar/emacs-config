@@ -108,6 +108,7 @@ Disable GUI components.
 Start maximized.
 #+begin_src emacs-lisp :tangle early-init.el
 (push '(fullscreen . maximized) initial-frame-alist)
+(push '(fullscreen . maximized) default-frame-alist)
 #+end_src
 
 Don't implicitly resize frames when changing various settings.
