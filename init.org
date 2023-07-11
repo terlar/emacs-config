@@ -100,6 +100,7 @@ performance boost.
 Disable GUI components.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq use-dialog-box nil)
+(push '(undecorated . t) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -551,21 +552,8 @@ Attach a face to the echo area in order to style it differently.
 *** Frame
 See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and terminology.
 - Add some padding around the whole window (=internal-border-width=) to provide some air.
-- Remove GUI elements.
-- Make the title-bar transparent on macOS.
 #+begin_src emacs-lisp :tangle yes
-(setq default-frame-alist
-      '((undecorated . t)
-        (internal-border-width . 16)
-        (vertical-scroll-bars . nil)
-        (menu-bar-lines . 0)
-        (tool-bar-lines . 0)))
-
-(when (eq system-type 'darwin)
-  (setq frame-title-format nil)
-  (dolist (filter '((ns-transparent-titlebar . t)
-                    (ns-appearance . unbound)))
-    (cl-pushnew filter default-frame-alist :test #'equal)))
+(cl-pushnew '(internal-border-width . 16) default-frame-alist :test #'equal)
 #+end_src
 
 *** Fringe
