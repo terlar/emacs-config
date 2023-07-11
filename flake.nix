@@ -8,14 +8,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    devshell.url = "github:numtide/devshell";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    devshell.inputs.nixpkgs.follows = "nixpkgs";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     twist.url = "github:emacs-twist/twist.nix";
     org-babel.url = "github:emacs-twist/org-babel";
@@ -32,35 +28,17 @@
       url = "git+https://git.savannah.gnu.org/git/emacs/nongnu.git?ref=main";
       flake = false;
     };
-
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
-    };
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    emacs-overlay,
-    nixpkgs,
-    org-babel,
-    self,
-    twist,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
-      imports = [
-        ./nix/flake/development.nix
-        ./nix/flake/test-home-configuration.nix
-      ];
-
       flake = {
-        overlays.default = nixpkgs.lib.composeManyExtensions [
-          emacs-overlay.overlays.emacs
-          org-babel.overlays.default
-          twist.overlays.default
+        overlays.default = inputs.nixpkgs.lib.composeManyExtensions [
+          inputs.emacs-overlay.overlays.emacs
+          inputs.org-babel.overlays.default
+          inputs.twist.overlays.default
           (final: prev: let
             emacs = final.emacs-pgtk;
           in {
@@ -72,10 +50,10 @@
 
                 lockDir = ./lock;
                 inventories = import ./nix/inventories.nix {
-                  inherit self;
+                  inherit (inputs) self;
                   emacsSrc = emacs.src;
                 };
-                inputOverrides = import ./nix/inputOverrides.nix {inherit (nixpkgs) lib;};
+                inputOverrides = import ./nix/inputOverrides.nix {inherit (inputs.nixpkgs) lib;};
               })
               .overrideScope' (_tfinal: tprev: {
                 elispPackages = tprev.elispPackages.overrideScope' (
@@ -83,8 +61,8 @@
                 );
               });
 
-            emacsConfig = prev.callPackage self {
-              trivialBuild = final.callPackage "${nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
+            emacsConfig = prev.callPackage inputs.self {
+              trivialBuild = final.callPackage "${inputs.nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
                 emacs = (x: x // {inherit (x.emacs) meta nativeComp withNativeCompilation;}) final.emacsEnv;
               };
             };
@@ -96,19 +74,22 @@
       perSystem = {
         config,
         pkgs,
+        inputs',
         ...
       }: {
-        legacyPackages = pkgs.extend self.overlays.default;
+        _module.args.pkgs = inputs'.nixpkgs.legacyPackages.extend inputs.self.overlays.default;
+
+        formatter = pkgs.alejandra;
 
         packages = {
-          inherit (config.legacyPackages) emacsConfig emacsEnv;
-          default = config.legacyPackages.emacsConfig;
+          inherit (pkgs) emacsConfig emacsEnv;
+          default = pkgs.emacsConfig;
         };
 
         checks.build-config = config.packages.emacsConfig;
         checks.build-env = config.packages.emacsEnv;
 
-        apps = config.legacyPackages.emacsEnv.makeApps {
+        apps = pkgs.emacsEnv.makeApps {
           lockDirName = "lock";
         };
       };
