@@ -1,4 +1,13 @@
 {lib, ...}: {
+  amread-mode = _: prev: {
+    packageRequires =
+      prev.packageRequires
+      // {
+        hydra = "0";
+        pyim = "0";
+      };
+  };
+
   bbdb = _: prev: {
     files =
       prev.files

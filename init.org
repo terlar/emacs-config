@@ -4410,6 +4410,11 @@ Packages that I am currently testing or evaluating.
 (use-package adaptive-wrap :ensure t)
 #+end_src
 
+** amread-mode
+#+begin_src emacs-lisp
+(use-package amread-mode :ensure t)
+#+end_src
+
 ** annotate
 #+begin_src emacs-lisp :tangle yes
 (use-package annotate :ensure t)
