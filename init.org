@@ -893,9 +893,7 @@ Display available keybindings in a popup as you press keys.
  ;; Editing
  "C-z" 'zap-up-to-char
  ;; Region
- "C-x r S" 'sort-lines
- ;; Window
- "C-`" 'window-toggle-side-windows)
+ "C-x r S" 'sort-lines)
 #+end_src
 
 ** Navigation
@@ -1224,14 +1222,26 @@ Better =*help*= buffer.
 
 * Display
 ** Window
-*** Favor horizontal splits
+Favor horizontal splits.
 #+begin_src emacs-lisp :tangle yes
 (setq split-width-threshold nil)
 #+end_src
 
-*** Resize pixelwise
+Respect display actions for both automatic and manual window switching.
+#+begin_src emacs-lisp :tangle yes
+(setq switch-to-buffer-obey-display-actions t)
+#+end_src
+
+Resize pixelwise.
 #+begin_src emacs-lisp :tangle yes
 (setq window-resize-pixelwise t)
+#+end_src
+
+Hide asynchronous shell command buffers.
+#+begin_src emacs-lisp :tangle yes
+(cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
+            display-buffer-alist
+            :test #'equal)
 #+end_src
 
 *** Manage layouts
@@ -1268,6 +1278,30 @@ Transpose window arrangement.
    "F" 'flop-frame))
 #+end_src
 
+Manage "popups".
+#+begin_src emacs-lisp :tangle yes
+(use-package popper
+  :ensure t
+  :hook
+  (after-init-hook . popper-mode)
+  (popper-mode-hook . popper-echo-mode)
+  :general
+  (:prefix
+   window-prefix
+   "p" 'popper-toggle-type)
+  ("C-`" 'popper-toggle-latest)
+  ("C-M-`" 'popper-cycle)
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "^\\*eldoc"
+          compilation-mode
+          elisp-refs-mode
+          ghelp-page-mode
+          help-mode)))
+#+end_src
+
 Zoom a window to display as a single window temporarily.
 #+begin_src emacs-lisp :tangle yes
 (use-package zoom-window
@@ -1279,27 +1313,6 @@ Zoom a window to display as a single window temporarily.
 #+end_src
 
 ** Buffer
-*** Popups
-Always display pop up buffers at the bottom and regard all star buffers as such buffers.
-#+begin_src emacs-lisp :tangle yes
-(setq switch-to-buffer-obey-display-actions t)
-(dolist (rule `((,(rx bos "*" (one-or-more anything) "*" (optional "<" (one-or-more anything) ">") eos)
-                 (display-buffer-reuse-window
-                  display-buffer-in-side-window)
-                 (reusable-frames . visible)
-                 (side . bottom)
-                 (window-height . 0.4))
-                ("^*Warn about privacy*" display-buffer-pop-up-window)))
-  (cl-pushnew rule display-buffer-alist :test #'equal))
-#+end_src
-
-*** Hide asynchronous shell command buffers
-#+begin_src emacs-lisp :tangle yes
-(cl-pushnew '("^*Async Shell Command*" . (display-buffer-no-window))
-            display-buffer-alist
-            :test #'equal)
-#+end_src
-
 *** Visual Fill Column
 Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
@@ -4501,20 +4514,7 @@ Packages that I am currently testing or evaluating.
 (use-package org-roam :ensure t)
 #+end_src
 
-** popper
-#+begin_src emacs-lisp :tangle yes
-(use-package popper
-  :ensure t
-  :hook
-  (after-init-hook . popper-mode)
-  :init
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          help-mode
-          compilation-mode)))
-#+end_src
-
+** related-files
 #+begin_src emacs-lisp :tangle yes
 (use-package related-files
   :ensure t
