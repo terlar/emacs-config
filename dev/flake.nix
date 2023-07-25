@@ -52,9 +52,12 @@
           commands = [
             {package = pkgs.gdb;}
             {
-              package = config.packages.devEmacsConfig;
+              name = "dev-emacs-config";
               help = "launch bundled Emacs with configuration from source";
               category = "emacs";
+              command = ''
+                exec nix run $PRJ_ROOT/dev#devEmacsConfig
+              '';
             }
             {
               package = config.packages.reloadEmacsConfig;
@@ -62,9 +65,12 @@
               category = "emacs";
             }
             {
-              package = config.packages.testEmacsConfig;
+              name = "test-emacs-config";
               help = "launch bundled Emacs with fixed configuration";
               category = "emacs";
+              command = ''
+                exec nix run $PRJ_ROOT/dev#testEmacsConfig
+              '';
             }
             {
               package = config.packages.updateCaches;
@@ -72,9 +78,12 @@
               category = "nix";
             }
             {
-              package = config.packages.updateScreenshots;
+              name = "update-screenshots";
               help = "generate new screenshots";
               category = "emacs";
+              command = ''
+                exec nix run $PRJ_ROOT/dev#updateScreenshots
+              '';
             }
           ];
         };
