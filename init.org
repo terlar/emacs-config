@@ -3361,22 +3361,23 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
-  :general
-  (:keymaps
-   'go-mode-map
-   :prefix nav-prefix
-   "k" 'godoc-at-point)
   :init
   (setq gofmt-command "goimports"))
 #+end_src
 
 *** Packages
-**** go-eldoc
+**** gotest
 #+begin_src emacs-lisp :tangle yes
-(use-package go-eldoc
+(use-package gotest
   :ensure t
-  :hook
-  (go-mode-hook . go-eldoc-setup))
+  :general
+  (:keymaps
+   'go-mode-map
+   :prefix local-leader-key
+   "t" 'go-test-current-test
+   "T" 'go-test-current-file
+   "s" 'go-test-current-project
+   "r" 'go-run))
 #+end_src
 
 **** gorepl-mode

@@ -217,7 +217,7 @@ For example links."
    `(completions-first-difference ((t (:inherit readable-mono-theme-emphasis))))
    `(highlight ((t (:inverse-video t))))
    `(isearch ((t (:inherit highlight))))
-   `(isearch-fail ((t (:inherit readable-mono-theme-critical))))
+   `(isearch-fail ((t (:inherit error))))
    `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(match ((t (:inherit highlight))))
    `(region
@@ -233,10 +233,10 @@ For example links."
      ((((background light)) (:inherit readable-mono-theme-strong :foreground ,l-cursor))
       (((background dark)) (:inherit readable-mono-theme-strong :foreground ,d-cursor))))
    `(show-paren-match ((t (:inherit readable-mono-theme-strong :underline t))))
-   `(show-paren-mismatch ((t (:inherit readable-mono-theme-critical))))
-   `(trailing-whitespace ((t (:inherit readable-mono-theme-critical))))
-   `(whitespace-line ((t (:inherit readable-mono-theme-critical))))
-   `(whitespace-trailing ((t (:inherit readable-mono-theme-critical))))
+   `(show-paren-mismatch ((t (:inherit error))))
+   `(trailing-whitespace ((t (:inherit error))))
+   `(whitespace-line ((t (:inherit error))))
+   `(whitespace-trailing ((t (:inherit error))))
 
 ;;;;; Interface
    `(mode-line
@@ -329,7 +329,7 @@ For example links."
       (((background dark)) (:background ,d-bg-s :foreground ,d-bg-s))))
 
 ;;;;; cider
-   `(cider-test-failure-face ((t (:inherit readable-mono-theme-critical))))
+   `(cider-test-failure-face ((t (:inherit error))))
    `(cider-result-overlay-face ((t (:inherit highlight))))
 
 ;;;;; company
@@ -352,7 +352,7 @@ For example links."
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground unspecified))))
    `(dired-directory ((t (:inherit readable-mono-theme-strong))))
-   `(dired-broken-symlink ((t (:inherit readable-mono-theme-critical))))
+   `(dired-broken-symlink ((t (:inherit error))))
    `(dired-flagged ((t (:inherit readable-mono-theme-emphasis))))
 
 ;;;;; erc
@@ -392,6 +392,13 @@ For example links."
    `(flyspell-incorrect
      ((((background light)) (:underline (:style wave :color ,l-fg)))
       (((background dark)) (:underline (:style wave :color ,d-fg)))))
+
+;;;;; gotest
+   `(go-test--standard-face ((t (:foreground unspecified))))
+   `(go-test--ok-face ((t (:foreground unspecified))))
+   `(go-test--error-face ((t (:inherit error))))
+   `(go-test--pointer-face ((t (:foreground unspecified))))
+   `(go-test--warning-face ((t (:inherit warning))))
 
 ;;;;; haskell
    `(haskell-interactive-face-prompt ((t (:inherit readable-mono-theme-strong))))

@@ -145,12 +145,6 @@
       repo = "comment-or-uncomment-sexp";
       type = "github";
     };
-    company = {
-      flake = false;
-      owner = "company-mode";
-      repo = "company-mode";
-      type = "github";
-    };
     compat = {
       flake = false;
       owner = "emacs-compat";
@@ -391,12 +385,6 @@
       repo = "es-mode";
       type = "github";
     };
-    esh-autosuggest = {
-      flake = false;
-      owner = "dieggsy";
-      repo = "esh-autosuggest";
-      type = "github";
-    };
     eshell-fringe-status = {
       flake = false;
       owner = "ryuslash";
@@ -540,12 +528,6 @@
       repo = "gmail2bbdb";
       type = "github";
     };
-    go-eldoc = {
-      flake = false;
-      owner = "emacsorphanage";
-      repo = "go-eldoc";
-      type = "github";
-    };
     go-mode = {
       flake = false;
       owner = "dominikh";
@@ -556,6 +538,12 @@
       flake = false;
       owner = "manute";
       repo = "gorepl-mode";
+      type = "github";
+    };
+    gotest = {
+      flake = false;
+      owner = "nlamirault";
+      repo = "gotest.el";
       type = "github";
     };
     goto-chg = {
@@ -596,8 +584,8 @@
     };
     hcl-mode = {
       flake = false;
-      owner = "purcell";
-      repo = "emacs-hcl-mode";
+      owner = "hcl-emacs";
+      repo = "hcl-mode";
       type = "github";
     };
     helpful = {
@@ -1353,7 +1341,7 @@
     };
     terraform-mode = {
       flake = false;
-      owner = "emacsorphanage";
+      owner = "hcl-emacs";
       repo = "terraform-mode";
       type = "github";
     };

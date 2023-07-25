@@ -384,22 +384,6 @@
         "type": "github"
       }
     },
-    "company": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1681677262,
-        "narHash": "sha256-JxaQJNqEMO8q9ieQogsQjv86TFmubPaNkOZuZ8tmveY=",
-        "owner": "company-mode",
-        "repo": "company-mode",
-        "rev": "8a78f320019574bc35b5727f95b052b27918da20",
-        "type": "github"
-      },
-      "original": {
-        "owner": "company-mode",
-        "repo": "company-mode",
-        "type": "github"
-      }
-    },
     "compat": {
       "flake": false,
       "locked": {
@@ -1040,22 +1024,6 @@
         "type": "github"
       }
     },
-    "esh-autosuggest": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1630939585,
-        "narHash": "sha256-grsdQ8EvfbEuezzjriwepBSGzZkP0ZFllpN+Ed8tRdQ=",
-        "owner": "dieggsy",
-        "repo": "esh-autosuggest",
-        "rev": "bf676b137d35553debe32ff134dbec25f3978ae7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dieggsy",
-        "repo": "esh-autosuggest",
-        "type": "github"
-      }
-    },
     "eshell-fringe-status": {
       "flake": false,
       "locked": {
@@ -1440,22 +1408,6 @@
         "type": "github"
       }
     },
-    "go-eldoc": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1488724022,
-        "narHash": "sha256-M8LzL95FMEgv+9aK0PPK605s7/SG0m494WyoFs3DSYA=",
-        "owner": "emacsorphanage",
-        "repo": "go-eldoc",
-        "rev": "cbbd2ea1e94a36004432a9ac61414cb5a95a39bd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacsorphanage",
-        "repo": "go-eldoc",
-        "type": "github"
-      }
-    },
     "go-mode": {
       "flake": false,
       "locked": {
@@ -1485,6 +1437,22 @@
       "original": {
         "owner": "manute",
         "repo": "gorepl-mode",
+        "type": "github"
+      }
+    },
+    "gotest": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1676972711,
+        "narHash": "sha256-N4DRrsGw4bhefLHzkqRuukBSvoxMBdqqLIGMo3jKl6Y=",
+        "owner": "nlamirault",
+        "repo": "gotest.el",
+        "rev": "490189e68d743a851bfb42d0017428a7550e8615",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nlamirault",
+        "repo": "gotest.el",
         "type": "github"
       }
     },
@@ -1589,14 +1557,14 @@
       "locked": {
         "lastModified": 1677753243,
         "narHash": "sha256-8Q6yA5jbAOvaIxTuQ3tROe99P7kX1SGOkEIQxaHV8CM=",
-        "owner": "purcell",
-        "repo": "emacs-hcl-mode",
+        "owner": "hcl-emacs",
+        "repo": "hcl-mode",
         "rev": "751b79247f326ab52e00032e805775c37ad9f080",
         "type": "github"
       },
       "original": {
-        "owner": "purcell",
-        "repo": "emacs-hcl-mode",
+        "owner": "hcl-emacs",
+        "repo": "hcl-mode",
         "type": "github"
       }
     },
@@ -3242,7 +3210,6 @@
         "clojure-mode": "clojure-mode",
         "color-identifiers-mode": "color-identifiers-mode",
         "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
-        "company": "company",
         "compat": "compat",
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
@@ -3283,7 +3250,6 @@
         "erlang": "erlang",
         "eros": "eros",
         "es-mode": "es-mode",
-        "esh-autosuggest": "esh-autosuggest",
         "eshell-fringe-status": "eshell-fringe-status",
         "esxml": "esxml",
         "eval-in-repl": "eval-in-repl",
@@ -3308,9 +3274,9 @@
         "git-commit": "git-commit",
         "git-modes": "git-modes",
         "gmail2bbdb": "gmail2bbdb",
-        "go-eldoc": "go-eldoc",
         "go-mode": "go-mode",
         "gorepl-mode": "gorepl-mode",
+        "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gradle-mode": "gradle-mode",
         "groovy-mode": "groovy-mode",
@@ -3877,15 +3843,15 @@
     "terraform-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1683065634,
-        "narHash": "sha256-0j3HL+l9TlHB9KlRXmmbHXoeoa2KBzuQ9cKdraltloM=",
-        "owner": "emacsorphanage",
+        "lastModified": 1686165834,
+        "narHash": "sha256-RUXlR/M9nzHUMC2d3sW7L5wIR/noFdzB8YPLnx9fiYU=",
+        "owner": "hcl-emacs",
         "repo": "terraform-mode",
-        "rev": "56f19abae95afb7e13e48ec3e6aeba3820d31307",
+        "rev": "25a22a66f81e35c75f2fdaaab89aad7f9940fe06",
         "type": "github"
       },
       "original": {
-        "owner": "emacsorphanage",
+        "owner": "hcl-emacs",
         "repo": "terraform-mode",
         "type": "github"
       }
