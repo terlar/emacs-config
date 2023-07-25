@@ -3362,7 +3362,11 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.go\\'"
   ("go\\.mod\\'" . go-dot-mod-mode)
   :init
-  (setq gofmt-command "goimports"))
+  (setq gofmt-command "goimports")
+  :config
+  (eval-when-compile (require 'related-files))
+  (with-eval-after-load 'related-files
+    (cl-pushnew '(recipe :remove-suffix ".go" :add-suffix "_test.go") related-files-jumpers :test #'equal)))
 #+end_src
 
 *** Packages
@@ -4520,6 +4524,10 @@ Packages that I am currently testing or evaluating.
   :general
   ("C-x j" 'related-files-jump
    "C-x J" 'related-files-make))
+
+(use-package related-files-recipe
+  :demand t
+  :after related-files)
 #+end_src
 
 ** shrface
