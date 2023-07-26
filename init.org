@@ -914,7 +914,8 @@ Display available keybindings in a popup as you press keys.
  :prefix window-prefix
  window-prefix 'window-toggle-side-windows
  "d" 'toggle-dedicated-window
- "m" 'maximize-window)
+ "m" 'maximize-window
+ "s" 'window-configuration-to-register)
 #+end_src
 
 ** Next
