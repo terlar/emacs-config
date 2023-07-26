@@ -759,7 +759,7 @@ keybindings in case I would forget them.
 ** Commands
 | Keybinding      | Function                          | Description                                                                      |
 |-----------------+-----------------------------------+----------------------------------------------------------------------------------|
-| =C-o=             | ~open-line~                         | Open line below                                                                  |
+| =C-o=             | ~open-line~                         | Open line above                                                                  |
 | =C-j=             | ~electric-newline-and-maybe-indent~ | Add newline and indent if needed                                                 |
 | =M-SPC=           | ~just-one-space~                    | Ensures just one space                                                           |
 | =M-\=             | ~delete-horizontal-space~           | Delete all space                                                                 |
@@ -784,6 +784,8 @@ keybindings in case I would forget them.
 | =C-M-d=           | ~down-list~                         | Move forward down one level of parenthesis                                       |
 | =C-M-u=           | ~backward-up-list~                  | Move backward out of one level of parenthesis                                    |
 | =C-u C-x $=       | ~set-selective-display~             | Hide/show indentation level                                                      |
+| =C-x r w= <reg>   | ~window-configuration-to-register~  | Store the window configuration of the selected frame in REGISTER                 |
+| =C-x r j=         | ~jump-to-register~                  | Go to location stored in REGISTER, or restore configuration stored there         |
 
 ** Gnus
 | Keybinding | Function                              | Description                                                   |
