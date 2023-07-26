@@ -1648,22 +1648,6 @@
         "type": "github"
       }
     },
-    "ht": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676392323,
-        "narHash": "sha256-RBlCA+lFoaFvsjej2HOO60i60JkKzHmCyTAhtQBsdVk=",
-        "owner": "Wilfred",
-        "repo": "ht.el",
-        "rev": "3c1677f1bf2ded2ab07edffb7d17def5d2b5b6f6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Wilfred",
-        "repo": "ht.el",
-        "type": "github"
-      }
-    },
     "hydra": {
       "flake": false,
       "locked": {
@@ -1923,15 +1907,15 @@
     "json-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1633933809,
-        "narHash": "sha256-H+HNE9NYXnC7eIQG/hy8a4qbvo7Lpp7oGGFNVLApE2Q=",
-        "owner": "joshwnj",
+        "lastModified": 1689581939,
+        "narHash": "sha256-QSVLbTeVXZEpq+7IyShvxgdeVIFE0J7g8QZwFp9nxsY=",
+        "owner": "json-emacs",
         "repo": "json-mode",
-        "rev": "eedb4560034f795a7950fa07016bd4347c368873",
+        "rev": "20b9c21f44c58e94256c7826d0821205e017dfbb",
         "type": "github"
       },
       "original": {
-        "owner": "joshwnj",
+        "owner": "json-emacs",
         "repo": "json-mode",
         "type": "github"
       }
@@ -2944,22 +2928,6 @@
         "type": "github"
       }
     },
-    "quickrun": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1671092934,
-        "narHash": "sha256-mRIy6mcK8Z1NDGWSABCX3C6Et6Y4fFzg/KKQyEWP6Jc=",
-        "owner": "emacsorphanage",
-        "repo": "quickrun",
-        "rev": "7a89313c07a21eae9cd69a1a98e2a134d559e04f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacsorphanage",
-        "repo": "quickrun",
-        "type": "github"
-      }
-    },
     "racket-mode": {
       "flake": false,
       "locked": {
@@ -3289,7 +3257,6 @@
         "hide-mode-line": "hide-mode-line",
         "highlight-quoted": "highlight-quoted",
         "hl-todo": "hl-todo",
-        "ht": "ht",
         "hydra": "hydra",
         "idle-highlight-mode": "idle-highlight-mode",
         "iedit": "iedit",
@@ -3370,7 +3337,6 @@
         "pydoc": "pydoc",
         "python-test": "python-test",
         "quick-peek": "quick-peek",
-        "quickrun": "quickrun",
         "racket-mode": "racket-mode",
         "rainbow-delimiters": "rainbow-delimiters",
         "rainbow-identifiers": "rainbow-identifiers",

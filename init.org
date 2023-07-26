@@ -2155,20 +2155,6 @@ Lookup documentation via DevDocs.
   (setq separedit-preserve-string-indentation t))
 #+end_src
 
-** Eval
-*** quickrun
-#+begin_src emacs-lisp :tangle yes
-(use-package quickrun
-  :ensure t
-  :hook
-  (quickrun--mode-hook . display-ctrl-M-as-newline)
-  :general
-  (:prefix
-   local-leader-key
-   "q" 'quickrun
-   "Q" 'quickrun-autorun-mode))
-#+end_src
-
 ** Folding
 Code folding.
 #+begin_src emacs-lisp :tangle yes

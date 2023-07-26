@@ -618,12 +618,6 @@
       repo = "hl-todo";
       type = "github";
     };
-    ht = {
-      flake = false;
-      owner = "Wilfred";
-      repo = "ht.el";
-      type = "github";
-    };
     hydra = {
       flake = false;
       owner = "abo-abo";
@@ -721,7 +715,7 @@
     };
     json-mode = {
       flake = false;
-      owner = "joshwnj";
+      owner = "json-emacs";
       repo = "json-mode";
       type = "github";
     };
@@ -1097,12 +1091,6 @@
       flake = false;
       owner = "cpitclaudel";
       repo = "quick-peek";
-      type = "github";
-    };
-    quickrun = {
-      flake = false;
-      owner = "emacsorphanage";
-      repo = "quickrun";
       type = "github";
     };
     racket-mode = {
