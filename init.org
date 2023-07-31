@@ -2044,6 +2044,23 @@ Reduce scroll margin.
 Kill compilation process before stating another and save all buffers on ~compile~.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
+  :preface
+  (defun compile-on-save-start ()
+    (let ((main-buffer (current-buffer))
+          (compile-buffer (compilation-find-buffer)))
+      (unless (get-buffer-process compile-buffer)
+        (recompile)
+        (switch-to-buffer-other-window main-buffer))))
+
+  (define-minor-mode compile-on-save-mode
+    "Minor mode to automatically call `recompile' whenever the
+current buffer is saved. When there is ongoing compilation,
+nothing happens."
+    :lighter " CoS"
+    (if compile-on-save-mode
+        (progn  (make-local-variable 'after-save-hook)
+                (add-hook 'after-save-hook 'compile-on-save-start nil t))
+      (kill-local-variable 'after-save-hook)))
   :general
   (:keymaps
    'global
@@ -2054,10 +2071,10 @@ Kill compilation process before stating another and save all buffers on ~compile
   :init
   (setq compilation-always-kill t)
   (setq compilation-ask-about-save nil)
-  (setq compilation-scroll-output t))
+  (setq compilation-scroll-output t)
 
-(make-variable-buffer-local 'compile-command)
-(put 'compile-command 'safe-local-variable 'stringp)
+  (make-variable-buffer-local 'compile-command)
+  (put 'compile-command 'safe-local-variable 'stringp))
 #+end_src
 
 *** ANSI escape
