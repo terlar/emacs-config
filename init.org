@@ -2075,8 +2075,9 @@ nothing happens."
   (setq compilation-ask-about-save nil)
   (setq compilation-scroll-output t)
 
-  (make-variable-buffer-local 'compile-command)
   (put 'compile-command 'safe-local-variable 'stringp))
+
+(make-variable-buffer-local 'compile-command)
 #+end_src
 
 *** ANSI escape
