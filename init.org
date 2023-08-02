@@ -894,6 +894,8 @@ Display available keybindings in a popup as you press keys.
  :keymaps 'global
  ;; Editing
  "C-z" 'zap-up-to-char
+ ;; Files
+ "C-x j" 'find-sibling-file
  ;; Region
  "C-x r S" 'sort-lines)
 #+end_src
@@ -3370,9 +3372,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :init
   (setq gofmt-command "goimports")
   :config
-  (eval-when-compile (require 'related-files))
-  (with-eval-after-load 'related-files
-    (cl-pushnew '(recipe :remove-suffix ".go" :add-suffix "_test.go") related-files-jumpers :test #'equal)))
+  (cl-pushnew '("\\([^/]+\\)\\.go\\'" "\\1_test.go") find-sibling-rules :test #'equal)
+  (cl-pushnew '("\\([^/]+\\)_test\\.go\\'" "\\1.go") find-sibling-rules :test #'equal))
 #+end_src
 
 *** Packages
@@ -4521,19 +4522,6 @@ Packages that I am currently testing or evaluating.
 ** org-roam
 #+begin_src emacs-lisp :tangle yes
 (use-package org-roam :ensure t)
-#+end_src
-
-** related-files
-#+begin_src emacs-lisp :tangle yes
-(use-package related-files
-  :ensure t
-  :general
-  ("C-x j" 'related-files-jump
-   "C-x J" 'related-files-make))
-
-(use-package related-files-recipe
-  :demand t
-  :after related-files)
 #+end_src
 
 ** shrface

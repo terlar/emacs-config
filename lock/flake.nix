@@ -1153,12 +1153,6 @@
       repo = "rego-mode";
       type = "github";
     };
-    related-files = {
-      flake = false;
-      owner = "DamienCassou";
-      repo = "related-files";
-      type = "github";
-    };
     relative-buffers = {
       flake = false;
       owner = "terlar";
