@@ -2046,6 +2046,8 @@ Reduce scroll margin.
 Kill compilation process before stating another and save all buffers on ~compile~.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
+  :functions
+  (compilation-find-buffer)
   :preface
   (defun compile-on-save-start ()
     (let ((main-buffer (current-buffer))
