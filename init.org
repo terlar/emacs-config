@@ -1673,6 +1673,10 @@ More procedural scrolling.
 
 (setq-default scroll-down-aggressively 0.01)
 (setq-default scroll-up-aggressively 0.01)
+
+(use-package pixel-scroll
+  :hook
+  (org-mode-hook . pixel-scroll-precision-mode))
 #+end_src
 
 ** Packages
@@ -4464,14 +4468,6 @@ Packages that I am currently testing or evaluating.
 ** gif-screencast
 #+begin_src emacs-lisp :tangle yes
 (use-package gif-screencast :ensure t)
-#+end_src
-
-** iscroll
-#+begin_src emacs-lisp :tangle yes
-(use-package iscroll
-  :ensure t
-  :hook
-  (org-mode-hook . iscroll-mode))
 #+end_src
 
 ** kind-icon
