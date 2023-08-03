@@ -4055,6 +4055,8 @@ Pretty check-boxes as well as bullet lists.
 ** sh
 #+begin_src emacs-lisp :tangle yes
 (use-package sh-script
+  :hook
+  (sh-mode-hook . flymake-mode)
   :general
   (:keymaps
    'sh-mode-map
