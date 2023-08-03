@@ -1342,6 +1342,7 @@ Automatic parenthesis pairing and highlighting.
 #+begin_src emacs-lisp :tangle yes
 (electric-pair-mode 1)
 (show-paren-mode 1)
+(setq show-paren-context-when-offscreen t)
 #+end_src
 
 ** Auto-typing
