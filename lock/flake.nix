@@ -463,12 +463,6 @@
       repo = "flymake-racket";
       type = "github";
     };
-    flymake-shellcheck = {
-      flake = false;
-      owner = "federicotdn";
-      repo = "flymake-shellcheck";
-      type = "github";
-    };
     focus = {
       flake = false;
       owner = "larstvei";
@@ -526,12 +520,6 @@
       flake = false;
       owner = "redguardtoo";
       repo = "gmail2bbdb";
-      type = "github";
-    };
-    go-mode = {
-      flake = false;
-      owner = "dominikh";
-      repo = "go-mode.el";
       type = "github";
     };
     gorepl-mode = {
@@ -683,12 +671,6 @@
       repo = "inheritenv";
       type = "github";
     };
-    iscroll = {
-      flake = false;
-      owner = "casouri";
-      repo = "iscroll";
-      type = "github";
-    };
     javadoc-lookup = {
       flake = false;
       owner = "skeeto";
@@ -713,22 +695,10 @@
       repo = "js2-mode";
       type = "github";
     };
-    json-mode = {
-      flake = false;
-      owner = "json-emacs";
-      repo = "json-mode";
-      type = "github";
-    };
     json-navigator = {
       flake = false;
       owner = "DamienCassou";
       repo = "json-navigator";
-      type = "github";
-    };
-    json-snatcher = {
-      flake = false;
-      owner = "Sterlingg";
-      repo = "json-snatcher";
       type = "github";
     };
     kind-icon = {
@@ -1349,12 +1319,6 @@
       flake = false;
       owner = "ocaml";
       repo = "tuareg";
-      type = "github";
-    };
-    typescript-mode = {
-      flake = false;
-      owner = "emacs-typescript";
-      repo = "typescript.el";
       type = "github";
     };
     valign = {

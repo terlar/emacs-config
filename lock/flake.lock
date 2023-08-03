@@ -1232,22 +1232,6 @@
         "type": "github"
       }
     },
-    "flymake-shellcheck": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1668379502,
-        "narHash": "sha256-Gk5SU2HOtIwqJbpzKW5nJKIkXsqKOk6H/MBhU2Pfea0=",
-        "owner": "federicotdn",
-        "repo": "flymake-shellcheck",
-        "rev": "ab7d44f42446fc4ff2bcda78a8622bdda6111870",
-        "type": "github"
-      },
-      "original": {
-        "owner": "federicotdn",
-        "repo": "flymake-shellcheck",
-        "type": "github"
-      }
-    },
     "focus": {
       "flake": false,
       "locked": {
@@ -1405,22 +1389,6 @@
       "original": {
         "owner": "redguardtoo",
         "repo": "gmail2bbdb",
-        "type": "github"
-      }
-    },
-    "go-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1672247204,
-        "narHash": "sha256-SEqDeF5F/DQ5/NOi3n6mYhlkYg+VxY/EPAvxtt5wUG0=",
-        "owner": "dominikh",
-        "repo": "go-mode.el",
-        "rev": "166dfb1e090233c4609a50c2ec9f57f113c1da72",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dominikh",
-        "repo": "go-mode.el",
         "type": "github"
       }
     },
@@ -1824,22 +1792,6 @@
         "type": "github"
       }
     },
-    "iscroll": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1655003420,
-        "narHash": "sha256-cpJ8DobKu8LYa8iiHYxu9CVtZ+prrL5zsH5zyR1P50M=",
-        "owner": "casouri",
-        "repo": "iscroll",
-        "rev": "76aa4e7e72f907e95715351819d9efb6336b8238",
-        "type": "github"
-      },
-      "original": {
-        "owner": "casouri",
-        "repo": "iscroll",
-        "type": "github"
-      }
-    },
     "javadoc-lookup": {
       "flake": false,
       "locked": {
@@ -1904,22 +1856,6 @@
         "type": "github"
       }
     },
-    "json-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1689581939,
-        "narHash": "sha256-QSVLbTeVXZEpq+7IyShvxgdeVIFE0J7g8QZwFp9nxsY=",
-        "owner": "json-emacs",
-        "repo": "json-mode",
-        "rev": "20b9c21f44c58e94256c7826d0821205e017dfbb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "json-emacs",
-        "repo": "json-mode",
-        "type": "github"
-      }
-    },
     "json-navigator": {
       "flake": false,
       "locked": {
@@ -1933,22 +1869,6 @@
       "original": {
         "owner": "DamienCassou",
         "repo": "json-navigator",
-        "type": "github"
-      }
-    },
-    "json-snatcher": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1600276660,
-        "narHash": "sha256-ECQq7/HZiKneJ01wdF23loAU0iJYtGGzAOg6hqOIu9s=",
-        "owner": "Sterlingg",
-        "repo": "json-snatcher",
-        "rev": "b28d1c0670636da6db508d03872d96ffddbc10f2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Sterlingg",
-        "repo": "json-snatcher",
         "type": "github"
       }
     },
@@ -3215,7 +3135,6 @@
         "flymake-eslint": "flymake-eslint",
         "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",
-        "flymake-shellcheck": "flymake-shellcheck",
         "focus": "focus",
         "freeze-it": "freeze-it",
         "fullframe": "fullframe",
@@ -3226,7 +3145,6 @@
         "git-commit": "git-commit",
         "git-modes": "git-modes",
         "gmail2bbdb": "gmail2bbdb",
-        "go-mode": "go-mode",
         "gorepl-mode": "gorepl-mode",
         "gotest": "gotest",
         "goto-chg": "goto-chg",
@@ -3252,14 +3170,11 @@
         "inf-crystal": "inf-crystal",
         "inf-ruby": "inf-ruby",
         "inheritenv": "inheritenv",
-        "iscroll": "iscroll",
         "javadoc-lookup": "javadoc-lookup",
         "jest": "jest",
         "jinx": "jinx",
         "js2-mode": "js2-mode",
-        "json-mode": "json-mode",
         "json-navigator": "json-navigator",
-        "json-snatcher": "json-snatcher",
         "kind-icon": "kind-icon",
         "kotlin-mode": "kotlin-mode",
         "kubernetes": "kubernetes",
@@ -3364,7 +3279,6 @@
         "transpose-frame": "transpose-frame",
         "ts-comint": "ts-comint",
         "tuareg": "tuareg",
-        "typescript-mode": "typescript-mode",
         "valign": "valign",
         "vc-msg": "vc-msg",
         "vertico": "vertico",
@@ -3866,22 +3780,6 @@
       "original": {
         "owner": "ocaml",
         "repo": "tuareg",
-        "type": "github"
-      }
-    },
-    "typescript-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673883199,
-        "narHash": "sha256-1Q/AK/8xbnHfduEidF3GjjdeKQUoGPLBdow0RGUtfIs=",
-        "owner": "emacs-typescript",
-        "repo": "typescript.el",
-        "rev": "4fcb4594819caf472ae42ea068a1c7795cf07f46",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacs-typescript",
-        "repo": "typescript.el",
         "type": "github"
       }
     },
