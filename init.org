@@ -2238,7 +2238,6 @@ Don't ask about keeping current list of tags tables.
   :general
   (:prefix
    nav-prefix
-   "i" 'xref-find-definitions
    "o" 'xref-find-definitions-other-window)
   :config
   (remove-hook 'xref-backend-functions #'etags--xref-backend))
