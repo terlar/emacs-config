@@ -258,15 +258,6 @@ Track how much time is spent in each function and present a view to investigate 
     (explain-pause-mode 1)))
 #+end_src
 
-*** so-long
-Improve performance for files with long lines, for example minified code.
-#+begin_src emacs-lisp :tangle yes
-(use-package so-long
-  :defer 2
-  :config
-  (global-so-long-mode 1))
-#+end_src
-
 *** vlf
 Large file support. This can view/edit/search and compare large files.
 #+begin_src emacs-lisp :tangle yes
@@ -980,7 +971,6 @@ Display available keybindings in a popup as you press keys.
  "g" '(glasses-mode                     :wk "Readable camelCase")
  "h" '(hl-line-mode                     :wk "Line highlight")
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
- "L" '(so-long-mode                     :wk "Long lines")
  "s" '(subword-mode                     :wk "Sub-word")
  "t" '(toggle-truncate-lines            :wk "Truncate lines")
  "v" '(variable-pitch-mode              :wk "Variable-pitch")
