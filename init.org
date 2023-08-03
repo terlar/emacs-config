@@ -2104,7 +2104,10 @@ nothing happens."
 **** Files
 Support for Docker related files.
 #+begin_src emacs-lisp :tangle yes
-(use-package dockerfile-mode :ensure t)
+(use-package dockerfile-ts-mode
+  :mode
+  "Dockerfile\\'"
+  "\\.dockerfile\\'")
 (use-package docker-compose-mode :ensure t)
 #+end_src
 

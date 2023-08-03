@@ -704,22 +704,6 @@
         "type": "github"
       }
     },
-    "dockerfile-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1661199713,
-        "narHash": "sha256-Kr9AjzsQQeInOJ0K4vNokMwKAUYnE0MdXG2ym9kCSHo=",
-        "owner": "spotify",
-        "repo": "dockerfile-mode",
-        "rev": "52c6c00da1d31c0b6c29c74335b3af63ed6bf06c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "spotify",
-        "repo": "dockerfile-mode",
-        "type": "github"
-      }
-    },
     "dtrt-indent": {
       "flake": false,
       "locked": {
@@ -3102,7 +3086,6 @@
         "dired-subtree": "dired-subtree",
         "docker": "docker",
         "docker-compose-mode": "docker-compose-mode",
-        "dockerfile-mode": "dockerfile-mode",
         "dtrt-indent": "dtrt-indent",
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",

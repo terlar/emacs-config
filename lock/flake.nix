@@ -265,12 +265,6 @@
       repo = "docker-compose-mode";
       type = "github";
     };
-    dockerfile-mode = {
-      flake = false;
-      owner = "spotify";
-      repo = "dockerfile-mode";
-      type = "github";
-    };
     dtrt-indent = {
       flake = false;
       owner = "jscheid";
