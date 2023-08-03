@@ -162,7 +162,7 @@
    `(readable-typo-theme-echo-area ((t (:height ,small-height :family ,variable-pitch :weight ,default-weight))))
 
 ;;;;; Interface
-   `(mode-line ((t (:family ,variable-pitch :height ,small-height))))
+   `(mode-line-active ((t (:family ,variable-pitch :height ,small-height))))
    `(mode-line-inactive ((t (:family ,variable-pitch :height ,small-height))))
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))

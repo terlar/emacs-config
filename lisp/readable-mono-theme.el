@@ -239,7 +239,7 @@ For example links."
    `(whitespace-trailing ((t (:inherit error))))
 
 ;;;;; Interface
-   `(mode-line
+   `(mode-line-active
      ((((background light)) (:background ,l-bg-s :box (:line-width 6 :color ,l-bg-s)))
       (((background dark)) (:background ,d-bg-s :box (:line-width 6 :color ,d-bg-s)))))
    `(mode-line-inactive
