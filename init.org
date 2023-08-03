@@ -1436,8 +1436,7 @@ Cycle through words, symbols and patterns.
   :config
   (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute"))
-  (grugru-define-global 'symbol '("yes" "no"))
-  (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
+  (grugru-define-global 'symbol '("yes" "no")))
 #+end_src
 
 *** puni
@@ -2171,7 +2170,7 @@ Lookup documentation via DevDocs.
   :ensure t
   :general
   (:keymaps
-   '(prog-mode-map typescript-mode-map)
+   'prog-mode-map
    "C-c '" 'separedit)
   :init
   (setq separedit-preserve-string-indentation t))
@@ -2222,10 +2221,7 @@ Reformat buffer without moving point.
   (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
                        (nix . ("nix" "fmt" "--" "-"))
                        (rufo . ("rufo" "--simple-exit"))))
-    (cl-pushnew formatter apheleia-formatters :test #'equal))
-  (dolist (mode-formatter '((nix-mode . nix)
-                            (ruby-mode . rufo)))
-    (cl-pushnew mode-formatter apheleia-mode-alist :test #'equal)))
+    (cl-pushnew formatter apheleia-formatters :test #'equal)))
 #+end_src
 
 ** Jump to definition
@@ -2313,12 +2309,8 @@ Refactoring commands for various languages.
         '((emacs-lisp-mode . ielm)
           (clojure-mode . clojure-repl)
           (elm-mode . elm-repl-load)
-          (go-mode . gorepl-run)
-          (js-mode . nodejs-repl)
           (lua-mode . lua-repl)
-          (nix-mode . nix-repl)
-          (racket-mode . racket-repl)
-          (typescript-mode . run-ts))))
+          (racket-mode . racket-repl))))
 #+end_src
 
 *** Persistent history in comint
@@ -2620,19 +2612,6 @@ Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot
   :defer 3
-  :preface
-  (defun +eglot-ensure-unless-json-mode ()
-    (unless (derived-mode-p 'json-mode) (eglot-ensure)))
-  :hook
-  ((elixir-mode-hook
-    go-mode-hook
-    haskell-mode-hook
-    java-mode-hook
-    nix-mode-hook
-    ruby-mode-hook
-    rustic-mode-hook
-    typescript-mode-hook) . eglot-ensure)
-  (js-mode-hook . +eglot-ensure-unless-json-mode)
   :general
   (:keymaps
    'eglot-mode-map
@@ -2648,7 +2627,13 @@ Generic Language Server Protocol integration via ~eglot~.
   (setq eglot-confirm-server-initiated-edits nil)
   (setq eglot-sync-connect nil)
   :config
-  (cl-pushnew '(elixir-mode . ("elixir-ls")) eglot-server-programs :test #'equal))
+  (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
+              eglot-server-programs
+              :test #'equal)
+
+  (cl-pushnew '((java-mode java-ts-mode) . ("jdt-language-server" "-data" ".jdtls-cache"))
+              eglot-server-programs
+              :test #'equal))
 #+end_src
 
 *** hl-todo
@@ -2804,15 +2789,6 @@ Specific safe local code can be specified via:
 - ~safe-local-variable-values~
 - ~safe-local-eval-forms~
 - ~safe-local-eval-function~
-
-*** Syntax checking
-#+begin_src emacs-lisp :tangle yes
-(defun elisp-flymake--load-use-package-before-compile ()
-  "Ensure `use-package' macro is available for code snippets."
-  (eval-when-compile
-    (require 'use-package nil t)))
-(advice-add 'elisp-flymake--batch-compile-for-flymake :before #'elisp-flymake--load-use-package-before-compile)
-#+end_src
 
 *** ielm
 Persist ielm history.
@@ -3276,12 +3252,15 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 
 ** elixir
 #+begin_src emacs-lisp :tangle yes
-(use-package elixir-mode
-  :ensure t
+(use-package elixir-ts-mode
   :mode
   "\\.elixir\\'"
   "\\.ex\\'"
-  "\\.exs\\'")
+  "\\.exs\\'"
+  :hook
+  (elixir-ts-mode-hook . eglot-ensure))
+
+(cl-pushnew '(elixir-mode . elixir-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 ** elm
@@ -3367,14 +3346,18 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 
 ** go
 #+begin_src emacs-lisp :tangle yes
-(use-package go-mode
-  :ensure t
+(use-package go-ts-mode
   :mode
   "\\.go\\'"
-  ("go\\.mod\\'" . go-dot-mod-mode)
-  :init
-  (setq gofmt-command "goimports")
+  ("go\\.mod\\'" . go-mod-ts-mode)
+  :hook
+  (go-ts-mode-hook . eglot-ensure)
   :config
+  (cl-pushnew '(go-mode . go-ts-mode) major-mode-remap-alist :test #'equal)
+
+  (with-eval-after-load 'apheleia
+    (cl-pushnew '(go-ts-mode . goimports) apheleia-mode-alist :test #'equal))
+
   (cl-pushnew '("\\([^/]+\\)\\.go\\'" "\\1_test.go") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\)_test\\.go\\'" "\\1.go") find-sibling-rules :test #'equal))
 #+end_src
@@ -3386,7 +3369,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :general
   (:keymaps
-   'go-mode-map
+   'go-ts-mode-map
    :prefix local-leader-key
    "t" 'go-test-current-test
    "T" 'go-test-current-file
@@ -3399,7 +3382,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package gorepl-mode
   :ensure t
   :hook
-  (go-mode-hook . gorepl-mode))
+  (go-ts-mode-hook . gorepl-mode)
+  :init
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(go-ts-mode . gorepl-run) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** groovy
@@ -3435,6 +3421,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.l[gh]s\\'" . haskell-literate-mode)
   :hook
   (haskell-mode-hook . interactive-haskell-mode)
+  (haskell-mode-hook . eglot-ensure)
   :general
   (:keymaps
    'interactive-haskell-mode-map
@@ -3483,13 +3470,21 @@ Persist REPL history.
 #+end_src
 
 ** java
+#+begin_src emacs-lisp :tangle yes
+(use-package java-ts-mode
+  :hook
+  (java-ts-mode-hook . eglot-ensure))
+
+(cl-pushnew '(java-mode . java-ts-mode) major-mode-remap-alist :test #'equal)
+#+end_src
+
 *** Packages
 **** gradle-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package gradle-mode
   :ensure t
   :hook
-  ((java-mode-hook kotlin-mode-hook) . gradle-mode)
+  ((java-mode-hook java-ts-mode-hook kotlin-mode-hook) . gradle-mode)
   :general
   (:keymaps
    'gradle-mode-map
@@ -3503,7 +3498,7 @@ Persist REPL history.
   :ensure t
   :general
   (:keymaps
-   'java-mode-map
+   'java-ts-mode-map
    :prefix nav-prefix
    "k" 'javadoc-lookup))
 #+end_src
@@ -3512,8 +3507,15 @@ Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package js
   :mode
-  ("\\.js[mx]?\\'" . javascript-mode)
-  ("\\.har\\'" . javascript-mode))
+  ("\\.js[mx]?\\'" . js-ts-mode)
+  ("\\.har\\'" . js-ts-mode)
+  :hook
+  (js-ts-mode-hook . eglot-ensure)
+  :init
+  (cl-pushnew '("\\([^/]+\\)\\.js\\'" "\\1.spec.js") find-sibling-rules :test #'equal)
+  (cl-pushnew '("\\([^/]+\\).spec\\.js\\'" "\\1.js") find-sibling-rules :test #'equal))
+
+(cl-pushnew '(js-mode . js-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 *** Packages
@@ -3533,7 +3535,7 @@ Test framework execution.
   :ensure t
   :general
   (:keymaps
-   'js-mode-map
+   'js-ts-mode-map
    :prefix local-leader-key
    "t" 'jest-funcion-dwim
    "T" 'jest-file
@@ -3545,43 +3547,19 @@ REPL for nodejs.
 #+begin_src emacs-lisp :tangle yes
 (use-package nodejs-repl
   :ensure t
-  :commands (nodejs-repl))
+  :commands (nodejs-repl)
+  :init
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(js-ts-mode . nodejs-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** json
 #+begin_src emacs-lisp :tangle yes
-(use-package json-mode
-  :ensure t
+(use-package json-ts-mode
   :mode
   "\\(?:\\(?:\\.json\\|\\.jsonld\\|\\.babelrc\\|\\.bowerrc\\|composer\\.lock\\)\\'\\)")
-#+end_src
 
-*** Syntax checker
-#+begin_src emacs-lisp :tangle no
-(use-package json-mode
-  :preface
-  (flymake-quickdef-backend flymake-check-jsonlint
-    :pre-let ((jsonlint-exec (executable-find "jsonlint")))
-    :pre-check (unless jsonlint-exec (error "Cannot find jsonlint executable"))
-    :write-type 'file
-    :proc-form (list jsonlint-exec "-c" "-q" fmqd-temp-file)
-    :search-regexp "^\\(.+\\)\: line \\([0-9]+\\), col \\([0-9]+\\), \\(.+\\)$"
-    :prep-diagnostic
-    (let* ((lnum (string-to-number (match-string 2)))
-           (col (string-to-number (match-string 3)))
-           (msg (match-string 4))
-           (pos (flymake-diag-region fmqd-source lnum col))
-           (beg (car pos))
-           (end (cdr pos))
-           (type :error))
-      (list fmqd-source beg end type msg)))
-
-  (defun init-json-mode-flymake ()
-    "Setup `json-mode' integration with Flymake."
-    (add-hook 'flymake-diagnostic-functions #'flymake-check-jsonlint nil t)
-    (flymake-mode))
-  :hook
-  (json-mode-hook . init-json-mode-flymake))
+(cl-pushnew '(json-mode . json-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 *** Packages
@@ -3591,7 +3569,7 @@ REPL for nodejs.
   :ensure t
   :general
   (:keymaps
-   'json-mode-map
+   'json-ts-mode-map
    :prefix local-leader-key
    "n" 'json-navigator-navigate-region))
 #+end_src
@@ -3720,11 +3698,20 @@ Pretty check-boxes
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'"
+  :hook
+  (nix-mode-hook . eglot-ensure)
   :general
   (:keymaps
    'nix-mode-map
    :prefix local-leader-key
-   "f" 'nix-flake))
+   "f" 'nix-flake)
+  :init
+  (with-eval-after-load 'apheleia
+    (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
+  (with-eval-after-load 'grugru
+    (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(nix-mode . nix-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 *** Packages
@@ -3791,14 +3778,18 @@ Pretty check-boxes
 ** python
 #+begin_src emacs-lisp :tangle yes
 (use-package python
-  :hook (python-mode-hook . indent-guide-mode)
+  :hook
+  (python-ts-mode-hook . eglot-ensure)
+  (python-ts-mode-hook . indent-guide-mode)
   :general
   (:keymaps
-   'python-mode-map
+   'python-ts-mode-map
    :prefix local-leader-key
    "r" 'run-python)
   :config
   (put 'python-shell-interpreter 'safe-local-variable #'(lambda (x) (member x '("python" "ipython")))))
+
+(cl-pushnew '(python-mode . python-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 *** Packages
@@ -3808,7 +3799,7 @@ Pretty check-boxes
   :ensure t
   :general
   (:keymaps
-   'python-mode-map
+   'python-ts-mode-map
    :prefix nav-prefix
    "k" 'pydoc-at-point))
 #+end_src
@@ -3819,7 +3810,7 @@ Pretty check-boxes
   :ensure t
   :general
   (:keymaps
-   'python-mode-map
+   'python-ts-mode-map
    :prefix local-leader-key
    "t" 'python-test-project)
   :init
@@ -3905,12 +3896,23 @@ Pretty check-boxes as well as bullet lists.
 
 ** ruby
 #+begin_src emacs-lisp :tangle yes
-(use-package ruby-mode
+(use-package ruby-ts-mode
+  :mode
+  "\\.\\(rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\'"
+  "\\(Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file"
+  :hook
+  (ruby-ts-mode-hook . eglot-ensure)
   :init
   (setq ruby-align-chained-calls t)
+
+  (with-eval-after-load 'apheleia
+    (cl-pushnew '(ruby-ts-mode . rufo) apheleia-mode-alist :test #'equal))
+
+  (cl-pushnew '("\\([^/]+\\)\\.rb\\'" "\\1_test.rb") find-sibling-rules :test #'equal)
+  (cl-pushnew '("\\([^/]+\\)_test\\.rb\\'" "\\1.rb") find-sibling-rules :test #'equal)
   :config
   (with-eval-after-load 'hideshow
-    (cl-pushnew `(ruby-mode
+    (cl-pushnew `(ruby-ts-mode
                   ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
                   ,(rx (or "}" "]" "end"))                       ; Block end
                   ,(rx bol
@@ -3943,12 +3945,12 @@ Pretty check-boxes as well as bullet lists.
 (use-package inf-ruby
   :ensure t
   :hook
-  (ruby-mode-hook . inf-ruby-minor-mode)
+  (ruby-ts-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
   (compilation-filter . inf-ruby-auto-enter)
   :general
   (:keymaps
-   'ruby-mode-map
+   'ruby-ts-mode-map
    :prefix local-leader-key
    "r" 'inf-ruby)
   :init
@@ -3960,7 +3962,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package minitest
   :ensure t
   :hook
-  (ruby-mode-hook . minitest-enable-appropriate-mode))
+  (ruby-ts-mode-hook . minitest-enable-appropriate-mode))
 #+end_src
 
 **** rake
@@ -3977,7 +3979,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package rspec-mode
   :ensure t
   :hook
-  (ruby-mode-hook . rspec-enable-appropriate-mode)
+  (ruby-ts-mode-hook . rspec-enable-appropriate-mode)
   :init
   (setq rspec-use-relative-path t)
   (setq rspec-use-opts-file-when-available nil)
@@ -3989,7 +3991,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package ruby-refactor
   :ensure t
   :hook
-  (ruby-mode-hook . ruby-refactor-mode))
+  (ruby-ts-mode-hook . ruby-refactor-mode))
 #+end_src
 
 **** yard-mode
@@ -3997,7 +3999,7 @@ Pretty check-boxes as well as bullet lists.
 (use-package yard-mode
   :ensure t
   :hook
-  (ruby-mode-hook . yard-mode))
+  (ruby-ts-mode-hook . yard-mode))
 #+end_src
 
 **** yari
@@ -4006,7 +4008,7 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :general
   (:keymaps
-   'ruby-mode-map
+   'ruby-ts-mode-map
    :prefix nav-prefix
    "k" 'yari)
   (:keymaps
@@ -4020,6 +4022,8 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :mode
   ("\\.rs\\'" . rustic-mode)
+  :hook
+  (rustic-mode-hook . eglot-ensure)
   :general
   (:keymaps
    'rustic-mode-map
@@ -4068,15 +4072,6 @@ Pretty check-boxes as well as bullet lists.
 #+end_src
 
 *** Packages
-**** flymake-shellcheck
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-shellcheck
-  :ensure t
-  :hook
-  (sh-mode-hook . flymake-mode)
-  (sh-mode-hook . flymake-shellcheck-load))
-#+end_src
-
 ** sql
 #+begin_src emacs-lisp :tangle yes
 (use-package sql
@@ -4093,13 +4088,13 @@ Pretty check-boxes as well as bullet lists.
 
 ** typescript
 #+begin_src emacs-lisp :tangle yes
-(use-package typescript-mode
-  :ensure t
+(use-package typescript-ts-mode
   :mode "\\.ts$"
-  :general
-  (:keymaps
-   'typescript-mode-map
-   "C-c '" 'nil))
+  :hook
+  (typescript-ts-mode-hook . eglot-ensure)
+  :init
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(typescript-ts-mode . run-ts) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 *** Packages
@@ -4119,7 +4114,7 @@ Test framework execution.
   :ensure t
   :general
   (:keymaps
-   'typescript-mode-map
+   'typescript-ts-mode-map
    :prefix local-leader-key
    "t" 'jest-function-dwim
    "T" 'jest-file

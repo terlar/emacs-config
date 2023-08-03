@@ -3,9 +3,30 @@
   stdenv,
   trivialBuild,
   emacs-all-the-icons-fonts,
+  linkFarm,
   ripgrep,
+  tree-sitter-grammars,
+  writeText,
   xorg,
 }: let
+  initTreesit = writeText "init-treesit.el" ''
+    (add-to-list 'treesit-extra-load-path  "${
+      lib.pipe tree-sitter-grammars [
+        builtins.attrValues
+        (builtins.filter lib.isDerivation)
+        (map (drv: {
+          name = builtins.concatStringsSep "" [
+            "lib"
+            (lib.removeSuffix "-grammar" (lib.getName drv))
+            stdenv.targetPlatform.extensions.sharedLibrary
+          ];
+          path = "${drv}/parser";
+        }))
+        (linkFarm "treesit-grammars")
+      ]
+    }/")
+  '';
+
   init = trivialBuild {
     pname = "config-init";
 
@@ -16,6 +37,8 @@
         --load org \
         *.org \
         --funcall org-babel-tangle
+
+      cat ${initTreesit} >> init.el
     '';
 
     buildPhase = ''
@@ -47,7 +70,7 @@ in
     ];
 
     passthru.components = {
-      inherit init;
+      inherit init initTreesit;
     };
 
     installPhase = ''
