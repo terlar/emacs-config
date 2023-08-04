@@ -117,6 +117,11 @@ Don't implicitly resize frames when changing various settings.
 (setq frame-inhibit-implied-resize t)
 #+end_src
 
+Allow resizing by dragging internal border.
+#+begin_src emacs-lisp :tangle early-init.el
+(push '(drag-internal-border . t) default-frame-alist)
+#+end_src
+
 Ignore X resources.
 #+begin_src emacs-lisp :tangle early-init.el
 (advice-add #'x-apply-session-resources :override #'ignore)
