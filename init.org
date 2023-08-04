@@ -1289,8 +1289,9 @@ Manage "popups".
   ("C-M-`" 'popper-cycle)
   :init
   (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
+        '("Output\\*$"
+          "\\*Messages\\*"
+          "\\*envrc\\*"
           "^\\*eldoc"
           compilation-mode
           elisp-refs-mode
@@ -1548,7 +1549,7 @@ Making invisible text temporarily visible.
 (use-package simple
   :general
   (:prefix
-   local-leader-key
+   leader-key
    "v" 'visible-mode))
 #+end_src
 
@@ -3192,9 +3193,9 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    'cider-mode-map
    :prefix local-leader-key
    "c" 'cider-refresh
-   "t" 'cider-test-run-test
-   "T" 'cider-test-run-ns-tests
-   "s" 'cider-test-run-project-tests)
+   "t a" 'cider-test-run-project-tests
+   "t n" 'cider-test-run-ns-tests
+   "t t" 'cider-test-run-test)
   :init
   (setq cider-prompt-for-symbol nil)
   (setq cider-repl-display-help-banner nil)
@@ -3210,9 +3211,9 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (:keymaps
    'crystal-mode-map
    :prefix local-leader-key
-   "t" 'crystal-spec-line
-   "T" 'crystal-spec-buffer
-   "s" 'crystal-spec-all))
+   "t a" 'crystal-spec-all
+   "t f" 'crystal-spec-buffer
+   "t t" 'crystal-spec-line))
 #+end_src
 
 *** Packages
@@ -3303,13 +3304,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package erlang
   :ensure t
   :mode
-  "\\.erl$"
-  "\\.app\\.src$"
-  "\\.escript"
-  "\\.hrl$"
-  "\\.xrl$"
-  "\\.yrl"
-  "/ebin/.+\\.app"
+  ("\\.\\(e\\|h\\|x\\|y\\)rl$" . erlang-mode)
+  ("\\.escript" . erlang-mode)
+  ("\\.app\\.src$" . erlang-mode)
+  ("/ebin/.+\\.app" . erlang-mode)
   :preface
   (defun init-erlang-eunit ()
     "Setup EUnit support for `erlang-mode'."
@@ -3329,9 +3327,12 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (:keymaps
    'erlang-mode-map
    :prefix local-leader-key
-   "t" 'erlang-eunit-compile-and-run-current-test
-   "T" 'erlang-eunit-compile-and-run-module-tests
-   "r" 'erlang-shell-display))
+   "r" 'erlang-shell-display
+   "t t" 'erlang-eunit-compile-and-run-current-test
+   "t m" 'erlang-eunit-compile-and-run-module-tests)
+  :init
+  (cl-pushnew '("src/\\([^/]+\\)\\.erl\\'" "test/\\1_tests.erl") find-sibling-rules :test #'equal)
+  (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal))
 #+end_src
 
 ** git
@@ -3371,10 +3372,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (:keymaps
    'go-ts-mode-map
    :prefix local-leader-key
-   "t" 'go-test-current-test
-   "T" 'go-test-current-file
-   "s" 'go-test-current-project
-   "r" 'go-run))
+   "l" 'go-run
+   "t a" 'go-test-current-project
+   "t f" 'go-test-current-file
+   "t t" 'go-test-current-test))
 #+end_src
 
 **** gorepl-mode
@@ -3489,7 +3490,9 @@ Persist REPL history.
   (:keymaps
    'gradle-mode-map
    :prefix local-leader-key
-   "t" 'gradle-test))
+   "t t" 'gradle-test)
+  :init
+  (setq gradle-executable-path "gradle"))
 #+end_src
 
 **** java-lookup
@@ -3537,9 +3540,11 @@ Test framework execution.
   (:keymaps
    'js-ts-mode-map
    :prefix local-leader-key
-   "t" 'jest-funcion-dwim
-   "T" 'jest-file
-   "s" 'jest-popup))
+   "t a" 'jest
+   "t f" 'jest-file
+   "t t" 'jest-popup)
+  :init
+  (setq jest-executable "jest"))
 #+end_src
 
 **** nodejs-repl
@@ -3815,7 +3820,9 @@ Pretty check-boxes
   (:keymaps
    'python-ts-mode-map
    :prefix local-leader-key
-   "t" 'python-test-project)
+   "t a" 'python-test-project
+   "t f" 'python-test-file
+   "t t" 'python-test-function)
   :init
   (setq python-test-backend 'pytest)
   :config
@@ -3925,23 +3932,6 @@ Pretty check-boxes as well as bullet lists.
                 :test #'equal)))
 #+end_src
 
-*** Testing
-#+begin_src emacs-lisp :tangle yes
-(general-define-key
- :keymaps 'minitest-mode-map
- :prefix local-leader-key
- "t" 'minitest-verify-single
- "T" 'minitest-verify
- "s" 'minitest-verify-all)
-
-(general-define-key
- :keymaps 'rspec-mode-map
- :prefix local-leader-key
- "t" 'rspec-verify-single
- "T" 'rspec-verify
- "s" 'rspec-verify-all)
-#+end_src
-
 *** Packages
 **** inf-ruby
 #+begin_src emacs-lisp :tangle yes
@@ -3965,7 +3955,16 @@ Pretty check-boxes as well as bullet lists.
 (use-package minitest
   :ensure t
   :hook
-  (ruby-ts-mode-hook . minitest-enable-appropriate-mode))
+  (ruby-ts-mode-hook . minitest-enable-appropriate-mode)
+  :general
+  (:keymaps
+   'minitest-mode-map
+   :prefix local-leader-key
+   "t a" 'minitest-verify-all
+   "t f" 'minitest-verify
+   "t t" 'minitest-verify-single)
+  :init
+  (put 'minitest-use-bundler 'safe-local-variable 'booleanp))
 #+end_src
 
 **** rake
@@ -3983,6 +3982,13 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :hook
   (ruby-ts-mode-hook . rspec-enable-appropriate-mode)
+  :general
+  (:keymaps
+   'rspec-mode-map
+   :prefix local-leader-key
+   "t a" 'rspec-verify-all
+   "t f" 'rspec-verify
+   "t t" 'rspec-verify-single)
   :init
   (setq rspec-use-relative-path t)
   (setq rspec-use-opts-file-when-available nil)
@@ -4127,9 +4133,11 @@ Test framework execution.
   (:keymaps
    'typescript-ts-mode-map
    :prefix local-leader-key
-   "t" 'jest-function-dwim
-   "T" 'jest-file
-   "s" 'jest-popup))
+   "t a" 'jest
+   "t f" 'jest-file
+   "t t" 'jest-popup)
+  :init
+  (setq jest-executable "jest"))
 #+end_src
 
 ** web
