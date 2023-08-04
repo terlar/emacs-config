@@ -3711,9 +3711,7 @@ Pretty check-boxes
   :hook
   (nix-mode-hook . eglot-ensure)
   :general
-  (:keymaps
-   'nix-mode-map
-   :prefix local-leader-key
+  (:prefix leader-key
    "f" 'nix-flake)
   :init
   (with-eval-after-load 'apheleia
