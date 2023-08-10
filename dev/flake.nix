@@ -106,12 +106,9 @@
               rootFlake'.packages.emacsEnv
             ];
             text = ''
-              XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
-              export XDG_CONFIG_HOME
-              mkdir -p "$XDG_CONFIG_HOME/emacs"
-              lndir -silent "$PWD" "$XDG_CONFIG_HOME/emacs"
-              ln -s "$HOME/.config/fontconfig" "$XDG_CONFIG_HOME/."
-              emacs "$@"
+              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
+              lndir -silent "$PWD" "$EMACS_DIR"
+              emacs --init-directory "$EMACS_DIR" "$@"
             '';
           };
 
@@ -122,12 +119,9 @@
               rootFlake'.packages.emacsEnv
             ];
             text = ''
-              XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
-              export XDG_CONFIG_HOME
-              mkdir -p "$XDG_CONFIG_HOME/emacs"
-              lndir -silent ${rootFlake'.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
-              ln -s "$HOME/.config/fontconfig" "$XDG_CONFIG_HOME/."
-              emacs "$@"
+              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
+              lndir -silent ${rootFlake'.packages.emacsConfig} "$EMACS_DIR"
+              emacs --init-directory "$EMACS_DIR" "$@"
             '';
           };
 
@@ -147,12 +141,9 @@
               rootFlake'.packages.emacsEnv
             ];
             text = ''
-              XDG_CONFIG_HOME="$(mktemp -td xdg-config.XXXXXXXXXX)"
-              export XDG_CONFIG_HOME
-              mkdir -p "$XDG_CONFIG_HOME/emacs"
-              lndir -silent ${rootFlake'.packages.emacsConfig} "$XDG_CONFIG_HOME/emacs"
-              ln -s "$HOME/.config/fontconfig" "$XDG_CONFIG_HOME/."
-              emacs -fs --load ${./screenshots.el} --eval '(kill-emacs)'
+              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
+              lndir -silent ${rootFlake'.packages.emacsConfig} "$EMACS_DIR"
+              emacs -fs --init-directory "$EMACS_DIR" --load ${./screenshots.el} --eval '(kill-emacs)'
             '';
           };
         };
