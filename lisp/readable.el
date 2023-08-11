@@ -43,7 +43,7 @@
 
 ;;;###autoload
 (defface readable-variable-pitch
-  '((t (:family "serif")))
+  '((t (:inherit variable-pitch-text)))
   "Face used to increase readability for `variable-pitch' face."
   :group 'readable)
 

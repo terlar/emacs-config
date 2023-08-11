@@ -158,6 +158,7 @@
    `(fixed-pitch ((t (:family ,fixed-pitch :weight ,default-weight))))
    `(fixed-pitch-serif ((t (:family ,fixed-pitch-serif :weight ,default-weight))))
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
+   `(variable-pitch-text ((t (:height 1.1 :family ,serif))))
    `(bold ((t (:weight ,bold-weight))))
    `(readable-typo-theme-echo-area ((t (:height ,small-height :family ,variable-pitch :weight ,default-weight))))
 
@@ -217,9 +218,6 @@
    `(outline-7 ((t (:height ,level-7-height :weight ,bold-weight :slant italic))))
    `(outline-8 ((t (:height ,level-8-height :weight ,bold-weight :slant italic))))
    `(outline-minor-0 ((t (:family ,serif))))
-
-;;;;; readable
-   `(readable-variable-pitch ((t (:height 1.1 :family ,serif))))
 
 ;;;;; rst
    `(rst-level-1 ((t (:height ,level-1-height :weight ,bold-weight))))
