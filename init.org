@@ -115,7 +115,7 @@ Start maximized.
 Don't implicitly resize frames when changing various settings.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq frame-inhibit-implied-resize t)
-(setq global-text-scale-adjust-resizes-frames t)
+(defvar global-text-scale-adjust-resizes-frames t)
 #+end_src
 
 Allow resizing by dragging internal border.
