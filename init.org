@@ -1695,16 +1695,6 @@ Revert buffers when underlying files change.
   (setq auto-revert-verbose nil))
 #+end_src
 
-*** default-text-scale
-#+begin_src emacs-lisp :tangle yes
-(use-package default-text-scale
-  :ensure t
-  :general
-  ("C-M-=" 'default-text-scale-increase)
-  ("C-M--" 'default-text-scale-decrease)
-  ("C-M-0" 'default-text-scale-reset))
-#+end_src
-
 *** eldoc
 #+begin_src emacs-lisp :tangle yes
 (use-package eldoc

@@ -205,12 +205,6 @@
       repo = "deadgrep";
       type = "github";
     };
-    default-text-scale = {
-      flake = false;
-      owner = "purcell";
-      repo = "default-text-scale";
-      type = "github";
-    };
     defrepeater = {
       flake = false;
       owner = "alphapapa";

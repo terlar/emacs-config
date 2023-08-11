@@ -544,22 +544,6 @@
         "type": "github"
       }
     },
-    "default-text-scale": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1577399676,
-        "narHash": "sha256-QiL0mlm95qnZh5/zXioGSGkOZQQPTFvZQiWGq3XCdc0=",
-        "owner": "purcell",
-        "repo": "default-text-scale",
-        "rev": "bfc0987c37e93742255d3b23d86c17096fda8e7e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "purcell",
-        "repo": "default-text-scale",
-        "type": "github"
-      }
-    },
     "defrepeater": {
       "flake": false,
       "locked": {
@@ -3076,7 +3060,6 @@
         "ctrlxo": "ctrlxo",
         "dash": "dash",
         "deadgrep": "deadgrep",
-        "default-text-scale": "default-text-scale",
         "defrepeater": "defrepeater",
         "devdocs": "devdocs",
         "diff-hl": "diff-hl",
