@@ -890,6 +890,7 @@ Display available keybindings in a popup as you press keys.
 (general-define-key
  :keymaps 'global
  ;; Editing
+ "C-M-y" 'duplicate-dwim
  "C-z" 'zap-up-to-char
  ;; Files
  "C-x j" 'find-sibling-file
@@ -4567,6 +4568,7 @@ Packages that I am currently testing or evaluating.
 ** TODO Group editing bindings under some logical prefix
 ** TODO Improve window keys
 ** TODO Improve find char keys
+** TODO Use =M-o= for some useful binding?
 ** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
