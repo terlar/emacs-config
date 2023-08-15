@@ -829,9 +829,9 @@ keybindings in case I would forget them.
 (defvar launch-prefix "C-c l"
   "Key prefix for commands related to launching.")
 
-(defvar toggle-prefix "C-x t"
+(defvar toggle-prefix "C-'"
   "Key prefix for commands related to toggling.")
-(defvar window-prefix "C-'"
+(defvar window-prefix "C-x w"
   "Key prefix used for commands related to window operations.")
 
 (defvar nav-prefix "M-g"
@@ -912,10 +912,10 @@ Display available keybindings in a popup as you press keys.
 (general-define-key
  :keymaps 'global
  :prefix window-prefix
- window-prefix 'window-toggle-side-windows
  "d" 'toggle-dedicated-window
  "m" 'maximize-window
- "s" 'window-configuration-to-register)
+ "s" 'window-configuration-to-register
+ "w" 'window-toggle-side-windows)
 #+end_src
 
 ** Next
