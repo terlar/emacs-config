@@ -2619,7 +2619,7 @@ Generic Language Server Protocol integration via ~eglot~.
    "eQ" 'eglot-shutdown)
   :init
   (setq eglot-autoshutdown t)
-  (setq eglot-confirm-server-initiated-edits nil)
+  (setq eglot-confirm-server-edits nil)
   (setq eglot-sync-connect nil)
   :config
   (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
