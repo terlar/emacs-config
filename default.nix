@@ -29,6 +29,7 @@
 
   init = trivialBuild {
     pname = "config-init";
+    version = "1";
 
     src = lib.sourceByRegex ./. ["init.org"];
 
