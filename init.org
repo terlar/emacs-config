@@ -4441,6 +4441,20 @@ Packages that I am currently testing or evaluating.
 (use-package awscli-capf :ensure t)
 #+end_src
 
+** compile-multi
+#+begin_src emacs-lisp :tangle yes
+(use-package compile-multi :ensure t)
+
+(use-package consult-compile-multi
+  :ensure t
+  :after compile-multi
+  :demand t
+  :commands
+  (consult-compile-multi-mode)
+  :config
+  (consult-compile-multi-mode))
+#+end_src
+
 ** comment-or-uncomment-sexp
 #+begin_src emacs-lisp :tangle yes
 (use-package comment-or-uncomment-sexp :ensure t)

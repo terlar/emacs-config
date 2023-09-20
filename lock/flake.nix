@@ -151,10 +151,22 @@
       repo = "compat";
       type = "github";
     };
+    compile-multi = {
+      flake = false;
+      owner = "mohkale";
+      repo = "compile-multi";
+      type = "github";
+    };
     consult = {
       flake = false;
       owner = "minad";
       repo = "consult";
+      type = "github";
+    };
+    consult-compile-multi = {
+      flake = false;
+      owner = "mohkale";
+      repo = "compile-multi";
       type = "github";
     };
     consult-git-log-grep = {

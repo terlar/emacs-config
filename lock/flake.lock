@@ -400,6 +400,22 @@
         "type": "github"
       }
     },
+    "compile-multi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693173114,
+        "narHash": "sha256-KzEuaGnyLuD6eC9omPEssBHiIGuPi87CSg0r7vO6sxQ=",
+        "owner": "mohkale",
+        "repo": "compile-multi",
+        "rev": "2351ee058edcab0543f5f114c860569ec05fee76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mohkale",
+        "repo": "compile-multi",
+        "type": "github"
+      }
+    },
     "consult": {
       "flake": false,
       "locked": {
@@ -413,6 +429,22 @@
       "original": {
         "owner": "minad",
         "repo": "consult",
+        "type": "github"
+      }
+    },
+    "consult-compile-multi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693173114,
+        "narHash": "sha256-KzEuaGnyLuD6eC9omPEssBHiIGuPi87CSg0r7vO6sxQ=",
+        "owner": "mohkale",
+        "repo": "compile-multi",
+        "rev": "2351ee058edcab0543f5f114c860569ec05fee76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mohkale",
+        "repo": "compile-multi",
         "type": "github"
       }
     },
@@ -3051,7 +3083,9 @@
         "color-identifiers-mode": "color-identifiers-mode",
         "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
         "compat": "compat",
+        "compile-multi": "compile-multi",
         "consult": "consult",
+        "consult-compile-multi": "consult-compile-multi",
         "consult-git-log-grep": "consult-git-log-grep",
         "corfu": "corfu",
         "coverlay": "coverlay",
