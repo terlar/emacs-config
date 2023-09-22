@@ -3199,6 +3199,13 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (setq cider-repl-history-file (concat data-dir "cider-history")))
 #+end_src
 
+** cobol
+#+begin_src emacs-lisp :tangle yes
+(use-package cobol-mode
+  :ensure t
+  :mode "\\.\\(cob\\|cbl\\|cpy\\)\\'")
+#+end_src
+
 ** crystal
 #+begin_src emacs-lisp :tangle yes
 (use-package crystal-mode

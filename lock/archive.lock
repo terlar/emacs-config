@@ -12,6 +12,21 @@
     "packageRequires": {},
     "version": "0.8"
   },
+  "cobol-mode": {
+    "archive": {
+      "narHash": "sha256-JIBK37m13+vsRhezHzZB9cf4eslgwMcEduNpreDE400=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/cobol-mode-1.1.tar"
+    },
+    "inventory": {
+      "type": "archive",
+      "url": "https://elpa.gnu.org/packages/"
+    },
+    "packageRequires": {
+      "cl-lib": "0.5"
+    },
+    "version": "1.1"
+  },
   "csv-mode": {
     "archive": {
       "narHash": "sha256-m2BrVFt3HIiy8RNLdL52jvyt4lDzB7hmJQ8cGwBE9wY=",
