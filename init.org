@@ -4443,7 +4443,21 @@ Packages that I am currently testing or evaluating.
 
 ** compile-multi
 #+begin_src emacs-lisp :tangle yes
-(use-package compile-multi :ensure t)
+(use-package compile-multi
+  :ensure t
+  :general
+  (:keymaps
+   'global
+   :prefix
+   local-leader-key
+   local-leader-key 'compile-multi)
+  :config
+  (cl-pushnew `(emacs-lisp-mode
+                ("emacs:bytecompile" . ,#'emacs-lisp-byte-compile)
+                ("emacs:package-lint" . ,#'package-lint-current-buffer)
+                ("emacs:checkdoc" . ,#'checkdoc))
+              compile-multi-config
+              :test #'equal))
 
 (use-package consult-compile-multi
   :ensure t
