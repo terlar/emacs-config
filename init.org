@@ -4451,6 +4451,8 @@ Packages that I am currently testing or evaluating.
    :prefix
    local-leader-key
    local-leader-key 'compile-multi)
+  :preface
+  (autoload 'package-lint-current-buffer "package-lint")
   :config
   (cl-pushnew `(emacs-lisp-mode
                 ("emacs:bytecompile" . ,#'emacs-lisp-byte-compile)
