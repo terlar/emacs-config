@@ -2387,10 +2387,11 @@ Haskell one).
    "j" 'flymake-diagnostics-next-error
    "k" 'flymake-diagnostics-prev-error
    "RET" 'flymake-goto-diagnostic
-   "TAB" 'flymake-show-diagnostic)
-  :init
-  (setq flymake-proc-ignored-file-name-regexps '("\\.l?hs\\'"))
+   "TAB" 'flymake-show-diagnostic))
 
+(use-package flymake-proc
+  :config
+  (setq flymake-proc-ignored-file-name-regexps '("\\.l?hs\\'"))
   (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
 #+end_src
 
