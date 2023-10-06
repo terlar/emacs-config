@@ -229,7 +229,7 @@
    `(rst-literal ((t (:family ,fixed-pitch))))
 
 ;;;;; spray
-   `(spray-base-face ((t (:family ,serif :weight ,bold-weight :underline nil)))))
+   `(spray-base-face ((t (:inherit default :family ,serif :weight ,bold-weight)))))
 
 ;;;; Theme variables
   (custom-theme-set-variables

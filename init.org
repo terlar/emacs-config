@@ -1105,7 +1105,7 @@ Vertical interactive completion UI.
   :preface
   (defun init-cape-capf ()
     (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
-    (cl-pushnew #'cape-symbol completion-at-point-functions :test #'equal)
+    (cl-pushnew #'cape-elisp-symbol completion-at-point-functions :test #'equal)
     (cl-pushnew #'cape-file completion-at-point-functions :test #'equal))
   :hook
   (prog-mode-hook . init-cape-capf)
@@ -1116,7 +1116,7 @@ Vertical interactive completion UI.
 	   "h" 'cape-history
 	   "f" 'cape-file
 	   "k" 'cape-keyword
-	   "s" 'cape-symbol
+	   "s" 'cape-elisp-symbol
 	   "a" 'cape-abbrev
 	   "l" 'cape-line
 	   "w" 'cape-dict
@@ -1292,7 +1292,7 @@ Manage "popups".
   (:prefix
    window-prefix
    "p" 'popper-toggle-type)
-  ("C-`" 'popper-toggle-latest)
+  ("C-`" 'popper-toggle)
   ("C-M-`" 'popper-cycle)
   :init
   (setq popper-reference-buffers
@@ -4564,6 +4564,13 @@ Packages that I am currently testing or evaluating.
 ** org-roam
 #+begin_src emacs-lisp :tangle yes
 (use-package org-roam :ensure t)
+#+end_src
+
+** paimon
+#+begin_src emacs-lisp :tangle yes
+(use-package paimon
+  :ensure t
+  :commands paimon)
 #+end_src
 
 ** shrface

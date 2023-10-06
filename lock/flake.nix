@@ -133,6 +133,12 @@
       repo = "clojure-mode";
       type = "github";
     };
+    closql = {
+      flake = false;
+      owner = "magit";
+      repo = "closql";
+      type = "github";
+    };
     color-identifiers-mode = {
       flake = false;
       owner = "ankurdave";
@@ -606,6 +612,12 @@
       repo = "hl-todo";
       type = "github";
     };
+    ht = {
+      flake = false;
+      owner = "Wilfred";
+      repo = "ht.el";
+      type = "github";
+    };
     hydra = {
       flake = false;
       owner = "abo-abo";
@@ -978,6 +990,12 @@
       flake = false;
       owner = "purcell";
       repo = "page-break-lines";
+      type = "github";
+    };
+    paimon = {
+      flake = false;
+      owner = "r0man";
+      repo = "paimon.el";
       type = "github";
     };
     pairable = {
