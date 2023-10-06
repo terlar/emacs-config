@@ -352,6 +352,22 @@
         "type": "github"
       }
     },
+    "closql": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694695805,
+        "narHash": "sha256-GholGcFJ2+xYB1NSM0jUeUbh601QCdcMcE1Oy+uwSoo=",
+        "owner": "magit",
+        "repo": "closql",
+        "rev": "909752e2aa946bd91b27a1813982e2b20ae27dde",
+        "type": "github"
+      },
+      "original": {
+        "owner": "magit",
+        "repo": "closql",
+        "type": "github"
+      }
+    },
     "color-identifiers-mode": {
       "flake": false,
       "locked": {
@@ -1616,6 +1632,22 @@
         "type": "github"
       }
     },
+    "ht": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1688363925,
+        "narHash": "sha256-suE9ncN4rTA/9GcfAK6B+m9vnE8pYpfGavCFrXpA0+8=",
+        "owner": "Wilfred",
+        "repo": "ht.el",
+        "rev": "1c49aad1c820c86f7ee35bf9fff8429502f60fef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Wilfred",
+        "repo": "ht.el",
+        "type": "github"
+      }
+    },
     "hydra": {
       "flake": false,
       "locked": {
@@ -2624,6 +2656,22 @@
         "type": "github"
       }
     },
+    "paimon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684663353,
+        "narHash": "sha256-heS3fi9xYXxIjS0AYsEwZmma94EbIN59T//DkX82Zi0=",
+        "owner": "r0man",
+        "repo": "paimon.el",
+        "rev": "4c71bea56d0cfdca8ea90c5a6d8d584647d053af",
+        "type": "github"
+      },
+      "original": {
+        "owner": "r0man",
+        "repo": "paimon.el",
+        "type": "github"
+      }
+    },
     "pairable": {
       "flake": false,
       "locked": {
@@ -3080,6 +3128,7 @@
         "cider": "cider",
         "clang-format": "clang-format",
         "clojure-mode": "clojure-mode",
+        "closql": "closql",
         "color-identifiers-mode": "color-identifiers-mode",
         "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
         "compat": "compat",
@@ -3159,6 +3208,7 @@
         "hide-mode-line": "hide-mode-line",
         "highlight-quoted": "highlight-quoted",
         "hl-todo": "hl-todo",
+        "ht": "ht",
         "hydra": "hydra",
         "idle-highlight-mode": "idle-highlight-mode",
         "iedit": "iedit",
@@ -3222,6 +3272,7 @@
         "package-lint": "package-lint",
         "package-lint-flymake": "package-lint-flymake",
         "page-break-lines": "page-break-lines",
+        "paimon": "paimon",
         "pairable": "pairable",
         "paredit": "paredit",
         "parseclj": "parseclj",

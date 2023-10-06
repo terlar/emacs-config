@@ -4566,6 +4566,13 @@ Packages that I am currently testing or evaluating.
 (use-package org-roam :ensure t)
 #+end_src
 
+** paimon
+#+begin_src emacs-lisp :tangle yes
+(use-package paimon
+  :ensure t
+  :commands paimon)
+#+end_src
+
 ** shrface
 #+begin_src emacs-lisp :tangle yes
 (use-package shrface :ensure t)
