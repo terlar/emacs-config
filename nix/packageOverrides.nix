@@ -19,6 +19,12 @@
     '';
   });
 
+  haskell-mode = prev.haskell-mode.overrideAttrs (_: {
+    preBuild = ''
+      substituteInPlace haskell-mode.el --replace "(require 'flymake)" "(require 'flymake)${"\n"}(require 'flymake-proc)"
+    '';
+  });
+
   jinx = prev.jinx.overrideAttrs (old: {
     nativeBuildInputs = (old.nativeBuildInputs or []) ++ [pkg-config];
     buildInputs = (old.buildInputs or []) ++ [enchant2];
