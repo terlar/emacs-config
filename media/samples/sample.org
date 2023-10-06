@@ -1,8 +1,7 @@
 #+TITLE: Sample
 
 * Header
-This is is a paragraph with enough text to make it wrap at 80 characters, so to reach that
-it has to contain at least a few more words, there, that hit the spot and some more.
+This is is a paragraph with enough text to make it wrap at 80 characters, so to reach that it has to contain at least a few more words, there, that hit the spot and some more.
 
 ** Subheading
 This is a paragraph of a subheading.
@@ -20,8 +19,7 @@ This is a quote
 - This an item in a list
 - A list can have multiple items
   - A list can also contain other lists
-- Long lines of text in a list will make the text wrap, now one may ask: What does that
-  look like? It looks like this.
+- Long lines of text in a list will make the text wrap, now one may ask: What does that look like? It looks like this.
 
 *** Numbered lists
 1) This is an item in a numbered list
