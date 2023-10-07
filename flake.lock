@@ -25,11 +25,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1696561446,
-        "narHash": "sha256-NLemrT9Cu5ve3Fd5raE2VuZATMMveRPWBHI06Cl5SbA=",
+        "lastModified": 1696643505,
+        "narHash": "sha256-S1EqR7QyspJVbcd0Nw8qgVA00Wji1uaQHrSsrVRam5Y=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "bff45ef9a6e5bb1e8c5cb08ecf4bc9f8823be7c7",
+        "rev": "0de859c1a3cf76a4750d2e1252b124de588f1607",
         "type": "github"
       },
       "original": {
@@ -108,11 +108,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1696193975,
-        "narHash": "sha256-mnQjUcYgp9Guu3RNVAB2Srr1TqKcPpRXmJf4LJk6KRY=",
+        "lastModified": 1696375444,
+        "narHash": "sha256-Sv0ICt/pXfpnFhTGYTsX6lUr1SljnuXWejYTI2ZqHa4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fdd898f8f79e8d2f99ed2ab6b3751811ef683242",
+        "rev": "81e8f48ebdecf07aab321182011b067aafc78896",
         "type": "github"
       },
       "original": {
@@ -159,11 +159,11 @@
     "nongnu-elpa": {
       "flake": false,
       "locked": {
-        "lastModified": 1696208610,
-        "narHash": "sha256-O1wJcQleYcllzqTsiuhbGpekF0rpZUH6+x2c5VEibX4=",
+        "lastModified": 1696650241,
+        "narHash": "sha256-TKBnayhEN32NGRv/DYP/+P9WFBOZ8Cw0Os39Y7Be/zk=",
         "ref": "main",
-        "rev": "a0f143c7697c1f02472a4e436ae9c1f1f2171680",
-        "revCount": 292,
+        "rev": "3932b8e8335985dfb09e54966b3c15e5eb3fe0f8",
+        "revCount": 293,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
       },
@@ -220,11 +220,11 @@
         "elisp-helpers": "elisp-helpers"
       },
       "locked": {
-        "lastModified": 1696170896,
-        "narHash": "sha256-CqMGpGNlcgDo/E3nAtiaHJySzmA+/WFu9Eth0nnll2U=",
+        "lastModified": 1696660001,
+        "narHash": "sha256-Dsp18h1fUWcqkBEHrs4itmkBvP/IZlDcE88c7Ne10/g=",
         "owner": "emacs-twist",
         "repo": "twist.nix",
-        "rev": "ec84e2c09a7400dad3222c23567197972374fdf1",
+        "rev": "8b99c5d5afe73a6579d3d8f357c75dd697a518af",
         "type": "github"
       },
       "original": {
