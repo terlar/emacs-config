@@ -106,12 +106,6 @@ Disable GUI components.
 (push '(vertical-scroll-bars) default-frame-alist)
 #+end_src
 
-Start maximized.
-#+begin_src emacs-lisp :tangle early-init.el
-(push '(fullscreen . maximized) initial-frame-alist)
-(push '(fullscreen . maximized) default-frame-alist)
-#+end_src
-
 Don't implicitly resize frames when changing various settings.
 #+begin_src emacs-lisp :tangle early-init.el
 (setq frame-inhibit-implied-resize t)
