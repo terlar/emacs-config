@@ -884,6 +884,7 @@ Display available keybindings in a popup as you press keys.
 (general-define-key
  :keymaps 'global
  ;; Editing
+ "<Tools>" 'just-one-space
  "C-M-y" 'duplicate-dwim
  "C-z" 'zap-up-to-char
  ;; Files
