@@ -1288,6 +1288,7 @@ Manage "popups".
           "^\\*eldoc"
           compilation-mode
           elisp-refs-mode
+          flymake-diagnostics-buffer-mode
           ghelp-page-mode
           help-mode)))
 #+end_src
@@ -2386,20 +2387,6 @@ Haskell one).
   (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
 #+end_src
 
-**** Diagnostics at point
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-diagnostic-at-point
-  :ensure t
-  :preface
-  (defun flymake-diagnostic-at-point-quick-peek (text)
-    "Display the flymake diagnostic TEXT with `quick-peek'`."
-    (quick-peek-show (concat flymake-diagnostic-at-point-error-prefix text)))
-  :hook
-  (flymake-mode-hook . flymake-diagnostic-at-point-mode)
-  :init
-  (setq flymake-diagnostic-at-point-error-prefix nil))
-#+end_src
-
 ** Version control
 #+begin_src emacs-lisp :tangle yes
 (setq vc-follow-symlinks t)
@@ -2603,6 +2590,7 @@ Generic Language Server Protocol integration via ~eglot~.
   (:keymaps
    'eglot-mode-map
    :prefix local-leader-key
+   local-leader-key 'eglot-code-actions
    "e" '(:ignore t :wk "eglot")
    "ea" 'eglot-code-actions
    "ef" 'eglot-format

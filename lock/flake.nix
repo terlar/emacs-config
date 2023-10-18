@@ -445,12 +445,6 @@
       repo = "fit-text-scale";
       type = "gitlab";
     };
-    flymake-diagnostic-at-point = {
-      flake = false;
-      owner = "terlar";
-      repo = "flymake-diagnostic-at-point";
-      type = "github";
-    };
     flymake-eslint = {
       flake = false;
       owner = "orzechowskid";

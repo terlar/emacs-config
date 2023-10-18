@@ -1184,22 +1184,6 @@
         "type": "gitlab"
       }
     },
-    "flymake-diagnostic-at-point": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1565469124,
-        "narHash": "sha256-+ENaqnorOHJbNgqKHpQAYoTPcu/TvPEZlT5w8a7GE54=",
-        "owner": "terlar",
-        "repo": "flymake-diagnostic-at-point",
-        "rev": "8a4f5c1160cbb6c2464db9f5c104812b0c0c6d4f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "flymake-diagnostic-at-point",
-        "type": "github"
-      }
-    },
     "flymake-eslint": {
       "flake": false,
       "locked": {
@@ -3180,7 +3164,6 @@
         "fish-completion": "fish-completion",
         "fish-mode": "fish-mode",
         "fit-text-scale": "fit-text-scale",
-        "flymake-diagnostic-at-point": "flymake-diagnostic-at-point",
         "flymake-eslint": "flymake-eslint",
         "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",
