@@ -288,14 +288,6 @@ Library to quickly define backends for =flymake=.
 (use-package flymake-quickdef :ensure t :commands (flymake-quickdef-backend))
 #+end_src
 
-*** hide-lines
-Library to hide lines based on a regular expressions.
-#+begin_src emacs-lisp :tangle yes
-(use-package hide-lines
-  :ensure t
-  :commands (hide-lines-matching))
-#+end_src
-
 *** quick-peek
 Library to display inline popups; used by ~source-peek~.
 #+begin_src emacs-lisp :tangle yes
@@ -1548,9 +1540,7 @@ Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
 (use-package simple
   :general
-  (:prefix
-   leader-key
-   "v" 'visible-mode))
+  (:prefix leader-key "v" 'visible-mode))
 #+end_src
 
 *** Tables
@@ -1695,6 +1685,17 @@ Revert buffers when underlying files change.
 (use-package eldoc
   :hook
   (after-init-hook . global-eldoc-mode))
+#+end_src
+
+*** hide-lines
+Hide lines in buffer based on a regular expressions.
+#+begin_src emacs-lisp :tangle yes
+(use-package hide-lines
+  :ensure t
+  :commands
+  (hide-lines-matching)
+  :general
+  (:prefix search-prefix "H" 'hide-lines))
 #+end_src
 
 *** pairable
