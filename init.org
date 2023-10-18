@@ -820,9 +820,6 @@ keybindings in case I would forget them.
 
 ** Prefixes
 #+begin_src emacs-lisp :tangle yes
-(defvar launch-prefix "C-c l"
-  "Key prefix for commands related to launching.")
-
 (defvar toggle-prefix "C-'"
   "Key prefix for commands related to toggling.")
 (defvar window-prefix "C-x w"
@@ -970,6 +967,7 @@ Display available keybindings in a popup as you press keys.
  "c" '(highlight-changes-mode           :wk "Changes")
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
+ "F" '(follow-mode                      :wk "Follow")
  "g" '(glasses-mode                     :wk "Readable camelCase")
  "h" '(hl-line-mode                     :wk "Line highlight")
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
@@ -983,7 +981,7 @@ Display available keybindings in a popup as you press keys.
 ** Launch
 #+begin_src emacs-lisp :tangle yes
 (general-define-key
- :prefix launch-prefix
+ :prefix leader-key
  "m" 'gnus
  "p" 'list-processes
  "s" 'screenshot-svg
@@ -1874,9 +1872,7 @@ Management tool for a library of PDFs.
 (use-package bibliothek
   :ensure t
   :general
-  (:prefix
-   launch-prefix
-   "b" 'bibliothek)
+  (:prefix leader-key "b" 'bibliothek)
   :init
   (setq bibliothek-path '("~/books" "~/documents/research/papers"))
   (setq bibliothek-recursive t))
@@ -4212,9 +4208,7 @@ Dim out the surrounding text except the current focused paragraph or expression.
 (use-package redtick
   :ensure t
   :general
-  (:prefix
-   launch-prefix
-   "r" 'redtick))
+  (:prefix leader-key "r" 'redtick))
 #+end_src
 
 ** Session
@@ -4242,9 +4236,7 @@ it really useful.
 (use-package spray
   :ensure t
   :general
-  (:prefix
-   launch-prefix
-   "s" 'spray-mode)
+  (:prefix leader-key "s" 'spray-mode)
   :init
   (setq spray-height 500)
   (setq spray-margin-left 2)
@@ -4307,9 +4299,7 @@ Avoid color when possible.
   (eshell-mode-hook . init-eshell-set-visual-commands)
   :general
   ("C-!" 'eshell)
-  (:prefix
-   launch-prefix
-   "t" 'eshell)
+  (:prefix leader-key "t" 'eshell)
   :init
   (setq eshell-buffer-maximum-lines 20000)
   (setq eshell-history-size 1000)
@@ -4389,9 +4379,7 @@ Fast terminal emulator utilizing =libvterm=.
 (use-package vterm
   :ensure t
   :general
-  (:prefix
-   launch-prefix
-   "T" 'vterm)
+  (:prefix leader-key "T" 'vterm)
   :init
   (setq vterm-max-scrollback 100000)
   (setq vterm-shell "fish"))
@@ -4416,9 +4404,7 @@ Visual undo history navigation.
 (use-package vundo
   :ensure t
   :general
-  (:prefix
-   launch-prefix
-   "u" 'vundo))
+  (:prefix leader-key "u" 'vundo))
 #+end_src
 
 * Testing
