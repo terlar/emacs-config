@@ -960,12 +960,13 @@ Display available keybindings in a popup as you press keys.
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
  "F" '(follow-mode                      :wk "Follow")
- "g" '(glasses-mode                     :wk "Readable camelCase")
+ ;; Group together as one mode?
+ "g" '(subword-mode                     :wk "Sub-word")
+ "G" '(glasses-mode                     :wk "Readable camelCase")
  "h" '(hl-line-mode                     :wk "Line highlight")
  "l" '(global-display-line-numbers-mode :wk "Line numbers")
- "s" '(subword-mode                     :wk "Sub-word")
  "t" '(toggle-truncate-lines            :wk "Truncate lines")
- "v" '(variable-pitch-mode              :wk "Variable-pitch")
+ "V" '(variable-pitch-mode              :wk "Variable-pitch")
  "w" '(whitespace-mode                  :wk "White-space")
  "x" '(flymake-mode                     :wk "Syntax checker"))
 #+end_src
@@ -976,6 +977,8 @@ Display available keybindings in a popup as you press keys.
  :prefix leader-key
  "m" 'gnus
  "p" 'list-processes
+ "s" 'screenshot-svg
+ "S" 'screenshot-png
  "x" 'regexp-builder
  "w" 'eww)
 #+end_src
@@ -1307,6 +1310,13 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
   :ensure t
   :init
   (setq visual-fill-column-center-text t))
+
+(use-package virtual-auto-fill
+  :ensure t
+  :general
+  (:prefix
+   toggle-prefix
+   "SPC" '(virtual-auto-fill-mode :wk "Visual auto fill")))
 #+end_src
 
 * Editing
@@ -1449,7 +1459,7 @@ Soft deletion and balanced expressions.
   :general
   (:prefix
    toggle-prefix
-   "p" 'puni-mode)
+   toggle-prefix '(puni-mode :wk "Structured editing"))
   (:keymaps
    'puni-mode-map
    "C-w" 'puni-kill-whole-line-or-region))
@@ -1538,7 +1548,9 @@ Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
 (use-package simple
   :general
-  (:prefix leader-key "v" 'visible-mode))
+  (:prefix
+   toggle-prefix
+   "v" '(visible-mode :wk "Visibility")))
 #+end_src
 
 *** Tables
@@ -4224,7 +4236,9 @@ it really useful.
 (use-package spray
   :ensure t
   :general
-  (:prefix leader-key "s" 'spray-mode)
+  (:prefix
+   toggle-prefix
+   "s" '(spray-mode :wk "Speed reading"))
   :init
   (setq spray-height 500)
   (setq spray-margin-left 2)
@@ -4560,11 +4574,6 @@ Packages that I am currently testing or evaluating.
 ** theme-magic
 #+begin_src emacs-lisp :tangle yes
 (use-package theme-magic :ensure t)
-#+end_src
-
-** virtual-auto-fill
-#+begin_src emacs-lisp :tangle yes
-(use-package virtual-auto-fill :ensure t)
 #+end_src
 
 * Private
