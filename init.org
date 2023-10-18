@@ -288,14 +288,6 @@ Library to quickly define backends for =flymake=.
 (use-package flymake-quickdef :ensure t :commands (flymake-quickdef-backend))
 #+end_src
 
-*** hide-lines
-Library to hide lines based on a regular expressions.
-#+begin_src emacs-lisp :tangle yes
-(use-package hide-lines
-  :ensure t
-  :commands (hide-lines-matching))
-#+end_src
-
 *** quick-peek
 Library to display inline popups; used by ~source-peek~.
 #+begin_src emacs-lisp :tangle yes
@@ -906,7 +898,7 @@ Display available keybindings in a popup as you press keys.
  :prefix window-prefix
  "d" 'toggle-dedicated-window
  "m" 'maximize-window
- "s" 'window-configuration-to-register
+ "r" 'window-configuration-to-register
  "w" 'window-toggle-side-windows)
 #+end_src
 
@@ -984,8 +976,6 @@ Display available keybindings in a popup as you press keys.
  :prefix leader-key
  "m" 'gnus
  "p" 'list-processes
- "s" 'screenshot-svg
- "S" 'screenshot-png
  "x" 'regexp-builder
  "w" 'eww)
 #+end_src
@@ -1548,9 +1538,7 @@ Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
 (use-package simple
   :general
-  (:prefix
-   leader-key
-   "v" 'visible-mode))
+  (:prefix leader-key "v" 'visible-mode))
 #+end_src
 
 *** Tables
@@ -1638,10 +1626,7 @@ Track minibuffer history
   :ensure t
   :general
   (:keymaps
-   '(minibuffer-local-map
-     minibuffer-local-ns-map
-     minibuffer-local-completion-map
-     minibuffer-local-must-match-map)
+   'minibuffer-local-map
    "C-." 'embark-act
    "C-;" 'embark-dwim))
 
@@ -1655,10 +1640,7 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
   :ensure t
   :general
   (:keymaps
-   '(minibuffer-local-map
-     minibuffer-local-ns-map
-     minibuffer-local-completion-map
-     minibuffer-local-must-match-map)
+   'minibuffer-local-map
    "C-c '" 'miniedit)
   :init
   (setq miniedit-show-help-p nil))
@@ -1695,6 +1677,17 @@ Revert buffers when underlying files change.
 (use-package eldoc
   :hook
   (after-init-hook . global-eldoc-mode))
+#+end_src
+
+*** hide-lines
+Hide lines in buffer based on a regular expressions.
+#+begin_src emacs-lisp :tangle yes
+(use-package hide-lines
+  :ensure t
+  :commands
+  (hide-lines-matching)
+  :general
+  (:prefix search-prefix "H" 'hide-lines))
 #+end_src
 
 *** pairable
@@ -1845,10 +1838,6 @@ Striped dired buffers.
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
-  :general
-  (:prefix
-   search-prefix
-   "o" 'occur)
   (:keymaps
    'occur-mode-map
    "C-c '" 'occur-edit-mode))
@@ -2377,7 +2366,6 @@ Haskell one).
    "p" 'flymake-diagnostics-prev-error
    "j" 'flymake-diagnostics-next-error
    "k" 'flymake-diagnostics-prev-error
-   "RET" 'flymake-goto-diagnostic
    "TAB" 'flymake-show-diagnostic))
 
 (use-package flymake-proc
@@ -4625,3 +4613,4 @@ Packages that I am currently testing or evaluating.
 ** TODO Flymake + Elsa
 ** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
 ** TODO Evaluate skeleton
+** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
