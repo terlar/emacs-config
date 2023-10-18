@@ -898,7 +898,7 @@ Display available keybindings in a popup as you press keys.
  :prefix window-prefix
  "d" 'toggle-dedicated-window
  "m" 'maximize-window
- "s" 'window-configuration-to-register
+ "r" 'window-configuration-to-register
  "w" 'window-toggle-side-windows)
 #+end_src
 
@@ -976,8 +976,6 @@ Display available keybindings in a popup as you press keys.
  :prefix leader-key
  "m" 'gnus
  "p" 'list-processes
- "s" 'screenshot-svg
- "S" 'screenshot-png
  "x" 'regexp-builder
  "w" 'eww)
 #+end_src
@@ -1846,10 +1844,6 @@ Striped dired buffers.
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
-  :general
-  (:prefix
-   search-prefix
-   "o" 'occur)
   (:keymaps
    'occur-mode-map
    "C-c '" 'occur-edit-mode))
@@ -2378,7 +2372,6 @@ Haskell one).
    "p" 'flymake-diagnostics-prev-error
    "j" 'flymake-diagnostics-next-error
    "k" 'flymake-diagnostics-prev-error
-   "RET" 'flymake-goto-diagnostic
    "TAB" 'flymake-show-diagnostic))
 
 (use-package flymake-proc
@@ -4626,3 +4619,4 @@ Packages that I am currently testing or evaluating.
 ** TODO Flymake + Elsa
 ** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
 ** TODO Evaluate skeleton
+** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
