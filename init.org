@@ -1626,10 +1626,7 @@ Track minibuffer history
   :ensure t
   :general
   (:keymaps
-   '(minibuffer-local-map
-     minibuffer-local-ns-map
-     minibuffer-local-completion-map
-     minibuffer-local-must-match-map)
+   'minibuffer-local-map
    "C-." 'embark-act
    "C-;" 'embark-dwim))
 
@@ -1643,10 +1640,7 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
   :ensure t
   :general
   (:keymaps
-   '(minibuffer-local-map
-     minibuffer-local-ns-map
-     minibuffer-local-completion-map
-     minibuffer-local-must-match-map)
+   'minibuffer-local-map
    "C-c '" 'miniedit)
   :init
   (setq miniedit-show-help-p nil))
