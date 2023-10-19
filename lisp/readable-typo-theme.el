@@ -131,7 +131,7 @@
 ;;;; Faces
 (defface readable-typo-theme-echo-area
   nil
-  "Face used for information of strong importance."
+  "Face used for echo area."
   :group 'readable-mono-theme)
 
 (let ((default-height readable-typo-theme-default-font-height)
@@ -160,7 +160,7 @@
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
    `(variable-pitch-text ((t (:height 1.1 :family ,serif))))
    `(bold ((t (:weight ,bold-weight))))
-   `(readable-typo-theme-echo-area ((t (:height ,small-height :family ,variable-pitch :weight ,default-weight))))
+   `(readable-typo-theme-echo-area ((t (:family ,variable-pitch :weight ,default-weight))))
 
 ;;;;; Interface
    `(mode-line-active ((t (:family ,variable-pitch :height ,small-height))))
