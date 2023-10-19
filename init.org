@@ -1434,7 +1434,7 @@ Cycle through words, symbols and patterns.
 #+end_src
 
 *** puni
-Soft deletion and balanced expressions.
+Structured editing with soft deletion and balanced expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package puni
   :ensure t
@@ -1442,20 +1442,23 @@ Soft deletion and balanced expressions.
   (puni-kill-line
    puni-kill-active-region)
   :preface
-  (defun puni-kill-whole-line-or-region (arg)
-    "Kill whole line(s) based on ARG or active region."
+  (defun puni-whole-line-or-region-kill (arg)
+    "Kill whole structured line(s) based on ARG or active region."
     (interactive "P")
     (if (use-region-p)
         (puni-kill-active-region)
-      (if (or (> (or arg 1) 1)
-              (looking-at-p "^[[:blank:]]*$"))
+      (let ((kill-whole-line t))
+        (if (and (looking-at-p "^$") (= (or arg 1) 1))
+            (kill-line)
           (save-excursion
-            (set-mark (line-beginning-position 1))
-            (goto-char (line-beginning-position (+ 1 (or arg 1))))
-            (puni-kill-active-region))
-        (save-excursion
-          (beginning-of-line)
-          (puni-kill-line 1)))))
+            (beginning-of-line)
+            (puni-kill-line arg))))))
+
+  (defun puni-whole-line-or-region-kill-ring-save (arg)
+    "Save whole structured line(s) based on ARG or active region."
+    (interactive "P")
+    (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
+      (puni-whole-line-or-region-kill arg)))
   :hook
   (after-init-hook . puni-global-mode)
   :general
@@ -1464,7 +1467,8 @@ Soft deletion and balanced expressions.
    toggle-prefix '(puni-mode :wk "Structured editing"))
   (:keymaps
    'puni-mode-map
-   "C-w" 'puni-kill-whole-line-or-region))
+   "C-w" 'puni-whole-line-or-region-kill
+   "M-w" 'puni-whole-line-or-region-kill-ring-save))
 #+end_src
 
 *** string-inflection
