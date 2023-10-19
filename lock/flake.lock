@@ -3295,7 +3295,6 @@
         "shrface": "shrface",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
-        "smartparens": "smartparens",
         "source-peek": "source-peek",
         "spark": "spark",
         "spinner": "spinner",
@@ -3526,22 +3525,6 @@
       "original": {
         "owner": "joaotavora",
         "repo": "sly-quicklisp",
-        "type": "github"
-      }
-    },
-    "smartparens": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685355475,
-        "narHash": "sha256-yoEn4yTzIM+JPVHw8ZukpZy9lkLivh4mSCG4D6akkCQ=",
-        "owner": "Fuco1",
-        "repo": "smartparens",
-        "rev": "79a338db115f441cd47bb91e6f75816c5e78a772",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Fuco1",
-        "repo": "smartparens",
         "type": "github"
       }
     },

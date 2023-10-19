@@ -1440,7 +1440,8 @@ Structured editing with soft deletion and balanced expressions.
   :ensure t
   :commands
   (puni-kill-line
-   puni-kill-active-region)
+   puni-kill-active-region
+   puni-mark-list-around-point)
   :preface
   (defun puni-whole-line-or-region-kill (arg)
     "Kill whole structured line(s) based on ARG or active region."
@@ -1459,6 +1460,11 @@ Structured editing with soft deletion and balanced expressions.
     (interactive "P")
     (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
       (puni-whole-line-or-region-kill arg)))
+
+  (defun puni-kill-list-around-point ()
+    (interactive)
+    (puni-mark-list-around-point)
+    (kill-region nil nil t))
   :hook
   (after-init-hook . puni-global-mode)
   :general
@@ -1467,6 +1473,11 @@ Structured editing with soft deletion and balanced expressions.
    toggle-prefix '(puni-mode :wk "Structured editing"))
   (:keymaps
    'puni-mode-map
+   [remap transpose-sexps] 'puni-transpose
+   "M-'" 'puni-kill-list-around-point
+   "M-D" 'puni-splice
+   "M-R" 'puni-squeeze
+   "M-W" 'puni-wrap-round
    "C-w" 'puni-whole-line-or-region-kill
    "M-w" 'puni-whole-line-or-region-kill-ring-save))
 #+end_src
@@ -1479,19 +1490,6 @@ Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
   :ensure t
   :general
   ("M-_" 'string-inflection-all-cycle))
-#+end_src
-
-*** smartparens
-Auto-insert matching parenthesis and highlight matching parenthesis.
-#+begin_src emacs-lisp :tangle yes
-(use-package smartparens
-  :ensure t
-  :general
-  ("M-'" 'sp-change-inner
-   "M-C" 'sp-clone-sexp
-   "M-D" 'sp-unwrap-sexp
-   "M-R" 'sp-rewrap-sexp
-   "M-W" 'sp-wrap-round))
 #+end_src
 
 *** visual-regexp
