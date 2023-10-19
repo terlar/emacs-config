@@ -920,6 +920,12 @@
       repo = "org-fragtog";
       type = "github";
     };
+    org-limit-image-size = {
+      flake = false;
+      owner = "misohena";
+      repo = "org-inline-image-fix";
+      type = "github";
+    };
     org-modern = {
       flake = false;
       owner = "minad";

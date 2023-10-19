@@ -2,13 +2,9 @@
 #+AUTHOR: Terje Larsen
 
 * Overview
-Terje's GNU Emacs configuration. It is not very well documented right now, but hopefully I
-will have time to write down some more details later.
+Terje's GNU Emacs configuration. It is not very well documented right now, but hopefully I will have time to write down some more details later.
 
-This configuration is making a lot of assumptions as it is built as a package with
-Nix. This means that all packages are expected to be on the =load-path= already and
-compatibility is only guaranteed with the GNU Emacs version that is part of this
-package. Currently GNU Emacs 29.0.50.
+This configuration is making a lot of assumptions as it is built as a package with Nix. This means that all packages are expected to be on the =load-path= already and compatibility is only guaranteed with the GNU Emacs version that is part of this package. Currently GNU Emacs 29.0.50.
 
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
@@ -4529,6 +4525,19 @@ Packages that I am currently testing or evaluating.
 ** org-fragtog
 #+begin_src emacs-lisp :tangle yes
 (use-package org-fragtog :ensure t)
+#+end_src
+
+** org-limit-image-size
+#+begin_src emacs-lisp :tangle yes
+(use-package org-limit-image-size
+  :ensure t
+  :after org
+  :commands
+  (org-limit-image-size-activate
+   org-limit-image-size-deactivate)
+  :init
+  (org-limit-image-size-activate)
+  (setq org-limit-image-size '(0.9 . 0.8)))
 #+end_src
 
 ** org-roam
