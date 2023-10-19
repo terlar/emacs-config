@@ -1225,12 +1225,6 @@
       repo = "sly-quicklisp";
       type = "github";
     };
-    smartparens = {
-      flake = false;
-      owner = "Fuco1";
-      repo = "smartparens";
-      type = "github";
-    };
     source-peek = {
       flake = false;
       owner = "iqbalansari";

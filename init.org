@@ -1033,7 +1033,7 @@ Completion Overlay Region FUnction.
    [tab] 'corfu-next
    "S-TAB" 'corfu-previous
    [backtab] 'corfu-previous
-   "C-e" 'corfu-insert)
+   "C-e" 'corfu-complete)
   :init
   (setq corfu-auto t)
   (setq corfu-cycle t)
@@ -1144,11 +1144,8 @@ Vertical interactive completion UI.
 *** dabbrev
 #+begin_src emacs-lisp :tangle yes
 (use-package dabbrev
-  :general
-  ;; Swap M-/ and C-M-/
-  ("M-/" 'dabbrev-completion
-   "C-M-/" 'dabbrev-expand)
   :init
+  (setq dabbrev-case-replace nil)
   (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 #+end_src
 
@@ -1433,28 +1430,37 @@ Cycle through words, symbols and patterns.
 #+end_src
 
 *** puni
-Soft deletion and balanced expressions.
+Structured editing with soft deletion and balanced expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package puni
   :ensure t
   :commands
   (puni-kill-line
-   puni-kill-active-region)
+   puni-kill-active-region
+   puni-mark-list-around-point)
   :preface
-  (defun puni-kill-whole-line-or-region (arg)
-    "Kill whole line(s) based on ARG or active region."
+  (defun puni-whole-line-or-region-kill (arg)
+    "Kill whole structured line(s) based on ARG or active region."
     (interactive "P")
     (if (use-region-p)
         (puni-kill-active-region)
-      (if (or (> (or arg 1) 1)
-              (looking-at-p "^[[:blank:]]*$"))
+      (let ((kill-whole-line t))
+        (if (and (looking-at-p "^$") (= (or arg 1) 1))
+            (kill-line)
           (save-excursion
-            (set-mark (line-beginning-position 1))
-            (goto-char (line-beginning-position (+ 1 (or arg 1))))
-            (puni-kill-active-region))
-        (save-excursion
-          (beginning-of-line)
-          (puni-kill-line 1)))))
+            (beginning-of-line)
+            (puni-kill-line arg))))))
+
+  (defun puni-whole-line-or-region-kill-ring-save (arg)
+    "Save whole structured line(s) based on ARG or active region."
+    (interactive "P")
+    (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
+      (puni-whole-line-or-region-kill arg)))
+
+  (defun puni-kill-list-around-point ()
+    (interactive)
+    (puni-mark-list-around-point)
+    (kill-region nil nil t))
   :hook
   (after-init-hook . puni-global-mode)
   :general
@@ -1463,7 +1469,13 @@ Soft deletion and balanced expressions.
    toggle-prefix '(puni-mode :wk "Structured editing"))
   (:keymaps
    'puni-mode-map
-   "C-w" 'puni-kill-whole-line-or-region))
+   [remap transpose-sexps] 'puni-transpose
+   "M-'" 'puni-kill-list-around-point
+   "M-D" 'puni-splice
+   "M-R" 'puni-squeeze
+   "M-W" 'puni-wrap-round
+   "C-w" 'puni-whole-line-or-region-kill
+   "M-w" 'puni-whole-line-or-region-kill-ring-save))
 #+end_src
 
 *** string-inflection
@@ -1474,19 +1486,6 @@ Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
   :ensure t
   :general
   ("M-_" 'string-inflection-all-cycle))
-#+end_src
-
-*** smartparens
-Auto-insert matching parenthesis and highlight matching parenthesis.
-#+begin_src emacs-lisp :tangle yes
-(use-package smartparens
-  :ensure t
-  :general
-  ("M-'" 'sp-change-inner
-   "M-C" 'sp-clone-sexp
-   "M-D" 'sp-unwrap-sexp
-   "M-R" 'sp-rewrap-sexp
-   "M-W" 'sp-wrap-round))
 #+end_src
 
 *** visual-regexp
