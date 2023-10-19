@@ -1144,10 +1144,6 @@ Vertical interactive completion UI.
 *** dabbrev
 #+begin_src emacs-lisp :tangle yes
 (use-package dabbrev
-  :general
-  ;; Swap M-/ and C-M-/
-  ("M-/" 'dabbrev-completion
-   "C-M-/" 'dabbrev-expand)
   :init
   (setq dabbrev-case-replace nil)
   (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
