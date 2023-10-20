@@ -2464,6 +2464,22 @@
         "type": "github"
       }
     },
+    "org-limit-image-size": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1692016460,
+        "narHash": "sha256-D8cLlR/gpWvMBdL/KcMABeWwLH7KJsGkO3NipuMKFq8=",
+        "owner": "misohena",
+        "repo": "org-inline-image-fix",
+        "rev": "7b0a4ccb669efbdf11750261a65726e787a3c10b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misohena",
+        "repo": "org-inline-image-fix",
+        "type": "github"
+      }
+    },
     "org-modern": {
       "flake": false,
       "locked": {
@@ -3244,6 +3260,7 @@
         "org-cliplink": "org-cliplink",
         "org-contrib": "org-contrib",
         "org-fragtog": "org-fragtog",
+        "org-limit-image-size": "org-limit-image-size",
         "org-modern": "org-modern",
         "org-noter": "org-noter",
         "org-preview-html": "org-preview-html",

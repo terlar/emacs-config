@@ -1,0 +1,3 @@
+(org-limit-image-size :fetcher github
+		      :repo "misohena/org-inline-image-fix"
+		      :files ("org-limit-image-size.el"))
