@@ -870,6 +870,7 @@ Display available keybindings in a popup as you press keys.
  :keymaps 'global
  ;; Editing
  "<Tools>" 'just-one-space
+ "M-p" 'completion-at-point
  "C-M-y" 'duplicate-dwim
  "C-z" 'zap-up-to-char
  ;; Files
@@ -1092,19 +1093,24 @@ Vertical interactive completion UI.
   :hook
   (prog-mode-hook . init-cape-capf)
   :general
-  (:prefix "M-p"
-	   "p" 'completion-at-point
-	   "d" 'cape-dabbrev
-	   "h" 'cape-history
-	   "f" 'cape-file
-	   "k" 'cape-keyword
-	   "s" 'cape-elisp-symbol
-	   "a" 'cape-abbrev
-	   "l" 'cape-line
-	   "w" 'cape-dict
-	   "\\" 'cape-tex
-	   "&" 'cape-sgml
-	   "r" 'cape-rfc1345)
+  ([remap dabbrev-expand] 'cape-dabbrev)
+  (:keymaps
+   'corfu-map
+   "C-x C-f" 'cape-file)
+  (:prefix
+   "M-P"
+   "d" 'cape-dabbrev
+   "h" 'cape-history
+   "f" 'cape-file
+   "k" 'cape-keyword
+   "p" 'completion-at-point
+   "s" 'cape-elisp-symbol
+   "a" 'cape-abbrev
+   "l" 'cape-line
+   "w" 'cape-dict
+   "\\" 'cape-tex
+   "&" 'cape-sgml
+   "r" 'cape-rfc1345)
   :config
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
@@ -4619,3 +4625,4 @@ Packages that I am currently testing or evaluating.
 ** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
 ** TODO Evaluate skeleton
 ** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
+** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
