@@ -26,3 +26,10 @@ org-mode
 (verse "#+begin_verse" n> r> n> "#+end_verse")
 (src "#+begin_src " p n> r> n> "#+end_src" :post (org-edit-src-code))
 (elisp "#+begin_src emacs-lisp :tangle yes" n> r> n "#+end_src" :post (org-edit-src-code))
+
+go-mode go-ts-mode
+
+(if > "if " p " {" n> r> n> "}" >)
+(if-else > "if " p " {" n> r> n> "} else {" n> p> n> "}" >)
+(if-else-if > "if " p " {" n> r> n> "} else if " p> " {" n> p> n> "}" >)
+(if-err > "if err != nil {" n> r> n> "}" >)
