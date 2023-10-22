@@ -953,6 +953,7 @@ Display available keybindings in a popup as you press keys.
 #+begin_src emacs-lisp :tangle yes
 (general-define-key
  :prefix toggle-prefix
+ "*" '(toggle-theme-mode                :wk "Light/Dark theme")
  "c" '(highlight-changes-mode           :wk "Changes")
  "d" '(toggle-debug-on-error            :wk "Debug on error")
  "f" '(hs-minor-mode                    :wk "Code folding")
