@@ -496,19 +496,19 @@
         "type": "github"
       }
     },
-    "coverlay": {
+    "cov": {
       "flake": false,
       "locked": {
-        "lastModified": 1555234820,
-        "narHash": "sha256-ELeyaw8BiMfwsjKu6C7y5p9bhKUStAVKd8vYkxLQweE=",
-        "owner": "twada",
-        "repo": "coverlay.el",
-        "rev": "0beae208d0e7d746a94385428bd61aa5cd7ea828",
+        "lastModified": 1696647290,
+        "narHash": "sha256-GdzYPpHVrg8mv3yAmbyWLwoMoxADrAYl97TXwLzjk8s=",
+        "owner": "AdamNiederer",
+        "repo": "cov",
+        "rev": "42bf07c6ab51ceb45753c798bcbc3327a9230ed5",
         "type": "github"
       },
       "original": {
-        "owner": "twada",
-        "repo": "coverlay.el",
+        "owner": "AdamNiederer",
+        "repo": "cov",
         "type": "github"
       }
     },
@@ -893,6 +893,22 @@
       "original": {
         "owner": "jcollard",
         "repo": "elm-mode",
+        "type": "github"
+      }
+    },
+    "elquery": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1648691001,
+        "narHash": "sha256-ZGgMeVmUV95Y+IIdI47SfP7HMCDR5peysFfxCJpFMZk=",
+        "owner": "AdamNiederer",
+        "repo": "elquery",
+        "rev": "38f3bd41096cb270919b06095da0b9ac1add4598",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AdamNiederer",
+        "repo": "elquery",
         "type": "github"
       }
     },
@@ -3137,7 +3153,7 @@
         "consult-compile-multi": "consult-compile-multi",
         "consult-git-log-grep": "consult-git-log-grep",
         "corfu": "corfu",
-        "coverlay": "coverlay",
+        "cov": "cov",
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
         "ctrlxo": "ctrlxo",
@@ -3162,6 +3178,7 @@
         "elisp-refs": "elisp-refs",
         "elixir-mode": "elixir-mode",
         "elm-mode": "elm-mode",
+        "elquery": "elquery",
         "emacsql": "emacsql",
         "embark": "embark",
         "embark-consult": "embark-consult",
