@@ -566,12 +566,12 @@ For example links."
                                  `[,l-fg ,(face-foreground 'readable-mono-theme-emphasis) ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg])
                                 ('dark
                                  `[,d-fg ,(face-foreground 'readable-mono-theme-emphasis) ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg])))
-;;;;; coverlay
-   `(coverlay:untested-line-background-color
+;;;;; cov
+   `(cov-coverage-not-run-face
      ,(pcase (frame-parameter nil 'background-mode)
         ('light l-red)
         ('dark d-red)))
-   `(coverlay:tested-line-background-color
+   `(cov-coverage-run-face
      ,(pcase (frame-parameter nil 'background-mode)
         ('light l-green)
         ('dark d-green)))

@@ -2111,37 +2111,24 @@ Support for Docker related files.
 
 ** Coverage
 #+begin_src emacs-lisp :tangle yes
-(use-package coverlay
+(use-package cov
   :ensure t
   :commands
-  (coverlay-minor-mode
-   coverlay-watch-file)
+  (cov-mode)
   :preface
-  (defun init-coverlay ()
-    "Setup `coverlay-mode'."
-    (setq-local
-     coverlay:base-path
-     (expand-file-name (locate-dominating-file (file-name-directory (buffer-file-name))
-                                               "coverage"))))
-
-  (defun coverlay-mode-toggle ()
-    "Turn on `coverlay-mode'."
+  (defun cov-mode-toggle ()
+    "Turn on `cov-mode'."
     (interactive)
-    (if (bound-and-true-p coverlay-minor-mode)
-        (coverlay-minor-mode 0)
-      (coverlay-minor-mode 1)
-      (when (and (buffer-file-name) (not (bound-and-true-p coverlay--loaded-filepath)))
-        (let ((coverage-file (expand-file-name "coverage/lcov.info" coverlay:base-path)))
-          (when (file-exists-p coverage-file)
-            (coverlay-watch-file coverage-file))))))
-  :hook
-  (coverlay-minor-mode-hook . init-coverlay)
+    (require 'cov)
+    (if (bound-and-true-p cov-mode)
+        (cov-mode 0)
+      (unless cov-lcov-file-name
+        (setq cov-lcov-file-name (expand-file-name "coverage/lcov.info" (project-root (project-current)))))
+      (cov-mode 1)))
   :general
   (:prefix
    local-leader-key
-   "v" 'coverlay-mode-toggle)
-  :init
-  (setq coverlay:mark-tested-lines nil))
+   "v" 'cov-mode-toggle))
 #+end_src
 
 ** Docs

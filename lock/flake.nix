@@ -187,10 +187,10 @@
       repo = "corfu";
       type = "github";
     };
-    coverlay = {
+    cov = {
       flake = false;
-      owner = "twada";
-      repo = "coverlay.el";
+      owner = "AdamNiederer";
+      repo = "cov";
       type = "github";
     };
     crystal-mode = {
@@ -335,6 +335,12 @@
       flake = false;
       owner = "jcollard";
       repo = "elm-mode";
+      type = "github";
+    };
+    elquery = {
+      flake = false;
+      owner = "AdamNiederer";
+      repo = "elquery";
       type = "github";
     };
     emacsql = {
