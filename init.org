@@ -4453,6 +4453,11 @@ Packages that I am currently testing or evaluating.
   (setq consult-git-log-grep-open-function #'magit-show-commit))
 #+end_src
 
+** dape
+#+begin_src emacs-lisp :tangle yes
+(use-package dape :ensure t)
+#+end_src
+
 ** eglot-x
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot-x :ensure t)
@@ -4614,3 +4619,4 @@ Packages that I am currently testing or evaluating.
 ** TODO Evaluate skeleton
 ** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
 ** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
+** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]

@@ -211,6 +211,12 @@
       repo = "emacs-ctrlxo";
       type = "github";
     };
+    dape = {
+      flake = false;
+      owner = "svaante";
+      repo = "dape";
+      type = "github";
+    };
     dash = {
       flake = false;
       owner = "magnars";
