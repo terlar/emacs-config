@@ -1298,9 +1298,7 @@ Zoom a window to display as a single window temporarily.
 (use-package zoom-window
   :ensure t
   :general
-  (:prefix
-   window-prefix
-   "z" 'zoom-window-zoom))
+  (:prefix window-prefix "z" 'zoom-window-zoom))
 #+end_src
 
 ** Buffer
@@ -2085,7 +2083,9 @@ nothing happens."
   (:prefix
    leader-key
    "d" 'docker
-   "c" 'docker-compose))
+   "c" 'docker-compose)
+  :init
+  (setq docker-command "podman"))
 #+end_src
 
 **** Files
@@ -4316,13 +4316,9 @@ the line or after an eshell operator."
   :init
   (define-abbrev-table 'eshell-mode-abbrev-table
     '(("base64" "base64 -w0")
-      ("d" "docker")
-      ("dim" "docker images")
-      ("dp" "docker ps")
-      ("dc" "docker-compose")
-      ("dcl" "docker-compose logs")
       ("e" "find-file-other-window")
       ("E" "dired")
+      ("gco" "git checkout")
       ("gd" "magit-diff-unstaged")
       ("gds" "magit-diff-staged")
       ("gs" "magit-status")
