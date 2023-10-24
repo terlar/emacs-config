@@ -2072,14 +2072,8 @@ nothing happens."
 *** ANSI escape
 #+begin_src emacs-lisp :tangle yes
 (use-package ansi-color
-  :preface
-  (autoload 'ansi-color-apply-on-region "ansi-color")
-  (defun ansi-color-colorize-compilation ()
-    "Colorize from `compilation-filter-start' to `point'."
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region compilation-filter-start (point))))
   :hook
-  (compilation-filter-hook . ansi-color-colorize-compilation))
+  (compilation-filter-hook . ansi-color-compilation-filter))
 #+end_src
 
 ** Containers
@@ -2128,7 +2122,9 @@ Support for Docker related files.
   :general
   (:prefix
    local-leader-key
-   "v" 'cov-mode-toggle))
+   "v" 'cov-mode-toggle)
+  :init
+  (setq cov-coverage-mode t))
 #+end_src
 
 ** Docs
@@ -2623,7 +2619,9 @@ Highlight symbol at point on idle.
 (use-package idle-highlight-mode
   :ensure t
   :hook
-  (prog-mode-hook . idle-highlight-mode))
+  (prog-mode-hook . idle-highlight-mode)
+  :init
+  (setq idle-highlight-exclude-point t))
 #+end_src
 
 *** imenu-anywhere
@@ -2740,6 +2738,7 @@ Highlight source code identifiers based on their name.
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
  "l" `(,(lambda () (interactive) (load-file (buffer-file-name))) :wk "Load file")
+ "L" 'eval-buffer
  "t" 'ert)
 
 (custom-set-variables
@@ -4620,3 +4619,6 @@ Packages that I am currently testing or evaluating.
 ** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
 ** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
 ** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
+** TODO Function to jump to file under point, preferably with support for : line number
+** TODO Function to load theme defined in current file
+** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
