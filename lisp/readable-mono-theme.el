@@ -50,8 +50,13 @@
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-region "#f9f5dd"
-  "Region for light theme."
+(defcustom readable-mono-theme-light-attention "#cc1f24"
+  "Main attention color for light theme."
+  :type 'string
+  :group 'readable-mono-theme-light)
+
+(defcustom readable-mono-theme-light-secondary-attention "#c42475"
+  "Secondary attention color for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
 
@@ -85,10 +90,15 @@
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-region "#012E38"
-  "Region for dark theme."
+(defcustom readable-mono-theme-dark-attention "#ec423a"
+  "Main attention color for dark theme."
   :type 'string
-  :group 'readable-mono-theme-light)
+  :group 'readable-mono-theme-dark)
+
+(defcustom readable-mono-theme-dark-secondary-attention "#e2468f"
+  "Secondary attention color for dark theme."
+  :type 'string
+  :group 'readable-mono-theme-dark)
 
 (defcustom readable-mono-theme-dark-foreground "#ffffee"
   "Default foreground for dark theme."
@@ -112,14 +122,14 @@
 
 ;;;; Faces
 (defface readable-mono-theme-critical
-  '((((background light)) (:background "#cc1f24" :foreground "#ffffff"))
-    (((background dark)) (:background "#ec423a" :foreground "#ffffff")))
+  `((((background light)) (:background ,readable-mono-theme-light-attention :foreground "#ffffff"))
+    (((background dark)) (:background ,readable-mono-theme-dark-attention :foreground "#ffffff")))
   "Face used for critical information that requires immediate action/attention."
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-emphasis
-  '((((background light)) (:foreground "#c42475"))
-    (((background dark)) (:foreground "#e2468f")))
+  `((((background light)) (:foreground ,readable-mono-theme-light-secondary-attention))
+    (((background dark)) (:foreground ,readable-mono-theme-dark-secondary-attention)))
   "Face used for information that needs action/attention."
   :group 'readable-mono-theme)
 
@@ -129,14 +139,14 @@
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-subordinate
-  `((((background light)) (:weight light :foreground ,readable-mono-theme-light-secondary-foreground))
-    (((background dark)) (:weight light :foreground ,readable-mono-theme-dark-secondary-foreground)))
+  `((((background light)) (:foreground ,readable-mono-theme-light-secondary-foreground))
+    (((background dark)) (:foreground ,readable-mono-theme-dark-secondary-foreground)))
   "Face used for information of less importance."
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-actionable
-  '((((background light)) (:foreground "#007ec4" :weight light))
-    (((background dark)) (:foreground "#3c98e0" :weight light)))
+  '((((background light)) (:foreground "#007ec4"))
+    (((background dark)) (:foreground "#3c98e0")))
   "Face used for information that is actionable.
 For example links."
   :group 'readable-mono-theme)
@@ -151,18 +161,23 @@ For example links."
       (l-bg-s readable-mono-theme-light-secondary-background)
       (l-fg readable-mono-theme-light-foreground)
       (l-fg-s readable-mono-theme-light-secondary-foreground)
+      (l-attention readable-mono-theme-light-attention)
       (l-cursor readable-mono-theme-light-cursor)
+
       (l-green "#eeedcb")
       (l-green-s "#d5d99d")
       (l-red "#ffe1cb")
       (l-red-s "#ffb79f")
       (l-blue "#e6ebe7")
       (l-blue-s "#bfd2e6")
+
       (d-bg readable-mono-theme-dark-background)
       (d-bg-s readable-mono-theme-dark-secondary-background)
       (d-fg readable-mono-theme-dark-foreground)
       (d-fg-s readable-mono-theme-dark-secondary-foreground)
+      (d-attention readable-mono-theme-dark-attention)
       (d-cursor readable-mono-theme-dark-cursor)
+
       (d-green "#1e3531")
       (d-green-s "#354725")
       (d-red "#2f2c31")
@@ -198,7 +213,7 @@ For example links."
    `(font-lock-type-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-builtin-face ((t (:inherit readable-mono-theme-strong))))
    `(font-lock-keyword-face ((t (:inherit readable-mono-theme-strong))))
-   `(font-lock-warning-face ((t (:inherit readable-mono-theme-emphasis))))
+   `(font-lock-warning-face ((t (:inherit warning))))
 
    `(semantic-tag-boundary-face ((((background light)) (:overline ,l-fg-s))
 				 (((background dark)) (:overline ,d-fg-s))))
@@ -221,13 +236,13 @@ For example links."
    `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
    `(match ((t (:inherit highlight))))
    `(region
-     ((((background light)) (:background ,readable-mono-theme-light-region))
-      (((background dark)) (:background ,readable-mono-theme-dark-region))))
+     ((((background light)) (:foreground ,l-bg :background ,l-fg))
+      (((background dark)) (:foreground ,d-bg :background ,d-fg))))
 
 ;;;;; Visual aid
    `(cursor
-     ((((background light)) (:background ,readable-mono-theme-light-cursor))
-      (((background dark)) (:background ,readable-mono-theme-dark-cursor))))
+     ((((background light)) (:background ,l-cursor))
+      (((background dark)) (:background ,d-cursor))))
    `(hl-line ((t (:inherit readable-mono-theme-secondary))))
    `(line-number-current-line
      ((((background light)) (:inherit readable-mono-theme-strong :foreground ,l-cursor))
@@ -251,13 +266,14 @@ For example links."
    `(mode-line-buffer-id ((t :inherit readable-mono-theme-strong)))
 
    `(button ((t (:inherit readable-mono-theme-actionable :underline t))))
-   `(custom-button-face ((t (:inherit readable-mono-theme-button))))
+   `(custom-button-face ((t (:inherit button))))
    `(fringe ((t (:inherit readable-mono-theme-subordinate))))
-   `(header-line ((t (:inherit mode-line))))
-   `(header-line-highlight ((t (:inherit mode-line-highlight))))
+   `(header-line
+     ((((background light)) (:foreground ,l-bg :background ,l-fg :box (:line-width 6 :color ,l-fg)))
+      (((background dark)) (:foreground ,d-bg :background ,d-fg :box (:line-width 6 :color ,d-fg)))))
    `(menu ((t (:inherit readable-mono-theme-secondary))))
    `(minibuffer-prompt ((t (:inherit readable-mono-theme-strong))))
-   `(secondary-selection ((t (:inherit region :inverse-video t))))
+   `(secondary-selection ((t (:inherit (region highlight)))))
    `(tool-bar ((t (:inherit readable-mono-theme-secondary))))
    `(tooltip ((t (:inherit readable-mono-theme-secondary))))
    `(vertical-border
@@ -328,6 +344,30 @@ For example links."
      ((((background light)) (:background ,l-bg-s :foreground ,l-bg-s))
       (((background dark)) (:background ,d-bg-s :foreground ,d-bg-s))))
 
+;;;;; ansi-color
+   `(ansi-color-black
+     ((((background light)) (:foreground ,l-fg))
+      (((background dark)) (:foreground ,d-fg))))
+   `(ansi-color-bright-black
+     ((((background light)) (:foreground ,l-fg-s))
+      (((background dark)) (:foreground ,d-fg-s))))
+   `(ansi-color-red
+     ((((background light)) (:foreground ,l-attention))
+      (((background dark)) (:foreground ,d-attention))))
+   `(ansi-color-bright-red ((t (:inherit ansi-color-red))))
+   `(ansi-color-green ((t (:inherit success))))
+   `(ansi-color-bright-green ((t (:inherit ansi-color-green))))
+   `(ansi-color-yellow ((t (:inherit shadow))))
+   `(ansi-color-bright-yellow ((t (:inherit ansi-color-yellow))))
+   `(ansi-color-blue ((t (:inherit ansi-color-black))))
+   `(ansi-color-bright-blue ((t (:inherit ansi-color-blue))))
+   `(ansi-color-magenta ((t (:inherit ansi-color-black))))
+   `(ansi-color-bright-magenta ((t (:inherit ansi-color-magenta))))
+   `(ansi-color-cyan ((t (:inherit ansi-color-black))))
+   `(ansi-color-bright-cyan ((t (:inherit ansi-color-cyan))))
+   `(ansi-color-white ((t (:inherit shadow))))
+   `(ansi-color-bright-white ((t (:inherit ansi-color-white))))
+
 ;;;;; cider
    `(cider-test-failure-face ((t (:inherit error))))
    `(cider-result-overlay-face ((t (:inherit highlight))))
@@ -344,10 +384,34 @@ For example links."
    `(company-tooltip-common ((t (:inherit completions-common-part))))
    `(company-tooltip-selection ((t (:inherit highlight))))
 
+;;;;; compilation
+   `(compilation-mode-line-fail ((t (:inherit compilation-error))))
+
 ;;;;; corfu
    `(corfu-default ((t (:inherit readable-mono-theme-secondary))))
    `(corfu-bar ((t (:inherit nil :inverse-video t))))
    `(corfu-current ((t (:inherit highlight))))
+
+;;;;; cov
+   `(cov-none-face
+     ((((background light)) (:foreground ,l-red-s))
+      (((background dark)) (:foreground ,d-red-s))))
+   `(cov-light-face
+     ((((background light)) (:foreground ,l-fg-s))
+      (((background dark)) (:foreground ,d-fg-s))))
+   `(cov-med-face
+     ((((background light)) (:foreground ,l-fg-s))
+      (((background dark)) (:foreground ,d-fg-s))))
+   `(cov-heavy-face
+     ((((background light)) (:foreground ,l-fg))
+      (((background dark)) (:foreground ,d-fg))))
+
+   `(cov-coverage-not-run-face
+     ((((background light)) (:foreground ,l-red-s))
+      (((background dark)) (:foreground ,d-red-s))))
+   `(cov-coverage-run-face
+     ((((background light)) (:foreground ,l-green-s))
+      (((background dark)) (:foreground ,d-green-s))))
 
 ;;;;; dired
    `(all-the-icons-dired-dir-face ((t (:foreground unspecified))))
@@ -393,6 +457,9 @@ For example links."
      ((((background light)) (:underline (:style wave :color ,l-fg)))
       (((background dark)) (:underline (:style wave :color ,d-fg)))))
 
+;;;;; ghelp
+   `(ghelp-header-button ((t (:inherit info-header-node :box nil))))
+
 ;;;;; gotest
    `(go-test--standard-face ((t (:foreground unspecified))))
    `(go-test--ok-face ((t (:foreground unspecified))))
@@ -417,8 +484,9 @@ For example links."
    `(ivy-minibuffer-match-face-4 ((t (:inherit readable-mono-theme-strong))))
 
 ;;;;; magit
-   `(magit-section-heading ((t (:inherit header-line))))
+   `(magit-section-heading-selection ((t (:inherit region))))
    `(magit-section-highlight ((t (:inherit readable-mono-theme-secondary))))
+   `(magit-diff-file-heading-selection ((t (:inherit region))))
    `(magit-diff-context ((t (:background unspecified))))
    `(magit-diff-context-highlight ((t (:inherit readable-mono-theme-secondary))))
    `(magit-diff-removed ((t (:inherit diff-removed))))
@@ -427,6 +495,12 @@ For example links."
    `(magit-diff-added-highlight ((t (:inherit diff-refine-added))))
    `(magit-process-ok ((t (:inherit success))))
    `(magit-process-ng ((t (:inherit error))))
+
+   `(magit-branch-current ((t (:inherit readable-mono-theme-emphasis :box (:line-width 1)))))
+   `(magit-branch-local ((t (:inherit readable-mono-theme-emphasis))))
+   `(magit-branch-remote ((t (:inherit readable-mono-theme-strong))))
+   `(magit-head ((t (:inherit readable-mono-theme-strong))))
+   `(magit-tag ((t (:inherit italic))))
 
 ;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
@@ -514,10 +588,6 @@ For example links."
 ;;;;; sh-script
    `(sh-quoted-exec ((t (:inherit readable-mono-theme-secondary))))
 
-;;;;; smartparens
-   `(sp-show-pair-match-face ((t (:inherit show-paren-match))))
-   `(sp-show-pair-mismatch-face ((t (:inherit show-paren-mismatch))))
-
 ;;;;; spray
    `(spray-accent-face
      ((((background light)) (:foreground ,l-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))
@@ -530,13 +600,15 @@ For example links."
    `(term-color-black
      ((((background light)) (:foreground ,l-fg :background ,l-fg-s))
       (((background dark)) (:foreground ,d-fg :foreground ,d-fg-s))))
-   `(term-color-red ((t (:inherit readable-mono-theme-emphasis :background ,(face-foreground 'readable-mono-theme-emphasis)))))
+   `(term-color-red
+     ((((background light)) (:foreground ,l-attention :background ,l-attention))
+      (((background dark)) (:foreground ,d-attention :foreground ,d-attention))))
    `(term-color-green ((t (:inherit term-color-black))))
-   `(term-color-yellow ((t (:inherit term-color-black))))
+   `(term-color-yellow ((t (:inherit shadow))))
    `(term-color-blue ((t (:inherit term-color-black))))
    `(term-color-magenta ((t (:inherit term-color-black))))
    `(term-color-cyan ((t (:inherit term-color-black))))
-   `(term-color-white ((t (:inherit term-color-black))))
+   `(term-color-white ((t (:inherit shadow))))
 
 ;;;;; terraform
    `(terraform-resource-name-face ((t (:foreground unspecified))))
@@ -556,33 +628,19 @@ For example links."
    `(wgrep-reject-face ((t (:inherit readable-mono-theme-subordinate))))
    `(wgrep-done-face ((t (:inherit readable-mono-theme-secondary)))))
 
-
 ;;;; Theme variables
   (custom-theme-set-variables
    'readable-mono
-;;;;; ansi-color
-   `(ansi-color-names-vector ,(pcase (frame-parameter nil 'background-mode)
-                                ('light
-                                 `[,l-fg ,(face-foreground 'readable-mono-theme-emphasis) ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg ,l-fg])
-                                ('dark
-                                 `[,d-fg ,(face-foreground 'readable-mono-theme-emphasis) ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg ,d-fg])))
-;;;;; cov
-   `(cov-coverage-not-run-face
-     ,(pcase (frame-parameter nil 'background-mode)
-        ('light l-red)
-        ('dark d-red)))
-   `(cov-coverage-run-face
-     ,(pcase (frame-parameter nil 'background-mode)
-        ('light l-green)
-        ('dark d-green)))
 ;;;;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:inherit readable-mono-theme-strong :box (:line-width 1)))
        ("FIXME" . (:inherit readable-mono-theme-emphasis :box (:line-width 1)))
        ("NOTE"  . (:box (:line-width 1)))))
+
 ;;;;; rainbow-identifiers
    `(rainbow-identifiers-cie-l*a*b*-saturation 65)
    `(rainbow-identifiers-cie-l*a*b*-lightness 45)
+
 ;;;;; zoom-window
    `(zoom-window-mode-line-color ,(pcase (frame-parameter nil 'background-mode)
                                     ('light l-bg-s)

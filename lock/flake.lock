@@ -560,6 +560,22 @@
         "type": "github"
       }
     },
+    "dape": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698091285,
+        "narHash": "sha256-9HTDg0+UILKmYb4ZjiKDbrtZgE2aVlGCCNk9CnoSDEM=",
+        "owner": "svaante",
+        "repo": "dape",
+        "rev": "94b99c3a5b277ecfa205620dedd207b95c848cb9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "svaante",
+        "repo": "dape",
+        "type": "github"
+      }
+    },
     "dash": {
       "flake": false,
       "locked": {
@@ -3157,6 +3173,7 @@
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
         "ctrlxo": "ctrlxo",
+        "dape": "dape",
         "dash": "dash",
         "deadgrep": "deadgrep",
         "defrepeater": "defrepeater",

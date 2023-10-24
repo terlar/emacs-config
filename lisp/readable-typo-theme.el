@@ -165,6 +165,7 @@
 ;;;;; Interface
    `(mode-line-active ((t (:family ,variable-pitch :height ,small-height))))
    `(mode-line-inactive ((t (:family ,variable-pitch :height ,small-height))))
+   `(header-line ((t (:family ,variable-pitch :height ,small-height))))
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))
 
@@ -176,6 +177,9 @@
    `(info-title-2 ((t (:height ,level-2-height))))
    `(info-title-3 ((t (:height ,level-3-height))))
    `(info-title-4 ((t (:height ,level-4-height :slant italic))))
+
+;;;;; magit
+   `(magit-section-heading ((t (:family ,variable-pitch :height ,level-2-height))))
 
 ;;;;; markdown
    `(markdown-header-face-1 ((t (:height ,level-1-height :weight ,bold-weight))))
