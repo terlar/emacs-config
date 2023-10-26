@@ -515,6 +515,11 @@ Use a bar cursor by default.
    'frame-background-mode
    (if (eq 'light (frame-parameter nil 'background-mode)) 'dark 'light))
   (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
+
+(defun reload-themes ()
+  "Reload all loaded themes."
+  (interactive)
+  (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
 #+end_src
 
 *** Echo area
