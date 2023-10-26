@@ -515,6 +515,11 @@ Use a bar cursor by default.
    'frame-background-mode
    (if (eq 'light (frame-parameter nil 'background-mode)) 'dark 'light))
   (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
+
+(defun reload-themes ()
+  "Reload all loaded themes."
+  (interactive)
+  (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
 #+end_src
 
 *** Echo area
@@ -1440,6 +1445,12 @@ Structured editing with soft deletion and balanced expressions.
    puni-kill-active-region
    puni-mark-list-around-point)
   :preface
+  (defun puni-kill-ring-save-line (arg)
+    "Save whole structured line(s) based on ARG or active region."
+    (interactive "P")
+    (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
+      (puni-kill-line arg)))
+
   (defun puni-whole-line-or-region-kill (arg)
     "Kill whole structured line(s) based on ARG or active region."
     (interactive "P")
@@ -1471,10 +1482,14 @@ Structured editing with soft deletion and balanced expressions.
   (:keymaps
    'puni-mode-map
    [remap transpose-sexps] 'puni-transpose
+   "M-W" 'puni-kill-ring-save-line
    "M-'" 'puni-kill-list-around-point
    "M-D" 'puni-splice
    "M-R" 'puni-squeeze
-   "M-W" 'puni-wrap-round
+   "M-S <" 'puni-wrap-angle
+   "M-S {" 'puni-wrap-curly
+   "M-S (" 'puni-wrap-round
+   "M-S [" 'puni-wrap-square
    "C-w" 'puni-whole-line-or-region-kill
    "M-w" 'puni-whole-line-or-region-kill-ring-save))
 #+end_src
@@ -2384,7 +2399,7 @@ Open link to files in the web UI connected to a repository.
 (use-package browse-at-remote
   :ensure t
   :general
-  ("C-x v SPC" 'browse-at-remote))
+  ("C-x v SPC" 'browse-at-remote-kill))
 #+end_src
 
 *** diff
