@@ -1,7 +1,12 @@
 {lib, ...}: {
   bbdb = _: prev: {
     files =
-      prev.files
+      (builtins.removeAttrs prev.files [
+        # Unused integrations.
+        "lisp/bbdb-notmuch.el"
+        "lisp/bbdb-vm.el"
+        "lisp/bbdb-vm-aux.el"
+      ])
       // {
         "lisp/bbdb-site.el.in" = "bbdb-site.el.in";
       };
