@@ -2399,7 +2399,7 @@ Open link to files in the web UI connected to a repository.
 (use-package browse-at-remote
   :ensure t
   :general
-  ("C-x v SPC" 'browse-at-remote))
+  ("C-x v SPC" 'browse-at-remote-kill))
 #+end_src
 
 *** diff
