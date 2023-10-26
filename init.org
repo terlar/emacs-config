@@ -979,7 +979,7 @@ Display available keybindings in a popup as you press keys.
 (general-define-key
  :prefix leader-key
  "m" 'gnus
- "p" 'list-processes
+ "P" 'list-processes
  "s" 'screenshot-svg
  "S" 'screenshot-png
  "x" 'regexp-builder
@@ -4196,10 +4196,11 @@ Dim out the surrounding text except the current focused paragraph or expression.
 
 ** Pomodoro
 #+begin_src emacs-lisp :tangle yes
-(use-package redtick
+(use-package pomm
   :ensure t
+  :commands (pomm pomm-third-time)
   :general
-  (:prefix leader-key "r" 'redtick))
+  (:prefix leader-key "p" 'pomm-third-time))
 #+end_src
 
 ** Session
