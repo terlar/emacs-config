@@ -2117,7 +2117,7 @@ Support for Docker related files.
     (if (bound-and-true-p cov-mode)
         (cov-mode 0)
       (unless cov-lcov-file-name
-        (setq cov-lcov-file-name (expand-file-name "coverage/lcov.info" (project-root (project-current)))))
+        (setq cov-lcov-file-name (expand-file-name "lcov.info" (project-root (project-current)))))
       (cov-mode 1)))
   :general
   (:prefix
