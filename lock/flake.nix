@@ -20,6 +20,12 @@
       repo = "emacs-aio";
       type = "github";
     };
+    alert = {
+      flake = false;
+      owner = "jwiegley";
+      repo = "alert";
+      type = "github";
+    };
     all-the-icons = {
       flake = false;
       owner = "domtronn";
@@ -534,6 +540,12 @@
       repo = "gmail2bbdb";
       type = "github";
     };
+    gntp = {
+      flake = false;
+      owner = "tekai";
+      repo = "gntp.el";
+      type = "github";
+    };
     gorepl-mode = {
       flake = false;
       owner = "manute";
@@ -765,6 +777,12 @@
       flake = false;
       owner = "rolandwalker";
       repo = "list-utils";
+      type = "github";
+    };
+    log4e = {
+      flake = false;
+      owner = "aki2o";
+      repo = "log4e";
       type = "github";
     };
     loop = {
@@ -1045,6 +1063,12 @@
       repo = "plantuml-mode";
       type = "github";
     };
+    pomm = {
+      flake = false;
+      owner = "SqrtMinusOne";
+      repo = "pomm.el";
+      type = "github";
+    };
     popper = {
       flake = false;
       owner = "karthink";
@@ -1133,12 +1157,6 @@
       flake = false;
       owner = "terlar";
       repo = "emacs-config";
-      type = "github";
-    };
-    redtick = {
-      flake = false;
-      owner = "ferfebles";
-      repo = "redtick";
       type = "github";
     };
     reformatter = {

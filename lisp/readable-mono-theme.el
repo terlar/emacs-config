@@ -502,6 +502,9 @@ For example links."
    `(magit-head ((t (:inherit readable-mono-theme-strong))))
    `(magit-tag ((t (:inherit italic))))
 
+;;;;; marginalia
+   `(marginalia-file-priv-no ((t (:inherit nil))))
+
 ;;;;; markdown
    `(markdown-code-face ((t (:inherit readable-mono-theme-secondary :extend t))))
    `(markdown-inline-code-face

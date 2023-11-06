@@ -48,6 +48,22 @@
         "type": "github"
       }
     },
+    "alert": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1670948383,
+        "narHash": "sha256-PH7AxHfx43rVFm+gysMVW42RqBRK/MqlGYIqtzUpfTA=",
+        "owner": "jwiegley",
+        "repo": "alert",
+        "rev": "c762380ff71c429faf47552a83605b2578656380",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jwiegley",
+        "repo": "alert",
+        "type": "github"
+      }
+    },
     "all-the-icons": {
       "flake": false,
       "locked": {
@@ -1424,6 +1440,22 @@
         "type": "github"
       }
     },
+    "gntp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1414205413,
+        "narHash": "sha256-avhib7p0Xot6FZVRuBqtFGV9ogbpXUZ8vzXm5qWUfts=",
+        "owner": "tekai",
+        "repo": "gntp.el",
+        "rev": "767571135e2c0985944017dc59b0be79af222ef5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tekai",
+        "repo": "gntp.el",
+        "type": "github"
+      }
+    },
     "gorepl-mode": {
       "flake": false,
       "locked": {
@@ -2045,6 +2077,22 @@
       "original": {
         "owner": "rolandwalker",
         "repo": "list-utils",
+        "type": "github"
+      }
+    },
+    "log4e": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1634636892,
+        "narHash": "sha256-Pzv4ApqUbdU4o4R50XdA2xt7do9uKFMVcixREhX/T/k=",
+        "owner": "aki2o",
+        "repo": "log4e",
+        "rev": "737d275eac28dbdfb0b26d28e99da148bfce9d16",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aki2o",
+        "repo": "log4e",
         "type": "github"
       }
     },
@@ -2800,6 +2848,22 @@
         "type": "github"
       }
     },
+    "pomm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1687094672,
+        "narHash": "sha256-/ZJFy6gKPrxLPg9zPZ6OcEfj7DqN/+on50xHDRRqtP8=",
+        "owner": "SqrtMinusOne",
+        "repo": "pomm.el",
+        "rev": "12ce6a68c7ba7be16c2990c0b660bbb87b6fc9b0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SqrtMinusOne",
+        "repo": "pomm.el",
+        "type": "github"
+      }
+    },
     "popper": {
       "flake": false,
       "locked": {
@@ -3040,22 +3104,6 @@
         "type": "github"
       }
     },
-    "redtick": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1524606053,
-        "narHash": "sha256-j1EB549/HK81pyFBugz8hedMiVkgsZJ9Z/unc/uFC9s=",
-        "owner": "ferfebles",
-        "repo": "redtick",
-        "rev": "94b4cd43ac20c64dcac96edac2c1a3b9fcc59bb9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ferfebles",
-        "repo": "redtick",
-        "type": "github"
-      }
-    },
     "reformatter": {
       "flake": false,
       "locked": {
@@ -3141,6 +3189,7 @@
         "a": "a",
         "ace-window": "ace-window",
         "aio": "aio",
+        "alert": "alert",
         "all-the-icons": "all-the-icons",
         "all-the-icons-completion": "all-the-icons-completion",
         "all-the-icons-dired": "all-the-icons-dired",
@@ -3227,6 +3276,7 @@
         "git-commit": "git-commit",
         "git-modes": "git-modes",
         "gmail2bbdb": "gmail2bbdb",
+        "gntp": "gntp",
         "gorepl-mode": "gorepl-mode",
         "gotest": "gotest",
         "goto-chg": "goto-chg",
@@ -3266,6 +3316,7 @@
         "ligature": "ligature",
         "link-hint": "link-hint",
         "list-utils": "list-utils",
+        "log4e": "log4e",
         "loop": "loop",
         "lua-mode": "lua-mode",
         "lv": "lv",
@@ -3313,6 +3364,7 @@
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
         "plantuml-mode": "plantuml-mode",
+        "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
         "projectile": "projectile",
@@ -3328,7 +3380,6 @@
         "readable": "readable",
         "readable-mono-theme": "readable-mono-theme",
         "readable-typo-theme": "readable-typo-theme",
-        "redtick": "redtick",
         "reformatter": "reformatter",
         "rego-mode": "rego-mode",
         "relative-buffers": "relative-buffers",
