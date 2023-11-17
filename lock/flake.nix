@@ -187,6 +187,12 @@
       repo = "consult-git-log-grep";
       type = "github";
     };
+    consult-jump-project = {
+      flake = false;
+      owner = "jdtsmith";
+      repo = "consult-jump-project";
+      type = "github";
+    };
     corfu = {
       flake = false;
       owner = "minad";
@@ -677,10 +683,10 @@
       repo = "imenu-list";
       type = "github";
     };
-    indent-guide = {
+    indent-bars = {
       flake = false;
-      owner = "zk-phi";
-      repo = "indent-guide";
+      owner = "jdtsmith";
+      repo = "indent-bars";
       type = "github";
     };
     indent-info = {

@@ -496,6 +496,22 @@
         "type": "github"
       }
     },
+    "consult-jump-project": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1692844890,
+        "narHash": "sha256-Xp/lJNIZZIY59AzilIuhJSvIaodESz6p29DBKsAXBMU=",
+        "owner": "jdtsmith",
+        "repo": "consult-jump-project",
+        "rev": "459fb1195c6d06875cb2ca865af711c4a45074ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jdtsmith",
+        "repo": "consult-jump-project",
+        "type": "github"
+      }
+    },
     "corfu": {
       "flake": false,
       "locked": {
@@ -1808,19 +1824,19 @@
         "type": "github"
       }
     },
-    "indent-guide": {
+    "indent-bars": {
       "flake": false,
       "locked": {
-        "lastModified": 1610683241,
-        "narHash": "sha256-sTvOtgRh8UKCUcjuT6ZwkI4ruoW76k9ZRvQU2X8dYGQ=",
-        "owner": "zk-phi",
-        "repo": "indent-guide",
-        "rev": "d388c3387781a370ca13233ff445d03f3c5cf12f",
+        "lastModified": 1699670342,
+        "narHash": "sha256-zzdOTe+C0h7gF+mJqGIiY0zzGHOxn+rHuAY2It1j3kE=",
+        "owner": "jdtsmith",
+        "repo": "indent-bars",
+        "rev": "9cf88e14030cd6c95a7192269cf2a224e6f19763",
         "type": "github"
       },
       "original": {
-        "owner": "zk-phi",
-        "repo": "indent-guide",
+        "owner": "jdtsmith",
+        "repo": "indent-bars",
         "type": "github"
       }
     },
@@ -3233,6 +3249,7 @@
         "consult": "consult",
         "consult-compile-multi": "consult-compile-multi",
         "consult-git-log-grep": "consult-git-log-grep",
+        "consult-jump-project": "consult-jump-project",
         "corfu": "corfu",
         "corfu-candidate-overlay": "corfu-candidate-overlay",
         "cov": "cov",
@@ -3315,7 +3332,7 @@
         "imenu-anywhere": "imenu-anywhere",
         "imenu-extra": "imenu-extra",
         "imenu-list": "imenu-list",
-        "indent-guide": "indent-guide",
+        "indent-bars": "indent-bars",
         "indent-info": "indent-info",
         "inf-crystal": "inf-crystal",
         "inf-ruby": "inf-ruby",
