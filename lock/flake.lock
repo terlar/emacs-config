@@ -496,6 +496,22 @@
         "type": "github"
       }
     },
+    "consult-jump-project": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1692844890,
+        "narHash": "sha256-Xp/lJNIZZIY59AzilIuhJSvIaodESz6p29DBKsAXBMU=",
+        "owner": "jdtsmith",
+        "repo": "consult-jump-project",
+        "rev": "459fb1195c6d06875cb2ca865af711c4a45074ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jdtsmith",
+        "repo": "consult-jump-project",
+        "type": "github"
+      }
+    },
     "corfu": {
       "flake": false,
       "locked": {
@@ -3233,6 +3249,7 @@
         "consult": "consult",
         "consult-compile-multi": "consult-compile-multi",
         "consult-git-log-grep": "consult-git-log-grep",
+        "consult-jump-project": "consult-jump-project",
         "corfu": "corfu",
         "corfu-candidate-overlay": "corfu-candidate-overlay",
         "cov": "cov",

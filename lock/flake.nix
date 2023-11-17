@@ -187,6 +187,12 @@
       repo = "consult-git-log-grep";
       type = "github";
     };
+    consult-jump-project = {
+      flake = false;
+      owner = "jdtsmith";
+      repo = "consult-jump-project";
+      type = "github";
+    };
     corfu = {
       flake = false;
       owner = "minad";
