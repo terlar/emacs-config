@@ -188,10 +188,10 @@ For example links."
   (custom-theme-set-faces
    'readable-mono
    `(default
-      ((((type graphic) (background light)) (:background ,l-bg :foreground ,l-fg))
-       (((type graphic) (background dark)) (:background ,d-bg :foreground ,d-fg))
-       (((type tty) (background light)) (:background unspecified :foreground ,l-fg))
-       (((type tty) (background dark)) (:background unspecified :foreground ,d-fg))))
+     ((((type graphic) (background light)) (:background ,l-bg :foreground ,l-fg))
+      (((type graphic) (background dark)) (:background ,d-bg :foreground ,d-fg))
+      (((type tty) (background light)) (:background unspecified :foreground ,l-fg))
+      (((type tty) (background dark)) (:background unspecified :foreground ,d-fg))))
 
 ;;;;; Semantic
    `(bold ((t (:inherit readable-mono-theme-strong))))
@@ -634,11 +634,15 @@ For example links."
 ;;;; Theme variables
   (custom-theme-set-variables
    'readable-mono
+
 ;;;;; hl-todo
    `(hl-todo-keyword-faces
      `(("TODO"  . (:inherit readable-mono-theme-strong :box (:line-width 1)))
        ("FIXME" . (:inherit readable-mono-theme-emphasis :box (:line-width 1)))
        ("NOTE"  . (:box (:line-width 1)))))
+
+;;;;; indent-bars
+   `(indent-bars-color '(readable-mono-theme-subordinate :blend 0.4))
 
 ;;;;; rainbow-identifiers
    `(rainbow-identifiers-cie-l*a*b*-saturation 65)

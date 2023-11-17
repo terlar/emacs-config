@@ -3778,7 +3778,7 @@ Pretty check-boxes
 (use-package python
   :hook
   (python-ts-mode-hook . eglot-ensure)
-  (python-ts-mode-hook . indent-guide-mode)
+  (python-ts-mode-hook . indent-bars-mode)
   :general
   (:keymaps
    'python-ts-mode-map
@@ -4166,7 +4166,7 @@ Display current path for HTML/XML/CSS.
 (use-package yaml-mode
   :ensure t
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
-  :hook (yaml-mode-hook . indent-guide-mode))
+  :hook (yaml-mode-hook . indent-bars-mode))
 #+end_src
 
 * Tools
@@ -4196,10 +4196,10 @@ Dim out the surrounding text except the current focused paragraph or expression.
 
 ** Indentation guides
 #+begin_src emacs-lisp :tangle yes
-(use-package indent-guide
+(use-package indent-bars
   :ensure t
   :init
-  (setq indent-guide-char "\x2502"))
+  (setq indent-bars-width-frac 0.2))
 #+end_src
 
 ** Pomodoro

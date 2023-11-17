@@ -677,10 +677,10 @@
       repo = "imenu-list";
       type = "github";
     };
-    indent-guide = {
+    indent-bars = {
       flake = false;
-      owner = "zk-phi";
-      repo = "indent-guide";
+      owner = "jdtsmith";
+      repo = "indent-bars";
       type = "github";
     };
     indent-info = {
