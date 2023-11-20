@@ -1320,6 +1320,8 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-fill-column
   :ensure t
+  :hook
+  (markdown-mode-hook . visual-fill-column-mode)
   :init
   (setq visual-fill-column-center-text t))
 
