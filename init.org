@@ -4499,7 +4499,9 @@ Packages that I am currently testing or evaluating.
   :hook
   (corfu-mode-hook . corfu-candidate-overlay-mode)
   :general
-  ("C-e" 'corfu-candidate-overlay-end-of-line))
+  ("C-e" 'corfu-candidate-overlay-end-of-line)
+  :init
+  (setq corfu-candidate-overlay-no-message t))
 #+end_src
 
 ** eglot-x
