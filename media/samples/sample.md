@@ -58,8 +58,7 @@ Now a nested list:
       * celery
       * lentils
  2. Boil some water.
- 3. Dump everything in the pot and follow
-    this algorithm:
+ 3. Dump everything in the pot and follow this algorithm:
 
         find wooden spoon
         uncover pot
@@ -117,3 +116,6 @@ Inline math equations go in like so: $\omega = d\phi / dt$. Display math should 
 $$I = \int \rho R^{2} dV$$
 
 And note that you can backslash-escape any punctuation characters which you wish to be displayed literally, ex.: \`foo\`, \*bar\*, etc.
+
+> **Note:**
+> This is a note...

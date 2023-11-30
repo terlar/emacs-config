@@ -531,11 +531,11 @@
     "corfu-candidate-overlay": {
       "flake": false,
       "locked": {
-        "lastModified": 1699555557,
-        "narHash": "sha256-0FdsNb5boO4DElYVgGCMY3DhKO0ShFeVqUeEU//7AD0=",
+        "lastModified": 1700238174,
+        "narHash": "sha256-hrmnsUSuPH30Ya8DOjIsJ+z5gNVm68FG+Y6LLOcLqUc=",
         "owner": "terlar",
         "repo": "corfu-candidate-overlay",
-        "rev": "464ca0e583c98416da166e92b7268563cff0c00e",
+        "rev": "ff7d4646336e42016128b26498a4e329287f36fd",
         "type": "github"
       },
       "original": {

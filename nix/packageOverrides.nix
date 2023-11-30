@@ -1,4 +1,5 @@
 {
+  stdenv,
   cmake,
   emacs,
   enchant2,
@@ -25,22 +26,17 @@
     '';
   });
 
-  jinx = prev.jinx.overrideAttrs (old: {
+  jinx = prev.jinx.overrideAttrs (old: let
+    moduleSuffix = stdenv.targetPlatform.extensions.sharedLibrary;
+  in {
     nativeBuildInputs = (old.nativeBuildInputs or []) ++ [pkg-config];
     buildInputs = (old.buildInputs or []) ++ [enchant2];
 
-    postBuild = ''
+    preBuild = ''
       NIX_CFLAGS_COMPILE="$($PKG_CONFIG --cflags enchant-2) $NIX_CFLAGS_COMPILE"
-      $CC -shared -o jinx-mod.so jinx-mod.c -lenchant-2
+      $CC -I. -O2 -fPIC -shared -o jinx-mod${moduleSuffix} jinx-mod.c -lenchant-2
+      rm *.c *.h
     '';
-
-    postInstall =
-      (old.postInstall or "")
-      + ''
-        outd="$out/share/emacs/site-lisp"
-        install -m444 -t $outd jinx-mod.so
-        rm $outd/jinx-mod.c $outd/emacs-module.h
-      '';
   });
 
   magit = prev.magit.overrideAttrs (old: {
