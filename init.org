@@ -1442,6 +1442,7 @@ Cycle through words, symbols and patterns.
   :config
   (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute"))
+  (grugru-define-global 'symbol '("true" "false"))
   (grugru-define-global 'symbol '("yes" "no")))
 #+end_src
 
