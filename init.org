@@ -3630,8 +3630,6 @@ REPL for nodejs.
   :mode
   "\\.markdown\\'"
   "\\.md\\'"
-  :hook
-  (markdown-mode-hook . auto-fill-mode)
   :general
   (:keymaps
    'markdown-mode-map
