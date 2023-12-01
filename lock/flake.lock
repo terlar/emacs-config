@@ -1571,15 +1571,15 @@
     "grugru": {
       "flake": false,
       "locked": {
-        "lastModified": 1674325531,
-        "narHash": "sha256-Irwg32tsDTHq1K+OBZ4hT1t80l2zL0HDHdyaEermkyQ=",
-        "owner": "ROCKTAKEY",
+        "lastModified": 1701430883,
+        "narHash": "sha256-wYaHvNSlIf7VObpE2SGS0G3ZEUwg3+QsfXhqeppoECo=",
+        "owner": "terlar",
         "repo": "grugru",
-        "rev": "088f26330be161cfad4835e155595ec60dcb335a",
+        "rev": "12f9a0a9daee14bc84c18e691a781a870806e616",
         "type": "github"
       },
       "original": {
-        "owner": "ROCKTAKEY",
+        "owner": "terlar",
         "repo": "grugru",
         "type": "github"
       }
