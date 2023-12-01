@@ -590,7 +590,7 @@
     };
     grugru = {
       flake = false;
-      owner = "ROCKTAKEY";
+      owner = "terlar";
       repo = "grugru";
       type = "github";
     };

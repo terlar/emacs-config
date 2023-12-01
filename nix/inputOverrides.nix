@@ -83,6 +83,13 @@
     ];
   };
 
+  org-contrib = _: prev: {
+    files = builtins.removeAttrs prev.files [
+      # Unused integrations.
+      "lisp/ob-stata.el"
+    ];
+  };
+
   org-noter = _: prev: {
     packageRequires =
       prev.packageRequires
