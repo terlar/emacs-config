@@ -41,7 +41,7 @@
         rootFlake',
         ...
       }: {
-        # inherit (rootFlake') formatter;
+        inherit (rootFlake') formatter;
 
         pre-commit.settings.settings = {
           alejandra.exclude = ["lock"];
