@@ -49,7 +49,7 @@
                 initFiles = [(final.tangleOrgBabelFile "init.el" ./init.org {})];
 
                 lockDir = ./lock;
-                inventories = import ./nix/inventories.nix {
+                registries = import ./nix/registries.nix {
                   inherit (inputs) self;
                   emacsSrc = emacs.src;
                 };
