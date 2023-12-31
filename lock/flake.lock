@@ -1219,17 +1219,17 @@
     "fish-completion": {
       "flake": false,
       "locked": {
-        "lastModified": 1700391263,
-        "narHash": "sha256-qCfIXQTVGdGSHVtj0WavZNdeM12fxXyJjicgq/r/TQM=",
-        "owner": "Ambrevar",
+        "lastModified": 1699848846,
+        "narHash": "sha256-t26tiNYXtSx2ZXSMUWBWjgzhWRzPkuXJSVOby4iYYUQ=",
+        "owner": "LemonBreezes",
         "repo": "emacs-fish-completion",
-        "rev": "df42e153082927536763bdf408184152a7c938c3",
-        "type": "gitlab"
+        "rev": "d34d0b96fde63feedf13c4288183d8d4d4d748cf",
+        "type": "github"
       },
       "original": {
-        "owner": "Ambrevar",
+        "owner": "LemonBreezes",
         "repo": "emacs-fish-completion",
-        "type": "gitlab"
+        "type": "github"
       }
     },
     "fish-mode": {
