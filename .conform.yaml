@@ -25,4 +25,5 @@ policies:
         scopes:
           - flake
           - github
+          - lock
         descriptionLength: 72

@@ -459,9 +459,9 @@
     };
     fish-completion = {
       flake = false;
-      owner = "Ambrevar";
+      owner = "LemonBreezes";
       repo = "emacs-fish-completion";
-      type = "gitlab";
+      type = "github";
     };
     fish-mode = {
       flake = false;
