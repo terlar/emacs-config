@@ -597,7 +597,9 @@ For example links."
       (((background dark)) (:foreground ,d-cursor :underline (:color ,(face-foreground 'default)) :overline ,(face-foreground 'default)))))
 
 ;;;;; stripe-buffer
-   `(stripe-highlight ((t (:inherit region))))
+   `(stripe-highlight
+     ((((background light)) (:background ,l-bg-s :foreground ,l-fg :extend t))
+      (((background dark)) (:background ,d-bg-s :foreground ,d-fg :extend t))))
 
 ;;;;; term
    `(term-color-black
