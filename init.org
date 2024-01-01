@@ -4076,7 +4076,10 @@ Pretty check-boxes as well as bullet lists.
   (setq sh-indent-after-continuation 'always)
 
   (cl-pushnew '("\\([^/]+\\)\\.sh\\'" "\\1.bats") find-sibling-rules :test #'equal)
-  (cl-pushnew '("\\([^/]+\\)\\.bats\\'" "\\1.sh") find-sibling-rules :test #'equal))
+  (cl-pushnew '("\\([^/]+\\)\\.bats\\'" "\\1.sh") find-sibling-rules :test #'equal)
+
+  (with-eval-after-load 'apheleia
+    (cl-pushnew '(sh-mode . shfmt) apheleia-mode-alist :test #'equal)))
 #+end_src
 
 *** Packages
@@ -4397,6 +4400,12 @@ Fast terminal emulator utilizing =libvterm=.
 #+end_src
 
 ** Undo
+Increase undo limit.
+#+begin_src emacs-lisp :tangle yes
+(setq undo-limit 1000000)
+(setq undo-strong-limit (* 2 undo-limit))
+#+end_src
+
 *** vundo
 Visual undo history navigation.
 #+begin_src emacs-lisp :tangle yes
