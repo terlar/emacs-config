@@ -39,31 +39,34 @@
           inputs.emacs-overlay.overlays.emacs
           inputs.org-babel.overlays.default
           inputs.twist.overlays.default
+
           (final: prev: let
-            emacs = final.emacs-pgtk;
+            emacsPackage = final.emacs-pgtk;
           in {
-            emacsEnv =
+            emacs-env =
               (final.emacsTwist {
-                emacsPackage = emacs;
+                inherit emacsPackage;
 
                 initFiles = [(final.tangleOrgBabelFile "init.el" ./init.org {})];
 
                 lockDir = ./lock;
                 registries = import ./nix/registries.nix {
-                  inherit (inputs) self;
-                  emacsSrc = emacs.src;
+                  inherit inputs;
+                  emacsSrc = emacsPackage.src;
                 };
                 inputOverrides = import ./nix/inputOverrides.nix {inherit (inputs.nixpkgs) lib;};
               })
-              .overrideScope' (_tfinal: tprev: {
-                elispPackages = tprev.elispPackages.overrideScope' (
+              .overrideScope (_: tprev: {
+                elispPackages = tprev.elispPackages.overrideScope (
                   prev.callPackage ./nix/packageOverrides.nix {inherit (tprev) emacs;}
                 );
               });
 
-            emacsConfig = prev.callPackage inputs.self {
+            emacs-config = prev.callPackage inputs.self {
               trivialBuild = final.callPackage "${inputs.nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
-                emacs = (x: x // {inherit (x.emacs) meta nativeComp withNativeCompilation;}) final.emacsEnv;
+                emacs = final.emacs-env.overrideScope (_: tprev: {
+                  inherit (tprev.emacs) meta nativeComp withNativeCompilation;
+                });
               };
             };
           })
@@ -82,14 +85,28 @@
         formatter = pkgs.alejandra;
 
         packages = {
-          inherit (pkgs) emacsConfig emacsEnv;
-          default = pkgs.emacsConfig;
+          inherit (pkgs) emacs-config emacs-env;
+
+          default = pkgs.writeShellApplication {
+            name = "test-emacs-config";
+            runtimeInputs = [
+              pkgs.emacs-env
+              pkgs.xorg.lndir
+            ];
+            text = ''
+              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
+              lndir -silent ${pkgs.emacs-config} "$EMACS_DIR"
+              emacs --init-directory "$EMACS_DIR" "$@"
+            '';
+          };
         };
 
-        checks.build-config = config.packages.emacsConfig;
-        checks.build-env = config.packages.emacsEnv;
+        checks = {
+          build-config = config.packages.emacs-config;
+          build-env = config.packages.emacs-env;
+        };
 
-        apps = pkgs.emacsEnv.makeApps {
+        apps = pkgs.emacs-env.makeApps {
           lockDirName = "lock";
         };
       };
