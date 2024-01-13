@@ -65,14 +65,6 @@
               category = "emacs";
             }
             {
-              name = "test-emacs-config";
-              help = "launch bundled Emacs with fixed configuration";
-              category = "emacs";
-              command = ''
-                exec nix run $PRJ_ROOT/dev#testEmacsConfig
-              '';
-            }
-            {
               package = config.packages.updateCaches;
               help = "update Nix caches";
               category = "nix";
@@ -103,24 +95,11 @@
             name = "dev-emacs-config";
             runtimeInputs = [
               pkgs.xorg.lndir
-              rootFlake'.packages.emacsEnv
+              rootFlake'.packages.emacs-env
             ];
             text = ''
               EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
               lndir -silent "$PWD" "$EMACS_DIR"
-              emacs --init-directory "$EMACS_DIR" "$@"
-            '';
-          };
-
-          testEmacsConfig = pkgs.writeShellApplication {
-            name = "test-emacs-config";
-            runtimeInputs = [
-              pkgs.xorg.lndir
-              rootFlake'.packages.emacsEnv
-            ];
-            text = ''
-              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
-              lndir -silent ${rootFlake'.packages.emacsConfig} "$EMACS_DIR"
               emacs --init-directory "$EMACS_DIR" "$@"
             '';
           };
@@ -138,11 +117,11 @@
             name = "update-screenshots";
             runtimeInputs = [
               pkgs.xorg.lndir
-              rootFlake'.packages.emacsEnv
+              rootFlake'.packages.emacs-env
             ];
             text = ''
               EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
-              lndir -silent ${rootFlake'.packages.emacsConfig} "$EMACS_DIR"
+              lndir -silent ${rootFlake'.packages.emacs-config} "$EMACS_DIR"
               emacs -fs --init-directory "$EMACS_DIR" --load ${./screenshots.el} --eval '(kill-emacs)'
             '';
           };
