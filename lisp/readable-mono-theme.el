@@ -590,6 +590,7 @@ For example links."
 
 ;;;;; sh-script
    `(sh-quoted-exec ((t (:inherit readable-mono-theme-secondary))))
+   `(sh-heredoc ((t (:foreground unspecified))))
 
 ;;;;; spray
    `(spray-accent-face
