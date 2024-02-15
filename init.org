@@ -4522,6 +4522,11 @@ Packages that I am currently testing or evaluating.
 (use-package elfeed :ensure t)
 #+end_src
 
+** ellama
+#+begin_src emacs-lisp :tangle yes
+(use-package ellama :ensure t)
+#+end_src
+
 ** elsa
 #+begin_src emacs-lisp :tangle yes
 (use-package elsa :disabled t)

@@ -944,6 +944,22 @@
         "type": "github"
       }
     },
+    "ellama": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707831894,
+        "narHash": "sha256-eddufL7fKm9nZOvNqvPEHs/DCx2Ob7PmopqVQ4i1LII=",
+        "owner": "s-kostyaev",
+        "repo": "ellama",
+        "rev": "6d105da1ab3e9229e4c41f33042e5e77900a6f42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "s-kostyaev",
+        "repo": "ellama",
+        "type": "github"
+      }
+    },
     "elm-mode": {
       "flake": false,
       "locked": {
@@ -1925,13 +1941,13 @@
       "locked": {
         "lastModified": 1659912195,
         "narHash": "sha256-sm4luFGSIAFkmvd+3SlL4K5HKdZ+xeU6i/UtuUXO1aw=",
-        "owner": "Emiller88",
+        "owner": "edmundmiller",
         "repo": "emacs-jest",
         "rev": "c8145635c54bd7df9711000e889753d267afcdc4",
         "type": "github"
       },
       "original": {
-        "owner": "Emiller88",
+        "owner": "edmundmiller",
         "repo": "emacs-jest",
         "type": "github"
       }
@@ -2109,6 +2125,22 @@
       "original": {
         "owner": "rolandwalker",
         "repo": "list-utils",
+        "type": "github"
+      }
+    },
+    "llm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707363819,
+        "narHash": "sha256-wwHD5VFNh2mlNF4/As/YXFGFg6Mf2jwWtK5U/OkXPvo=",
+        "owner": "ahyatt",
+        "repo": "llm",
+        "rev": "4add6102f83176beb9655083dd3844ab91672238",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ahyatt",
+        "repo": "llm",
         "type": "github"
       }
     },
@@ -3277,6 +3309,7 @@
         "elfeed": "elfeed",
         "elisp-refs": "elisp-refs",
         "elixir-mode": "elixir-mode",
+        "ellama": "ellama",
         "elm-mode": "elm-mode",
         "elquery": "elquery",
         "emacsql": "emacsql",
@@ -3350,6 +3383,7 @@
         "ligature": "ligature",
         "link-hint": "link-hint",
         "list-utils": "list-utils",
+        "llm": "llm",
         "log4e": "log4e",
         "loop": "loop",
         "lua-mode": "lua-mode",
