@@ -52,11 +52,11 @@
           commands = [
             {package = pkgs.gdb;}
             {
-              name = "dev-emacs-config";
+              name = "test-emacs-config";
               help = "launch bundled Emacs with configuration from source";
               category = "emacs";
               command = ''
-                exec nix run $PRJ_ROOT/dev#devEmacsConfig
+                exec nix run $PRJ_ROOT
               '';
             }
             {
@@ -88,19 +88,6 @@
               while ! emacsclient -a false -e t 2>/dev/null
               do sleep 1; done
               emacsclient -nc
-            '';
-          };
-
-          devEmacsConfig = pkgs.writeShellApplication {
-            name = "dev-emacs-config";
-            runtimeInputs = [
-              pkgs.xorg.lndir
-              rootFlake'.packages.emacs-env
-            ];
-            text = ''
-              EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
-              lndir -silent "$PWD" "$EMACS_DIR"
-              emacs --init-directory "$EMACS_DIR" "$@"
             '';
           };
 

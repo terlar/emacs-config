@@ -355,6 +355,12 @@
       repo = "emacs-elixir";
       type = "github";
     };
+    ellama = {
+      flake = false;
+      owner = "s-kostyaev";
+      repo = "ellama";
+      type = "github";
+    };
     elm-mode = {
       flake = false;
       owner = "jcollard";
@@ -721,7 +727,7 @@
     };
     jest = {
       flake = false;
-      owner = "Emiller88";
+      owner = "edmundmiller";
       repo = "emacs-jest";
       type = "github";
     };
@@ -789,6 +795,12 @@
       flake = false;
       owner = "rolandwalker";
       repo = "list-utils";
+      type = "github";
+    };
+    llm = {
+      flake = false;
+      owner = "ahyatt";
+      repo = "llm";
       type = "github";
     };
     log4e = {

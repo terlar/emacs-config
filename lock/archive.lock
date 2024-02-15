@@ -29,9 +29,9 @@
   },
   "csv-mode": {
     "archive": {
-      "narHash": "sha256-m2BrVFt3HIiy8RNLdL52jvyt4lDzB7hmJQ8cGwBE9wY=",
+      "narHash": "sha256-8nc0jVUsYLbJf/gYH7GB/4trT38ohp2+6D5rQxGwsYQ=",
       "type": "tarball",
-      "url": "https://elpa.gnu.org/packages/csv-mode-1.22.tar"
+      "url": "https://elpa.gnu.org/packages/csv-mode-1.23.tar"
     },
     "inventory": {
       "type": "archive",
@@ -41,7 +41,7 @@
       "cl-lib": "0.5",
       "emacs": "27.1"
     },
-    "version": "1.22"
+    "version": "1.23"
   },
   "cycle-quotes": {
     "archive": {
