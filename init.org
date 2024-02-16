@@ -4565,6 +4565,13 @@ Packages that I am currently testing or evaluating.
   (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
+** mermaid
+#+begin_src emacs-lisp :tangle yes
+(use-package mermaid-mode
+  :ensure t
+  :mode "\\.\\(mmd|mermaid\\)\\'")
+#+end_src
+
 ** messages-are-flowing
 #+begin_src emacs-lisp :tangle yes
 (use-package messages-are-flowing :ensure t)

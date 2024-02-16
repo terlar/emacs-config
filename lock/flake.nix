@@ -868,6 +868,12 @@
       type = "git";
       url = "https://git.code.sf.net/p/matlab-emacs/src";
     };
+    mermaid-mode = {
+      flake = false;
+      owner = "abrochard";
+      repo = "mermaid-mode";
+      type = "github";
+    };
     messages-are-flowing = {
       flake = false;
       owner = "legoscia";
