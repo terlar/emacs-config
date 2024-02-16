@@ -2320,6 +2320,22 @@
         "url": "https://git.code.sf.net/p/matlab-emacs/src"
       }
     },
+    "mermaid-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706030983,
+        "narHash": "sha256-2w2EQoIF+MByNtGSAhMJ44X2Uo/fxfp2mkUU9IT1Vm8=",
+        "owner": "abrochard",
+        "repo": "mermaid-mode",
+        "rev": "d8bfb8c819cda9ead19c871842f6b0b8d56c56c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "abrochard",
+        "repo": "mermaid-mode",
+        "type": "github"
+      }
+    },
     "messages-are-flowing": {
       "flake": false,
       "locked": {
@@ -3395,6 +3411,7 @@
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
         "matlab-mode": "matlab-mode",
+        "mermaid-mode": "mermaid-mode",
         "messages-are-flowing": "messages-are-flowing",
         "miniedit": "miniedit",
         "minitest": "minitest",
