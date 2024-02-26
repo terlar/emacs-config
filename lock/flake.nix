@@ -229,6 +229,12 @@
       repo = "emacs-ctrlxo";
       type = "github";
     };
+    d2-mode = {
+      flake = false;
+      owner = "andorsk";
+      repo = "d2-mode";
+      type = "github";
+    };
     dape = {
       flake = false;
       owner = "svaante";

@@ -608,6 +608,22 @@
         "type": "github"
       }
     },
+    "d2-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1676028631,
+        "narHash": "sha256-mzD8H3j6s1oO/LAKvSz0xNYGrjbVIHYuXWF8t7pTsdU=",
+        "owner": "andorsk",
+        "repo": "d2-mode",
+        "rev": "cbe7b16141bd80fe4344f0403e61fd7ee4e0fd89",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andorsk",
+        "repo": "d2-mode",
+        "type": "github"
+      }
+    },
     "dape": {
       "flake": false,
       "locked": {
@@ -947,11 +963,11 @@
     "ellama": {
       "flake": false,
       "locked": {
-        "lastModified": 1707831894,
-        "narHash": "sha256-eddufL7fKm9nZOvNqvPEHs/DCx2Ob7PmopqVQ4i1LII=",
+        "lastModified": 1708364060,
+        "narHash": "sha256-z3c5H+eawDCwl/rtRjr7lzb7HGlU1uv7Fe/OFrQAj70=",
         "owner": "s-kostyaev",
         "repo": "ellama",
-        "rev": "6d105da1ab3e9229e4c41f33042e5e77900a6f42",
+        "rev": "6622630860f2da36b5ea4c0f35b15b63a0a9e7c5",
         "type": "github"
       },
       "original": {
@@ -3304,6 +3320,7 @@
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
         "ctrlxo": "ctrlxo",
+        "d2-mode": "d2-mode",
         "dape": "dape",
         "dash": "dash",
         "deadgrep": "deadgrep",
