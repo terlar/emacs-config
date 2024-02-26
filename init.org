@@ -4493,6 +4493,12 @@ Packages that I am currently testing or evaluating.
 (use-package dape :ensure t)
 #+end_src
 
+** d2
+#+begin_src emacs-lisp :tangle yes
+(use-package d2-mode
+  :ensure t)
+#+end_src
+
 ** corfu-candidate-overlay
 #+begin_src emacs-lisp :tangle yes
 (use-package corfu-candidate-overlay

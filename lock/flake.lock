@@ -608,6 +608,22 @@
         "type": "github"
       }
     },
+    "d2-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1676028631,
+        "narHash": "sha256-mzD8H3j6s1oO/LAKvSz0xNYGrjbVIHYuXWF8t7pTsdU=",
+        "owner": "andorsk",
+        "repo": "d2-mode",
+        "rev": "cbe7b16141bd80fe4344f0403e61fd7ee4e0fd89",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andorsk",
+        "repo": "d2-mode",
+        "type": "github"
+      }
+    },
     "dape": {
       "flake": false,
       "locked": {
@@ -3304,6 +3320,7 @@
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
         "ctrlxo": "ctrlxo",
+        "d2-mode": "d2-mode",
         "dape": "dape",
         "dash": "dash",
         "deadgrep": "deadgrep",
