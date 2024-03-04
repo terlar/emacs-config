@@ -9,7 +9,7 @@ This configuration is making a lot of assumptions as it is built as a package wi
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
-- buffer completion :: [[https://github.com/minad/corfu][corfu]]
+- buffer completion :: [[https://github.com/minad/corfu][corfu]], completion-preview
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
@@ -1004,6 +1004,24 @@ Enable indentation and completion with the =TAB= key.
 Cycle with the =TAB= key if there are only few candidates.
 #+begin_src emacs-lisp :tangle yes
 (setq completion-cycle-threshold 3)
+#+end_src
+
+** Preview
+Completion preview inline, with quick completion key.
+#+begin_src emacs-lisp :tangle yes
+(use-package completion-preview
+  :hook
+  (prog-mode-hook . completion-preview-mode)
+  (text-mode-hook . completion-preview-mode)
+  (comint-mode-hook . completion-preview-mode)
+  :general
+  (:keymaps
+   'completion-preview-active-mode-map
+   "C-e" 'completion-preview-insert)
+  :init
+  (setq completion-preview-minimum-symbol-length 2)
+  :config
+  (cl-pushnew 'org-self-insert-command completion-preview-commands :test #'equal))
 #+end_src
 
 ** Style
@@ -4497,25 +4515,6 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package d2-mode
   :ensure t)
-#+end_src
-
-** corfu-candidate-overlay
-#+begin_src emacs-lisp :tangle yes
-(use-package corfu-candidate-overlay
-  :ensure t
-  :commands
-  (corfu-candidate-overlay-complete-at-point)
-  :preface
-  (defun corfu-candidate-overlay-end-of-line ()
-    "Move point to end of current line or trigger `completion-at-point'."
-    (interactive)
-    (or (corfu-candidate-overlay-complete-at-point) (end-of-line)))
-  :hook
-  (corfu-mode-hook . corfu-candidate-overlay-mode)
-  :general
-  ("C-e" 'corfu-candidate-overlay-end-of-line)
-  :init
-  (setq corfu-candidate-overlay-no-message t))
 #+end_src
 
 ** eglot-x
