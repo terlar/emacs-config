@@ -528,22 +528,6 @@
         "type": "github"
       }
     },
-    "corfu-candidate-overlay": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1700238174,
-        "narHash": "sha256-hrmnsUSuPH30Ya8DOjIsJ+z5gNVm68FG+Y6LLOcLqUc=",
-        "owner": "terlar",
-        "repo": "corfu-candidate-overlay",
-        "rev": "ff7d4646336e42016128b26498a4e329287f36fd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "corfu-candidate-overlay",
-        "type": "github"
-      }
-    },
     "cov": {
       "flake": false,
       "locked": {
@@ -3315,7 +3299,6 @@
         "consult-git-log-grep": "consult-git-log-grep",
         "consult-jump-project": "consult-jump-project",
         "corfu": "corfu",
-        "corfu-candidate-overlay": "corfu-candidate-overlay",
         "cov": "cov",
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
