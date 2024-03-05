@@ -2932,7 +2932,9 @@ Improve readability of escape characters in regular expressions.
   (setq org-src-preserve-indentation nil)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
-  
+
+  (setq org-startup-truncated nil)
+
   (setq org-auto-align-tags nil)
   (setq org-tags-column 0)
   (setq org-tag-alist
@@ -4529,7 +4531,10 @@ Packages that I am currently testing or evaluating.
 
 ** ellama
 #+begin_src emacs-lisp :tangle yes
-(use-package ellama :ensure t)
+(use-package ellama
+  :ensure t
+  :init
+  (setq ellama-auto-scroll t))
 #+end_src
 
 ** elsa
