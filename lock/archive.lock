@@ -1,7 +1,7 @@
 {
   "adaptive-wrap": {
     "archive": {
-      "narHash": "sha256-AnDqA7uYSRiLMVAKzw0S2bV+QMagbGxgy38paPaUN4o=",
+      "narHash": "sha256-H2cGrvZFeaCe8YLiY3ydmr8/N9PWi5IY8XYTMqYZea0=",
       "type": "tarball",
       "url": "https://elpa.gnu.org/packages/adaptive-wrap-0.8.tar"
     },
@@ -14,7 +14,7 @@
   },
   "cobol-mode": {
     "archive": {
-      "narHash": "sha256-JIBK37m13+vsRhezHzZB9cf4eslgwMcEduNpreDE400=",
+      "narHash": "sha256-wEPcuJb3z05B385coJIeSj+b4WLSpuVkP+tUW39shSY=",
       "type": "tarball",
       "url": "https://elpa.gnu.org/packages/cobol-mode-1.1.tar"
     },
@@ -45,7 +45,7 @@
   },
   "cycle-quotes": {
     "archive": {
-      "narHash": "sha256-kLKvs9anXuLEqCkuR8hF9XWBtMvMeCFNcabOOI/RXrY=",
+      "narHash": "sha256-ZnMzZV7xO9Dcu20st60y8csb4BNQeJga4W63sEU1Ga4=",
       "type": "tarball",
       "url": "https://elpa.gnu.org/packages/cycle-quotes-0.1.tar"
     },
@@ -58,9 +58,9 @@
   },
   "queue": {
     "archive": {
-      "narHash": "sha256-cbv1sqH7LJXdRZ/teyScnysvsn8/JcaPqrRBc7jGrZw=",
-      "type": "file",
-      "url": "https://elpa.gnu.org/packages/queue-0.2.el"
+      "narHash": "sha256-l1a18KhqXRtir2NSDVEY4yWGoUl97Vo9CvD1T9Jpw/Q=",
+      "type": "tarball",
+      "url": "https://elpa.gnu.org/packages/queue-0.2.tar"
     },
     "inventory": {
       "type": "archive",
