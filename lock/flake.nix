@@ -584,7 +584,7 @@
     };
     gradle-mode = {
       flake = false;
-      owner = "jacobono";
+      owner = "scubacabra";
       repo = "emacs-gradle-mode";
       type = "github";
     };

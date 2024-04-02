@@ -1557,13 +1557,13 @@
       "locked": {
         "lastModified": 1443290384,
         "narHash": "sha256-THvQklMbSg8bRYkyGaio5dwAJZwu1AXCAe9X9dARQnc=",
-        "owner": "jacobono",
+        "owner": "scubacabra",
         "repo": "emacs-gradle-mode",
         "rev": "e4d665d5784ecda7ddfba015f07c69be3cfc45f2",
         "type": "github"
       },
       "original": {
-        "owner": "jacobono",
+        "owner": "scubacabra",
         "repo": "emacs-gradle-mode",
         "type": "github"
       }
