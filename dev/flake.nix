@@ -31,8 +31,6 @@
         ./test-home-configuration.nix
       ];
 
-      debug = true;
-
       dev = {
         name = "terlar/emacs-config";
         rootSrc = ../.;

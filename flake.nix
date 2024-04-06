@@ -103,6 +103,9 @@
                 pkgs.xorg.lndir
               ];
               text = ''
+                XDG_DATA_DIRS="$XDG_DATA_DIRS:${
+                  builtins.concatStringsSep ":" (map (x: "${x}/share") pkgs.emacs-config.propagatedBuildInputs)
+                }"
                 EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
                 lndir -silent ${pkgs.emacs-config} "$EMACS_DIR"
                 emacs --init-directory "$EMACS_DIR" "$@"
