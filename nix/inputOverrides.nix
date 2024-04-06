@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   bbdb = _: prev: {
     files =
       (builtins.removeAttrs prev.files [
@@ -27,25 +28,23 @@
       "eval-in-repl-sml.el"
     ];
 
-    packageRequires =
-      prev.packageRequires
-      // {
-        dash = "2";
-        paredit = "0";
-        ace-window = "0";
+    packageRequires = prev.packageRequires // {
+      dash = "2";
+      paredit = "0";
+      ace-window = "0";
 
-        # Used integrations.
-        cider = "0";
-        elixir-mode = "0";
-        elm-mode = "0";
-        erlang = "0";
-        inf-ruby = "0";
-        lua-mode = "0";
-        racket-mode = "0";
-        sly = "0";
-        tuareg = "0";
-        vterm = "0";
-      };
+      # Used integrations.
+      cider = "0";
+      elixir-mode = "0";
+      elm-mode = "0";
+      erlang = "0";
+      inf-ruby = "0";
+      lua-mode = "0";
+      racket-mode = "0";
+      sly = "0";
+      tuareg = "0";
+      vterm = "0";
+    };
   };
 
   ghelp = _: prev: {
@@ -55,21 +54,17 @@
       "ghelp-lspce.el"
     ];
 
-    packageRequires =
-      prev.packageRequires
-      // {
-        # Used integrations.
-        sly = "0";
-        helpful = "0";
-      };
+    packageRequires = prev.packageRequires // {
+      # Used integrations.
+      sly = "0";
+      helpful = "0";
+    };
   };
 
   magit = _: prev: {
-    files =
-      prev.files
-      // {
-        "lisp/Makefile" = "Makefile";
-      };
+    files = prev.files // {
+      "lisp/Makefile" = "Makefile";
+    };
   };
 
   org-babel-eval-in-repl = _: prev: {
@@ -91,11 +86,9 @@
   };
 
   org-noter = _: prev: {
-    packageRequires =
-      prev.packageRequires
-      // {
-        pdf-tools = "0";
-      };
+    packageRequires = prev.packageRequires // {
+      pdf-tools = "0";
+    };
   };
 
   rustic = _: prev: {
@@ -106,18 +99,30 @@
   };
 
   pairable = _: _: {
-    src = lib.sourceByRegex ../. ["lisp" "lisp/pairable.el"];
+    src = lib.sourceByRegex ../. [
+      "lisp"
+      "lisp/pairable.el"
+    ];
   };
 
   readable = _: _: {
-    src = lib.sourceByRegex ../. ["lisp" "lisp/readable.el"];
+    src = lib.sourceByRegex ../. [
+      "lisp"
+      "lisp/readable.el"
+    ];
   };
 
   readable-mono-theme = _: _: {
-    src = lib.sourceByRegex ../. ["lisp" "lisp/readable-mono-theme.el"];
+    src = lib.sourceByRegex ../. [
+      "lisp"
+      "lisp/readable-mono-theme.el"
+    ];
   };
 
   readable-typo-theme = _: _: {
-    src = lib.sourceByRegex ../. ["lisp" "lisp/readable-typo-theme.el"];
+    src = lib.sourceByRegex ../. [
+      "lisp"
+      "lisp/readable-typo-theme.el"
+    ];
   };
 }

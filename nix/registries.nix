@@ -1,7 +1,5 @@
-{
-  inputs,
-  emacsSrc,
-}: [
+{ inputs, emacsSrc }:
+[
   {
     name = "custom";
     type = "melpa";

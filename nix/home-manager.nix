@@ -5,22 +5,15 @@
   ...
 }:
 with builtins;
-with lib; let
+with lib;
+let
   cfg = config.custom.emacsConfig;
 
-  emacsEdit =
-    if cfg.enableServer
-    then "emacsclient"
-    else "emacs";
-  emacsDesktop =
-    if cfg.enableServer
-    then "emacsclient.desktop"
-    else "emacs.desktop";
-  emacsMailDesktop =
-    if cfg.enableServer
-    then "emacsclient-mail.desktop"
-    else "emacs-mail.desktop";
-in {
+  emacsEdit = if cfg.enableServer then "emacsclient" else "emacs";
+  emacsDesktop = if cfg.enableServer then "emacsclient.desktop" else "emacs.desktop";
+  emacsMailDesktop = if cfg.enableServer then "emacsclient-mail.desktop" else "emacs-mail.desktop";
+in
+{
   options.custom.emacsConfig = {
     enable = mkEnableOption "custom emacs configuration";
 
@@ -99,7 +92,7 @@ in {
         enable = cfg.enableServer;
         inherit (cfg) package;
         socketActivation.enable = true;
-        extraOptions = ["--no-desktop"];
+        extraOptions = [ "--no-desktop" ];
       };
 
       programs.git.extraConfig = {
@@ -112,9 +105,7 @@ in {
         '';
       };
 
-      home.packages =
-        [cfg.package]
-        ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
+      home.packages = [ cfg.package ] ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
     }
     (mkIf cfg.enableUserDirectory {
       xdg.configFile.emacs = {
@@ -122,25 +113,22 @@ in {
         recursive = true;
       };
     })
-    (mkIf cfg.defaultEditor {home.sessionVariables.EDITOR = emacsEdit;})
-    (mkIf cfg.enableGitDiff {programs.git.extraConfig.diff.tool = "ediff";})
+    (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
+    (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
     (mkIf cfg.defaultEditor {
-      programs.qutebrowser.settings.editor.command = [emacsEdit "{}"];
+      programs.qutebrowser.settings.editor.command = [
+        emacsEdit
+        "{}"
+      ];
     })
     (mkIf cfg.defaultEmailApplication {
-      xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" =
-        emacsMailDesktop;
+      xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" = emacsMailDesktop;
     })
     (mkIf cfg.defaultPdfApplication {
-      xdg.mimeApps.defaultApplications."application/pdf" =
-        emacsDesktop;
+      xdg.mimeApps.defaultApplications."application/pdf" = emacsDesktop;
     })
-    (mkIf (cfg.gnus != null) {home.file.".gnus.el".source = cfg.gnus;})
-    (mkIf (cfg.erc != null) {
-      xdg.configFile."emacs/.ercrc.el".source = cfg.erc;
-    })
-    (mkIf (cfg.private != null) {
-      xdg.configFile."emacs/private/private.el".source = cfg.private;
-    })
+    (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
+    (mkIf (cfg.erc != null) { xdg.configFile."emacs/.ercrc.el".source = cfg.erc; })
+    (mkIf (cfg.private != null) { xdg.configFile."emacs/private/private.el".source = cfg.private; })
   ]);
 }
