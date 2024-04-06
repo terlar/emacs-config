@@ -98,7 +98,7 @@
   :type 'string
   :group 'readable-typo-theme)
 
-(defcustom readable-typo-theme-bold-font-weight 'normal
+(defcustom readable-typo-theme-bold-font-weight 'medium
   "Bold font weight."
   :type 'string
   :group 'readable-typo-theme)
@@ -160,6 +160,7 @@
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
    `(variable-pitch-text ((t (:height 1.1 :family ,serif))))
    `(bold ((t (:weight ,bold-weight))))
+   `(bold-italic ((t (:inherit bold))))
    `(readable-typo-theme-echo-area ((t (:family ,variable-pitch :weight ,default-weight))))
 
 ;;;;; Interface

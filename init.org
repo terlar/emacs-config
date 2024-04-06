@@ -8,7 +8,7 @@ This configuration is making a lot of assumptions as it is built as a package wi
 
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
-  - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Slab]], Noto Sans, Noto Serif
+  - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Curly Slab, Iosevka Aile, Iosevka Etoile]]
 - buffer completion :: [[https://github.com/minad/corfu][corfu]], =completion-preview=
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
@@ -452,13 +452,13 @@ Fix issues with Emacs 29.1 and GnuPG version 2.4.1 or higher.
 
 *** Face
 #+begin_src emacs-lisp :tangle yes
-(defvar init-fixed-pitch-font "Iosevka Slab"
+(defvar init-fixed-pitch-font "Iosevka Curly Slab"
   "Font used for fixed-pitch faces.")
 
-(defvar init-variable-pitch-font "Noto Sans"
+(defvar init-variable-pitch-font "Iosevka Aile"
   "Font used for variable-pitch faces.")
 
-(defvar init-serif-font "Noto Serif"
+(defvar init-serif-font "Iosevka Etoile"
   "Font used for serif faces.")
 
 (defvar init-unicode-font "Noto Sans Mono"

@@ -134,7 +134,7 @@
   :group 'readable-mono-theme)
 
 (defface readable-mono-theme-strong
-  '((t (:weight bold)))
+  '((t (:inherit bold)))
   "Face used for information of strong importance."
   :group 'readable-mono-theme)
 
@@ -194,8 +194,6 @@ For example links."
       (((type tty) (background dark)) (:background unspecified :foreground ,d-fg))))
 
 ;;;;; Semantic
-   `(bold ((t (:inherit readable-mono-theme-strong))))
-   `(bold-italic ((t (:inherit readable-mono-theme-strong))))
    `(link ((t (:inherit readable-mono-theme-actionable :underline t))))
    `(shadow ((t (:inherit readable-mono-theme-subordinate))))
    `(success ((t (:foreground unspecified))))
@@ -475,7 +473,7 @@ For example links."
 
 ;;;;; Info
    `(info-header-node ((t (:inherit readable-mono-theme-strong))))
-   `(info-header-xref ((t (:inherit nil :box nil :weight bold))))
+   `(info-header-xref ((t (:inherit bold :box nil))))
 
 ;;;;; ivy
    `(ivy-current-match ((t (:inherit highlight))))
