@@ -67,7 +67,7 @@ stdenv.mkDerivation {
   src = lib.sourceByRegex ./. [ "templates" ];
   dontUnpack = true;
 
-  propagatedBuildInputs = [
+  buildInputs = [
     (iosevka-bin.override { variant = "Aile"; })
     (iosevka-bin.override { variant = "CurlySlab"; })
     (iosevka-bin.override { variant = "Etoile"; })
