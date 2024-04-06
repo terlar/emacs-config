@@ -9,7 +9,9 @@
   python3,
   pywal,
   substituteAll,
-}: _final: prev: {
+  unzip,
+}:
+_final: prev: {
   bbdb = prev.bbdb.overrideAttrs (old: {
     preBuild = ''
       substituteInPlace bbdb-site.el.in \
@@ -26,18 +28,22 @@
     '';
   });
 
-  jinx = prev.jinx.overrideAttrs (old: let
-    moduleSuffix = stdenv.targetPlatform.extensions.sharedLibrary;
-  in {
-    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [pkg-config];
-    buildInputs = (old.buildInputs or []) ++ [enchant2];
+  jinx = prev.jinx.overrideAttrs (
+    old:
+    let
+      moduleSuffix = stdenv.targetPlatform.extensions.sharedLibrary;
+    in
+    {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkg-config ];
+      buildInputs = (old.buildInputs or [ ]) ++ [ enchant2 ];
 
-    preBuild = ''
-      NIX_CFLAGS_COMPILE="$($PKG_CONFIG --cflags enchant-2) $NIX_CFLAGS_COMPILE"
-      $CC -I. -O2 -fPIC -shared -o jinx-mod${moduleSuffix} jinx-mod.c -lenchant-2
-      rm *.c *.h
-    '';
-  });
+      preBuild = ''
+        NIX_CFLAGS_COMPILE="$($PKG_CONFIG --cflags enchant-2) $NIX_CFLAGS_COMPILE"
+        $CC -I. -O2 -fPIC -shared -o jinx-mod${moduleSuffix} jinx-mod.c -lenchant-2
+        rm *.c *.h
+      '';
+    }
+  );
 
   magit = prev.magit.overrideAttrs (old: {
     preBuild = ''
@@ -45,6 +51,10 @@
       make PKG=magit VERSION="${old.version}" magit-version.el
       rm Makefile
     '';
+  });
+
+  nov = prev.nov.overrideAttrs (old: {
+    propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [ unzip ];
   });
 
   theme-magic = prev.theme-magic.overrideAttrs (_: {
@@ -58,9 +68,12 @@
   });
 
   vterm = prev.vterm.overrideAttrs (old: {
-    nativeBuildInputs = [cmake gcc];
-    buildInputs = old.buildInputs ++ [libvterm-neovim];
-    cmakeFlags = ["-DEMACS_SOURCE=${emacs.src}"];
+    nativeBuildInputs = [
+      cmake
+      gcc
+    ];
+    buildInputs = old.buildInputs ++ [ libvterm-neovim ];
+    cmakeFlags = [ "-DEMACS_SOURCE=${emacs.src}" ];
     preBuild = ''
       mkdir -p build
       cd build
