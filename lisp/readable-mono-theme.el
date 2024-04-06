@@ -475,6 +475,7 @@ For example links."
 
 ;;;;; Info
    `(info-header-node ((t (:inherit readable-mono-theme-strong))))
+   `(info-header-xref ((t (:inherit nil :box nil :weight bold))))
 
 ;;;;; ivy
    `(ivy-current-match ((t (:inherit highlight))))
