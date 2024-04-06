@@ -3,6 +3,7 @@
   stdenv,
   trivialBuild,
   emacs-all-the-icons-fonts,
+  iosevka-bin,
   linkFarm,
   ripgrep,
   tree-sitter-grammars,
@@ -66,7 +67,10 @@ stdenv.mkDerivation {
   src = lib.sourceByRegex ./. [ "templates" ];
   dontUnpack = true;
 
-  buildInputs = [
+  propagatedBuildInputs = [
+    (iosevka-bin.override { variant = "Aile"; })
+    (iosevka-bin.override { variant = "CurlySlab"; })
+    (iosevka-bin.override { variant = "Etoile"; })
     emacs-all-the-icons-fonts
     ripgrep
   ];
