@@ -4613,7 +4613,7 @@ Packages that I am currently testing or evaluating.
    org-limit-image-size-deactivate)
   :init
   (org-limit-image-size-activate)
-  (setq org-limit-image-size '(0.9 . 0.8)))
+  (setq org-limit-image-size '(0.48 . 0.8)))
 #+end_src
 
 ** org-roam
