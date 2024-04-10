@@ -63,9 +63,9 @@
                                          (concat name
                                                  "-"
                                                  (symbol-name background-mode)
-                                                 ".svg")
+                                                 ".png")
                                          media-dir)
-                          (insert (x-export-frames nil 'svg))))))))
+                          (insert (x-export-frames nil 'png))))))))
 
 (provide 'screenshots)
 ;;; screenshots.el ends here

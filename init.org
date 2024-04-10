@@ -21,24 +21,24 @@ The rough details:
 ** Screenshots
 *** org-mode
 #+CAPTION: org-mode light
-[[./media/org-mode-light.svg]]
+[[./media/org-mode-light.png]]
 
 #+CAPTION: org-mode dark
-[[./media/org-mode-dark.svg]]
+[[./media/org-mode-dark.png]]
 
 *** markdown-mode
 #+CAPTION: markdown-mode light
-[[./media/markdown-mode-light.svg]]
+[[./media/markdown-mode-light.png]]
 
 #+CAPTION: markdown-mode dark
-[[./media/markdown-mode-dark.svg]]
+[[./media/markdown-mode-dark.png]]
 
 *** emacs-lisp-mode
 #+CAPTION: emacs-lisp-mode light
-[[./media/emacs-lisp-mode-light.svg]]
+[[./media/emacs-lisp-mode-light.png]]
 
 #+CAPTION: emacs-lisp-mode dark
-[[./media/emacs-lisp-mode-dark.svg]]
+[[./media/emacs-lisp-mode-dark.png]]
 
 * Early initialization
 #+begin_src emacs-lisp :tangle early-init.el
