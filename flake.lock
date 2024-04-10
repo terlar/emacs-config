@@ -76,11 +76,11 @@
     "gnu-elpa": {
       "flake": false,
       "locked": {
-        "lastModified": 1711474269,
-        "narHash": "sha256-RduuWik95CZZxdu+ZplD3rf+74HD9kuKEnTlfGb5n1E=",
+        "lastModified": 1712667203,
+        "narHash": "sha256-KJ+G0wosKpmCm3UQ8Ko3R6Qynnu8kwzbmUA9CXcl12s=",
         "ref": "main",
-        "rev": "3335868946b34db56ecd846295a2f781e2188a72",
-        "revCount": 592,
+        "rev": "bd4f5bf7462a377dbca534bf3ec703763cb5c7bd",
+        "revCount": 593,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
       },

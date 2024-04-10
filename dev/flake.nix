@@ -53,7 +53,7 @@
               enable = true;
               package = pkgs.nixfmt-rfc-style;
             };
-            settings.formatter.nixfmt.excludes = [ "lock" ];
+            settings.formatter.nixfmt.excludes = [ "lock/**/*.nix" ];
           };
 
           devshells.default = {
