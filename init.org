@@ -476,7 +476,7 @@ Setup symbol fonts.
 
 *** Line length
 #+begin_src emacs-lisp :tangle yes
-(setq-default fill-column 90)
+(setq-default fill-column 110)
 #+end_src
 
 *** Underline
@@ -1338,17 +1338,18 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-fill-column
   :ensure t
-  :hook
-  (markdown-mode-hook . visual-fill-column-mode)
   :init
   (setq visual-fill-column-center-text t))
 
 (use-package virtual-auto-fill
   :ensure t
+  :hook
+  (markdown-mode-hook . virtual-auto-fill-mode)
+  (org-mode-hook . virtual-auto-fill-mode)
   :general
   (:prefix
    toggle-prefix
-   "SPC" '(virtual-auto-fill-mode :wk "Visual auto fill")))
+   "SPC" '(virtual-auto-fill-mode :wk "Virtual auto fill")))
 #+end_src
 
 * Editing
