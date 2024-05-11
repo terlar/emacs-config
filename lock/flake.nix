@@ -127,12 +127,6 @@
       repo = "cider";
       type = "github";
     };
-    clang-format = {
-      flake = false;
-      owner = "emacsmirror";
-      repo = "clang-format";
-      type = "github";
-    };
     clojure-mode = {
       flake = false;
       owner = "clojure-emacs";
@@ -325,12 +319,6 @@
       repo = "edit-indirect";
       type = "github";
     };
-    editorconfig = {
-      flake = false;
-      owner = "editorconfig";
-      repo = "editorconfig-emacs";
-      type = "github";
-    };
     eglot-x = {
       flake = false;
       owner = "nemethf";
@@ -389,12 +377,6 @@
       flake = false;
       owner = "oantolin";
       repo = "embark";
-      type = "github";
-    };
-    emr = {
-      flake = false;
-      owner = "Wilfred";
-      repo = "emacs-refactor";
       type = "github";
     };
     envrc = {
@@ -665,12 +647,6 @@
       type = "git";
       url = "https://codeberg.org/ideasman42/emacs-idle-highlight-mode.git";
     };
-    iedit = {
-      flake = false;
-      owner = "victorhge";
-      repo = "iedit";
-      type = "github";
-    };
     imenu-anywhere = {
       flake = false;
       owner = "vspinu";
@@ -789,12 +765,6 @@
       flake = false;
       owner = "noctuid";
       repo = "link-hint.el";
-      type = "github";
-    };
-    list-utils = {
-      flake = false;
-      owner = "rolandwalker";
-      repo = "list-utils";
       type = "github";
     };
     llm = {
@@ -1117,6 +1087,12 @@
       repo = "projectile";
       type = "github";
     };
+    promise = {
+      flake = false;
+      owner = "chuntaro";
+      repo = "emacs-promise";
+      type = "github";
+    };
     protobuf-mode = {
       flake = false;
       owner = "protocolbuffers";
@@ -1157,12 +1133,6 @@
       flake = false;
       owner = "Fanael";
       repo = "rainbow-delimiters";
-      type = "github";
-    };
-    rainbow-identifiers = {
-      flake = false;
-      owner = "Fanael";
-      repo = "rainbow-identifiers";
       type = "github";
     };
     rake = {
