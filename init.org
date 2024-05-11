@@ -2508,6 +2508,7 @@ Diff indicators in fringe
    [remap diff-hl-previous-hunk] 'diff-hl-previous-hunk-repeat)
   :init
   (setq diff-hl-ask-before-revert-hunk nil)
+  (setq diff-hl-update-async t)
   :config
   (global-diff-hl-mode 1)
   (diff-hl-flydiff-mode 1))
