@@ -2179,7 +2179,7 @@ Lookup documentation via DevDocs.
 (use-package devdocs
   :ensure t
   :general
-  (:prefix nav-prefix "K" 'devdocs-search))
+  (:prefix nav-prefix "K" 'devdocs-lookup))
 #+end_src
 
 ** Editing
