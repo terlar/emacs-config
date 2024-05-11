@@ -336,22 +336,6 @@
         "type": "github"
       }
     },
-    "clang-format": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705341055,
-        "narHash": "sha256-MjAhufQwOXY81bS7At/T2i8jZLP5G0fZLWv9MFt4NjI=",
-        "owner": "emacsmirror",
-        "repo": "clang-format",
-        "rev": "9f4358fcc8b04018cc1ed46fcc96fc7bfa361a47",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacsmirror",
-        "repo": "clang-format",
-        "type": "github"
-      }
-    },
     "clojure-mode": {
       "flake": false,
       "locked": {
@@ -864,22 +848,6 @@
         "type": "github"
       }
     },
-    "editorconfig": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715409942,
-        "narHash": "sha256-mtsPaVFGt0efU43IRvKabiXtpCQPo2HZK3ZZRgmsHC8=",
-        "owner": "editorconfig",
-        "repo": "editorconfig-emacs",
-        "rev": "f1531bab5b57e40759167b7e5db49acbbc09972f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "editorconfig",
-        "repo": "editorconfig-emacs",
-        "type": "github"
-      }
-    },
     "eglot-x": {
       "flake": false,
       "locked": {
@@ -1037,22 +1005,6 @@
       "original": {
         "owner": "oantolin",
         "repo": "embark",
-        "type": "github"
-      }
-    },
-    "emr": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1641620937,
-        "narHash": "sha256-UejbBJ17TPRzBqCA8qm6UDNXEPV53xiDd6OyD62dNRs=",
-        "owner": "Wilfred",
-        "repo": "emacs-refactor",
-        "rev": "cac1b52932926f56d7f6d2923732d20bbd20670d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Wilfred",
-        "repo": "emacs-refactor",
         "type": "github"
       }
     },
@@ -1776,22 +1728,6 @@
         "url": "https://codeberg.org/ideasman42/emacs-idle-highlight-mode.git"
       }
     },
-    "iedit": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1644997811,
-        "narHash": "sha256-MH4PVhyNdzcYV+ZVDXGLt8biAHpO6G15OpCkmngq5h8=",
-        "owner": "victorhge",
-        "repo": "iedit",
-        "rev": "27c61866b1b9b8d77629ac702e5f48e67dfe0d3b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "victorhge",
-        "repo": "iedit",
-        "type": "github"
-      }
-    },
     "imenu-anywhere": {
       "flake": false,
       "locked": {
@@ -2109,22 +2045,6 @@
       "original": {
         "owner": "noctuid",
         "repo": "link-hint.el",
-        "type": "github"
-      }
-    },
-    "list-utils": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1682185248,
-        "narHash": "sha256-6n0qkgRzNZE7Gyf6VnBxi0ZLwF/QO3cGB2OBoF1txuc=",
-        "owner": "rolandwalker",
-        "repo": "list-utils",
-        "rev": "f02dcef36330871855346f9eab97eef58d323d9a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rolandwalker",
-        "repo": "list-utils",
         "type": "github"
       }
     },
@@ -3120,22 +3040,6 @@
         "type": "github"
       }
     },
-    "rainbow-identifiers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1414942011,
-        "narHash": "sha256-MPsVm7wtRz9mFOqrWeahZ/yR9rBOMUSkpkLq3+uVIBY=",
-        "owner": "Fanael",
-        "repo": "rainbow-identifiers",
-        "rev": "19fbfded1baa98d12335f26f6d7b20e5ae44ce2e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Fanael",
-        "repo": "rainbow-identifiers",
-        "type": "github"
-      }
-    },
     "rake": {
       "flake": false,
       "locked": {
@@ -3303,7 +3207,6 @@
         "caml": "caml",
         "cape": "cape",
         "cider": "cider",
-        "clang-format": "clang-format",
         "clojure-mode": "clojure-mode",
         "closql": "closql",
         "color-identifiers-mode": "color-identifiers-mode",
@@ -3336,7 +3239,6 @@
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",
         "edit-indirect": "edit-indirect",
-        "editorconfig": "editorconfig",
         "eglot-x": "eglot-x",
         "elfeed": "elfeed",
         "elisp-refs": "elisp-refs",
@@ -3347,7 +3249,6 @@
         "emacsql": "emacsql",
         "embark": "embark",
         "embark-consult": "embark-consult",
-        "emr": "emr",
         "envrc": "envrc",
         "epithet": "epithet",
         "erlang": "erlang",
@@ -3393,7 +3294,6 @@
         "ht": "ht",
         "hydra": "hydra",
         "idle-highlight-mode": "idle-highlight-mode",
-        "iedit": "iedit",
         "imenu-anywhere": "imenu-anywhere",
         "imenu-extra": "imenu-extra",
         "imenu-list": "imenu-list",
@@ -3414,7 +3314,6 @@
         "language-detection": "language-detection",
         "ligature": "ligature",
         "link-hint": "link-hint",
-        "list-utils": "list-utils",
         "llm": "llm",
         "log4e": "log4e",
         "loop": "loop",
@@ -3477,7 +3376,6 @@
         "quick-peek": "quick-peek",
         "racket-mode": "racket-mode",
         "rainbow-delimiters": "rainbow-delimiters",
-        "rainbow-identifiers": "rainbow-identifiers",
         "rake": "rake",
         "readable": "readable",
         "readable-mono-theme": "readable-mono-theme",

@@ -2279,17 +2279,6 @@ Don't ask about keeping current list of tags tables.
   (setq dumb-jump-selector 'completing-read))
 #+end_src
 
-** Refactor
-Refactoring commands for various languages.
-#+begin_src emacs-lisp :tangle yes
-(use-package emr
-  :ensure t
-  :general
-  (:keymaps
-   'prog-mode-map
-   "M-<return>" 'emr-show-refactor-menu))
-#+end_src
-
 ** REPL
 *** comint
 #+begin_src emacs-lisp :tangle yes
@@ -2593,24 +2582,6 @@ Project-specific environment variables via =direnv=.
   (envrc-global-mode 1))
 #+end_src
 
-*** editorconfig
-Use [[https://editorconfig.org/][EditorConfig]] to maintain the coding styles used across different projects.
-#+begin_src emacs-lisp :tangle yes
-(use-package editorconfig
-  :ensure t
-  :defer 1
-  :commands
-  (editorconfig-mode)
-  :init
-  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
-  (setq editorconfig-exclude-modes '(emacs-lisp-mode
-                                     lisp-mode
-                                     org-mode))
-  :config
-  (cl-pushnew '(plantuml-mode plantuml-indent-level) editorconfig-indentation-alist :test #'equal)
-  (editorconfig-mode 1))
-#+end_src
-
 *** eglot
 Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
@@ -2742,11 +2713,6 @@ Visually separate delimiter pairs.
 Highlight source code identifiers based on their name.
 #+begin_src emacs-lisp :tangle yes
 (use-package color-identifiers-mode :ensure t)
-
-(use-package rainbow-identifiers
-  :ensure t
-  :init
-  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 #+end_src
 
 *** Ligatures
