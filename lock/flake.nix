@@ -1117,6 +1117,12 @@
       repo = "projectile";
       type = "github";
     };
+    promise = {
+      flake = false;
+      owner = "chuntaro";
+      repo = "emacs-promise";
+      type = "github";
+    };
     protobuf-mode = {
       flake = false;
       owner = "protocolbuffers";
