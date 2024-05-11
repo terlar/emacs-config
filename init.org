@@ -779,6 +779,7 @@ keybindings in case I would forget them.
 | =C-u C-x $=       | ~set-selective-display~             | Hide/show indentation level                                                      |
 | =C-x r w= <reg>   | ~window-configuration-to-register~  | Store the window configuration of the selected frame in REGISTER                 |
 | =C-x r j=         | ~jump-to-register~                  | Go to location stored in REGISTER, or restore configuration stored there         |
+| =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
 
 ** Gnus
 | Keybinding | Function                              | Description                                                   |
