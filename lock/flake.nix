@@ -1063,6 +1063,13 @@
       repo = "plantuml-mode";
       type = "github";
     };
+    plz = {
+      flake = false;
+      owner = "alphapapa";
+      ref = "stable";
+      repo = "plz.el";
+      type = "github";
+    };
     pomm = {
       flake = false;
       owner = "SqrtMinusOne";
