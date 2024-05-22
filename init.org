@@ -4622,10 +4622,8 @@ Packages that I am currently testing or evaluating.
 #+end_src
 
 * Tasks
-** TODO Look into skewer packages
-** TODO Look into modal editing with ~objed~
 ** TODO Look into generic code execution via =isend-mode=
-** TODO Look into ~set-selective-display~
+** TODO Look into ~set-selective-display~ to hide indentation levels
 ** TODO Look into ~semantic-decoration-mode~
 ** TODO Add binding for =org-noter=
 ** TODO Group editing bindings under some logical prefix
@@ -4637,9 +4635,6 @@ Packages that I am currently testing or evaluating.
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
 ** TODO Enable auto-revert/save again?
-** TODO Wrap lines by default?
-- When writing code on a single line, to later let it be expanded by the formatter.
-** TODO Only scale images that are larger than size X in org mode
 ** TODO Use ~ielm~ as REPL for org-mode
 ** TODO Use file-name as base for work-log date
 ** TODO Daily tasks
@@ -4654,7 +4649,6 @@ Packages that I am currently testing or evaluating.
 ** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
 ** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
-** TODO solarized colorless configuration?
 ** TODO Split theme into several sections
 - One theme to set big headers and such things
 - One theme to highlight errors
@@ -4668,3 +4662,7 @@ Packages that I am currently testing or evaluating.
 ** TODO Function to jump to file under point, preferably with support for : line number
 ** TODO Function to load theme defined in current file
 ** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
+
+# Local Variables:
+# jinx-local-words: "Terje Terje's minibuffer"
+# End:

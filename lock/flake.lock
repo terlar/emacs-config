@@ -2227,11 +2227,11 @@
     "matlab-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1713469777,
-        "narHash": "sha256-JSvVFmFfqxcG564/lTJZU/LRxILt1IMSuqMBqhkRFQU=",
+        "lastModified": 1716313708,
+        "narHash": "sha256-EJCYcidZUrt1lz3rGiABovf9YjY+W7lR/vdy1UDtgas=",
         "ref": "refs/heads/master",
-        "rev": "005954382db3df9c41585701467cedffe48b2ff4",
-        "revCount": 682,
+        "rev": "a78b368387c85437f8de187acf0a2b1cbeeacc3f",
+        "revCount": 685,
         "type": "git",
         "url": "https://git.code.sf.net/p/matlab-emacs/src"
       },
