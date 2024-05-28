@@ -22,7 +22,7 @@ jobs:
             max-jobs = auto
           diagnostic-endpoint: ''
 
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           useDaemon: true
           name: terlar
@@ -44,7 +44,7 @@ jobs:
             max-jobs = auto
           diagnostic-endpoint: ''
 
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           useDaemon: true
           name: terlar
@@ -69,7 +69,7 @@ jobs:
             max-jobs = auto
           diagnostic-endpoint: ''
 
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           useDaemon: true
           name: terlar
