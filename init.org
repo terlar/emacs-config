@@ -219,8 +219,7 @@ Give up some bidirectional functionality for slightly faster re-display.
 
 Update UI less frequently
 #+begin_src emacs-lisp :tangle yes
-(setq idle-update-delay 1.0
-      jit-lock-defer-time 0)
+(setq jit-lock-defer-time 0)
 #+end_src
 
 Accelerate scrolling with the trade-off of sometimes delayed accurate fontification.
