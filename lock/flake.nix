@@ -139,6 +139,11 @@
       repo = "closql";
       type = "github";
     };
+    cobol-mode = {
+      flake = false;
+      type = "git";
+      url = "https://git.sr.ht/~hjelmtech/cobol-mode";
+    };
     color-identifiers-mode = {
       flake = false;
       owner = "ankurdave";

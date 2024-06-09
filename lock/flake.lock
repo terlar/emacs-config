@@ -368,6 +368,22 @@
         "type": "github"
       }
     },
+    "cobol-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1714936397,
+        "narHash": "sha256-sg7zpoZY4Ppb8q2wGvRkmbiA56KCtjU0ZZpl5ZA20p0=",
+        "ref": "refs/heads/main",
+        "rev": "c8af9effa96666f0b74812f5d07ab7ba60ae4214",
+        "revCount": 45,
+        "type": "git",
+        "url": "https://git.sr.ht/~hjelmtech/cobol-mode"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.sr.ht/~hjelmtech/cobol-mode"
+      }
+    },
     "color-identifiers-mode": {
       "flake": false,
       "locked": {
@@ -3226,6 +3242,7 @@
         "cider": "cider",
         "clojure-mode": "clojure-mode",
         "closql": "closql",
+        "cobol-mode": "cobol-mode",
         "color-identifiers-mode": "color-identifiers-mode",
         "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
         "compat": "compat",
