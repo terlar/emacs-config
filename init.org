@@ -2102,6 +2102,7 @@ nothing happens."
    'global
    :prefix
    local-leader-key
+   "a" 'compile-on-save-mode
    "c" 'recompile
    "C" 'compile)
   :init
