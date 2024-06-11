@@ -4486,7 +4486,8 @@ Packages that I am currently testing or evaluating.
 ** d2
 #+begin_src emacs-lisp :tangle yes
 (use-package d2-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.d2\\'")
 #+end_src
 
 ** eglot-x
