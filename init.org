@@ -1726,6 +1726,8 @@ More procedural scrolling.
 Revert buffers when underlying files change.
 #+begin_src emacs-lisp :tangle yes
 (use-package autorevert
+  :hook
+  (image-mode-hook . auto-revert-mode)
   :init
   (setq auto-revert-verbose nil))
 #+end_src
