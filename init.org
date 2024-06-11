@@ -4488,7 +4488,15 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package d2-mode
   :ensure t
-  :mode "\\.d2\\'")
+  :mode "\\.d2\\'"
+  :preface
+  (defun d2-mode-set-compile-command ()
+    "Configure compile command for d2-mode."
+    (set (make-local-variable 'compile-command)
+         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
+                    " ")))
+  :hook
+  (d2-mode-hook . d2-mode-set-compile-command))
 #+end_src
 
 ** eglot-x
