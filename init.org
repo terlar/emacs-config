@@ -4560,8 +4560,21 @@ Packages that I am currently testing or evaluating.
 (use-package mermaid-mode
   :ensure t
   :mode "\\.\\(mmd|mermaid\\)\\'"
+  :preface
+  (defun mermaid-mode-set-compile-command ()
+    "Configure compile command for mermaid-mode."
+    (set (make-local-variable 'compile-command)
+         (concat (mapconcat #'shell-quote-argument
+                            (list
+                             mermaid-mmdc-location
+                             "-i" buffer-file-name
+                             "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
+                 " "
+                 mermaid-flags)))
+  :hook
+  (mermaid-mode-hook . mermaid-mode-set-compile-command)
   :init
-  (setq mermaid-flags "-b transparent"))
+  (setq mermaid-flags "--backgroundColor transparent"))
 #+end_src
 
 ** messages-are-flowing
