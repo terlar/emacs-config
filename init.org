@@ -4550,7 +4550,9 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package mermaid-mode
   :ensure t
-  :mode "\\.\\(mmd|mermaid\\)\\'")
+  :mode "\\.\\(mmd|mermaid\\)\\'"
+  :init
+  (setq mermaid-flags "-b transparent"))
 #+end_src
 
 ** messages-are-flowing
