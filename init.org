@@ -4500,9 +4500,10 @@ Packages that I am currently testing or evaluating.
   :hook
   (d2-mode-hook . d2-mode-set-compile-command)
   :config
-  (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
-              compile-multi-config
-              :test #'equal))
+  (with-eval-after-load 'compile-multi
+    (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
+                compile-multi-config
+                :test #'equal)))
 #+end_src
 
 ** eglot-x
@@ -4584,9 +4585,10 @@ Packages that I am currently testing or evaluating.
   :init
   (setq mermaid-flags "--backgroundColor transparent")
   :config
-  (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
-              compile-multi-config
-              :test #'equal))
+  (with-eval-after-load 'compile-multi
+    (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
+                compile-multi-config
+                :test #'equal)))
 #+end_src
 
 ** messages-are-flowing
