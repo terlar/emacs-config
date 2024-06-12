@@ -4499,6 +4499,8 @@ Packages that I am currently testing or evaluating.
                     " ")))
   :hook
   (d2-mode-hook . d2-mode-set-compile-command)
+  :init
+  (setq d2-flags '("--layout" "elk" "--sketch" "--theme" "1"))
   :config
   (with-eval-after-load 'compile-multi
     (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
