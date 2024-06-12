@@ -1726,6 +1726,8 @@ More procedural scrolling.
 Revert buffers when underlying files change.
 #+begin_src emacs-lisp :tangle yes
 (use-package autorevert
+  :hook
+  (image-mode-hook . auto-revert-mode)
   :init
   (setq auto-revert-verbose nil))
 #+end_src
@@ -2100,6 +2102,7 @@ nothing happens."
    'global
    :prefix
    local-leader-key
+   "a" 'compile-on-save-mode
    "c" 'recompile
    "C" 'compile)
   :init
@@ -4484,7 +4487,22 @@ Packages that I am currently testing or evaluating.
 ** d2
 #+begin_src emacs-lisp :tangle yes
 (use-package d2-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.d2\\'"
+  :commands
+  (d2-compile-buffer)
+  :preface
+  (defun d2-mode-set-compile-command ()
+    "Configure compile command for d2-mode."
+    (set (make-local-variable 'compile-command)
+         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
+                    " ")))
+  :hook
+  (d2-mode-hook . d2-mode-set-compile-command)
+  :config
+  (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
+              compile-multi-config
+              :test #'equal))
 #+end_src
 
 ** eglot-x
@@ -4547,7 +4565,28 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package mermaid-mode
   :ensure t
-  :mode "\\.\\(mmd|mermaid\\)\\'")
+  :mode "\\.\\(mmd|mermaid\\)\\'"
+  :commands
+  (mermaid-compile-buffer)
+  :preface
+  (defun mermaid-mode-set-compile-command ()
+    "Configure compile command for mermaid-mode."
+    (set (make-local-variable 'compile-command)
+         (concat (mapconcat #'shell-quote-argument
+                            (list
+                             mermaid-mmdc-location
+                             "-i" buffer-file-name
+                             "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
+                 " "
+                 mermaid-flags)))
+  :hook
+  (mermaid-mode-hook . mermaid-mode-set-compile-command)
+  :init
+  (setq mermaid-flags "--backgroundColor transparent")
+  :config
+  (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
+              compile-multi-config
+              :test #'equal))
 #+end_src
 
 ** messages-are-flowing
