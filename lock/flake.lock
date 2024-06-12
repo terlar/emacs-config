@@ -595,15 +595,15 @@
     "d2-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1676028631,
-        "narHash": "sha256-mzD8H3j6s1oO/LAKvSz0xNYGrjbVIHYuXWF8t7pTsdU=",
-        "owner": "andorsk",
+        "lastModified": 1718138852,
+        "narHash": "sha256-xIIVz+aQL24vI9kbRkb/5AK7p0n1G/OTJSE1Gi0304Q=",
+        "owner": "terlar",
         "repo": "d2-mode",
-        "rev": "cbe7b16141bd80fe4344f0403e61fd7ee4e0fd89",
+        "rev": "fb46d45e0223a095c904983aebea3d40f8d1a8b9",
         "type": "github"
       },
       "original": {
-        "owner": "andorsk",
+        "owner": "terlar",
         "repo": "d2-mode",
         "type": "github"
       }

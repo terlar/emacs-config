@@ -224,7 +224,7 @@
     };
     d2-mode = {
       flake = false;
-      owner = "andorsk";
+      owner = "terlar";
       repo = "d2-mode";
       type = "github";
     };
