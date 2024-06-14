@@ -3621,10 +3621,13 @@ REPL for nodejs.
   :mode
   "\\.markdown\\'"
   "\\.md\\'"
+  :hook
+  (markdown-mode-hook . markdown-display-inline-images)
   :general
   (:keymaps
    'markdown-mode-map
    :prefix local-leader-key
+   "i" 'markdown-toggle-inline-images
    "v" 'markdown-toggle-markup-hiding)
   :init
   (setq markdown-enable-wiki-links t)
@@ -3634,7 +3637,8 @@ REPL for nodejs.
   (setq markdown-italic-underscore t)
   (setq markdown-blockquote-display-char '("┃" ">"))
   (setq markdown-list-item-bullets '("⏺" "▪"))
-  (setq markdown-make-gfm-checkboxes-buttons t))
+  (setq markdown-make-gfm-checkboxes-buttons t)
+  (setq markdown-max-image-size '(1024 . 1024)))
 #+end_src
 
 *** Packages
