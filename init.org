@@ -3062,15 +3062,6 @@ Allow more newlines (1 to 4) for emphasized text, useful when filling long text.
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 #+end_src
 
-**** Variable pitch
-Use variable-pitch font but still make sure everything aligns.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-variable-pitch
-  :ensure t
-  :hook
-  (org-mode-hook . org-variable-pitch-minor-mode))
-#+end_src
-
 **** Headings
 #+begin_src emacs-lisp :tangle yes
 (use-package org

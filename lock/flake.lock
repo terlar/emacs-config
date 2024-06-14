@@ -2656,22 +2656,6 @@
         "type": "github"
       }
     },
-    "org-variable-pitch": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1679101595,
-        "narHash": "sha256-XB4xZR72e6QMaQynxpmRltDNf+xSoKbEtS+btRK4jd8=",
-        "owner": "cadadr",
-        "repo": "elisp",
-        "rev": "3497ffd763cadcc1f507aae88c3c7a84007ccfbd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cadadr",
-        "repo": "elisp",
-        "type": "github"
-      }
-    },
     "outline-minor-faces": {
       "flake": false,
       "locked": {
@@ -3385,7 +3369,6 @@
         "org-preview-html": "org-preview-html",
         "org-roam": "org-roam",
         "org-tree-slide": "org-tree-slide",
-        "org-variable-pitch": "org-variable-pitch",
         "outline-minor-faces": "outline-minor-faces",
         "ox-epub": "ox-epub",
         "package-lint": "package-lint",
