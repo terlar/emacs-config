@@ -207,8 +207,11 @@
    `(org-level-7 ((t (:height ,level-7-height :weight ,bold-weight :slant italic))))
    `(org-level-8 ((t (:height ,level-8-height :weight ,bold-weight :slant italic))))
    `(org-list-dt ((t (:weight ,bold-weight))))
+   `(org-block ((t (:family ,fixed-pitch))))
    `(org-checkbox ((t (:family ,fixed-pitch))))
    `(org-code ((t (:family ,fixed-pitch))))
+   `(org-meta-line ((t (:family ,fixed-pitch))))
+   `(org-table ((t (:family ,fixed-pitch))))
    `(org-verbatim ((t (:family ,fixed-pitch))))
 
    `(org-agenda-structure ((t (:family ,variable-pitch :height ,level-1-height))))

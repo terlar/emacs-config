@@ -991,12 +991,6 @@
       repo = "org-tree-slide";
       type = "github";
     };
-    org-variable-pitch = {
-      flake = false;
-      owner = "cadadr";
-      repo = "elisp";
-      type = "github";
-    };
     outline-minor-faces = {
       flake = false;
       owner = "tarsius";

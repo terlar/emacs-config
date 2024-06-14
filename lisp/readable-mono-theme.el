@@ -532,6 +532,7 @@ For example links."
    `(orderless-match-face-3 ((t (:inherit completions-common-part))))
 
 ;;;;; org
+   `(org-meta-line ((t (:inherit (readable-mono-theme-subordinate font-lock-comment-face)))))
    `(org-ellipsis ((t (:inherit readable-mono-theme-subordinate))))
    `(org-done ((t (:foreground unspecified))))
    `(org-todo ((t (:inherit readable-mono-theme-strong))))
