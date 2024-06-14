@@ -1416,7 +1416,7 @@ Automatic parenthesis pairing and highlighting.
 (use-package dtrt-indent
   :ensure t
   :hook
-  (after-init-hook . dtrt-indent-global-mode)
+  (prog-mode-hook . dtrt-indent-mode)
   :init
   (setq dtrt-indent-ignore-single-chars-flag t)
   (setq dtrt-indent-run-after-smie t)
