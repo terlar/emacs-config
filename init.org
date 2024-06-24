@@ -2083,11 +2083,10 @@ Kill compilation process before stating another and save all buffers on ~compile
   (compilation-find-buffer)
   :preface
   (defun compile-on-save-start ()
-    (let ((main-buffer (current-buffer))
-          (compile-buffer (compilation-find-buffer)))
+    (let ((compile-buffer (compilation-find-buffer)))
       (unless (get-buffer-process compile-buffer)
-        (recompile)
-        (switch-to-buffer-other-window main-buffer))))
+        (let ((display-buffer-alist '(("^*compilation*" . (display-buffer-no-window)))))
+          (recompile)))))
 
   (define-minor-mode compile-on-save-mode
     "Minor mode to automatically call `recompile' whenever the
