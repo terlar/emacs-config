@@ -760,6 +760,7 @@ keybindings in case I would forget them.
 | =C-S-backspace=   | ~kill-whole-line~                   | Kill entire lines, can be used to move several lines at once                     |
 | =M-/=             | ~dabbrev-expand~                    | Abbreviation completion                                                          |
 | =M-tab= / =C-[ C-i= | ~completion-at-point~               | More context aware completion                                                    |
+| =M-s .=           | ~isearch-forward-symbol-at-point~   | Search for the symbol at point                                                   |
 | =C-w=             | ~kill-region~                       | Cut                                                                              |
 | =M-w=             | ~kill-ring-save~                    | Copy                                                                             |
 | =C-y=             | ~yank~                              | Paste                                                                            |
