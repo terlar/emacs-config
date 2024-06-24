@@ -2097,6 +2097,22 @@ nothing happens."
         (progn  (make-local-variable 'after-save-hook)
                 (add-hook 'after-save-hook 'compile-on-save-start nil t))
       (kill-local-variable 'after-save-hook)))
+
+  (defun compile-finish-handle-buffer-display (buffer outstr)
+    "Display failed compilation buffer or burry finished ones."
+    (let ((compilation-window (get-buffer-window buffer)))
+      (cond
+       ;; If compilation failed and compilation buffer is not visible,
+       ((and (not (string-match "finished" outstr))
+             (not compilation-window))
+        ;; display that buffer.
+        (display-buffer "*compilation*"))
+       ;; If compilation succeeded and compilation buffer is visible,
+       ((and (string-match "finished" outstr)
+             compilation-window)
+        ;; bury that buffer.
+        (with-selected-window compilation-window
+          (bury-buffer))))))
   :general
   (:keymaps
    'global
@@ -2109,6 +2125,8 @@ nothing happens."
   (setq compilation-always-kill t)
   (setq compilation-ask-about-save nil)
   (setq compilation-scroll-output t)
+
+  (cl-pushnew #'compile-finish-handle-buffer-display compilation-finish-functions :test #'equal)
 
   (put 'compile-command 'safe-local-variable 'stringp))
 
