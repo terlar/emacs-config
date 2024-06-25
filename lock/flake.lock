@@ -3507,15 +3507,15 @@
     "rustic": {
       "flake": false,
       "locked": {
-        "lastModified": 1676454583,
-        "narHash": "sha256-PMllL9DdKWdBo3+luJ6Vi+7BttOfY17V2IyyZ4gpduY=",
-        "owner": "brotzeit",
+        "lastModified": 1718678778,
+        "narHash": "sha256-qNs1E5jS7VCkXVRHTUK+XqSs8cm6qEObz8MykerLsGA=",
+        "owner": "emacs-rustic",
         "repo": "rustic",
-        "rev": "39423d1cf4fa054c36bf9577356451f4c06ee148",
+        "rev": "563c7ac2c9af8ba72a732021e1d0a954fad2a696",
         "type": "github"
       },
       "original": {
-        "owner": "brotzeit",
+        "owner": "emacs-rustic",
         "repo": "rustic",
         "type": "github"
       }

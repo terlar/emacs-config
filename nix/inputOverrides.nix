@@ -96,6 +96,10 @@
       # Unused integrations.
       "rustic-flycheck.el"
     ];
+    packageRequires = builtins.removeAttrs prev.packageRequires [
+      # Unused integrations.
+      "flycheck"
+    ];
   };
 
   pairable = _: _: {

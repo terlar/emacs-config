@@ -1215,7 +1215,7 @@
     };
     rustic = {
       flake = false;
-      owner = "brotzeit";
+      owner = "emacs-rustic";
       repo = "rustic";
       type = "github";
     };
