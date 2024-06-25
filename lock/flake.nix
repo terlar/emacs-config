@@ -515,12 +515,6 @@
       repo = "ghelp";
       type = "github";
     };
-    gif-screencast = {
-      flake = false;
-      owner = "Ambrevar";
-      repo = "emacs-gif-screencast";
-      type = "gitlab";
-    };
     git-commit = {
       flake = false;
       owner = "magit";

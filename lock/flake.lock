@@ -1376,22 +1376,6 @@
         "type": "github"
       }
     },
-    "gif-screencast": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1690544643,
-        "narHash": "sha256-TVw5qDuy2qY/2I0hsEMR1RPGiJC0yzD8beQoLsrE0A4=",
-        "owner": "Ambrevar",
-        "repo": "emacs-gif-screencast",
-        "rev": "6798656d3d3107d16e30cc26bc3928b00e50c1ca",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "Ambrevar",
-        "repo": "emacs-gif-screencast",
-        "type": "gitlab"
-      }
-    },
     "git-commit": {
       "flake": false,
       "locked": {
@@ -3273,7 +3257,6 @@
         "gcmh": "gcmh",
         "general": "general",
         "ghelp": "ghelp",
-        "gif-screencast": "gif-screencast",
         "git-commit": "git-commit",
         "git-modes": "git-modes",
         "gmail2bbdb": "gmail2bbdb",
