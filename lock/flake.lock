@@ -2224,22 +2224,6 @@
         "type": "github"
       }
     },
-    "multicolumn": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1422917485,
-        "narHash": "sha256-LqN/UtHYMIdZ1gvtcmOmcWXHlPdME+kZqM3P2zlQV8c=",
-        "owner": "Lindydancer",
-        "repo": "multicolumn",
-        "rev": "c7a3afecd470859b2e60aa7c554d6e4d436df7fa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Lindydancer",
-        "repo": "multicolumn",
-        "type": "github"
-      }
-    },
     "native-complete": {
       "flake": false,
       "locked": {
@@ -3214,7 +3198,6 @@
         "messages-are-flowing": "messages-are-flowing",
         "miniedit": "miniedit",
         "minitest": "minitest",
-        "multicolumn": "multicolumn",
         "native-complete": "native-complete",
         "nginx-mode": "nginx-mode",
         "nix-mode": "nix-mode",

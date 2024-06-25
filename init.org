@@ -4580,11 +4580,6 @@ Packages that I am currently testing or evaluating.
 (use-package messages-are-flowing :ensure t)
 #+end_src
 
-** multicolumn
-#+begin_src emacs-lisp :tangle yes
-(use-package multicolumn :ensure t)
-#+end_src
-
 ** native-complete
 #+begin_src emacs-lisp :tangle yes
 (use-package native-complete :ensure t)

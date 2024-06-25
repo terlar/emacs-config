@@ -832,12 +832,6 @@
       repo = "minitest-emacs";
       type = "github";
     };
-    multicolumn = {
-      flake = false;
-      owner = "Lindydancer";
-      repo = "multicolumn";
-      type = "github";
-    };
     native-complete = {
       flake = false;
       owner = "CeleritasCelery";
