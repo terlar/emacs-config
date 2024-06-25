@@ -4571,9 +4571,7 @@ Packages that I am currently testing or evaluating.
   :after corfu
   :commands
   (kind-icon-margin-formatter)
-  :custom
-  (kind-icon-default-face 'corfu-default)
-  :config
+  :init
   (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
