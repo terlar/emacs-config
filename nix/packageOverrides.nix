@@ -19,12 +19,6 @@ _final: prev: {
     '';
   });
 
-  haskell-mode = prev.haskell-mode.overrideAttrs (_: {
-    preBuild = ''
-      substituteInPlace haskell-mode.el --replace "(require 'flymake)" "(require 'flymake)${"\n"}(require 'flymake-proc)"
-    '';
-  });
-
   jinx = prev.jinx.overrideAttrs (
     old:
     let
