@@ -6,9 +6,6 @@
   gcc,
   libvterm-neovim,
   pkg-config,
-  python3,
-  pywal,
-  substituteAll,
   unzip,
 }:
 _final: prev: {
@@ -19,12 +16,6 @@ _final: prev: {
           --replace "@PACKAGE_VERSION@" ${old.version};
 
       mv bbdb-site.el{.in,}
-    '';
-  });
-
-  haskell-mode = prev.haskell-mode.overrideAttrs (_: {
-    preBuild = ''
-      substituteInPlace haskell-mode.el --replace "(require 'flymake)" "(require 'flymake)${"\n"}(require 'flymake-proc)"
     '';
   });
 
@@ -55,16 +46,6 @@ _final: prev: {
 
   nov = prev.nov.overrideAttrs (old: {
     propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [ unzip ];
-  });
-
-  theme-magic = prev.theme-magic.overrideAttrs (_: {
-    patches = [
-      (substituteAll {
-        src = ./patches/theme-magic.patch;
-        python = "${python3}/bin/python";
-        wal = "${pywal}/bin/wal";
-      })
-    ];
   });
 
   vterm = prev.vterm.overrideAttrs (old: {

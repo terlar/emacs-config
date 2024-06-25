@@ -2133,6 +2133,36 @@ nothing happens."
 (make-variable-buffer-local 'compile-command)
 #+end_src
 
+*** compile-multi
+#+begin_src emacs-lisp :tangle yes
+(use-package compile-multi
+  :ensure t
+  :general
+  (:keymaps
+   'global
+   :prefix
+   local-leader-key
+   local-leader-key 'compile-multi)
+  :preface
+  (autoload 'package-lint-current-buffer "package-lint")
+  :config
+  (cl-pushnew `(emacs-lisp-mode
+                ("emacs:bytecompile" . ,#'emacs-lisp-byte-compile)
+                ("emacs:package-lint" . ,#'package-lint-current-buffer)
+                ("emacs:checkdoc" . ,#'checkdoc))
+              compile-multi-config
+              :test #'equal))
+
+(use-package consult-compile-multi
+  :ensure t
+  :after compile-multi
+  :demand t
+  :commands
+  (consult-compile-multi-mode)
+  :config
+  (consult-compile-multi-mode))
+#+end_src
+
 *** ANSI escape
 #+begin_src emacs-lisp :tangle yes
 (use-package ansi-color
@@ -2943,40 +2973,6 @@ Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 (use-package org-contrib :ensure t)
 #+end_src
 
-**** org-babel-eval-in-repl
-Evaluation of source code blocks in REPL.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-babel-eval-in-repl
-  :ensure t
-  :commands
-  (ober-eval-in-repl
-   ober-eval-block-in-repl)
-  :preface
-  (autoload 'org-in-block-p "org")
-  (autoload 'org-insert-heading-respect-content "org")
-  (autoload 'org-meta-return "org")
-
-  (defun +org-ctrl-return ()
-    "Run `ober-eval-in-repl' if in source code block.
-Fallback to `org-insert-heading-respect-content' otherwise."
-    (interactive)
-    (if (org-in-block-p '("src" "example"))
-        (ober-eval-in-repl)
-      (call-interactively #'org-insert-heading-respect-content)))
-  (defun +org-meta-return ()
-    "Run `ober-eval-block-in-repl' if in source code block or example block.
-Fallback to `org-meta-return' otherwise."
-    (interactive)
-    (if (org-in-block-p '("src" "example"))
-        (ober-eval-block-in-repl)
-      (call-interactively #'org-meta-return)))
-  :general
-  (:keymaps
-   'org-mode-map
-   "C-<return>" '+org-ctrl-return
-   "M-<return>" '+org-meta-return))
-#+end_src
-
 **** org-cliplink
 Paste links from clipboard and automatically fetch title.
 #+begin_src emacs-lisp :tangle yes
@@ -3002,6 +2998,19 @@ Eldoc support, showing path to current section.
   (org-mode-hook . org-eldoc-load)
   :config
   (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties))
+#+end_src
+
+**** org-limit-image-size
+#+begin_src emacs-lisp :tangle yes
+(use-package org-limit-image-size
+  :ensure t
+  :after org
+  :commands
+  (org-limit-image-size-activate
+   org-limit-image-size-deactivate)
+  :init
+  (org-limit-image-size-activate)
+  (setq org-limit-image-size '(0.48 . 0.8)))
 #+end_src
 
 **** org-noter
@@ -3237,6 +3246,31 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.tsv\\'" . tsv-mode)
   :init
   (setq csv-separators '("," "\t" ";")))
+#+end_src
+
+** d2
+#+begin_src emacs-lisp :tangle yes
+(use-package d2-mode
+  :ensure t
+  :mode "\\.d2\\'"
+  :commands
+  (d2-compile-buffer)
+  :preface
+  (defun d2-mode-set-compile-command ()
+    "Configure compile command for d2-mode."
+    (set (make-local-variable 'compile-command)
+         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
+                    " ")))
+  :hook
+  (d2-mode-hook . d2-mode-set-compile-command)
+  (d2-mode-hook . compile-on-save-mode)
+  :init
+  (setq d2-flags '("--layout" "elk" "--sketch" "--theme" "1"))
+  :config
+  (with-eval-after-load 'compile-multi
+    (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
+                compile-multi-config
+                :test #'equal)))
 #+end_src
 
 ** elasticsearch
@@ -3680,6 +3714,36 @@ Pretty check-boxes
  'markdown-mode
  '(("^ *[-*+] \\[\\([Xx]\\)\\] "
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+#+end_src
+
+** mermaid
+#+begin_src emacs-lisp :tangle yes
+(use-package mermaid-mode
+  :ensure t
+  :mode "\\.\\(mmd|mermaid\\)\\'"
+  :commands
+  (mermaid-compile-buffer)
+  :preface
+  (defun mermaid-mode-set-compile-command ()
+    "Configure compile command for mermaid-mode."
+    (set (make-local-variable 'compile-command)
+         (concat (mapconcat #'shell-quote-argument
+                            (list
+                             mermaid-mmdc-location
+                             "-i" buffer-file-name
+                             "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
+                 " "
+                 mermaid-flags)))
+  :hook
+  (mermaid-mode-hook . mermaid-mode-set-compile-command)
+  (mermaid-mode-hook . compile-on-save-mode)
+  :init
+  (setq mermaid-flags "--backgroundColor transparent")
+  :config
+  (with-eval-after-load 'compile-multi
+    (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
+                compile-multi-config
+                :test #'equal)))
 #+end_src
 
 ** message
@@ -4442,36 +4506,6 @@ Packages that I am currently testing or evaluating.
 (use-package awscli-capf :ensure t)
 #+end_src
 
-** compile-multi
-#+begin_src emacs-lisp :tangle yes
-(use-package compile-multi
-  :ensure t
-  :general
-  (:keymaps
-   'global
-   :prefix
-   local-leader-key
-   local-leader-key 'compile-multi)
-  :preface
-  (autoload 'package-lint-current-buffer "package-lint")
-  :config
-  (cl-pushnew `(emacs-lisp-mode
-                ("emacs:bytecompile" . ,#'emacs-lisp-byte-compile)
-                ("emacs:package-lint" . ,#'package-lint-current-buffer)
-                ("emacs:checkdoc" . ,#'checkdoc))
-              compile-multi-config
-              :test #'equal))
-
-(use-package consult-compile-multi
-  :ensure t
-  :after compile-multi
-  :demand t
-  :commands
-  (consult-compile-multi-mode)
-  :config
-  (consult-compile-multi-mode))
-#+end_src
-
 ** comment-or-uncomment-sexp
 #+begin_src emacs-lisp :tangle yes
 (use-package comment-or-uncomment-sexp :ensure t)
@@ -4495,31 +4529,6 @@ Packages that I am currently testing or evaluating.
 ** dape
 #+begin_src emacs-lisp :tangle yes
 (use-package dape :ensure t)
-#+end_src
-
-** d2
-#+begin_src emacs-lisp :tangle yes
-(use-package d2-mode
-  :ensure t
-  :mode "\\.d2\\'"
-  :commands
-  (d2-compile-buffer)
-  :preface
-  (defun d2-mode-set-compile-command ()
-    "Configure compile command for d2-mode."
-    (set (make-local-variable 'compile-command)
-         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
-                    " ")))
-  :hook
-  (d2-mode-hook . d2-mode-set-compile-command)
-  (d2-mode-hook . compile-on-save-mode)
-  :init
-  (setq d2-flags '("--layout" "elk" "--sketch" "--theme" "1"))
-  :config
-  (with-eval-after-load 'compile-multi
-    (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
-                compile-multi-config
-                :test #'equal)))
 #+end_src
 
 ** eglot-x
@@ -4550,19 +4559,9 @@ Packages that I am currently testing or evaluating.
 (use-package epithet :ensure t)
 #+end_src
 
-** fit-text-scale
-#+begin_src emacs-lisp :tangle yes
-(use-package fit-text-scale :ensure t)
-#+end_src
-
 ** freeze-it
 #+begin_src emacs-lisp :tangle yes
 (use-package freeze-it :ensure t)
-#+end_src
-
-** gif-screencast
-#+begin_src emacs-lisp :tangle yes
-(use-package gif-screencast :ensure t)
 #+end_src
 
 ** kind-icon
@@ -4572,50 +4571,13 @@ Packages that I am currently testing or evaluating.
   :after corfu
   :commands
   (kind-icon-margin-formatter)
-  :custom
-  (kind-icon-default-face 'corfu-default)
-  :config
-  (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
-#+end_src
-
-** mermaid
-#+begin_src emacs-lisp :tangle yes
-(use-package mermaid-mode
-  :ensure t
-  :mode "\\.\\(mmd|mermaid\\)\\'"
-  :commands
-  (mermaid-compile-buffer)
-  :preface
-  (defun mermaid-mode-set-compile-command ()
-    "Configure compile command for mermaid-mode."
-    (set (make-local-variable 'compile-command)
-         (concat (mapconcat #'shell-quote-argument
-                            (list
-                             mermaid-mmdc-location
-                             "-i" buffer-file-name
-                             "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
-                 " "
-                 mermaid-flags)))
-  :hook
-  (mermaid-mode-hook . mermaid-mode-set-compile-command)
-  (mermaid-mode-hook . compile-on-save-mode)
   :init
-  (setq mermaid-flags "--backgroundColor transparent")
-  :config
-  (with-eval-after-load 'compile-multi
-    (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
-                compile-multi-config
-                :test #'equal)))
+  (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
 ** messages-are-flowing
 #+begin_src emacs-lisp :tangle yes
 (use-package messages-are-flowing :ensure t)
-#+end_src
-
-** multicolumn
-#+begin_src emacs-lisp :tangle yes
-(use-package multicolumn :ensure t)
 #+end_src
 
 ** native-complete
@@ -4626,19 +4588,6 @@ Packages that I am currently testing or evaluating.
 ** org-fragtog
 #+begin_src emacs-lisp :tangle yes
 (use-package org-fragtog :ensure t)
-#+end_src
-
-** org-limit-image-size
-#+begin_src emacs-lisp :tangle yes
-(use-package org-limit-image-size
-  :ensure t
-  :after org
-  :commands
-  (org-limit-image-size-activate
-   org-limit-image-size-deactivate)
-  :init
-  (org-limit-image-size-activate)
-  (setq org-limit-image-size '(0.48 . 0.8)))
 #+end_src
 
 ** org-roam
@@ -4658,19 +4607,9 @@ Packages that I am currently testing or evaluating.
 (use-package shrface :ensure t)
 #+end_src
 
-** stem-reading-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package stem-reading-mode :ensure t)
-#+end_src
-
 ** terraform-doc
 #+begin_src emacs-lisp :tangle yes
 (use-package terraform-doc :ensure t)
-#+end_src
-
-** theme-magic
-#+begin_src emacs-lisp :tangle yes
-(use-package theme-magic :ensure t)
 #+end_src
 
 * Private

@@ -8,12 +8,6 @@
       repo = "a.el";
       type = "github";
     };
-    ace-window = {
-      flake = false;
-      owner = "abo-abo";
-      repo = "ace-window";
-      type = "github";
-    };
     aio = {
       flake = false;
       owner = "skeeto";
@@ -342,12 +336,6 @@
       repo = "elisp-refs";
       type = "github";
     };
-    elixir-mode = {
-      flake = false;
-      owner = "elixir-editors";
-      repo = "emacs-elixir";
-      type = "github";
-    };
     ellama = {
       flake = false;
       owner = "s-kostyaev";
@@ -426,12 +414,6 @@
       repo = "esxml";
       type = "github";
     };
-    eval-in-repl = {
-      flake = false;
-      owner = "terlar";
-      repo = "eval-in-repl";
-      type = "github";
-    };
     explain-pause-mode = {
       flake = false;
       owner = "lastquestion";
@@ -461,12 +443,6 @@
       owner = "wwwjfy";
       repo = "emacs-fish";
       type = "github";
-    };
-    fit-text-scale = {
-      flake = false;
-      owner = "marcowahl";
-      repo = "fit-text-scale";
-      type = "gitlab";
     };
     flymake-eslint = {
       flake = false;
@@ -520,12 +496,6 @@
       owner = "casouri";
       repo = "ghelp";
       type = "github";
-    };
-    gif-screencast = {
-      flake = false;
-      owner = "Ambrevar";
-      repo = "emacs-gif-screencast";
-      type = "gitlab";
     };
     git-commit = {
       flake = false;
@@ -838,11 +808,6 @@
       repo = "markdown-toc";
       type = "github";
     };
-    matlab-mode = {
-      flake = false;
-      type = "git";
-      url = "https://git.code.sf.net/p/matlab-emacs/src";
-    };
     mermaid-mode = {
       flake = false;
       owner = "abrochard";
@@ -865,12 +830,6 @@
       flake = false;
       owner = "arthurnn";
       repo = "minitest-emacs";
-      type = "github";
-    };
-    multicolumn = {
-      flake = false;
-      owner = "Lindydancer";
-      repo = "multicolumn";
       type = "github";
     };
     native-complete = {
@@ -930,12 +889,6 @@
       flake = false;
       owner = "oantolin";
       repo = "orderless";
-      type = "github";
-    };
-    org-babel-eval-in-repl = {
-      flake = false;
-      owner = "diadochos";
-      repo = "org-babel-eval-in-repl";
       type = "github";
     };
     org-cliplink = {
@@ -1032,11 +985,6 @@
       owner = "terlar";
       repo = "emacs-config";
       type = "github";
-    };
-    paredit = {
-      flake = false;
-      type = "git";
-      url = "https://mumble.net/~campbell/git/paredit.git";
     };
     parseclj = {
       flake = false;
@@ -1215,7 +1163,7 @@
     };
     rustic = {
       flake = false;
-      owner = "brotzeit";
+      owner = "emacs-rustic";
       repo = "rustic";
       type = "github";
     };
@@ -1291,12 +1239,6 @@
       repo = "spray";
       type = "sourcehut";
     };
-    stem-reading-mode = {
-      flake = false;
-      owner = "wavexx";
-      repo = "stem-reading-mode.el";
-      type = "gitlab";
-    };
     string-inflection = {
       flake = false;
       owner = "akicho8";
@@ -1343,12 +1285,6 @@
       flake = false;
       owner = "hcl-emacs";
       repo = "terraform-mode";
-      type = "github";
-    };
-    theme-magic = {
-      flake = false;
-      owner = "jcaw";
-      repo = "theme-magic";
       type = "github";
     };
     transpose-frame = {
