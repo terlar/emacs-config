@@ -1232,22 +1232,6 @@
         "type": "github"
       }
     },
-    "fit-text-scale": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1640894574,
-        "narHash": "sha256-NyPmPUmEAF2UECm/oRXHai1lT1XyJds/DYCLM0V0SwI=",
-        "owner": "marcowahl",
-        "repo": "fit-text-scale",
-        "rev": "c53c8ce606380088643463848a9ee3502b0c64f4",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "marcowahl",
-        "repo": "fit-text-scale",
-        "type": "gitlab"
-      }
-    },
     "flymake-eslint": {
       "flake": false,
       "locked": {
@@ -3280,7 +3264,6 @@
         "find-file-rg": "find-file-rg",
         "fish-completion": "fish-completion",
         "fish-mode": "fish-mode",
-        "fit-text-scale": "fit-text-scale",
         "flymake-eslint": "flymake-eslint",
         "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",

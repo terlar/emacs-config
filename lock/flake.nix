@@ -462,12 +462,6 @@
       repo = "emacs-fish";
       type = "github";
     };
-    fit-text-scale = {
-      flake = false;
-      owner = "marcowahl";
-      repo = "fit-text-scale";
-      type = "gitlab";
-    };
     flymake-eslint = {
       flake = false;
       owner = "orzechowskid";

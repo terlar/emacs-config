@@ -4550,11 +4550,6 @@ Packages that I am currently testing or evaluating.
 (use-package epithet :ensure t)
 #+end_src
 
-** fit-text-scale
-#+begin_src emacs-lisp :tangle yes
-(use-package fit-text-scale :ensure t)
-#+end_src
-
 ** freeze-it
 #+begin_src emacs-lisp :tangle yes
 (use-package freeze-it :ensure t)
