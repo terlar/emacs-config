@@ -2943,40 +2943,6 @@ Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 (use-package org-contrib :ensure t)
 #+end_src
 
-**** org-babel-eval-in-repl
-Evaluation of source code blocks in REPL.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-babel-eval-in-repl
-  :ensure t
-  :commands
-  (ober-eval-in-repl
-   ober-eval-block-in-repl)
-  :preface
-  (autoload 'org-in-block-p "org")
-  (autoload 'org-insert-heading-respect-content "org")
-  (autoload 'org-meta-return "org")
-
-  (defun +org-ctrl-return ()
-    "Run `ober-eval-in-repl' if in source code block.
-Fallback to `org-insert-heading-respect-content' otherwise."
-    (interactive)
-    (if (org-in-block-p '("src" "example"))
-        (ober-eval-in-repl)
-      (call-interactively #'org-insert-heading-respect-content)))
-  (defun +org-meta-return ()
-    "Run `ober-eval-block-in-repl' if in source code block or example block.
-Fallback to `org-meta-return' otherwise."
-    (interactive)
-    (if (org-in-block-p '("src" "example"))
-        (ober-eval-block-in-repl)
-      (call-interactively #'org-meta-return)))
-  :general
-  (:keymaps
-   'org-mode-map
-   "C-<return>" '+org-ctrl-return
-   "M-<return>" '+org-meta-return))
-#+end_src
-
 **** org-cliplink
 Paste links from clipboard and automatically fetch title.
 #+begin_src emacs-lisp :tangle yes

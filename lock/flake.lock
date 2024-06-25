@@ -16,22 +16,6 @@
         "type": "github"
       }
     },
-    "ace-window": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1662868721,
-        "narHash": "sha256-eGmOL272H5X7BmeXRCfMjB3ucf9GH2xThyozgkW62dA=",
-        "owner": "abo-abo",
-        "repo": "ace-window",
-        "rev": "77115afc1b0b9f633084cf7479c767988106c196",
-        "type": "github"
-      },
-      "original": {
-        "owner": "abo-abo",
-        "repo": "ace-window",
-        "type": "github"
-      }
-    },
     "aio": {
       "flake": false,
       "locked": {
@@ -912,22 +896,6 @@
         "type": "github"
       }
     },
-    "elixir-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1687801139,
-        "narHash": "sha256-1NzP9trvrd0ThvIgW0cRFVMGTvJ6gi4PHKtU4aGiHHc=",
-        "owner": "elixir-editors",
-        "repo": "emacs-elixir",
-        "rev": "00d6580a040a750e019218f9392cf9a4c2dac23a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "elixir-editors",
-        "repo": "emacs-elixir",
-        "type": "github"
-      }
-    },
     "ellama": {
       "flake": false,
       "locked": {
@@ -1133,22 +1101,6 @@
       "original": {
         "owner": "tali713",
         "repo": "esxml",
-        "type": "github"
-      }
-    },
-    "eval-in-repl": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1669510128,
-        "narHash": "sha256-RO2sil9iGiWaYZdUVjH468X2aHS12RPgd/Nw5+RSVAA=",
-        "owner": "terlar",
-        "repo": "eval-in-repl",
-        "rev": "2b6d13455287da0f2f0d2352b5982b626569a5f7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "eval-in-repl",
         "type": "github"
       }
     },
@@ -2208,22 +2160,6 @@
         "type": "github"
       }
     },
-    "matlab-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716313708,
-        "narHash": "sha256-EJCYcidZUrt1lz3rGiABovf9YjY+W7lR/vdy1UDtgas=",
-        "ref": "refs/heads/master",
-        "rev": "a78b368387c85437f8de187acf0a2b1cbeeacc3f",
-        "revCount": 685,
-        "type": "git",
-        "url": "https://git.code.sf.net/p/matlab-emacs/src"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.code.sf.net/p/matlab-emacs/src"
-      }
-    },
     "mermaid-mode": {
       "flake": false,
       "locked": {
@@ -2461,22 +2397,6 @@
       "original": {
         "owner": "oantolin",
         "repo": "orderless",
-        "type": "github"
-      }
-    },
-    "org-babel-eval-in-repl": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1607269239,
-        "narHash": "sha256-Csx/3enMy/0guYjftAHGIiVt3YTBifPAUkNJnAx1Ubo=",
-        "owner": "diadochos",
-        "repo": "org-babel-eval-in-repl",
-        "rev": "3591f062873de2d64cc6f83b3555d030506e6ee7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "diadochos",
-        "repo": "org-babel-eval-in-repl",
         "type": "github"
       }
     },
@@ -2734,22 +2654,6 @@
         "owner": "terlar",
         "repo": "emacs-config",
         "type": "github"
-      }
-    },
-    "paredit": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1689712030,
-        "narHash": "sha256-LFML1iIoniHrHHXzUd2cb2u4kFHg7ONJ5oAymH1RcWg=",
-        "ref": "refs/heads/master",
-        "rev": "037b9b8acbca75151f133b6c0f7f3ff97d9042e5",
-        "revCount": 269,
-        "type": "git",
-        "url": "https://mumble.net/~campbell/git/paredit.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://mumble.net/~campbell/git/paredit.git"
       }
     },
     "parseclj": {
@@ -3172,7 +3076,6 @@
     "root": {
       "inputs": {
         "a": "a",
-        "ace-window": "ace-window",
         "aio": "aio",
         "alert": "alert",
         "all-the-icons": "all-the-icons",
@@ -3228,7 +3131,6 @@
         "eglot-x": "eglot-x",
         "elfeed": "elfeed",
         "elisp-refs": "elisp-refs",
-        "elixir-mode": "elixir-mode",
         "ellama": "ellama",
         "elm-mode": "elm-mode",
         "elquery": "elquery",
@@ -3242,7 +3144,6 @@
         "es-mode": "es-mode",
         "eshell-fringe-status": "eshell-fringe-status",
         "esxml": "esxml",
-        "eval-in-repl": "eval-in-repl",
         "explain-pause-mode": "explain-pause-mode",
         "f": "f",
         "find-file-rg": "find-file-rg",
@@ -3309,7 +3210,6 @@
         "marginalia": "marginalia",
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
-        "matlab-mode": "matlab-mode",
         "mermaid-mode": "mermaid-mode",
         "messages-are-flowing": "messages-are-flowing",
         "miniedit": "miniedit",
@@ -3325,7 +3225,6 @@
         "nov": "nov",
         "ob-http": "ob-http",
         "orderless": "orderless",
-        "org-babel-eval-in-repl": "org-babel-eval-in-repl",
         "org-cliplink": "org-cliplink",
         "org-contrib": "org-contrib",
         "org-fragtog": "org-fragtog",
@@ -3342,7 +3241,6 @@
         "page-break-lines": "page-break-lines",
         "paimon": "paimon",
         "pairable": "pairable",
-        "paredit": "paredit",
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",

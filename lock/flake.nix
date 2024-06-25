@@ -8,12 +8,6 @@
       repo = "a.el";
       type = "github";
     };
-    ace-window = {
-      flake = false;
-      owner = "abo-abo";
-      repo = "ace-window";
-      type = "github";
-    };
     aio = {
       flake = false;
       owner = "skeeto";
@@ -342,12 +336,6 @@
       repo = "elisp-refs";
       type = "github";
     };
-    elixir-mode = {
-      flake = false;
-      owner = "elixir-editors";
-      repo = "emacs-elixir";
-      type = "github";
-    };
     ellama = {
       flake = false;
       owner = "s-kostyaev";
@@ -424,12 +412,6 @@
       flake = false;
       owner = "tali713";
       repo = "esxml";
-      type = "github";
-    };
-    eval-in-repl = {
-      flake = false;
-      owner = "terlar";
-      repo = "eval-in-repl";
       type = "github";
     };
     explain-pause-mode = {
@@ -826,11 +808,6 @@
       repo = "markdown-toc";
       type = "github";
     };
-    matlab-mode = {
-      flake = false;
-      type = "git";
-      url = "https://git.code.sf.net/p/matlab-emacs/src";
-    };
     mermaid-mode = {
       flake = false;
       owner = "abrochard";
@@ -918,12 +895,6 @@
       flake = false;
       owner = "oantolin";
       repo = "orderless";
-      type = "github";
-    };
-    org-babel-eval-in-repl = {
-      flake = false;
-      owner = "diadochos";
-      repo = "org-babel-eval-in-repl";
       type = "github";
     };
     org-cliplink = {
@@ -1020,11 +991,6 @@
       owner = "terlar";
       repo = "emacs-config";
       type = "github";
-    };
-    paredit = {
-      flake = false;
-      type = "git";
-      url = "https://mumble.net/~campbell/git/paredit.git";
     };
     parseclj = {
       flake = false;

@@ -1,2 +1,0 @@
-(eval-in-repl :fetcher github
-              :repo "terlar/eval-in-repl")
