@@ -1327,12 +1327,6 @@
       repo = "terraform-mode";
       type = "github";
     };
-    theme-magic = {
-      flake = false;
-      owner = "jcaw";
-      repo = "theme-magic";
-      type = "github";
-    };
     transpose-frame = {
       flake = false;
       owner = "emacsorphanage";

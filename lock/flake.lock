@@ -3393,7 +3393,6 @@
         "tempel": "tempel",
         "terraform-doc": "terraform-doc",
         "terraform-mode": "terraform-mode",
-        "theme-magic": "theme-magic",
         "transpose-frame": "transpose-frame",
         "ts-comint": "ts-comint",
         "tuareg": "tuareg",
@@ -3802,22 +3801,6 @@
       "original": {
         "owner": "hcl-emacs",
         "repo": "terraform-mode",
-        "type": "github"
-      }
-    },
-    "theme-magic": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1562877267,
-        "narHash": "sha256-H6KHksP2EHkFB829owHYdaN+8j9IGVMfQSToAOV584E=",
-        "owner": "jcaw",
-        "repo": "theme-magic",
-        "rev": "844c4311bd26ebafd4b6a1d72ddcc65d87f074e3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jcaw",
-        "repo": "theme-magic",
         "type": "github"
       }
     },

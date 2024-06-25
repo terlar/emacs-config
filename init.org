@@ -4653,11 +4653,6 @@ Packages that I am currently testing or evaluating.
 (use-package terraform-doc :ensure t)
 #+end_src
 
-** theme-magic
-#+begin_src emacs-lisp :tangle yes
-(use-package theme-magic :ensure t)
-#+end_src
-
 * Private
 #+begin_src emacs-lisp :tangle yes
 (require 'private nil t)

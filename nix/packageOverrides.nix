@@ -6,9 +6,6 @@
   gcc,
   libvterm-neovim,
   pkg-config,
-  python3,
-  pywal,
-  substituteAll,
   unzip,
 }:
 _final: prev: {
@@ -55,16 +52,6 @@ _final: prev: {
 
   nov = prev.nov.overrideAttrs (old: {
     propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [ unzip ];
-  });
-
-  theme-magic = prev.theme-magic.overrideAttrs (_: {
-    patches = [
-      (substituteAll {
-        src = ./patches/theme-magic.patch;
-        python = "${python3}/bin/python";
-        wal = "${pywal}/bin/wal";
-      })
-    ];
   });
 
   vterm = prev.vterm.overrideAttrs (old: {
