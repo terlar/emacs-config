@@ -3385,7 +3385,6 @@
         "spark": "spark",
         "spinner": "spinner",
         "spray": "spray",
-        "stem-reading-mode": "stem-reading-mode",
         "string-inflection": "string-inflection",
         "stripe-buffer": "stripe-buffer",
         "suggest": "suggest",
@@ -3676,22 +3675,6 @@
         "owner": "~iank",
         "repo": "spray",
         "type": "sourcehut"
-      }
-    },
-    "stem-reading-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1653216834,
-        "narHash": "sha256-X6XyhjfnXmKkj5xwspwhbCARq2cc3Xyj2cbc7pdxchI=",
-        "owner": "wavexx",
-        "repo": "stem-reading-mode.el",
-        "rev": "6efc9962e3a19a452c7ab9636cf1e2566a51bd38",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "wavexx",
-        "repo": "stem-reading-mode.el",
-        "type": "gitlab"
       }
     },
     "string-inflection": {

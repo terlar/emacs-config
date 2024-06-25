@@ -4648,11 +4648,6 @@ Packages that I am currently testing or evaluating.
 (use-package shrface :ensure t)
 #+end_src
 
-** stem-reading-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package stem-reading-mode :ensure t)
-#+end_src
-
 ** terraform-doc
 #+begin_src emacs-lisp :tangle yes
 (use-package terraform-doc :ensure t)

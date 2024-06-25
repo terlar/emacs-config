@@ -1279,12 +1279,6 @@
       repo = "spray";
       type = "sourcehut";
     };
-    stem-reading-mode = {
-      flake = false;
-      owner = "wavexx";
-      repo = "stem-reading-mode.el";
-      type = "gitlab";
-    };
     string-inflection = {
       flake = false;
       owner = "akicho8";
