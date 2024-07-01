@@ -784,6 +784,22 @@
         "type": "github"
       }
     },
+    "dslide": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719365126,
+        "narHash": "sha256-sNW9Lj/uMFFRrBodj82TCJ0J5sVKXCLbh1dRUCWC9EI=",
+        "owner": "positron-solutions",
+        "repo": "dslide",
+        "rev": "55803bc16a729a1a8ed1e785405feac3cb53878e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "positron-solutions",
+        "repo": "dslide",
+        "type": "github"
+      }
+    },
     "dtrt-indent": {
       "flake": false,
       "locked": {
@@ -3108,6 +3124,7 @@
         "dired-subtree": "dired-subtree",
         "docker": "docker",
         "docker-compose-mode": "docker-compose-mode",
+        "dslide": "dslide",
         "dtrt-indent": "dtrt-indent",
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",

@@ -294,6 +294,12 @@
       repo = "docker-compose-mode";
       type = "github";
     };
+    dslide = {
+      flake = false;
+      owner = "positron-solutions";
+      repo = "dslide";
+      type = "github";
+    };
     dtrt-indent = {
       flake = false;
       owner = "jscheid";

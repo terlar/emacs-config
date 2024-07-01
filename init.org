@@ -3052,10 +3052,6 @@ Presentation mode.
    'org-tree-slide-mode-map
    "<right>" 'org-tree-slide-move-next-tree
    "<left>" 'org-tree-slide-move-previous-tree)
-  (:keymaps
-   'org-mode-map
-   :prefix local-leader-key
-   "p" 'org-tree-slide-mode)
   :init
   (setq org-tree-slide-header nil)
   (setq org-tree-slide-slide-in-effect nil))
@@ -4541,6 +4537,22 @@ Packages that I am currently testing or evaluating.
 ** dape
 #+begin_src emacs-lisp :tangle yes
 (use-package dape :ensure t)
+#+end_src
+
+** dslide
+#+begin_src emacs-lisp :tangle yes
+(use-package dslide
+  :ensure t
+  :hook
+  (dslide-start-hook . no-cursor-mode)
+  (dslide-start-hook . hide-mode-line-mode)
+  :init
+  (setq dslide-header nil)
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix local-leader-key
+   "p" 'dslide-deck-start))
 #+end_src
 
 ** eglot-x
