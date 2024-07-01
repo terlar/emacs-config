@@ -1334,6 +1334,16 @@ Zoom a window to display as a single window temporarily.
 #+end_src
 
 ** Buffer
+*** Cursor
+#+begin_src emacs-lisp :tangle yes
+(define-minor-mode no-cursor-mode
+    "Toggle hiding of the cursor."
+    :lighter " No Cursor"
+    (if no-cursor-mode
+        (setq cursor-type nil)
+      (kill-local-variable 'cursor-type)))
+#+end_src
+
 *** Visual Fill Column
 Wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
@@ -1844,15 +1854,11 @@ mark ring.
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-sidebar
   :ensure t
-  :preface
-  (defun init-dired-sidebar ()
-    (setq cursor-type nil)
-    (stripe-buffer-mode 0))
   :hook
   (dired-sidebar-mode-hook . hide-mode-line-mode)
   (dired-sidebar-mode-hook . hl-line-mode)
   (dired-sidebar-mode-hook . variable-pitch-mode)
-  (dired-sidebar-mode-hook . init-dired-sidebar)
+  (dired-sidebar-mode-hook . no-cursor-mode)
   :general
   (:prefix
    leader-key
@@ -1874,8 +1880,14 @@ Striped dired buffers.
 #+begin_src emacs-lisp :tangle yes
 (use-package stripe-buffer
   :ensure t
+  :commands (stripe-buffer-mode)
+  :functions (stripe-buffer-maybe-enable-for-dired)
   :hook
-  (dired-mode-hook . stripe-buffer-mode))
+  (dired-after-readin-hook . stripe-buffer-maybe-enable-for-dired)
+  :config
+  (defun stripe-buffer-maybe-enable-for-dired ()
+    (unless (derived-mode-p 'dired-sidebar-mode)
+      (stripe-buffer-mode 1))))
 #+end_src
 
 *** Icons
