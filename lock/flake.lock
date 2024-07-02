@@ -128,22 +128,6 @@
         "type": "github"
       }
     },
-    "attrap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691654924,
-        "narHash": "sha256-sQvCh3qYhSK1xRUZNkv8iSUxNxPlWCLFeZHbGG4OTgY=",
-        "owner": "jyp",
-        "repo": "attrap",
-        "rev": "bb61a4bc3d85a76e807f1ecede17031b51c8caed",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jyp",
-        "repo": "attrap",
-        "type": "github"
-      }
-    },
     "auto-compile": {
       "flake": false,
       "locked": {
@@ -189,22 +173,6 @@
       "original": {
         "owner": "abo-abo",
         "repo": "avy",
-        "type": "github"
-      }
-    },
-    "awscli-capf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1600320070,
-        "narHash": "sha256-ilwIblyM9WFkAmcSe4Tb+rnLSKJ5t9gw+MWU/50PAM4=",
-        "owner": "sebasmonia",
-        "repo": "awscli-capf",
-        "rev": "eadfb26b35802ae8164565581e4a9c4d0280a7b5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sebasmonia",
-        "repo": "awscli-capf",
         "type": "github"
       }
     },
@@ -381,22 +349,6 @@
       "original": {
         "owner": "ankurdave",
         "repo": "color-identifiers-mode",
-        "type": "github"
-      }
-    },
-    "comment-or-uncomment-sexp": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1551093729,
-        "narHash": "sha256-cmK3wityCreK28Eo3Wrz0QAtvnRIfQnLUV9lTArKHso=",
-        "owner": "Malabarba",
-        "repo": "comment-or-uncomment-sexp",
-        "rev": "bec730d3fc1e6c17ff1339eb134af16c034a4d95",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Malabarba",
-        "repo": "comment-or-uncomment-sexp",
         "type": "github"
       }
     },
@@ -2176,22 +2128,6 @@
         "type": "github"
       }
     },
-    "messages-are-flowing": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1572342847,
-        "narHash": "sha256-YX3USC/kHCxKPvZ2bV0nEFPTZ0IBzTjYt/Uob+JG8FE=",
-        "owner": "legoscia",
-        "repo": "messages-are-flowing",
-        "rev": "d582a564a63b7b90764ffc5c618bc5300225d0ab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "legoscia",
-        "repo": "messages-are-flowing",
-        "type": "github"
-      }
-    },
     "miniedit": {
       "flake": false,
       "locked": {
@@ -2432,22 +2368,6 @@
         "url": "https://git.sr.ht/~bzg/org-contrib"
       }
     },
-    "org-fragtog": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1692026451,
-        "narHash": "sha256-OZqEpDklnKnDh8doIpSJEO/HhGTYk+Hm2+ELie+zosQ=",
-        "owner": "io12",
-        "repo": "org-fragtog",
-        "rev": "562f6590843eeab30ac8aa2ced285aff8d590861",
-        "type": "github"
-      },
-      "original": {
-        "owner": "io12",
-        "repo": "org-fragtog",
-        "type": "github"
-      }
-    },
     "org-limit-image-size": {
       "flake": false,
       "locked": {
@@ -2509,22 +2429,6 @@
       "original": {
         "owner": "jakebox",
         "repo": "org-preview-html",
-        "type": "github"
-      }
-    },
-    "org-roam": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705261328,
-        "narHash": "sha256-XEM1EIVGigPeUtnPANlM3J3ueoVeCKPVLaPCbxN4Hcg=",
-        "owner": "org-roam",
-        "repo": "org-roam",
-        "rev": "8667e441876cd2583fbf7282a65796ea149f0e5f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "org-roam",
-        "repo": "org-roam",
         "type": "github"
       }
     },
@@ -3025,22 +2929,6 @@
         "type": "github"
       }
     },
-    "relative-buffers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1599560917,
-        "narHash": "sha256-FvpPgwo8TEvjYlwPXzC01TQlTpjHttWczX/K/9ey/XM=",
-        "owner": "terlar",
-        "repo": "relative-buffers",
-        "rev": "32b306b640faed00ef95f06f9f802feb3240ac1b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "relative-buffers",
-        "type": "github"
-      }
-    },
     "repl-toggle": {
       "flake": false,
       "locked": {
@@ -3083,11 +2971,9 @@
         "all-the-icons-dired": "all-the-icons-dired",
         "annotate": "annotate",
         "apheleia": "apheleia",
-        "attrap": "attrap",
         "auto-compile": "auto-compile",
         "auto-minor-mode": "auto-minor-mode",
         "avy": "avy",
-        "awscli-capf": "awscli-capf",
         "bbdb": "bbdb",
         "bibliothek": "bibliothek",
         "browse-at-remote": "browse-at-remote",
@@ -3099,7 +2985,6 @@
         "closql": "closql",
         "cobol-mode": "cobol-mode",
         "color-identifiers-mode": "color-identifiers-mode",
-        "comment-or-uncomment-sexp": "comment-or-uncomment-sexp",
         "compat": "compat",
         "compile-multi": "compile-multi",
         "consult": "consult",
@@ -3211,7 +3096,6 @@
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
         "mermaid-mode": "mermaid-mode",
-        "messages-are-flowing": "messages-are-flowing",
         "miniedit": "miniedit",
         "minitest": "minitest",
         "native-complete": "native-complete",
@@ -3227,12 +3111,10 @@
         "org-appear": "org-appear",
         "org-cliplink": "org-cliplink",
         "org-contrib": "org-contrib",
-        "org-fragtog": "org-fragtog",
         "org-limit-image-size": "org-limit-image-size",
         "org-modern": "org-modern",
         "org-noter": "org-noter",
         "org-preview-html": "org-preview-html",
-        "org-roam": "org-roam",
         "org-tree-slide": "org-tree-slide",
         "outline-minor-faces": "outline-minor-faces",
         "ox-epub": "ox-epub",
@@ -3264,7 +3146,6 @@
         "readable-typo-theme": "readable-typo-theme",
         "reformatter": "reformatter",
         "rego-mode": "rego-mode",
-        "relative-buffers": "relative-buffers",
         "repl-toggle": "repl-toggle",
         "request": "request",
         "rspec-mode": "rspec-mode",

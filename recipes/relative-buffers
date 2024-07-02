@@ -1,2 +1,0 @@
-(relative-buffers :fetcher github
-                  :repo "terlar/relative-buffers")

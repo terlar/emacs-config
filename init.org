@@ -1756,6 +1756,33 @@ Revert buffers when underlying files change.
   (after-init-hook . global-eldoc-mode))
 #+end_src
 
+*** epithet
+Descriptive buffer names or project relative paths for buffer names.
+#+begin_src emacs-lisp :tangle yes
+(use-package epithet
+  :ensure t
+  :functions
+  (epithet-relative-project-name)
+  :hook
+  (text-mode-hook . epithet-rename-buffer)
+  (prog-mode-hook . epithet-rename-buffer)
+  (Info-selection-hook . epithet-rename-buffer)
+  (eww-after-render-hook . epithet-rename-buffer)
+  (help-mode-hook . epithet-rename-buffer)
+  (occur-mode-hook . epithet-rename-buffer)
+  (shell-mode-hook . epithet-rename-buffer)
+  :config
+  (defun epithet-relative-project-name ()
+    (when-let ((project (project-current))
+               (buffer-file-name (buffer-file-name)))
+      (let* ((project-root (expand-file-name (project-root project)))
+             (prefix (file-name-directory (directory-file-name project-root)))
+             (buffer (expand-file-name buffer-file-name)))
+        (string-trim buffer prefix))))
+
+  (cl-pushnew #'epithet-relative-project-name epithet-suggesters :test #'equal))
+#+end_src
+
 *** hide-lines
 Hide lines in buffer based on a regular expressions.
 #+begin_src emacs-lisp :tangle yes
@@ -1795,16 +1822,6 @@ Display colors inline.
     org-mode-hook
     outline-mode-hook
     rst-mode-hook) . readable-mode))
-#+end_src
-
-*** relative-buffers
-#+begin_src emacs-lisp :tangle yes
-(use-package relative-buffers
-  :ensure t
-  :hook
-  (after-init-hook . global-relative-buffers-mode)
-  :init
-  (setq relative-buffers-project-prefix t))
 #+end_src
 
 *** wgrep-ag
@@ -4506,27 +4523,21 @@ Packages that I am currently testing or evaluating.
 
 ** adaptive-wrap
 #+begin_src emacs-lisp :tangle yes
-(use-package adaptive-wrap :ensure t)
+(use-package adaptive-wrap
+  :ensure t
+  :hook
+  (prog-mode-hook . adaptive-wrap-prefix-mode)
+  (text-mode-hook . adaptive-wrap-prefix-mode))
 #+end_src
 
 ** annotate
 #+begin_src emacs-lisp :tangle yes
-(use-package annotate :ensure t)
-#+end_src
-
-** attrap
-#+begin_src emacs-lisp :tangle yes
-(use-package attrap :ensure t)
-#+end_src
-
-** awscli-capf
-#+begin_src emacs-lisp :tangle yes
-(use-package awscli-capf :ensure t)
-#+end_src
-
-** comment-or-uncomment-sexp
-#+begin_src emacs-lisp :tangle yes
-(use-package comment-or-uncomment-sexp :ensure t)
+(use-package annotate
+  :ensure t
+  :general
+  (:prefix
+   toggle-prefix
+   "a" '(annotate-mode :wk "Annotate")))
 #+end_src
 
 ** consult-git-log-grep
@@ -4540,8 +4551,7 @@ Packages that I am currently testing or evaluating.
 
 ** consult-jump-project
 #+begin_src emacs-lisp :tangle yes
-(use-package consult-jump-project
-  :ensure t)
+(use-package consult-jump-project :ensure t)
 #+end_src
 
 ** dape
@@ -4585,16 +4595,6 @@ Packages that I am currently testing or evaluating.
   (setq ellama-auto-scroll t))
 #+end_src
 
-** elsa
-#+begin_src emacs-lisp :tangle yes
-(use-package elsa :disabled t)
-#+end_src
-
-** epithet
-#+begin_src emacs-lisp :tangle yes
-(use-package epithet :ensure t)
-#+end_src
-
 ** freeze-it
 #+begin_src emacs-lisp :tangle yes
 (use-package freeze-it :ensure t)
@@ -4611,24 +4611,9 @@ Packages that I am currently testing or evaluating.
   (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
-** messages-are-flowing
-#+begin_src emacs-lisp :tangle yes
-(use-package messages-are-flowing :ensure t)
-#+end_src
-
 ** native-complete
 #+begin_src emacs-lisp :tangle yes
 (use-package native-complete :ensure t)
-#+end_src
-
-** org-fragtog
-#+begin_src emacs-lisp :tangle yes
-(use-package org-fragtog :ensure t)
-#+end_src
-
-** org-roam
-#+begin_src emacs-lisp :tangle yes
-(use-package org-roam :ensure t)
 #+end_src
 
 ** paimon

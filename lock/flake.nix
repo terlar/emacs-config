@@ -50,12 +50,6 @@
       repo = "apheleia";
       type = "github";
     };
-    attrap = {
-      flake = false;
-      owner = "jyp";
-      repo = "attrap";
-      type = "github";
-    };
     auto-compile = {
       flake = false;
       owner = "emacscollective";
@@ -72,12 +66,6 @@
       flake = false;
       owner = "abo-abo";
       repo = "avy";
-      type = "github";
-    };
-    awscli-capf = {
-      flake = false;
-      owner = "sebasmonia";
-      repo = "awscli-capf";
       type = "github";
     };
     bbdb = {
@@ -142,12 +130,6 @@
       flake = false;
       owner = "ankurdave";
       repo = "color-identifiers-mode";
-      type = "github";
-    };
-    comment-or-uncomment-sexp = {
-      flake = false;
-      owner = "Malabarba";
-      repo = "comment-or-uncomment-sexp";
       type = "github";
     };
     compat = {
@@ -814,12 +796,6 @@
       repo = "mermaid-mode";
       type = "github";
     };
-    messages-are-flowing = {
-      flake = false;
-      owner = "legoscia";
-      repo = "messages-are-flowing";
-      type = "github";
-    };
     miniedit = {
       flake = false;
       owner = "emacsorphanage";
@@ -909,12 +885,6 @@
       type = "git";
       url = "https://git.sr.ht/~bzg/org-contrib";
     };
-    org-fragtog = {
-      flake = false;
-      owner = "io12";
-      repo = "org-fragtog";
-      type = "github";
-    };
     org-limit-image-size = {
       flake = false;
       owner = "misohena";
@@ -937,12 +907,6 @@
       flake = false;
       owner = "jakebox";
       repo = "org-preview-html";
-      type = "github";
-    };
-    org-roam = {
-      flake = false;
-      owner = "org-roam";
-      repo = "org-roam";
       type = "github";
     };
     org-tree-slide = {
@@ -1130,12 +1094,6 @@
       flake = false;
       owner = "psibi";
       repo = "rego-mode";
-      type = "github";
-    };
-    relative-buffers = {
-      flake = false;
-      owner = "terlar";
-      repo = "relative-buffers";
       type = "github";
     };
     repl-toggle = {
