@@ -4572,11 +4572,6 @@ Packages that I am currently testing or evaluating.
     (global-no-fringes-mode 0)))
 #+end_src
 
-** eglot-x
-#+begin_src emacs-lisp :tangle yes
-(use-package eglot-x :ensure t)
-#+end_src
-
 ** elfeed
 #+begin_src emacs-lisp :tangle yes
 (use-package elfeed :ensure t)

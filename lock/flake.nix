@@ -218,7 +218,7 @@
     };
     d2-mode = {
       flake = false;
-      owner = "terlar";
+      owner = "andorsk";
       repo = "d2-mode";
       type = "github";
     };
@@ -322,12 +322,6 @@
       flake = false;
       owner = "Fanael";
       repo = "edit-indirect";
-      type = "github";
-    };
-    eglot-x = {
-      flake = false;
-      owner = "nemethf";
-      repo = "eglot-x";
       type = "github";
     };
     elfeed = {
@@ -559,7 +553,7 @@
     };
     grugru = {
       flake = false;
-      owner = "terlar";
+      owner = "ROCKTAKEY";
       repo = "grugru";
       type = "github";
     };
@@ -882,8 +876,9 @@
     };
     nov = {
       flake = false;
-      type = "git";
-      url = "https://depp.brause.cc/nov.el.git";
+      owner = "emacsmirror";
+      repo = "nov";
+      type = "github";
     };
     ob-http = {
       flake = false;
