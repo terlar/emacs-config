@@ -373,15 +373,21 @@ Dedicated window:
 
 Fringe control:
 #+begin_src emacs-lisp :tangle yes
-(defun no-fringes ()
-  "Remove all fringes."
-  (interactive)
-  (set-window-fringes (selected-window) 0 0 nil))
+(define-minor-mode no-fringes-mode
+  "Toggle hiding of fringes."
+  :lighter " No Fringes"
+  (if no-fringes-mode
+      (set-window-fringes nil 0 0 nil)
+    (set-window-fringes nil left-fringe-width right-fringe-width t)))
 
-(defun restore-fringes ()
-  "Restore fringes."
-  (interactive)
-  (set-window-fringes (selected-window) 8 8 t))
+(define-minor-mode global-no-fringes-mode
+  "Toggle hiding of fringes globally."
+  :global t
+  :group 'fringe
+  :lighter " No Fringes"
+  (if global-no-fringes-mode
+        (set-fringe-style 0)
+      (set-fringe-style nil)))
 #+end_src
 
 ** History
@@ -3045,8 +3051,7 @@ Presentation mode.
   :hook
   (org-tree-slide-play-hook . turn-on-hide-mode-line-mode)
   (org-tree-slide-stop-hook . turn-off-hide-mode-line-mode)
-  (org-tree-slide-play-hook . no-fringes)
-  (org-tree-slide-stop-hook . restore-fringes)
+  (org-tree-slide-play-hook . no-fringes-mode)
   :general
   (:keymaps
    'org-tree-slide-mode-map
@@ -3334,7 +3339,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
     (run-with-idle-timer 0.2 nil 'nov-render-document))
   :hook
   (nov-mode-hook . init-nov-delayed-render)
-  (nov-mode-hook . no-fringes)
+  (nov-mode-hook . no-fringes-mode)
   :init
   (setq nov-save-place-file (concat data-dir "nov-places")))
 #+end_src
@@ -4543,16 +4548,23 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package dslide
   :ensure t
+  :functions
+  (dslide-stop-restore-modes)
   :hook
   (dslide-start-hook . no-cursor-mode)
+  (dslide-start-hook . global-no-fringes-mode)
   (dslide-start-hook . hide-mode-line-mode)
-  :init
-  (setq dslide-header nil)
+  (dslide-stop-hook . dslide-stop-restore-modes)
   :general
   (:keymaps
    'org-mode-map
    :prefix local-leader-key
-   "p" 'dslide-deck-start))
+   "p" 'dslide-deck-start)
+  :init
+  (setq dslide-header nil)
+  :config
+  (defun dslide-stop-restore-modes ()
+    (global-no-fringes-mode 0)))
 #+end_src
 
 ** eglot-x
