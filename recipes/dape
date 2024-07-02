@@ -1,2 +1,0 @@
-(dape :fetcher github
-      :repo "svaante/dape")

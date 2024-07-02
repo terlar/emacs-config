@@ -1,2 +1,0 @@
-(eglot-x :fetcher github
-         :repo "nemethf/eglot-x")

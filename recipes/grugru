@@ -1,2 +1,0 @@
-(grugru :fetcher github
-	:repo "terlar/grugru")

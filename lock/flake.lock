@@ -579,15 +579,15 @@
     "d2-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1718138852,
-        "narHash": "sha256-xIIVz+aQL24vI9kbRkb/5AK7p0n1G/OTJSE1Gi0304Q=",
-        "owner": "terlar",
+        "lastModified": 1719858633,
+        "narHash": "sha256-dJOSDDTY7i2zupZoY1LyZ+aqQ3oLka3ZVHPvSZOh0z0=",
+        "owner": "andorsk",
         "repo": "d2-mode",
-        "rev": "fb46d45e0223a095c904983aebea3d40f8d1a8b9",
+        "rev": "6dc1ae9240476efcfe01396ec766e322be3978a2",
         "type": "github"
       },
       "original": {
-        "owner": "terlar",
+        "owner": "andorsk",
         "repo": "d2-mode",
         "type": "github"
       }
@@ -784,6 +784,22 @@
         "type": "github"
       }
     },
+    "dslide": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719365126,
+        "narHash": "sha256-sNW9Lj/uMFFRrBodj82TCJ0J5sVKXCLbh1dRUCWC9EI=",
+        "owner": "positron-solutions",
+        "repo": "dslide",
+        "rev": "55803bc16a729a1a8ed1e785405feac3cb53878e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "positron-solutions",
+        "repo": "dslide",
+        "type": "github"
+      }
+    },
     "dtrt-indent": {
       "flake": false,
       "locked": {
@@ -845,22 +861,6 @@
       "original": {
         "owner": "Fanael",
         "repo": "edit-indirect",
-        "type": "github"
-      }
-    },
-    "eglot-x": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1719135486,
-        "narHash": "sha256-21MPN3m5AhoAccx+wuqD6HMyTww48MK7FZfChjmvz38=",
-        "owner": "nemethf",
-        "repo": "eglot-x",
-        "rev": "a7994d19f4f98ba8d943ee4c55c5082ec2d8b82f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nemethf",
-        "repo": "eglot-x",
         "type": "github"
       }
     },
@@ -1475,15 +1475,15 @@
     "grugru": {
       "flake": false,
       "locked": {
-        "lastModified": 1701430883,
-        "narHash": "sha256-wYaHvNSlIf7VObpE2SGS0G3ZEUwg3+QsfXhqeppoECo=",
-        "owner": "terlar",
+        "lastModified": 1701485408,
+        "narHash": "sha256-UmX/fHRy6/xWByVpLWk0uBGQXOTPKVPKkVuCzoWx/fM=",
+        "owner": "ROCKTAKEY",
         "repo": "grugru",
-        "rev": "12f9a0a9daee14bc84c18e691a781a870806e616",
+        "rev": "3f1bc431f4dc919a7b04e519f1c8add9fb2949f3",
         "type": "github"
       },
       "original": {
-        "owner": "terlar",
+        "owner": "ROCKTAKEY",
         "repo": "grugru",
         "type": "github"
       }
@@ -2341,15 +2341,15 @@
       "locked": {
         "lastModified": 1712492399,
         "narHash": "sha256-Voefw5NBDh+BSQpNTZGBKNdVW2+zHIpBo3Mh/VHwnYI=",
-        "ref": "refs/heads/master",
+        "owner": "emacsmirror",
+        "repo": "nov",
         "rev": "9b7bef950d68c2518710c480729d6bb6026e9489",
-        "revCount": 138,
-        "type": "git",
-        "url": "https://depp.brause.cc/nov.el.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://depp.brause.cc/nov.el.git"
+        "owner": "emacsmirror",
+        "repo": "nov",
+        "type": "github"
       }
     },
     "ob-http": {
@@ -2381,6 +2381,22 @@
       "original": {
         "owner": "oantolin",
         "repo": "orderless",
+        "type": "github"
+      }
+    },
+    "org-appear": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1701082331,
+        "narHash": "sha256-pqea/nXJlZpAnr4wioGThWX0qwqxFT+dtjD0fG7LAso=",
+        "owner": "awth13",
+        "repo": "org-appear",
+        "rev": "81eba5d7a5b74cdb1bad091d85667e836f16b997",
+        "type": "github"
+      },
+      "original": {
+        "owner": "awth13",
+        "repo": "org-appear",
         "type": "github"
       }
     },
@@ -3108,11 +3124,11 @@
         "dired-subtree": "dired-subtree",
         "docker": "docker",
         "docker-compose-mode": "docker-compose-mode",
+        "dslide": "dslide",
         "dtrt-indent": "dtrt-indent",
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",
         "edit-indirect": "edit-indirect",
-        "eglot-x": "eglot-x",
         "elfeed": "elfeed",
         "elisp-refs": "elisp-refs",
         "ellama": "ellama",
@@ -3208,6 +3224,7 @@
         "nov": "nov",
         "ob-http": "ob-http",
         "orderless": "orderless",
+        "org-appear": "org-appear",
         "org-cliplink": "org-cliplink",
         "org-contrib": "org-contrib",
         "org-fragtog": "org-fragtog",

@@ -1,0 +1,2 @@
+(nov :fetcher github
+     :repo "emacsmirror/nov")
