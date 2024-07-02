@@ -2400,6 +2400,22 @@
         "type": "github"
       }
     },
+    "org-appear": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1701082331,
+        "narHash": "sha256-pqea/nXJlZpAnr4wioGThWX0qwqxFT+dtjD0fG7LAso=",
+        "owner": "awth13",
+        "repo": "org-appear",
+        "rev": "81eba5d7a5b74cdb1bad091d85667e836f16b997",
+        "type": "github"
+      },
+      "original": {
+        "owner": "awth13",
+        "repo": "org-appear",
+        "type": "github"
+      }
+    },
     "org-cliplink": {
       "flake": false,
       "locked": {
@@ -3225,6 +3241,7 @@
         "nov": "nov",
         "ob-http": "ob-http",
         "orderless": "orderless",
+        "org-appear": "org-appear",
         "org-cliplink": "org-cliplink",
         "org-contrib": "org-contrib",
         "org-fragtog": "org-fragtog",

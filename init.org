@@ -3089,6 +3089,11 @@ This sections makes ~org-mode~ look more beautiful and appealing.
   :init
   (setq org-modern-hide-stars t)
   (setq org-modern-table nil))
+
+(use-package org-appear
+  :ensure t
+  :hook
+  (org-mode-hook . org-appear-mode))
 #+end_src
 
 **** Emphasis

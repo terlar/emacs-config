@@ -897,6 +897,12 @@
       repo = "orderless";
       type = "github";
     };
+    org-appear = {
+      flake = false;
+      owner = "awth13";
+      repo = "org-appear";
+      type = "github";
+    };
     org-cliplink = {
       flake = false;
       owner = "rexim";
