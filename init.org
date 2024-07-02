@@ -1053,11 +1053,6 @@ Completion Overlay Region FUnction.
   (corfu-mode
    corfu-indexed-mode
    global-corfu-mode)
-  :preface
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu completion in the minibuffer, e.g., `eval-expression'."
-    (when (where-is-internal #'completion-at-point (list (current-local-map)))
-      (corfu-mode 1)))
   :hook
   (minibuffer-setup-hook . corfu-enable-in-minibuffer)
   (corfu-mode-hook . corfu-popupinfo-mode)
@@ -1075,7 +1070,12 @@ Completion Overlay Region FUnction.
   (setq corfu-cycle t)
   (setq corfu-preselect 'first)
   (global-corfu-mode 1)
-  (corfu-indexed-mode 1))
+  (corfu-indexed-mode 1)
+  :config
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu completion in the minibuffer, e.g., `eval-expression'."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1))))
 #+end_src
 
 ** Minibuffer
@@ -1124,11 +1124,6 @@ Vertical interactive completion UI.
   :commands
   (cape-wrap-silent
    cape-wrap-purify)
-  :preface
-  (defun init-cape-capf ()
-    (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
-    (cl-pushnew #'cape-elisp-symbol completion-at-point-functions :test #'equal)
-    (cl-pushnew #'cape-file completion-at-point-functions :test #'equal))
   :hook
   (prog-mode-hook . init-cape-capf)
   :general
@@ -1151,6 +1146,11 @@ Vertical interactive completion UI.
    "&" 'cape-sgml
    "r" 'cape-rfc1345)
   :config
+  (defun init-cape-capf ()
+    (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
+    (cl-pushnew #'cape-elisp-symbol completion-at-point-functions :test #'equal)
+    (cl-pushnew #'cape-file completion-at-point-functions :test #'equal))
+
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 #+end_src
@@ -1159,8 +1159,6 @@ Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
-  :preface
-  (autoload 'consult-xref "consult-xref")
   :general
   ([remap bookmark-jump] 'consult-bookmark
    [remap goto-line] 'consult-goto-line
@@ -1175,11 +1173,15 @@ Vertical interactive completion UI.
    "m" 'consult-mark
    "M-m" 'consult-global-mark)
   :init
-  (setq consult-preview-key "M-RET")
-  (eval-when-compile (require 'xref))
-  (with-eval-after-load 'xref
-    (setq xref-show-xrefs-function #'consult-xref)
-    (setq xref-show-definitions-function #'consult-xref)))
+  (setq consult-preview-key "M-RET"))
+
+(use-package consult-xref
+  :after xref
+  :functions
+  (consult-xref)
+  :init
+  (setq xref-show-xrefs-function #'consult-xref)
+  (setq xref-show-definitions-function #'consult-xref))
 #+end_src
 
 *** dabbrev
@@ -1403,17 +1405,19 @@ Automatic parenthesis pairing and highlighting.
   :ensure t
   :commands
   (tempel-expand)
-  :preface
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
   :hook
   (prog-mode-hook . tempel-setup-capf)
   (text-mode-hook . tempel-setup-capf)
   :general
   ("M-+" 'tempel-complete)
-  ("M-*" 'tempel-insert))
+  ("M-*" 'tempel-insert)
+  :config
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+
+  (setq tempel-path (concat user-emacs-directory "templates")))
 #+end_src
 
 ** Packages
@@ -1457,13 +1461,10 @@ Cycle through words, symbols and patterns.
 #+begin_src emacs-lisp :tangle yes
 (use-package grugru
   :ensure t
-  :commands
-  (grugru-default-setup
-   grugru-define-global
+  :functions
+  (grugru-define-global
    grugru-define-on-major-mode)
   :preface
-  (eval-when-compile
-    (require 'grugru-default))
   (defrepeater #'grugru-backward)
   (defrepeater #'grugru-forward)
   :general
@@ -1476,10 +1477,14 @@ Cycle through words, symbols and patterns.
   ([remap grugru-backward] 'grugru-backward-repeat
    [remap grugru-forward] 'grugru-forward-repeat)
   :config
-  (grugru-default-setup)
   (grugru-define-global 'symbol '("assert" "refute"))
   (grugru-define-global 'symbol '("true" "false"))
   (grugru-define-global 'symbol '("yes" "no")))
+
+(use-package grugru-default
+  :after grugru
+  :functions grugru-default-setup
+  :init (grugru-default-setup))
 #+end_src
 
 *** puni
@@ -1491,7 +1496,26 @@ Structured editing with soft deletion and balanced expressions.
   (puni-kill-line
    puni-kill-active-region
    puni-mark-list-around-point)
-  :preface
+  :hook
+  (after-init-hook . puni-global-mode)
+  :general
+  (:prefix
+   toggle-prefix
+   toggle-prefix '(puni-mode :wk "Structured editing"))
+  (:keymaps
+   'puni-mode-map
+   [remap transpose-sexps] 'puni-transpose
+   "M-W" 'puni-kill-ring-save-line
+   "M-'" 'puni-kill-list-around-point
+   "M-D" 'puni-splice
+   "M-R" 'puni-squeeze
+   "M-S <" 'puni-wrap-angle
+   "M-S {" 'puni-wrap-curly
+   "M-S (" 'puni-wrap-round
+   "M-S [" 'puni-wrap-square
+   "C-w" 'puni-whole-line-or-region-kill
+   "M-w" 'puni-whole-line-or-region-kill-ring-save)
+  :config
   (defun puni-kill-ring-save-line (arg)
     "Save whole structured line(s) based on ARG or active region."
     (interactive "P")
@@ -1519,26 +1543,7 @@ Structured editing with soft deletion and balanced expressions.
   (defun puni-kill-list-around-point ()
     (interactive)
     (puni-mark-list-around-point)
-    (kill-region nil nil t))
-  :hook
-  (after-init-hook . puni-global-mode)
-  :general
-  (:prefix
-   toggle-prefix
-   toggle-prefix '(puni-mode :wk "Structured editing"))
-  (:keymaps
-   'puni-mode-map
-   [remap transpose-sexps] 'puni-transpose
-   "M-W" 'puni-kill-ring-save-line
-   "M-'" 'puni-kill-list-around-point
-   "M-D" 'puni-splice
-   "M-R" 'puni-squeeze
-   "M-S <" 'puni-wrap-angle
-   "M-S {" 'puni-wrap-curly
-   "M-S (" 'puni-wrap-round
-   "M-S [" 'puni-wrap-square
-   "C-w" 'puni-whole-line-or-region-kill
-   "M-w" 'puni-whole-line-or-region-kill-ring-save))
+    (kill-region nil nil t)))
 #+end_src
 
 *** string-inflection
@@ -1756,6 +1761,33 @@ Revert buffers when underlying files change.
   (after-init-hook . global-eldoc-mode))
 #+end_src
 
+*** epithet
+Descriptive buffer names or project relative paths for buffer names.
+#+begin_src emacs-lisp :tangle yes
+(use-package epithet
+  :ensure t
+  :functions
+  (epithet-relative-project-name)
+  :hook
+  (text-mode-hook . epithet-rename-buffer)
+  (prog-mode-hook . epithet-rename-buffer)
+  (Info-selection-hook . epithet-rename-buffer)
+  (eww-after-render-hook . epithet-rename-buffer)
+  (help-mode-hook . epithet-rename-buffer)
+  (occur-mode-hook . epithet-rename-buffer)
+  (shell-mode-hook . epithet-rename-buffer)
+  :config
+  (defun epithet-relative-project-name ()
+    (when-let ((project (project-current))
+               (buffer-file-name (buffer-file-name)))
+      (let* ((project-root (expand-file-name (project-root project)))
+             (prefix (file-name-directory (directory-file-name project-root)))
+             (buffer (expand-file-name buffer-file-name)))
+        (string-trim buffer prefix))))
+
+  (cl-pushnew #'epithet-relative-project-name epithet-suggesters :test #'equal))
+#+end_src
+
 *** hide-lines
 Hide lines in buffer based on a regular expressions.
 #+begin_src emacs-lisp :tangle yes
@@ -1795,16 +1827,6 @@ Display colors inline.
     org-mode-hook
     outline-mode-hook
     rst-mode-hook) . readable-mode))
-#+end_src
-
-*** relative-buffers
-#+begin_src emacs-lisp :tangle yes
-(use-package relative-buffers
-  :ensure t
-  :hook
-  (after-init-hook . global-relative-buffers-mode)
-  :init
-  (setq relative-buffers-project-prefix t))
 #+end_src
 
 *** wgrep-ag
@@ -2008,13 +2030,18 @@ Move point through buffer-undo-list positions.
 #+begin_src emacs-lisp :tangle yes
 (use-package goto-chg
   :ensure t
+  :preface
+  (defrepeater #'goto-last-change)
+  (defrepeater #'goto-last-change-reverse)
   :general
   (:prefix
    next-prefix
    "l" '(goto-last-change :wk "Change"))
   (:prefix
    prev-prefix
-   "l" '(goto-last-change-reverse :wk "Change")))
+   "l" '(goto-last-change-reverse :wk "Change"))
+  ([remap goto-last-change] 'goto-last-change-repeat
+   [remap goto-last-change-reverse] 'goto-last-change-reverse-repeat))
 #+end_src
 
 *** link-hint
@@ -2067,7 +2094,9 @@ Keep track of last point place to resume editing in the same file.
 Retrieve project list via ghq.
 #+begin_src emacs-lisp :tangle yes
 (use-package project
-  :preface
+  :commands
+  (project-read-project-list-from-ghq)
+  :config
   (defun project-read-project-list-from-ghq ()
     "Initialize `project--list' using contents of command ghq output."
     (interactive)
@@ -2080,7 +2109,7 @@ Retrieve project list via ghq.
          project--list
          :test #'equal)
         (forward-line 1))))
-  :init
+
   (advice-add 'project--read-project-list :after #'project-read-project-list-from-ghq))
 #+end_src
 
@@ -2094,18 +2123,22 @@ Reduce scroll margin.
 #+end_src
 
 ** Compilation
-Kill compilation process before stating another and save all buffers on ~compile~.
+Kill compilation process before starting another and save all buffers on ~compile~. Also there is
+~compile-on-save-mode~ that will compile when files are saved, compilation buffer will only be displayed on error.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
   :functions
-  (compilation-find-buffer)
+  (compilation-find-buffer
+   compilation-finish-handle-buffer-display)
+  :general
+  (:keymaps
+   'global
+   :prefix
+   local-leader-key
+   "a" 'compile-on-save-mode
+   "c" 'recompile
+   "C" 'compile)
   :preface
-  (defun compile-on-save-start ()
-    (let ((compile-buffer (compilation-find-buffer)))
-      (unless (get-buffer-process compile-buffer)
-        (let ((display-buffer-alist '(("^*compilation*" . (display-buffer-no-window)))))
-          (recompile)))))
-
   (define-minor-mode compile-on-save-mode
     "Minor mode to automatically call `recompile' whenever the
 current buffer is saved. When there is ongoing compilation,
@@ -2116,7 +2149,21 @@ nothing happens."
                 (add-hook 'after-save-hook 'compile-on-save-start nil t))
       (kill-local-variable 'after-save-hook)))
 
-  (defun compile-finish-handle-buffer-display (buffer outstr)
+  (make-variable-buffer-local 'compile-command)
+  :init
+  (setq compilation-always-kill t)
+  (setq compilation-ask-about-save nil)
+  (setq compilation-scroll-output t)
+
+  (put 'compile-command 'safe-local-variable 'stringp)
+  :config
+  (defun compile-on-save-start ()
+    (let ((compile-buffer (compilation-find-buffer)))
+      (unless (get-buffer-process compile-buffer)
+        (let ((display-buffer-alist '(("^*compilation*" . (display-buffer-no-window)))))
+          (recompile)))))
+
+  (defun compilation-finish-handle-buffer-display (buffer outstr)
     "Display failed compilation buffer or burry finished ones."
     (let ((compilation-window (get-buffer-window buffer)))
       (cond
@@ -2131,24 +2178,8 @@ nothing happens."
         ;; bury that buffer.
         (with-selected-window compilation-window
           (bury-buffer))))))
-  :general
-  (:keymaps
-   'global
-   :prefix
-   local-leader-key
-   "a" 'compile-on-save-mode
-   "c" 'recompile
-   "C" 'compile)
-  :init
-  (setq compilation-always-kill t)
-  (setq compilation-ask-about-save nil)
-  (setq compilation-scroll-output t)
 
-  (cl-pushnew #'compile-finish-handle-buffer-display compilation-finish-functions :test #'equal)
-
-  (put 'compile-command 'safe-local-variable 'stringp))
-
-(make-variable-buffer-local 'compile-command)
+  (cl-pushnew #'compilation-finish-handle-buffer-display compilation-finish-functions :test #'equal))
 #+end_src
 
 *** compile-multi
@@ -2222,8 +2253,15 @@ Support for Docker related files.
 (use-package cov
   :ensure t
   :commands
-  (cov-mode)
-  :preface
+  (cov-mode
+   cov-mode-toggle)
+  :general
+  (:prefix
+   local-leader-key
+   "v" 'cov-mode-toggle)
+  :init
+  (setq cov-coverage-mode t)
+  :config
   (defun cov-mode-toggle ()
     "Turn on `cov-mode'."
     (interactive)
@@ -2232,13 +2270,7 @@ Support for Docker related files.
         (cov-mode 0)
       (unless cov-lcov-file-name
         (setq cov-lcov-file-name (expand-file-name "lcov.info" (project-root (project-current)))))
-      (cov-mode 1)))
-  :general
-  (:prefix
-   local-leader-key
-   "v" 'cov-mode-toggle)
-  :init
-  (setq cov-coverage-mode t))
+      (cov-mode 1))))
 #+end_src
 
 ** Docs
@@ -2268,11 +2300,8 @@ Lookup documentation via DevDocs.
 Code folding.
 #+begin_src emacs-lisp :tangle yes
 (use-package hideshow
-  :preface
-  (defun hs-fold-overlay-ellipsis (ov)
-    (when (eq 'code (overlay-get ov 'hs))
-      (overlay-put
-       ov 'display (propertize " … " 'face 'font-lock-comment-face))))
+  :functions
+  (hs-fold-overlay-ellipsis)
   :hook
   (prog-mode-hook . hs-minor-mode)
   :general
@@ -2289,7 +2318,12 @@ Code folding.
   :init
   (setq hs-hide-comments-when-hiding-all nil)
   (setq hs-allow-nesting t)
-  (setq hs-set-up-overlay #'hs-fold-overlay-ellipsis))
+  (setq hs-set-up-overlay #'hs-fold-overlay-ellipsis)
+  :config
+  (defun hs-fold-overlay-ellipsis (ov)
+    (when (eq 'code (overlay-get ov 'hs))
+      (overlay-put
+       ov 'display (propertize " … " 'face 'font-lock-comment-face)))))
 #+end_src
 
 ** Formatting
@@ -2364,16 +2398,9 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
   :ensure t
-  :preface
-  (defun clojure-repl ()
-    "Open a Clojure REPL."
-    (interactive)
-    (pop-to-buffer (cider-current-repl nil 'ensure)))
-
-  (defun lua-repl ()
-    "Open a Lua REPL."
-    (interactive)
-    (pop-to-buffer (process-buffer (lua-get-create-process))))
+  :commands
+  (clojure-repl
+   lua-repl)
   :general
   (:keymaps
    'prog-mode-map
@@ -2386,7 +2413,17 @@ Don't ask about keeping current list of tags tables.
           (clojure-mode . clojure-repl)
           (elm-mode . elm-repl-load)
           (lua-mode . lua-repl)
-          (racket-mode . racket-repl))))
+          (racket-mode . racket-repl)))
+  :config
+  (defun clojure-repl ()
+    "Open a Clojure REPL."
+    (interactive)
+    (pop-to-buffer (cider-current-repl nil 'ensure)))
+
+  (defun lua-repl ()
+    "Open a Lua REPL."
+    (interactive)
+    (pop-to-buffer (process-buffer (lua-get-create-process)))))
 #+end_src
 
 *** Persistent history in comint
@@ -2428,23 +2465,6 @@ legacy diagnostic functions as some of them have bugs and cause instability (mai
 Haskell one).
 #+begin_src emacs-lisp :tangle yes
 (use-package flymake
-  :preface
-  (defun flymake-setup-next-error-function ()
-    (setq next-error-function 'flymake-next-error-compat))
-
-  (defun flymake-next-error-compat (&optional n _)
-    (flymake-goto-next-error n))
-
-  (defun flymake-diagnostics-next-error ()
-    (interactive)
-    (forward-line)
-    (when (eobp) (forward-line -1))
-    (flymake-show-diagnostic (point)))
-
-  (defun flymake-diagnostics-prev-error ()
-    (interactive)
-    (forward-line -1)
-    (flymake-show-diagnostic (point)))
   :hook
   (flymake-mode-hook . flymake-setup-next-error-function)
   :general
@@ -2467,7 +2487,24 @@ Haskell one).
    "p" 'flymake-diagnostics-prev-error
    "j" 'flymake-diagnostics-next-error
    "k" 'flymake-diagnostics-prev-error
-   "TAB" 'flymake-show-diagnostic))
+   "TAB" 'flymake-show-diagnostic)
+  :config
+  (defun flymake-setup-next-error-function ()
+    (setq next-error-function 'flymake-next-error-compat))
+
+  (defun flymake-next-error-compat (&optional n _)
+    (flymake-goto-next-error n))
+
+  (defun flymake-diagnostics-next-error ()
+    (interactive)
+    (forward-line)
+    (when (eobp) (forward-line -1))
+    (flymake-show-diagnostic (point)))
+
+  (defun flymake-diagnostics-prev-error ()
+    (interactive)
+    (forward-line -1)
+    (flymake-show-diagnostic (point))))
 
 (use-package flymake-proc
   :config
@@ -2517,11 +2554,21 @@ Open link to files in the web UI connected to a repository.
 - Add a third resolution option, copy both A and B to C
 #+begin_src emacs-lisp :tangle yes
 (use-package ediff
+  :commands
+  (ediff-copy-both-to-C)
   :preface
   (autoload 'ediff-copy-diff "ediff-util")
   (autoload 'ediff-get-region-contents "ediff-util")
   (autoload 'ediff-setup-windows-plain "ediff-wind")
-
+  :hook
+  (ediff-quit-hook . winner-undo)
+  (ediff-keymap-setup-hook . init-ediff-keys)
+  :init
+  (setq ediff-diff-options "-w")
+  (setq ediff-merge-split-window-function #'split-window-horizontally)
+  (setq ediff-split-window-function #'split-window-horizontally)
+  (setq ediff-window-setup-function #'ediff-setup-windows-plain)
+  :config
   (defun ediff-copy-both-to-C ()
     "Copy change from both A and B to C."
     (interactive)
@@ -2537,15 +2584,7 @@ Open link to files in the web UI connected to a repository.
      :keymaps 'ediff-mode-map
      "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
      "j" '(ediff-next-difference     :wk "Next difference")
-     "k" '(ediff-previous-difference :wk "Previous difference")))
-  :hook
-  (ediff-quit-hook . winner-undo)
-  (ediff-keymap-setup-hook . init-ediff-keys)
-  :init
-  (setq ediff-diff-options "-w")
-  (setq ediff-merge-split-window-function #'split-window-horizontally)
-  (setq ediff-split-window-function #'split-window-horizontally)
-  (setq ediff-window-setup-function #'ediff-setup-windows-plain))
+     "k" '(ediff-previous-difference :wk "Previous difference"))))
 #+end_src
 
 *** diff-hl
@@ -2589,12 +2628,23 @@ Enhanced git related views and commands.
 (use-package magit
   :ensure t
   :defer 2
+  :functions
+  (magit-process-ask-create-pull-request)
   :preface
   (autoload 'magit-show-commit "magit-diff" nil t)
-
-  (eval-when-compile
-    (require 'vc-msg-git))
-  (defun +git-commit-set-fill-column ()
+  :hook
+  (git-commit-mode-hook . git-commit-set-fill-column)
+  :general
+  (:keymaps
+   'dired-mode-map
+   "C-x g" 'magit)
+  :init
+  (setq magit-log-buffer-file-locked t)
+  (setq magit-refs-show-commit-count 'all)
+  (setq magit-save-repository-buffers 'dontask)
+  (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
+  :config
+  (defun git-commit-set-fill-column ()
     "Set `fill-column' for git commit."
     (setq fill-column 72))
 
@@ -2609,18 +2659,7 @@ Enhanced git related views and commands.
             (inhibit-message t))
         (if (y-or-n-p "Create PR? ")
             (browse-url (url-encode-url url))))))
-  :hook
-  (git-commit-mode-hook . +git-commit-set-fill-column)
-  :general
-  (:keymaps
-   'dired-mode-map
-   "C-x g" 'magit)
-  :init
-  (setq magit-log-buffer-file-locked t)
-  (setq magit-refs-show-commit-count 'all)
-  (setq magit-save-repository-buffers 'dontask)
-  (setq magit-process-prompt-functions #'magit-process-ask-create-pull-request)
-  :config
+
   ;; Unset pager as it is not supported properly inside emacs.
   (setenv "GIT_PAGER" ""))
 #+end_src
@@ -2893,13 +2932,13 @@ Evaluation results in overlay.
   :commands (package-lint-flymake-setup)
   :preface
   (autoload 'package-lint--provided-feature "package-lint")
-
+  :hook
+  (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package)
+  :config
   (defun package-lint-flymake-setup-when-package ()
     "Enable `package-lint-flymake' when buffer seems to be a package."
     (when (package-lint--provided-feature)
-      (package-lint-flymake-setup)))
-  :hook
-  (emacs-lisp-mode-hook . package-lint-flymake-setup-when-package))
+      (package-lint-flymake-setup))))
 #+end_src
 
 **** suggest
@@ -2907,21 +2946,22 @@ Discover functions.
 #+begin_src emacs-lisp :tangle yes
 (use-package suggest
   :ensure t
-  :commands (suggest)
-  :preface
-  (defun +suggest-popup ()
+  :commands
+  (suggest)
+  :general
+  (:keymaps
+   'emacs-lisp-mode-map
+   :prefix local-leader-key
+   "s" 'suggest-popup)
+  :config
+  (defun suggest-popup ()
     "Open suggest as a popup."
     (interactive)
     (let* ((window         (selected-window))
            (dedicated-flag (window-dedicated-p window)))
       (set-window-dedicated-p window t)
       (suggest)
-      (set-window-dedicated-p window dedicated-flag)))
-  :general
-  (:keymaps
-   'emacs-lisp-mode-map
-   :prefix local-leader-key
-   "s" '+suggest-popup))
+      (set-window-dedicated-p window dedicated-flag))))
 #+end_src
 
 *** Appearance
@@ -3008,14 +3048,16 @@ Eldoc support, showing path to current section.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-eldoc
   :after eldoc
-  :preface
-  (defun +org-eldoc-get-breadcrumb-no-properties (string)
-    "Remove properties from STRING."
-    (when string (substring-no-properties string)))
+  :functions
+  (org-eldoc-get-breadcrumb-no-properties)
   :hook
   (org-mode-hook . org-eldoc-load)
   :config
-  (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties))
+  (defun org-eldoc-get-breadcrumb-no-properties (string)
+    "Remove properties from STRING."
+    (when string (substring-no-properties string)))
+
+  (advice-add 'org-eldoc-get-breadcrumb :filter-return #'org-eldoc-get-breadcrumb-no-properties))
 #+end_src
 
 **** org-limit-image-size
@@ -3273,18 +3315,18 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :mode "\\.d2\\'"
   :commands
   (d2-compile-buffer)
-  :preface
-  (defun d2-mode-set-compile-command ()
-    "Configure compile command for d2-mode."
-    (set (make-local-variable 'compile-command)
-         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
-                    " ")))
   :hook
   (d2-mode-hook . d2-mode-set-compile-command)
   (d2-mode-hook . compile-on-save-mode)
   :init
   (setq d2-flags '("--layout" "elk" "--sketch" "--theme" "1"))
   :config
+  (defun d2-mode-set-compile-command ()
+    "Configure compile command for d2-mode."
+    (set (make-local-variable 'compile-command)
+         (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
+                    " ")))
+
   (with-eval-after-load 'compile-multi
     (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
                 compile-multi-config
@@ -3339,14 +3381,14 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :ensure t
   :mode
   ("\\.epub\\'" . nov-mode)
-  :preface
-  (defun init-nov-delayed-render ()
-    (run-with-idle-timer 0.2 nil 'nov-render-document))
   :hook
   (nov-mode-hook . init-nov-delayed-render)
   (nov-mode-hook . no-fringes-mode)
   :init
-  (setq nov-save-place-file (concat data-dir "nov-places")))
+  (setq nov-save-place-file (concat data-dir "nov-places"))
+  :config
+  (defun init-nov-delayed-render ()
+    (run-with-idle-timer 0.2 nil 'nov-render-document)))
 #+end_src
 
 ** erlang
@@ -3358,14 +3400,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.escript" . erlang-mode)
   ("\\.app\\.src$" . erlang-mode)
   ("/ebin/.+\\.app" . erlang-mode)
-  :preface
-  (defun init-erlang-eunit ()
-    "Setup EUnit support for `erlang-mode'."
-    (require 'erlang-eunit))
-  (defun init-erlang-flymake ()
-    "Setup `flymake' support for `erlang-mode'."
-    (require 'erlang-flymake)
-    (flymake-mode 1))
   :hook
   (erlang-mode-hook . init-erlang-eunit)
   (erlang-mode-hook . init-erlang-flymake)
@@ -3382,7 +3416,15 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    "t m" 'erlang-eunit-compile-and-run-module-tests)
   :init
   (cl-pushnew '("src/\\([^/]+\\)\\.erl\\'" "test/\\1_tests.erl") find-sibling-rules :test #'equal)
-  (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal))
+  (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal)
+  :config
+  (defun init-erlang-eunit ()
+    "Setup EUnit support for `erlang-mode'."
+    (require 'erlang-eunit))
+  (defun init-erlang-flymake ()
+    "Setup `flymake' support for `erlang-mode'."
+    (require 'erlang-flymake)
+    (flymake-mode 1)))
 #+end_src
 
 ** git
@@ -3501,23 +3543,26 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package haskell-mode
-  :preface
-  (defvar +haskell-interactive-global-history nil)
-
-  (defun +haskell-interactive-save-history ()
-    "Save `haskell-interactive-mode' history."
-    (setq +haskell-interactive-global-history haskell-interactive-mode-history))
-
-  (defun +haskell-interactive-load-history ()
-    "Restore `haskell-interactive-mode' history."
-    (add-hook 'kill-buffer-hook #'+haskell-interactive-save-history nil t)
-    (when +haskell-interactive-global-history
-      (setq haskell-interactive-mode-history +haskell-interactive-global-history)))
-  :defines (haskell-interactive-mode-history)
+  :functions
+  (haskell-interactive-save-history)
+  :defines
+  (haskell-interactive-mode-history)
   :hook
-  (haskell-interactive-mode-hook . +haskell-interactive-load-history)
+  (haskell-interactive-mode-hook . haskell-interactive-load-history)
   :config
-  (cl-pushnew '+haskell-interactive-global-history savehist-additional-variables :test #'equal))
+  (defvar haskell-interactive-global-history nil)
+
+  (defun haskell-interactive-save-history ()
+    "Save `haskell-interactive-mode' history."
+    (setq haskell-interactive-global-history haskell-interactive-mode-history))
+
+  (defun haskell-interactive-load-history ()
+    "Restore `haskell-interactive-mode' history."
+    (add-hook 'kill-buffer-hook #'haskell-interactive-save-history nil t)
+    (when haskell-interactive-global-history
+      (setq haskell-interactive-mode-history haskell-interactive-global-history)))
+
+  (cl-pushnew 'haskell-interactive-global-history savehist-additional-variables :test #'equal))
 #+end_src
 
 ** java
@@ -3741,7 +3786,12 @@ Pretty check-boxes
   :mode "\\.\\(mmd|mermaid\\)\\'"
   :commands
   (mermaid-compile-buffer)
-  :preface
+  :hook
+  (mermaid-mode-hook . mermaid-mode-set-compile-command)
+  (mermaid-mode-hook . compile-on-save-mode)
+  :init
+  (setq mermaid-flags "--backgroundColor transparent")
+  :config
   (defun mermaid-mode-set-compile-command ()
     "Configure compile command for mermaid-mode."
     (set (make-local-variable 'compile-command)
@@ -3752,12 +3802,7 @@ Pretty check-boxes
                              "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
                  " "
                  mermaid-flags)))
-  :hook
-  (mermaid-mode-hook . mermaid-mode-set-compile-command)
-  (mermaid-mode-hook . compile-on-save-mode)
-  :init
-  (setq mermaid-flags "--backgroundColor transparent")
-  :config
+
   (with-eval-after-load 'compile-multi
     (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
                 compile-multi-config
@@ -4131,14 +4176,14 @@ Pretty check-boxes as well as bullet lists.
 (use-package scala-mode
   :ensure t
   :mode "\\.\\(scala\\|sbt\\)\\'"
-  :preface
-  (defun init-scala-prettify-symbols ()
-    (setq prettify-symbols-alist scala-prettify-symbols-alist)
-    (prettify-symbols-mode 1))
   :hook
   (scala-mode-hook . init-scala-prettify-symbols)
   :init
-  (setq scala-indent:align-parameters t))
+  (setq scala-indent:align-parameters t)
+  :config
+  (defun init-scala-prettify-symbols ()
+    (setq prettify-symbols-alist scala-prettify-symbols-alist)
+    (prettify-symbols-mode 1)))
 #+end_src
 
 *** Packages
@@ -4374,17 +4419,6 @@ Avoid color when possible.
     (require 'em-hist)
     (require 'em-term))
   (defvar eshell-visual-commands)
-  (defun init-eshell-define-keys ()
-    (general-define-key
-     :keymaps 'eshell-mode-map
-     "RET" '+eshell-expand-abbrev-and-send-input
-     "<tab>" 'completion-at-point))
-
-  (defun init-eshell-set-visual-commands ()
-    (setq eshell-visual-commands
-          (append
-           '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
-           eshell-visual-commands)))
   :hook
   (eshell-mode-hook . abbrev-mode)
   (eshell-mode-hook . init-eshell-define-keys)
@@ -4398,17 +4432,44 @@ Avoid color when possible.
   (setq eshell-hist-ignoredups t)
   (setq eshell-error-if-no-glob t)
   (setq eshell-destroy-buffer-when-process-dies t)
-  (autoload 'eshell-smart-initialize "em-smart"))
+  (autoload 'eshell-smart-initialize "em-smart")
+  :config
+  (defun init-eshell-define-keys ()
+    (general-define-key
+     :keymaps 'eshell-mode-map
+     "RET" '+eshell-expand-abbrev-and-send-input
+     "<tab>" 'completion-at-point))
+
+  (defun init-eshell-set-visual-commands ()
+    (setq eshell-visual-commands
+          (append
+           '("fish" "ghcid" "jshell" "most" "ssh" "tail" "tsun" "watch")
+           eshell-visual-commands))))
 #+end_src
 
 **** Abbreviations
 Fish-like abbreviations that expand on space or enter.
 #+begin_src emacs-lisp :tangle yes
 (use-package eshell
+  :functions
+  (+eshell-abbrev-expand-p)
   :preface
   (autoload 'eshell-parse-arguments "esh-arg")
   (autoload 'eshell-send-input "esh-mode")
-
+  :init
+  (define-abbrev-table 'eshell-mode-abbrev-table
+    '(("base64" "base64 -w0")
+      ("e" "find-file-other-window")
+      ("E" "dired")
+      ("gco" "git checkout")
+      ("gd" "magit-diff-unstaged")
+      ("gds" "magit-diff-staged")
+      ("gs" "magit-status")
+      ("time" "time -p")
+      ("tree" "tree -a")
+      ("week" "date '+%V'"))
+    :enable-function #'+eshell-abbrev-expand-p)
+  :config
   (defun +eshell-expand-abbrev-and-send-input ()
     "Expand abbreviation and send input to `eshell'."
     (interactive)
@@ -4426,20 +4487,7 @@ the line or after an eshell operator."
           (let ((last-two-args (last args 2)))
             (and (consp (car last-two-args))
                  (eq (caar last-two-args)
-                     'eshell-operator))))))
-  :init
-  (define-abbrev-table 'eshell-mode-abbrev-table
-    '(("base64" "base64 -w0")
-      ("e" "find-file-other-window")
-      ("E" "dired")
-      ("gco" "git checkout")
-      ("gd" "magit-diff-unstaged")
-      ("gds" "magit-diff-staged")
-      ("gs" "magit-status")
-      ("time" "time -p")
-      ("tree" "tree -a")
-      ("week" "date '+%V'"))
-    :enable-function #'+eshell-abbrev-expand-p))
+                     'eshell-operator)))))))
 #+end_src
 
 **** Packages
@@ -4506,27 +4554,21 @@ Packages that I am currently testing or evaluating.
 
 ** adaptive-wrap
 #+begin_src emacs-lisp :tangle yes
-(use-package adaptive-wrap :ensure t)
+(use-package adaptive-wrap
+  :ensure t
+  :hook
+  (prog-mode-hook . adaptive-wrap-prefix-mode)
+  (text-mode-hook . adaptive-wrap-prefix-mode))
 #+end_src
 
 ** annotate
 #+begin_src emacs-lisp :tangle yes
-(use-package annotate :ensure t)
-#+end_src
-
-** attrap
-#+begin_src emacs-lisp :tangle yes
-(use-package attrap :ensure t)
-#+end_src
-
-** awscli-capf
-#+begin_src emacs-lisp :tangle yes
-(use-package awscli-capf :ensure t)
-#+end_src
-
-** comment-or-uncomment-sexp
-#+begin_src emacs-lisp :tangle yes
-(use-package comment-or-uncomment-sexp :ensure t)
+(use-package annotate
+  :ensure t
+  :general
+  (:prefix
+   toggle-prefix
+   "a" '(annotate-mode :wk "Annotate")))
 #+end_src
 
 ** consult-git-log-grep
@@ -4540,8 +4582,7 @@ Packages that I am currently testing or evaluating.
 
 ** consult-jump-project
 #+begin_src emacs-lisp :tangle yes
-(use-package consult-jump-project
-  :ensure t)
+(use-package consult-jump-project :ensure t)
 #+end_src
 
 ** dape
@@ -4581,18 +4622,13 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package ellama
   :ensure t
-  :init
-  (setq ellama-auto-scroll t))
-#+end_src
-
-** elsa
-#+begin_src emacs-lisp :tangle yes
-(use-package elsa :disabled t)
-#+end_src
-
-** epithet
-#+begin_src emacs-lisp :tangle yes
-(use-package epithet :ensure t)
+  :functions
+  (make-llm-ollama)
+  :config
+  (setq ellama-auto-scroll t)
+  (setq ellama-provider
+        (make-llm-ollama :chat-model "llama3"
+                         :embedding-model "llama3")))
 #+end_src
 
 ** freeze-it
@@ -4611,24 +4647,9 @@ Packages that I am currently testing or evaluating.
   (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
-** messages-are-flowing
-#+begin_src emacs-lisp :tangle yes
-(use-package messages-are-flowing :ensure t)
-#+end_src
-
 ** native-complete
 #+begin_src emacs-lisp :tangle yes
 (use-package native-complete :ensure t)
-#+end_src
-
-** org-fragtog
-#+begin_src emacs-lisp :tangle yes
-(use-package org-fragtog :ensure t)
-#+end_src
-
-** org-roam
-#+begin_src emacs-lisp :tangle yes
-(use-package org-roam :ensure t)
 #+end_src
 
 ** paimon
