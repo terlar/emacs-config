@@ -4591,8 +4591,13 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package ellama
   :ensure t
-  :init
-  (setq ellama-auto-scroll t))
+  :functions
+  (make-llm-ollama)
+  :config
+  (setq ellama-auto-scroll t)
+  (setq ellama-provider
+        (make-llm-ollama :chat-model "llama3"
+                         :embedding-model "llama3")))
 #+end_src
 
 ** freeze-it
