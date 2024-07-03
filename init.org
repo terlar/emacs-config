@@ -1396,17 +1396,6 @@ Automatic parenthesis pairing and highlighting.
 #+end_src
 
 ** Packages
-*** cycle-quotes
-#+begin_src emacs-lisp :tangle yes
-(use-package cycle-quotes
-  :ensure t
-  :preface
-  (defrepeater #'cycle-quotes)
-  :general
-  ("C-x C-'" 'cycle-quotes)
-  ([remap cycle-quotes] 'cycle-quotes-repeat))
-#+end_src
-
 *** dtrt-indent
 #+begin_src emacs-lisp :tangle yes
 (use-package dtrt-indent
