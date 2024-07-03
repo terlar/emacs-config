@@ -591,8 +591,7 @@ Configure the order and components of the mode line.
                 mode-line-remote
                 mode-line-buffer-identification
                 mode-line-position
-                (:eval
-                 (mode-line-right))
+                (:eval (mode-line-right))
                 mode-line-end-spaces))
 #+end_src
 
@@ -609,8 +608,7 @@ Setup the right aligned mode line and helper functions to display it.
      (propertize
       " "
       'display
-      `(space :align-to (- right
-                           (+ ,(string-width formatted-line) right-fringe right-margin))))
+      `(space :align-to (- (+ right right-fringe right-margin) ,(string-width formatted-line))))
      formatted-line)))
 #+end_src
 
