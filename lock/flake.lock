@@ -723,11 +723,11 @@
     "dslide": {
       "flake": false,
       "locked": {
-        "lastModified": 1719365126,
-        "narHash": "sha256-sNW9Lj/uMFFRrBodj82TCJ0J5sVKXCLbh1dRUCWC9EI=",
+        "lastModified": 1720020210,
+        "narHash": "sha256-lvhq80lh21NoEGJystEZGMSSzLxK7w2pSMI0iGp07Jw=",
         "owner": "positron-solutions",
         "repo": "dslide",
-        "rev": "55803bc16a729a1a8ed1e785405feac3cb53878e",
+        "rev": "2d8a9ac3e37157ce8b78880ebc1defc61303a44d",
         "type": "github"
       },
       "original": {
