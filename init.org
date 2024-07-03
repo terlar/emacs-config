@@ -2749,6 +2749,9 @@ Document locations in a sidebar.
 #+begin_src emacs-lisp :tangle yes
 (use-package imenu-list
   :ensure t
+  :hook
+  (imenu-list-major-mode-hook . hide-mode-line-mode)
+  (imenu-list-major-mode-hook . no-cursor-mode)
   :general
   (:prefix
    leader-key
@@ -2965,7 +2968,7 @@ Improve readability of escape characters in regular expressions.
         '("~/org/Personal.org" "~/org/Work.org"))
   (setq org-insert-heading-respect-content t)
   (setq org-log-done 'time)
-  (setq org-modules nil)
+  (setq org-modules '(ol-info))
   (setq org-special-ctrl-a/e t)
   
   (setq org-confirm-babel-evaluate nil)
@@ -2981,7 +2984,9 @@ Improve readability of escape characters in regular expressions.
   (setq org-tag-alist
         '(("@work"  . ?w)
           ("@home"  . ?h)
-          ("laptop" . ?l))))
+          ("laptop" . ?l)))
+
+  (setq org-imenu-depth 3))
 
 (use-package ob-plantuml
   :init

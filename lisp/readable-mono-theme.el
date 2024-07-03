@@ -468,6 +468,12 @@ For example links."
 ;;;;; haskell
    `(haskell-interactive-face-prompt ((t (:inherit readable-mono-theme-strong))))
 
+;;;;; imenu-list
+   `(imenu-list-entry-face-0 ((t (:foreground unspecified))))
+   `(imenu-list-entry-face-1 ((t (:foreground unspecified))))
+   `(imenu-list-entry-face-2 ((t (:foreground unspecified))))
+   `(imenu-list-entry-face-3 ((t (:foreground unspecified))))
+
 ;;;;; indent-guide
    `(indent-guide-face ((t (:inherit fringe))))
 
