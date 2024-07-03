@@ -1768,17 +1768,6 @@ Hide lines in buffer based on a regular expressions.
 (use-package pairable :ensure t)
 #+end_src
 
-*** rainbow-mode
-Display colors inline.
-#+begin_src emacs-lisp :tangle yes
-(use-package rainbow-mode
-  :ensure t
-  :minor
-  "-theme\\.el\\'"
-  :hook
-  (help-mode-hook . rainbow-mode))
-#+end_src
-
 *** readable
 #+begin_src emacs-lisp :tangle yes
 (use-package readable
