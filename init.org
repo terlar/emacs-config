@@ -435,15 +435,6 @@ Hide M-x commands which does not work in the current buffer.
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 #+end_src
 
-** GnuPG
-Fix issues with Emacs 29.1 and GnuPG version 2.4.1 or higher.
-#+begin_src emacs-lisp :tangle yes
-(use-package epg
-  :functions epg-wait-for-status
-  :config
-  (fset #'epg-wait-for-status #'ignore))
-#+end_src
-
 * Appearance
 ** Typography
 *** Size
