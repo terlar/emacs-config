@@ -1317,18 +1317,6 @@
       repo = "web-mode";
       type = "github";
     };
-    wgrep = {
-      flake = false;
-      owner = "mhayashi1120";
-      repo = "Emacs-wgrep";
-      type = "github";
-    };
-    wgrep-ag = {
-      flake = false;
-      owner = "mhayashi1120";
-      repo = "Emacs-wgrep";
-      type = "github";
-    };
     which-key = {
       flake = false;
       owner = "justbur";

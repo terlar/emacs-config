@@ -1782,15 +1782,6 @@ Hide lines in buffer based on a regular expressions.
     rst-mode-hook) . readable-mode))
 #+end_src
 
-*** wgrep-ag
-Writeable grep buffer with ability to apply the changes to all the files.
-#+begin_src emacs-lisp :tangle yes
-(use-package wgrep-ag
-  :ensure t
-  :init
-  (setq wgrep-auto-save-buffer t))
-#+end_src
-
 * Navigation
 Allow repeated mark popping. This behavior is similar to Vim's =C-o=. With this
 configuration you can press =C-u= and continuously =C-SPC= to jump to previous entries in the

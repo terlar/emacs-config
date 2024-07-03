@@ -3151,8 +3151,6 @@
         "vterm-toggle": "vterm-toggle",
         "vundo": "vundo",
         "web-mode": "web-mode",
-        "wgrep": "wgrep",
-        "wgrep-ag": "wgrep-ag",
         "which-key": "which-key",
         "whole-line-or-region": "whole-line-or-region",
         "with-editor": "with-editor",
@@ -3753,38 +3751,6 @@
       "original": {
         "owner": "fxbois",
         "repo": "web-mode",
-        "type": "github"
-      }
-    },
-    "wgrep": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702728594,
-        "narHash": "sha256-82cK3D1JZXr0XIx4P8HiWwfsQMttvqBNHHD9bC60Cmw=",
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "rev": "208b9d01cfffa71037527e3a324684b3ce45ddc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "type": "github"
-      }
-    },
-    "wgrep-ag": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702728594,
-        "narHash": "sha256-82cK3D1JZXr0XIx4P8HiWwfsQMttvqBNHHD9bC60Cmw=",
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "rev": "208b9d01cfffa71037527e3a324684b3ce45ddc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
         "type": "github"
       }
     },
