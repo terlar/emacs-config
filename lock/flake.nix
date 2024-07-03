@@ -192,12 +192,6 @@
       repo = "ctrlf";
       type = "github";
     };
-    ctrlxo = {
-      flake = false;
-      owner = "muffinmad";
-      repo = "emacs-ctrlxo";
-      type = "github";
-    };
     d2-mode = {
       flake = false;
       owner = "andorsk";

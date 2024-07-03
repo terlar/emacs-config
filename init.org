@@ -862,6 +862,9 @@ Display available keybindings in a popup as you press keys.
 
 ** Global
 #+begin_src emacs-lisp :tangle yes
+(eval-and-compile
+  (defrepeater #'other-window))
+
 (general-define-key
  :keymaps 'global
  ;; Editing
@@ -871,6 +874,7 @@ Display available keybindings in a popup as you press keys.
  "C-z" 'zap-up-to-char
  ;; Files
  "C-x j" 'find-sibling-file
+ [remap other-window] 'other-window-repeat
  ;; Region
  "C-x r S" 'sort-lines)
 #+end_src
@@ -1926,14 +1930,6 @@ Keep track of bookmarks
   :ensure t
   :hook
   (after-init-hook . ctrlf-mode))
-#+end_src
-
-*** ctrlxo
-#+begin_src emacs-lisp :tangle yes
-(use-package ctrlxo
-  :ensure t
-  :general
-  ("C-x o" 'ctrlxo))
 #+end_src
 
 *** deadgrep

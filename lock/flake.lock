@@ -512,22 +512,6 @@
         "type": "github"
       }
     },
-    "ctrlxo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685981874,
-        "narHash": "sha256-P4+/dy9RHAWRrn+9uJdI8k8VlzthbJpdADKcFon7G/4=",
-        "owner": "muffinmad",
-        "repo": "emacs-ctrlxo",
-        "rev": "574e4498f70d28f0ff8877bcce6db48260b761a4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "muffinmad",
-        "repo": "emacs-ctrlxo",
-        "type": "github"
-      }
-    },
     "d2-mode": {
       "flake": false,
       "locked": {
@@ -2963,7 +2947,6 @@
         "cov": "cov",
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
-        "ctrlxo": "ctrlxo",
         "d2-mode": "d2-mode",
         "dape": "dape",
         "dash": "dash",
