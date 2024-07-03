@@ -192,12 +192,6 @@
       repo = "ctrlf";
       type = "github";
     };
-    ctrlxo = {
-      flake = false;
-      owner = "muffinmad";
-      repo = "emacs-ctrlxo";
-      type = "github";
-    };
     d2-mode = {
       flake = false;
       owner = "andorsk";
@@ -430,12 +424,6 @@
       flake = false;
       owner = "orzechowskid";
       repo = "flymake-eslint";
-      type = "github";
-    };
-    flymake-quickdef = {
-      flake = false;
-      owner = "karlotness";
-      repo = "flymake-quickdef";
       type = "github";
     };
     flymake-racket = {
@@ -909,12 +897,6 @@
       repo = "org-preview-html";
       type = "github";
     };
-    org-tree-slide = {
-      flake = false;
-      owner = "takaxp";
-      repo = "org-tree-slide";
-      type = "github";
-    };
     outline-minor-faces = {
       flake = false;
       owner = "tarsius";
@@ -1040,12 +1022,6 @@
       flake = false;
       owner = "emacs-pe";
       repo = "python-test.el";
-      type = "github";
-    };
-    quick-peek = {
-      flake = false;
-      owner = "cpitclaudel";
-      repo = "quick-peek";
       type = "github";
     };
     racket-mode = {
@@ -1178,12 +1154,6 @@
       flake = false;
       owner = "joaotavora";
       repo = "sly-quicklisp";
-      type = "github";
-    };
-    source-peek = {
-      flake = false;
-      owner = "iqbalansari";
-      repo = "emacs-source-peek";
       type = "github";
     };
     spark = {
@@ -1333,18 +1303,6 @@
       flake = false;
       owner = "fxbois";
       repo = "web-mode";
-      type = "github";
-    };
-    wgrep = {
-      flake = false;
-      owner = "mhayashi1120";
-      repo = "Emacs-wgrep";
-      type = "github";
-    };
-    wgrep-ag = {
-      flake = false;
-      owner = "mhayashi1120";
-      repo = "Emacs-wgrep";
       type = "github";
     };
     which-key = {

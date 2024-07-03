@@ -28,19 +28,6 @@
     },
     "version": "1.25"
   },
-  "cycle-quotes": {
-    "archive": {
-      "narHash": "sha256-ZnMzZV7xO9Dcu20st60y8csb4BNQeJga4W63sEU1Ga4=",
-      "type": "tarball",
-      "url": "https://elpa.gnu.org/packages/cycle-quotes-0.1.tar"
-    },
-    "inventory": {
-      "type": "archive",
-      "url": "https://elpa.gnu.org/packages/"
-    },
-    "packageRequires": {},
-    "version": "0.1"
-  },
   "queue": {
     "archive": {
       "narHash": "sha256-l1a18KhqXRtir2NSDVEY4yWGoUl97Vo9CvD1T9Jpw/Q=",
@@ -53,18 +40,5 @@
     },
     "packageRequires": {},
     "version": "0.2"
-  },
-  "rainbow-mode": {
-    "archive": {
-      "narHash": "sha256-Qd5M2ellyZW+UPAxUarkS6s5dv4k3xyTpJtMmKTH9Ug=",
-      "type": "tarball",
-      "url": "https://elpa.gnu.org/packages/rainbow-mode-1.0.6.tar"
-    },
-    "inventory": {
-      "type": "archive",
-      "url": "https://elpa.gnu.org/packages/"
-    },
-    "packageRequires": {},
-    "version": "1.0.6"
   }
 }

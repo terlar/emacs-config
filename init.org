@@ -2,9 +2,11 @@
 #+AUTHOR: Terje Larsen
 
 * Overview
-Terje's GNU Emacs configuration. It is not very well documented right now, but hopefully I will have time to write down some more details later.
+Terje's GNU Emacs configuration.
 
-This configuration is making a lot of assumptions as it is built as a package with Nix. This means that all packages are expected to be on the =load-path= already and compatibility is only guaranteed with the GNU Emacs version that is part of this package. Currently GNU Emacs 29.0.50.
+This configuration is making a lot of assumptions as it is built as a package with [[https://nix.dev][Nix]]. This means that all
+packages are expected to be on the =load-path= already and compatibility is only guaranteed with the GNU Emacs
+version that is part of this package. Currently GNU Emacs 31.0.50.
 
 The rough details:
 - themes :: [[file:lisp/readable-typo-theme.el][readable-typo-theme]] and [[file:lisp/readable-mono-theme.el][readable-mono-theme]]
@@ -13,10 +15,14 @@ The rough details:
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
-- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
+- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: =flymake=
 - persistent undo :: via ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
+
+Nix:
+- Package management via [[https://github.com/emacs-twist/twist.nix][twist.nix]]
+- GNU Emacs via [[https://github.com/nix-community/emacs-overlay][emacs-overlay]]
 
 ** Screenshots
 *** org-mode
@@ -43,6 +49,15 @@ The rough details:
 * Early initialization
 #+begin_src emacs-lisp :tangle early-init.el
 ;;; early-init.el --- Early Initialization -*- lexical-binding: t; -*-
+#+end_src
+
+** Debug
+Provide an easy way to toggle debug mode which will set certain variables to produce more
+informative output. It can be set either by providing the environment variable =DEBUG= or
+start Emacs with =--debug-init=.
+#+begin_src emacs-lisp :tangle early-init.el
+(when (getenv "DEBUG") (setq init-file-debug t))
+(setq debug-on-error (and (not noninteractive) init-file-debug))
 #+end_src
 
 ** Startup
@@ -118,51 +133,17 @@ Ignore X resources.
 (advice-add #'x-apply-session-resources :override #'ignore)
 #+end_src
 
-* Base settings
+* Initialization
 #+begin_src emacs-lisp :tangle yes
 ;;; init.el --- Initialization -*- lexical-binding: t; -*-
 #+end_src
 
-** Variables
-Provide an easy way to toggle debug mode which will set certain variables to produce more
-informative output. It can be set either by providing the environment variable =DEBUG= or
-start Emacs with =--debug-init=.
-#+begin_src emacs-lisp :tangle yes
-(eval-and-compile
-  (when (getenv "DEBUG") (setq init-file-debug t))
-  (setq debug-on-error (and (not noninteractive) init-file-debug)))
-#+end_src
-
-Provide a location where Emacs can store data and cache.
-#+begin_src emacs-lisp :tangle yes
-(eval-and-compile
-  (defvar data-dir
-    (if (getenv "XDG_DATA_HOME")
-        (concat (getenv "XDG_DATA_HOME") "/emacs/")
-      (expand-file-name "~/.local/share/emacs/"))
-    "Directory for data.")
-
-  (defvar cache-dir
-    (if (getenv "XDG_CACHE_HOME")
-        (concat (getenv "XDG_CACHE_HOME") "/emacs/")
-      (expand-file-name "~/.cache/emacs/"))
-    "Directory for cache.")
-
-  (defvar pictures-dir
-    (or (getenv "XDG_PICTURES_DIR")
-        (expand-file-name "~/Pictures/"))
-    "Directory for pictures."))
-#+end_src
-
-*** Customization
-Put custom definitions in a temporary file so it doesn't grow over time. This means all
-customization will disappear upon reboot and instead needs to be managed via the
-initialization file.
-#+begin_src emacs-lisp :tangle yes
-(setq custom-file (expand-file-name "custom.el" temporary-file-directory))
-#+end_src
-
+** Package configuration
 *** use-package
+A macro for package customization, see  [[info:use-package#Top][use-package]] for further details.
+
+This configuration is intended to support byte-compiling and is compiling with the strict option
+~byte-compile-error-on-warn t~. See the section about [[info:use-package#Byte-compiling][byte-compiling]] with information on how to support this use case.
 #+begin_src emacs-lisp :tangle yes
 (eval-when-compile
   (require 'use-package))
@@ -193,6 +174,35 @@ Enable minor modes by buffer name and contents. It provides the ~use-package~ ke
     (require 'auto-minor-mode)))
 #+end_src
 
+** Data
+Provide a location where Emacs can store data and cache.
+#+begin_src emacs-lisp :tangle yes
+(defvar data-dir
+  (if (getenv "XDG_DATA_HOME")
+      (concat (getenv "XDG_DATA_HOME") "/emacs/")
+    (expand-file-name "~/.local/share/emacs/"))
+  "Directory for data.")
+
+(defvar cache-dir
+  (if (getenv "XDG_CACHE_HOME")
+      (concat (getenv "XDG_CACHE_HOME") "/emacs/")
+    (expand-file-name "~/.cache/emacs/"))
+  "Directory for cache.")
+
+(defvar pictures-dir
+  (or (getenv "XDG_PICTURES_DIR")
+      (expand-file-name "~/Pictures/"))
+  "Directory for pictures.")
+#+end_src
+
+*** Customization
+Put custom definitions in a temporary file so it doesn't grow over time. This means all
+customization will disappear upon reboot and instead needs to be managed via the
+initialization file.
+#+begin_src emacs-lisp :tangle yes
+(setq custom-file (expand-file-name "custom.el" temporary-file-directory))
+#+end_src
+
 *** no-littering
 Help keeping ~user-emacs-directory~ clean.
 #+begin_src emacs-lisp :tangle yes
@@ -217,14 +227,10 @@ Give up some bidirectional functionality for slightly faster re-display.
               bidi-paragraph-direction 'left-to-right)
 #+end_src
 
-Update UI less frequently
-#+begin_src emacs-lisp :tangle yes
-(setq jit-lock-defer-time 0)
-#+end_src
-
-Accelerate scrolling with the trade-off of sometimes delayed accurate fontification.
+Defer processing font faces while scrolling and typing.
 #+begin_src emacs-lisp :tangle yes
 (setq fast-but-imprecise-scrolling t)
+(setq jit-lock-defer-time 0)
 #+end_src
 
 *** gcmh
@@ -275,20 +281,6 @@ more natural to use.
 #+begin_src emacs-lisp :tangle yes
 (require 'cl-lib)
 (require 'cl-extra)
-#+end_src
-
-*** flymake-quickdef
-Library to quickly define backends for =flymake=.
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-quickdef :ensure t :commands (flymake-quickdef-backend))
-#+end_src
-
-*** quick-peek
-Library to display inline popups; used by ~source-peek~.
-#+begin_src emacs-lisp :tangle yes
-(use-package quick-peek
-  :ensure t
-  :commands (quick-peek-show))
 #+end_src
 
 ** Functions
@@ -435,15 +427,6 @@ Hide M-x commands which does not work in the current buffer.
 (setq read-extended-command-predicate #'command-completion-default-include-p)
 #+end_src
 
-** GnuPG
-Fix issues with Emacs 29.1 and GnuPG version 2.4.1 or higher.
-#+begin_src emacs-lisp :tangle yes
-(use-package epg
-  :functions epg-wait-for-status
-  :config
-  (fset #'epg-wait-for-status #'ignore))
-#+end_src
-
 * Appearance
 ** Typography
 *** Size
@@ -521,6 +504,17 @@ Use a bar cursor by default.
   (load-theme 'readable-mono t))
 #+end_src
 
+*** Echo area
+Attach a face to the echo area in order to style it differently.
+#+begin_src emacs-lisp :tangle yes
+(dolist (buffer-name '(" *Echo Area 0*"
+                       " *Echo Area 1*"))
+  (with-current-buffer (get-buffer-create buffer-name)
+    (setq-local face-remapping-alist
+                '((default readable-typo-theme-echo-area)))))
+#+end_src
+
+*** Functions
 #+begin_src emacs-lisp :tangle yes
 (defun toggle-theme-mode ()
   "Toggle dark/light `background-mode' and reload all loaded themes."
@@ -536,19 +530,9 @@ Use a bar cursor by default.
   (customize-set-variable 'custom-enabled-themes custom-enabled-themes))
 #+end_src
 
-*** Echo area
-Attach a face to the echo area in order to style it differently.
-#+begin_src emacs-lisp :tangle yes
-(dolist (buffer-name '(" *Echo Area 0*"
-                       " *Echo Area 1*"))
-  (with-current-buffer (get-buffer-create buffer-name)
-    (setq-local face-remapping-alist
-                '((default readable-typo-theme-echo-area)))))
-#+end_src
-
 ** Layout
 *** Frame
-See [[info:elisp#Frame%20Layout][Frame Layout]] documentation for details and terminology.
+See [[info:elisp#Frame Layout][Frame Layout]] for details and terminology.
 - Add some padding around the whole window (=internal-border-width=) to provide some air.
 #+begin_src emacs-lisp :tangle yes
 (cl-pushnew '(internal-border-width . 16) default-frame-alist :test #'equal)
@@ -614,13 +598,12 @@ Configure the order and components of the mode line.
                 mode-line-remote
                 mode-line-buffer-identification
                 mode-line-position
-                (:eval
-                 (mode-line-right))
+                (:eval (mode-line-right))
                 mode-line-end-spaces))
 #+end_src
 
 *** Right alignment
-Setup the right aligned mode line and helper functions to display it.
+Setup the right aligned mode line and helper function to display it.
 #+begin_src emacs-lisp :tangle yes
 (defvar mode-line-right-format nil
   "The mode line to display on the right side.")
@@ -632,8 +615,7 @@ Setup the right aligned mode line and helper functions to display it.
      (propertize
       " "
       'display
-      `(space :align-to (- right
-                           (+ ,(string-width formatted-line) right-fringe right-margin))))
+      `(space :align-to (- (+ right right-fringe right-margin) ,(string-width formatted-line))))
      formatted-line)))
 #+end_src
 
@@ -744,81 +726,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 #+end_src
 
 * Keybindings
-I am trying to reduce the amount of keybindings, therefore I present a table of default
-keybindings in case I would forget them.
-
-** Aliases
-| Keybinding | Alternative |
-|------------+-------------|
-| =M-=         | =C-[=         |
-| =TAB=        | =C-i=         |
-| =RET=        | =C-m=        |
-
-** Commands
-| Keybinding      | Function                          | Description                                                                      |
-|-----------------+-----------------------------------+----------------------------------------------------------------------------------|
-| =C-o=             | ~open-line~                         | Open line above                                                                  |
-| =C-j=             | ~electric-newline-and-maybe-indent~ | Add newline and indent if needed                                                 |
-| =M-SPC=           | ~just-one-space~                    | Ensures just one space                                                           |
-| =M-\=             | ~delete-horizontal-space~           | Delete all space                                                                 |
-| =M-^=             | ~delete-indentation~                | Join current line with previous line                                             |
-| =M-z=             | ~zap-to-char~                       | Delete until character                                                           |
-| =C-S-backspace=   | ~kill-whole-line~                   | Kill entire lines, can be used to move several lines at once                     |
-| =M-/=             | ~dabbrev-expand~                    | Abbreviation completion                                                          |
-| =M-tab= / =C-[ C-i= | ~completion-at-point~               | More context aware completion                                                    |
-| =M-s .=           | ~isearch-forward-symbol-at-point~   | Search for the symbol at point                                                   |
-| =C-w=             | ~kill-region~                       | Cut                                                                              |
-| =M-w=             | ~kill-ring-save~                    | Copy                                                                             |
-| =C-y=             | ~yank~                              | Paste                                                                            |
-| =M-y=             | ~yank-next~                         | Paste (next item)                                                                |
-| =C-x SPC=         | ~rectangle-mark-mode~               | Rectangular selection                                                            |
-| =C-x r t=         | ~string-rectangle~                  | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
-| =C-M-f=           | ~forward-sexp~                      | Move forward inside a balanced expression                                        |
-| =C-M-b=           | ~backward-sexp~                     | Move backward inside a balanced expression                                       |
-| =C-M-n=           | ~forward-list~                      | Move forward across one balanced group of parenthesis                            |
-| =C-M-p=           | ~backward-list~                     | Move backward across one balanced group of parenthesis                           |
-| =M-m=             | ~back-to-indentation~               | Move to the first non-whitespace character                                       |
-| =M-e=             | ~forward-sentence~                  | End of sentence                                                                  |
-| =M-a=             | ~backward-sentence~                 | Start of sentence                                                                |
-| =C-M-d=           | ~down-list~                         | Move forward down one level of parenthesis                                       |
-| =C-M-u=           | ~backward-up-list~                  | Move backward out of one level of parenthesis                                    |
-| =C-u C-x $=       | ~set-selective-display~             | Hide/show indentation level                                                      |
-| =C-x r w= <reg>   | ~window-configuration-to-register~  | Store the window configuration of the selected frame in REGISTER                 |
-| =C-x r j=         | ~jump-to-register~                  | Go to location stored in REGISTER, or restore configuration stored there         |
-| =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
-
-** Gnus
-| Keybinding | Function                              | Description                                                   |
-|------------+---------------------------------------+---------------------------------------------------------------|
-| =L=          | ~gnus-group-list-all-groups~            | List all groups (works together with prefix to provide level) |
-| =RET=        | ~gnus-topic-select-group~               | List group mails (works together with prefix to see all)      |
-| =g=          | ~gnus-group-get-new-news~               | Refresh groups list                                           |
-| =G G=        | ~gnus-group-make-nnir-group~            | Search mails at server side                                   |
-| =#=          | ~gnus-group-mark-group~                 | Mark                                                          |
-| =M-#=        | ~gnus-group-unmark-group~               | Un-mark                                                       |
-| =R=          | ~gnus-summary-reply-with-original~      | Reply w/ quoted text                                          |
-| =r=          | ~gnus-summary-reply~                    | Reploy w/o quoted text                                        |
-| =S W=        | ~gnus-summary-wide-reply-with-original~ | Reply all w/ quoted text                                      |
-| =S w=        | ~gnus-summary-wide-reply~               | Reply all w/o quoted text                                     |
-| =m= / =C-x m=  | ~gnus-new-mail~                         | Compose new mail                                              |
-| =S D e=      | ~gnus-summary-resend-message-edit~      | Re-send a mail in Draft folder                                |
-| =C-c C-a=    | ~mml-attach-file~                       | Attach a file                                                 |
-| =o=          | ~gnus-mime-save-part~                   | Save attachment                                               |
-| =C-c C-f=    | ~gnus-summary-mail-forward~             | Forward mail                                                  |
-| =c=          | ~gnus-group-catchup-current~            | Mark mails as read                                            |
-
-** Org
-| Keybinding | Function             | Description                                    |
-|------------+----------------------+------------------------------------------------|
-| =C-c C-w=    | ~org-refile~           | Move headline under another top level headline |
-| =<S-right>=  | ~org-shiftright~       | Cycle through todo keywords (right)            |
-| =<S-left>=   | ~org-shiftleft~        | Cycle through todo keywords (left)             |
-| =C-c C-c=    | ~org-ctrl-c-ctrl-c~    | Set tags for an item                           |
-| =C-c C-t=    | ~org-todo~             | Set tags for an item (via menu)                |
-| =C-c C-s=    | ~org-schedule~         | Schedule an item                               |
-| =C-c C-d=    | ~org-deadline~         | Set a deadline                                 |
-| =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
-
 ** Leader keys
 #+begin_src emacs-lisp :tangle yes
 (defvar leader-key "C-,"
@@ -887,6 +794,9 @@ Display available keybindings in a popup as you press keys.
 
 ** Global
 #+begin_src emacs-lisp :tangle yes
+(eval-and-compile
+  (defrepeater #'other-window))
+
 (general-define-key
  :keymaps 'global
  ;; Editing
@@ -896,6 +806,7 @@ Display available keybindings in a popup as you press keys.
  "C-z" 'zap-up-to-char
  ;; Files
  "C-x j" 'find-sibling-file
+ [remap other-window] 'other-window-repeat
  ;; Region
  "C-x r S" 'sort-lines)
 #+end_src
@@ -1117,7 +1028,8 @@ Vertical interactive completion UI.
   (marginalia-mode-hook . all-the-icons-completion-marginalia-setup))
 #+end_src
 
-** cape
+*** cape
+Completion At Point Extensions.
 #+begin_src emacs-lisp :tangle yes
 (use-package cape
   :ensure t
@@ -1156,6 +1068,7 @@ Vertical interactive completion UI.
 #+end_src
 
 *** consult
+Commands compatible with ~completing-read~.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
@@ -1192,7 +1105,20 @@ Vertical interactive completion UI.
   (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 #+end_src
 
+*** kind-icon
+Icons for buffer completions.
+#+begin_src emacs-lisp :tangle yes
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :commands
+  (kind-icon-margin-formatter)
+  :init
+  (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
+#+end_src
+
 *** marginalia
+Annotations for completion candidates.
 #+begin_src emacs-lisp :tangle yes
 (use-package marginalia
   :ensure t
@@ -1344,16 +1270,44 @@ Zoom a window to display as a single window temporarily.
 ** Buffer
 *** Cursor
 #+begin_src emacs-lisp :tangle yes
-(define-minor-mode no-cursor-mode
+(define-minor-mode hide-cursor-mode
     "Toggle hiding of the cursor."
-    :lighter " No Cursor"
-    (if no-cursor-mode
+    :lighter " Hide Cursor"
+    (if hide-cursor-mode
         (setq cursor-type nil)
       (kill-local-variable 'cursor-type)))
 #+end_src
 
-*** Visual Fill Column
-Wrap lines according to =fill-column= in =visual-line-mode=.
+*** Buttons
+Buttonize URLs and e-mail addresses in the current buffer.
+#+begin_src emacs-lisp :tangle yes
+(use-package goto-addr
+  :hook
+  (text-mode-hook . goto-address-mode)
+  (prog-mode-hook . goto-address-prog-mode))
+#+end_src
+
+*** Line highlight
+Disabled by default. When enabled, only highlight in the selected window.
+#+begin_src emacs-lisp :tangle yes
+(use-package hl-line
+  :init
+  (setq hl-line-sticky-flag nil)
+  (setq global-hl-line-sticky-flag nil))
+#+end_src
+
+*** Line wrapping
+**** adaptive-wrap
+#+begin_src emacs-lisp :tangle yes
+(use-package adaptive-wrap
+  :ensure t
+  :hook
+  (prog-mode-hook . adaptive-wrap-prefix-mode)
+  (text-mode-hook . adaptive-wrap-prefix-mode))
+#+end_src
+
+**** Visual Fill Column
+Soft wrap lines according to =fill-column= in =visual-line-mode=.
 #+begin_src emacs-lisp :tangle yes
 (use-package visual-fill-column
   :ensure t
@@ -1369,6 +1323,53 @@ Wrap lines according to =fill-column= in =visual-line-mode=.
   (:prefix
    toggle-prefix
    "SPC" '(virtual-auto-fill-mode :wk "Virtual auto fill")))
+#+end_src
+
+*** Page breaks
+Display page breaks as a horizontal line.
+#+begin_src emacs-lisp :tangle yes
+(use-package page-break-lines
+  :ensure t
+  :defer 3
+  :commands
+  (global-page-break-lines-mode)
+  :config
+  (global-page-break-lines-mode 1))
+#+end_src
+
+*** Tables
+#+begin_src emacs-lisp :tangle yes
+(use-package valign
+  :ensure t
+  :hook
+  (markdown-mode-hook . valign-mode)
+  (org-mode-hook . valign-mode)
+  :init
+  (setq valign-fancy-bar t))
+#+end_src
+
+*** Visible
+Making invisible text temporarily visible.
+#+begin_src emacs-lisp :tangle yes
+(use-package simple
+  :general
+  (:prefix
+   toggle-prefix
+   "v" '(visible-mode :wk "Visibility")))
+#+end_src
+
+*** Whitespace
+Display whitespace.
+#+begin_src emacs-lisp :tangle yes
+(use-package whitespace
+  :init
+  (setq whitespace-line-column fill-column)
+  (setq whitespace-style
+        '(face tabs tab-mark spaces space-mark trailing lines-tail))
+  (setq whitespace-display-mappings
+        '((tab-mark 9 [8250 9])
+          (newline-mark 10 [172 10])
+          (space-mark 32 [183] [46]))))
 #+end_src
 
 * Editing
@@ -1421,18 +1422,8 @@ Automatic parenthesis pairing and highlighting.
 #+end_src
 
 ** Packages
-*** cycle-quotes
-#+begin_src emacs-lisp :tangle yes
-(use-package cycle-quotes
-  :ensure t
-  :preface
-  (defrepeater #'cycle-quotes)
-  :general
-  ("C-x C-'" 'cycle-quotes)
-  ([remap cycle-quotes] 'cycle-quotes-repeat))
-#+end_src
-
 *** dtrt-indent
+Guess indentation offset and adjust the corresponding setting.
 #+begin_src emacs-lisp :tangle yes
 (use-package dtrt-indent
   :ensure t
@@ -1445,15 +1436,6 @@ Automatic parenthesis pairing and highlighting.
   :config
   (cl-pushnew '(default default (standard-indent tab-width)) dtrt-indent-hook-mapping-list :test #'equal)
   (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
-#+end_src
-
-*** goto-addr
-Buttonize URLs and e-mail addresses in the current buffer.
-#+begin_src emacs-lisp :tangle yes
-(use-package goto-addr
-  :hook
-  (text-mode-hook . goto-address-mode)
-  (prog-mode-hook . goto-address-prog-mode))
 #+end_src
 
 *** grugru
@@ -1546,6 +1528,18 @@ Structured editing with soft deletion and balanced expressions.
     (kill-region nil nil t)))
 #+end_src
 
+*** separedit
+#+begin_src emacs-lisp :tangle yes
+(use-package separedit
+  :ensure t
+  :general
+  (:keymaps
+   'prog-mode-map
+   "C-c '" 'separedit)
+  :init
+  (setq separedit-preserve-string-indentation t))
+#+end_src
+
 *** string-inflection
 Conversion between different variable naming conventions.
 Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
@@ -1566,20 +1560,6 @@ Visually highlight regular expression searches as you type. Also supports replac
    "M-s R" 'vr/replace))
 #+end_src
 
-*** whitespace
-Display whitespace
-#+begin_src emacs-lisp :tangle yes
-(use-package whitespace
-  :init
-  (setq whitespace-line-column fill-column)
-  (setq whitespace-style
-        '(face tabs tab-mark spaces space-mark trailing lines-tail))
-  (setq whitespace-display-mappings
-        '((tab-mark 9 [8250 9])
-          (newline-mark 10 [172 10])
-          (space-mark 32 [183] [46]))))
-#+end_src
-
 *** whole-line-or-region
 Cut/copy (=C-w= / =M-w=) the current line if no region is active.
 #+begin_src emacs-lisp :tangle yes
@@ -1587,49 +1567,6 @@ Cut/copy (=C-w= / =M-w=) the current line if no region is active.
   :ensure t
   :hook
   (after-init-hook . whole-line-or-region-global-mode))
-#+end_src
-
-** Appearance
-*** Line highlight
-Disabled by default. When enabled, only highlight in the selected window.
-#+begin_src emacs-lisp :tangle yes
-(use-package hl-line
-  :init
-  (setq hl-line-sticky-flag nil)
-  (setq global-hl-line-sticky-flag nil))
-#+end_src
-
-*** Page breaks
-Display page breaks as a horizontal line.
-#+begin_src emacs-lisp :tangle yes
-(use-package page-break-lines
-  :ensure t
-  :defer 3
-  :commands
-  (global-page-break-lines-mode)
-  :config
-  (global-page-break-lines-mode 1))
-#+end_src
-
-*** Visible
-Making invisible text temporarily visible.
-#+begin_src emacs-lisp :tangle yes
-(use-package simple
-  :general
-  (:prefix
-   toggle-prefix
-   "v" '(visible-mode :wk "Visibility")))
-#+end_src
-
-*** Tables
-#+begin_src emacs-lisp :tangle yes
-(use-package valign
-  :ensure t
-  :hook
-  (markdown-mode-hook . valign-mode)
-  (org-mode-hook . valign-mode)
-  :init
-  (setq valign-fancy-bar t))
 #+end_src
 
 * Buffers
@@ -1740,6 +1677,7 @@ More procedural scrolling.
 
 (use-package pixel-scroll
   :hook
+  (markdown-mode-hook . pixel-scroll-precision-mode)
   (org-mode-hook . pixel-scroll-precision-mode))
 #+end_src
 
@@ -1804,17 +1742,6 @@ Hide lines in buffer based on a regular expressions.
 (use-package pairable :ensure t)
 #+end_src
 
-*** rainbow-mode
-Display colors inline.
-#+begin_src emacs-lisp :tangle yes
-(use-package rainbow-mode
-  :ensure t
-  :minor
-  "-theme\\.el\\'"
-  :hook
-  (help-mode-hook . rainbow-mode))
-#+end_src
-
 *** readable
 #+begin_src emacs-lisp :tangle yes
 (use-package readable
@@ -1827,15 +1754,6 @@ Display colors inline.
     org-mode-hook
     outline-mode-hook
     rst-mode-hook) . readable-mode))
-#+end_src
-
-*** wgrep-ag
-Writeable grep buffer with ability to apply the changes to all the files.
-#+begin_src emacs-lisp :tangle yes
-(use-package wgrep-ag
-  :ensure t
-  :init
-  (setq wgrep-auto-save-buffer t))
 #+end_src
 
 * Navigation
@@ -1886,7 +1804,7 @@ mark ring.
   (dired-sidebar-mode-hook . hide-mode-line-mode)
   (dired-sidebar-mode-hook . hl-line-mode)
   (dired-sidebar-mode-hook . variable-pitch-mode)
-  (dired-sidebar-mode-hook . no-cursor-mode)
+  (dired-sidebar-mode-hook . hide-cursor-mode)
   :general
   (:prefix
    leader-key
@@ -1939,14 +1857,11 @@ Striped dired buffers.
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
+  :general
   (:keymaps
    'occur-mode-map
    "C-c '" 'occur-edit-mode))
-#+end_src
 
-*** Packages
-**** noccur
-#+begin_src emacs-lisp :tangle yes
 (use-package noccur
   :ensure t
   :general
@@ -1982,14 +1897,6 @@ Keep track of bookmarks
   :ensure t
   :hook
   (after-init-hook . ctrlf-mode))
-#+end_src
-
-*** ctrlxo
-#+begin_src emacs-lisp :tangle yes
-(use-package ctrlxo
-  :ensure t
-  :general
-  ("C-x o" 'ctrlxo))
 #+end_src
 
 *** deadgrep
@@ -2283,19 +2190,6 @@ Lookup documentation via DevDocs.
   (:prefix nav-prefix "K" 'devdocs-lookup))
 #+end_src
 
-** Editing
-*** separedit
-#+begin_src emacs-lisp :tangle yes
-(use-package separedit
-  :ensure t
-  :general
-  (:keymaps
-   'prog-mode-map
-   "C-c '" 'separedit)
-  :init
-  (setq separedit-preserve-string-indentation t))
-#+end_src
-
 ** Folding
 Code folding.
 #+begin_src emacs-lisp :tangle yes
@@ -2428,28 +2322,32 @@ Don't ask about keeping current list of tags tables.
 
 *** Persistent history in comint
 #+begin_src emacs-lisp :tangle yes
-(autoload 'comint-read-input-ring "comint")
-(autoload 'comint-write-input-ring "comint")
-
-(defun +comint-history-write-on-exit (process event)
-  "Write `comint' history on exit.
+(use-package comint
+  :functions
+  (comint-read-input-ring
+   comint-write-input-ring
+   comint-history-enable
+   comint-history-write-on-exit)
+  :config
+  (defun comint-history-write-on-exit (process event)
+    "Write `comint' history on exit.
 Receives PROCESS and EVENT."
-  (comint-write-input-ring)
-  (let ((buf (process-buffer process)))
-    (when (buffer-live-p buf)
-      (with-current-buffer buf
-        (insert (format "\nProcess %s %s" process event))))))
+    (comint-write-input-ring)
+    (let ((buf (process-buffer process)))
+      (when (buffer-live-p buf)
+        (with-current-buffer buf
+          (insert (format "\nProcess %s %s" process event))))))
 
-(defun +comint-history-enable ()
-  "Enable `comint' history."
-  (let ((process (get-buffer-process (current-buffer))))
-    (when process
-      (setq comint-input-ring-file-name
-            (expand-file-name
-             (format "comint-%s-history" (process-name process))
-             cache-dir))
-      (comint-read-input-ring)
-      (set-process-sentinel process #'+comint-history-write-on-exit))))
+  (defun comint-history-enable ()
+    "Enable `comint' history."
+    (let ((process (get-buffer-process (current-buffer))))
+      (when process
+        (setq comint-input-ring-file-name
+              (expand-file-name
+               (format "comint-%s-history" (process-name process))
+               cache-dir))
+        (comint-read-input-ring)
+        (set-process-sentinel process #'comint-history-write-on-exit)))))
 #+end_src
 
 ** Syntax checker
@@ -2774,21 +2672,13 @@ Document locations in a sidebar.
 #+begin_src emacs-lisp :tangle yes
 (use-package imenu-list
   :ensure t
+  :hook
+  (imenu-list-major-mode-hook . hide-mode-line-mode)
+  (imenu-list-major-mode-hook . hide-cursor-mode)
   :general
   (:prefix
    leader-key
    "i" 'imenu-list-smart-toggle))
-#+end_src
-
-*** source-peek
-Peek definition (Display the function source inline).
-#+begin_src emacs-lisp :tangle yes
-(use-package source-peek
-  :ensure t
-  :general
-  (:prefix
-   nav-prefix
-   "SPC" 'source-peek))
 #+end_src
 
 *** ws-butler
@@ -3001,7 +2891,7 @@ Improve readability of escape characters in regular expressions.
         '("~/org/Personal.org" "~/org/Work.org"))
   (setq org-insert-heading-respect-content t)
   (setq org-log-done 'time)
-  (setq org-modules nil)
+  (setq org-modules '(ol-info))
   (setq org-special-ctrl-a/e t)
   
   (setq org-confirm-babel-evaluate nil)
@@ -3017,7 +2907,9 @@ Improve readability of escape characters in regular expressions.
   (setq org-tag-alist
         '(("@work"  . ?w)
           ("@home"  . ?h)
-          ("laptop" . ?l))))
+          ("laptop" . ?l)))
+
+  (setq org-imenu-depth 3))
 
 (use-package ob-plantuml
   :init
@@ -3025,6 +2917,30 @@ Improve readability of escape characters in regular expressions.
 #+end_src
 
 *** Packages
+**** dslide
+Presentation mode.
+#+begin_src emacs-lisp :tangle yes
+(use-package dslide
+  :ensure t
+  :functions
+  (dslide-stop-restore-modes)
+  :hook
+  (dslide-start-hook . hide-cursor-mode)
+  (dslide-start-hook . global-no-fringes-mode)
+  (dslide-start-hook . hide-mode-line-mode)
+  (dslide-stop-hook . dslide-stop-restore-modes)
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix local-leader-key
+   "p" 'dslide-deck-start)
+  :init
+  (setq dslide-header nil)
+  :config
+  (defun dslide-stop-restore-modes ()
+    (global-no-fringes-mode 0)))
+#+end_src
+
 **** org-contrib
 Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 #+begin_src emacs-lisp :tangle yes
@@ -3083,25 +2999,6 @@ Annotate documents with ~org-mode~.
 Preview org-file in an ~eww~ buffer.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-preview-html :ensure t)
-#+end_src
-
-**** org-tree-slide
-Presentation mode.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-tree-slide
-  :ensure t
-  :hook
-  (org-tree-slide-play-hook . turn-on-hide-mode-line-mode)
-  (org-tree-slide-stop-hook . turn-off-hide-mode-line-mode)
-  (org-tree-slide-play-hook . no-fringes-mode)
-  :general
-  (:keymaps
-   'org-tree-slide-mode-map
-   "<right>" 'org-tree-slide-move-next-tree
-   "<left>" 'org-tree-slide-move-previous-tree)
-  :init
-  (setq org-tree-slide-header nil)
-  (setq org-tree-slide-slide-in-effect nil))
 #+end_src
 
 **** ob-http
@@ -4552,15 +4449,6 @@ Visual undo history navigation.
 * Testing
 Packages that I am currently testing or evaluating.
 
-** adaptive-wrap
-#+begin_src emacs-lisp :tangle yes
-(use-package adaptive-wrap
-  :ensure t
-  :hook
-  (prog-mode-hook . adaptive-wrap-prefix-mode)
-  (text-mode-hook . adaptive-wrap-prefix-mode))
-#+end_src
-
 ** annotate
 #+begin_src emacs-lisp :tangle yes
 (use-package annotate
@@ -4590,29 +4478,6 @@ Packages that I am currently testing or evaluating.
 (use-package dape :ensure t)
 #+end_src
 
-** dslide
-#+begin_src emacs-lisp :tangle yes
-(use-package dslide
-  :ensure t
-  :functions
-  (dslide-stop-restore-modes)
-  :hook
-  (dslide-start-hook . no-cursor-mode)
-  (dslide-start-hook . global-no-fringes-mode)
-  (dslide-start-hook . hide-mode-line-mode)
-  (dslide-stop-hook . dslide-stop-restore-modes)
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix local-leader-key
-   "p" 'dslide-deck-start)
-  :init
-  (setq dslide-header nil)
-  :config
-  (defun dslide-stop-restore-modes ()
-    (global-no-fringes-mode 0)))
-#+end_src
-
 ** elfeed
 #+begin_src emacs-lisp :tangle yes
 (use-package elfeed :ensure t)
@@ -4634,17 +4499,6 @@ Packages that I am currently testing or evaluating.
 ** freeze-it
 #+begin_src emacs-lisp :tangle yes
 (use-package freeze-it :ensure t)
-#+end_src
-
-** kind-icon
-#+begin_src emacs-lisp :tangle yes
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :commands
-  (kind-icon-margin-formatter)
-  :init
-  (cl-pushnew #'kind-icon-margin-formatter corfu-margin-formatters :test #'equal))
 #+end_src
 
 ** native-complete
@@ -4674,47 +4528,124 @@ Packages that I am currently testing or evaluating.
 (require 'private nil t)
 #+end_src
 
-* Tasks
-** TODO Look into generic code execution via =isend-mode=
-** TODO Look into ~set-selective-display~ to hide indentation levels
-** TODO Look into ~semantic-decoration-mode~
-** TODO Add binding for =org-noter=
-** TODO Group editing bindings under some logical prefix
-** TODO Improve window keys
-** TODO Improve find char keys
-** TODO Use =M-o= for some useful binding?
-** TODO Extract history persistence code (=persistory=)
+* Documentation
+** Keybindings
+I am trying to reduce the amount of custom keybindings, therefore I present a table of default keybindings in case I would forget them.
+
+*** Aliases
+| Keybinding | Alternative |
+|------------+-------------|
+| =M-=         | =C-[=         |
+| =TAB=        | =C-i=         |
+| =RET=        | =C-m=        |
+
+*** Commands
+| Keybinding      | Function                          | Description                                                                      |
+|-----------------+-----------------------------------+----------------------------------------------------------------------------------|
+| =C-o=             | ~open-line~                         | Open line above                                                                  |
+| =C-j=             | ~electric-newline-and-maybe-indent~ | Add newline and indent if needed                                                 |
+| =M-SPC=           | ~just-one-space~                    | Ensures just one space                                                           |
+| =M-\=             | ~delete-horizontal-space~           | Delete all space                                                                 |
+| =M-^=             | ~delete-indentation~                | Join current line with previous line                                             |
+| =M-z=             | ~zap-to-char~                       | Delete until character                                                           |
+| =C-S-backspace=   | ~kill-whole-line~                   | Kill entire lines, can be used to move several lines at once                     |
+| =M-/=             | ~dabbrev-expand~                    | Abbreviation completion                                                          |
+| =M-tab= / =C-[ C-i= | ~completion-at-point~               | More context aware completion                                                    |
+| =M-s .=           | ~isearch-forward-symbol-at-point~   | Search for the symbol at point                                                   |
+| =C-w=             | ~kill-region~                       | Cut                                                                              |
+| =M-w=             | ~kill-ring-save~                    | Copy                                                                             |
+| =C-y=             | ~yank~                              | Paste                                                                            |
+| =M-y=             | ~yank-next~                         | Paste (next item)                                                                |
+| =C-x SPC=         | ~rectangle-mark-mode~               | Rectangular selection                                                            |
+| =C-x r t=         | ~string-rectangle~                  | Insert string in beginning of rectangular selection (=C-t= in =rectangle-mark-mode=) |
+| =C-M-f=           | ~forward-sexp~                      | Move forward inside a balanced expression                                        |
+| =C-M-b=           | ~backward-sexp~                     | Move backward inside a balanced expression                                       |
+| =C-M-n=           | ~forward-list~                      | Move forward across one balanced group of parenthesis                            |
+| =C-M-p=           | ~backward-list~                     | Move backward across one balanced group of parenthesis                           |
+| =M-m=             | ~back-to-indentation~               | Move to the first non-whitespace character                                       |
+| =M-e=             | ~forward-sentence~                  | End of sentence                                                                  |
+| =M-a=             | ~backward-sentence~                 | Start of sentence                                                                |
+| =C-M-d=           | ~down-list~                         | Move forward down one level of parenthesis                                       |
+| =C-M-u=           | ~backward-up-list~                  | Move backward out of one level of parenthesis                                    |
+| =C-u C-x $=       | ~set-selective-display~             | Hide/show indentation level                                                      |
+| =C-x r w= <reg>   | ~window-configuration-to-register~  | Store the window configuration of the selected frame in REGISTER                 |
+| =C-x r j=         | ~jump-to-register~                  | Go to location stored in REGISTER, or restore configuration stored there         |
+| =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
+| =C-SPC=           | ~set-mark-command~                  | Set a mark                                                                       |
+| =C-u C-SPC=       | ~pop-to-mark-command~               | Pop a mark                                                                       |
+
+*** Gnus
+| Keybinding | Function                              | Description                                                   |
+|------------+---------------------------------------+---------------------------------------------------------------|
+| =L=          | ~gnus-group-list-all-groups~            | List all groups (works together with prefix to provide level) |
+| =RET=        | ~gnus-topic-select-group~               | List group mails (works together with prefix to see all)      |
+| =g=          | ~gnus-group-get-new-news~               | Refresh groups list                                           |
+| =G G=        | ~gnus-group-make-nnir-group~            | Search mails at server side                                   |
+| =#=          | ~gnus-group-mark-group~                 | Mark                                                          |
+| =M-#=        | ~gnus-group-unmark-group~               | Un-mark                                                       |
+| =R=          | ~gnus-summary-reply-with-original~      | Reply w/ quoted text                                          |
+| =r=          | ~gnus-summary-reply~                    | Reploy w/o quoted text                                        |
+| =S W=        | ~gnus-summary-wide-reply-with-original~ | Reply all w/ quoted text                                      |
+| =S w=        | ~gnus-summary-wide-reply~               | Reply all w/o quoted text                                     |
+| =m= / =C-x m=  | ~gnus-new-mail~                         | Compose new mail                                              |
+| =S D e=      | ~gnus-summary-resend-message-edit~      | Re-send a mail in Draft folder                                |
+| =C-c C-a=    | ~mml-attach-file~                       | Attach a file                                                 |
+| =o=          | ~gnus-mime-save-part~                   | Save attachment                                               |
+| =C-c C-f=    | ~gnus-summary-mail-forward~             | Forward mail                                                  |
+| =c=          | ~gnus-group-catchup-current~            | Mark mails as read                                            |
+
+*** Org
+| Keybinding | Function             | Description                                    |
+|------------+----------------------+------------------------------------------------|
+| =C-c C-w=    | ~org-refile~           | Move headline under another top level headline |
+| =<S-right>=  | ~org-shiftright~       | Cycle through todo keywords (right)            |
+| =<S-left>=   | ~org-shiftleft~        | Cycle through todo keywords (left)             |
+| =C-c C-c=    | ~org-ctrl-c-ctrl-c~    | Set tags for an item                           |
+| =C-c C-t=    | ~org-todo~             | Set tags for an item (via menu)                |
+| =C-c C-s=    | ~org-schedule~         | Schedule an item                               |
+| =C-c C-d=    | ~org-deadline~         | Set a deadline                                 |
+| =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
+
+** Tasks
+*** TODO Look into generic code execution via =isend-mode=
+*** TODO Look into ~set-selective-display~ to hide indentation levels
+*** TODO Look into ~semantic-decoration-mode~
+*** TODO Add binding for =org-noter=
+*** TODO Group editing bindings under some logical prefix
+*** TODO Improve window keys
+*** TODO Improve find char keys
+*** TODO Use =M-o= for some useful binding?
+*** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
-** TODO Enable auto-revert/save again?
-** TODO Use ~ielm~ as REPL for org-mode
-** TODO Use file-name as base for work-log date
-** TODO Daily tasks
-** TODO Write =ghq= tool using ~completing-read~
-** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
-** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
+*** TODO Enable auto-revert/save again?
+*** TODO Use ~ielm~ as REPL for org-mode
+*** TODO Use file-name as base for work-log date
+*** TODO Daily tasks
+*** TODO Write =ghq= tool using ~completing-read~
+*** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
+*** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
 - Diff merge-base =C-x v M D=, =C-x v M L=
 - ~vc-log-search~
-** TODO Use ChangeLog entries =C-x 4 a=
-** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
-** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
-** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
-** TODO Is it useful to use highlight-regexp?
-** TODO Split theme into several sections
+*** TODO Use ChangeLog entries =C-x 4 a=
+*** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
+*** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
+*** TODO Is it useful to use highlight-regexp?
+*** TODO Split theme into several sections
 - One theme to set big headers and such things
 - One theme to highlight errors
 - One theme for the mode-line
-** TODO Flymake + Elsa
-** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
-** TODO Evaluate skeleton
-** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
-** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
-** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
-** TODO Function to jump to file under point, preferably with support for : line number
-** TODO Function to load theme defined in current file
-** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
+*** TODO Flymake + Elsa
+*** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
+*** TODO Evaluate skeleton
+*** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
+*** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
+*** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
+*** TODO Function to jump to file under point, preferably with support for : line number
+*** TODO Function to load theme defined in current file
+*** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"

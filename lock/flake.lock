@@ -512,22 +512,6 @@
         "type": "github"
       }
     },
-    "ctrlxo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685981874,
-        "narHash": "sha256-P4+/dy9RHAWRrn+9uJdI8k8VlzthbJpdADKcFon7G/4=",
-        "owner": "muffinmad",
-        "repo": "emacs-ctrlxo",
-        "rev": "574e4498f70d28f0ff8877bcce6db48260b761a4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "muffinmad",
-        "repo": "emacs-ctrlxo",
-        "type": "github"
-      }
-    },
     "d2-mode": {
       "flake": false,
       "locked": {
@@ -1149,22 +1133,6 @@
       "original": {
         "owner": "orzechowskid",
         "repo": "flymake-eslint",
-        "type": "github"
-      }
-    },
-    "flymake-quickdef": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1583710964,
-        "narHash": "sha256-DyzkfgB3NISASaimT6tiq1dS1kDcBZxXR/IkmkZp7qU=",
-        "owner": "karlotness",
-        "repo": "flymake-quickdef",
-        "rev": "150c5839768a3d32f988f9dc08052978a68f2ad7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "karlotness",
-        "repo": "flymake-quickdef",
         "type": "github"
       }
     },
@@ -2432,22 +2400,6 @@
         "type": "github"
       }
     },
-    "org-tree-slide": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1693056120,
-        "narHash": "sha256-wnshl8vg7O2jS2mKuTgZLfh2SlNgHsdFN1SjE/D7NUQ=",
-        "owner": "takaxp",
-        "repo": "org-tree-slide",
-        "rev": "e2599a106a26ce5511095e23df4ea04be6687a8a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "takaxp",
-        "repo": "org-tree-slide",
-        "type": "github"
-      }
-    },
     "outline-minor-faces": {
       "flake": false,
       "locked": {
@@ -2785,22 +2737,6 @@
         "type": "github"
       }
     },
-    "quick-peek": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1580417963,
-        "narHash": "sha256-FKMyJDbqPa0ss2JpozBHp06cWhS5AeC22QDZxD68+s8=",
-        "owner": "cpitclaudel",
-        "repo": "quick-peek",
-        "rev": "03a276086795faad46a142454fc3e28cab058b70",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cpitclaudel",
-        "repo": "quick-peek",
-        "type": "github"
-      }
-    },
     "racket-mode": {
       "flake": false,
       "locked": {
@@ -2995,7 +2931,6 @@
         "cov": "cov",
         "crystal-mode": "crystal-mode",
         "ctrlf": "ctrlf",
-        "ctrlxo": "ctrlxo",
         "d2-mode": "d2-mode",
         "dape": "dape",
         "dash": "dash",
@@ -3035,7 +2970,6 @@
         "fish-completion": "fish-completion",
         "fish-mode": "fish-mode",
         "flymake-eslint": "flymake-eslint",
-        "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",
         "focus": "focus",
         "freeze-it": "freeze-it",
@@ -3115,7 +3049,6 @@
         "org-modern": "org-modern",
         "org-noter": "org-noter",
         "org-preview-html": "org-preview-html",
-        "org-tree-slide": "org-tree-slide",
         "outline-minor-faces": "outline-minor-faces",
         "ox-epub": "ox-epub",
         "package-lint": "package-lint",
@@ -3137,7 +3070,6 @@
         "puni": "puni",
         "pydoc": "pydoc",
         "python-test": "python-test",
-        "quick-peek": "quick-peek",
         "racket-mode": "racket-mode",
         "rainbow-delimiters": "rainbow-delimiters",
         "rake": "rake",
@@ -3160,7 +3092,6 @@
         "shrface": "shrface",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
-        "source-peek": "source-peek",
         "spark": "spark",
         "spinner": "spinner",
         "spray": "spray",
@@ -3186,8 +3117,6 @@
         "vterm-toggle": "vterm-toggle",
         "vundo": "vundo",
         "web-mode": "web-mode",
-        "wgrep": "wgrep",
-        "wgrep-ag": "wgrep-ag",
         "which-key": "which-key",
         "whole-line-or-region": "whole-line-or-region",
         "with-editor": "with-editor",
@@ -3388,22 +3317,6 @@
       "original": {
         "owner": "joaotavora",
         "repo": "sly-quicklisp",
-        "type": "github"
-      }
-    },
-    "source-peek": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1492985830,
-        "narHash": "sha256-7wuFNGdinXd5BH6XWJ5liLEZ1fIibbWBImAKeZgxUZE=",
-        "owner": "iqbalansari",
-        "repo": "emacs-source-peek",
-        "rev": "fa94ed1def1e44f3c3999d355599d1dd9bc44dab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "iqbalansari",
-        "repo": "emacs-source-peek",
         "type": "github"
       }
     },
@@ -3804,38 +3717,6 @@
       "original": {
         "owner": "fxbois",
         "repo": "web-mode",
-        "type": "github"
-      }
-    },
-    "wgrep": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702728594,
-        "narHash": "sha256-82cK3D1JZXr0XIx4P8HiWwfsQMttvqBNHHD9bC60Cmw=",
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "rev": "208b9d01cfffa71037527e3a324684b3ce45ddc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "type": "github"
-      }
-    },
-    "wgrep-ag": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702728594,
-        "narHash": "sha256-82cK3D1JZXr0XIx4P8HiWwfsQMttvqBNHHD9bC60Cmw=",
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
-        "rev": "208b9d01cfffa71037527e3a324684b3ce45ddc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mhayashi1120",
-        "repo": "Emacs-wgrep",
         "type": "github"
       }
     },
