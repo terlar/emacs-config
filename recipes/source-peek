@@ -1,2 +1,0 @@
-(source-peek :fetcher github
-             :repo "iqbalansari/emacs-source-peek")

@@ -432,12 +432,6 @@
       repo = "flymake-eslint";
       type = "github";
     };
-    flymake-quickdef = {
-      flake = false;
-      owner = "karlotness";
-      repo = "flymake-quickdef";
-      type = "github";
-    };
     flymake-racket = {
       flake = false;
       owner = "jojojames";
@@ -1042,12 +1036,6 @@
       repo = "python-test.el";
       type = "github";
     };
-    quick-peek = {
-      flake = false;
-      owner = "cpitclaudel";
-      repo = "quick-peek";
-      type = "github";
-    };
     racket-mode = {
       flake = false;
       owner = "greghendershott";
@@ -1178,12 +1166,6 @@
       flake = false;
       owner = "joaotavora";
       repo = "sly-quicklisp";
-      type = "github";
-    };
-    source-peek = {
-      flake = false;
-      owner = "iqbalansari";
-      repo = "emacs-source-peek";
       type = "github";
     };
     spark = {

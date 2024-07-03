@@ -13,7 +13,7 @@ The rough details:
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
 - key definitions :: [[https://github.com/noctuid/general.el][general]]
-- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/iqbalansari/emacs-source-peek][source-peek]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
+- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: =flymake=
 - persistent undo :: via ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
@@ -275,20 +275,6 @@ more natural to use.
 #+begin_src emacs-lisp :tangle yes
 (require 'cl-lib)
 (require 'cl-extra)
-#+end_src
-
-*** flymake-quickdef
-Library to quickly define backends for =flymake=.
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-quickdef :ensure t :commands (flymake-quickdef-backend))
-#+end_src
-
-*** quick-peek
-Library to display inline popups; used by ~source-peek~.
-#+begin_src emacs-lisp :tangle yes
-(use-package quick-peek
-  :ensure t
-  :commands (quick-peek-show))
 #+end_src
 
 ** Functions
@@ -2771,17 +2757,6 @@ Document locations in a sidebar.
    "i" 'imenu-list-smart-toggle))
 #+end_src
 
-*** source-peek
-Peek definition (Display the function source inline).
-#+begin_src emacs-lisp :tangle yes
-(use-package source-peek
-  :ensure t
-  :general
-  (:prefix
-   nav-prefix
-   "SPC" 'source-peek))
-#+end_src
-
 *** ws-butler
 Delete trailing white-space before save, but *only* for edited lines.
 #+begin_src emacs-lisp :tangle yes
@@ -4690,7 +4665,6 @@ Packages that I am currently testing or evaluating.
 - ~vc-log-search~
 ** TODO Use ChangeLog entries =C-x 4 a=
 ** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
-** TODO Create ~xref-quick-peek~ (inspired by [[https://github.com/fmdkdd/dotfiles/blob/master/emacs/.emacs.d/elisp/xref-posframe.el][xref-posframe]] or [[https://github.com/iqbalansari/emacs-source-peek][source-peek]])
 ** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
 ** TODO Is it useful to use highlight-regexp?
 ** TODO Split theme into several sections

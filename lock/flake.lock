@@ -1152,22 +1152,6 @@
         "type": "github"
       }
     },
-    "flymake-quickdef": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1583710964,
-        "narHash": "sha256-DyzkfgB3NISASaimT6tiq1dS1kDcBZxXR/IkmkZp7qU=",
-        "owner": "karlotness",
-        "repo": "flymake-quickdef",
-        "rev": "150c5839768a3d32f988f9dc08052978a68f2ad7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "karlotness",
-        "repo": "flymake-quickdef",
-        "type": "github"
-      }
-    },
     "flymake-racket": {
       "flake": false,
       "locked": {
@@ -2785,22 +2769,6 @@
         "type": "github"
       }
     },
-    "quick-peek": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1580417963,
-        "narHash": "sha256-FKMyJDbqPa0ss2JpozBHp06cWhS5AeC22QDZxD68+s8=",
-        "owner": "cpitclaudel",
-        "repo": "quick-peek",
-        "rev": "03a276086795faad46a142454fc3e28cab058b70",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cpitclaudel",
-        "repo": "quick-peek",
-        "type": "github"
-      }
-    },
     "racket-mode": {
       "flake": false,
       "locked": {
@@ -3035,7 +3003,6 @@
         "fish-completion": "fish-completion",
         "fish-mode": "fish-mode",
         "flymake-eslint": "flymake-eslint",
-        "flymake-quickdef": "flymake-quickdef",
         "flymake-racket": "flymake-racket",
         "focus": "focus",
         "freeze-it": "freeze-it",
@@ -3137,7 +3104,6 @@
         "puni": "puni",
         "pydoc": "pydoc",
         "python-test": "python-test",
-        "quick-peek": "quick-peek",
         "racket-mode": "racket-mode",
         "rainbow-delimiters": "rainbow-delimiters",
         "rake": "rake",
@@ -3160,7 +3126,6 @@
         "shrface": "shrface",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
-        "source-peek": "source-peek",
         "spark": "spark",
         "spinner": "spinner",
         "spray": "spray",
@@ -3388,22 +3353,6 @@
       "original": {
         "owner": "joaotavora",
         "repo": "sly-quicklisp",
-        "type": "github"
-      }
-    },
-    "source-peek": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1492985830,
-        "narHash": "sha256-7wuFNGdinXd5BH6XWJ5liLEZ1fIibbWBImAKeZgxUZE=",
-        "owner": "iqbalansari",
-        "repo": "emacs-source-peek",
-        "rev": "fa94ed1def1e44f3c3999d355599d1dd9bc44dab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "iqbalansari",
-        "repo": "emacs-source-peek",
         "type": "github"
       }
     },
