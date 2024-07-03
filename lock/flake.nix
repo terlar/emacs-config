@@ -897,12 +897,6 @@
       repo = "org-preview-html";
       type = "github";
     };
-    org-tree-slide = {
-      flake = false;
-      owner = "takaxp";
-      repo = "org-tree-slide";
-      type = "github";
-    };
     outline-minor-faces = {
       flake = false;
       owner = "tarsius";

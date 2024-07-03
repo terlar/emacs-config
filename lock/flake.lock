@@ -2400,22 +2400,6 @@
         "type": "github"
       }
     },
-    "org-tree-slide": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1693056120,
-        "narHash": "sha256-wnshl8vg7O2jS2mKuTgZLfh2SlNgHsdFN1SjE/D7NUQ=",
-        "owner": "takaxp",
-        "repo": "org-tree-slide",
-        "rev": "e2599a106a26ce5511095e23df4ea04be6687a8a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "takaxp",
-        "repo": "org-tree-slide",
-        "type": "github"
-      }
-    },
     "outline-minor-faces": {
       "flake": false,
       "locked": {
@@ -3065,7 +3049,6 @@
         "org-modern": "org-modern",
         "org-noter": "org-noter",
         "org-preview-html": "org-preview-html",
-        "org-tree-slide": "org-tree-slide",
         "outline-minor-faces": "outline-minor-faces",
         "ox-epub": "ox-epub",
         "package-lint": "package-lint",

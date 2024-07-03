@@ -2959,6 +2959,30 @@ Improve readability of escape characters in regular expressions.
 #+end_src
 
 *** Packages
+**** dslide
+Presentation mode.
+#+begin_src emacs-lisp :tangle yes
+(use-package dslide
+  :ensure t
+  :functions
+  (dslide-stop-restore-modes)
+  :hook
+  (dslide-start-hook . hide-cursor-mode)
+  (dslide-start-hook . global-no-fringes-mode)
+  (dslide-start-hook . hide-mode-line-mode)
+  (dslide-stop-hook . dslide-stop-restore-modes)
+  :general
+  (:keymaps
+   'org-mode-map
+   :prefix local-leader-key
+   "p" 'dslide-deck-start)
+  :init
+  (setq dslide-header nil)
+  :config
+  (defun dslide-stop-restore-modes ()
+    (global-no-fringes-mode 0)))
+#+end_src
+
 **** org-contrib
 Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 #+begin_src emacs-lisp :tangle yes
@@ -3017,25 +3041,6 @@ Annotate documents with ~org-mode~.
 Preview org-file in an ~eww~ buffer.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-preview-html :ensure t)
-#+end_src
-
-**** org-tree-slide
-Presentation mode.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-tree-slide
-  :ensure t
-  :hook
-  (org-tree-slide-play-hook . turn-on-hide-mode-line-mode)
-  (org-tree-slide-stop-hook . turn-off-hide-mode-line-mode)
-  (org-tree-slide-play-hook . no-fringes-mode)
-  :general
-  (:keymaps
-   'org-tree-slide-mode-map
-   "<right>" 'org-tree-slide-move-next-tree
-   "<left>" 'org-tree-slide-move-previous-tree)
-  :init
-  (setq org-tree-slide-header nil)
-  (setq org-tree-slide-slide-in-effect nil))
 #+end_src
 
 **** ob-http
@@ -4522,29 +4527,6 @@ Packages that I am currently testing or evaluating.
 ** dape
 #+begin_src emacs-lisp :tangle yes
 (use-package dape :ensure t)
-#+end_src
-
-** dslide
-#+begin_src emacs-lisp :tangle yes
-(use-package dslide
-  :ensure t
-  :functions
-  (dslide-stop-restore-modes)
-  :hook
-  (dslide-start-hook . no-cursor-mode)
-  (dslide-start-hook . global-no-fringes-mode)
-  (dslide-start-hook . hide-mode-line-mode)
-  (dslide-stop-hook . dslide-stop-restore-modes)
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix local-leader-key
-   "p" 'dslide-deck-start)
-  :init
-  (setq dslide-header nil)
-  :config
-  (defun dslide-stop-restore-modes ()
-    (global-no-fringes-mode 0)))
 #+end_src
 
 ** elfeed
