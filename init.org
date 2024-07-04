@@ -2030,8 +2030,7 @@ Reduce scroll margin.
 #+end_src
 
 ** Compilation
-Kill compilation process before starting another and save all buffers on ~compile~. Also there is
-~compile-on-save-mode~ that will compile when files are saved, compilation buffer will only be displayed on error.
+Kill compilation process before starting another and save all buffers on ~compile~. Also there is ~compile-on-save-mode~ that will compile when files are saved, compilation buffer will only be displayed on error.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
   :functions
