@@ -3239,13 +3239,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
                 :test #'equal)))
 #+end_src
 
-** elasticsearch
-#+begin_src emacs-lisp :tangle yes
-(use-package es-mode
-  :ensure t
-  :mode "\\.es\\'")
-#+end_src
-
 ** elixir
 #+begin_src emacs-lisp :tangle yes
 (use-package elixir-ts-mode
@@ -3503,17 +3496,6 @@ Persist REPL history.
    "t t" 'gradle-test)
   :init
   (setq gradle-executable-path "gradle"))
-#+end_src
-
-**** java-lookup
-#+begin_src emacs-lisp :tangle yes
-(use-package javadoc-lookup
-  :ensure t
-  :general
-  (:keymaps
-   'java-ts-mode-map
-   :prefix nav-prefix
-   "k" 'javadoc-lookup))
 #+end_src
 
 ** js
@@ -3807,17 +3789,6 @@ Pretty check-boxes
 #+end_src
 
 *** Packages
-**** pydoc
-#+begin_src emacs-lisp :tangle yes
-(use-package pydoc
-  :ensure t
-  :general
-  (:keymaps
-   'python-ts-mode-map
-   :prefix nav-prefix
-   "k" 'pydoc-at-point))
-#+end_src
-
 **** python-test
 #+begin_src emacs-lisp :tangle yes
 (use-package python-test
@@ -3976,15 +3947,6 @@ Pretty check-boxes as well as bullet lists.
   (put 'minitest-use-bundler 'safe-local-variable 'booleanp))
 #+end_src
 
-**** rake
-#+begin_src emacs-lisp :tangle yes
-(use-package rake
-  :ensure t
-  :init
-  (setq rake-completion-system 'default)
-  (setq rake-cache-file (expand-file-name "rake.cache" cache-dir)))
-#+end_src
-
 **** rspec-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package rspec-mode
@@ -4002,36 +3964,6 @@ Pretty check-boxes as well as bullet lists.
   (setq rspec-use-relative-path t)
   (setq rspec-use-opts-file-when-available nil)
   (setq rspec-command-options "--format progress"))
-#+end_src
-
-**** ruby-refactor
-#+begin_src emacs-lisp :tangle yes
-(use-package ruby-refactor
-  :ensure t
-  :hook
-  (ruby-ts-mode-hook . ruby-refactor-mode))
-#+end_src
-
-**** yard-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package yard-mode
-  :ensure t
-  :hook
-  (ruby-ts-mode-hook . yard-mode))
-#+end_src
-
-**** yari
-#+begin_src emacs-lisp :tangle yes
-(use-package yari
-  :ensure t
-  :general
-  (:keymaps
-   'ruby-ts-mode-map
-   :prefix nav-prefix
-   "k" 'yari)
-  (:keymaps
-   'help-command-map
-   "R" 'yari))
 #+end_src
 
 ** rust
@@ -4066,12 +3998,6 @@ Pretty check-boxes as well as bullet lists.
   (defun init-scala-prettify-symbols ()
     (setq prettify-symbols-alist scala-prettify-symbols-alist)
     (prettify-symbols-mode 1)))
-#+end_src
-
-*** Packages
-**** sbt-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package sbt-mode :ensure t)
 #+end_src
 
 ** sh

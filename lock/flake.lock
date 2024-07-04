@@ -976,22 +976,6 @@
         "type": "github"
       }
     },
-    "es-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1666782195,
-        "narHash": "sha256-ia2kbLUWlO1Q6Ym7a5+JmUzXVIXLE2lCQt3yUAy0YFk=",
-        "owner": "dakrone",
-        "repo": "es-mode",
-        "rev": "e82465fd785688bb58918ea62ca4de06a2a23a1e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dakrone",
-        "repo": "es-mode",
-        "type": "github"
-      }
-    },
     "eshell-fringe-status": {
       "flake": false,
       "locked": {
@@ -1693,22 +1677,6 @@
       "original": {
         "owner": "purcell",
         "repo": "inheritenv",
-        "type": "github"
-      }
-    },
-    "javadoc-lookup": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1455409877,
-        "narHash": "sha256-8hPgEJn0NrfJWfMME8Yr+gHZQae8U/s51RPpoCrj/pk=",
-        "owner": "skeeto",
-        "repo": "javadoc-lookup",
-        "rev": "507a2dd443d60b537b8f779c1847e2cd0ccd1382",
-        "type": "github"
-      },
-      "original": {
-        "owner": "skeeto",
-        "repo": "javadoc-lookup",
         "type": "github"
       }
     },
@@ -2593,22 +2561,6 @@
         "type": "github"
       }
     },
-    "pydoc": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1671719168,
-        "narHash": "sha256-NUI5wvJA7ty8DiyWPuSFRqDXhqoSo4N3trkIuVmD3sU=",
-        "owner": "statmobile",
-        "repo": "pydoc",
-        "rev": "c9d8b5249c1b3814da062ed9976e4137d6e8d869",
-        "type": "github"
-      },
-      "original": {
-        "owner": "statmobile",
-        "repo": "pydoc",
-        "type": "github"
-      }
-    },
     "python-test": {
       "flake": false,
       "locked": {
@@ -2654,22 +2606,6 @@
       "original": {
         "owner": "Fanael",
         "repo": "rainbow-delimiters",
-        "type": "github"
-      }
-    },
-    "rake": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1644568047,
-        "narHash": "sha256-2QiAO2w/Om9kjObAIfdE9wpPGXj9qY9ivB7iIGdNkY8=",
-        "owner": "asok",
-        "repo": "rake",
-        "rev": "452ea0caca33376487103c64177c295ed2960cca",
-        "type": "github"
-      },
-      "original": {
-        "owner": "asok",
-        "repo": "rake",
         "type": "github"
       }
     },
@@ -2848,7 +2784,6 @@
         "epithet": "epithet",
         "erlang": "erlang",
         "eros": "eros",
-        "es-mode": "es-mode",
         "eshell-fringe-status": "eshell-fringe-status",
         "esxml": "esxml",
         "explain-pause-mode": "explain-pause-mode",
@@ -2893,7 +2828,6 @@
         "inf-crystal": "inf-crystal",
         "inf-ruby": "inf-ruby",
         "inheritenv": "inheritenv",
-        "javadoc-lookup": "javadoc-lookup",
         "jinx": "jinx",
         "json-navigator": "json-navigator",
         "kind-icon": "kind-icon",
@@ -2949,11 +2883,9 @@
         "promise": "promise",
         "protobuf-mode": "protobuf-mode",
         "puni": "puni",
-        "pydoc": "pydoc",
         "python-test": "python-test",
         "racket-mode": "racket-mode",
         "rainbow-delimiters": "rainbow-delimiters",
-        "rake": "rake",
         "readable": "readable",
         "readable-mono-theme": "readable-mono-theme",
         "readable-typo-theme": "readable-typo-theme",
@@ -2962,18 +2894,15 @@
         "repl-toggle": "repl-toggle",
         "request": "request",
         "rspec-mode": "rspec-mode",
-        "ruby-refactor": "ruby-refactor",
         "rust-mode": "rust-mode",
         "rustic": "rustic",
         "s": "s",
-        "sbt-mode": "sbt-mode",
         "scala-mode": "scala-mode",
         "separedit": "separedit",
         "sesman": "sesman",
         "shrface": "shrface",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
-        "spark": "spark",
         "spinner": "spinner",
         "spray": "spray",
         "string-inflection": "string-inflection",
@@ -3002,8 +2931,6 @@
         "with-editor": "with-editor",
         "ws-butler": "ws-butler",
         "xterm-color": "xterm-color",
-        "yard-mode": "yard-mode",
-        "yari": "yari",
         "zoom-window": "zoom-window"
       }
     },
@@ -3020,22 +2947,6 @@
       "original": {
         "owner": "pezra",
         "repo": "rspec-mode",
-        "type": "github"
-      }
-    },
-    "ruby-refactor": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1455468612,
-        "narHash": "sha256-Ub/vaHWxHjdzIGLp8mO+by87QynyrSbsAkhxSGBEAIw=",
-        "owner": "ajvargo",
-        "repo": "ruby-refactor",
-        "rev": "e6b7125878a08518bffec6942df0c606f748e9ee",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ajvargo",
-        "repo": "ruby-refactor",
         "type": "github"
       }
     },
@@ -3084,22 +2995,6 @@
       "original": {
         "owner": "magnars",
         "repo": "s.el",
-        "type": "github"
-      }
-    },
-    "sbt-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1712228717,
-        "narHash": "sha256-iGUXrj7yB7w6yPJQIRcntQeGJoNLk/BZ2s6bXgFh6Aw=",
-        "owner": "hvesalai",
-        "repo": "emacs-sbt-mode",
-        "rev": "cc68728a6ef0600aad369157b3a2d0ce56afba9b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hvesalai",
-        "repo": "emacs-sbt-mode",
         "type": "github"
       }
     },
@@ -3196,22 +3091,6 @@
       "original": {
         "owner": "joaotavora",
         "repo": "sly-quicklisp",
-        "type": "github"
-      }
-    },
-    "spark": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1680822430,
-        "narHash": "sha256-9cX8nAD3ZohowJ/9DNBnwHQfiD1cKQGbQJ95QjNxcPw=",
-        "owner": "alvinfrancis",
-        "repo": "spark",
-        "rev": "0e58e5122cbb46fb6d850e3b72487431a3696861",
-        "type": "github"
-      },
-      "original": {
-        "owner": "alvinfrancis",
-        "repo": "spark",
         "type": "github"
       }
     },
@@ -3660,38 +3539,6 @@
       "original": {
         "owner": "atomontage",
         "repo": "xterm-color",
-        "type": "github"
-      }
-    },
-    "yard-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1683316252,
-        "narHash": "sha256-mi56orQv4VFz292oo2rl18CMg2+8Iz8+JMgJlVxvUfI=",
-        "owner": "pd",
-        "repo": "yard-mode.el",
-        "rev": "de1701753a64544c3376b015805f3661136d8038",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pd",
-        "repo": "yard-mode.el",
-        "type": "github"
-      }
-    },
-    "yari": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1448696361,
-        "narHash": "sha256-7m7FhgHjQDVkKHimQI3g/a+HZdmbnPTCV9zdZoE0KnE=",
-        "owner": "hron",
-        "repo": "yari.el",
-        "rev": "a2cb9656ee5dfe1fc2ee3854f3079a1c8e85dbe9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hron",
-        "repo": "yari.el",
         "type": "github"
       }
     },

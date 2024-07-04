@@ -366,12 +366,6 @@
       repo = "eros";
       type = "github";
     };
-    es-mode = {
-      flake = false;
-      owner = "dakrone";
-      repo = "es-mode";
-      type = "github";
-    };
     eshell-fringe-status = {
       flake = false;
       owner = "ryuslash";
@@ -632,12 +626,6 @@
       flake = false;
       owner = "purcell";
       repo = "inheritenv";
-      type = "github";
-    };
-    javadoc-lookup = {
-      flake = false;
-      owner = "skeeto";
-      repo = "javadoc-lookup";
       type = "github";
     };
     jinx = {
@@ -970,12 +958,6 @@
       repo = "puni";
       type = "github";
     };
-    pydoc = {
-      flake = false;
-      owner = "statmobile";
-      repo = "pydoc";
-      type = "github";
-    };
     python-test = {
       flake = false;
       owner = "emacs-pe";
@@ -992,12 +974,6 @@
       flake = false;
       owner = "Fanael";
       repo = "rainbow-delimiters";
-      type = "github";
-    };
-    rake = {
-      flake = false;
-      owner = "asok";
-      repo = "rake";
       type = "github";
     };
     readable = {
@@ -1048,12 +1024,6 @@
       repo = "rspec-mode";
       type = "github";
     };
-    ruby-refactor = {
-      flake = false;
-      owner = "ajvargo";
-      repo = "ruby-refactor";
-      type = "github";
-    };
     rust-mode = {
       flake = false;
       owner = "rust-lang";
@@ -1070,12 +1040,6 @@
       flake = false;
       owner = "magnars";
       repo = "s.el";
-      type = "github";
-    };
-    sbt-mode = {
-      flake = false;
-      owner = "hvesalai";
-      repo = "emacs-sbt-mode";
       type = "github";
     };
     scala-mode = {
@@ -1112,12 +1076,6 @@
       flake = false;
       owner = "joaotavora";
       repo = "sly-quicklisp";
-      type = "github";
-    };
-    spark = {
-      flake = false;
-      owner = "alvinfrancis";
-      repo = "spark";
       type = "github";
     };
     spinner = {
@@ -1285,18 +1243,6 @@
       flake = false;
       owner = "atomontage";
       repo = "xterm-color";
-      type = "github";
-    };
-    yard-mode = {
-      flake = false;
-      owner = "pd";
-      repo = "yard-mode.el";
-      type = "github";
-    };
-    yari = {
-      flake = false;
-      owner = "hron";
-      repo = "yari.el";
       type = "github";
     };
     zoom-window = {
