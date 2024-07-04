@@ -264,12 +264,6 @@
       repo = "docker.el";
       type = "github";
     };
-    docker-compose-mode = {
-      flake = false;
-      owner = "meqif";
-      repo = "docker-compose-mode";
-      type = "github";
-    };
     dslide = {
       flake = false;
       owner = "positron-solutions";
@@ -1327,12 +1321,6 @@
       flake = false;
       owner = "atomontage";
       repo = "xterm-color";
-      type = "github";
-    };
-    yaml-mode = {
-      flake = false;
-      owner = "yoshiki";
-      repo = "yaml-mode";
       type = "github";
     };
     yard-mode = {

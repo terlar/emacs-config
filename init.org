@@ -2146,7 +2146,6 @@ Support for Docker related files.
   :mode
   "Dockerfile\\'"
   "\\.dockerfile\\'")
-(use-package docker-compose-mode :ensure t)
 #+end_src
 
 *** Kubernetes
@@ -4188,10 +4187,9 @@ Display current path for HTML/XML/CSS.
 
 ** yaml
 #+begin_src emacs-lisp :tangle yes
-(use-package yaml-mode
-  :ensure t
+(use-package yaml-ts-mode
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
-  :hook (yaml-mode-hook . indent-bars-mode))
+  :hook (yaml-ts-mode-hook . indent-bars-mode))
 #+end_src
 
 * Tools

@@ -704,22 +704,6 @@
         "type": "github"
       }
     },
-    "docker-compose-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1598794579,
-        "narHash": "sha256-TfQ0r6bSjQglSyvz9OQVKmJSBRy37pDLqk/LwqPUdYg=",
-        "owner": "meqif",
-        "repo": "docker-compose-mode",
-        "rev": "abaa4f3aeb5c62d7d16e186dd7d77f4e846e126a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "meqif",
-        "repo": "docker-compose-mode",
-        "type": "github"
-      }
-    },
     "dslide": {
       "flake": false,
       "locked": {
@@ -2927,7 +2911,6 @@
         "dired-sidebar": "dired-sidebar",
         "dired-subtree": "dired-subtree",
         "docker": "docker",
-        "docker-compose-mode": "docker-compose-mode",
         "dslide": "dslide",
         "dtrt-indent": "dtrt-indent",
         "dumb-jump": "dumb-jump",
@@ -3105,7 +3088,6 @@
         "with-editor": "with-editor",
         "ws-butler": "ws-butler",
         "xterm-color": "xterm-color",
-        "yaml-mode": "yaml-mode",
         "yard-mode": "yard-mode",
         "yari": "yari",
         "zoom-window": "zoom-window"
@@ -3780,22 +3762,6 @@
       "original": {
         "owner": "atomontage",
         "repo": "xterm-color",
-        "type": "github"
-      }
-    },
-    "yaml-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1710691325,
-        "narHash": "sha256-9me8ohEx6htpUknm3rKiXs0qiHG7tw9CwTEZsxzXKkM=",
-        "owner": "yoshiki",
-        "repo": "yaml-mode",
-        "rev": "7b5ce294fb15c2c8926fa476d7218aa415550a2a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yoshiki",
-        "repo": "yaml-mode",
         "type": "github"
       }
     },
