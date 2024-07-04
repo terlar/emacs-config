@@ -1252,11 +1252,11 @@ Manage "popups".
           "\\*Messages\\*"
           "\\*envrc\\*"
           "^\\*eldoc"
-          compilation-mode
           elisp-refs-mode
           flymake-diagnostics-buffer-mode
           ghelp-page-mode
-          help-mode)))
+          help-mode
+          (lambda (buf) (with-current-buffer buf (derived-mode-p 'compilation-mode))))))
 #+end_src
 
 Zoom a window to display as a single window temporarily.
@@ -2077,7 +2077,7 @@ nothing happens."
        ((and (not (string-match "finished" outstr))
              (not compilation-window))
         ;; display that buffer.
-        (display-buffer "*compilation*"))
+        (display-buffer (compilation-find-buffer)))
        ;; If compilation succeeded and compilation buffer is visible,
        ((and (string-match "finished" outstr)
              compilation-window)
@@ -4028,9 +4028,7 @@ Pretty check-boxes as well as bullet lists.
   :init
   (setq rustic-lsp-client 'eglot)
   (with-eval-after-load 'org
-    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal))
-  :config
-  (require 'eglot))
+    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal)))
 #+end_src
 
 ** scala
