@@ -809,6 +809,11 @@ Display available keybindings in a popup as you press keys.
  [remap other-window] 'other-window-repeat
  ;; Region
  "C-x r S" 'sort-lines)
+
+(general-define-key
+ :keymaps 'global
+ :prefix local-leader-key
+ "t" '(:ignore t :wk "test"))
 #+end_src
 
 ** Navigation
@@ -1255,7 +1260,11 @@ Manage "popups".
           elisp-refs-mode
           flymake-diagnostics-buffer-mode
           ghelp-page-mode
-          (lambda (buf) (with-current-buffer buf (derived-mode-p '(compilation-mode help-mode)))))))
+          (lambda (buf)
+            (with-current-buffer buf
+              (derived-mode-p '(compilation-mode
+                                comint-mode
+                                help-mode)))))))
 #+end_src
 
 Zoom a window to display as a single window temporarily.
@@ -2289,32 +2298,16 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
   :ensure t
-  :commands
-  (clojure-repl
-   lua-repl)
   :general
   (:keymaps
-   'prog-mode-map
+   '(prog-mode-map org-mode-map)
    :prefix local-leader-key
    "r" 'rtog/toggle-repl)
   :init
   (setq rtog/goto-buffer-fun 'pop-to-buffer)
   (setq rtog/mode-repl-alist
         '((emacs-lisp-mode . ielm)
-          (clojure-mode . clojure-repl)
-          (elm-mode . elm-repl-load)
-          (lua-mode . lua-repl)
-          (racket-mode . racket-repl)))
-  :config
-  (defun clojure-repl ()
-    "Open a Clojure REPL."
-    (interactive)
-    (pop-to-buffer (cider-current-repl nil 'ensure)))
-
-  (defun lua-repl ()
-    "Open a Lua REPL."
-    (interactive)
-    (pop-to-buffer (process-buffer (lua-get-create-process)))))
+          (org-mode . ielm))))
 #+end_src
 
 *** Persistent history in comint
@@ -3124,7 +3117,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.\\(clj\\|dtm\\|edn\\)\\'"
   "\\(?:build\\|profile\\)\\.boot\\'"
   ("\\.cljc\\'" . clojurec-mode)
-  ("\\.cljs\\'" . clojurescript-mode))
+  ("\\.cljs\\'" . clojurescript-mode)
+  :config
+  (cl-pushnew '("src/\\([^/]+\\)\\.clj\\'" "test/\\1_test.clj") find-sibling-rules :test #'equal)
+  (cl-pushnew '("test/\\([^/]+\\)_test\\.clj\\'" "src/\\1.clj") find-sibling-rules :test #'equal))
 #+end_src
 
 *** Packages
@@ -3133,21 +3129,39 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package cider
   :ensure t
   :commands
-  (cider-current-repl)
+  (cider-current-repl
+   cider-jack-in-clj)
   :hook
+  (clojure-mode-hook . cider-mode)
   (cider-mode-hook . cider-auto-test-mode)
   :general
   (:keymaps
    'cider-mode-map
    :prefix local-leader-key
-   "c" 'cider-refresh
+   "R" 'cider-jack-in
+   "c" 'cider-ns-refresh
+   "l" 'cider-load-buffer
    "t a" 'cider-test-run-project-tests
    "t n" 'cider-test-run-ns-tests
-   "t t" 'cider-test-run-test)
+   "t t" 'cider-test-run-test
+   "t w" 'cider-auto-test-mode)
   :init
   (setq cider-prompt-for-symbol nil)
   (setq cider-repl-display-help-banner nil)
-  (setq cider-repl-history-file (concat data-dir "cider-history")))
+  (setq cider-repl-history-file (concat data-dir "cider-history"))
+
+  (with-eval-after-load 'popper
+    (cl-pushnew 'cider-test-report-mode popper-reference-buffers :test #'equal))
+  :config
+  (defun clojure-repl ()
+    "Open a Clojure REPL."
+    (interactive)
+    (if-let ((repl-buffer (cider-current-repl)))
+        (pop-to-buffer repl-buffer)
+      (cider-jack-in-clj nil)))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(clojure-mode . clojure-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** cobol
@@ -3176,13 +3190,17 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package inf-crystal
   :ensure t
+  :commands
+  (inf-crystal)
   :hook
   (crystal-mode-hook . inf-crystal-minor-mode)
-  :general
-  (:keymaps
-   'crystal-mode-map
-   :prefix local-leader-key
-   "r" 'inf-crystal))
+  :config
+  (defun crystal-repl ()
+    "Open a Crystal REPL."
+    (inf-crystal inf-crystal-interpreter))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(crystal-mode . crystal-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** csv
@@ -3258,7 +3276,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (setq elm-format-on-save t)
   (setq elm-package-json "elm.json")
   (setq elm-tags-exclude-elm-stuff nil)
-  (setq elm-tags-on-save t))
+  (setq elm-tags-on-save t)
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(elm-mode . elm-repl-load) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** epub
@@ -3296,12 +3317,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    'erlang-mode-map
    :prefix nav-prefix
    "k" 'erlang-man-function)
-  (:keymaps
-   'erlang-mode-map
-   :prefix local-leader-key
-   "r" 'erlang-shell-display
-   "t t" 'erlang-eunit-compile-and-run-current-test
-   "t m" 'erlang-eunit-compile-and-run-module-tests)
   :init
   (cl-pushnew '("src/\\([^/]+\\)\\.erl\\'" "test/\\1_tests.erl") find-sibling-rules :test #'equal)
   (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal)
@@ -3309,10 +3324,22 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (defun init-erlang-eunit ()
     "Setup EUnit support for `erlang-mode'."
     (require 'erlang-eunit))
+
   (defun init-erlang-flymake ()
     "Setup `flymake' support for `erlang-mode'."
     (require 'erlang-flymake)
-    (flymake-mode 1)))
+    (flymake-mode 1))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(erlang-mode . erlang-shell-display) rtog/mode-repl-alist :test #'equal)))
+
+(use-package erlang-eunit
+  :general
+  (:keymaps
+   'erlang-mode-map
+   :prefix local-leader-key
+   "t t" 'erlang-eunit-compile-and-run-current-test
+   "t m" 'erlang-eunit-compile-and-run-module-tests))
 #+end_src
 
 ** git
@@ -3456,10 +3483,10 @@ Persist REPL history.
 ** java
 #+begin_src emacs-lisp :tangle yes
 (use-package java-ts-mode
+  :preface
+  (cl-pushnew '(java-mode . java-ts-mode) major-mode-remap-alist :test #'equal)
   :hook
   (java-ts-mode-hook . eglot-ensure))
-
-(cl-pushnew '(java-mode . java-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 *** Packages
@@ -3567,18 +3594,11 @@ Persist REPL history.
 
 ** lua
 #+begin_src emacs-lisp :tangle yes
-(use-package lua-mode
-  :ensure t
+(use-package lua-ts-mode
   :mode "\\.lua\\'"
-  :commands
-  (lua-get-create-process)
-  :general
-  (:keymaps
-   'lua-mode-map
-   :prefix nav-prefix
-   "k" 'lua-search-documentation)
-  :init
-  (setq lua-documentation-function 'eww))
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(lua-ts-mode . lua-ts-inferior-lua) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** markdown
@@ -3829,7 +3849,10 @@ Pretty check-boxes
   (:keymaps
    'racket-mode-map
    :prefix local-leader-key
-   "t" 'racket-test))
+   "t" 'racket-test)
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(racket-mode . racket-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 *** Packages

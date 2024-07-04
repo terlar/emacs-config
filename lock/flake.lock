@@ -1904,22 +1904,6 @@
         "type": "github"
       }
     },
-    "lua-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1698054441,
-        "narHash": "sha256-+yNkp/7+MGTYNvb/Rq/eLcg4Yqf4bAfTslP95HspM9g=",
-        "owner": "immerrr",
-        "repo": "lua-mode",
-        "rev": "d074e4134b1beae9ed4c9b512af741ca0d852ba3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "immerrr",
-        "repo": "lua-mode",
-        "type": "github"
-      }
-    },
     "lv": {
       "flake": false,
       "locked": {
@@ -2922,7 +2906,6 @@
         "llm": "llm",
         "log4e": "log4e",
         "loop": "loop",
-        "lua-mode": "lua-mode",
         "lv": "lv",
         "magit": "magit",
         "magit-popup": "magit-popup",

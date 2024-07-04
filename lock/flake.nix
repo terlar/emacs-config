@@ -712,12 +712,6 @@
       repo = "loop.el";
       type = "github";
     };
-    lua-mode = {
-      flake = false;
-      owner = "immerrr";
-      repo = "lua-mode";
-      type = "github";
-    };
     lv = {
       flake = false;
       owner = "abo-abo";
