@@ -1255,8 +1255,7 @@ Manage "popups".
           elisp-refs-mode
           flymake-diagnostics-buffer-mode
           ghelp-page-mode
-          help-mode
-          (lambda (buf) (with-current-buffer buf (derived-mode-p 'compilation-mode))))))
+          (lambda (buf) (with-current-buffer buf (derived-mode-p '(compilation-mode help-mode)))))))
 #+end_src
 
 Zoom a window to display as a single window temporarily.
