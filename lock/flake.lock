@@ -1712,22 +1712,6 @@
         "type": "github"
       }
     },
-    "jest": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1659912195,
-        "narHash": "sha256-sm4luFGSIAFkmvd+3SlL4K5HKdZ+xeU6i/UtuUXO1aw=",
-        "owner": "edmundmiller",
-        "repo": "emacs-jest",
-        "rev": "c8145635c54bd7df9711000e889753d267afcdc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edmundmiller",
-        "repo": "emacs-jest",
-        "type": "github"
-      }
-    },
     "jinx": {
       "flake": false,
       "locked": {
@@ -1741,22 +1725,6 @@
       "original": {
         "owner": "minad",
         "repo": "jinx",
-        "type": "github"
-      }
-    },
-    "js2-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1713398768,
-        "narHash": "sha256-nl2E9IFce2UvrRvrgSIxsNyJY/qCC4VUhL2arSOfxGY=",
-        "owner": "mooz",
-        "repo": "js2-mode",
-        "rev": "9b90d31ed968e5c51bd3e279d4003248ea896807",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mooz",
-        "repo": "js2-mode",
         "type": "github"
       }
     },
@@ -2208,22 +2176,6 @@
         "type": "github"
       }
     },
-    "nodejs-repl": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716851615,
-        "narHash": "sha256-ZSWJKJss24az8AEbbsuzd+7KuXwSM79msUmz3syG7uA=",
-        "owner": "abicky",
-        "repo": "nodejs-repl.el",
-        "rev": "03d0b64768b40b71ae54de1b50eb58719e615746",
-        "type": "github"
-      },
-      "original": {
-        "owner": "abicky",
-        "repo": "nodejs-repl.el",
-        "type": "github"
-      }
-    },
     "nov": {
       "flake": false,
       "locked": {
@@ -2609,22 +2561,6 @@
         "type": "github"
       }
     },
-    "projectile": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1707735640,
-        "narHash": "sha256-iPbUDDNU5j/ygAxpCU7ZOgKhnG3wdsmnlXJY6vNBwWs=",
-        "owner": "bbatsov",
-        "repo": "projectile",
-        "rev": "0163b335a18af0f077a474d4dc6b36e22b5e3274",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bbatsov",
-        "repo": "projectile",
-        "type": "github"
-      }
-    },
     "promise": {
       "flake": false,
       "locked": {
@@ -2974,9 +2910,7 @@
         "inf-ruby": "inf-ruby",
         "inheritenv": "inheritenv",
         "javadoc-lookup": "javadoc-lookup",
-        "jest": "jest",
         "jinx": "jinx",
-        "js2-mode": "js2-mode",
         "json-navigator": "json-navigator",
         "kind-icon": "kind-icon",
         "kotlin-mode": "kotlin-mode",
@@ -3005,7 +2939,6 @@
         "nix-update": "nix-update",
         "no-littering": "no-littering",
         "noccur": "noccur",
-        "nodejs-repl": "nodejs-repl",
         "nov": "nov",
         "ob-http": "ob-http",
         "orderless": "orderless",
@@ -3030,7 +2963,6 @@
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
-        "projectile": "projectile",
         "promise": "promise",
         "protobuf-mode": "protobuf-mode",
         "puni": "puni",
@@ -3070,7 +3002,6 @@
         "terraform-doc": "terraform-doc",
         "terraform-mode": "terraform-mode",
         "transpose-frame": "transpose-frame",
-        "ts-comint": "ts-comint",
         "tuareg": "tuareg",
         "valign": "valign",
         "vc-msg": "vc-msg",
@@ -3474,22 +3405,6 @@
       "original": {
         "owner": "emacsorphanage",
         "repo": "transpose-frame",
-        "type": "github"
-      }
-    },
-    "ts-comint": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1545396254,
-        "narHash": "sha256-GDkXn4Rc/xYafD+csK4iAcqn28dNBb2xzSGtZsx6A4Q=",
-        "owner": "emacs-typescript",
-        "repo": "ts-comint",
-        "rev": "786b88fffc553e122868a1c4883f14136a040df6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacs-typescript",
-        "repo": "ts-comint",
         "type": "github"
       }
     },

@@ -640,22 +640,10 @@
       repo = "javadoc-lookup";
       type = "github";
     };
-    jest = {
-      flake = false;
-      owner = "edmundmiller";
-      repo = "emacs-jest";
-      type = "github";
-    };
     jinx = {
       flake = false;
       owner = "minad";
       repo = "jinx";
-      type = "github";
-    };
-    js2-mode = {
-      flake = false;
-      owner = "mooz";
-      repo = "js2-mode";
       type = "github";
     };
     json-navigator = {
@@ -826,12 +814,6 @@
       repo = "noccur.el";
       type = "github";
     };
-    nodejs-repl = {
-      flake = false;
-      owner = "abicky";
-      repo = "nodejs-repl.el";
-      type = "github";
-    };
     nov = {
       flake = false;
       owner = "emacsmirror";
@@ -974,12 +956,6 @@
       flake = false;
       owner = "auto-complete";
       repo = "popup-el";
-      type = "github";
-    };
-    projectile = {
-      flake = false;
-      owner = "bbatsov";
-      repo = "projectile";
       type = "github";
     };
     promise = {
@@ -1214,12 +1190,6 @@
       flake = false;
       owner = "emacsorphanage";
       repo = "transpose-frame";
-      type = "github";
-    };
-    ts-comint = {
-      flake = false;
-      owner = "emacs-typescript";
-      repo = "ts-comint";
       type = "github";
     };
     tuareg = {

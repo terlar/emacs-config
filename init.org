@@ -3515,33 +3515,6 @@ Persist REPL history.
   (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
 #+end_src
 
-**** jest
-Test framework execution.
-#+begin_src emacs-lisp :tangle yes
-(use-package jest
-  :ensure t
-  :general
-  (:keymaps
-   'js-ts-mode-map
-   :prefix local-leader-key
-   "t a" 'jest
-   "t f" 'jest-file
-   "t t" 'jest-popup)
-  :init
-  (setq jest-executable "jest"))
-#+end_src
-
-**** nodejs-repl
-REPL for nodejs.
-#+begin_src emacs-lisp :tangle yes
-(use-package nodejs-repl
-  :ensure t
-  :commands (nodejs-repl)
-  :init
-  (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(js-ts-mode . nodejs-repl) rtog/mode-repl-alist :test #'equal)))
-#+end_src
-
 ** json
 #+begin_src emacs-lisp :tangle yes
 (use-package json-ts-mode
@@ -4124,37 +4097,8 @@ Pretty check-boxes as well as bullet lists.
   :hook
   (typescript-ts-mode-hook . eglot-ensure)
   :init
-  (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(typescript-ts-mode . run-ts) rtog/mode-repl-alist :test #'equal))
-
   (cl-pushnew '("\\([^/]+\\)\\.ts\\'" "\\1.test.ts") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\).test\\.ts\\'" "\\1.ts") find-sibling-rules :test #'equal))
-#+end_src
-
-*** Packages
-**** ts-comint
-TypeScript REPL.
-#+begin_src emacs-lisp :tangle yes
-(use-package ts-comint
-  :ensure t
-  :init
-  (setq ts-comint-program-command "ts-node"))
-#+end_src
-
-**** jest
-Test framework execution.
-#+begin_src emacs-lisp :tangle yes
-(use-package jest
-  :ensure t
-  :general
-  (:keymaps
-   'typescript-ts-mode-map
-   :prefix local-leader-key
-   "t a" 'jest
-   "t f" 'jest-file
-   "t t" 'jest-popup)
-  :init
-  (setq jest-executable "jest"))
 #+end_src
 
 ** web
