@@ -809,6 +809,11 @@ Display available keybindings in a popup as you press keys.
  [remap other-window] 'other-window-repeat
  ;; Region
  "C-x r S" 'sort-lines)
+
+(general-define-key
+ :keymaps 'global
+ :prefix local-leader-key
+ "t" '(:ignore t :wk "test"))
 #+end_src
 
 ** Navigation
@@ -1252,11 +1257,14 @@ Manage "popups".
           "\\*Messages\\*"
           "\\*envrc\\*"
           "^\\*eldoc"
-          compilation-mode
           elisp-refs-mode
           flymake-diagnostics-buffer-mode
           ghelp-page-mode
-          help-mode)))
+          (lambda (buf)
+            (with-current-buffer buf
+              (derived-mode-p '(compilation-mode
+                                comint-mode
+                                help-mode)))))))
 #+end_src
 
 Zoom a window to display as a single window temporarily.
@@ -2077,7 +2085,7 @@ nothing happens."
        ((and (not (string-match "finished" outstr))
              (not compilation-window))
         ;; display that buffer.
-        (display-buffer "*compilation*"))
+        (display-buffer (compilation-find-buffer)))
        ;; If compilation succeeded and compilation buffer is visible,
        ((and (string-match "finished" outstr)
              compilation-window)
@@ -2146,7 +2154,6 @@ Support for Docker related files.
   :mode
   "Dockerfile\\'"
   "\\.dockerfile\\'")
-(use-package docker-compose-mode :ensure t)
 #+end_src
 
 *** Kubernetes
@@ -2291,32 +2298,16 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
   :ensure t
-  :commands
-  (clojure-repl
-   lua-repl)
   :general
   (:keymaps
-   'prog-mode-map
+   '(prog-mode-map org-mode-map)
    :prefix local-leader-key
    "r" 'rtog/toggle-repl)
   :init
   (setq rtog/goto-buffer-fun 'pop-to-buffer)
   (setq rtog/mode-repl-alist
         '((emacs-lisp-mode . ielm)
-          (clojure-mode . clojure-repl)
-          (elm-mode . elm-repl-load)
-          (lua-mode . lua-repl)
-          (racket-mode . racket-repl)))
-  :config
-  (defun clojure-repl ()
-    "Open a Clojure REPL."
-    (interactive)
-    (pop-to-buffer (cider-current-repl nil 'ensure)))
-
-  (defun lua-repl ()
-    "Open a Lua REPL."
-    (interactive)
-    (pop-to-buffer (process-buffer (lua-get-create-process)))))
+          (org-mode . ielm))))
 #+end_src
 
 *** Persistent history in comint
@@ -3126,7 +3117,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   "\\.\\(clj\\|dtm\\|edn\\)\\'"
   "\\(?:build\\|profile\\)\\.boot\\'"
   ("\\.cljc\\'" . clojurec-mode)
-  ("\\.cljs\\'" . clojurescript-mode))
+  ("\\.cljs\\'" . clojurescript-mode)
+  :config
+  (cl-pushnew '("src/\\([^/]+\\)\\.clj\\'" "test/\\1_test.clj") find-sibling-rules :test #'equal)
+  (cl-pushnew '("test/\\([^/]+\\)_test\\.clj\\'" "src/\\1.clj") find-sibling-rules :test #'equal))
 #+end_src
 
 *** Packages
@@ -3135,21 +3129,39 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package cider
   :ensure t
   :commands
-  (cider-current-repl)
+  (cider-current-repl
+   cider-jack-in-clj)
   :hook
+  (clojure-mode-hook . cider-mode)
   (cider-mode-hook . cider-auto-test-mode)
   :general
   (:keymaps
    'cider-mode-map
    :prefix local-leader-key
-   "c" 'cider-refresh
+   "R" 'cider-jack-in
+   "c" 'cider-ns-refresh
+   "l" 'cider-load-buffer
    "t a" 'cider-test-run-project-tests
    "t n" 'cider-test-run-ns-tests
-   "t t" 'cider-test-run-test)
+   "t t" 'cider-test-run-test
+   "t w" 'cider-auto-test-mode)
   :init
   (setq cider-prompt-for-symbol nil)
   (setq cider-repl-display-help-banner nil)
-  (setq cider-repl-history-file (concat data-dir "cider-history")))
+  (setq cider-repl-history-file (concat data-dir "cider-history"))
+
+  (with-eval-after-load 'popper
+    (cl-pushnew 'cider-test-report-mode popper-reference-buffers :test #'equal))
+  :config
+  (defun clojure-repl ()
+    "Open a Clojure REPL."
+    (interactive)
+    (if-let ((repl-buffer (cider-current-repl)))
+        (pop-to-buffer repl-buffer)
+      (cider-jack-in-clj nil)))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(clojure-mode . clojure-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** cobol
@@ -3178,13 +3190,17 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package inf-crystal
   :ensure t
+  :commands
+  (inf-crystal)
   :hook
   (crystal-mode-hook . inf-crystal-minor-mode)
-  :general
-  (:keymaps
-   'crystal-mode-map
-   :prefix local-leader-key
-   "r" 'inf-crystal))
+  :config
+  (defun crystal-repl ()
+    "Open a Crystal REPL."
+    (inf-crystal inf-crystal-interpreter))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(crystal-mode . crystal-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** csv
@@ -3223,13 +3239,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
                 :test #'equal)))
 #+end_src
 
-** elasticsearch
-#+begin_src emacs-lisp :tangle yes
-(use-package es-mode
-  :ensure t
-  :mode "\\.es\\'")
-#+end_src
-
 ** elixir
 #+begin_src emacs-lisp :tangle yes
 (use-package elixir-ts-mode
@@ -3260,7 +3269,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (setq elm-format-on-save t)
   (setq elm-package-json "elm.json")
   (setq elm-tags-exclude-elm-stuff nil)
-  (setq elm-tags-on-save t))
+  (setq elm-tags-on-save t)
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(elm-mode . elm-repl-load) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** epub
@@ -3298,12 +3310,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
    'erlang-mode-map
    :prefix nav-prefix
    "k" 'erlang-man-function)
-  (:keymaps
-   'erlang-mode-map
-   :prefix local-leader-key
-   "r" 'erlang-shell-display
-   "t t" 'erlang-eunit-compile-and-run-current-test
-   "t m" 'erlang-eunit-compile-and-run-module-tests)
   :init
   (cl-pushnew '("src/\\([^/]+\\)\\.erl\\'" "test/\\1_tests.erl") find-sibling-rules :test #'equal)
   (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal)
@@ -3311,10 +3317,22 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (defun init-erlang-eunit ()
     "Setup EUnit support for `erlang-mode'."
     (require 'erlang-eunit))
+
   (defun init-erlang-flymake ()
     "Setup `flymake' support for `erlang-mode'."
     (require 'erlang-flymake)
-    (flymake-mode 1)))
+    (flymake-mode 1))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(erlang-mode . erlang-shell-display) rtog/mode-repl-alist :test #'equal)))
+
+(use-package erlang-eunit
+  :general
+  (:keymaps
+   'erlang-mode-map
+   :prefix local-leader-key
+   "t t" 'erlang-eunit-compile-and-run-current-test
+   "t m" 'erlang-eunit-compile-and-run-module-tests))
 #+end_src
 
 ** git
@@ -3458,10 +3476,10 @@ Persist REPL history.
 ** java
 #+begin_src emacs-lisp :tangle yes
 (use-package java-ts-mode
+  :preface
+  (cl-pushnew '(java-mode . java-ts-mode) major-mode-remap-alist :test #'equal)
   :hook
   (java-ts-mode-hook . eglot-ensure))
-
-(cl-pushnew '(java-mode . java-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
 *** Packages
@@ -3478,17 +3496,6 @@ Persist REPL history.
    "t t" 'gradle-test)
   :init
   (setq gradle-executable-path "gradle"))
-#+end_src
-
-**** java-lookup
-#+begin_src emacs-lisp :tangle yes
-(use-package javadoc-lookup
-  :ensure t
-  :general
-  (:keymaps
-   'java-ts-mode-map
-   :prefix nav-prefix
-   "k" 'javadoc-lookup))
 #+end_src
 
 ** js
@@ -3514,33 +3521,6 @@ Persist REPL history.
   :init
   (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
   (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
-#+end_src
-
-**** jest
-Test framework execution.
-#+begin_src emacs-lisp :tangle yes
-(use-package jest
-  :ensure t
-  :general
-  (:keymaps
-   'js-ts-mode-map
-   :prefix local-leader-key
-   "t a" 'jest
-   "t f" 'jest-file
-   "t t" 'jest-popup)
-  :init
-  (setq jest-executable "jest"))
-#+end_src
-
-**** nodejs-repl
-REPL for nodejs.
-#+begin_src emacs-lisp :tangle yes
-(use-package nodejs-repl
-  :ensure t
-  :commands (nodejs-repl)
-  :init
-  (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(js-ts-mode . nodejs-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** json
@@ -3596,18 +3576,11 @@ REPL for nodejs.
 
 ** lua
 #+begin_src emacs-lisp :tangle yes
-(use-package lua-mode
-  :ensure t
+(use-package lua-ts-mode
   :mode "\\.lua\\'"
-  :commands
-  (lua-get-create-process)
-  :general
-  (:keymaps
-   'lua-mode-map
-   :prefix nav-prefix
-   "k" 'lua-search-documentation)
-  :init
-  (setq lua-documentation-function 'eww))
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(lua-ts-mode . lua-ts-inferior-lua) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** markdown
@@ -3816,17 +3789,6 @@ Pretty check-boxes
 #+end_src
 
 *** Packages
-**** pydoc
-#+begin_src emacs-lisp :tangle yes
-(use-package pydoc
-  :ensure t
-  :general
-  (:keymaps
-   'python-ts-mode-map
-   :prefix nav-prefix
-   "k" 'pydoc-at-point))
-#+end_src
-
 **** python-test
 #+begin_src emacs-lisp :tangle yes
 (use-package python-test
@@ -3858,7 +3820,10 @@ Pretty check-boxes
   (:keymaps
    'racket-mode-map
    :prefix local-leader-key
-   "t" 'racket-test))
+   "t" 'racket-test)
+  :config
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(racket-mode . racket-repl) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 *** Packages
@@ -3982,15 +3947,6 @@ Pretty check-boxes as well as bullet lists.
   (put 'minitest-use-bundler 'safe-local-variable 'booleanp))
 #+end_src
 
-**** rake
-#+begin_src emacs-lisp :tangle yes
-(use-package rake
-  :ensure t
-  :init
-  (setq rake-completion-system 'default)
-  (setq rake-cache-file (expand-file-name "rake.cache" cache-dir)))
-#+end_src
-
 **** rspec-mode
 #+begin_src emacs-lisp :tangle yes
 (use-package rspec-mode
@@ -4010,36 +3966,6 @@ Pretty check-boxes as well as bullet lists.
   (setq rspec-command-options "--format progress"))
 #+end_src
 
-**** ruby-refactor
-#+begin_src emacs-lisp :tangle yes
-(use-package ruby-refactor
-  :ensure t
-  :hook
-  (ruby-ts-mode-hook . ruby-refactor-mode))
-#+end_src
-
-**** yard-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package yard-mode
-  :ensure t
-  :hook
-  (ruby-ts-mode-hook . yard-mode))
-#+end_src
-
-**** yari
-#+begin_src emacs-lisp :tangle yes
-(use-package yari
-  :ensure t
-  :general
-  (:keymaps
-   'ruby-ts-mode-map
-   :prefix nav-prefix
-   "k" 'yari)
-  (:keymaps
-   'help-command-map
-   "R" 'yari))
-#+end_src
-
 ** rust
 #+begin_src emacs-lisp :tangle yes
 (use-package rustic
@@ -4056,9 +3982,7 @@ Pretty check-boxes as well as bullet lists.
   :init
   (setq rustic-lsp-client 'eglot)
   (with-eval-after-load 'org
-    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal))
-  :config
-  (require 'eglot))
+    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal)))
 #+end_src
 
 ** scala
@@ -4074,12 +3998,6 @@ Pretty check-boxes as well as bullet lists.
   (defun init-scala-prettify-symbols ()
     (setq prettify-symbols-alist scala-prettify-symbols-alist)
     (prettify-symbols-mode 1)))
-#+end_src
-
-*** Packages
-**** sbt-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package sbt-mode :ensure t)
 #+end_src
 
 ** sh
@@ -4125,37 +4043,8 @@ Pretty check-boxes as well as bullet lists.
   :hook
   (typescript-ts-mode-hook . eglot-ensure)
   :init
-  (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(typescript-ts-mode . run-ts) rtog/mode-repl-alist :test #'equal))
-
   (cl-pushnew '("\\([^/]+\\)\\.ts\\'" "\\1.test.ts") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\).test\\.ts\\'" "\\1.ts") find-sibling-rules :test #'equal))
-#+end_src
-
-*** Packages
-**** ts-comint
-TypeScript REPL.
-#+begin_src emacs-lisp :tangle yes
-(use-package ts-comint
-  :ensure t
-  :init
-  (setq ts-comint-program-command "ts-node"))
-#+end_src
-
-**** jest
-Test framework execution.
-#+begin_src emacs-lisp :tangle yes
-(use-package jest
-  :ensure t
-  :general
-  (:keymaps
-   'typescript-ts-mode-map
-   :prefix local-leader-key
-   "t a" 'jest
-   "t f" 'jest-file
-   "t t" 'jest-popup)
-  :init
-  (setq jest-executable "jest"))
 #+end_src
 
 ** web
@@ -4188,10 +4077,9 @@ Display current path for HTML/XML/CSS.
 
 ** yaml
 #+begin_src emacs-lisp :tangle yes
-(use-package yaml-mode
-  :ensure t
+(use-package yaml-ts-mode
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
-  :hook (yaml-mode-hook . indent-bars-mode))
+  :hook (yaml-ts-mode-hook . indent-bars-mode))
 #+end_src
 
 * Tools

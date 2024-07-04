@@ -264,12 +264,6 @@
       repo = "docker.el";
       type = "github";
     };
-    docker-compose-mode = {
-      flake = false;
-      owner = "meqif";
-      repo = "docker-compose-mode";
-      type = "github";
-    };
     dslide = {
       flake = false;
       owner = "positron-solutions";
@@ -370,12 +364,6 @@
       flake = false;
       owner = "xiongtx";
       repo = "eros";
-      type = "github";
-    };
-    es-mode = {
-      flake = false;
-      owner = "dakrone";
-      repo = "es-mode";
       type = "github";
     };
     eshell-fringe-status = {
@@ -640,28 +628,10 @@
       repo = "inheritenv";
       type = "github";
     };
-    javadoc-lookup = {
-      flake = false;
-      owner = "skeeto";
-      repo = "javadoc-lookup";
-      type = "github";
-    };
-    jest = {
-      flake = false;
-      owner = "edmundmiller";
-      repo = "emacs-jest";
-      type = "github";
-    };
     jinx = {
       flake = false;
       owner = "minad";
       repo = "jinx";
-      type = "github";
-    };
-    js2-mode = {
-      flake = false;
-      owner = "mooz";
-      repo = "js2-mode";
       type = "github";
     };
     json-navigator = {
@@ -728,12 +698,6 @@
       flake = false;
       owner = "Wilfred";
       repo = "loop.el";
-      type = "github";
-    };
-    lua-mode = {
-      flake = false;
-      owner = "immerrr";
-      repo = "lua-mode";
       type = "github";
     };
     lv = {
@@ -830,12 +794,6 @@
       flake = false;
       owner = "NicolasPetton";
       repo = "noccur.el";
-      type = "github";
-    };
-    nodejs-repl = {
-      flake = false;
-      owner = "abicky";
-      repo = "nodejs-repl.el";
       type = "github";
     };
     nov = {
@@ -982,12 +940,6 @@
       repo = "popup-el";
       type = "github";
     };
-    projectile = {
-      flake = false;
-      owner = "bbatsov";
-      repo = "projectile";
-      type = "github";
-    };
     promise = {
       flake = false;
       owner = "chuntaro";
@@ -1006,12 +958,6 @@
       repo = "puni";
       type = "github";
     };
-    pydoc = {
-      flake = false;
-      owner = "statmobile";
-      repo = "pydoc";
-      type = "github";
-    };
     python-test = {
       flake = false;
       owner = "emacs-pe";
@@ -1028,12 +974,6 @@
       flake = false;
       owner = "Fanael";
       repo = "rainbow-delimiters";
-      type = "github";
-    };
-    rake = {
-      flake = false;
-      owner = "asok";
-      repo = "rake";
       type = "github";
     };
     readable = {
@@ -1084,12 +1024,6 @@
       repo = "rspec-mode";
       type = "github";
     };
-    ruby-refactor = {
-      flake = false;
-      owner = "ajvargo";
-      repo = "ruby-refactor";
-      type = "github";
-    };
     rust-mode = {
       flake = false;
       owner = "rust-lang";
@@ -1106,12 +1040,6 @@
       flake = false;
       owner = "magnars";
       repo = "s.el";
-      type = "github";
-    };
-    sbt-mode = {
-      flake = false;
-      owner = "hvesalai";
-      repo = "emacs-sbt-mode";
       type = "github";
     };
     scala-mode = {
@@ -1148,12 +1076,6 @@
       flake = false;
       owner = "joaotavora";
       repo = "sly-quicklisp";
-      type = "github";
-    };
-    spark = {
-      flake = false;
-      owner = "alvinfrancis";
-      repo = "spark";
       type = "github";
     };
     spinner = {
@@ -1220,12 +1142,6 @@
       flake = false;
       owner = "emacsorphanage";
       repo = "transpose-frame";
-      type = "github";
-    };
-    ts-comint = {
-      flake = false;
-      owner = "emacs-typescript";
-      repo = "ts-comint";
       type = "github";
     };
     tuareg = {
@@ -1327,24 +1243,6 @@
       flake = false;
       owner = "atomontage";
       repo = "xterm-color";
-      type = "github";
-    };
-    yaml-mode = {
-      flake = false;
-      owner = "yoshiki";
-      repo = "yaml-mode";
-      type = "github";
-    };
-    yard-mode = {
-      flake = false;
-      owner = "pd";
-      repo = "yard-mode.el";
-      type = "github";
-    };
-    yari = {
-      flake = false;
-      owner = "hron";
-      repo = "yari.el";
       type = "github";
     };
     zoom-window = {
