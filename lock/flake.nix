@@ -891,12 +891,6 @@
       repo = "org-noter";
       type = "github";
     };
-    org-preview-html = {
-      flake = false;
-      owner = "jakebox";
-      repo = "org-preview-html";
-      type = "github";
-    };
     outline-minor-faces = {
       flake = false;
       owner = "tarsius";

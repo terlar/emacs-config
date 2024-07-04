@@ -2994,12 +2994,6 @@ Annotate documents with ~org-mode~.
 (use-package org-noter :ensure t)
 #+end_src
 
-**** org-preview-html
-Preview org-file in an ~eww~ buffer.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-preview-html :ensure t)
-#+end_src
-
 **** ob-http
 #+begin_src emacs-lisp :tangle yes
 (use-package ob-http :ensure t)
