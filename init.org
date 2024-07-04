@@ -2030,8 +2030,7 @@ Reduce scroll margin.
 #+end_src
 
 ** Compilation
-Kill compilation process before starting another and save all buffers on ~compile~. Also there is
-~compile-on-save-mode~ that will compile when files are saved, compilation buffer will only be displayed on error.
+Kill compilation process before starting another and save all buffers on ~compile~. Also there is ~compile-on-save-mode~ that will compile when files are saved, compilation buffer will only be displayed on error.
 #+begin_src emacs-lisp :tangle yes
 (use-package compile
   :functions
@@ -2993,12 +2992,6 @@ Eldoc support, showing path to current section.
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-noter :ensure t)
-#+end_src
-
-**** org-preview-html
-Preview org-file in an ~eww~ buffer.
-#+begin_src emacs-lisp :tangle yes
-(use-package org-preview-html :ensure t)
 #+end_src
 
 **** ob-http

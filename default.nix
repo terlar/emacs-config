@@ -3,31 +3,13 @@
   stdenv,
   trivialBuild,
   emacs-all-the-icons-fonts,
+  emacsPackages,
   iosevka-bin,
-  linkFarm,
   ripgrep,
-  tree-sitter-grammars,
-  writeText,
   xorg,
 }:
 let
-  initTreesit = writeText "init-treesit.el" ''
-    (add-to-list 'treesit-extra-load-path  "${
-      lib.pipe tree-sitter-grammars [
-        builtins.attrValues
-        (builtins.filter lib.isDerivation)
-        (map (drv: {
-          name = builtins.concatStringsSep "" [
-            "lib"
-            (lib.removeSuffix "-grammar" (lib.getName drv))
-            stdenv.targetPlatform.extensions.sharedLibrary
-          ];
-          path = "${drv}/parser";
-        }))
-        (linkFarm "treesit-grammars")
-      ]
-    }/")
-  '';
+  tree-sitter = emacsPackages.treesit-grammars.with-all-grammars;
 
   init = trivialBuild {
     pname = "config-init";
@@ -40,15 +22,20 @@ let
         --load org \
         *.org \
         --funcall org-babel-tangle
-
-      cat ${initTreesit} >> init.el
     '';
 
     buildPhase = ''
       runHook preBuild
 
       export HOME="$(mktemp -d)"
-      emacs -L . --batch --eval '(setq byte-compile-error-on-warn t)' -f batch-byte-compile *.el
+
+      mkdir -p "$HOME/.emacs.d"
+      ln -s ${tree-sitter}/lib "$HOME/.emacs.d/tree-sitter"
+
+      emacs --batch --quick \
+        --eval '(setq byte-compile-error-on-warn t)' \
+        --funcall batch-byte-compile \
+        *.el
 
       runHook postBuild
     '';
@@ -76,7 +63,7 @@ stdenv.mkDerivation {
   ];
 
   passthru.components = {
-    inherit init initTreesit;
+    inherit init;
   };
 
   installPhase = ''
@@ -89,5 +76,7 @@ stdenv.mkDerivation {
     fi
 
     install -D -t $out $src/templates
+
+    ln -s ${tree-sitter}/lib $out/tree-sitter
   '';
 }
