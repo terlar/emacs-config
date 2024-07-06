@@ -804,6 +804,9 @@ Display available keybindings in a popup as you press keys.
  "M-p" 'completion-at-point
  "C-M-y" 'duplicate-dwim
  "C-z" 'zap-up-to-char
+ [remap upcase-word] 'upcase-dwim
+ [remap downcase-word] 'downcase-dwim
+ [remap capitalize-word] 'capitalize-dwim
  ;; Files
  "C-x j" 'find-sibling-file
  [remap other-window] 'other-window-repeat
