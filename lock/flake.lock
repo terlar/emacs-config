@@ -2927,7 +2927,6 @@
         "vundo": "vundo",
         "web-mode": "web-mode",
         "which-key": "which-key",
-        "whole-line-or-region": "whole-line-or-region",
         "with-editor": "with-editor",
         "ws-butler": "ws-butler",
         "xterm-color": "xterm-color",
@@ -3475,22 +3474,6 @@
       "original": {
         "owner": "justbur",
         "repo": "emacs-which-key",
-        "type": "github"
-      }
-    },
-    "whole-line-or-region": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716800947,
-        "narHash": "sha256-+ftKoiY4yL5Te8cp4/zxPutl74sd5RQU41Ry1kQLQnU=",
-        "owner": "purcell",
-        "repo": "whole-line-or-region",
-        "rev": "eabee9a9a6af7fa992b59467591717b2a845037e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "purcell",
-        "repo": "whole-line-or-region",
         "type": "github"
       }
     },

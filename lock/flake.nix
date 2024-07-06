@@ -1221,12 +1221,6 @@
       repo = "emacs-which-key";
       type = "github";
     };
-    whole-line-or-region = {
-      flake = false;
-      owner = "purcell";
-      repo = "whole-line-or-region";
-      type = "github";
-    };
     with-editor = {
       flake = false;
       owner = "magit";

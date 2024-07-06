@@ -1579,15 +1579,6 @@ Visually highlight regular expression searches as you type. Also supports replac
    "M-s R" 'vr/replace))
 #+end_src
 
-*** whole-line-or-region
-Cut/copy (=C-w= / =M-w=) the current line if no region is active.
-#+begin_src emacs-lisp :tangle yes
-(use-package whole-line-or-region
-  :ensure t
-  :hook
-  (after-init-hook . whole-line-or-region-global-mode))
-#+end_src
-
 * Buffers
 Prevent generation of useless lock and backup files.
 #+begin_src emacs-lisp :tangle yes
