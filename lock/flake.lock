@@ -2080,6 +2080,22 @@
         "type": "github"
       }
     },
+    "nix-ts-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1718711113,
+        "narHash": "sha256-alKfXVltxLyriufvWWRge9R1cq48CSI44dKAmov7wRE=",
+        "owner": "nix-community",
+        "repo": "nix-ts-mode",
+        "rev": "c7be3506eb118991507e3ad3274d617ca971a07a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-ts-mode",
+        "type": "github"
+      }
+    },
     "nix-update": {
       "flake": false,
       "locked": {
@@ -2853,6 +2869,7 @@
         "native-complete": "native-complete",
         "nginx-mode": "nginx-mode",
         "nix-mode": "nix-mode",
+        "nix-ts-mode": "nix-ts-mode",
         "nix-update": "nix-update",
         "no-littering": "no-littering",
         "noccur": "noccur",
@@ -2927,7 +2944,6 @@
         "vundo": "vundo",
         "web-mode": "web-mode",
         "which-key": "which-key",
-        "whole-line-or-region": "whole-line-or-region",
         "with-editor": "with-editor",
         "ws-butler": "ws-butler",
         "xterm-color": "xterm-color",
@@ -3475,22 +3491,6 @@
       "original": {
         "owner": "justbur",
         "repo": "emacs-which-key",
-        "type": "github"
-      }
-    },
-    "whole-line-or-region": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716800947,
-        "narHash": "sha256-+ftKoiY4yL5Te8cp4/zxPutl74sd5RQU41Ry1kQLQnU=",
-        "owner": "purcell",
-        "repo": "whole-line-or-region",
-        "rev": "eabee9a9a6af7fa992b59467591717b2a845037e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "purcell",
-        "repo": "whole-line-or-region",
         "type": "github"
       }
     },

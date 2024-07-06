@@ -778,6 +778,12 @@
       repo = "nix-mode";
       type = "github";
     };
+    nix-ts-mode = {
+      flake = false;
+      owner = "nix-community";
+      repo = "nix-ts-mode";
+      type = "github";
+    };
     nix-update = {
       flake = false;
       owner = "jwiegley";
@@ -1219,12 +1225,6 @@
       flake = false;
       owner = "justbur";
       repo = "emacs-which-key";
-      type = "github";
-    };
-    whole-line-or-region = {
-      flake = false;
-      owner = "purcell";
-      repo = "whole-line-or-region";
       type = "github";
     };
     with-editor = {
