@@ -2586,6 +2586,8 @@ Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot
   :defer 3
+  :functions
+  (eglot-alternatives)
   :general
   (:keymaps
    'eglot-mode-map
@@ -2605,6 +2607,10 @@ Generic Language Server Protocol integration via ~eglot~.
   (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
               eglot-server-programs
               :test #'equal)
+
+  (cl-pushnew `((nix-mode nix-ts-mode) . ,(eglot-alternatives '("nil" "rnix-lsp" "nixd")))
+             eglot-server-programs
+             :test #'equal)
 
   (cl-pushnew '((java-mode java-ts-mode) . ("jdt-language-server" "-data" ".jdtls-cache"))
               eglot-server-programs
@@ -3692,11 +3698,11 @@ Pretty check-boxes
 
 ** nix
 #+begin_src emacs-lisp :tangle yes
-(use-package nix-mode
+(use-package nix-ts-mode
   :ensure t
   :mode "\\.nix\\'"
   :hook
-  (nix-mode-hook . eglot-ensure)
+  (nix-ts-mode-hook . eglot-ensure)
   :general
   (:prefix leader-key
    "f" 'nix-flake)
@@ -3706,7 +3712,15 @@ Pretty check-boxes
   (with-eval-after-load 'grugru
     (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
   (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(nix-mode . nix-repl) rtog/mode-repl-alist :test #'equal)))
+    (cl-pushnew '(nix-ts-mode . nix-repl) rtog/mode-repl-alist :test #'equal)))
+
+(use-package nix-mode
+  :ensure t
+  :commands
+  (nix-repl)
+  :general
+  (:prefix leader-key
+   "f" 'nix-flake))
 #+end_src
 
 *** Packages

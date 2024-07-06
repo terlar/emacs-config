@@ -778,6 +778,12 @@
       repo = "nix-mode";
       type = "github";
     };
+    nix-ts-mode = {
+      flake = false;
+      owner = "nix-community";
+      repo = "nix-ts-mode";
+      type = "github";
+    };
     nix-update = {
       flake = false;
       owner = "jwiegley";
