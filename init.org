@@ -19,6 +19,7 @@ The rough details:
 - syntax checker :: =flymake=
 - persistent undo :: via ~desktop-save-mode~
 - language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
+- structured editing :: [[https://github.com/AmaiKinono/puni][puni]]
 
 Nix:
 - Package management via [[https://github.com/emacs-twist/twist.nix][twist.nix]]
@@ -1507,8 +1508,15 @@ Structured editing with soft deletion and balanced expressions.
    "M-S (" 'puni-wrap-round
    "M-S [" 'puni-wrap-square
    "C-w" 'puni-whole-line-or-region-kill
-   "M-w" 'puni-whole-line-or-region-kill-ring-save)
+   "M-w" 'puni-whole-line-or-region-kill-ring-save
+   "M-;" 'puni-comment-line)
   :config
+  (defun puni-comment-line (arg)
+    "Comment whole structured line(s) based on ARG or active region."
+    (interactive "P")
+    (cl-letf (((symbol-function 'kill-region) #'comment-region))
+      (puni-kill-line arg)))
+
   (defun puni-kill-ring-save-line (arg)
     "Save whole structured line(s) based on ARG or active region."
     (interactive "P")
