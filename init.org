@@ -4079,7 +4079,9 @@ Display current path for HTML/XML/CSS.
 #+begin_src emacs-lisp :tangle yes
 (use-package yaml-ts-mode
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
-  :hook (yaml-ts-mode-hook . indent-bars-mode))
+  :hook
+  (yaml-ts-mode-hook . apheleia-mode)
+  (yaml-ts-mode-hook . indent-bars-mode))
 #+end_src
 
 * Tools
