@@ -69,9 +69,9 @@
                   );
 
               emacs-config = prev.callPackage inputs.self {
-                trivialBuild = final.callPackage "${inputs.nixpkgs}/pkgs/build-support/emacs/trivial.nix" {
+                trivialBuild = final.emacsPackages.trivialBuild.override {
                   emacs = final.emacs-env.overrideScope (
-                    _: tprev: { inherit (tprev.emacs) meta nativeComp withNativeCompilation; }
+                    _: tprev: { inherit (tprev.emacs) meta withNativeCompilation; }
                   );
                 };
               };
