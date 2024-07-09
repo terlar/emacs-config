@@ -366,19 +366,18 @@ Dedicated window:
 
 Fringe control:
 #+begin_src emacs-lisp :tangle yes
-(define-minor-mode no-fringes-mode
+(define-minor-mode hide-fringes-mode
   "Toggle hiding of fringes."
-  :lighter " No Fringes"
-  (if no-fringes-mode
+  :group 'fringe
+  (if hide-fringes-mode
       (set-window-fringes nil 0 0 nil)
     (set-window-fringes nil left-fringe-width right-fringe-width t)))
 
-(define-minor-mode global-no-fringes-mode
+(define-minor-mode global-hide-fringes-mode
   "Toggle hiding of fringes globally."
   :global t
   :group 'fringe
-  :lighter " No Fringes"
-  (if global-no-fringes-mode
+  (if global-hide-fringes-mode
         (set-fringe-style 0)
       (set-fringe-style nil)))
 #+end_src
@@ -1303,9 +1302,26 @@ Buttonize URLs and e-mail addresses in the current buffer.
 Disabled by default. When enabled, only highlight in the selected window.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-line
+  :hook
+  (hl-line-mode-hook . hl-line-number-mode)
   :init
   (setq hl-line-sticky-flag nil)
-  (setq global-hl-line-sticky-flag nil))
+  (setq global-hl-line-sticky-flag nil)
+  :preface
+  (autoload 'face-remap-add-relative "face-remap")
+  (autoload 'face-remap-remove-relative "face-remap")
+
+  (defvar-local hl-line-number--current-line-remap nil
+    "Face remapping cookie for `line-number-current-line' to `hl-line'.")
+
+  (define-minor-mode hl-line-number-mode
+    "Toggle highlighting of the current line number."
+    :group 'hl-line
+    (if hl-line-mode
+        (setq hl-line-number--current-line-remap
+              (face-remap-add-relative 'line-number-current-line 'hl-line))
+      (face-remap-remove-relative hl-line-number--current-line-remap)
+      (setq hl-line-number--current-line-remap nil))))
 #+end_src
 
 *** Line wrapping
@@ -1881,6 +1897,15 @@ Striped dired buffers.
 #+end_src
 
 ** Packages
+*** avy
+Jump to ...
+#+begin_src emacs-lisp :tangle yes
+(use-package avy
+  :ensure t
+  :general
+  (:prefix nav-prefix "C" 'avy-goto-char-in-line))
+#+end_src
+
 *** bibliothek
 Management tool for a library of PDFs.
 #+begin_src emacs-lisp :tangle yes
@@ -2924,7 +2949,7 @@ Presentation mode.
   (dslide-stop-restore-modes)
   :hook
   (dslide-start-hook . hide-cursor-mode)
-  (dslide-start-hook . global-no-fringes-mode)
+  (dslide-start-hook . global-hide-fringes-mode)
   (dslide-start-hook . hide-mode-line-mode)
   (dslide-stop-hook . dslide-stop-restore-modes)
   :general
@@ -2936,7 +2961,7 @@ Presentation mode.
   (setq dslide-header nil)
   :config
   (defun dslide-stop-restore-modes ()
-    (global-no-fringes-mode 0)))
+    (global-hide-fringes-mode 0)))
 #+end_src
 
 **** org-contrib
@@ -2990,7 +3015,10 @@ Eldoc support, showing path to current section.
 **** org-noter
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
-(use-package org-noter :ensure t)
+(use-package org-noter :ensure t
+  :general
+  (:prefix leader-key
+   "o" 'org-noter))
 #+end_src
 
 **** ob-http
@@ -3293,7 +3321,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.epub\\'" . nov-mode)
   :hook
   (nov-mode-hook . init-nov-delayed-render)
-  (nov-mode-hook . no-fringes-mode)
+  (nov-mode-hook . hide-fringes-mode)
   :init
   (setq nov-save-place-file (concat data-dir "nov-places"))
   :config
@@ -3620,7 +3648,7 @@ Persist REPL history.
 
 *** Packages
 **** edit-indirect
-Editing regions in separate buffers.
+Edit regions in separate buffers.
 #+begin_src emacs-lisp :tangle yes
 (use-package edit-indirect :ensure t)
 #+end_src
@@ -4472,6 +4500,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
 | =C-SPC=           | ~set-mark-command~                  | Set a mark                                                                       |
 | =C-u C-SPC=       | ~pop-to-mark-command~               | Pop a mark                                                                       |
+| =C-x $=           | ~set-selective-display~             | Code-folding via indentation                                                     |
 
 *** Gnus
 | Keybinding | Function                              | Description                                                   |
@@ -4506,45 +4535,31 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
 
 ** Tasks
-*** TODO Look into generic code execution via =isend-mode=
-*** TODO Look into ~set-selective-display~ to hide indentation levels
-*** TODO Look into ~semantic-decoration-mode~
-*** TODO Add binding for =org-noter=
-*** TODO Group editing bindings under some logical prefix
-*** TODO Improve window keys
-*** TODO Improve find char keys
-*** TODO Use =M-o= for some useful binding?
+*** TODO Improve bindings
+- Group editing bindings under logical prefix
+- Find use for =M-o=
+*** TODO Split theme into several parts
+- One theme to set big headers and such things
+- One theme to highlight errors
+- One theme for the mode-line
+*** TODO Evaluate =windmove=
+- Perhaps with ~windmove-create-window t~
 *** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
-*** TODO Enable auto-revert/save again?
-*** TODO Use ~ielm~ as REPL for org-mode
-*** TODO Use file-name as base for work-log date
-*** TODO Daily tasks
-*** TODO Write =ghq= tool using ~completing-read~
-*** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 *** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
 - Diff merge-base =C-x v M D=, =C-x v M L=
 - ~vc-log-search~
 *** TODO Use ChangeLog entries =C-x 4 a=
-*** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
 *** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
-*** TODO Is it useful to use highlight-regexp?
-*** TODO Split theme into several sections
-- One theme to set big headers and such things
-- One theme to highlight errors
-- One theme for the mode-line
-*** TODO Flymake + Elsa
-*** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
+*** TODO Is it useful to use ~highlight-regexp~?
 *** TODO Evaluate skeleton
 *** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
 *** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
-*** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
 *** TODO Function to jump to file under point, preferably with support for : line number
 *** TODO Function to load theme defined in current file
-*** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"
