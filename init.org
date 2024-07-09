@@ -366,19 +366,18 @@ Dedicated window:
 
 Fringe control:
 #+begin_src emacs-lisp :tangle yes
-(define-minor-mode no-fringes-mode
+(define-minor-mode hide-fringes-mode
   "Toggle hiding of fringes."
-  :lighter " No Fringes"
-  (if no-fringes-mode
+  :group 'fringe
+  (if hide-fringes-mode
       (set-window-fringes nil 0 0 nil)
     (set-window-fringes nil left-fringe-width right-fringe-width t)))
 
-(define-minor-mode global-no-fringes-mode
+(define-minor-mode global-hide-fringes-mode
   "Toggle hiding of fringes globally."
   :global t
   :group 'fringe
-  :lighter " No Fringes"
-  (if global-no-fringes-mode
+  (if global-hide-fringes-mode
         (set-fringe-style 0)
       (set-fringe-style nil)))
 #+end_src
@@ -2941,7 +2940,7 @@ Presentation mode.
   (dslide-stop-restore-modes)
   :hook
   (dslide-start-hook . hide-cursor-mode)
-  (dslide-start-hook . global-no-fringes-mode)
+  (dslide-start-hook . global-hide-fringes-mode)
   (dslide-start-hook . hide-mode-line-mode)
   (dslide-stop-hook . dslide-stop-restore-modes)
   :general
@@ -2953,7 +2952,7 @@ Presentation mode.
   (setq dslide-header nil)
   :config
   (defun dslide-stop-restore-modes ()
-    (global-no-fringes-mode 0)))
+    (global-hide-fringes-mode 0)))
 #+end_src
 
 **** org-contrib
@@ -3310,7 +3309,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.epub\\'" . nov-mode)
   :hook
   (nov-mode-hook . init-nov-delayed-render)
-  (nov-mode-hook . no-fringes-mode)
+  (nov-mode-hook . hide-fringes-mode)
   :init
   (setq nov-save-place-file (concat data-dir "nov-places"))
   :config
@@ -3637,7 +3636,7 @@ Persist REPL history.
 
 *** Packages
 **** edit-indirect
-Editing regions in separate buffers.
+Edit regions in separate buffers.
 #+begin_src emacs-lisp :tangle yes
 (use-package edit-indirect :ensure t)
 #+end_src
@@ -4489,6 +4488,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
 | =C-SPC=           | ~set-mark-command~                  | Set a mark                                                                       |
 | =C-u C-SPC=       | ~pop-to-mark-command~               | Pop a mark                                                                       |
+| =C-x $=           | ~set-selective-display~             | Code-folding via indentation                                                     |
 
 *** Gnus
 | Keybinding | Function                              | Description                                                   |
@@ -4523,12 +4523,8 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
 
 ** Tasks
-*** TODO Look into generic code execution via =isend-mode=
-*** TODO Look into ~set-selective-display~ to hide indentation levels
-*** TODO Look into ~semantic-decoration-mode~
 *** TODO Add binding for =org-noter=
 *** TODO Group editing bindings under some logical prefix
-*** TODO Improve window keys
 *** TODO Improve find char keys
 *** TODO Use =M-o= for some useful binding?
 *** TODO Extract history persistence code (=persistory=)
@@ -4538,7 +4534,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 *** TODO Enable auto-revert/save again?
 *** TODO Use ~ielm~ as REPL for org-mode
 *** TODO Use file-name as base for work-log date
-*** TODO Daily tasks
 *** TODO Write =ghq= tool using ~completing-read~
 *** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 *** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
@@ -4549,7 +4544,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 *** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
 *** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
 *** TODO Is it useful to use highlight-regexp?
-*** TODO Split theme into several sections
+*** TODO Split theme into several parts
 - One theme to set big headers and such things
 - One theme to highlight errors
 - One theme for the mode-line
