@@ -1303,9 +1303,26 @@ Buttonize URLs and e-mail addresses in the current buffer.
 Disabled by default. When enabled, only highlight in the selected window.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-line
+  :hook
+  (hl-line-mode-hook . hl-line-number-mode)
   :init
   (setq hl-line-sticky-flag nil)
-  (setq global-hl-line-sticky-flag nil))
+  (setq global-hl-line-sticky-flag nil)
+  :preface
+  (autoload 'face-remap-add-relative "face-remap")
+  (autoload 'face-remap-remove-relative "face-remap")
+
+  (defvar-local hl-line-number--current-line-remap nil
+    "Face remapping cookie for `line-number-current-line' to `hl-line'.")
+
+  (define-minor-mode hl-line-number-mode
+    "Toggle highlighting of the current line number."
+    :group 'hl-line
+    (if hl-line-mode
+        (setq hl-line-number--current-line-remap
+              (face-remap-add-relative 'line-number-current-line 'hl-line))
+      (face-remap-remove-relative hl-line-number--current-line-remap)
+      (setq hl-line-number--current-line-remap nil))))
 #+end_src
 
 *** Line wrapping
@@ -4544,7 +4561,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 *** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
 *** TODO Function to jump to file under point, preferably with support for : line number
 *** TODO Function to load theme defined in current file
-*** TODO hl-line should be inherited by line-number-current-line when hl-line-mode active
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"
