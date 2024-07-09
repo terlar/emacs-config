@@ -1897,6 +1897,15 @@ Striped dired buffers.
 #+end_src
 
 ** Packages
+*** avy
+Jump to ...
+#+begin_src emacs-lisp :tangle yes
+(use-package avy
+  :ensure t
+  :general
+  (:prefix nav-prefix "C" 'avy-goto-char-in-line))
+#+end_src
+
 *** bibliothek
 Management tool for a library of PDFs.
 #+begin_src emacs-lisp :tangle yes
@@ -3006,7 +3015,10 @@ Eldoc support, showing path to current section.
 **** org-noter
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
-(use-package org-noter :ensure t)
+(use-package org-noter :ensure t
+  :general
+  (:prefix leader-key
+   "o" 'org-noter))
 #+end_src
 
 **** ob-http
@@ -4523,37 +4535,29 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-c C-q=    | ~org-set-tags-command~ | Attach tags to item                            |
 
 ** Tasks
-*** TODO Add binding for =org-noter=
-*** TODO Group editing bindings under some logical prefix
-*** TODO Improve find char keys
-*** TODO Use =M-o= for some useful binding?
+*** TODO Improve bindings
+- Group editing bindings under logical prefix
+- Find use for =M-o=
+*** TODO Split theme into several parts
+- One theme to set big headers and such things
+- One theme to highlight errors
+- One theme for the mode-line
+*** TODO Evaluate =windmove=
+- Perhaps with ~windmove-create-window t~
 *** TODO Extract history persistence code (=persistory=)
 - comint
 - ielm (via comint and savehist)
 - haskell-interactive (via savehist)
-*** TODO Enable auto-revert/save again?
-*** TODO Use ~ielm~ as REPL for org-mode
-*** TODO Use file-name as base for work-log date
-*** TODO Write =ghq= tool using ~completing-read~
-*** TODO Use =windmove=? Perhaps with ~windmove-create-window t~
 *** TODO Use ~vc-mode~ commands more =C-x v g=, =C-x v v= and =C-x v ==.
 - Also ~vc-dir~ and the ~vc-git-stash~ (can stash individual files)
 - Diff merge-base =C-x v M D=, =C-x v M L=
 - ~vc-log-search~
 *** TODO Use ChangeLog entries =C-x 4 a=
-*** TODO Use ~browse-url-add-buttons~ to make links clickable in more places?
 *** TODO Create macros via checking =C-h l= (~view-lossage~) then it can be used together with ~edit-last-kbd-macro~.
-*** TODO Is it useful to use highlight-regexp?
-*** TODO Split theme into several parts
-- One theme to set big headers and such things
-- One theme to highlight errors
-- One theme for the mode-line
-*** TODO Flymake + Elsa
-*** TODO Add minions menu to ~mode-line-major-mode-keymap~ (=S-mouse-3=)
+*** TODO Is it useful to use ~highlight-regexp~?
 *** TODO Evaluate skeleton
 *** TODO Evaluate [[https://github.com/alphapapa/obvious.el][obvious.el]]
 *** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
-*** TODO Evaluate [[https://github.com/svaante/dape][dape - Debug Adapter Protocol for Emacs]]
 *** TODO Function to jump to file under point, preferably with support for : line number
 *** TODO Function to load theme defined in current file
 
