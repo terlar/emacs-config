@@ -4384,87 +4384,58 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 *** TODO Function to jump to file under point, preferably with support for : line number
 *** TODO Function to load theme defined in current file
 *** TODO Split configuration into essential and full feature
-- Essential with a really small subset of packages (or none?)
-- Full feature (as currently)
+- emacs-minimal (no extra packages? or favorites)
+- emacs (minimum amount of packages)
+- emacs-full (all packages)
 
-**** Keep
-- all-the-icons
+**** Minimal
 - apheleia
-- cape
 - consult
 - corfu
 - ctrlf (deprecate?)
-- d2-mode
 - deadgrep
 - defrepeater
 - dtrt-indent
 - dumb-jump
 - embark
 - envrc
-- epithet
 - general
 - marginalia
 - markdown-mode
-- nix-mode
 - nix-ts-mode
 - orderless
 - popper
 - puni
 - readable-mono-theme
 - readable-typo-theme
-- tempel
 - transpose-frame
 - vertico
 - vundo
 
-**** Drop
-***** Major modes
-- caml
-- cider
-- clojure-mode
-- cobol-mode
-- crystal-mode
-- elm-mode
-- erlang
-- fish-mode
-- git-modes
-- gradle-mode
-- groovy-mode
-- haskell-mode
-- kotlin-mode
-- nix-mode
-- nov
-- pdf-tools
-- protobuf-mode
-- racket-mode
-- rego-mode
-- rustic
-- scala-mode
-- sly
-- terraform-mode
-- tuareg
-
-***** Second tier
+**** Regular
 - adaptive-wrap
+- all-the-icons
 - all-the-icons-completion
 - all-the-icons-dired
 - avy
-- browse-at-remote
-- color-identifiers-mode
+- cape
+- d2-mode
+- devdocs
 - diff-hl
-- dired-git-info
 - dired-sidebar
 - dired-subtree
 - dslide
+- easy-escape
+- epithet
 - find-file-rg
 - fish-completion
+- gcmh
 - ghelp
+- git-modes
 - goto-chg
 - grugru
 - helpful
-- hide-lines (deprecate?)
 - hide-mode-line
-- hl-todo
 - idle-highlight-mode
 - imenu-anywhere
 - imenu-extra
@@ -4472,59 +4443,95 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - indent-bars
 - indent-info
 - jinx
-- ligature
 - link-hint
 - magit
 - miniedit
+- nix-mode
+- no-littering
 - noccur
-- ob-http
+- nov
 - org-appear
-- org-cliplink
-- org-contrib
 - org-limit-image-size
 - org-modern
-- org-noter
-- outline-minor-faces
-- ox-epub
+- pdf-tools
 - rainbow-delimiters
 - repl-toggle
 - separedit
-- spray
-- stripe-buffer
-- valign
-- vc-msg
+- tempel
+- terraform-mode
 - virtual-auto-fill
 - visual-fill-column
 - visual-regexp (deprecate?)
-- vlf
 - vterm
 - ws-butler (deprecate?)
 - zoom-window (deprecate C-x 1)
 
-***** Third tier
+**** Full
 - bibliothek
+- browse-at-remote
+- cakecrumbs
+- caml
+- cider
+- clojure-mode
+- cobol-mode
+- color-identifiers-mode
 - cov
-- devdocs
+- crystal-mode
+- csv-mode
+- dired-git-info
 - docker
-- easy-escape
+- elm-mode
+- erlang
+- eshell-fringe-status
+- explain-pause-mode
+- fish-mode
 - flymake-racket
 - focus
-- gcmh
 - gorepl-mode
 - gotest
+- gradle-mode
+- groovy-mode
+- guess-language
+- haskell-mode
+- hide-lines (deprecate?)
+- hl-todo
 - inf-crystal
 - inf-ruby
 - json-navigator
+- kind-icon
+- kotlin-mode
 - kubernetes
+- ligature
+- mermaid-mode
 - minitest
-- no-littering
+- nginx-mode
+- ob-http
+- org-cliplink
+- org-contrib
+- org-noter
+- outline-minor-faces
+- ox-epub
 - package-lint-flymake
 - page-break-lines
+- plantuml-mode
 - pomm
+- protobuf-mode
 - python-test
+- racket-mode
+- rego-mode
 - rspec-mode
+- rustic
+- scala-mode
+- sly
+- spray
 - string-inflection
+- stripe-buffer
+- tuareg
+- valign
+- vc-msg
+- vlf
 - vterm-toggle
+- web-mode
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"
