@@ -1661,7 +1661,7 @@ Track minibuffer history
    "M-o" 'embark-dwim
    "M-O" 'embark-act)
   (:keymaps
-   'minibuffer-local-map
+   'vertico-map
    "C-SPC" 'embark-select)
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
