@@ -771,27 +771,6 @@ More convenient key definitions. It provides the ~use-package~ keyword ~:general
     (require 'general)))
 #+end_src
 
-*** which-key
-Display available keybindings in a popup as you press keys.
-#+begin_src emacs-lisp :tangle yes
-(use-package which-key
-  :ensure t
-  :defer 3
-  :commands
-  (which-key-mode
-   which-key-setup-side-window-bottom
-   which-key-key-order-alpha)
-  :init
-  (setq which-key-sort-order #'which-key-key-order-alpha)
-  (setq which-key-sort-uppercase-first nil)
-  (setq which-key-add-column-padding 1)
-  (setq which-key-min-display-lines 5)
-  (setq which-key-idle-delay 1)
-  :config
-  (which-key-setup-side-window-bottom)
-  (which-key-mode 1))
-#+end_src
-
 ** Global
 #+begin_src emacs-lisp :tangle yes
 (eval-and-compile
@@ -812,11 +791,6 @@ Display available keybindings in a popup as you press keys.
  [remap other-window] 'other-window-repeat
  ;; Region
  "C-x r S" 'sort-lines)
-
-(general-define-key
- :keymaps 'global
- :prefix local-leader-key
- "t" '(:ignore t :wk "test"))
 #+end_src
 
 ** Navigation
@@ -845,11 +819,10 @@ Display available keybindings in a popup as you press keys.
 
 (general-define-key
  :prefix next-prefix
- ""  '(:ignore t :wk "next...")
- "]" '(text-scale-increase      :wk "Text size")
- "b" '(next-buffer              :wk "Buffer")
- "c" '(smerge-next              :wk "Conflict")
- "e" '(next-error               :wk "Error"))
+ "]" '("Text size" . text-scale-increase)
+ "b" '("Buffer" . next-buffer)
+ "c" '("Conflict" . smerge-next)
+ "e" '("Error" . next-error))
 
 (eval-and-compile
   (defrepeater #'text-scale-increase)
@@ -870,11 +843,10 @@ Display available keybindings in a popup as you press keys.
 
 (general-define-key
  :prefix prev-prefix
- ""  '(:ignore t :wk "previous...")
- "[" '(text-scale-decrease    :wk "Text size")
- "b" '(previous-buffer        :wk "Buffer")
- "c" '(smerge-prev            :wk "Conflict")
- "e" '(previous-error         :wk "Error"))
+ "[" '("Text size" . text-scale-decrease)
+ "b" '("Buffer" . previous-buffer)
+ "c" '("Conflict" . smerge-prev)
+ "e" '("Error" . previous-error))
 
 (eval-and-compile
   (defrepeater #'text-scale-decrease)
@@ -893,20 +865,20 @@ Display available keybindings in a popup as you press keys.
 #+begin_src emacs-lisp :tangle yes
 (general-define-key
  :prefix toggle-prefix
- "*" '(toggle-theme-mode                :wk "Light/Dark theme")
- "c" '(highlight-changes-mode           :wk "Changes")
- "d" '(toggle-debug-on-error            :wk "Debug on error")
- "f" '(hs-minor-mode                    :wk "Code folding")
- "F" '(follow-mode                      :wk "Follow")
+ "*" '("Light/Dark theme" . toggle-theme-mode)
+ "c" '("Changes" . highlight-changes-mode)
+ "d" '("Debug on error" . toggle-debug-on-error)
+ "f" '("Code folding" . hs-minor-mode)
+ "F" '("Follow" . follow-mode)
  ;; Group together as one mode?
- "g" '(subword-mode                     :wk "Sub-word")
- "G" '(glasses-mode                     :wk "Readable camelCase")
- "h" '(hl-line-mode                     :wk "Line highlight")
- "l" '(global-display-line-numbers-mode :wk "Line numbers")
- "t" '(toggle-truncate-lines            :wk "Truncate lines")
- "V" '(variable-pitch-mode              :wk "Variable-pitch")
- "w" '(whitespace-mode                  :wk "White-space")
- "x" '(flymake-mode                     :wk "Syntax checker"))
+ "g" '("Sub-word" . subword-mode)
+ "G" '("Readable camelCase" . glasses-mode)
+ "h" '("Line highlight" . hl-line-mode)
+ "l" '("Line numbers" . global-display-line-numbers-mode)
+ "t" '("Truncate lines" . toggle-truncate-lines)
+ "V" '("Variable-pitch" . variable-pitch-mode)
+ "w" '("White-space" . whitespace-mode)
+ "x" '("Syntax checker" . flymake-mode))
 #+end_src
 
 ** Launch
@@ -1219,10 +1191,10 @@ Undo/redo between window layouts.
   :general
   (:prefix
    next-prefix
-   next-prefix '(winner-redo :wk "Window History"))
+   next-prefix '("Window History" . winner-redo))
   (:prefix
    prev-prefix
-   prev-prefix '(winner-undo :wk "Window History"))
+   prev-prefix '("Window History" . winner-undo))
   ([remap winner-redo] 'winner-redo-repeat
    [remap winner-undo] 'winner-undo-repeat)
   :init
@@ -1350,7 +1322,7 @@ Soft wrap lines according to =fill-column= in =visual-line-mode=.
   :general
   (:prefix
    toggle-prefix
-   "SPC" '(virtual-auto-fill-mode :wk "Virtual auto fill")))
+   "SPC" '("Virtual auto fill" . virtual-auto-fill-mode)))
 #+end_src
 
 *** Page breaks
@@ -1383,7 +1355,7 @@ Making invisible text temporarily visible.
   :general
   (:prefix
    toggle-prefix
-   "v" '(visible-mode :wk "Visibility")))
+   "v" '("Visibility" . visible-mode)))
 #+end_src
 
 *** Whitespace
@@ -1480,10 +1452,10 @@ Cycle through words, symbols and patterns.
   :general
   (:prefix
    next-prefix
-   "r" '(grugru-forward :wk "Rotate text"))
+   "r" '("Rotate text" . grugru-forward))
   (:prefix
    prev-prefix
-   "r" '(grugru-backward :wk "Rotate text"))
+   "r" '("Rotate text" . grugru-backward))
   ([remap grugru-backward] 'grugru-backward-repeat
    [remap grugru-forward] 'grugru-forward-repeat)
   :config
@@ -1516,7 +1488,7 @@ Structured editing with soft deletion and balanced expressions.
   :general
   (:prefix
    toggle-prefix
-   toggle-prefix '(puni-mode :wk "Structured editing"))
+   toggle-prefix '("Structured editing" . puni-mode))
   (:keymaps
    'puni-mode-map
    [remap transpose-sexps] 'puni-transpose
@@ -1689,7 +1661,7 @@ Track minibuffer history
    "M-o" 'embark-dwim
    "M-O" 'embark-act)
   (:keymaps
-   'minibuffer-local-map
+   'vertico-map
    "C-SPC" 'embark-select)
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -2003,10 +1975,10 @@ Move point through buffer-undo-list positions.
   :general
   (:prefix
    next-prefix
-   "l" '(goto-last-change :wk "Change"))
+   "l" '("Change" . goto-last-change))
   (:prefix
    prev-prefix
-   "l" '(goto-last-change-reverse :wk "Change"))
+   "l" '("Change" . goto-last-change-reverse))
   ([remap goto-last-change] 'goto-last-change-repeat
    [remap goto-last-change-reverse] 'goto-last-change-reverse-repeat))
 #+end_src
@@ -2259,7 +2231,6 @@ Code folding.
   :general
   (:prefix
    (concat leader-key " " "z")
-   ""      '(:ignore t :wk "hide")
    "c"     'hs-hide-block
    "o"     'hs-show-block
    "C"     'hs-hide-all
@@ -2477,11 +2448,11 @@ Open link to files in the web UI connected to a repository.
   (:keymaps
    'diff-mode-map
    :prefix next-prefix
-   "d" '(diff-hunk-next :wk "Diff Hunk"))
+   "d" '("Diff Hunk" . diff-hunk-next))
   (:keymaps
    'diff-mode-map
    :prefix prev-prefix
-   "d" '(diff-hunk-prev :wk "Diff Hunk"))
+   "d" '("Diff Hunk" . diff-hunk-prev))
   ([remap diff-hunk-next] 'diff-hunk-next-repeat
    [remap diff-hunk-prev] 'diff-hunk-prev-repeat)
   :init
@@ -2522,9 +2493,9 @@ Open link to files in the web UI connected to a repository.
     "Setup keybindings for `ediff-mode'."
     (general-define-key
      :keymaps 'ediff-mode-map
-     "d" '(ediff-copy-both-to-C      :wk "Copy both to C")
-     "j" '(ediff-next-difference     :wk "Next difference")
-     "k" '(ediff-previous-difference :wk "Previous difference"))))
+     "d" '("Copy both to C" . ediff-copy-both-to-C)
+     "j" '("Next difference" . ediff-next-difference)
+     "k" '("Previous difference" . ediff-previous-difference))))
 #+end_src
 
 *** diff-hl
@@ -2547,11 +2518,11 @@ Diff indicators in fringe
   (:keymaps
    'diff-hl-mode-map
    :prefix next-prefix
-   "d" '(diff-hl-next-hunk :wk "Diff Hunk"))
+   "d" '("Diff Hunk" . diff-hl-next-hunk))
   (:keymaps
    'diff-hl-mode-map
    :prefix prev-prefix
-   "d" '(diff-hl-previous-hunk :wk "Diff Hunk"))
+   "d" '("Diff Hunk" . diff-hl-previous-hunk))
   ([remap diff-hl-next-hunk] 'diff-hl-next-hunk-repeat
    [remap diff-hl-previous-hunk] 'diff-hl-previous-hunk-repeat)
   :init
@@ -2643,7 +2614,6 @@ Generic Language Server Protocol integration via ~eglot~.
    'eglot-mode-map
    :prefix local-leader-key
    local-leader-key 'eglot-code-actions
-   "e" '(:ignore t :wk "eglot")
    "ea" 'eglot-code-actions
    "ef" 'eglot-format
    "er" 'eglot-rename
@@ -2678,8 +2648,8 @@ Highlight *TODO* inside comments and strings.
   :hook
   (prog-mode-hook . hl-todo-mode)
   :general
-  (:prefix next-prefix "t" '(hl-todo-next :wk "Todo"))
-  (:prefix prev-prefix "t" '(hl-todo-previous :wk "Todo"))
+  (:prefix next-prefix "t" '("Todo" . hl-todo-next))
+  (:prefix prev-prefix "t" '("Todo" . hl-todo-previous))
   ([remap hl-todo-next] 'hl-todo-next-repeat
    [remap hl-todo-previous] 'hl-todo-previous-repeat))
 #+end_src
@@ -2795,7 +2765,7 @@ Highlight source code identifiers based on their name.
  :prefix local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
- "l" `(,(lambda () (interactive) (load-file (buffer-file-name))) :wk "Load file")
+ "l" `("Load file" . ,(lambda () (interactive) (load-file (buffer-file-name))))
  "L" 'eval-buffer
  "t" 'ert)
 
@@ -4222,7 +4192,7 @@ it really useful.
   :general
   (:prefix
    toggle-prefix
-   "s" '(spray-mode :wk "Speed reading"))
+   "s" '("Speed reading" . spray-mode))
   :init
   (setq spray-height 500)
   (setq spray-margin-left 2)
@@ -4241,8 +4211,8 @@ it really useful.
   (text-mode-hook . jinx-mode)
   :general
   ([remap ispell-word] 'jinx-correct)
-  (:prefix next-prefix "s" '(jinx-next :wk "Misspelling"))
-  (:prefix prev-prefix "s" '(jinx-previous :wk "Misspelling")))
+  (:prefix next-prefix "s" '("Misspelling" . jinx-next))
+  (:prefix prev-prefix "s" '("Misspelling" . jinx-previous)))
 #+end_src
 
 Automatic language detection that updates the spell checker.
@@ -4408,7 +4378,7 @@ Packages that I am currently testing or evaluating.
   :general
   (:prefix
    toggle-prefix
-   "a" '(annotate-mode :wk "Annotate")))
+   "a" '("Annotate" . annotate-mode)))
 #+end_src
 
 ** consult-git-log-grep

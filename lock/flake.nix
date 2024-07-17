@@ -1221,12 +1221,6 @@
       repo = "web-mode";
       type = "github";
     };
-    which-key = {
-      flake = false;
-      owner = "justbur";
-      repo = "emacs-which-key";
-      type = "github";
-    };
     with-editor = {
       flake = false;
       owner = "magit";
