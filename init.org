@@ -1503,9 +1503,14 @@ Structured editing with soft deletion and balanced expressions.
 (use-package puni
   :ensure t
   :commands
-  (puni-kill-line
+  (puni-contract-region
+   puni-expand-region
+   puni-kill-line
    puni-kill-active-region
    puni-mark-list-around-point)
+  :preface
+  (defrepeater #'puni-contract-region)
+  (defrepeater #'puni-expand-region)
   :hook
   (after-init-hook . puni-global-mode)
   :general
@@ -1526,6 +1531,14 @@ Structured editing with soft deletion and balanced expressions.
    "C-w" 'puni-whole-line-or-region-kill
    "M-w" 'puni-whole-line-or-region-kill-ring-save
    "M-;" 'puni-comment-line)
+  (:keymaps
+   'puni-mode-map
+   :prefix prev-prefix
+   "SPC" 'puni-contract-region-repeat)
+  (:keymaps
+   'puni-mode-map
+   :prefix next-prefix
+   "SPC" 'puni-expand-region-repeat)
   :config
   (defun puni-comment-line (arg)
     "Comment whole structured line(s) based on ARG or active region."
