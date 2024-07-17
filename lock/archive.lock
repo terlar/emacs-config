@@ -12,22 +12,6 @@
     "packageRequires": {},
     "version": "0.8"
   },
-  "csv-mode": {
-    "archive": {
-      "narHash": "sha256-HOBmSph5cifcfv+96J7ft7j5Sr5fbHtgVXuy79UmzRg=",
-      "type": "tarball",
-      "url": "https://elpa.gnu.org/packages/csv-mode-1.25.tar"
-    },
-    "inventory": {
-      "type": "archive",
-      "url": "https://elpa.gnu.org/packages/"
-    },
-    "packageRequires": {
-      "cl-lib": "0.5",
-      "emacs": "27.1"
-    },
-    "version": "1.25"
-  },
   "queue": {
     "archive": {
       "narHash": "sha256-l1a18KhqXRtir2NSDVEY4yWGoUl97Vo9CvD1T9Jpw/Q=",

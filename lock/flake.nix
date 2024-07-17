@@ -50,28 +50,11 @@
       repo = "apheleia";
       type = "github";
     };
-    auto-compile = {
-      flake = false;
-      owner = "emacscollective";
-      repo = "auto-compile";
-      type = "github";
-    };
-    auto-minor-mode = {
-      flake = false;
-      owner = "joewreschnig";
-      repo = "auto-minor-mode";
-      type = "github";
-    };
     avy = {
       flake = false;
       owner = "abo-abo";
       repo = "avy";
       type = "github";
-    };
-    bbdb = {
-      flake = false;
-      type = "git";
-      url = "https://git.savannah.nongnu.org/git/bbdb.git";
     };
     bibliothek = {
       flake = false;
@@ -83,12 +66,6 @@
       flake = false;
       owner = "rmuslimov";
       repo = "browse-at-remote";
-      type = "github";
-    };
-    cakecrumbs = {
-      flake = false;
-      owner = "kuanyui";
-      repo = "cakecrumbs.el";
       type = "github";
     };
     caml = {
@@ -132,22 +109,10 @@
       repo = "compat";
       type = "github";
     };
-    compile-multi = {
-      flake = false;
-      owner = "mohkale";
-      repo = "compile-multi";
-      type = "github";
-    };
     consult = {
       flake = false;
       owner = "minad";
       repo = "consult";
-      type = "github";
-    };
-    consult-compile-multi = {
-      flake = false;
-      owner = "mohkale";
-      repo = "compile-multi";
       type = "github";
     };
     consult-git-log-grep = {
@@ -330,28 +295,10 @@
       repo = "otp";
       type = "github";
     };
-    eros = {
-      flake = false;
-      owner = "xiongtx";
-      repo = "eros";
-      type = "github";
-    };
-    eshell-fringe-status = {
-      flake = false;
-      owner = "ryuslash";
-      repo = "eshell-fringe-status";
-      type = "github";
-    };
     esxml = {
       flake = false;
       owner = "tali713";
       repo = "esxml";
-      type = "github";
-    };
-    explain-pause-mode = {
-      flake = false;
-      owner = "lastquestion";
-      repo = "explain-pause-mode";
       type = "github";
     };
     "f" = {
@@ -376,12 +323,6 @@
       flake = false;
       owner = "wwwjfy";
       repo = "emacs-fish";
-      type = "github";
-    };
-    flymake-eslint = {
-      flake = false;
-      owner = "orzechowskid";
-      repo = "flymake-eslint";
       type = "github";
     };
     flymake-racket = {
@@ -431,12 +372,6 @@
       repo = "git-modes";
       type = "github";
     };
-    gmail2bbdb = {
-      flake = false;
-      owner = "redguardtoo";
-      repo = "gmail2bbdb";
-      type = "github";
-    };
     gntp = {
       flake = false;
       owner = "tekai";
@@ -479,12 +414,6 @@
       repo = "grugru";
       type = "github";
     };
-    guess-language = {
-      flake = false;
-      owner = "tmalsburg";
-      repo = "guess-language.el";
-      type = "github";
-    };
     haskell-mode = {
       flake = false;
       owner = "haskell";
@@ -513,12 +442,6 @@
       flake = false;
       owner = "hlissner";
       repo = "emacs-hide-mode-line";
-      type = "github";
-    };
-    highlight-quoted = {
-      flake = false;
-      owner = "Fanael";
-      repo = "highlight-quoted";
       type = "github";
     };
     hl-todo = {
@@ -598,12 +521,6 @@
       repo = "json-navigator";
       type = "github";
     };
-    kind-icon = {
-      flake = false;
-      owner = "jdtsmith";
-      repo = "kind-icon";
-      type = "github";
-    };
     kotlin-mode = {
       flake = false;
       owner = "Emacs-Kotlin-Mode-Maintainers";
@@ -644,12 +561,6 @@
       flake = false;
       owner = "aki2o";
       repo = "log4e";
-      type = "github";
-    };
-    loop = {
-      flake = false;
-      owner = "Wilfred";
-      repo = "loop.el";
       type = "github";
     };
     lv = {
@@ -694,12 +605,6 @@
       repo = "markdown-toc";
       type = "github";
     };
-    mermaid-mode = {
-      flake = false;
-      owner = "abrochard";
-      repo = "mermaid-mode";
-      type = "github";
-    };
     miniedit = {
       flake = false;
       owner = "emacsorphanage";
@@ -712,12 +617,6 @@
       repo = "minitest-emacs";
       type = "github";
     };
-    nginx-mode = {
-      flake = false;
-      owner = "ajc";
-      repo = "nginx-mode";
-      type = "github";
-    };
     nix-mode = {
       flake = false;
       owner = "NixOS";
@@ -728,12 +627,6 @@
       flake = false;
       owner = "nix-community";
       repo = "nix-ts-mode";
-      type = "github";
-    };
-    nix-update = {
-      flake = false;
-      owner = "jwiegley";
-      repo = "nix-update-el";
       type = "github";
     };
     no-littering = {
@@ -853,12 +746,6 @@
       flake = false;
       owner = "vedang";
       repo = "pdf-tools";
-      type = "github";
-    };
-    plantuml-mode = {
-      flake = false;
-      owner = "skuro";
-      repo = "plantuml-mode";
       type = "github";
     };
     plz = {
@@ -1036,18 +923,6 @@
       repo = "stripe-buffer";
       type = "github";
     };
-    suggest = {
-      flake = false;
-      owner = "Wilfred";
-      repo = "suggest.el";
-      type = "github";
-    };
-    svg-lib = {
-      flake = false;
-      owner = "rougier";
-      repo = "svg-lib";
-      type = "github";
-    };
     tablist = {
       flake = false;
       owner = "emacsorphanage";
@@ -1135,12 +1010,6 @@
       flake = false;
       owner = "casouri";
       repo = "vundo";
-      type = "github";
-    };
-    web-mode = {
-      flake = false;
-      owner = "fxbois";
-      repo = "web-mode";
       type = "github";
     };
     with-editor = {

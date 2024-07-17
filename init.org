@@ -164,17 +164,6 @@ This configuration is intended to support byte-compiling and is compiling with t
         use-package-expand-minimally t))
 #+end_src
 
-*** auto-minor-mode
-Enable minor modes by buffer name and contents. It provides the ~use-package~ keyword
-~:minor~ and ~:magic-minor~ where you can specify these rules.
-#+begin_src emacs-lisp :tangle yes
-(use-package auto-minor-mode
-  :ensure t
-  :init
-  (eval-when-compile
-    (require 'auto-minor-mode)))
-#+end_src
-
 ** Data
 Provide a location where Emacs can store data and cache.
 #+begin_src emacs-lisp :tangle yes
@@ -250,7 +239,7 @@ during idle instead.
 
 *** explain-pause-mode
 Track how much time is spent in each function and present a view to investigate this data.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package explain-pause-mode
   :ensure t
   :commands
@@ -1087,7 +1076,7 @@ Commands compatible with ~completing-read~.
 
 *** kind-icon
 Icons for buffer completions.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package kind-icon
   :ensure t
   :after corfu
@@ -2120,36 +2109,6 @@ nothing happens."
   (cl-pushnew #'compilation-finish-handle-buffer-display compilation-finish-functions :test #'equal))
 #+end_src
 
-*** compile-multi
-#+begin_src emacs-lisp :tangle yes
-(use-package compile-multi
-  :ensure t
-  :general
-  (:keymaps
-   'global
-   :prefix
-   local-leader-key
-   local-leader-key 'compile-multi)
-  :preface
-  (autoload 'package-lint-current-buffer "package-lint")
-  :config
-  (cl-pushnew `(emacs-lisp-mode
-                ("emacs:bytecompile" . ,#'emacs-lisp-byte-compile)
-                ("emacs:package-lint" . ,#'package-lint-current-buffer)
-                ("emacs:checkdoc" . ,#'checkdoc))
-              compile-multi-config
-              :test #'equal))
-
-(use-package consult-compile-multi
-  :ensure t
-  :after compile-multi
-  :demand t
-  :commands
-  (consult-compile-multi-mode)
-  :config
-  (consult-compile-multi-mode))
-#+end_src
-
 *** ANSI escape
 #+begin_src emacs-lisp :tangle yes
 (use-package ansi-color
@@ -2765,8 +2724,10 @@ Highlight source code identifiers based on their name.
  :prefix local-leader-key
  "c" 'emacs-lisp-byte-compile
  "C" 'emacs-lisp-byte-compile-and-load
+ "d" 'checkdoc
  "l" `("Load file" . ,(lambda () (interactive) (load-file (buffer-file-name))))
  "L" 'eval-buffer
+ "p" 'package-lint-current-buffer
  "t" 'ert)
 
 (custom-set-variables
@@ -2803,36 +2764,6 @@ Persist ielm history.
 #+end_src
 
 *** Packages
-**** auto-compile
-Auto-compile Elisp files.
-#+begin_src emacs-lisp :tangle yes
-(use-package auto-compile
-  :ensure t
-  :hook
-  (emacs-lisp-mode-hook . auto-compile-on-load-mode)
-  (emacs-lisp-mode-hook . auto-compile-on-save-mode)
-  :init
-  (setq auto-compile-display-buffer nil)
-  (setq auto-compile-use-mode-line nil))
-#+end_src
-
-**** eros
-Evaluation results in overlay.
-#+begin_src emacs-lisp :tangle yes
-(use-package eros
-  :ensure t
-  :hook
-  (emacs-lisp-mode-hook . eros-mode))
-#+end_src
-
-**** highlight-quoted
-#+begin_src emacs-lisp :tangle yes
-(use-package highlight-quoted
-  :ensure t
-  :hook
-  (emacs-lisp-mode-hook . highlight-quoted-mode))
-#+end_src
-
 **** package-lint-flymake
 #+begin_src emacs-lisp :tangle yes
 (use-package package-lint-flymake
@@ -2847,29 +2778,6 @@ Evaluation results in overlay.
     "Enable `package-lint-flymake' when buffer seems to be a package."
     (when (package-lint--provided-feature)
       (package-lint-flymake-setup))))
-#+end_src
-
-**** suggest
-Discover functions.
-#+begin_src emacs-lisp :tangle yes
-(use-package suggest
-  :ensure t
-  :commands
-  (suggest)
-  :general
-  (:keymaps
-   'emacs-lisp-mode-map
-   :prefix local-leader-key
-   "s" 'suggest-popup)
-  :config
-  (defun suggest-popup ()
-    "Open suggest as a popup."
-    (interactive)
-    (let* ((window         (selected-window))
-           (dedicated-flag (window-dedicated-p window)))
-      (set-window-dedicated-p window t)
-      (suggest)
-      (set-window-dedicated-p window dedicated-flag))))
 #+end_src
 
 *** Appearance
@@ -3235,7 +3143,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+end_src
 
 ** csv
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package csv-mode
   :ensure t
   :mode
@@ -3250,8 +3158,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package d2-mode
   :ensure t
   :mode "\\.d2\\'"
-  :commands
-  (d2-compile-buffer)
   :hook
   (d2-mode-hook . d2-mode-set-compile-command)
   (d2-mode-hook . compile-on-save-mode)
@@ -3262,12 +3168,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
     "Configure compile command for d2-mode."
     (set (make-local-variable 'compile-command)
          (mapconcat #'shell-quote-argument (append (list d2-location buffer-file-name) d2-flags)
-                    " ")))
-
-  (with-eval-after-load 'compile-multi
-    (cl-pushnew `(d2-mode ("d2:generate" . ,#'d2-compile-buffer))
-                compile-multi-config
-                :test #'equal)))
+                    " "))))
 #+end_src
 
 ** elixir
@@ -3544,16 +3445,6 @@ Persist REPL history.
 (cl-pushnew '(js-mode . js-ts-mode) major-mode-remap-alist :test #'equal)
 #+end_src
 
-*** Packages
-**** flymake-eslint
-#+begin_src emacs-lisp :tangle yes
-(use-package flymake-eslint
-  :ensure t
-  :init
-  (put 'flymake-eslint-executable-name 'safe-local-variable #'(lambda (x) (member x '("eslint" "eslint_d"))))
-  (put 'flymake-eslint-executable-args 'safe-local-variable 'stringp))
-#+end_src
-
 ** json
 #+begin_src emacs-lisp :tangle yes
 (use-package json-ts-mode
@@ -3674,12 +3565,10 @@ Pretty check-boxes
 #+end_src
 
 ** mermaid
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package mermaid-mode
   :ensure t
   :mode "\\.\\(mmd|mermaid\\)\\'"
-  :commands
-  (mermaid-compile-buffer)
   :hook
   (mermaid-mode-hook . mermaid-mode-set-compile-command)
   (mermaid-mode-hook . compile-on-save-mode)
@@ -3695,12 +3584,7 @@ Pretty check-boxes
                              "-i" buffer-file-name
                              "-o" (concat (file-name-sans-extension buffer-file-name) mermaid-output-format)) " ")
                  " "
-                 mermaid-flags)))
-
-  (with-eval-after-load 'compile-multi
-    (cl-pushnew `(mermaid-mode ("mermaid:generate" . ,#'mermaid-compile-buffer))
-                compile-multi-config
-                :test #'equal)))
+                 mermaid-flags))))
 #+end_src
 
 ** message
@@ -3711,7 +3595,7 @@ Pretty check-boxes
 #+end_src
 
 ** nginx
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package nginx-mode
   :ensure t
   :mode
@@ -3744,18 +3628,6 @@ Pretty check-boxes
   :general
   (:prefix leader-key
    "f" 'nix-flake))
-#+end_src
-
-*** Packages
-**** nix-update
-#+begin_src emacs-lisp :tangle yes
-(use-package nix-update
-  :ensure t
-  :general
-  (:keymaps
-   'nix-mode-map
-   :prefix local-leader-key
-   "u" 'nix-update-fetch))
 #+end_src
 
 ** nxml
@@ -3792,7 +3664,7 @@ Pretty check-boxes
 #+end_src
 
 ** plantuml
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package plantuml-mode
   :ensure t
   :mode "\\.\\(plantuml\\|pum\\|plu\\)\\'"
@@ -4090,7 +3962,7 @@ Pretty check-boxes as well as bullet lists.
 *** Packages
 **** cakecrumbs
 Display current path for HTML/XML/CSS.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package cakecrumbs
   :ensure t
   :defer 3
@@ -4101,7 +3973,7 @@ Display current path for HTML/XML/CSS.
 #+end_src
 
 **** web-mode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package web-mode
   :ensure t
   :mode "\\.\\(phtml\\|php\\|[agj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tmpl\\)\\'"
@@ -4124,24 +3996,6 @@ Display current path for HTML/XML/CSS.
 #+end_src
 
 * Tools
-** E-mail
-*** Packages
-**** bbdb
-Store contacts.
-#+begin_src emacs-lisp :tangle yes
-(use-package bbdb :ensure t)
-#+end_src
-
-**** gmail2bbdb
-Import contacts from Gmail vCard data.
-#+begin_src emacs-lisp :tangle yes
-(use-package gmail2bbdb
-  :ensure t
-  :init
-  (setq gmail2bbdb-bbdb-file bbdb-file)
-  (setq gmail2bbdb-exclude-people-without-name t))
-#+end_src
-
 ** Focus
 Dim out the surrounding text except the current focused paragraph or expression.
 #+begin_src emacs-lisp :tangle yes
@@ -4216,7 +4070,7 @@ it really useful.
 #+end_src
 
 Automatic language detection that updates the spell checker.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package guess-language
   :ensure t
   :commands
@@ -4312,7 +4166,7 @@ the line or after an eshell operator."
 **** Packages
 ***** eshell-fringe-status
 Command execution status indicator in the fringe.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package eshell-fringe-status
   :ensure t
   :hook
@@ -4534,161 +4388,143 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - Full feature (as currently)
 
 **** Keep
-- vertico
-- consult
-- puni
-- d2-mode
-- markdown-mode
-- nix-ts-mode
-- nix-mode
-- vundo
-- envrc
-- dumb-jump
+- all-the-icons
 - apheleia
-- deadgrep
-- ctrlf (deprecate?)
-- epithet
-- embark
-- dtrt-indent
-- tempel
-- popper
-- transpose-frame
-- marginalia
 - cape
+- consult
 - corfu
-- orderless
-- general
+- ctrlf (deprecate?)
+- d2-mode
+- deadgrep
 - defrepeater
+- dtrt-indent
+- dumb-jump
+- embark
+- envrc
+- epithet
+- general
+- marginalia
+- markdown-mode
+- nix-mode
+- nix-ts-mode
+- orderless
+- popper
+- puni
 - readable-mono-theme
 - readable-typo-theme
-- all-the-icons
+- tempel
+- transpose-frame
+- vertico
+- vundo
 
 **** Drop
-- clojure-mode
+***** Major modes
+- caml
 - cider
+- clojure-mode
 - cobol-mode
 - crystal-mode
-- csv-mode
 - elm-mode
-- nov
 - erlang
-- git-modes
-- groovy-mode
 - fish-mode
-- haskell-mode
+- git-modes
 - gradle-mode
+- groovy-mode
+- haskell-mode
 - kotlin-mode
-- sly
-- mermaid-mode
-- nginx-mode
 - nix-mode
-- caml
-- tuareg
+- nov
 - pdf-tools
-- plantuml-mode
 - protobuf-mode
 - racket-mode
 - rego-mode
 - rustic
 - scala-mode
+- sly
 - terraform-mode
-- web-mode
+- tuareg
 
-- hide-mode-line
-- indent-info
-- vlf
-- grugru
-- separedit
-- magit
-- diff-hl
-- visual-regexp
-- helpful
-- ghelp
+***** Second tier
 - adaptive-wrap
-- visual-fill-column
-- virtual-auto-fill
-- zoom-window (deprecate C-x 1)
-- vterm
-- miniedit
-- link-hint
-- goto-chg
+- all-the-icons-completion
+- all-the-icons-dired
+- avy
+- browse-at-remote
+- color-identifiers-mode
+- diff-hl
+- dired-git-info
+- dired-sidebar
+- dired-subtree
+- dslide
+- find-file-rg
 - fish-completion
-- spray
-- jinx
+- ghelp
+- goto-chg
+- grugru
+- helpful
+- hide-lines (deprecate?)
+- hide-mode-line
+- hl-todo
+- idle-highlight-mode
+- imenu-anywhere
+- imenu-extra
+- imenu-list
 - indent-bars
+- indent-info
+- jinx
+- ligature
+- link-hint
+- magit
+- miniedit
+- noccur
+- ob-http
+- org-appear
+- org-cliplink
+- org-contrib
+- org-limit-image-size
+- org-modern
+- org-noter
 - outline-minor-faces
 - ox-epub
-- org-modern
-- org-appear
-- ob-http
-- org-noter
-- org-limit-image-size
-- org-contrib
-- org-cliplink
-- dslide
-- auto-compile
-- ligature
-- color-identifiers-mode
 - rainbow-delimiters
-- ws-butler (deprecate?)
-- imenu-list
-- imenu-extra
-- imenu-anywhere
-- idle-highlight-mode
-- hl-todo
-- vc-msg
-- browse-at-remote
 - repl-toggle
-- find-file-rg
-- avy
-- noccur
-- dired-git-info
-- all-the-icons-dired
-- all-the-icons-completion
+- separedit
+- spray
 - stripe-buffer
-- dired-subtree
-- dired-sidebar
-- hide-lines
 - valign
-- kind-icon
+- vc-msg
+- virtual-auto-fill
+- visual-fill-column
+- visual-regexp (deprecate?)
+- vlf
+- vterm
+- ws-butler (deprecate?)
+- zoom-window (deprecate C-x 1)
 
-- focus
-- vterm-toggle
-- eshell-fringe-status
-- guess-language
-- pomm
-- gmail2bbdb
-- bbdb
-- cakecrumbs
-- rspec-mode
-- minitest
-- inf-ruby
+***** Third tier
+- bibliothek
+- cov
+- devdocs
+- docker
+- easy-escape
 - flymake-racket
-- python-test
-- nix-update
-- json-navigator
-- flymake-eslint
+- focus
+- gcmh
 - gorepl-mode
 - gotest
 - inf-crystal
-- easy-escape
-- suggest
-- package-lint-flymake
-- highlight-quoted
-- eros
-- devdocs
-- cov
+- inf-ruby
+- json-navigator
 - kubernetes
-- docker
-- compile-multi
-- consult-compile-multi
-- bibliothek
-- string-inflection
-- page-break-lines
-- explain-pause-mode
-- gcmh
+- minitest
 - no-littering
-- auto-minor-mode
+- package-lint-flymake
+- page-break-lines
+- pomm
+- python-test
+- rspec-mode
+- string-inflection
+- vterm-toggle
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"
