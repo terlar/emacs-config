@@ -1667,11 +1667,23 @@ Track minibuffer history
 #+begin_src emacs-lisp :tangle yes
 (use-package embark
   :ensure t
+  :commands
+  (embark-prefix-help-command)
   :general
   (:keymaps
+   'global
+   "C-h B" 'embark-bindings
+   "M-o" 'embark-dwim
+   "M-O" 'embark-act)
+  (:keymaps
    'minibuffer-local-map
-   "C-." 'embark-act
-   "C-;" 'embark-dwim))
+   "C-SPC" 'embark-select)
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  (setq embark-indicators
+        '(embark-minimal-indicator
+          embark-highlight-indicator
+          embark-isearch-highlight-indicator)))
 
 (use-package embark-consult :ensure t)
 #+end_src
