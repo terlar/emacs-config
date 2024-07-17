@@ -4368,6 +4368,20 @@ Visual undo history navigation.
   (:prefix leader-key "u" 'vundo))
 #+end_src
 
+** AI
+*** ellama
+#+begin_src emacs-lisp :tangle yes
+(use-package ellama
+  :ensure t
+  :functions
+  (make-llm-ollama)
+  :config
+  (setq ellama-auto-scroll t)
+  (setq ellama-provider
+        (make-llm-ollama :chat-model "llama3"
+                         :embedding-model "llama3")))
+#+end_src
+
 * Testing
 Packages that I am currently testing or evaluating.
 
@@ -4390,59 +4404,19 @@ Packages that I am currently testing or evaluating.
   (setq consult-git-log-grep-open-function #'magit-show-commit))
 #+end_src
 
-** consult-jump-project
-#+begin_src emacs-lisp :tangle yes
-(use-package consult-jump-project :ensure t)
-#+end_src
-
 ** dape
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package dape :ensure t)
 #+end_src
 
 ** elfeed
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package elfeed :ensure t)
 #+end_src
 
-** ellama
-#+begin_src emacs-lisp :tangle yes
-(use-package ellama
-  :ensure t
-  :functions
-  (make-llm-ollama)
-  :config
-  (setq ellama-auto-scroll t)
-  (setq ellama-provider
-        (make-llm-ollama :chat-model "llama3"
-                         :embedding-model "llama3")))
-#+end_src
-
 ** freeze-it
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package freeze-it :ensure t)
-#+end_src
-
-** native-complete
-#+begin_src emacs-lisp :tangle yes
-(use-package native-complete :ensure t)
-#+end_src
-
-** paimon
-#+begin_src emacs-lisp :tangle yes
-(use-package paimon
-  :ensure t
-  :commands paimon)
-#+end_src
-
-** shrface
-#+begin_src emacs-lisp :tangle yes
-(use-package shrface :ensure t)
-#+end_src
-
-** terraform-doc
-#+begin_src emacs-lisp :tangle yes
-(use-package terraform-doc :ensure t)
 #+end_src
 
 * Private
@@ -4532,7 +4506,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 ** Tasks
 *** TODO Improve bindings
 - Group editing bindings under logical prefix
-- Find use for =M-o=
+- Replace defrepeater and general with builtin functionality such as ~defvar-keymap~.
 *** TODO Split theme into several parts
 - One theme to set big headers and such things
 - One theme to highlight errors
@@ -4555,6 +4529,166 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 *** TODO Prefix function that overrides ~kill-region~ as ~kill-ring-save~ for next command
 *** TODO Function to jump to file under point, preferably with support for : line number
 *** TODO Function to load theme defined in current file
+*** TODO Split configuration into essential and full feature
+- Essential with a really small subset of packages (or none?)
+- Full feature (as currently)
+
+**** Keep
+- vertico
+- consult
+- puni
+- d2-mode
+- markdown-mode
+- nix-ts-mode
+- nix-mode
+- vundo
+- envrc
+- dumb-jump
+- apheleia
+- deadgrep
+- ctrlf (deprecate?)
+- epithet
+- embark
+- dtrt-indent
+- tempel
+- popper
+- transpose-frame
+- marginalia
+- cape
+- corfu
+- orderless
+- general
+- defrepeater
+- readable-mono-theme
+- readable-typo-theme
+- all-the-icons
+
+**** Drop
+- clojure-mode
+- cider
+- cobol-mode
+- crystal-mode
+- csv-mode
+- elm-mode
+- nov
+- erlang
+- git-modes
+- groovy-mode
+- fish-mode
+- haskell-mode
+- gradle-mode
+- kotlin-mode
+- sly
+- mermaid-mode
+- nginx-mode
+- nix-mode
+- caml
+- tuareg
+- pdf-tools
+- plantuml-mode
+- protobuf-mode
+- racket-mode
+- rego-mode
+- rustic
+- scala-mode
+- terraform-mode
+- web-mode
+
+- hide-mode-line
+- indent-info
+- vlf
+- grugru
+- separedit
+- magit
+- diff-hl
+- visual-regexp
+- helpful
+- ghelp
+- adaptive-wrap
+- visual-fill-column
+- virtual-auto-fill
+- zoom-window (deprecate C-x 1)
+- vterm
+- miniedit
+- link-hint
+- goto-chg
+- fish-completion
+- spray
+- jinx
+- indent-bars
+- outline-minor-faces
+- ox-epub
+- org-modern
+- org-appear
+- ob-http
+- org-noter
+- org-limit-image-size
+- org-contrib
+- org-cliplink
+- dslide
+- auto-compile
+- ligature
+- color-identifiers-mode
+- rainbow-delimiters
+- ws-butler (deprecate?)
+- imenu-list
+- imenu-extra
+- imenu-anywhere
+- idle-highlight-mode
+- hl-todo
+- vc-msg
+- browse-at-remote
+- repl-toggle
+- find-file-rg
+- avy
+- noccur
+- dired-git-info
+- all-the-icons-dired
+- all-the-icons-completion
+- stripe-buffer
+- dired-subtree
+- dired-sidebar
+- hide-lines
+- valign
+- kind-icon
+
+- focus
+- vterm-toggle
+- eshell-fringe-status
+- guess-language
+- pomm
+- gmail2bbdb
+- bbdb
+- cakecrumbs
+- rspec-mode
+- minitest
+- inf-ruby
+- flymake-racket
+- python-test
+- nix-update
+- json-navigator
+- flymake-eslint
+- gorepl-mode
+- gotest
+- inf-crystal
+- easy-escape
+- suggest
+- package-lint-flymake
+- highlight-quoted
+- eros
+- devdocs
+- cov
+- kubernetes
+- docker
+- compile-multi
+- consult-compile-multi
+- bibliothek
+- string-inflection
+- page-break-lines
+- explain-pause-mode
+- gcmh
+- no-littering
+- auto-minor-mode
 
 # Local Variables:
 # jinx-local-words: "Terje Terje's minibuffer"

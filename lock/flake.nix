@@ -115,12 +115,6 @@
       repo = "clojure-mode";
       type = "github";
     };
-    closql = {
-      flake = false;
-      owner = "magit";
-      repo = "closql";
-      type = "github";
-    };
     cobol-mode = {
       flake = false;
       type = "git";
@@ -162,12 +156,6 @@
       repo = "consult-git-log-grep";
       type = "github";
     };
-    consult-jump-project = {
-      flake = false;
-      owner = "jdtsmith";
-      repo = "consult-jump-project";
-      type = "github";
-    };
     corfu = {
       flake = false;
       owner = "minad";
@@ -196,12 +184,6 @@
       flake = false;
       owner = "andorsk";
       repo = "d2-mode";
-      type = "github";
-    };
-    dape = {
-      flake = false;
-      owner = "svaante";
-      repo = "dape";
       type = "github";
     };
     dash = {
@@ -294,12 +276,6 @@
       repo = "edit-indirect";
       type = "github";
     };
-    elfeed = {
-      flake = false;
-      owner = "skeeto";
-      repo = "elfeed";
-      type = "github";
-    };
     elisp-refs = {
       flake = false;
       owner = "Wilfred";
@@ -322,12 +298,6 @@
       flake = false;
       owner = "AdamNiederer";
       repo = "elquery";
-      type = "github";
-    };
-    emacsql = {
-      flake = false;
-      owner = "magit";
-      repo = "emacsql";
       type = "github";
     };
     embark = {
@@ -424,12 +394,6 @@
       flake = false;
       owner = "larstvei";
       repo = "Focus";
-      type = "github";
-    };
-    freeze-it = {
-      flake = false;
-      owner = "rnkn";
-      repo = "freeze-it";
       type = "github";
     };
     fullframe = {
@@ -563,12 +527,6 @@
       repo = "hl-todo";
       type = "github";
     };
-    ht = {
-      flake = false;
-      owner = "Wilfred";
-      repo = "ht.el";
-      type = "github";
-    };
     hydra = {
       flake = false;
       owner = "abo-abo";
@@ -664,12 +622,6 @@
       repo = "emacs-kv";
       type = "github";
     };
-    language-detection = {
-      flake = false;
-      owner = "andreasjansson";
-      repo = "language-detection.el";
-      type = "github";
-    };
     ligature = {
       flake = false;
       owner = "mickeynp";
@@ -758,12 +710,6 @@
       flake = false;
       owner = "arthurnn";
       repo = "minitest-emacs";
-      type = "github";
-    };
-    native-complete = {
-      flake = false;
-      owner = "CeleritasCelery";
-      repo = "emacs-native-shell-complete";
       type = "github";
     };
     nginx-mode = {
@@ -885,12 +831,6 @@
       repo = "page-break-lines";
       type = "github";
     };
-    paimon = {
-      flake = false;
-      owner = "r0man";
-      repo = "paimon.el";
-      type = "github";
-    };
     pairable = {
       flake = false;
       owner = "terlar";
@@ -944,12 +884,6 @@
       flake = false;
       owner = "auto-complete";
       repo = "popup-el";
-      type = "github";
-    };
-    promise = {
-      flake = false;
-      owner = "chuntaro";
-      repo = "emacs-promise";
       type = "github";
     };
     protobuf-mode = {
@@ -1066,12 +1000,6 @@
       repo = "sesman";
       type = "github";
     };
-    shrface = {
-      flake = false;
-      owner = "chenyanming";
-      repo = "shrface";
-      type = "github";
-    };
     sly = {
       flake = false;
       owner = "joaotavora";
@@ -1130,12 +1058,6 @@
       flake = false;
       owner = "minad";
       repo = "tempel";
-      type = "github";
-    };
-    terraform-doc = {
-      flake = false;
-      owner = "TxGVNN";
-      repo = "terraform-doc";
       type = "github";
     };
     terraform-mode = {
