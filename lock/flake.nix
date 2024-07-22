@@ -982,10 +982,10 @@
       type = "git";
       url = "https://codeberg.org/joostkremers/visual-fill-column.git";
     };
-    visual-regexp = {
+    visual-replace = {
       flake = false;
-      owner = "benma";
-      repo = "visual-regexp.el";
+      owner = "szermatt";
+      repo = "visual-replace";
       type = "github";
     };
     vlf = {

@@ -1559,14 +1559,13 @@ Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
   ("M-_" 'string-inflection-all-cycle))
 #+end_src
 
-*** visual-regexp
-Visually highlight regular expression searches as you type. Also supports replace.
+*** visual-replace
+Visually indicate what will be modified in a search and replace as you type.
 #+begin_src emacs-lisp :tangle yes
-(use-package visual-regexp
+(use-package visual-replace
   :ensure t
-  :general
-  ("M-s r" 'vr/query-replace
-   "M-s R" 'vr/replace))
+  :hook
+  (after-init-hook . visual-replace-global-mode))
 #+end_src
 
 * Buffers
@@ -4461,7 +4460,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - terraform-mode
 - virtual-auto-fill
 - visual-fill-column
-- visual-regexp (deprecate?)
+- visual-replace
 - vterm
 - ws-butler (deprecate?)
 - zoom-window (deprecate C-x 1)

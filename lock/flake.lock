@@ -2423,7 +2423,7 @@
         "vertico": "vertico",
         "virtual-auto-fill": "virtual-auto-fill",
         "visual-fill-column": "visual-fill-column",
-        "visual-regexp": "visual-regexp",
+        "visual-replace": "visual-replace",
         "vlf": "vlf",
         "vterm": "vterm",
         "vterm-toggle": "vterm-toggle",
@@ -2802,19 +2802,19 @@
         "url": "https://codeberg.org/joostkremers/visual-fill-column.git"
       }
     },
-    "visual-regexp": {
+    "visual-replace": {
       "flake": false,
       "locked": {
-        "lastModified": 1619986774,
-        "narHash": "sha256-X7DyfbiwaWbUAFTSwlTNxxd7PBHI8NrcWflXj5z5TPw=",
-        "owner": "benma",
-        "repo": "visual-regexp.el",
-        "rev": "48457d42a5e0fe10fa3a9c15854f1f127ade09b5",
+        "lastModified": 1703887672,
+        "narHash": "sha256-f0qQ4I4je1vArdDxexxVgWHHqDBvEoxlDg08Tx4SA94=",
+        "owner": "szermatt",
+        "repo": "visual-replace",
+        "rev": "7675534be785f66e548c9783c828c47172c8e36a",
         "type": "github"
       },
       "original": {
-        "owner": "benma",
-        "repo": "visual-regexp.el",
+        "owner": "szermatt",
+        "repo": "visual-replace",
         "type": "github"
       }
     },
