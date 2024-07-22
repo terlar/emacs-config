@@ -81,11 +81,13 @@
         "ref": "main",
         "rev": "25b0d9e98775601eeef5f7742d731ab45c3f89a0",
         "revCount": 619,
+        "shallow": false,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
       },
       "original": {
         "ref": "main",
+        "shallow": false,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
       }
@@ -158,11 +160,13 @@
         "ref": "main",
         "rev": "f031337c6ee125455a98e2de899a563388e5de19",
         "revCount": 322,
+        "shallow": false,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
       },
       "original": {
         "ref": "main",
+        "shallow": false,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
       }

@@ -17,7 +17,7 @@
     org-babel.url = "github:emacs-twist/org-babel";
 
     gnu-elpa = {
-      url = "git+https://git.savannah.gnu.org/git/emacs/elpa.git?ref=main";
+      url = "git+https://git.savannah.gnu.org/git/emacs/elpa.git?ref=main&shallow=0";
       flake = false;
     };
     melpa = {
@@ -25,7 +25,7 @@
       flake = false;
     };
     nongnu-elpa = {
-      url = "git+https://git.savannah.gnu.org/git/emacs/nongnu.git?ref=main";
+      url = "git+https://git.savannah.gnu.org/git/emacs/nongnu.git?ref=main&shallow=0";
       flake = false;
     };
   };
