@@ -1865,6 +1865,13 @@ Striped dired buffers.
    ")" 'dired-git-info-mode))
 #+end_src
 
+** Isearch
+#+begin_src emacs-lisp :tangle yes
+(use-package isearch
+  :init
+  (setq isearch-lazy-count t))
+#+end_src
+
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
@@ -1909,14 +1916,6 @@ Keep track of bookmarks
 (use-package bookmark
   :init
   (setq bookmark-save-flag 1))
-#+end_src
-
-*** ctrlf
-#+begin_src emacs-lisp :tangle yes
-(use-package ctrlf
-  :ensure t
-  :hook
-  (after-init-hook . ctrlf-mode))
 #+end_src
 
 *** deadgrep
@@ -4391,7 +4390,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - apheleia
 - consult
 - corfu
-- ctrlf (deprecate?)
 - deadgrep
 - defrepeater
 - dtrt-indent

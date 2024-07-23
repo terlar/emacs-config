@@ -139,12 +139,6 @@
       repo = "emacs-crystal-mode";
       type = "github";
     };
-    ctrlf = {
-      flake = false;
-      owner = "radian-software";
-      repo = "ctrlf";
-      type = "github";
-    };
     d2-mode = {
       flake = false;
       owner = "andorsk";
