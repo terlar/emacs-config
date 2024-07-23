@@ -2072,7 +2072,7 @@ nothing happens."
     (if compile-on-save-mode
         (progn  (make-local-variable 'after-save-hook)
                 (add-hook 'after-save-hook 'compile-on-save-start nil t))
-      (kill-local-variable 'after-save-hook)))
+      (remove-hook 'after-save-hook 'compile-on-save-start t)))
 
   (make-variable-buffer-local 'compile-command)
   :init
@@ -2817,7 +2817,7 @@ Improve readability of escape characters in regular expressions.
   (setq org-log-done 'time)
   (setq org-modules '(ol-info))
   (setq org-special-ctrl-a/e t)
-  
+
   (setq org-confirm-babel-evaluate nil)
   (setq org-edit-src-content-indentation 0)
   (setq org-src-preserve-indentation nil)
