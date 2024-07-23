@@ -1231,14 +1231,6 @@ Manage "popups".
                                 help-mode)))))))
 #+end_src
 
-Zoom a window to display as a single window temporarily.
-#+begin_src emacs-lisp :tangle yes
-(use-package zoom-window
-  :ensure t
-  :general
-  (:prefix window-prefix "z" 'zoom-window-zoom))
-#+end_src
-
 ** Buffer
 *** Cursor
 #+begin_src emacs-lisp :tangle yes
@@ -4434,7 +4426,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - visual-replace
 - vterm
 - ws-butler (deprecate?)
-- zoom-window (deprecate C-x 1)
 
 **** Full
 - bibliothek

@@ -1018,12 +1018,6 @@
       repo = "xterm-color";
       type = "github";
     };
-    zoom-window = {
-      flake = false;
-      owner = "emacsorphanage";
-      repo = "zoom-window";
-      type = "github";
-    };
   };
   outputs = { ... }: { };
 }

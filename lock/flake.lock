@@ -2396,8 +2396,7 @@
         "vundo": "vundo",
         "with-editor": "with-editor",
         "ws-butler": "ws-butler",
-        "xterm-color": "xterm-color",
-        "zoom-window": "zoom-window"
+        "xterm-color": "xterm-color"
       }
     },
     "rspec-mode": {
@@ -2893,22 +2892,6 @@
       "original": {
         "owner": "atomontage",
         "repo": "xterm-color",
-        "type": "github"
-      }
-    },
-    "zoom-window": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715150629,
-        "narHash": "sha256-41Zf1vn2wJ9T5qiaywCKtspcuQtKZB1C0TcHPU1hGjY=",
-        "owner": "emacsorphanage",
-        "repo": "zoom-window",
-        "rev": "3af038d4295c204e4d739f508348f4c58b0be397",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacsorphanage",
-        "repo": "zoom-window",
         "type": "github"
       }
     }
