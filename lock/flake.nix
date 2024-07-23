@@ -839,18 +839,6 @@
       repo = "rspec-mode";
       type = "github";
     };
-    rust-mode = {
-      flake = false;
-      owner = "rust-lang";
-      repo = "rust-mode";
-      type = "github";
-    };
-    rustic = {
-      flake = false;
-      owner = "emacs-rustic";
-      repo = "rustic";
-      type = "github";
-    };
     "s" = {
       flake = false;
       owner = "magnars";
@@ -1010,12 +998,6 @@
       flake = false;
       owner = "hlissner";
       repo = "ws-butler";
-      type = "github";
-    };
-    xterm-color = {
-      flake = false;
-      owner = "atomontage";
-      repo = "xterm-color";
       type = "github";
     };
   };

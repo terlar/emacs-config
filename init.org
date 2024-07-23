@@ -3842,21 +3842,13 @@ Pretty check-boxes as well as bullet lists.
 
 ** rust
 #+begin_src emacs-lisp :tangle yes
-(use-package rustic
-  :ensure t
-  :mode
-  ("\\.rs\\'" . rustic-mode)
+(use-package rust-ts-mode
+  :mode "\\.rs\\'"
   :hook
-  (rustic-mode-hook . eglot-ensure)
-  :general
-  (:keymaps
-   'rustic-mode-map
-   :prefix local-leader-key
-   "t" 'rustic-cargo-test)
+  (rust-ts-mode-hook . eglot-ensure)
   :init
-  (setq rustic-lsp-client 'eglot)
   (with-eval-after-load 'org
-    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal)))
+    (cl-pushnew '("rust" . rust-ts-mode) org-src-lang-modes :test #'equal)))
 #+end_src
 
 ** scala
