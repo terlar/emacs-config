@@ -1136,22 +1136,6 @@
         "type": "github"
       }
     },
-    "hide-lines": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1620923799,
-        "narHash": "sha256-EuKjcszQEsIJClphOuABsnd5MJBWhL+Zt9r4f8PlgN8=",
-        "owner": "vapniks",
-        "repo": "hide-lines",
-        "rev": "f0828c15e50db5eddb905de783e7683b04d1eca3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vapniks",
-        "repo": "hide-lines",
-        "type": "github"
-      }
-    },
     "hide-mode-line": {
       "flake": false,
       "locked": {
@@ -2314,7 +2298,6 @@
         "haskell-mode": "haskell-mode",
         "hcl-mode": "hcl-mode",
         "helpful": "helpful",
-        "hide-lines": "hide-lines",
         "hide-mode-line": "hide-mode-line",
         "hl-todo": "hl-todo",
         "hydra": "hydra",

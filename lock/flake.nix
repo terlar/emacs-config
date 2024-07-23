@@ -426,12 +426,6 @@
       repo = "helpful";
       type = "github";
     };
-    hide-lines = {
-      flake = false;
-      owner = "vapniks";
-      repo = "hide-lines";
-      type = "github";
-    };
     hide-mode-line = {
       flake = false;
       owner = "hlissner";

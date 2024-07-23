@@ -1737,17 +1737,6 @@ Descriptive buffer names or project relative paths for buffer names.
   (cl-pushnew #'epithet-relative-project-name epithet-suggesters :test #'equal))
 #+end_src
 
-*** hide-lines
-Hide lines in buffer based on a regular expressions.
-#+begin_src emacs-lisp :tangle yes
-(use-package hide-lines
-  :ensure t
-  :commands
-  (hide-lines-matching)
-  :general
-  (:prefix search-prefix "H" 'hide-lines))
-#+end_src
-
 *** pairable
 #+begin_src emacs-lisp :tangle yes
 (use-package pairable :ensure t)
@@ -3752,14 +3741,8 @@ Pretty check-boxes
 ** rst
 #+begin_src emacs-lisp :tangle yes
 (use-package rst
-  :preface
-  (defvar rst-adornment-regexp nil
-    "Regular expression to match adornments.")
   :hook
-  (rst-mode-hook . auto-fill-mode)
-  :config
-  (setq rst-adornment-regexp
-        (concat "^[" rst-adornment-chars "]\\{3,\\}$")))
+  (rst-mode-hook . auto-fill-mode))
 #+end_src
 
 *** Appearance
@@ -3770,16 +3753,6 @@ Use variable-pitch font but still make sure everything aligns.
  'rst-mode
  '(("^[[:space:]-*+]+\\(\\[.\\]\\)?" 0 'fixed-pitch append))
  'append)
-#+end_src
-
-**** Heading
-Hide heading adornments.
-#+begin_src emacs-lisp :tangle yes
-(defun +rst-hide-heading-adornment ()
-  "Hide heading adornment for `rst-mode'."
-  (interactive)
-  (hide-lines-matching rst-adornment-regexp))
-(add-hook 'rst-mode-hook #'+rst-hide-heading-adornment)
 #+end_src
 
 **** Bullet lists
@@ -4490,7 +4463,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - groovy-mode
 - guess-language
 - haskell-mode
-- hide-lines (deprecate?)
 - hl-todo
 - inf-crystal
 - inf-ruby
