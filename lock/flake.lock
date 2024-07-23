@@ -368,22 +368,6 @@
         "type": "github"
       }
     },
-    "ctrlf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1668224432,
-        "narHash": "sha256-y918/un/43rLxaJD+22U89n2+EQS6i78Y15eDUhpMRg=",
-        "owner": "radian-software",
-        "repo": "ctrlf",
-        "rev": "9b4cf6c79a961f2bfbb949805aa300fcf1eb40a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "radian-software",
-        "repo": "ctrlf",
-        "type": "github"
-      }
-    },
     "d2-mode": {
       "flake": false,
       "locked": {
@@ -1149,22 +1133,6 @@
       "original": {
         "owner": "Wilfred",
         "repo": "helpful",
-        "type": "github"
-      }
-    },
-    "hide-lines": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1620923799,
-        "narHash": "sha256-EuKjcszQEsIJClphOuABsnd5MJBWhL+Zt9r4f8PlgN8=",
-        "owner": "vapniks",
-        "repo": "hide-lines",
-        "rev": "f0828c15e50db5eddb905de783e7683b04d1eca3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vapniks",
-        "repo": "hide-lines",
         "type": "github"
       }
     },
@@ -2282,7 +2250,6 @@
         "corfu": "corfu",
         "cov": "cov",
         "crystal-mode": "crystal-mode",
-        "ctrlf": "ctrlf",
         "d2-mode": "d2-mode",
         "dash": "dash",
         "deadgrep": "deadgrep",
@@ -2331,7 +2298,6 @@
         "haskell-mode": "haskell-mode",
         "hcl-mode": "hcl-mode",
         "helpful": "helpful",
-        "hide-lines": "hide-lines",
         "hide-mode-line": "hide-mode-line",
         "hl-todo": "hl-todo",
         "hydra": "hydra",
@@ -2401,8 +2367,6 @@
         "repl-toggle": "repl-toggle",
         "request": "request",
         "rspec-mode": "rspec-mode",
-        "rust-mode": "rust-mode",
-        "rustic": "rustic",
         "s": "s",
         "scala-mode": "scala-mode",
         "separedit": "separedit",
@@ -2429,9 +2393,7 @@
         "vterm-toggle": "vterm-toggle",
         "vundo": "vundo",
         "with-editor": "with-editor",
-        "ws-butler": "ws-butler",
-        "xterm-color": "xterm-color",
-        "zoom-window": "zoom-window"
+        "ws-butler": "ws-butler"
       }
     },
     "rspec-mode": {
@@ -2447,38 +2409,6 @@
       "original": {
         "owner": "pezra",
         "repo": "rspec-mode",
-        "type": "github"
-      }
-    },
-    "rust-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716191386,
-        "narHash": "sha256-I+UhVGj7kEDFxUTF6t4zCdrXNEq31BAGzeNDppBUZCE=",
-        "owner": "rust-lang",
-        "repo": "rust-mode",
-        "rev": "d00d83d3a207a5b7c2994392b2781f627e3159ce",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rust-lang",
-        "repo": "rust-mode",
-        "type": "github"
-      }
-    },
-    "rustic": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1718678778,
-        "narHash": "sha256-qNs1E5jS7VCkXVRHTUK+XqSs8cm6qEObz8MykerLsGA=",
-        "owner": "emacs-rustic",
-        "repo": "rustic",
-        "rev": "563c7ac2c9af8ba72a732021e1d0a954fad2a696",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacs-rustic",
-        "repo": "rustic",
         "type": "github"
       }
     },
@@ -2911,38 +2841,6 @@
       "original": {
         "owner": "hlissner",
         "repo": "ws-butler",
-        "type": "github"
-      }
-    },
-    "xterm-color": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1679357033,
-        "narHash": "sha256-mj41auz6ukrcfBcQJLzHKcZ32o2tBoLBesSRNK7Sxv8=",
-        "owner": "atomontage",
-        "repo": "xterm-color",
-        "rev": "2ad407c651e90fff2ea85d17bf074cee2c022912",
-        "type": "github"
-      },
-      "original": {
-        "owner": "atomontage",
-        "repo": "xterm-color",
-        "type": "github"
-      }
-    },
-    "zoom-window": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715150629,
-        "narHash": "sha256-41Zf1vn2wJ9T5qiaywCKtspcuQtKZB1C0TcHPU1hGjY=",
-        "owner": "emacsorphanage",
-        "repo": "zoom-window",
-        "rev": "3af038d4295c204e4d739f508348f4c58b0be397",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emacsorphanage",
-        "repo": "zoom-window",
         "type": "github"
       }
     }

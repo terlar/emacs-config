@@ -1231,14 +1231,6 @@ Manage "popups".
                                 help-mode)))))))
 #+end_src
 
-Zoom a window to display as a single window temporarily.
-#+begin_src emacs-lisp :tangle yes
-(use-package zoom-window
-  :ensure t
-  :general
-  (:prefix window-prefix "z" 'zoom-window-zoom))
-#+end_src
-
 ** Buffer
 *** Cursor
 #+begin_src emacs-lisp :tangle yes
@@ -1737,17 +1729,6 @@ Descriptive buffer names or project relative paths for buffer names.
   (cl-pushnew #'epithet-relative-project-name epithet-suggesters :test #'equal))
 #+end_src
 
-*** hide-lines
-Hide lines in buffer based on a regular expressions.
-#+begin_src emacs-lisp :tangle yes
-(use-package hide-lines
-  :ensure t
-  :commands
-  (hide-lines-matching)
-  :general
-  (:prefix search-prefix "H" 'hide-lines))
-#+end_src
-
 *** pairable
 #+begin_src emacs-lisp :tangle yes
 (use-package pairable :ensure t)
@@ -1865,6 +1846,13 @@ Striped dired buffers.
    ")" 'dired-git-info-mode))
 #+end_src
 
+** Isearch
+#+begin_src emacs-lisp :tangle yes
+(use-package isearch
+  :init
+  (setq isearch-lazy-count t))
+#+end_src
+
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
@@ -1909,14 +1897,6 @@ Keep track of bookmarks
 (use-package bookmark
   :init
   (setq bookmark-save-flag 1))
-#+end_src
-
-*** ctrlf
-#+begin_src emacs-lisp :tangle yes
-(use-package ctrlf
-  :ensure t
-  :hook
-  (after-init-hook . ctrlf-mode))
 #+end_src
 
 *** deadgrep
@@ -2073,7 +2053,7 @@ nothing happens."
     (if compile-on-save-mode
         (progn  (make-local-variable 'after-save-hook)
                 (add-hook 'after-save-hook 'compile-on-save-start nil t))
-      (kill-local-variable 'after-save-hook)))
+      (remove-hook 'after-save-hook 'compile-on-save-start t)))
 
   (make-variable-buffer-local 'compile-command)
   :init
@@ -2818,7 +2798,7 @@ Improve readability of escape characters in regular expressions.
   (setq org-log-done 'time)
   (setq org-modules '(ol-info))
   (setq org-special-ctrl-a/e t)
-  
+
   (setq org-confirm-babel-evaluate nil)
   (setq org-edit-src-content-indentation 0)
   (setq org-src-preserve-indentation nil)
@@ -3753,14 +3733,8 @@ Pretty check-boxes
 ** rst
 #+begin_src emacs-lisp :tangle yes
 (use-package rst
-  :preface
-  (defvar rst-adornment-regexp nil
-    "Regular expression to match adornments.")
   :hook
-  (rst-mode-hook . auto-fill-mode)
-  :config
-  (setq rst-adornment-regexp
-        (concat "^[" rst-adornment-chars "]\\{3,\\}$")))
+  (rst-mode-hook . auto-fill-mode))
 #+end_src
 
 *** Appearance
@@ -3771,16 +3745,6 @@ Use variable-pitch font but still make sure everything aligns.
  'rst-mode
  '(("^[[:space:]-*+]+\\(\\[.\\]\\)?" 0 'fixed-pitch append))
  'append)
-#+end_src
-
-**** Heading
-Hide heading adornments.
-#+begin_src emacs-lisp :tangle yes
-(defun +rst-hide-heading-adornment ()
-  "Hide heading adornment for `rst-mode'."
-  (interactive)
-  (hide-lines-matching rst-adornment-regexp))
-(add-hook 'rst-mode-hook #'+rst-hide-heading-adornment)
 #+end_src
 
 **** Bullet lists
@@ -3878,21 +3842,13 @@ Pretty check-boxes as well as bullet lists.
 
 ** rust
 #+begin_src emacs-lisp :tangle yes
-(use-package rustic
-  :ensure t
-  :mode
-  ("\\.rs\\'" . rustic-mode)
+(use-package rust-ts-mode
+  :mode "\\.rs\\'"
   :hook
-  (rustic-mode-hook . eglot-ensure)
-  :general
-  (:keymaps
-   'rustic-mode-map
-   :prefix local-leader-key
-   "t" 'rustic-cargo-test)
+  (rust-ts-mode-hook . eglot-ensure)
   :init
-  (setq rustic-lsp-client 'eglot)
   (with-eval-after-load 'org
-    (cl-pushnew '("rust" . rustic) org-src-lang-modes :test #'equal)))
+    (cl-pushnew '("rust" . rust-ts-mode) org-src-lang-modes :test #'equal)))
 #+end_src
 
 ** scala
@@ -4391,7 +4347,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - apheleia
 - consult
 - corfu
-- ctrlf (deprecate?)
 - deadgrep
 - defrepeater
 - dtrt-indent
@@ -4463,7 +4418,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - visual-replace
 - vterm
 - ws-butler (deprecate?)
-- zoom-window (deprecate C-x 1)
 
 **** Full
 - bibliothek
@@ -4492,7 +4446,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - groovy-mode
 - guess-language
 - haskell-mode
-- hide-lines (deprecate?)
 - hl-todo
 - inf-crystal
 - inf-ruby

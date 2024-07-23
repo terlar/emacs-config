@@ -139,12 +139,6 @@
       repo = "emacs-crystal-mode";
       type = "github";
     };
-    ctrlf = {
-      flake = false;
-      owner = "radian-software";
-      repo = "ctrlf";
-      type = "github";
-    };
     d2-mode = {
       flake = false;
       owner = "andorsk";
@@ -430,12 +424,6 @@
       flake = false;
       owner = "Wilfred";
       repo = "helpful";
-      type = "github";
-    };
-    hide-lines = {
-      flake = false;
-      owner = "vapniks";
-      repo = "hide-lines";
       type = "github";
     };
     hide-mode-line = {
@@ -851,18 +839,6 @@
       repo = "rspec-mode";
       type = "github";
     };
-    rust-mode = {
-      flake = false;
-      owner = "rust-lang";
-      repo = "rust-mode";
-      type = "github";
-    };
-    rustic = {
-      flake = false;
-      owner = "emacs-rustic";
-      repo = "rustic";
-      type = "github";
-    };
     "s" = {
       flake = false;
       owner = "magnars";
@@ -1022,18 +998,6 @@
       flake = false;
       owner = "hlissner";
       repo = "ws-butler";
-      type = "github";
-    };
-    xterm-color = {
-      flake = false;
-      owner = "atomontage";
-      repo = "xterm-color";
-      type = "github";
-    };
-    zoom-window = {
-      flake = false;
-      owner = "emacsorphanage";
-      repo = "zoom-window";
       type = "github";
     };
   };
