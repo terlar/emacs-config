@@ -157,12 +157,6 @@
       repo = "deadgrep";
       type = "github";
     };
-    defrepeater = {
-      flake = false;
-      owner = "alphapapa";
-      repo = "defrepeater.el";
-      type = "github";
-    };
     devdocs = {
       flake = false;
       owner = "astoff";
@@ -341,12 +335,6 @@
       flake = false;
       type = "git";
       url = "https://gitlab.com/koral/gcmh";
-    };
-    general = {
-      flake = false;
-      owner = "noctuid";
-      repo = "general.el";
-      type = "github";
     };
     ghelp = {
       flake = false;
