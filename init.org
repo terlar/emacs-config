@@ -2680,7 +2680,10 @@ Improve readability of escape characters in regular expressions.
           ("@home"  . ?h)
           ("laptop" . ?l)))
 
-  (setq org-imenu-depth 3))
+  (setq org-imenu-depth 3)
+  :config
+  (dolist (lang '("emacs-lisp" "elisp"))
+    (cl-pushnew (cons lang 'lisp-interaction) org-src-lang-modes :test #'equal)))
 
 (use-package ob-plantuml
   :init
