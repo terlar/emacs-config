@@ -251,7 +251,7 @@ Track how much time is spent in each function and present a view to investigate 
 
 *** vlf
 Large file support. This can view/edit/search and compare large files.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package vlf :ensure t)
 #+end_src
 
@@ -737,6 +737,7 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 (keymap-global-set "<Tools>" #'just-one-space)
 (keymap-global-set "M-p" #'completion-at-point)
 (keymap-global-set "C-M-y" #'duplicate-dwim)
+(keymap-global-set "C-x C-/" #'revert-buffer)
 (keymap-global-set "C-z" #'zap-up-to-char)
 (keymap-global-set "<remap> <upcase-word>" #'upcase-dwim)
 (keymap-global-set "<remap> <downcase-word>" #'downcase-dwim)
@@ -762,6 +763,11 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
          ("m" . maximize-window)
          ("r" . window-configuration-to-register)
          ("w" . window-toggle-side-windows))
+   (:repeat-map buffer-repeat-map
+                ("b" . next-buffer)
+                ("B" . previous-buffer)
+                ("[" . previous-buffer)
+                ("]" . next-buffer))
    (:repeat-map other-window-repeat-map
                 ("o" . other-window)
                 ("O" . other-window-reverse-repeat)))
@@ -786,7 +792,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 (defvar-keymap next-map
   :doc "Keymap for the next key sequences."
   :prefix 'next-map-prefix
-  "]" '("Text size" . text-scale-increase)
   "b" '("Buffer" . next-buffer)
   "c" '("Conflict" . smerge-next)
   "e" '("Error" . next-error))
@@ -795,7 +800,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 (defvar-keymap prev-map
   :doc "Keymap for the prev key sequences."
   :prefix 'prev-map-prefix
-  "[" '("Text size" . text-scale-decrease)
   "b" '("Buffer" . previous-buffer)
   "c" '("Conflict" . smerge-prev)
   "e" '("Error" . previous-error))
@@ -1001,6 +1005,8 @@ Commands compatible with ~completing-read~.
   (([remap bookmark-jump] . consult-bookmark)
    ([remap goto-line] . consult-goto-line)
    ([remap imenu] . consult-imenu)
+   ([remap jump-to-register] . consult-register)
+   ([remap point-to-register] . consult-register-store)
    ([remap switch-to-buffer] . consult-buffer)
    ([remap yank-pop] . consult-yank-pop)
    ("C-c k" . consult-kmacro)
@@ -1128,7 +1134,9 @@ Undo/redo between window layouts.
   :bind
   (:repeat-map winner-repeat-map
                ("[" . winner-undo)
-               ("]" . winner-redo))
+               ("]" . winner-redo)
+               ("M-[" . winner-undo)
+               ("M-]" . winner-redo))
   :init
   (setq winner-dont-bind-my-keys t)
   (keymap-set next-map next-prefix '("Window History" . winner-redo))
@@ -1799,18 +1807,6 @@ Jump to ...
   (:map goto-map ("C" . avy-goto-char-in-line)))
 #+end_src
 
-*** bibliothek
-Management tool for a library of PDFs.
-#+begin_src emacs-lisp :tangle yes
-(use-package bibliothek
-  :ensure t
-  :bind
-  (:map leader-map ("b" . bibliothek))
-  :init
-  (setq bibliothek-path '("~/books" "~/documents/research/papers"))
-  (setq bibliothek-recursive t))
-#+end_src
-
 *** bookmark
 Keep track of bookmarks
 #+begin_src emacs-lisp :tangle yes
@@ -2373,15 +2369,6 @@ Enhanced git related views and commands.
   (setenv "GIT_PAGER" ""))
 #+end_src
 
-*** vc-msg
-Popup commit message for current line
-#+begin_src emacs-lisp :tangle yes
-(use-package vc-msg
-  :ensure t
-  :bind
-  (:map vc-prefix-map ("p" . vc-msg-show)))
-#+end_src
-
 ** Packages
 *** envrc
 Project-specific environment variables via =direnv=.
@@ -2505,7 +2492,7 @@ Delete trailing white-space before save, but *only* for edited lines.
 ** Appearance
 *** Highlight delimiters
 Visually separate delimiter pairs.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package rainbow-delimiters
   :ensure t
   :hook
@@ -2520,7 +2507,7 @@ Visually separate delimiter pairs.
 
 *** Highlight identifiers
 Highlight source code identifiers based on their name.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package color-identifiers-mode :ensure t)
 #+end_src
 
@@ -2549,10 +2536,10 @@ Highlight source code identifiers based on their name.
 * Major modes
 ** emacs-lisp
 #+begin_src emacs-lisp :tangle yes
-(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
-(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
-
 (use-package elisp-mode
+  :hook
+  (emacs-lisp-mode-hook . flymake-mode)
+  (emacs-lisp-mode-hook . outline-minor-mode)
   :bind
   (:map emacs-lisp-mode-map
         ("C-. c" . emacs-lisp-byte-compile)
@@ -2672,7 +2659,10 @@ Improve readability of escape characters in regular expressions.
           ("@home"  . ?h)
           ("laptop" . ?l)))
 
-  (setq org-imenu-depth 3))
+  (setq org-imenu-depth 3)
+  :config
+  (dolist (lang '("emacs-lisp" "elisp"))
+    (cl-pushnew (cons lang 'lisp-interaction) org-src-lang-modes :test #'equal)))
 
 (use-package ob-plantuml
   :init
@@ -4112,6 +4102,23 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 ** Tasks
 *** TODO Improve bindings
 - Group editing bindings under logical prefix
+- Binding for
+  - org-store-link
+  - repeat map for window resize operations
+    - =C-x {=,= =C-x +=, maximize-window
+    - flip-frame/flop-frame/transpose-frame
+  - leader mnemonics? as a separate package, or is it too much work?
+    - (t)oggle
+    - (s)earch
+    - (f)ile
+      - (r)ecent
+      - (s)ave
+    - (b)uffer
+      - b - switch
+      - (k)ill
+      - (n)ext/(p)rev - repeat
+      - (r)evert
+      - (j)ump (bookmark)
 *** TODO Split theme into several parts
 - One theme to set big headers and such things
 - One theme to highlight errors
@@ -4214,7 +4221,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - ws-butler (deprecate?)
 
 **** Full
-- bibliothek
 - browse-at-remote
 - cakecrumbs
 - caml
@@ -4273,7 +4279,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - stripe-buffer
 - tuareg
 - valign
-- vc-msg
 - vlf
 - vterm-toggle
 - web-mode

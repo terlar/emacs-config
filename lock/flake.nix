@@ -2,12 +2,6 @@
   description =
     "THIS IS AN AUTO-GENERATED FILE. PLEASE DON'T EDIT IT MANUALLY.";
   inputs = {
-    "a" = {
-      flake = false;
-      owner = "plexus";
-      repo = "a.el";
-      type = "github";
-    };
     aio = {
       flake = false;
       owner = "skeeto";
@@ -56,12 +50,6 @@
       repo = "avy";
       type = "github";
     };
-    bibliothek = {
-      flake = false;
-      owner = "cadadr";
-      repo = "elisp";
-      type = "github";
-    };
     browse-at-remote = {
       flake = false;
       owner = "rmuslimov";
@@ -96,12 +84,6 @@
       flake = false;
       type = "git";
       url = "https://git.sr.ht/~hjelmtech/cobol-mode";
-    };
-    color-identifiers-mode = {
-      flake = false;
-      owner = "ankurdave";
-      repo = "color-identifiers-mode";
-      type = "github";
     };
     compat = {
       flake = false;
@@ -773,12 +755,6 @@
       repo = "racket-mode";
       type = "github";
     };
-    rainbow-delimiters = {
-      flake = false;
-      owner = "Fanael";
-      repo = "rainbow-delimiters";
-      type = "github";
-    };
     readable = {
       flake = false;
       owner = "terlar";
@@ -923,12 +899,6 @@
       repo = "valign";
       type = "github";
     };
-    vc-msg = {
-      flake = false;
-      owner = "redguardtoo";
-      repo = "vc-msg";
-      type = "github";
-    };
     vertico = {
       flake = false;
       owner = "minad";
@@ -950,12 +920,6 @@
       flake = false;
       owner = "szermatt";
       repo = "visual-replace";
-      type = "github";
-    };
-    vlf = {
-      flake = false;
-      owner = "m00natic";
-      repo = "vlfi";
       type = "github";
     };
     vterm = {

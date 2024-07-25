@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "a": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1648803467,
-        "narHash": "sha256-iZ8EPmpBphQeL/VaBOniaelDqC6FNC57r9vX0rV+nZ8=",
-        "owner": "plexus",
-        "repo": "a.el",
-        "rev": "93e5ed8c495794d1ba3c04b43041b95ce01079b1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "plexus",
-        "repo": "a.el",
-        "type": "github"
-      }
-    },
     "aio": {
       "flake": false,
       "locked": {
@@ -144,22 +128,6 @@
         "type": "github"
       }
     },
-    "bibliothek": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1679101595,
-        "narHash": "sha256-XB4xZR72e6QMaQynxpmRltDNf+xSoKbEtS+btRK4jd8=",
-        "owner": "cadadr",
-        "repo": "elisp",
-        "rev": "3497ffd763cadcc1f507aae88c3c7a84007ccfbd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cadadr",
-        "repo": "elisp",
-        "type": "github"
-      }
-    },
     "browse-at-remote": {
       "flake": false,
       "locked": {
@@ -254,22 +222,6 @@
       "original": {
         "type": "git",
         "url": "https://git.sr.ht/~hjelmtech/cobol-mode"
-      }
-    },
-    "color-identifiers-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1714949117,
-        "narHash": "sha256-Udcqnqj44aUXb5v9nETt1PsTk/JQBulYjSRl9AQmBR4=",
-        "owner": "ankurdave",
-        "repo": "color-identifiers-mode",
-        "rev": "e254aec767484ad32f710d7316f20de492975cdd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ankurdave",
-        "repo": "color-identifiers-mode",
-        "type": "github"
       }
     },
     "compat": {
@@ -2065,22 +2017,6 @@
         "type": "github"
       }
     },
-    "rainbow-delimiters": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1693411222,
-        "narHash": "sha256-JcNRW0+L65NtOBronwyT7SHP9QsNa3ysj4cHv88yfoI=",
-        "owner": "Fanael",
-        "repo": "rainbow-delimiters",
-        "rev": "f40ece58df8b2f0fb6c8576b527755a552a5e763",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Fanael",
-        "repo": "rainbow-delimiters",
-        "type": "github"
-      }
-    },
     "readable": {
       "flake": false,
       "locked": {
@@ -2195,7 +2131,6 @@
     },
     "root": {
       "inputs": {
-        "a": "a",
         "aio": "aio",
         "alert": "alert",
         "all-the-icons": "all-the-icons",
@@ -2204,14 +2139,12 @@
         "annotate": "annotate",
         "apheleia": "apheleia",
         "avy": "avy",
-        "bibliothek": "bibliothek",
         "browse-at-remote": "browse-at-remote",
         "caml": "caml",
         "cape": "cape",
         "cider": "cider",
         "clojure-mode": "clojure-mode",
         "cobol-mode": "cobol-mode",
-        "color-identifiers-mode": "color-identifiers-mode",
         "compat": "compat",
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
@@ -2324,7 +2257,6 @@
         "puni": "puni",
         "python-test": "python-test",
         "racket-mode": "racket-mode",
-        "rainbow-delimiters": "rainbow-delimiters",
         "readable": "readable",
         "readable-mono-theme": "readable-mono-theme",
         "readable-typo-theme": "readable-typo-theme",
@@ -2349,12 +2281,10 @@
         "transpose-frame": "transpose-frame",
         "tuareg": "tuareg",
         "valign": "valign",
-        "vc-msg": "vc-msg",
         "vertico": "vertico",
         "virtual-auto-fill": "virtual-auto-fill",
         "visual-fill-column": "visual-fill-column",
         "visual-replace": "visual-replace",
-        "vlf": "vlf",
         "vterm": "vterm",
         "vterm-toggle": "vterm-toggle",
         "vundo": "vundo",
@@ -2634,22 +2564,6 @@
         "type": "github"
       }
     },
-    "vc-msg": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1669517138,
-        "narHash": "sha256-kbamSWtjHl4KeCgXkfSNyr18ndoFqU8/pugopHEnQzk=",
-        "owner": "redguardtoo",
-        "repo": "vc-msg",
-        "rev": "5b0f27307402442b062448d548c29da02ba92295",
-        "type": "github"
-      },
-      "original": {
-        "owner": "redguardtoo",
-        "repo": "vc-msg",
-        "type": "github"
-      }
-    },
     "vertico": {
       "flake": false,
       "locked": {
@@ -2711,22 +2625,6 @@
       "original": {
         "owner": "szermatt",
         "repo": "visual-replace",
-        "type": "github"
-      }
-    },
-    "vlf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1574808622,
-        "narHash": "sha256-91+gCMTQ9MYYVDoQCdaA28V4GMp086GefjySO3rCmAM=",
-        "owner": "m00natic",
-        "repo": "vlfi",
-        "rev": "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "m00natic",
-        "repo": "vlfi",
         "type": "github"
       }
     },
