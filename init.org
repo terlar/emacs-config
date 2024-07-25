@@ -251,7 +251,7 @@ Track how much time is spent in each function and present a view to investigate 
 
 *** vlf
 Large file support. This can view/edit/search and compare large files.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package vlf :ensure t)
 #+end_src
 
@@ -1807,18 +1807,6 @@ Jump to ...
   (:map goto-map ("C" . avy-goto-char-in-line)))
 #+end_src
 
-*** bibliothek
-Management tool for a library of PDFs.
-#+begin_src emacs-lisp :tangle yes
-(use-package bibliothek
-  :ensure t
-  :bind
-  (:map leader-map ("b" . bibliothek))
-  :init
-  (setq bibliothek-path '("~/books" "~/documents/research/papers"))
-  (setq bibliothek-recursive t))
-#+end_src
-
 *** bookmark
 Keep track of bookmarks
 #+begin_src emacs-lisp :tangle yes
@@ -2381,15 +2369,6 @@ Enhanced git related views and commands.
   (setenv "GIT_PAGER" ""))
 #+end_src
 
-*** vc-msg
-Popup commit message for current line
-#+begin_src emacs-lisp :tangle yes
-(use-package vc-msg
-  :ensure t
-  :bind
-  (:map vc-prefix-map ("p" . vc-msg-show)))
-#+end_src
-
 ** Packages
 *** envrc
 Project-specific environment variables via =direnv=.
@@ -2513,7 +2492,7 @@ Delete trailing white-space before save, but *only* for edited lines.
 ** Appearance
 *** Highlight delimiters
 Visually separate delimiter pairs.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package rainbow-delimiters
   :ensure t
   :hook
@@ -2528,7 +2507,7 @@ Visually separate delimiter pairs.
 
 *** Highlight identifiers
 Highlight source code identifiers based on their name.
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package color-identifiers-mode :ensure t)
 #+end_src
 
@@ -4242,7 +4221,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - ws-butler (deprecate?)
 
 **** Full
-- bibliothek
 - browse-at-remote
 - cakecrumbs
 - caml
@@ -4301,7 +4279,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - stripe-buffer
 - tuareg
 - valign
-- vc-msg
 - vlf
 - vterm-toggle
 - web-mode
