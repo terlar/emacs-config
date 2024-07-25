@@ -416,22 +416,6 @@
         "type": "github"
       }
     },
-    "defrepeater": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1665020318,
-        "narHash": "sha256-9bBspmm1axsDSQqlOIBgXi1AZYIMdzpN4kYXXL0FJxI=",
-        "owner": "alphapapa",
-        "repo": "defrepeater.el",
-        "rev": "70726dbcf25218eebffeee06cf76b7cd425f0348",
-        "type": "github"
-      },
-      "original": {
-        "owner": "alphapapa",
-        "repo": "defrepeater.el",
-        "type": "github"
-      }
-    },
     "devdocs": {
       "flake": false,
       "locked": {
@@ -910,22 +894,6 @@
       "original": {
         "type": "git",
         "url": "https://gitlab.com/koral/gcmh"
-      }
-    },
-    "general": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1712767821,
-        "narHash": "sha256-x2/eyeM33cRfRaF8xgWMbtW93voDdo3ZcpxQgLKmNMo=",
-        "owner": "noctuid",
-        "repo": "general.el",
-        "rev": "826bf2b97a0fb4a34c5eb96ec2b172d682fd548f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctuid",
-        "repo": "general.el",
-        "type": "github"
       }
     },
     "ghelp": {
@@ -2253,7 +2221,6 @@
         "d2-mode": "d2-mode",
         "dash": "dash",
         "deadgrep": "deadgrep",
-        "defrepeater": "defrepeater",
         "devdocs": "devdocs",
         "diff-hl": "diff-hl",
         "dired-git-info": "dired-git-info",
@@ -2284,7 +2251,6 @@
         "focus": "focus",
         "fullframe": "fullframe",
         "gcmh": "gcmh",
-        "general": "general",
         "ghelp": "ghelp",
         "git-commit": "git-commit",
         "git-modes": "git-modes",

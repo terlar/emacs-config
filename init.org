@@ -13,12 +13,12 @@ The rough details:
   - fonts :: [[https://github.com/be5invis/Iosevka][Iosevka Curly Slab, Iosevka Aile, Iosevka Etoile]]
 - buffer completion :: [[https://github.com/minad/corfu][corfu]], =completion-preview=
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
-- package configuration :: [[https://github.com/jwiegley/use-package][use-package]]
-- key definitions :: [[https://github.com/noctuid/general.el][general]]
-- code navigation :: [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
-- syntax checker :: =flymake=
+- package configuration :: [[info:use-package#Top][use-package]]
+- key definitions :: =keymap=, =repeat=
+- code navigation :: [[info:emacs#Xref][xref]], [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
+- syntax checker :: [[info:flymake#Top][flymake]]
 - persistent undo :: via ~desktop-save-mode~
-- language server integration :: [[https://github.com/joaotavora/eglot][eglot]]
+- language server integration :: [[info:eglot#Top][eglot]]
 - structured editing :: [[https://github.com/AmaiKinono/puni][puni]]
 
 Nix:
@@ -344,15 +344,6 @@ Saves to a temp file and puts the filename in the kill ring."
 #+end_src
 
 *** Window
-Dedicated window:
-#+begin_src emacs-lisp :tangle yes
-(defun toggle-dedicated-window ()
-  "Toggle selected window as dedicated window."
-  (interactive)
-  (set-window-dedicated-p (selected-window)
-                          (not (window-dedicated-p (selected-window)))))
-#+end_src
-
 Fringe control:
 #+begin_src emacs-lisp :tangle yes
 (define-minor-mode hide-fringes-mode
@@ -727,159 +718,129 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 #+begin_src emacs-lisp :tangle yes
 (defvar toggle-prefix "C-'"
   "Key prefix for commands related to toggling.")
-(defvar window-prefix "C-x w"
-  "Key prefix used for commands related to window operations.")
-
-(defvar nav-prefix "M-g"
-  "Key prefix used for commands related to navigation.")
-(defvar search-prefix "M-s"
-  "Key prefix used for commands related to search.")
-
 (defvar next-prefix "M-]"
   "Key prefix used for commands doing a next operation.")
 (defvar prev-prefix "M-["
   "Key prefix used for commands doing a previous operation.")
 #+end_src
 
-** Packages
-*** defrepeater
-Library for defining repeating commands by repeating the last key.
+** Repeat
 #+begin_src emacs-lisp :tangle yes
-(use-package defrepeater :ensure t :commands (defrepeater))
-#+end_src
-
-*** general
-More convenient key definitions. It provides the ~use-package~ keyword ~:general~.
-#+begin_src emacs-lisp :tangle yes
-(use-package general
-  :ensure t
-  :commands
-  (general-define-key)
-  :init
-  (eval-when-compile
-    (require 'general)))
+(use-package repeat
+  :hook
+  (after-init-hook . repeat-mode))
 #+end_src
 
 ** Global
 #+begin_src emacs-lisp :tangle yes
-(eval-and-compile
-  (defrepeater #'other-window))
-
-(general-define-key
- :keymaps 'global
- ;; Editing
- "<Tools>" 'just-one-space
- "M-p" 'completion-at-point
- "C-M-y" 'duplicate-dwim
- "C-z" 'zap-up-to-char
- [remap upcase-word] 'upcase-dwim
- [remap downcase-word] 'downcase-dwim
- [remap capitalize-word] 'capitalize-dwim
- ;; Files
- "C-x j" 'find-sibling-file
- [remap other-window] 'other-window-repeat
- ;; Region
- "C-x r S" 'sort-lines)
+;; Editing
+(keymap-global-set "<Tools>" #'just-one-space)
+(keymap-global-set "M-p" #'completion-at-point)
+(keymap-global-set "C-M-y" #'duplicate-dwim)
+(keymap-global-set "C-z" #'zap-up-to-char)
+(keymap-global-set "<remap> <upcase-word>" #'upcase-dwim)
+(keymap-global-set "<remap> <downcase-word>" #'downcase-dwim)
+(keymap-global-set "<remap> <capitalize-word>" #'capitalize-dwim)
+;; Files
+(keymap-global-set "C-x j" #'find-sibling-file)
+;; Region
+(keymap-global-set "C-x r S" #'sort-lines)
 #+end_src
 
 ** Navigation
 #+begin_src emacs-lisp :tangle yes
-(general-define-key
- :keymaps 'global
- :prefix nav-prefix
- "k" 'eldoc-doc-buffer
- "u" 'browse-url)
+(keymap-set goto-map "k" #'eldoc-doc-buffer)
+(keymap-set goto-map "u" #'browse-url)
 #+end_src
 
 ** Window
 #+begin_src emacs-lisp :tangle yes
-(general-define-key
- :keymaps 'global
- :prefix window-prefix
- "d" 'toggle-dedicated-window
- "m" 'maximize-window
- "r" 'window-configuration-to-register
- "w" 'window-toggle-side-windows)
+(use-package window
+  :bind
+  ((:map window-prefix-map
+         ("d" . toggle-dedicated-window)
+         ("m" . maximize-window)
+         ("r" . window-configuration-to-register)
+         ("w" . window-toggle-side-windows))
+   (:repeat-map other-window-repeat-map
+                ("o" . other-window)
+                ("O" . other-window-reverse-repeat)))
+  :config
+  (defun toggle-dedicated-window ()
+    "Toggle selected window as dedicated window."
+    (interactive)
+    (set-window-dedicated-p (selected-window)
+                            (not (window-dedicated-p (selected-window)))))
+
+  (defun other-window-reverse-repeat ()
+    (interactive)
+    (setq repeat-map 'other-window-repeat-map)
+    (other-window -1)))
 #+end_src
 
-** Next
+** Next/Previous
 #+begin_src emacs-lisp :tangle yes
 (autoload 'smerge-next "smerge-mode")
-
-(general-define-key
- :prefix next-prefix
- "]" '("Text size" . text-scale-increase)
- "b" '("Buffer" . next-buffer)
- "c" '("Conflict" . smerge-next)
- "e" '("Error" . next-error))
-
-(eval-and-compile
-  (defrepeater #'text-scale-increase)
-  (defrepeater #'next-buffer)
-  (defrepeater #'smerge-next)
-  (defrepeater #'next-error))
-
-(general-define-key
- [remap text-scale-increase] 'text-scale-increase-repeat
- [remap next-buffer] 'next-buffer-repeat
- [remap smerge-next] 'smerge-next-repeat
- [remap next-error] 'next-error-repeat)
-#+end_src
-
-** Previous
-#+begin_src emacs-lisp :tangle yes
 (autoload 'smerge-prev "smerge-mode")
 
-(general-define-key
- :prefix prev-prefix
- "[" '("Text size" . text-scale-decrease)
- "b" '("Buffer" . previous-buffer)
- "c" '("Conflict" . smerge-prev)
- "e" '("Error" . previous-error))
+(defvar-keymap next-map
+  :doc "Keymap for the next key sequences."
+  :prefix 'next-map-prefix
+  "]" '("Text size" . text-scale-increase)
+  "b" '("Buffer" . next-buffer)
+  "c" '("Conflict" . smerge-next)
+  "e" '("Error" . next-error))
+(keymap-global-set next-prefix 'next-map-prefix)
 
-(eval-and-compile
-  (defrepeater #'text-scale-decrease)
-  (defrepeater #'previous-buffer)
-  (defrepeater #'smerge-prev)
-  (defrepeater #'previous-error))
-
-(general-define-key
- [remap text-scale-decrease] 'text-scale-decrease
- [remap previous-buffer] 'previous-buffer
- [remap smerge-prev] 'smerge-prev
- [remap previous-error] 'previous-error)
+(defvar-keymap prev-map
+  :doc "Keymap for the prev key sequences."
+  :prefix 'prev-map-prefix
+  "[" '("Text size" . text-scale-decrease)
+  "b" '("Buffer" . previous-buffer)
+  "c" '("Conflict" . smerge-prev)
+  "e" '("Error" . previous-error))
+(keymap-global-set prev-prefix 'prev-map-prefix)
 #+end_src
 
 ** Toggle
 #+begin_src emacs-lisp :tangle yes
-(general-define-key
- :prefix toggle-prefix
- "*" '("Light/Dark theme" . toggle-theme-mode)
- "c" '("Changes" . highlight-changes-mode)
- "d" '("Debug on error" . toggle-debug-on-error)
- "f" '("Code folding" . hs-minor-mode)
- "F" '("Follow" . follow-mode)
- ;; Group together as one mode?
- "g" '("Sub-word" . subword-mode)
- "G" '("Readable camelCase" . glasses-mode)
- "h" '("Line highlight" . hl-line-mode)
- "l" '("Line numbers" . global-display-line-numbers-mode)
- "t" '("Truncate lines" . toggle-truncate-lines)
- "V" '("Variable-pitch" . variable-pitch-mode)
- "w" '("White-space" . whitespace-mode)
- "x" '("Syntax checker" . flymake-mode))
+(keymap-global-set toggle-prefix 'toggle-map-prefix)
+(defvar-keymap toggle-map
+  :doc "Keymap for toggle key sequences."
+  :prefix 'toggle-map-prefix
+  "*" '("Light/Dark theme" . toggle-theme-mode)
+  "c" '("Changes" . highlight-changes-mode)
+  "d" '("Debug on error" . toggle-debug-on-error)
+  "f" '("Code folding" . hs-minor-mode)
+  "F" '("Follow" . follow-mode)
+  ;; Group together as one mode?
+  "g" '("Sub-word" . subword-mode)
+  "G" '("Readable camelCase" . glasses-mode)
+  "h" '("Line highlight" . hl-line-mode)
+  "l" '("Line numbers" . global-display-line-numbers-mode)
+  "t" '("Truncate lines" . toggle-truncate-lines)
+  "V" '("Variable-pitch" . variable-pitch-mode)
+  "w" '("White-space" . whitespace-mode)
+  "x" '("Syntax checker" . flymake-mode))
 #+end_src
 
-** Launch
+** Leader
 #+begin_src emacs-lisp :tangle yes
-(general-define-key
- :prefix leader-key
- "m" 'gnus
- "P" 'list-processes
- "s" 'screenshot-svg
- "S" 'screenshot-png
- "x" 'regexp-builder
- "w" 'eww)
+(keymap-global-set leader-key 'leader-map-prefix)
+(defvar-keymap leader-map
+  :doc "Keymap for leader key sequences."
+  :prefix 'leader-map-prefix
+  "m" 'gnus
+  "P" 'list-processes
+  "s" 'screenshot-svg
+  "S" 'screenshot-png
+  "x" 'regexp-builder
+  "w" 'eww)
+
+(keymap-global-set local-leader-key 'local-leader-map-prefix)
+(defvar-keymap local-leader-map
+  :doc "Keymap for leader key sequences."
+  :prefix 'local-leader-map-prefix)
 #+end_src
 
 * Completion
@@ -901,10 +862,9 @@ Completion preview inline, with quick completion key.
   (prog-mode-hook . completion-preview-mode)
   (text-mode-hook . completion-preview-mode)
   (comint-mode-hook . completion-preview-mode)
-  :general
-  (:keymaps
-   'completion-preview-active-mode-map
-   "C-e" 'completion-preview-insert)
+  :bind
+  (:map completion-preview-active-mode-map
+        ("C-e" . completion-preview-insert))
   :init
   (setq completion-preview-minimum-symbol-length 2)
   :config
@@ -936,16 +896,15 @@ Completion Overlay Region FUnction.
   :hook
   (minibuffer-setup-hook . corfu-enable-in-minibuffer)
   (corfu-mode-hook . corfu-popupinfo-mode)
-  :general
-  (:keymaps
-   'corfu-map
-   [return] 'nil
-   "RET" 'nil
-   "TAB" 'corfu-next
-   [tab] 'corfu-next
-   "S-TAB" 'corfu-previous
-   [backtab] 'corfu-previous
-   "C-e" 'corfu-complete)
+  :bind
+  (:map corfu-map
+        ([return] . nil)
+        ("RET" . nil)
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous)
+        ("C-e" . corfu-complete))
   :init
   (setq corfu-cycle t)
   (setq corfu-preselect 'first)
@@ -964,11 +923,14 @@ Vertical interactive completion UI.
 #+begin_src emacs-lisp :tangle yes
 (use-package vertico
   :ensure t
-  :hook
-  (after-init-hook . vertico-mode)
   :commands
   (vertico-insert
    vertico-exit)
+  :hook
+  (after-init-hook . vertico-mode)
+  :bind
+  (:map vertico-map
+        ("C-e" . vertico-move-end-of-line-or-insert))
   :init
   (defun vertico-move-end-of-line-or-insert (arg)
     "Move to end of line or insert current candidate.
@@ -981,11 +943,7 @@ Vertical interactive completion UI.
           (vertico-insert)
           (when (= vertico--total 1)
             (vertico-exit)))
-      (move-end-of-line arg)))
-  :general
-  (:keymaps
-   'vertico-map
-   "C-e" 'vertico-move-end-of-line-or-insert))
+      (move-end-of-line arg))))
 #+end_src
 
 ** Extensions
@@ -1007,25 +965,23 @@ Completion At Point Extensions.
    cape-wrap-purify)
   :hook
   (prog-mode-hook . init-cape-capf)
-  :general
-  ([remap dabbrev-expand] 'cape-dabbrev)
-  (:keymaps
-   'corfu-map
-   "C-x C-f" 'cape-file)
-  (:prefix
-   "M-P"
-   "d" 'cape-dabbrev
-   "h" 'cape-history
-   "f" 'cape-file
-   "k" 'cape-keyword
-   "p" 'completion-at-point
-   "s" 'cape-elisp-symbol
-   "a" 'cape-abbrev
-   "l" 'cape-line
-   "w" 'cape-dict
-   "\\" 'cape-tex
-   "&" 'cape-sgml
-   "r" 'cape-rfc1345)
+  :bind
+  (([remap dabbrev-expand] . cape-dabbrev)
+   (:prefix-map completion-prefix-map :prefix "M-P"
+                ("d" . cape-dabbrev)
+                ("h" . cape-history)
+                ("f" . cape-file)
+                ("k" . cape-keyword)
+                ("p" . completion-at-point)
+                ("s" . cape-elisp-symbol)
+                ("a" . cape-abbrev)
+                ("l" . cape-line)
+                ("w" . cape-dict)
+                ("\\" . cape-tex)
+                ("&" . cape-sgml)
+                ("r" . cape-rfc1345))
+   (:map corfu-map
+         ("C-x C-f" . cape-file)))
   :config
   (defun init-cape-capf ()
     (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
@@ -1041,19 +997,18 @@ Commands compatible with ~completing-read~.
 #+begin_src emacs-lisp :tangle yes
 (use-package consult
   :ensure t
-  :general
-  ([remap bookmark-jump] 'consult-bookmark
-   [remap goto-line] 'consult-goto-line
-   [remap switch-to-buffer] 'consult-buffer
-   [remap imenu] 'consult-imenu
-   [remap yank-pop] 'consult-yank-pop
-   "C-c k" 'consult-kmacro
-   "C-c r" 'consult-recent-file)
-  (:prefix
-   search-prefix
-   "g" 'consult-ripgrep
-   "m" 'consult-mark
-   "M-m" 'consult-global-mark)
+  :bind
+  (([remap bookmark-jump] . consult-bookmark)
+   ([remap goto-line] . consult-goto-line)
+   ([remap imenu] . consult-imenu)
+   ([remap switch-to-buffer] . consult-buffer)
+   ([remap yank-pop] . consult-yank-pop)
+   ("C-c k" . consult-kmacro)
+   ("C-c r" . consult-recent-file)
+   (:map search-map
+         ("g" . consult-ripgrep)
+         ("m" . consult-mark)
+         ("M-m" . consult-global-mark)))
   :init
   (setq consult-preview-key "M-RET"))
 
@@ -1101,13 +1056,12 @@ Annotations for completion candidates.
 * Help
 #+begin_src emacs-lisp :tangle yes
 (use-package help
-  :general
-  (:keymaps
-   'help-map
-   "B" 'find-library
-   "u" 'describe-face
-   "U" 'list-faces-display
-   "'" 'describe-char))
+  :bind
+  (:map help-map
+        "B" 'find-library
+        "u" 'describe-face
+        "U" 'list-faces-display
+        "'" 'describe-char))
 
 (use-package help-at-pt
   :init
@@ -1120,16 +1074,14 @@ Generic help system.
 #+begin_src emacs-lisp :tangle yes
 (use-package ghelp
   :ensure t
-  :general
-  (:keymaps
-   'help-map
-   "A" 'ghelp-describe-elisp
-   "f" 'ghelp-describe-function
-   "k" 'ghelp-describe-key
-   "v" 'ghelp-describe-variable)
-  (:prefix
-   nav-prefix
-   "h" 'ghelp-describe-at-point))
+  :bind
+  ((:map help-map
+         ("A" . ghelp-describe-elisp)
+         ("f" . ghelp-describe-function)
+         ("k" . ghelp-describe-key)
+         ("v" . ghelp-describe-variable))
+   (:map goto-map
+         ("h" . ghelp-describe-at-point))))
 #+end_src
 
 ** helpful
@@ -1137,11 +1089,10 @@ Better =*help*= buffer.
 #+begin_src emacs-lisp :tangle yes
 (use-package helpful
   :ensure t
-  :general
-  (:keymaps
-   'help-map
-   "C" 'helpful-command
-   "M" 'helpful-macro))
+  :bind
+  (:map help-map
+        ("C" . helpful-command)
+        ("M" . helpful-macro)))
 #+end_src
 
 * Display
@@ -1174,32 +1125,25 @@ Undo/redo between window layouts.
 (use-package winner
   :hook
   (window-setup-hook . winner-mode)
-  :preface
-  (defrepeater #'winner-redo)
-  (defrepeater #'winner-undo)
-  :general
-  (:prefix
-   next-prefix
-   next-prefix '("Window History" . winner-redo))
-  (:prefix
-   prev-prefix
-   prev-prefix '("Window History" . winner-undo))
-  ([remap winner-redo] 'winner-redo-repeat
-   [remap winner-undo] 'winner-undo-repeat)
+  :bind
+  (:repeat-map winner-repeat-map
+               ("[" . winner-undo)
+               ("]" . winner-redo))
   :init
-  (setq winner-dont-bind-my-keys t))
+  (setq winner-dont-bind-my-keys t)
+  (keymap-set next-map next-prefix '("Window History" . winner-redo))
+  (keymap-set prev-map prev-prefix '("Window History" . winner-undo)))
 #+end_src
 
 Transpose window arrangement.
 #+begin_src emacs-lisp :tangle yes
 (use-package transpose-frame
   :ensure t
-  :general
-  (:prefix
-   window-prefix
-   "t" 'transpose-frame
-   "f" 'flip-frame
-   "F" 'flop-frame))
+  :bind
+  (:map window-prefix-map
+        ("t" . transpose-frame)
+        ("f" . flip-frame)
+        ("F" . flop-frame)))
 #+end_src
 
 Manage "popups".
@@ -1209,12 +1153,11 @@ Manage "popups".
   :hook
   (after-init-hook . popper-mode)
   (popper-mode-hook . popper-echo-mode)
-  :general
-  (:prefix
-   window-prefix
-   "p" 'popper-toggle-type)
-  ("C-`" 'popper-toggle)
-  ("C-M-`" 'popper-cycle)
+  :bind
+  (("C-`" . popper-toggle)
+   ("C-M-`" . popper-cycle)
+   (:map window-prefix-map
+        ("p" . popper-toggle-type)))
   :init
   (setq popper-reference-buffers
         '("Output\\*$"
@@ -1297,13 +1240,13 @@ Soft wrap lines according to =fill-column= in =visual-line-mode=.
 
 (use-package virtual-auto-fill
   :ensure t
+  :commands
+  (virtual-auto-fill-mode)
   :hook
   (markdown-mode-hook . virtual-auto-fill-mode)
   (org-mode-hook . virtual-auto-fill-mode)
-  :general
-  (:prefix
-   toggle-prefix
-   "SPC" '("Virtual auto fill" . virtual-auto-fill-mode)))
+  :init
+  (keymap-set toggle-map "SPC" '("Virtual auto fill" . virtual-auto-fill-mode)))
 #+end_src
 
 *** Page breaks
@@ -1333,10 +1276,10 @@ Display page breaks as a horizontal line.
 Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
 (use-package simple
-  :general
-  (:prefix
-   toggle-prefix
-   "v" '("Visibility" . visible-mode)))
+  :commands
+  (visible-mode)
+  :init
+  (keymap-set toggle-map "v" '("Visibility" . visible-mode)))
 #+end_src
 
 *** Whitespace
@@ -1390,9 +1333,9 @@ Automatic parenthesis pairing and highlighting.
   :hook
   (prog-mode-hook . tempel-setup-capf)
   (text-mode-hook . tempel-setup-capf)
-  :general
-  ("M-+" 'tempel-complete)
-  ("M-*" 'tempel-insert)
+  :bind
+  (("M-+" . tempel-complete)
+   ("M-*" . tempel-insert))
   :config
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
@@ -1424,21 +1367,22 @@ Cycle through words, symbols and patterns.
 #+begin_src emacs-lisp :tangle yes
 (use-package grugru
   :ensure t
+  :commands
+  (grugru-forward
+   grugru-backward)
   :functions
   (grugru-define-global
    grugru-define-on-major-mode)
-  :preface
-  (defrepeater #'grugru-backward)
-  (defrepeater #'grugru-forward)
-  :general
-  (:prefix
-   next-prefix
-   "r" '("Rotate text" . grugru-forward))
-  (:prefix
-   prev-prefix
-   "r" '("Rotate text" . grugru-backward))
-  ([remap grugru-backward] 'grugru-backward-repeat
-   [remap grugru-forward] 'grugru-forward-repeat)
+  :bind
+  (:repeat-map grugru-repeat-map
+               ("r" . grugru-forward)
+               ("R" . grugru-backward)
+               ("SPC" . grugru-select)
+               ("[" . grugru-backward)
+               ("]" . grugru-forward))
+  :init
+  (keymap-set next-map "r" '("Rotate text" . grugru-forward))
+  (keymap-set prev-map "r" '("Rotate text" . grugru-backward))
   :config
   (grugru-define-global 'symbol '("assert" "refute"))
   (grugru-define-global 'symbol '("true" "false"))
@@ -1456,42 +1400,36 @@ Structured editing with soft deletion and balanced expressions.
 (use-package puni
   :ensure t
   :commands
-  (puni-contract-region
+  (puni-mode
+   puni-contract-region
    puni-expand-region
    puni-kill-line
    puni-kill-active-region
    puni-mark-list-around-point)
-  :preface
-  (defrepeater #'puni-contract-region)
-  (defrepeater #'puni-expand-region)
   :hook
   (after-init-hook . puni-global-mode)
-  :general
-  (:prefix
-   toggle-prefix
-   toggle-prefix '("Structured editing" . puni-mode))
-  (:keymaps
-   'puni-mode-map
-   [remap transpose-sexps] 'puni-transpose
-   "M-W" 'puni-kill-ring-save-line
-   "M-'" 'puni-kill-list-around-point
-   "M-D" 'puni-splice
-   "M-R" 'puni-squeeze
-   "M-S <" 'puni-wrap-angle
-   "M-S {" 'puni-wrap-curly
-   "M-S (" 'puni-wrap-round
-   "M-S [" 'puni-wrap-square
-   "C-w" 'puni-whole-line-or-region-kill
-   "M-w" 'puni-whole-line-or-region-kill-ring-save
-   "M-;" 'puni-comment-line)
-  (:keymaps
-   'puni-mode-map
-   :prefix prev-prefix
-   "SPC" 'puni-contract-region-repeat)
-  (:keymaps
-   'puni-mode-map
-   :prefix next-prefix
-   "SPC" 'puni-expand-region-repeat)
+  :bind
+  ((:map puni-mode-map
+         ([remap transpose-sexps] . puni-transpose)
+         ("M-W" . puni-kill-ring-save-line)
+         ("M-'" . puni-kill-list-around-point)
+         ("M-D" . puni-splice)
+         ("M-R" . puni-squeeze)
+         ("M-S <" . puni-wrap-angle)
+         ("M-S {" . puni-wrap-curly)
+         ("M-S (" . puni-wrap-round)
+         ("M-S [" . puni-wrap-square)
+         ("C-w" . puni-whole-line-or-region-kill)
+         ("M-w" . puni-whole-line-or-region-kill-ring-save)
+         ("M-;" . puni-comment-line))
+   (:repeat-map puni-region-repeat-map
+                ("SPC" . puni-expand-region)
+                ("[" . puni-contract-region)
+                ("]" . puni-expand-region)))
+  :init
+  (keymap-set toggle-map toggle-prefix '("Structured editing" . puni-mode))
+  (keymap-set next-map "SPC" '("Expand region" . puni-expand-region))
+  (keymap-set prev-map "SPC" '("Contract region" . puni-contract-region))
   :config
   (defun puni-comment-line (arg)
     "Comment whole structured line(s) based on ARG or active region."
@@ -1533,10 +1471,8 @@ Structured editing with soft deletion and balanced expressions.
 #+begin_src emacs-lisp :tangle yes
 (use-package separedit
   :ensure t
-  :general
-  (:keymaps
-   'prog-mode-map
-   "C-c '" 'separedit)
+  :bind
+  (:map prog-mode-map ("C-c '" . separedit))
   :init
   (setq separedit-preserve-string-indentation t))
 #+end_src
@@ -1547,8 +1483,8 @@ Toggle between snake/pascal/camel/up/kebab-case or capital underscore.
 #+begin_src emacs-lisp :tangle yes
 (use-package string-inflection
   :ensure t
-  :general
-  ("M-_" 'string-inflection-all-cycle))
+  :bind
+  ("M-_" . string-inflection-all-cycle))
 #+end_src
 
 *** visual-replace
@@ -1634,15 +1570,11 @@ Track minibuffer history
   :ensure t
   :commands
   (embark-prefix-help-command)
-  :general
-  (:keymaps
-   'global
-   "C-h B" 'embark-bindings
-   "M-o" 'embark-dwim
-   "M-O" 'embark-act)
-  (:keymaps
-   'vertico-map
-   "C-SPC" 'embark-select)
+  :bind
+  (("C-h B" . embark-bindings)
+   ("M-o" . embark-dwim)
+   ("M-O" . embark-act)
+   (:map vertico-map ("C-SPC" . embark-select)))
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
   (setq embark-indicators
@@ -1658,10 +1590,8 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
 #+begin_src emacs-lisp :tangle yes
 (use-package miniedit
   :ensure t
-  :general
-  (:keymaps
-   'minibuffer-local-map
-   "C-c '" 'miniedit)
+  :bind
+  (:map minibuffer-local-map ("C-c '" . miniedit))
   :init
   (setq miniedit-show-help-p nil))
 #+end_src
@@ -1773,17 +1703,15 @@ mark ring.
 *** Editable
 #+begin_src emacs-lisp :tangle yes
 (use-package wdired
-  :general
-  (:keymaps
-   'dired-mode-map
-   "C-c '" 'wdired-change-to-wdired-mode))
+  :bind
+  (:map dired-mode-map ("C-c '" . wdired-change-to-wdired-mode)))
 #+end_src
 
 *** Search
 #+begin_src emacs-lisp :tangle yes
 (use-package find-dired
-  :general
-  ("C-x D" 'find-dired)
+  :bind
+  ("C-x D" . find-dired)
   :init
   (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld")))
 #+end_src
@@ -1797,10 +1725,8 @@ mark ring.
   (dired-sidebar-mode-hook . hl-line-mode)
   (dired-sidebar-mode-hook . variable-pitch-mode)
   (dired-sidebar-mode-hook . hide-cursor-mode)
-  :general
-  (:prefix
-   leader-key
-   "n" 'dired-sidebar-toggle-sidebar))
+  :bind
+  (:map leader-map ("n" . dired-sidebar-toggle-sidebar)))
 #+end_src
 
 *** Subtree
@@ -1840,10 +1766,8 @@ Striped dired buffers.
 #+begin_src emacs-lisp :tangle yes
 (use-package dired-git-info
   :ensure t
-  :general
-  (:keymaps
-   'dired-mode-map
-   ")" 'dired-git-info-mode))
+  :bind
+  (:map dired-mode-map (")" . dired-git-info-mode)))
 #+end_src
 
 ** Isearch
@@ -1856,17 +1780,13 @@ Striped dired buffers.
 ** Occur
 #+begin_src emacs-lisp :tangle yes
 (use-package replace
-  :general
-  (:keymaps
-   'occur-mode-map
-   "C-c '" 'occur-edit-mode))
+  :bind
+  (:map occur-mode-map ("C-c '" . occur-edit-mode)))
 
 (use-package noccur
   :ensure t
-  :general
-  (:prefix
-   search-prefix
-   "O" 'noccur-project))
+  :bind
+  (:map goto-map ("O" . noccur-project)))
 #+end_src
 
 ** Packages
@@ -1875,8 +1795,8 @@ Jump to ...
 #+begin_src emacs-lisp :tangle yes
 (use-package avy
   :ensure t
-  :general
-  (:prefix nav-prefix "C" 'avy-goto-char-in-line))
+  :bind
+  (:map goto-map ("C" . avy-goto-char-in-line)))
 #+end_src
 
 *** bibliothek
@@ -1884,8 +1804,8 @@ Management tool for a library of PDFs.
 #+begin_src emacs-lisp :tangle yes
 (use-package bibliothek
   :ensure t
-  :general
-  (:prefix leader-key "b" 'bibliothek)
+  :bind
+  (:map leader-map ("b" . bibliothek))
   :init
   (setq bibliothek-path '("~/books" "~/documents/research/papers"))
   (setq bibliothek-recursive t))
@@ -1903,14 +1823,10 @@ Keep track of bookmarks
 #+begin_src emacs-lisp :tangle yes
 (use-package deadgrep
   :ensure t
-  :general
-  (:prefix search-prefix "G" 'deadgrep)
-  (:keymaps
-   'deadgrep-mode-map
-   "C-c '" 'deadgrep-edit-mode)
-  (:keymaps
-   'deadgrep-edit-mode-map
-   "C-c C-c" 'deadgrep-mode))
+  :bind
+  ((:map search-map ("G" . deadgrep))
+   (:map deadgrep-mode-map ("C-c '" . deadgrep-edit-mode))
+   (:map deadgrep-edit-mode-map ("C-c C-c" . deadgrep-mode))))
 #+end_src
 
 *** find-file
@@ -1928,8 +1844,8 @@ Find files via =rg --files=.
 #+begin_src emacs-lisp :tangle yes
 (use-package find-file-rg
   :ensure t
-  :general
-  ("C-c f" 'find-file-rg))
+  :bind
+  ("C-c f" . find-file-rg))
 #+end_src
 
 *** goto-last-change
@@ -1937,18 +1853,12 @@ Move point through buffer-undo-list positions.
 #+begin_src emacs-lisp :tangle yes
 (use-package goto-chg
   :ensure t
-  :preface
-  (defrepeater #'goto-last-change)
-  (defrepeater #'goto-last-change-reverse)
-  :general
-  (:prefix
-   next-prefix
-   "l" '("Change" . goto-last-change))
-  (:prefix
-   prev-prefix
-   "l" '("Change" . goto-last-change-reverse))
-  ([remap goto-last-change] 'goto-last-change-repeat
-   [remap goto-last-change-reverse] 'goto-last-change-reverse-repeat))
+  :bind
+  ((:map goto-map ("SPC" . goto-last-change))
+   (:repeat-map goto-chg-repeat-map
+                ("SPC" . goto-last-change)
+                ("[" . goto-last-change)
+                ("]" . goto-last-change-reverse))))
 #+end_src
 
 *** link-hint
@@ -1956,10 +1866,10 @@ Hint mode for links.
 #+begin_src emacs-lisp :tangle yes
 (use-package link-hint
   :ensure t
-  :general
-  (:prefix nav-prefix
-   "l" 'link-hint-open-link
-   "L" 'link-hint-copy-link))
+  :bind
+  (:map goto-map
+        ("l" . link-hint-open-link)
+        ("L" . link-hint-copy-link)))
 #+end_src
 
 *** recentf
@@ -2035,15 +1945,13 @@ Kill compilation process before starting another and save all buffers on ~compil
 (use-package compile
   :functions
   (compilation-find-buffer
-   compilation-finish-handle-buffer-display)
-  :general
-  (:keymaps
-   'global
-   :prefix
-   local-leader-key
-   "a" 'compile-on-save-mode
-   "c" 'recompile
-   "C" 'compile)
+   compilation-finish-handle-buffer-display
+   recompile)
+  :bind
+  (:map local-leader-map
+        ("a" . compile-on-save-mode)
+        ("c" . recompile)
+        ("C" . compile))
   :preface
   (define-minor-mode compile-on-save-mode
     "Minor mode to automatically call `recompile' whenever the
@@ -2100,11 +2008,10 @@ nothing happens."
 #+begin_src emacs-lisp :tangle yes
 (use-package docker
   :ensure t
-  :general
-  (:prefix
-   leader-key
-   "d" 'docker
-   "c" 'docker-compose)
+  :bind
+  (:map leader-map
+        ("d" . docker)
+        ("c" . docker-compose))
   :init
   (setq docker-command "podman"))
 #+end_src
@@ -2130,10 +2037,8 @@ Support for Docker related files.
   :commands
   (cov-mode
    cov-mode-toggle)
-  :general
-  (:prefix
-   local-leader-key
-   "v" 'cov-mode-toggle)
+  :bind
+  (:map prog-mode-map ("C-. v" . cov-mode-toggle))
   :init
   (setq cov-coverage-mode t)
   :config
@@ -2154,8 +2059,8 @@ Lookup documentation via DevDocs.
 #+begin_src emacs-lisp :tangle yes
 (use-package devdocs
   :ensure t
-  :general
-  (:prefix nav-prefix "K" 'devdocs-lookup))
+  :bind
+  (:map goto-map ("K" . devdocs-lookup)))
 #+end_src
 
 ** Folding
@@ -2166,16 +2071,15 @@ Code folding.
   (hs-fold-overlay-ellipsis)
   :hook
   (prog-mode-hook . hs-minor-mode)
-  :general
-  (:prefix
-   (concat leader-key " " "z")
-   "c"     'hs-hide-block
-   "o"     'hs-show-block
-   "C"     'hs-hide-all
-   "O"     'hs-show-all
-   "l"     'hs-hide-level
-   "z"     'hs-toggle-hiding
-   "<tab>" 'hs-toggle-hiding)
+  :bind
+  (:map leader-map :prefix-map hs-prefix-map :prefix "z"
+        ("c" . hs-hide-block)
+        ("o" . hs-show-block)
+        ("C" . hs-hide-all)
+        ("O" . hs-show-all)
+        ("l" . hs-hide-level)
+        ("z" . hs-toggle-hiding)
+        ("<tab>" . hs-toggle-hiding))
   :init
   (setq hs-hide-comments-when-hiding-all nil)
   (setq hs-allow-nesting t)
@@ -2195,14 +2099,10 @@ Reformat buffer without moving point.
   :ensure t
   :hook
   (prog-mode-hook . apheleia-mode)
-  :general
-  (:keymaps
-   'prog-mode-map
-   :prefix local-leader-key
-   "f" 'apheleia-format-buffer)
+  :bind
+  (:map local-leader-map ("f" . apheleia-format-buffer))
   :config
-  (dolist (formatter '((eslint . (npx "eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
-                       (nix . ("nix" "fmt" "--" "-"))
+  (dolist (formatter '((nix . ("nix" "fmt" "--" "-"))
                        (rufo . ("rufo" "--simple-exit"))))
     (cl-pushnew formatter apheleia-formatters :test #'equal)))
 #+end_src
@@ -2224,10 +2124,8 @@ Don't ask about keeping current list of tags tables.
 (use-package xref
   :commands
   (xref-show-definitions-completing-read)
-  :general
-  (:prefix
-   nav-prefix
-   "o" 'xref-find-definitions-other-window)
+  :bind
+  (:map goto-map ("o" . xref-find-definitions-other-window))
   :config
   (remove-hook 'xref-backend-functions #'etags--xref-backend))
 #+end_src
@@ -2247,10 +2145,8 @@ Don't ask about keeping current list of tags tables.
 *** comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
-  :general
-  (:keymaps
-   'comint-mode-map
-   "C-c C-k" 'term-char-mode)
+  :bind
+  (:map comint-mode-map ("C-c C-k" . term-char-mode))
   :init
   (setq comint-use-prompt-regexp t))
 #+end_src
@@ -2259,11 +2155,8 @@ Don't ask about keeping current list of tags tables.
 #+begin_src emacs-lisp :tangle yes
 (use-package repl-toggle
   :ensure t
-  :general
-  (:keymaps
-   '(prog-mode-map org-mode-map)
-   :prefix local-leader-key
-   "r" 'rtog/toggle-repl)
+  :bind
+  (:map local-leader-map ("r" . rtog/toggle-repl))
   :init
   (setq rtog/goto-buffer-fun 'pop-to-buffer)
   (setq rtog/mode-repl-alist
@@ -2316,27 +2209,25 @@ Haskell one).
 (use-package flymake
   :hook
   (flymake-mode-hook . flymake-setup-next-error-function)
-  :general
-  (:keymaps
-   'flymake-mode-map
-   :prefix
-   local-leader-key
-   "!" 'flymake-show-buffer-diagnostics)
-  (:keymaps
-   'flymake-mode-map
-   :prefix next-prefix
-   "E" 'flymake-goto-next-error)
-  (:keymaps
-   'flymake-mode-map
-   :prefix prev-prefix
-   "E" 'flymake-goto-prev-error)
-  (:keymaps
-   'flymake-diagnostics-buffer-mode-map
-   "n" 'flymake-diagnostics-next-error
-   "p" 'flymake-diagnostics-prev-error
-   "j" 'flymake-diagnostics-next-error
-   "k" 'flymake-diagnostics-prev-error
-   "TAB" 'flymake-show-diagnostic)
+  :commands
+  (flymake-show-diagnostic
+   flymake-goto-next-error)
+  :bind
+  ((:map flymake-mode-map
+         ("C-. !" . flymake-show-buffer-diagnostics)
+         ("M-] E" . flymake-goto-next-error)
+         ("M-[ E" . flymake-goto-prev-error))
+   (:map flymake-diagnostics-buffer-mode-map
+         ("n" . flymake-diagnostics-next-error)
+         ("p" . flymake-diagnostics-prev-error)
+         ("j" . flymake-diagnostics-next-error)
+         ("k" . flymake-diagnostics-prev-error)
+         ("TAB" . flymake-show-diagnostic))
+   (:repeat-map flymake-mode-repeat-map
+               ("e" . flymake-goto-next-error)
+               ("E" . flymake-goto-prev-error)
+               ("[" . flymake-goto-prev-error)
+               ("]" . flymake-goto-next-error)))
   :config
   (defun flymake-setup-next-error-function ()
     (setq next-error-function 'flymake-next-error-compat))
@@ -2372,27 +2263,13 @@ Open link to files in the web UI connected to a repository.
 #+begin_src emacs-lisp :tangle yes
 (use-package browse-at-remote
   :ensure t
-  :general
-  ("C-x v SPC" 'browse-at-remote-kill))
+  :bind
+  (:map vc-prefix-map ("SPC" . browse-at-remote-kill)))
 #+end_src
 
 *** diff
 #+begin_src emacs-lisp :tangle yes
 (use-package diff
-  :preface
-  (defrepeater #'diff-hunk-next)
-  (defrepeater #'diff-hunk-prev)
-  :general
-  (:keymaps
-   'diff-mode-map
-   :prefix next-prefix
-   "d" '("Diff Hunk" . diff-hunk-next))
-  (:keymaps
-   'diff-mode-map
-   :prefix prev-prefix
-   "d" '("Diff Hunk" . diff-hunk-prev))
-  ([remap diff-hunk-next] 'diff-hunk-next-repeat
-   [remap diff-hunk-prev] 'diff-hunk-prev-repeat)
   :init
   (setq diff-font-lock-prettify t))
 #+end_src
@@ -2429,11 +2306,9 @@ Open link to files in the web UI connected to a repository.
 
   (defun init-ediff-keys ()
     "Setup keybindings for `ediff-mode'."
-    (general-define-key
-     :keymaps 'ediff-mode-map
-     "d" '("Copy both to C" . ediff-copy-both-to-C)
-     "j" '("Next difference" . ediff-next-difference)
-     "k" '("Previous difference" . ediff-previous-difference))))
+    (keymap-set ediff-mode-map "d" '("Copy both to C" . ediff-copy-both-to-C))
+    (keymap-set ediff-mode-map "j" '("Next difference" . ediff-next-difference))
+    (keymap-set ediff-mode-map "k" '("Previous difference" . ediff-previous-difference))))
 #+end_src
 
 *** diff-hl
@@ -2447,22 +2322,9 @@ Diff indicators in fringe
   :preface
   (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
   (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
-  (defrepeater #'diff-hl-next-hunk)
-  (defrepeater #'diff-hl-previous-hunk)
   :hook
   (dired-mode-hook . diff-hl-dired-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
-  :general
-  (:keymaps
-   'diff-hl-mode-map
-   :prefix next-prefix
-   "d" '("Diff Hunk" . diff-hl-next-hunk))
-  (:keymaps
-   'diff-hl-mode-map
-   :prefix prev-prefix
-   "d" '("Diff Hunk" . diff-hl-previous-hunk))
-  ([remap diff-hl-next-hunk] 'diff-hl-next-hunk-repeat
-   [remap diff-hl-previous-hunk] 'diff-hl-previous-hunk-repeat)
   :init
   (setq diff-hl-ask-before-revert-hunk nil)
   (setq diff-hl-update-async t)
@@ -2483,10 +2345,8 @@ Enhanced git related views and commands.
   (autoload 'magit-show-commit "magit-diff" nil t)
   :hook
   (git-commit-mode-hook . git-commit-set-fill-column)
-  :general
-  (:keymaps
-   'dired-mode-map
-   "C-x g" 'magit)
+  :bind
+  ("C-x g" . magit)
   :init
   (setq magit-log-buffer-file-locked t)
   (setq magit-refs-show-commit-count 'all)
@@ -2518,8 +2378,8 @@ Popup commit message for current line
 #+begin_src emacs-lisp :tangle yes
 (use-package vc-msg
   :ensure t
-  :general
-  ("C-x v p" 'vc-msg-show))
+  :bind
+  (:map vc-prefix-map ("p" . vc-msg-show)))
 #+end_src
 
 ** Packages
@@ -2532,10 +2392,8 @@ Project-specific environment variables via =direnv=.
   :defer 1
   :commands
   (envrc-global-mode)
-  :general
-  (:keymaps
-   'envrc-mode-map
-   "C-c e" 'envrc-command-map)
+  :bind
+  (:map envrc-mode-map ("C-c e" . envrc-command-map))
   :config
   (envrc-global-mode 1))
 #+end_src
@@ -2547,16 +2405,14 @@ Generic Language Server Protocol integration via ~eglot~.
   :defer 3
   :functions
   (eglot-alternatives)
-  :general
-  (:keymaps
-   'eglot-mode-map
-   :prefix local-leader-key
-   local-leader-key 'eglot-code-actions
-   "ea" 'eglot-code-actions
-   "ef" 'eglot-format
-   "er" 'eglot-rename
-   "eq" 'eglot-reconnect
-   "eQ" 'eglot-shutdown)
+  :bind
+  ((:map eglot-mode-map ("C-. C-." . eglot-code-actions))
+   (:map eglot-mode-map :prefix-map eglot-prefix-map :prefix "C-. e"
+         ("a" . eglot-code-actions)
+         ("f" . eglot-format)
+         ("r" . eglot-rename)
+         ("q" . eglot-reconnect)
+         ("Q" . eglot-shutdown)))
   :init
   (setq eglot-autoshutdown t)
   (setq eglot-confirm-server-edits nil)
@@ -2567,8 +2423,8 @@ Generic Language Server Protocol integration via ~eglot~.
               :test #'equal)
 
   (cl-pushnew `((nix-mode nix-ts-mode) . ,(eglot-alternatives '("nil" "rnix-lsp" "nixd")))
-             eglot-server-programs
-             :test #'equal)
+              eglot-server-programs
+              :test #'equal)
 
   (cl-pushnew '((java-mode java-ts-mode) . ("jdt-language-server" "-data" ".jdtls-cache"))
               eglot-server-programs
@@ -2580,16 +2436,17 @@ Highlight *TODO* inside comments and strings.
 #+begin_src emacs-lisp :tangle yes
 (use-package hl-todo
   :ensure t
-  :preface
-  (defrepeater #'hl-todo-next)
-  (defrepeater #'hl-todo-previous)
   :hook
   (prog-mode-hook . hl-todo-mode)
-  :general
-  (:prefix next-prefix "t" '("Todo" . hl-todo-next))
-  (:prefix prev-prefix "t" '("Todo" . hl-todo-previous))
-  ([remap hl-todo-next] 'hl-todo-next-repeat
-   [remap hl-todo-previous] 'hl-todo-previous-repeat))
+  :bind
+  (:repeat-map hl-todo-repeat-map
+               ("t" . hl-todo-next)
+               ("T" . hl-todo-previous)
+               ("[" . hl-todo-previous)
+               ("]" . hl-todo-next))
+  :init
+  (keymap-set next-map "t" '("Todo" . hl-todo-next))
+  (keymap-set prev-map "t" '("Todo" . hl-todo-previous)))
 #+end_src
 
 *** idle-highlight
@@ -2608,11 +2465,10 @@ Jump to document locations in current buffer
 #+begin_src emacs-lisp :tangle yes
 (use-package imenu-anywhere
   :ensure t
-  :general
-  (:prefix
-   search-prefix
-   "i" 'imenu
-   "I" 'imenu-anywhere))
+  :bind
+  (:map search-map
+        ("i" . imenu)
+        ("I" . imenu-anywhere)))
 #+end_src
 
 *** imenu-extra
@@ -2631,10 +2487,8 @@ Document locations in a sidebar.
   :hook
   (imenu-list-major-mode-hook . hide-mode-line-mode)
   (imenu-list-major-mode-hook . hide-cursor-mode)
-  :general
-  (:prefix
-   leader-key
-   "i" 'imenu-list-smart-toggle))
+  :bind
+  (:map leader-map ("i" . imenu-list-smart-toggle)))
 #+end_src
 
 *** ws-butler
@@ -2698,16 +2552,21 @@ Highlight source code identifiers based on their name.
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 (add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
 
-(general-define-key
- :keymaps 'emacs-lisp-mode-map
- :prefix local-leader-key
- "c" 'emacs-lisp-byte-compile
- "C" 'emacs-lisp-byte-compile-and-load
- "d" 'checkdoc
- "l" `("Load file" . ,(lambda () (interactive) (load-file (buffer-file-name))))
- "L" 'eval-buffer
- "p" 'package-lint-current-buffer
- "t" 'ert)
+(use-package elisp-mode
+  :bind
+  (:map emacs-lisp-mode-map
+        ("C-. c" . emacs-lisp-byte-compile)
+        ("C-. C" . emacs-lisp-byte-compile-and-load)
+        ("C-. d" . checkdoc)
+        ("C-. l" . emacs-lisp-load-buffer-file)
+        ("C-. L" . eval-buffer)
+        ("C-. p" . package-lint-current-buffer)
+        ("C-. t" . ert))
+  :config
+  (defun emacs-lisp-load-buffer-file ()
+    "Load the Lisp file associated with current buffer."
+    (interactive)
+    (load-file (buffer-file-name))))
 
 (custom-set-variables
  '(ad-redefinition-action 'accept)
@@ -2785,12 +2644,11 @@ Improve readability of escape characters in regular expressions.
   (autoload 'org-get-outline-path "org-refile" nil t)
   :hook
   (org-mode-hook . auto-fill-mode)
-  :general
-  ("C-C a" 'org-agenda)
-  (:keymaps
-   'org-mode-map
-   "C-'" 'nil
-   "C-," 'nil)
+  :bind
+  (("C-c a" . org-agenda)
+   (:map org-mode-map
+         ("C-'" . nil)
+         ("C-," . nil)))
   :init
   (setq org-agenda-files
         '("~/org/Personal.org" "~/org/Work.org"))
@@ -2834,11 +2692,8 @@ Presentation mode.
   (dslide-start-hook . global-hide-fringes-mode)
   (dslide-start-hook . hide-mode-line-mode)
   (dslide-stop-hook . dslide-stop-restore-modes)
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix local-leader-key
-   "p" 'dslide-deck-start)
+  :bind
+  (:map org-mode-map ("C-. p" . dslide-deck-start))
   :init
   (setq dslide-header nil)
   :config
@@ -2857,11 +2712,8 @@ Paste links from clipboard and automatically fetch title.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-cliplink
   :ensure t
-  :general
-  (:keymaps
-   'org-mode-map
-   :prefix local-leader-key
-   "l" 'org-cliplink))
+  :bind
+  (:map org-mode-map ("C-. l" . org-cliplink)))
 #+end_src
 
 **** org-eldoc
@@ -2898,9 +2750,8 @@ Eldoc support, showing path to current section.
 Annotate documents with ~org-mode~.
 #+begin_src emacs-lisp :tangle yes
 (use-package org-noter :ensure t
-  :general
-  (:prefix leader-key
-   "o" 'org-noter))
+  :bind
+  (:map leader-map ("o" . org-noter)))
 #+end_src
 
 **** ob-http
@@ -3052,17 +2903,15 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :hook
   (clojure-mode-hook . cider-mode)
   (cider-mode-hook . cider-auto-test-mode)
-  :general
-  (:keymaps
-   'cider-mode-map
-   :prefix local-leader-key
-   "R" 'cider-jack-in
-   "c" 'cider-ns-refresh
-   "l" 'cider-load-buffer
-   "t a" 'cider-test-run-project-tests
-   "t n" 'cider-test-run-ns-tests
-   "t t" 'cider-test-run-test
-   "t w" 'cider-auto-test-mode)
+  :bind
+  ((:map cider-mode-map
+         ("C-. R" . cider-jack-in)
+         ("C-. c" . cider-ns-refresh)
+         ("C-. l" . cider-load-buffer)
+         ("C-. t a" . cider-test-run-project-tests)
+         ("C-. t n" . cider-test-run-ns-tests)
+         ("C-. t t" . cider-test-run-test)
+         ("C-. t w" . cider-auto-test-mode)))
   :init
   (setq cider-prompt-for-symbol nil)
   (setq cider-repl-display-help-banner nil)
@@ -3094,13 +2943,11 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package crystal-mode
   :ensure t
   :mode "\\(?:\\.cr\\)\\'"
-  :general
-  (:keymaps
-   'crystal-mode-map
-   :prefix local-leader-key
-   "t a" 'crystal-spec-all
-   "t f" 'crystal-spec-buffer
-   "t t" 'crystal-spec-line))
+  :bind
+  ((:map crystal-mode-map
+         ("C-. t a" . crystal-spec-all)
+         ("C-. t f" . crystal-spec-buffer)
+         ("C-. t t" . crystal-spec-line))))
 #+end_src
 
 *** Packages
@@ -3171,11 +3018,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 (use-package elm-mode
   :ensure t
   :mode "\\.elm\\'"
-  :general
-  (:keymaps
-   'elm-mode-map
-   :prefix local-leader-key
-   "t" 'elm-test-project)
+  :bind
+  (:map elm-mode-map ("C-. t" . elm-test-project))
   :init
   (setq elm-format-on-save t)
   (setq elm-package-json "elm.json")
@@ -3216,11 +3060,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :hook
   (erlang-mode-hook . init-erlang-eunit)
   (erlang-mode-hook . init-erlang-flymake)
-  :general
-  (:keymaps
-   'erlang-mode-map
-   :prefix nav-prefix
-   "k" 'erlang-man-function)
+  :bind
+  (:map erlang-mode-map ("M-g k" . erlang-man-function))
   :init
   (cl-pushnew '("src/\\([^/]+\\)\\.erl\\'" "test/\\1_tests.erl") find-sibling-rules :test #'equal)
   (cl-pushnew '("test/\\([^/]+\\)_tests\\.erl\\'" "src/\\1.erl") find-sibling-rules :test #'equal)
@@ -3238,12 +3079,10 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
     (cl-pushnew '(erlang-mode . erlang-shell-display) rtog/mode-repl-alist :test #'equal)))
 
 (use-package erlang-eunit
-  :general
-  (:keymaps
-   'erlang-mode-map
-   :prefix local-leader-key
-   "t t" 'erlang-eunit-compile-and-run-current-test
-   "t m" 'erlang-eunit-compile-and-run-module-tests))
+  :bind
+  (:map erlang-mode-map
+        ("C-. t t" . erlang-eunit-compile-and-run-current-test)
+        ("C-. t m" . erlang-eunit-compile-and-run-module-tests)))
 #+end_src
 
 ** git
@@ -3279,14 +3118,12 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+begin_src emacs-lisp :tangle yes
 (use-package gotest
   :ensure t
-  :general
-  (:keymaps
-   'go-ts-mode-map
-   :prefix local-leader-key
-   "l" 'go-run
-   "t a" 'go-test-current-project
-   "t f" 'go-test-current-file
-   "t t" 'go-test-current-test))
+  :bind
+  (:map go-ts-mode-map
+        ("C-. l" . go-run)
+        ("C-. t a" . go-test-current-project)
+        ("C-. t f" . go-test-current-file)
+        ("C-. t t" . go-test-current-test)))
 #+end_src
 
 **** gorepl-mode
@@ -3332,17 +3169,13 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("\\.cabal\\'\\|/cabal\\.project\\|/\\.cabal/config\\'" . haskell-cabal-mode)
   ("\\.l[gh]s\\'" . haskell-literate-mode)
   :hook
-  (haskell-mode-hook . interactive-haskell-mode)
   (haskell-mode-hook . eglot-ensure)
-  :general
-  (:keymaps
-   'interactive-haskell-mode-map
-   "M-." 'nil)
-  (:keymaps
-   'haskell-mode-map
-   :prefix local-leader-key
-   "r" 'haskell-interactive-switch
-   "R" 'haskell-session-change-target)
+  :preface
+  (autoload 'interactive-haskell-mode-map "haskell" nil t)
+  :bind
+  (:map haskell-mode-map
+        ("C-. r" . haskell-interactive-switch)
+        ("C-. R" . haskell-session-change-target))
   :init
   (setq haskell-font-lock-symbols t)
   (setq haskell-process-auto-import-loaded-modules t)
@@ -3356,6 +3189,12 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (put 'haskell-process-args-cabal-repl
        'safe-local-variable
        (lambda (x) (cl-every #'stringp x))))
+
+(use-package haskell
+  :hook
+  (haskell-mode-hook . interactive-haskell-mode)
+  :bind
+  (:map interactive-haskell-mode-map ("M-." . nil)))
 #+end_src
 
 *** REPL
@@ -3400,11 +3239,8 @@ Persist REPL history.
   :ensure t
   :hook
   ((java-mode-hook java-ts-mode-hook kotlin-mode-hook) . gradle-mode)
-  :general
-  (:keymaps
-   'gradle-mode-map
-   :prefix local-leader-key
-   "t t" 'gradle-test)
+  :bind
+  (:map gradle-mode-map ("C-. t" . gradle-test))
   :init
   (setq gradle-executable-path "gradle"))
 #+end_src
@@ -3438,11 +3274,8 @@ Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package json-navigator
   :ensure t
-  :general
-  (:keymaps
-   'json-ts-mode-map
-   :prefix local-leader-key
-   "n" 'json-navigator-navigate-region))
+  :bind
+  (:map json-ts-mode-map ("C-. n" . json-navigator-navigate-region)))
 #+end_src
 
 ** kotlin
@@ -3462,15 +3295,10 @@ Persist REPL history.
 #+begin_src emacs-lisp :tangle yes
 (use-package sly
   :ensure t
-  :general
-  (:keymaps
-   'sly-mode-map
-   :prefix nav-prefix
-   "k" 'sly-describe-symbol)
-  (:keymaps
-   'sly-mode-map
-   :prefix local-leader-key
-   "o" 'sly))
+  :bind
+  (:map sly-mode-map
+        ("M-g k" . sly-describe-symbol)
+        ("C-. o" . sly)))
 
 (use-package sly-quicklisp :ensure t)
 #+end_src
@@ -3493,12 +3321,10 @@ Persist REPL history.
   "\\.md\\'"
   :hook
   (markdown-mode-hook . markdown-display-inline-images)
-  :general
-  (:keymaps
-   'markdown-mode-map
-   :prefix local-leader-key
-   "i" 'markdown-toggle-inline-images
-   "v" 'markdown-toggle-markup-hiding)
+  :bind
+  (:map markdown-mode-map
+        ("C-. i" . markdown-toggle-inline-images)
+        ("C-. v" . markdown-toggle-markup-hiding))
   :init
   (setq markdown-enable-wiki-links t)
   (setq markdown-fontify-code-blocks-natively t)
@@ -3589,9 +3415,6 @@ Pretty check-boxes
   :mode "\\.nix\\'"
   :hook
   (nix-ts-mode-hook . eglot-ensure)
-  :general
-  (:prefix leader-key
-   "f" 'nix-flake)
   :init
   (with-eval-after-load 'apheleia
     (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
@@ -3604,9 +3427,8 @@ Pretty check-boxes
   :ensure t
   :commands
   (nix-repl)
-  :general
-  (:prefix leader-key
-   "f" 'nix-flake))
+  :bind
+  (:map leader-map ("f" . nix-flake)))
 #+end_src
 
 ** nxml
@@ -3623,14 +3445,10 @@ Pretty check-boxes
 
 (use-package tuareg
   :ensure t
-  :general
-  (:keymaps
-   'tuareg-mode-map
-   "C-x C-e" 'tuareg-eval-phrase)
-  (:keymaps
-   'tuareg-mode-map
-   :prefix local-leader-key
-   "r" 'run-ocaml))
+  :bind
+  ((:map tuareg-mode-map
+         ("C-x C-e" . tuareg-eval-phrase)
+         ("C-. r" . run-ocaml))))
 #+end_src
 
 ** pdf
@@ -3664,11 +3482,8 @@ Pretty check-boxes
   :hook
   (python-ts-mode-hook . eglot-ensure)
   (python-ts-mode-hook . indent-bars-mode)
-  :general
-  (:keymaps
-   'python-ts-mode-map
-   :prefix local-leader-key
-   "r" 'run-python)
+  :bind
+  (:map python-ts-mode-map ("C-. r" . run-python))
   :init
   (cl-pushnew '("\\([^/]+\\)\\.py\\'" "\\1_test.py") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\)_test\\.py\\'" "\\1.py") find-sibling-rules :test #'equal)
@@ -3683,13 +3498,11 @@ Pretty check-boxes
 #+begin_src emacs-lisp :tangle yes
 (use-package python-test
   :ensure t
-  :general
-  (:keymaps
-   'python-ts-mode-map
-   :prefix local-leader-key
-   "t a" 'python-test-project
-   "t f" 'python-test-file
-   "t t" 'python-test-function)
+  :bind
+  (:map python-ts-mode-map
+        ("C-. t a" . python-test-project)
+        ("C-. t f" . python-test-file)
+        ("C-. t t" . python-test-function))
   :init
   (setq python-test-backend 'pytest)
   :config
@@ -3702,15 +3515,9 @@ Pretty check-boxes
 (use-package racket-mode
   :ensure t
   :mode "\\.rkt[dl]?\\'"
-  :general
-  (:keymaps
-   'racket-mode-map
-   :prefix nav-prefix
-   "k" 'racket-doc)
-  (:keymaps
-   'racket-mode-map
-   :prefix local-leader-key
-   "t" 'racket-test)
+  (:map racket-mode-map
+        ("M-g k" . racket-doc)
+        ("C-. t" . racket-test))
   :config
   (with-eval-after-load 'repl-toggle
     (cl-pushnew '(racket-mode . racket-repl) rtog/mode-repl-alist :test #'equal)))
@@ -3795,11 +3602,8 @@ Pretty check-boxes as well as bullet lists.
   (ruby-ts-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
   (compilation-filter . inf-ruby-auto-enter)
-  :general
-  (:keymaps
-   'ruby-ts-mode-map
-   :prefix local-leader-key
-   "r" 'inf-ruby)
+  :bind
+  (:map ruby-ts-mode-map ("C-. r" . inf-ruby))
   :init
   (setq inf-ruby-default-implementation "pry"))
 #+end_src
@@ -3810,13 +3614,11 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :hook
   (ruby-ts-mode-hook . minitest-enable-appropriate-mode)
-  :general
-  (:keymaps
-   'minitest-mode-map
-   :prefix local-leader-key
-   "t a" 'minitest-verify-all
-   "t f" 'minitest-verify
-   "t t" 'minitest-verify-single)
+  :bind
+  (:map minitest-mode-map
+        ("C-. t a" . minitest-verify-all)
+        ("C-. t f" . minitest-verify)
+        ("C-. t t" . minitest-verify-single))
   :init
   (put 'minitest-use-bundler 'safe-local-variable 'booleanp))
 #+end_src
@@ -3827,13 +3629,11 @@ Pretty check-boxes as well as bullet lists.
   :ensure t
   :hook
   (ruby-ts-mode-hook . rspec-enable-appropriate-mode)
-  :general
-  (:keymaps
-   'rspec-mode-map
-   :prefix local-leader-key
-   "t a" 'rspec-verify-all
-   "t f" 'rspec-verify
-   "t t" 'rspec-verify-single)
+  :bind
+  (:map rspec-mode-map
+        ("C-. t a" . rspec-verify-all)
+        ("C-. t f" . rspec-verify)
+        ("C-. t t" . rspec-verify-single))
   :init
   (setq rspec-use-relative-path t)
   (setq rspec-use-opts-file-when-available nil)
@@ -3871,11 +3671,8 @@ Pretty check-boxes as well as bullet lists.
 (use-package sh-script
   :hook
   (sh-mode-hook . flymake-mode)
-  :general
-  (:keymaps
-   'sh-mode-map
-   :prefix nav-prefix
-   "k" 'man)
+  :bind
+  (:map sh-mode-map ("M-g k" . man))
   :init
   ;; Use regular indentation for line-continuation
   (setq sh-indent-after-continuation 'always)
@@ -3970,8 +3767,8 @@ Dim out the surrounding text except the current focused paragraph or expression.
 (use-package pomm
   :ensure t
   :commands (pomm pomm-third-time)
-  :general
-  (:prefix leader-key "p" 'pomm-third-time))
+  :bind
+  (:map leader-map ("p" . pomm-third-time)))
 #+end_src
 
 ** Session
@@ -3998,13 +3795,11 @@ it really useful.
 #+begin_src emacs-lisp :tangle yes
 (use-package spray
   :ensure t
-  :general
-  (:prefix
-   toggle-prefix
-   "s" '("Speed reading" . spray-mode))
   :init
   (setq spray-height 500)
   (setq spray-margin-left 2)
+
+  (keymap-set toggle-map "s" '("Speed reading" . spray-mode))
   :config
   (setq spray-unsupported-minor-modes
         (append '(beacon-mode centered-window-mode visual-fill-column-mode)
@@ -4018,10 +3813,16 @@ it really useful.
   :hook
   (prog-mode-hook . jinx-mode)
   (text-mode-hook . jinx-mode)
-  :general
-  ([remap ispell-word] 'jinx-correct)
-  (:prefix next-prefix "s" '("Misspelling" . jinx-next))
-  (:prefix prev-prefix "s" '("Misspelling" . jinx-previous)))
+  :bind
+  (([remap ispell-word] . jinx-correct)
+   (:repeat-map jinx-repeat-map
+                ("s" . jinx-next)
+                ("S" . jinx-previous)
+                ("[" . jinx-previous)
+                ("]" . jinx-next)))
+  :init
+  (keymap-set next-map "s" '("Misspelling" . jinx-next))
+  (keymap-set prev-map "s" '("Misspelling" . jinx-previous)))
 #+end_src
 
 Automatic language detection that updates the spell checker.
@@ -4051,9 +3852,9 @@ Avoid color when possible.
   (eshell-mode-hook . abbrev-mode)
   (eshell-mode-hook . init-eshell-define-keys)
   (eshell-mode-hook . init-eshell-set-visual-commands)
-  :general
-  ("C-!" 'eshell)
-  (:prefix leader-key "t" 'eshell)
+  :bind
+  (("C-!" . eshell)
+   (:map leader-map ("t" . eshell)))
   :init
   (setq eshell-buffer-maximum-lines 20000)
   (setq eshell-history-size 1000)
@@ -4063,10 +3864,8 @@ Avoid color when possible.
   (autoload 'eshell-smart-initialize "em-smart")
   :config
   (defun init-eshell-define-keys ()
-    (general-define-key
-     :keymaps 'eshell-mode-map
-     "RET" '+eshell-expand-abbrev-and-send-input
-     "<tab>" 'completion-at-point))
+    (keymap-set eshell-mode-map "RET" '+eshell-expand-abbrev-and-send-input)
+    (keymap-set eshell-mode-map "<tab>" 'completion-at-point))
 
   (defun init-eshell-set-visual-commands ()
     (setq eshell-visual-commands
@@ -4142,8 +3941,8 @@ Fast terminal emulator utilizing =libvterm=.
 #+begin_src emacs-lisp :tangle yes
 (use-package vterm
   :ensure t
-  :general
-  (:prefix leader-key "T" 'vterm)
+  :bind
+  (:map leader-map ("T" . vterm))
   :init
   (setq vterm-max-scrollback 100000)
   (setq vterm-shell "fish"))
@@ -4154,11 +3953,9 @@ Fast terminal emulator utilizing =libvterm=.
 #+begin_src emacs-lisp :tangle yes
 (use-package vterm-toggle
   :ensure t
-  :general
-  ("C-M-!" 'vterm-toggle)
-  (:keymaps
-   'vterm-mode-map
-   "C-<return>" 'vterm-toggle-insert-cd))
+  :bind
+  (("C-M-!" . vterm-toggle)
+   (:map vterm-mode-map ("C-<return>" . vterm-toggle-insert-cd))))
 #+end_src
 
 ** Undo
@@ -4173,8 +3970,8 @@ Visual undo history navigation.
 #+begin_src emacs-lisp :tangle yes
 (use-package vundo
   :ensure t
-  :general
-  (:prefix leader-key "u" 'vundo))
+  :bind
+  (:map leader-map ("u" . vundo)))
 #+end_src
 
 ** AI
@@ -4198,10 +3995,10 @@ Packages that I am currently testing or evaluating.
 #+begin_src emacs-lisp :tangle yes
 (use-package annotate
   :ensure t
-  :general
-  (:prefix
-   toggle-prefix
-   "a" '("Annotate" . annotate-mode)))
+  :commands
+  (annotate-mode)
+  :init
+  (keymap-set toggle-map "a" '("Annotate" . annotate-mode)))
 #+end_src
 
 ** consult-git-log-grep
@@ -4315,7 +4112,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 ** Tasks
 *** TODO Improve bindings
 - Group editing bindings under logical prefix
-- Replace defrepeater and general with builtin functionality such as ~defvar-keymap~.
 *** TODO Split theme into several parts
 - One theme to set big headers and such things
 - One theme to highlight errors
@@ -4348,12 +4144,10 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - consult
 - corfu
 - deadgrep
-- defrepeater
 - dtrt-indent
 - dumb-jump
 - embark
 - envrc
-- general
 - marginalia
 - markdown-mode
 - nix-ts-mode
@@ -4472,7 +4266,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - racket-mode
 - rego-mode
 - rspec-mode
-- rustic
 - scala-mode
 - sly
 - spray
