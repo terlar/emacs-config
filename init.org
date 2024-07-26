@@ -17,7 +17,7 @@ The rough details:
 - key definitions :: =keymap=, =repeat=
 - code navigation :: [[info:emacs#Xref][xref]], [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: [[info:flymake#Top][flymake]]
-- persistent undo :: via ~desktop-save-mode~
+- persistent undo :: =desktop=
 - language server integration :: [[info:eglot#Top][eglot]]
 - structured editing :: [[https://github.com/AmaiKinono/puni][puni]]
 
@@ -362,22 +362,6 @@ Fringe control:
       (set-fringe-style nil)))
 #+end_src
 
-** History
-*** savehist
-Persist history.
-#+begin_src emacs-lisp :tangle yes
-(use-package savehist
-  :hook
-  (after-init-hook . savehist-mode)
-  :init
-  (setq savehist-additional-variables
-        '(kill-ring
-          search-ring
-          regexp-search-ring))
-  (setq savehist-autosave-interval 60)
-  (setq savehist-save-minibuffer-history t))
-#+end_src
-
 ** Localization
 #+begin_src emacs-lisp :tangle yes
 (setq-default calendar-week-start-day 1)
@@ -541,6 +525,7 @@ Add window dividers, mainly to add a border below the mode line.
 #+begin_src emacs-lisp :tangle yes
 (use-package frame
   :hook
+  (after-make-frame-functions . window-divider-mode)
   (server-after-make-frame-hook . window-divider-mode)
   :init
   (setq window-divider-default-places t)
@@ -2567,27 +2552,6 @@ Specific safe local code can be specified via:
 - ~safe-local-eval-forms~
 - ~safe-local-eval-function~
 
-*** ielm
-Persist ielm history.
-#+begin_src emacs-lisp :tangle yes
-(defvar +ielm-comint-input-ring nil)
-(with-eval-after-load 'savehist
-  (cl-pushnew '+ielm-comint-input-ring savehist-additional-variables :test #'equal))
-
-(defun +ielm-set-comint-input-ring ()
-  "Restore `ielm' history."
-  (setq-local comint-input-ring-size 200)
-  (add-hook 'kill-buffer-hook #'+ielm-save-comint-input-ring nil t)
-  (when +ielm-comint-input-ring
-    (setq comint-input-ring +ielm-comint-input-ring)))
-
-(defun +ielm-save-comint-input-ring ()
-  "Save `ielm' history."
-  (setq +ielm-comint-input-ring comint-input-ring))
-
-(add-hook 'ielm-mode-hook #'+ielm-set-comint-input-ring)
-#+end_src
-
 *** Packages
 **** package-lint-flymake
 #+begin_src emacs-lisp :tangle yes
@@ -3187,32 +3151,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (:map interactive-haskell-mode-map ("M-." . nil)))
 #+end_src
 
-*** REPL
-Persist REPL history.
-#+begin_src emacs-lisp :tangle yes
-(use-package haskell-mode
-  :functions
-  (haskell-interactive-save-history)
-  :defines
-  (haskell-interactive-mode-history)
-  :hook
-  (haskell-interactive-mode-hook . haskell-interactive-load-history)
-  :config
-  (defvar haskell-interactive-global-history nil)
-
-  (defun haskell-interactive-save-history ()
-    "Save `haskell-interactive-mode' history."
-    (setq haskell-interactive-global-history haskell-interactive-mode-history))
-
-  (defun haskell-interactive-load-history ()
-    "Restore `haskell-interactive-mode' history."
-    (add-hook 'kill-buffer-hook #'haskell-interactive-save-history nil t)
-    (when haskell-interactive-global-history
-      (setq haskell-interactive-mode-history haskell-interactive-global-history)))
-
-  (cl-pushnew 'haskell-interactive-global-history savehist-additional-variables :test #'equal))
-#+end_src
-
 ** java
 #+begin_src emacs-lisp :tangle yes
 (use-package java-ts-mode
@@ -3769,16 +3707,29 @@ it really useful.
 - Restore no buffers to begin with to avoid slow starts with huge sessions.
 #+begin_src emacs-lisp :tangle yes
 (use-package desktop
-  :demand t
+  :hook
+  (server-after-make-frame-hook . desktop-read)
   :init
+  (setq desktop-save t)
   (setq desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
+
+  (setq desktop-load-locked-desktop t)
   (setq desktop-restore-eager 0)
-  (setq desktop-save (daemonp))
-  (setq desktop-load-locked-desktop (daemonp))
+  (setq desktop-restore-frames nil)
+
+  (desktop-save-mode 1)
   :config
-  (dolist (var '(buffer-undo-list))
-    (cl-pushnew var desktop-locals-to-save :test #'equal))
-  (desktop-save-mode 1))
+  (dolist (var '(compile-history
+                 extended-command-history
+                 grep-history
+                 kill-ring
+                 minibuffer-history
+                 query-replace-history
+                 read-expression-history
+                 shell-command-history))
+    (cl-pushnew var desktop-globals-to-save :test #'equal))
+  (dolist (var '(buffer-undo-list comint-input-ring))
+    (cl-pushnew var desktop-locals-to-save :test #'equal)))
 #+end_src
 
 ** Speed reading
