@@ -771,14 +771,10 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 
 ** Next/Previous
 #+begin_src emacs-lisp :tangle yes
-(autoload 'smerge-next "smerge-mode")
-(autoload 'smerge-prev "smerge-mode")
-
 (defvar-keymap next-map
   :doc "Keymap for the next key sequences."
   :prefix 'next-map-prefix
   "b" '("Buffer" . next-buffer)
-  "c" '("Conflict" . smerge-next)
   "e" '("Error" . next-error))
 (keymap-global-set next-prefix 'next-map-prefix)
 
@@ -786,7 +782,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
   :doc "Keymap for the prev key sequences."
   :prefix 'prev-map-prefix
   "b" '("Buffer" . previous-buffer)
-  "c" '("Conflict" . smerge-prev)
   "e" '("Error" . previous-error))
 (keymap-global-set prev-prefix 'prev-map-prefix)
 #+end_src
@@ -2246,6 +2241,29 @@ Open link to files in the web UI connected to a repository.
   :ensure t
   :bind
   (:map vc-prefix-map ("SPC" . browse-at-remote-kill)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package smerge-mode
+  :bind
+  (:repeat-map smerge-repeat-map
+               ("[" . smerge-prev)
+               ("]" . smerge-next)
+               ("n" . smerge-next)
+               ("p" . smerge-prev)
+
+               ("RET" . smerge-keep-current)
+               ("a" . smerge-keep-all)
+               ("b" . smerge-keep-base)
+               ("l" . smerge-keep-lower)
+               ("u" . smerge-keep-upper)
+
+               ("E" . smerge-ediff)
+               ("r" . smerge-resolve)
+               ("R" . smerge-refine))
+  :init
+  (setq smerge-command-prefix (kbd "C-x c"))
+  (keymap-set toggle-map "m" '("Merging" . smerge-mode)))
 #+end_src
 
 *** diff
