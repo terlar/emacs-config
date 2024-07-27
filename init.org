@@ -2414,10 +2414,6 @@ Generic Language Server Protocol integration via ~eglot~.
 
   (cl-pushnew `((nix-mode nix-ts-mode) . ,(eglot-alternatives '("nil" "rnix-lsp" "nixd")))
               eglot-server-programs
-              :test #'equal)
-
-  (cl-pushnew '((java-mode java-ts-mode) . ("jdt-language-server" "-data" ".jdtls-cache"))
-              eglot-server-programs
               :test #'equal))
 #+end_src
 
