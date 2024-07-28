@@ -2603,6 +2603,7 @@ Improve readability of escape characters in regular expressions.
   (autoload 'org-get-outline-path "org-refile" nil t)
   :hook
   (org-mode-hook . auto-fill-mode)
+  (org-mode-hook . org-mode-init)
   :bind
   (("C-c a" . org-agenda)
    (:map org-mode-map
@@ -2633,6 +2634,9 @@ Improve readability of escape characters in regular expressions.
 
   (setq org-imenu-depth 3)
   :config
+  (defun org-mode-init ()
+    (setq tab-width 2))
+
   (dolist (lang '("emacs-lisp" "elisp"))
     (cl-pushnew (cons lang 'lisp-interaction) org-src-lang-modes :test #'equal)))
 
