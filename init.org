@@ -373,6 +373,12 @@ Set shell to bash as fish is not compatible with all packages using the shell.
 (setq shell-file-name "bash")
 #+end_src
 
+** Region
+Fix WSL/WSLg copy issue.
+#+begin_src emacs-lisp :tangle yes
+(setq select-active-regions nil)
+#+end_src
+
 ** UX
 Disable bell (both visual and audible).
 #+begin_src emacs-lisp :tangle yes
