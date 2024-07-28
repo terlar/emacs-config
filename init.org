@@ -2393,8 +2393,6 @@ Generic Language Server Protocol integration via ~eglot~.
 #+begin_src emacs-lisp :tangle yes
 (use-package eglot
   :defer 3
-  :functions
-  (eglot-alternatives)
   :bind
   ((:map eglot-mode-map ("C-. C-." . eglot-code-actions))
    (:map eglot-mode-map :prefix-map eglot-prefix-map :prefix "C-. e"
@@ -2409,10 +2407,6 @@ Generic Language Server Protocol integration via ~eglot~.
   (setq eglot-sync-connect nil)
   :config
   (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
-              eglot-server-programs
-              :test #'equal)
-
-  (cl-pushnew `((nix-mode nix-ts-mode) . ,(eglot-alternatives '("nil" "rnix-lsp" "nixd")))
               eglot-server-programs
               :test #'equal))
 #+end_src
