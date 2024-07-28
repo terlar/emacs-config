@@ -17,7 +17,7 @@ The rough details:
 - key definitions :: =keymap=, =repeat=
 - code navigation :: [[info:emacs#Xref][xref]], [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
 - syntax checker :: [[info:flymake#Top][flymake]]
-- persistent undo :: =desktop=
+- persistence :: =desktop=
 - language server integration :: [[info:eglot#Top][eglot]]
 - structured editing :: [[https://github.com/AmaiKinono/puni][puni]]
 
@@ -2641,7 +2641,7 @@ Improve readability of escape characters in regular expressions.
   (setq org-imenu-depth 3)
   :config
   (defun org-mode-init ()
-    (setq tab-width 2))
+    (setq tab-width 8))
 
   (dolist (lang '("emacs-lisp" "elisp"))
     (cl-pushnew (cons lang 'lisp-interaction) org-src-lang-modes :test #'equal)))
