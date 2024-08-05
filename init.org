@@ -742,7 +742,7 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 ** Navigation
 #+begin_src emacs-lisp :tangle yes
 (keymap-set goto-map "k" #'eldoc-doc-buffer)
-(keymap-set goto-map "u" #'browse-url)
+(keymap-set goto-map "u" #'browse-url-at-point)
 #+end_src
 
 ** Window
