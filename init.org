@@ -3943,8 +3943,8 @@ Visual undo history navigation.
   :config
   (setq ellama-auto-scroll t)
   (setq ellama-provider
-        (make-llm-ollama :chat-model "llama3"
-                         :embedding-model "llama3")))
+        (make-llm-ollama :chat-model "llama3.1"
+                         :embedding-model "llama3.1")))
 #+end_src
 
 * Testing
