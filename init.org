@@ -742,7 +742,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 ** Navigation
 #+begin_src emacs-lisp :tangle yes
 (keymap-set goto-map "k" #'eldoc-doc-buffer)
-(keymap-set goto-map "u" #'browse-url-at-point)
 #+end_src
 
 ** Window
@@ -1799,6 +1798,16 @@ Keep track of bookmarks
 (use-package bookmark
   :init
   (setq bookmark-save-flag 1))
+#+end_src
+
+*** browse-url
+URL handling.
+#+begin_src emacs-lisp :tangle yes
+(use-package browse-url
+  :bind
+  (:map goto-map
+        ("u" . browse-url-at-point)
+        ("U" . browse-url)))
 #+end_src
 
 *** deadgrep
