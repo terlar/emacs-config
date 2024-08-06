@@ -742,7 +742,7 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 ** Navigation
 #+begin_src emacs-lisp :tangle yes
 (keymap-set goto-map "k" #'eldoc-doc-buffer)
-(keymap-set goto-map "u" #'browse-url)
+(keymap-set goto-map "u" #'browse-url-at-point)
 #+end_src
 
 ** Window
@@ -3943,8 +3943,8 @@ Visual undo history navigation.
   :config
   (setq ellama-auto-scroll t)
   (setq ellama-provider
-        (make-llm-ollama :chat-model "llama3"
-                         :embedding-model "llama3")))
+        (make-llm-ollama :chat-model "llama3.1"
+                         :embedding-model "llama3.1")))
 #+end_src
 
 * Testing
