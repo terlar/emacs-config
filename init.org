@@ -1155,6 +1155,7 @@ Manage "popups".
   (setq popper-reference-buffers
         '("Output\\*$"
           "\\*Messages\\*"
+          "\\*devdocs\\*"
           "\\*envrc\\*"
           "^\\*eldoc"
           elisp-refs-mode
@@ -3084,7 +3085,11 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   ("go\\.mod\\'" . go-mod-ts-mode)
   :hook
   (go-ts-mode-hook . eglot-ensure)
+  (go-ts-mode-hook . go-ts-mode-set-devdocs)
   :config
+  (defun go-ts-mode-set-devdocs ()
+    (setq-local devdocs-current-docs '("go")))
+
   (cl-pushnew '(go-mode . go-ts-mode) major-mode-remap-alist :test #'equal)
 
   (with-eval-after-load 'apheleia
@@ -3370,13 +3375,17 @@ Pretty check-boxes
   :mode "\\.nix\\'"
   :hook
   (nix-ts-mode-hook . eglot-ensure)
+  (nix-ts-mode-hook . nix-ts-mode-set-devdocs)
   :init
   (with-eval-after-load 'apheleia
     (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
   (with-eval-after-load 'grugru
     (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
   (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(nix-ts-mode . nix-repl) rtog/mode-repl-alist :test #'equal)))
+    (cl-pushnew '(nix-ts-mode . nix-repl) rtog/mode-repl-alist :test #'equal))
+  :config
+  (defun nix-ts-mode-set-devdocs ()
+    (setq-local devdocs-current-docs '("nix"))))
 
 (use-package nix-mode
   :ensure t
@@ -3651,7 +3660,12 @@ Pretty check-boxes as well as bullet lists.
 #+begin_src emacs-lisp :tangle yes
 (use-package terraform-mode
   :ensure t
-  :mode "\\.tf$")
+  :mode "\\.tf$"
+  :hook
+  (terraform-mode-hook . terraform-mode-set-devdocs)
+  :config
+  (defun terraform-mode-set-devdocs ()
+    (setq-local devdocs-current-docs '("terraform"))))
 #+end_src
 
 ** typescript
