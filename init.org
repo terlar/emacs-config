@@ -3971,6 +3971,8 @@ Visual undo history navigation.
   :ensure t
   :functions
   (make-llm-ollama)
+  :bind-keymap
+  ("C-, e" . ellama-command-map)
   :config
   (setq ellama-auto-scroll t)
   (setq ellama-provider
