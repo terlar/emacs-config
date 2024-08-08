@@ -753,6 +753,10 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
          ("m" . maximize-window)
          ("r" . window-configuration-to-register)
          ("w" . window-toggle-side-windows))
+   (:repeat-map resize-window-repeat-map
+                ("+" . balance-windows)
+                ("-" . fit-window-to-buffer)
+                ("m" . maximize-window))
    (:repeat-map buffer-repeat-map
                 ("b" . next-buffer)
                 ("B" . previous-buffer)
@@ -1133,10 +1137,14 @@ Transpose window arrangement.
 (use-package transpose-frame
   :ensure t
   :bind
-  (:map window-prefix-map
-        ("t" . transpose-frame)
-        ("f" . flip-frame)
-        ("F" . flop-frame)))
+  ((:map window-prefix-map
+         ("t" . transpose-frame)
+         ("f" . flip-frame)
+         ("F" . flop-frame))
+   (:repeat-map window-arrangement-repeat-map
+                ("t" . transpose-frame)
+                ("f" . flip-frame)
+                ("F" . flop-frame))))
 #+end_src
 
 Manage "popups".
@@ -3963,6 +3971,8 @@ Visual undo history navigation.
   :ensure t
   :functions
   (make-llm-ollama)
+  :bind-keymap
+  ("C-, e" . ellama-command-map)
   :config
   (setq ellama-auto-scroll t)
   (setq ellama-provider
@@ -4096,9 +4106,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - Group editing bindings under logical prefix
 - Binding for
   - org-store-link
-  - repeat map for window resize operations
-    - =C-x {=,= =C-x +=, maximize-window
-    - flip-frame/flop-frame/transpose-frame
   - leader mnemonics? as a separate package, or is it too much work?
     - (t)oggle
     - (s)earch
