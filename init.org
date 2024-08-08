@@ -4106,9 +4106,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - Group editing bindings under logical prefix
 - Binding for
   - org-store-link
-  - repeat map for window resize operations
-    - =C-x {=,= =C-x +=, maximize-window
-    - flip-frame/flop-frame/transpose-frame
   - leader mnemonics? as a separate package, or is it too much work?
     - (t)oggle
     - (s)earch
