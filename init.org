@@ -1053,10 +1053,10 @@ Annotations for completion candidates.
 (use-package help
   :bind
   (:map help-map
-        "B" 'find-library
-        "u" 'describe-face
-        "U" 'list-faces-display
-        "'" 'describe-char))
+        ("B" . find-library)
+        ("u" . describe-face)
+        ("U" . list-faces-display)
+        ("'" . describe-char)))
 
 (use-package help-at-pt
   :init
@@ -4104,6 +4104,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 ** Tasks
 *** TODO Improve bindings
 - Group editing bindings under logical prefix
+- magit-diff-range (code review)
 - Binding for
   - org-store-link
   - leader mnemonics? as a separate package, or is it too much work?
