@@ -3965,19 +3965,29 @@ Visual undo history navigation.
 #+end_src
 
 ** AI
-*** ellama
+*** gptel
 #+begin_src emacs-lisp :tangle yes
-(use-package ellama
+(use-package gptel
   :ensure t
   :functions
-  (make-llm-ollama)
-  :bind-keymap
-  ("C-, e" . ellama-command-map)
+  (gptel-make-ollama)
+  :bind
+  ((:map leader-map
+        ("g" . gptel-menu)
+        ("G" . gptel)))
   :config
-  (setq ellama-auto-scroll t)
-  (setq ellama-provider
-        (make-llm-ollama :chat-model "llama3.1"
-                         :embedding-model "llama3.1")))
+  (setq gptel-model "llama3.1:latest")
+  (setq gptel-backend (gptel-make-ollama "Ollama"
+                                         :host "localhost:11434"
+                                         :stream t
+                                         :models '("llama3.1:latest"
+                                                   "gemma2:latest")))
+  (setq gptel-default-mode 'org-mode)
+
+  (cl-pushnew
+   '(cli . "You are a large language model and a correct command line helper. Provide commands and only commands as output without any additional text, prompt or note.")
+   gptel-directives
+   :test #'equal))
 #+end_src
 
 * Testing

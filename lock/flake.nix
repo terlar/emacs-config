@@ -1,6 +1,5 @@
 {
-  description =
-    "THIS IS AN AUTO-GENERATED FILE. PLEASE DON'T EDIT IT MANUALLY.";
+  description = "THIS IS AN AUTO-GENERATED FILE. PLEASE DON'T EDIT IT MANUALLY.";
   inputs = {
     aio = {
       flake = false;
@@ -217,12 +216,6 @@
       repo = "elisp-refs";
       type = "github";
     };
-    ellama = {
-      flake = false;
-      owner = "s-kostyaev";
-      repo = "ellama";
-      type = "github";
-    };
     elm-mode = {
       flake = false;
       owner = "jcollard";
@@ -358,6 +351,12 @@
       flake = false;
       owner = "emacs-evil";
       repo = "goto-chg";
+      type = "github";
+    };
+    gptel = {
+      flake = false;
+      owner = "karthink";
+      repo = "gptel";
       type = "github";
     };
     gradle-mode = {
@@ -507,12 +506,6 @@
       flake = false;
       owner = "noctuid";
       repo = "link-hint.el";
-      type = "github";
-    };
-    llm = {
-      flake = false;
-      owner = "ahyatt";
-      repo = "llm";
       type = "github";
     };
     log4e = {
@@ -704,13 +697,6 @@
       flake = false;
       owner = "vedang";
       repo = "pdf-tools";
-      type = "github";
-    };
-    plz = {
-      flake = false;
-      owner = "alphapapa";
-      ref = "stable";
-      repo = "plz.el";
       type = "github";
     };
     pomm = {

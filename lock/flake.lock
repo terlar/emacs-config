@@ -576,22 +576,6 @@
         "type": "github"
       }
     },
-    "ellama": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1721561925,
-        "narHash": "sha256-9MPQ/4tI88Jpd6u/7EgyWNiBPmY3uLjA99ggaf025Yo=",
-        "owner": "s-kostyaev",
-        "repo": "ellama",
-        "rev": "8270e71c335b1656384e6c1b9d61c2a7ecc65bbb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "s-kostyaev",
-        "repo": "ellama",
-        "type": "github"
-      }
-    },
     "elm-mode": {
       "flake": false,
       "locked": {
@@ -957,6 +941,22 @@
       "original": {
         "owner": "emacs-evil",
         "repo": "goto-chg",
+        "type": "github"
+      }
+    },
+    "gptel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725254672,
+        "narHash": "sha256-77Ki7ST6bTNyP1BZnyQRwuza3bcND9qKQ2qSN6aD4wA=",
+        "owner": "karthink",
+        "repo": "gptel",
+        "rev": "87dfb2d1de3909e6471666d7009643d7c309a93b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "karthink",
+        "repo": "gptel",
         "type": "github"
       }
     },
@@ -1357,22 +1357,6 @@
       "original": {
         "owner": "noctuid",
         "repo": "link-hint.el",
-        "type": "github"
-      }
-    },
-    "llm": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1722733831,
-        "narHash": "sha256-B1wz2xb2HreoIwQtrEPA5bbXHAsCQCke7wJretS54bA=",
-        "owner": "ahyatt",
-        "repo": "llm",
-        "rev": "806a703b91580c1c34d3bb5fe1d556b659f89bcf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ahyatt",
-        "repo": "llm",
         "type": "github"
       }
     },
@@ -1888,23 +1872,6 @@
         "type": "github"
       }
     },
-    "plz": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1718047390,
-        "narHash": "sha256-mF0gNQJ1StIpkcoHxYy/cImdDvFfjOAd5GSjC6HUdLg=",
-        "owner": "alphapapa",
-        "repo": "plz.el",
-        "rev": "df44acec4baf9ae1f2d56ff1e40fada32681a097",
-        "type": "github"
-      },
-      "original": {
-        "owner": "alphapapa",
-        "ref": "stable",
-        "repo": "plz.el",
-        "type": "github"
-      }
-    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2167,7 +2134,6 @@
         "easy-escape": "easy-escape",
         "edit-indirect": "edit-indirect",
         "elisp-refs": "elisp-refs",
-        "ellama": "ellama",
         "elm-mode": "elm-mode",
         "elquery": "elquery",
         "embark": "embark",
@@ -2191,6 +2157,7 @@
         "gorepl-mode": "gorepl-mode",
         "gotest": "gotest",
         "goto-chg": "goto-chg",
+        "gptel": "gptel",
         "gradle-mode": "gradle-mode",
         "groovy-mode": "groovy-mode",
         "grugru": "grugru",
@@ -2216,7 +2183,6 @@
         "kv": "kv",
         "ligature": "ligature",
         "link-hint": "link-hint",
-        "llm": "llm",
         "log4e": "log4e",
         "lv": "lv",
         "magit": "magit",
@@ -2249,7 +2215,6 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
-        "plz": "plz",
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
