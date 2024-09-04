@@ -1160,6 +1160,7 @@ Manage "popups".
    (:map window-prefix-map
         ("p" . popper-toggle-type)))
   :init
+  (setq popper-display-function #'popper-display-popup-at-bottom)
   (setq popper-reference-buffers
         '("Output\\*$"
           "\\*Messages\\*"
