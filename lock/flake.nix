@@ -359,6 +359,12 @@
       repo = "gptel";
       type = "github";
     };
+    gptel-quick = {
+      flake = false;
+      owner = "karthink";
+      repo = "gptel-quick";
+      type = "github";
+    };
     gradle-mode = {
       flake = false;
       owner = "scubacabra";

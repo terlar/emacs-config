@@ -3973,9 +3973,9 @@ Visual undo history navigation.
   :functions
   (gptel-make-ollama)
   :bind
-  ((:map leader-map
+  (:map leader-map
         ("g" . gptel-menu)
-        ("G" . gptel)))
+        ("G" . gptel))
   :config
   (setq gptel-model "llama3.1:latest")
   (setq gptel-backend (gptel-make-ollama "Ollama"
@@ -3989,6 +3989,11 @@ Visual undo history navigation.
    '(cli . "You are a large language model and a correct command line helper. Provide commands and only commands as output without any additional text, prompt or note.")
    gptel-directives
    :test #'equal))
+
+(use-package gptel-quick
+  :ensure t
+  :bind
+  (:map help-map ("," . gptel-quick)))
 #+end_src
 
 * Testing

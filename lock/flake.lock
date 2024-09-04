@@ -960,6 +960,22 @@
         "type": "github"
       }
     },
+    "gptel-quick": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719624246,
+        "narHash": "sha256-IpH76pIP+JiwPnP+IchKIdKvJi7LuFafPQRKm5/jZ9g=",
+        "owner": "karthink",
+        "repo": "gptel-quick",
+        "rev": "ae3847287c2d21fb035e15b9a250191ab16463bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "karthink",
+        "repo": "gptel-quick",
+        "type": "github"
+      }
+    },
     "gradle-mode": {
       "flake": false,
       "locked": {
@@ -2158,6 +2174,7 @@
         "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gptel": "gptel",
+        "gptel-quick": "gptel-quick",
         "gradle-mode": "gradle-mode",
         "groovy-mode": "groovy-mode",
         "grugru": "grugru",
