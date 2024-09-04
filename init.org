@@ -1163,6 +1163,7 @@ Manage "popups".
   (setq popper-reference-buffers
         '("Output\\*$"
           "\\*Messages\\*"
+          "\\*Warnings\\*"
           "\\*devdocs\\*"
           "\\*envrc\\*"
           "^\\*eldoc"
