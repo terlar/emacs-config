@@ -4076,6 +4076,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-x r w= <reg>   | ~window-configuration-to-register~  | Store the window configuration of the selected frame in REGISTER                 |
 | =C-x r j=         | ~jump-to-register~                  | Go to location stored in REGISTER, or restore configuration stored there         |
 | =C-x C-M-0=       | ~global-text-scale-adjust~          | Change font size of all faces                                                    |
+| =M-h=             | ~mark-paragraph~                    | Mark paragraph                                                                   |
 | =C-SPC=           | ~set-mark-command~                  | Set a mark                                                                       |
 | =C-u C-SPC=       | ~pop-to-mark-command~               | Pop a mark                                                                       |
 | =C-x $=           | ~set-selective-display~             | Code-folding via indentation                                                     |
