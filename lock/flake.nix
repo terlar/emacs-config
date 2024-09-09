@@ -317,12 +317,6 @@
       repo = "ghelp";
       type = "github";
     };
-    git-commit = {
-      flake = false;
-      owner = "magit";
-      repo = "magit";
-      type = "github";
-    };
     git-modes = {
       flake = false;
       owner = "magit";
