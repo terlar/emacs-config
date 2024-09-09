@@ -25,11 +25,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1725068821,
-        "narHash": "sha256-UPn9qCMgt9Bk192+1XqRUoMdciE6c1u6vrQMrB/K9Mw=",
+        "lastModified": 1725902035,
+        "narHash": "sha256-ufaugGlQF+iiwtwSGrZgUpCVeNuY3RuVbjeVTcs4kXQ=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "3169e5e682432a38e768b68e2557dc610ca0a426",
+        "rev": "9b03793f7d6a2475d0e052aa65a49bbd01ec43e0",
         "type": "github"
       },
       "original": {
@@ -43,11 +43,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1725024810,
-        "narHash": "sha256-ODYRm8zHfLTH3soTFWE452ydPYz2iTvr9T8ftDMUQ3E=",
+        "lastModified": 1725234343,
+        "narHash": "sha256-+ebgonl3NbiKD2UD0x4BszCZQ6sTfL4xioaM49o5B3Y=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "af510d4a62d071ea13925ce41c95e3dec816c01d",
+        "rev": "567b938d64d4b4112ee253b9274472dc3a346eb6",
         "type": "github"
       },
       "original": {
@@ -95,11 +95,11 @@
     "melpa": {
       "flake": false,
       "locked": {
-        "lastModified": 1725041304,
-        "narHash": "sha256-Ib+2sNWWGJY6TX5+21lgAQNMcsnP8yMxUNgtQdlC6rQ=",
+        "lastModified": 1725816364,
+        "narHash": "sha256-rfL/obMEIiO3chiUPBKmhSz3Y9uoSN7sjE/OS7elF70=",
         "owner": "melpa",
         "repo": "melpa",
-        "rev": "a74629656e9a23133219a0bd805982f1497b35d7",
+        "rev": "0c608bf895a3b5230b781662510e1326af17ea13",
         "type": "github"
       },
       "original": {
@@ -110,11 +110,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1725054073,
-        "narHash": "sha256-BaHPrwOZd0u/Q5wUKpEtzaVeKzQUS0z1AFfvUU0aIOQ=",
+        "lastModified": 1725857262,
+        "narHash": "sha256-m9n0PncgZepVgmjOO1rfVXMgUACDOwZbhjSRjJ/NUpM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "84174e715dd7eeb47dc4ad511f59ae8d72221b89",
+        "rev": "5af6aefbcc55670e36663fd1f8a796e1e323001a",
         "type": "github"
       },
       "original": {
@@ -126,23 +126,23 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1722555339,
-        "narHash": "sha256-uFf2QeW7eAHlYXuDktm9c25OxOyCoUOQmh5SZ9amE5Q=",
+        "lastModified": 1725233747,
+        "narHash": "sha256-Ss8QWLXdr2JCBPcYChJhz4xJm+h/xjl4G0c0XlP6a74=",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/a5d394176e64ab29c852d03346c1fc9b0b7d33eb.tar.gz"
+        "url": "https://github.com/NixOS/nixpkgs/archive/356624c12086a18f2ea2825fed34523d60ccc4e3.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/a5d394176e64ab29c852d03346c1fc9b0b7d33eb.tar.gz"
+        "url": "https://github.com/NixOS/nixpkgs/archive/356624c12086a18f2ea2825fed34523d60ccc4e3.tar.gz"
       }
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1724855419,
-        "narHash": "sha256-WXHSyOF4nBX0cvHN3DfmEMcLOVdKH6tnMk9FQ8wTNRc=",
+        "lastModified": 1725693463,
+        "narHash": "sha256-ZPzhebbWBOr0zRWW10FfqfbJlan3G96/h3uqhiFqmwg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ae2fc9e0e42caaf3f068c1bfdc11c71734125e06",
+        "rev": "68e7dce0a6532e876980764167ad158174402c6f",
         "type": "github"
       },
       "original": {
@@ -155,11 +155,11 @@
     "nongnu-elpa": {
       "flake": false,
       "locked": {
-        "lastModified": 1724945355,
-        "narHash": "sha256-21DIBlgGCi98vAVhaojYJxo2Rn+D2pDv5AAdQOE/sL4=",
+        "lastModified": 1725430635,
+        "narHash": "sha256-X5C5Rpx3yfAWiFYbOdvle/xDcdCpeOOuy8K0mOBk2xA=",
         "ref": "main",
-        "rev": "93b5696e078108374157a63a6733dc681940c0b7",
-        "revCount": 327,
+        "rev": "94966229ca17882de6cbc1b709120e19a030d35d",
+        "revCount": 329,
         "shallow": false,
         "type": "git",
         "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
