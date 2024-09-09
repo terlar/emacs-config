@@ -1151,6 +1151,8 @@ Manage "popups".
 #+begin_src emacs-lisp :tangle yes
 (use-package popper
   :ensure t
+  :commands
+  (popper-display-popup-at-bottom)
   :hook
   (after-init-hook . popper-mode)
   (popper-mode-hook . popper-echo-mode)
