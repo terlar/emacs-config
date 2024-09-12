@@ -576,22 +576,6 @@
         "type": "github"
       }
     },
-    "elm-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1678879378,
-        "narHash": "sha256-gqVTVWdj+VpX2Azaqk3nSF1jJ8srXZQy1oGssqEgdOU=",
-        "owner": "jcollard",
-        "repo": "elm-mode",
-        "rev": "699841865e1bd5b7f2077baa7121510b6bcad3c7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jcollard",
-        "repo": "elm-mode",
-        "type": "github"
-      }
-    },
     "elquery": {
       "flake": false,
       "locked": {
@@ -2032,38 +2016,6 @@
         "type": "github"
       }
     },
-    "reformatter": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1725631555,
-        "narHash": "sha256-18NZzWqIvr2Srectb/CDSoYEVNfIydhn3HrJWu+ovDY=",
-        "owner": "purcell",
-        "repo": "emacs-reformatter",
-        "rev": "155b235f6c76f2f5790aa53798c7a7e36ce5aded",
-        "type": "github"
-      },
-      "original": {
-        "owner": "purcell",
-        "repo": "emacs-reformatter",
-        "type": "github"
-      }
-    },
-    "rego-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1604326807,
-        "narHash": "sha256-5UpBnCMxsqyf3Iah65u0AngwYTMDvfIRXiZZMN4fpdI=",
-        "owner": "psibi",
-        "repo": "rego-mode",
-        "rev": "be110e6cef5d34eef0529a8739c68e619cf15310",
-        "type": "github"
-      },
-      "original": {
-        "owner": "psibi",
-        "repo": "rego-mode",
-        "type": "github"
-      }
-    },
     "repl-toggle": {
       "flake": false,
       "locked": {
@@ -2134,7 +2086,6 @@
         "easy-escape": "easy-escape",
         "edit-indirect": "edit-indirect",
         "elisp-refs": "elisp-refs",
-        "elm-mode": "elm-mode",
         "elquery": "elquery",
         "embark": "embark",
         "embark-consult": "embark-consult",
@@ -2225,8 +2176,6 @@
         "readable": "readable",
         "readable-mono-theme": "readable-mono-theme",
         "readable-typo-theme": "readable-typo-theme",
-        "reformatter": "reformatter",
-        "rego-mode": "rego-mode",
         "repl-toggle": "repl-toggle",
         "request": "request",
         "rspec-mode": "rspec-mode",

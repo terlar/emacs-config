@@ -3008,7 +3008,8 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
 #+end_src
 
 ** elm
-#+begin_src emacs-lisp :tangle yes
+Elm and elm-mode seems unmaintained at the moment, so I disable this.
+#+begin_src emacs-lisp :tangle no
 (use-package elm-mode
   :ensure t
   :mode "\\.elm\\'"
@@ -3509,7 +3510,8 @@ Pretty check-boxes
 #+end_src
 
 ** rego
-#+begin_src emacs-lisp :tangle yes
+Disabled due to currently not working with rego.
+#+begin_src emacs-lisp :tangle no
 (use-package rego-mode :ensure t)
 #+end_src
 

@@ -216,12 +216,6 @@
       repo = "elisp-refs";
       type = "github";
     };
-    elm-mode = {
-      flake = false;
-      owner = "jcollard";
-      repo = "elm-mode";
-      type = "github";
-    };
     elquery = {
       flake = false;
       owner = "AdamNiederer";
@@ -757,18 +751,6 @@
       flake = false;
       owner = "terlar";
       repo = "emacs-config";
-      type = "github";
-    };
-    reformatter = {
-      flake = false;
-      owner = "purcell";
-      repo = "emacs-reformatter";
-      type = "github";
-    };
-    rego-mode = {
-      flake = false;
-      owner = "psibi";
-      repo = "rego-mode";
       type = "github";
     };
     repl-toggle = {
