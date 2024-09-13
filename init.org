@@ -1365,7 +1365,8 @@ Guess indentation offset and adjust the corresponding setting.
   (setq dtrt-indent-verbosity 0)
   :config
   (cl-pushnew '(default default (standard-indent tab-width)) dtrt-indent-hook-mapping-list :test #'equal)
-  (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal))
+  (cl-pushnew '(groovy-mode default tab-width) dtrt-indent-hook-mapping-list :test #'equal)
+  (cl-pushnew '(js-ts-mode javascript js-indent-level) dtrt-indent-hook-mapping-list :test #'equal))
 #+end_src
 
 *** grugru
