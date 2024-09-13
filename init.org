@@ -3465,6 +3465,8 @@ Pretty check-boxes
   :init
   (cl-pushnew '("\\([^/]+\\)\\.py\\'" "\\1_test.py") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\)_test\\.py\\'" "\\1.py") find-sibling-rules :test #'equal)
+  (cl-pushnew '("src/\\(\\(?:[s][r][^c]\\|[^s][^r][^c]\\|$\\)./\\)+\\([^/]+\\)\\.py\\'" "tests/\\1test_\\2.py") find-sibling-rules :test #'equal)
+  (cl-pushnew '("tests/\\(.+/\\)test_\\([^/]+\\)\\.py\\'" "src/\\1\\2.py") find-sibling-rules :test #'equal)
   :config
   (put 'python-shell-interpreter 'safe-local-variable #'(lambda (x) (member x '("python" "ipython")))))
 
