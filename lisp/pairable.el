@@ -5,6 +5,8 @@
 
 ;; Author: Terje Larsen <terlar@gmail.com>
 ;; Keywords: faces
+;; URL: https://github.com/terlar/emacs-config/blob/main/lisp/pariable.el
+;; Package-Requires: ((emacs "29.1"))
 ;; Version: 0.1
 
 ;; This file is NOT part of GNU Emacs.
@@ -29,19 +31,28 @@
 
 ;;; Code:
 
+(require 'face-remap)
+
 (defgroup pairable nil
   "Settings for pair-programming."
   :group 'faces)
 
 ;;;###autoload
 (defcustom pairable-text-scale 2
-  "Scaling factor for text."
+  "Scaling increment for text.
+Will be multiplied with `global-text-scale-adjust--increment-factor'"
   :type 'number
   :group 'pairable)
 
 ;;;###autoload
 (defcustom pairable-display-line-numbers t
-  "Use line-numbers or not."
+  "Enable line-numbers or not."
+  :type 'boolean
+  :group 'pairable)
+
+;;;###autoload
+(defcustom pairable-hl-line t
+  "Enable highlighting of the current line or not."
   :type 'boolean
   :group 'pairable)
 
@@ -58,14 +69,27 @@
 In Pariable mode, the text scale is increased, line numbers enabled and various
 other improvements to optimize for pair-programming."
   :lighter pairable-lighter
+  :global t
   :group 'pairable
   (if pairable-mode
       (progn
-        (global-display-line-numbers-mode 1)
-        (text-scale-set pairable-text-scale))
+        (when pairable-display-line-numbers
+          (global-display-line-numbers-mode 1))
+        (when pairable-hl-line
+          (global-hl-line-mode 1))
+        (when (> pairable-text-scale 0)
+          (let ((inc (* global-text-scale-adjust--increment-factor pairable-text-scale)))
+            (setq global-text-scale-adjust--default-height (face-attribute 'default :height))
+            (set-face-attribute 'default nil :height (+ global-text-scale-adjust--default-height inc))
+            (redisplay 'force))))
     (progn
-      (global-display-line-numbers-mode 0)
-      (text-scale-increase 0))))
+      (when pairable-display-line-numbers
+        (global-display-line-numbers-mode 0))
+      (when pairable-hl-line
+        (global-hl-line-mode 0))
+      (when (> pairable-text-scale 0)
+        (set-face-attribute 'default nil :height global-text-scale-adjust--default-height)
+        (redisplay 'force)))))
 
 (defun pairable-mode-enable ()
   "Enable `pairable-mode' in the current buffer."

@@ -1206,6 +1206,7 @@ Disabled by default. When enabled, only highlight in the selected window.
 (use-package hl-line
   :hook
   (hl-line-mode-hook . hl-line-number-mode)
+  (global-hl-line-mode-hook . global-hl-line-number-mode)
   :init
   (setq hl-line-sticky-flag nil)
   (setq global-hl-line-sticky-flag nil)
@@ -1216,10 +1217,13 @@ Disabled by default. When enabled, only highlight in the selected window.
   (defvar-local hl-line-number--current-line-remap nil
     "Face remapping cookie for `line-number-current-line' to `hl-line'.")
 
+  (define-global-minor-mode global-hl-line-number-mode hl-line-number-mode hl-line-number-mode
+    :group 'hl-line)
+
   (define-minor-mode hl-line-number-mode
     "Toggle highlighting of the current line number."
     :group 'hl-line
-    (if hl-line-mode
+    (if (or global-hl-line-mode hl-line-mode)
         (setq hl-line-number--current-line-remap
               (face-remap-add-relative 'line-number-current-line 'hl-line))
       (face-remap-remove-relative hl-line-number--current-line-remap)
@@ -1668,7 +1672,10 @@ Descriptive buffer names or project relative paths for buffer names.
 
 *** pairable
 #+begin_src emacs-lisp :tangle yes
-(use-package pairable :ensure t)
+(use-package pairable
+  :ensure t
+  :config
+  (keymap-set toggle-map "p" '("Pair-programming" . pairable-mode)))
 #+end_src
 
 *** readable
