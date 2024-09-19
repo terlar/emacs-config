@@ -1674,7 +1674,7 @@ Descriptive buffer names or project relative paths for buffer names.
 #+begin_src emacs-lisp :tangle yes
 (use-package pairable
   :ensure t
-  :config
+  :init
   (keymap-set toggle-map "p" '("Pair-programming" . pairable-mode)))
 #+end_src
 
