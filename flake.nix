@@ -44,7 +44,7 @@
           (
             final: prev:
             let
-              emacsPackage = final.emacs-pgtk;
+              emacsPackage = final.emacs-git;
             in
             {
               emacs-env =
