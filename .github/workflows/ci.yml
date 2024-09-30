@@ -52,7 +52,7 @@ jobs:
           extraPullNames: nix-community
 
       - name: Check
-        run: nix flake check ./dev
+        run: nix flake check
 
   build:
     strategy:

@@ -27,11 +27,11 @@
         "treefmt": "treefmt"
       },
       "locked": {
-        "lastModified": 1725857985,
-        "narHash": "sha256-DjO5Ss2aJpkapFnGQmfUdv1COZEuk+1KKu/z61W7GDw=",
+        "lastModified": 1727681786,
+        "narHash": "sha256-3raJpfVgKLdegUZF6UmaUUUQfJYTSRfTbuCtbRjcfDY=",
         "owner": "terlar",
         "repo": "dev-flake",
-        "rev": "bde076728fa5fbdcdd4a0b08e362be5b5736056d",
+        "rev": "11c43bb01754aca7d228f184b0f7c61b82630ca7",
         "type": "github"
       },
       "original": {
@@ -97,26 +97,6 @@
       "inputs": {
         "nixpkgs-lib": [
           "dev-flake",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1725234343,
-        "narHash": "sha256-+ebgonl3NbiKD2UD0x4BszCZQ6sTfL4xioaM49o5B3Y=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "567b938d64d4b4112ee253b9274472dc3a346eb6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": [
           "nixpkgs"
         ]
       },
@@ -223,7 +203,6 @@
       "inputs": {
         "dev-flake": "dev-flake",
         "flake-compat": "flake-compat_2",
-        "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }

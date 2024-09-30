@@ -8,6 +8,12 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,9 +37,25 @@
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
+
+      imports = [
+        inputs.flake-parts.flakeModules.partitions
+      ];
+
+      partitionedAttrs = {
+        checks = "dev";
+        devShells = "dev";
+      };
+
+      partitions.dev = {
+        extraInputsFlake = ./dev;
+        module = {
+          imports = [ ./dev/flake-module.nix ];
+        };
+      };
 
       flake = {
         overlays.default = inputs.nixpkgs.lib.composeManyExtensions [
