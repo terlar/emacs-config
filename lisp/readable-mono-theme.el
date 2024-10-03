@@ -637,6 +637,7 @@ For example links."
 
 ;;;;; visual-replace
    `(visual-replace-region ((t (:inherit readable-mono-theme-secondary))))
+   `(visual-replace-delete-match ((t (:inverse-video t :strike-through t))))
 
 ;;;;; web
    `(web-mode-current-element-highlight-face ((t (:inherit show-paren-match))))
