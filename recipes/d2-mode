@@ -1,0 +1,2 @@
+(d2-mode :fetcher github
+         :repo "terlar/d2-mode")
