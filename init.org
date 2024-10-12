@@ -3775,6 +3775,7 @@ it really useful.
 (use-package desktop
   :hook
   (server-after-make-frame-hook . desktop-read)
+  (server-after-make-frame-hook . desktop-save-mode)
   :init
   (setq desktop-save t)
   (setq desktop-files-not-to-save "\\(\\`/[^/:]*:\\|(ftp)\\|\\.gz\\'\\)")
