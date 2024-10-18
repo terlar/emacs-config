@@ -4004,6 +4004,11 @@ Visual undo history navigation.
   (cl-pushnew
    '(cli . "You are a large language model and a correct command line helper. Provide commands and only commands as output without any additional text, prompt or note.")
    gptel-directives
+   :test #'equal)
+
+  (cl-pushnew
+   '(regex . "You are a large language model and regular expression expert. Respond with pure regular expressions without involvement of other programming languages.")
+   gptel-directives
    :test #'equal))
 
 (use-package gptel-quick
