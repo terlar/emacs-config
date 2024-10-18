@@ -4012,6 +4012,18 @@ Visual undo history navigation.
   (:map help-map ("," . gptel-quick)))
 #+end_src
 
+*** elysium
+#+begin_src emacs-lisp :tangle yes
+(use-package elysium
+  :ensure t
+  :bind
+  (:map leader-map
+        ("q" . elysium-query))
+  :config
+  (with-eval-after-load 'popper
+    (cl-pushnew "\\*elysium\\*" popper-reference-buffers :test #'equal)))
+#+end_src
+
 * Testing
 Packages that I am currently testing or evaluating.
 
