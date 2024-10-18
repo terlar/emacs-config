@@ -1323,7 +1323,7 @@ Wrap at words.
 Save clipboard contents into kill-ring before replacing them.
 #+begin_src emacs-lisp :tangle yes
 (setq save-interprogram-paste-before-kill t)
-(setq kill-ring-max 60)
+(setq kill-ring-max 30)
 #+end_src
 
 ** Parenthesis
