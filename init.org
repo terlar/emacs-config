@@ -404,7 +404,7 @@ Hide M-x commands which does not work in the current buffer.
 (defvar init-line-spacing 0.25
   "Spacing between lines.")
 
-(defvar init-default-font-height 120
+(defvar init-default-font-height 105
   "Default font height.")
 #+end_src
 
