@@ -592,6 +592,22 @@
         "type": "github"
       }
     },
+    "elysium": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1728777108,
+        "narHash": "sha256-0lh4bDmiyMWdKe7URnb2TzmAmnbkTchawOfYf03v1iA=",
+        "owner": "lanceberge",
+        "repo": "elysium",
+        "rev": "89d025337aae6aff2f32e06865d20d9a7ee4bb22",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lanceberge",
+        "repo": "elysium",
+        "type": "github"
+      }
+    },
     "embark": {
       "flake": false,
       "locked": {
@@ -2087,6 +2103,7 @@
         "edit-indirect": "edit-indirect",
         "elisp-refs": "elisp-refs",
         "elquery": "elquery",
+        "elysium": "elysium",
         "embark": "embark",
         "embark-consult": "embark-consult",
         "envrc": "envrc",

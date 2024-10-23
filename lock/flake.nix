@@ -222,6 +222,12 @@
       repo = "elquery";
       type = "github";
     };
+    elysium = {
+      flake = false;
+      owner = "lanceberge";
+      repo = "elysium";
+      type = "github";
+    };
     embark = {
       flake = false;
       owner = "oantolin";
