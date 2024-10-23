@@ -229,9 +229,10 @@ For example links."
    `(completions-common-part ((t (:inherit readable-mono-theme-strong))))
    `(completions-first-difference ((t (:inherit readable-mono-theme-emphasis))))
    `(highlight ((t (:inverse-video t))))
-   `(isearch ((t (:inherit highlight))))
+   `(isearch ((((background light)) (:inherit highlight :foreground ,l-fg))
+	      (((background dark)) (:inherit highlight :foreground ,d-fg))))
    `(isearch-fail ((t (:inherit error))))
-   `(lazy-highlight ((t (:inherit readable-mono-theme-subordinate :inverse-video t))))
+   `(lazy-highlight ((t (:inherit (highlight readable-mono-theme-subordinate)))))
    `(match ((t (:inherit highlight))))
    `(region
      ((((background light)) (:foreground ,l-bg :background ,l-fg))
@@ -467,6 +468,9 @@ For example links."
 
 ;;;;; haskell
    `(haskell-interactive-face-prompt ((t (:inherit readable-mono-theme-strong))))
+
+;;;;; idle-highlight
+   `(idle-highlight ((t (:inherit (lazy-highlight)))))
 
 ;;;;; imenu-list
    `(imenu-list-entry-face-0 ((t (:foreground unspecified))))
