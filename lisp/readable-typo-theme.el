@@ -151,16 +151,23 @@
       (level-6-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-6 nil))
       (level-7-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-7 nil))
       (level-8-height (if readable-typo-theme-font-scaling readable-typo-theme-font-height-level-8 nil)))
+
 ;;;; Theme faces
   (custom-theme-set-faces
    'readable-typo
+
    `(default ((t (:height ,default-height :family ,fixed-pitch :weight ,default-weight))))
+
+   `(bold ((t (:weight ,bold-weight))))
+   '(bold-italic ((t (:inherit bold))))
+
    `(fixed-pitch ((t (:family ,fixed-pitch :weight ,default-weight))))
    `(fixed-pitch-serif ((t (:family ,fixed-pitch-serif :weight ,default-weight))))
    `(variable-pitch ((t (:family ,variable-pitch :weight ,default-weight))))
    `(variable-pitch-text ((t (:height 1.1 :family ,serif))))
-   `(bold ((t (:weight ,bold-weight))))
-   `(bold-italic ((t (:inherit bold))))
+
+   '(link ((t (:inherit underline))))
+
    `(readable-typo-theme-echo-area ((t (:family ,variable-pitch :weight ,default-weight))))
 
 ;;;;; Interface
@@ -169,6 +176,13 @@
    `(header-line ((t (:family ,variable-pitch :height ,small-height))))
    `(line-number ((t (:family ,fixed-pitch))))
    `(whitespace-space ((t (:family ,fixed-pitch))))
+   `(help-key-binding ((t (:inherit fixed-pitch))))
+
+;;;;; font-lock
+   '(font-lock-comment-face ((t (:inherit italic))))
+   '(font-lock-type-face ((t (:inherit bold))))
+   '(font-lock-builtin-face ((t (:inherit bold))))
+   '(font-lock-keyword-face ((t (:inherit bold))))
 
 ;;;;; corfu
    `(corfu-default ((t (:family ,fixed-pitch))))
