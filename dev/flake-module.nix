@@ -53,7 +53,7 @@
             help = "generate new screenshots";
             category = "emacs";
             command = ''
-              exec nix run $PRJ_ROOT/dev#updateScreenshots
+              exec nix run $PRJ_ROOT#updateScreenshots
             '';
           }
         ];
@@ -88,7 +88,7 @@
           text = ''
             EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
             lndir -silent ${config.packages.emacs-config} "$EMACS_DIR"
-            emacs -fs --init-directory "$EMACS_DIR" --load ${./screenshots.el} --eval '(kill-emacs)'
+            emacs --fullscreen --init-directory "$EMACS_DIR" --load ${./screenshots.el} --eval '(kill-emacs)'
           '';
         };
       };

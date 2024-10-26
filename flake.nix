@@ -45,6 +45,7 @@
       partitionedAttrs = {
         checks = "dev";
         devShells = "dev";
+        packages = "dev";
       };
 
       partitions.dev = {
