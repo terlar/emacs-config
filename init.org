@@ -404,7 +404,7 @@ Hide M-x commands which does not work in the current buffer.
 (defvar init-line-spacing 0.25
   "Spacing between lines.")
 
-(defvar init-default-font-height 120
+(defvar init-default-font-height 105
   "Default font height.")
 #+end_src
 
@@ -1323,7 +1323,7 @@ Wrap at words.
 Save clipboard contents into kill-ring before replacing them.
 #+begin_src emacs-lisp :tangle yes
 (setq save-interprogram-paste-before-kill t)
-(setq kill-ring-max 60)
+(setq kill-ring-max 30)
 #+end_src
 
 ** Parenthesis
@@ -4005,12 +4005,29 @@ Visual undo history navigation.
   (cl-pushnew
    '(cli . "You are a large language model and a correct command line helper. Provide commands and only commands as output without any additional text, prompt or note.")
    gptel-directives
+   :test #'equal)
+
+  (cl-pushnew
+   '(regex . "You are a large language model and regular expression expert. Respond with pure regular expressions without involvement of other programming languages.")
+   gptel-directives
    :test #'equal))
 
 (use-package gptel-quick
   :ensure t
   :bind
   (:map help-map ("," . gptel-quick)))
+#+end_src
+
+*** elysium
+#+begin_src emacs-lisp :tangle yes
+(use-package elysium
+  :ensure t
+  :bind
+  (:map leader-map
+        ("q" . elysium-query))
+  :config
+  (with-eval-after-load 'popper
+    (cl-pushnew "\\*elysium\\*" popper-reference-buffers :test #'equal)))
 #+end_src
 
 * Testing
