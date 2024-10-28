@@ -89,11 +89,14 @@
                   );
 
               emacs-config = prev.callPackage inputs.self {
-                trivialBuild = final.emacsPackages.trivialBuild.override {
-                  emacs = final.emacs-env.overrideScope (
-                    _: tprev: { inherit (tprev.emacs) meta withNativeCompilation; }
-                  );
+                buildElispPackage = (inputs.twist.lib.buildElispPackage final).override {
+                  emacs = emacsPackage;
                 };
+
+                elispInputs = prev.lib.pipe final.emacs-env.elispPackages [
+                  builtins.attrValues
+                  (builtins.filter prev.lib.isDerivation)
+                ];
               };
             }
           )
