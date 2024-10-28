@@ -3503,6 +3503,7 @@ Pretty check-boxes
 (use-package racket-mode
   :ensure t
   :mode "\\.rkt[dl]?\\'"
+  :bind
   (:map racket-mode-map
         ("M-g k" . racket-doc)
         ("C-. t" . racket-test))
