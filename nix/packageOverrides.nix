@@ -9,16 +9,6 @@
   unzip,
 }:
 _final: prev: {
-  bbdb = prev.bbdb.overrideAttrs (old: {
-    preBuild = ''
-      substituteInPlace bbdb-site.el.in \
-          --replace "@pkgdatadir@" $out/share/emacs/site-lisp/tex/ \
-          --replace "@PACKAGE_VERSION@" ${old.version};
-
-      mv bbdb-site.el{.in,}
-    '';
-  });
-
   jinx = prev.jinx.overrideAttrs (
     old:
     let

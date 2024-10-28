@@ -1,7 +1,8 @@
 {
   lib,
   stdenv,
-  trivialBuild,
+  buildElispPackage,
+  elispInputs,
   emacs-all-the-icons-fonts,
   emacsPackages,
   iosevka-bin,
@@ -11,41 +12,36 @@
 let
   tree-sitter = emacsPackages.treesit-grammars.with-all-grammars;
 
-  init = trivialBuild {
-    pname = "config-init";
-    version = "1";
+  init = buildElispPackage {
+    ename = "config-init";
 
     src = lib.sourceByRegex ./. [ "init.org" ];
+    files = [ "init.org" ];
+    lispFiles = [
+      "early-init.el"
+      "init.el"
+    ];
+
+    inherit elispInputs;
+    nativeCompileAhead = true;
+    wantExtraOutputs = false;
+    errorOnWarn = true;
+    doTangle = false;
 
     preBuild = ''
+      export HOME="$NIX_BUILD_TOP/.home"
+      mkdir -p "$HOME/.config/emacs"
+
       emacs --batch --quick \
         --load org \
         *.org \
         --funcall org-babel-tangle
+      rm *.org
+
+      ln -s ${tree-sitter}/lib "$HOME/.config/emacs/tree-sitter"
     '';
 
-    buildPhase = ''
-      runHook preBuild
-
-      export HOME="$(mktemp -d)"
-
-      mkdir -p "$HOME/.emacs.d"
-      ln -s ${tree-sitter}/lib "$HOME/.emacs.d/tree-sitter"
-
-      emacs --batch --quick \
-        --eval '(setq byte-compile-error-on-warn t)' \
-        --funcall batch-byte-compile \
-        *.el
-
-      runHook postBuild
-    '';
-
-    # Temporary hack because the Emacs native load path is not respected.
-    fixupPhase = ''
-      if [ -d "$HOME/.emacs.d/eln-cache" ]; then
-        mv $HOME/.emacs.d/eln-cache/* $out/share/emacs/native-lisp
-      fi
-    '';
+    meta = { };
   };
 in
 stdenv.mkDerivation {
