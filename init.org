@@ -1661,8 +1661,8 @@ Descriptive buffer names or project relative paths for buffer names.
   (shell-mode-hook . epithet-rename-buffer)
   :config
   (defun epithet-relative-project-name ()
-    (when-let ((project (project-current))
-               (buffer-file-name (buffer-file-name)))
+    (when-let* ((project (project-current))
+                (buffer-file-name (buffer-file-name)))
       (let* ((project-root (expand-file-name (project-root project)))
              (prefix (file-name-directory (directory-file-name project-root)))
              (buffer (expand-file-name buffer-file-name)))
@@ -2926,7 +2926,7 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   (defun clojure-repl ()
     "Open a Clojure REPL."
     (interactive)
-    (if-let ((repl-buffer (cider-current-repl)))
+    (if-let* ((repl-buffer (cider-current-repl)))
         (pop-to-buffer repl-buffer)
       (cider-jack-in-clj nil)))
 
