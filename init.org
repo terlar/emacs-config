@@ -531,8 +531,8 @@ Add window dividers, mainly to add a border below the mode line.
 #+begin_src emacs-lisp :tangle yes
 (use-package frame
   :hook
-  (after-make-frame-functions . window-divider-mode)
-  (server-after-make-frame-hook . window-divider-mode)
+  ((after-make-frame-functions
+    server-after-make-frame-hook) . window-divider-mode)
   :init
   (setq window-divider-default-places t)
   (setq window-divider-default-bottom-width 1)
@@ -852,9 +852,9 @@ Completion preview inline, with quick completion key.
 #+begin_src emacs-lisp :tangle yes
 (use-package completion-preview
   :hook
-  (prog-mode-hook . completion-preview-mode)
-  (text-mode-hook . completion-preview-mode)
-  (comint-mode-hook . completion-preview-mode)
+  ((comint-mode-hook
+    prog-mode-hook
+    text-mode-hook) . completion-preview-mode)
   :bind
   (:map completion-preview-active-mode-map
         ("C-e" . completion-preview-insert))
@@ -1236,8 +1236,8 @@ Disabled by default. When enabled, only highlight in the selected window.
 (use-package adaptive-wrap
   :ensure t
   :hook
-  (prog-mode-hook . adaptive-wrap-prefix-mode)
-  (text-mode-hook . adaptive-wrap-prefix-mode))
+  ((prog-mode-hook
+    text-mode-hook) . adaptive-wrap-prefix-mode))
 #+end_src
 
 **** Visual Fill Column
@@ -1253,8 +1253,7 @@ Soft wrap lines according to =fill-column= in =visual-line-mode=.
   :commands
   (virtual-auto-fill-mode)
   :hook
-  (markdown-mode-hook . virtual-auto-fill-mode)
-  (org-mode-hook . virtual-auto-fill-mode)
+  (text-mode-hook . virtual-auto-fill-mode)
   :init
   (keymap-set toggle-map "SPC" '("Virtual auto fill" . virtual-auto-fill-mode)))
 #+end_src
@@ -1276,8 +1275,8 @@ Display page breaks as a horizontal line.
 (use-package valign
   :ensure t
   :hook
-  (markdown-mode-hook . valign-mode)
-  (org-mode-hook . valign-mode)
+  ((markdown-mode-hook
+    org-mode-hook) . valign-mode)
   :init
   (setq valign-fancy-bar t))
 #+end_src
@@ -1342,8 +1341,8 @@ Automatic parenthesis pairing and highlighting.
   :commands
   (tempel-expand)
   :hook
-  (prog-mode-hook . tempel-setup-capf)
-  (text-mode-hook . tempel-setup-capf)
+  ((prog-mode-hook
+    text-mode-hook) . tempel-setup-capf)
   :bind
   (("M-+" . tempel-complete)
    ("M-*" . tempel-insert))
@@ -1622,8 +1621,9 @@ More procedural scrolling.
 
 (use-package pixel-scroll
   :hook
-  (markdown-mode-hook . pixel-scroll-precision-mode)
-  (org-mode-hook . pixel-scroll-precision-mode))
+  ((image-mode-hook
+    markdown-mode-hook
+    org-mode-hook) . pixel-scroll-precision-mode))
 #+end_src
 
 ** Packages
@@ -1652,13 +1652,13 @@ Descriptive buffer names or project relative paths for buffer names.
   :functions
   (epithet-relative-project-name)
   :hook
-  (text-mode-hook . epithet-rename-buffer)
-  (prog-mode-hook . epithet-rename-buffer)
-  (Info-selection-hook . epithet-rename-buffer)
-  (eww-after-render-hook . epithet-rename-buffer)
-  (help-mode-hook . epithet-rename-buffer)
-  (occur-mode-hook . epithet-rename-buffer)
-  (shell-mode-hook . epithet-rename-buffer)
+  ((eww-after-render-hook
+    help-mode-hook
+    Info-selection-hook
+    occur-mode-hook
+    prog-mode-hook
+    shell-mode-hook
+    text-mode-hook) . epithet-rename-buffer)
   :config
   (defun epithet-relative-project-name ()
     (when-let* ((project (project-current))
@@ -1686,11 +1686,8 @@ Descriptive buffer names or project relative paths for buffer names.
   :hook
   ((eww-mode-hook
     Info-mode-hook
-    markdown-mode-hook
     nov-mode-hook
-    org-mode-hook
-    outline-mode-hook
-    rst-mode-hook) . readable-mode))
+    text-mode-hook) . readable-mode))
 #+end_src
 
 * Navigation
@@ -2515,6 +2512,9 @@ Delete trailing white-space before save, but *only* for edited lines.
   :ensure t
   :commands
   (ws-butler-mode)
+  :hook
+  ((prog-mode-hook
+    text-mode-hook) . ws-butler-mode)
   :init
   (setq ws-butler-convert-leading-tabs-or-spaces t))
 #+end_src
@@ -3819,8 +3819,8 @@ it really useful.
 (use-package jinx
   :ensure t
   :hook
-  (prog-mode-hook . jinx-mode)
-  (text-mode-hook . jinx-mode)
+  ((prog-mode-hook
+    text-mode-hook) . jinx-mode)
   :bind
   (([remap ispell-word] . jinx-correct)
    (:repeat-map jinx-repeat-map
