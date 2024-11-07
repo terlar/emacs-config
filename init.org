@@ -725,7 +725,7 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 ** Global
 #+begin_src emacs-lisp :tangle yes
 ;; Editing
-(keymap-global-set "<Tools>" #'just-one-space)
+(keymap-global-set "<XF86Tools>" #'just-one-space)
 (keymap-global-set "M-p" #'completion-at-point)
 (keymap-global-set "C-M-y" #'duplicate-dwim)
 (keymap-global-set "C-x C-/" #'revert-buffer)
