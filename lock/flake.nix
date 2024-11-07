@@ -122,7 +122,7 @@
     };
     d2-mode = {
       flake = false;
-      owner = "terlar";
+      owner = "andorsk";
       repo = "d2-mode";
       type = "github";
     };
@@ -922,7 +922,7 @@
     };
     ws-butler = {
       flake = false;
-      owner = "hlissner";
+      owner = "lewang";
       repo = "ws-butler";
       type = "github";
     };

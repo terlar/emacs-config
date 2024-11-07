@@ -323,15 +323,15 @@
     "d2-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1727987814,
-        "narHash": "sha256-v2Yj2hQGQiCqvILjEtqiYPiJadFT4UMURqHH8GzqRwY=",
-        "owner": "terlar",
+        "lastModified": 1730946983,
+        "narHash": "sha256-BiHNQQATbZ1xvqhUZ+9s6k8xztYZ5yXbwCFuxQexPcM=",
+        "owner": "andorsk",
         "repo": "d2-mode",
-        "rev": "51d023194363e0dc299c1b21a32b035dc1d9c5be",
+        "rev": "872a0d79223d2fe0ecad02fd4474831ec623672f",
         "type": "github"
       },
       "original": {
-        "owner": "terlar",
+        "owner": "andorsk",
         "repo": "d2-mode",
         "type": "github"
       }
@@ -2626,15 +2626,15 @@
     "ws-butler": {
       "flake": false,
       "locked": {
-        "lastModified": 1634511126,
-        "narHash": "sha256-c0y0ZPtxxICPk+eaNbbQf6t+FRCliNY54CCz9QHQ8ZI=",
-        "owner": "hlissner",
+        "lastModified": 1730956751,
+        "narHash": "sha256-0MAZavwt+rHEaUG1ZB5QkBH67PE+q9uZ/Lxx0XUcx50=",
+        "owner": "lewang",
         "repo": "ws-butler",
-        "rev": "572a10c11b6cb88293de48acbb59a059d36f9ba5",
+        "rev": "d3927f6131f215e9cd3e1f747be5a91e5be8ca9a",
         "type": "github"
       },
       "original": {
-        "owner": "hlissner",
+        "owner": "lewang",
         "repo": "ws-butler",
         "type": "github"
       }

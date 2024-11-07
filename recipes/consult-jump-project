@@ -1,2 +1,0 @@
-(consult-jump-project :fetcher github
-		      :repo "jdtsmith/consult-jump-project")

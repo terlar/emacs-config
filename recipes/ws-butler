@@ -1,2 +1,0 @@
-(ws-butler :fetcher github
-           :repo "hlissner/ws-butler")
