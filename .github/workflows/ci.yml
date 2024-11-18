@@ -9,45 +9,89 @@ on:
     branches:
       - main
 
+env:
+  # renovate: datasource=github-releases depName=nixos/nix
+  NIX_VERSION: 2.18.2
+
 jobs:
-  check:
+  prepare:
+    name: Prepare
     runs-on: ubuntu-latest
+    outputs:
+      checks: ${{ steps.checks.outputs.checks }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-      - uses: DeterminateSystems/nix-installer-action@da36cb69b1c3247ad7a1f931ebfd954a1105ef14 # v14
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@da36cb69b1c3247ad7a1f931ebfd954a1105ef14 # v14
         with:
-          nix-package-url: https://releases.nixos.org/nix/nix-2.18.2/nix-2.18.2-x86_64-linux.tar.xz
+          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
           extra-conf: |
             http-connections = 50
             max-jobs = auto
           diagnostic-endpoint: ''
 
-      - uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
+      - name: Find checks
+        id: checks
+        run: |
+          nix eval --json --apply builtins.attrNames .#checks.x86_64-linux | sed 's|^|checks=|' >>$GITHUB_OUTPUT
+          echo $GITHUB_OUTPUT
+
+  check:
+    name: Check
+    needs:
+      - prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        check: ${{ fromJSON(needs.prepare.outputs.checks) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@da36cb69b1c3247ad7a1f931ebfd954a1105ef14 # v14
+        with:
+          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
+          extra-conf: |
+            http-connections = 50
+            max-jobs = auto
+          diagnostic-endpoint: ''
+
+      - name: Nix cache (cachix)
+        uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
         with:
           useDaemon: true
           name: terlar
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           extraPullNames: nix-community
 
-      - name: Check
-        run: nix flake check
+      - name: Run check
+        run: nix build .#checks.x86_64-linux.${{ matrix.check }}
 
   build:
+    name: Build
     strategy:
       matrix:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-      - uses: DeterminateSystems/nix-installer-action@da36cb69b1c3247ad7a1f931ebfd954a1105ef14 # v14
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@da36cb69b1c3247ad7a1f931ebfd954a1105ef14 # v14
         with:
-          nix-package-url: https://releases.nixos.org/nix/nix-2.18.2/nix-2.18.2-x86_64-linux.tar.xz
+          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
           extra-conf: |
             http-connections = 50
             max-jobs = auto
           diagnostic-endpoint: ''
 
-      - uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
+      - name: Nix cache (cachix)
+        uses: cachix/cachix-action@ad2ddac53f961de1989924296a1f236fcfbaa4fc # v15
         with:
           useDaemon: true
           name: terlar
