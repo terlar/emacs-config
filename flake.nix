@@ -13,7 +13,10 @@
 
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs";
+      };
     };
 
     twist.url = "github:emacs-twist/twist.nix";
