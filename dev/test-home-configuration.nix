@@ -14,8 +14,6 @@ in
         modules = [
           rootConfig.flake.homeManagerModules.emacsConfig
           {
-            nixpkgs.overlays = [ rootConfig.flake.overlays.default ];
-
             home = {
               stateVersion = "22.05";
               username = "test";
@@ -24,6 +22,8 @@ in
 
             custom.emacsConfig = {
               enable = true;
+              package = config.packages.emacs-env;
+              configPackage = config.packages.emacs-config;
               erc = pkgs.writeText "ercrc.el" ''
                 ;; Testing testing
               '';

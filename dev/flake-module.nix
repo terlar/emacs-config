@@ -60,6 +60,22 @@
       };
 
       packages = {
+        default = pkgs.writeShellApplication {
+          name = "test-emacs-config";
+          runtimeInputs = [
+            config.packages.emacs-env
+            pkgs.xorg.lndir
+          ];
+          text = ''
+            XDG_DATA_DIRS="$XDG_DATA_DIRS:${
+              builtins.concatStringsSep ":" (map (x: "${x}/share") config.packages.emacs-config.buildInputs)
+            }"
+            EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
+            lndir -silent ${config.packages.emacs-config} "$EMACS_DIR"
+            emacs --init-directory "$EMACS_DIR" "$@"
+          '';
+        };
+
         reloadEmacsConfig = pkgs.writeShellApplication {
           name = "reload-emacs-config";
           text = ''
@@ -91,6 +107,11 @@
             emacs --fullscreen --init-directory "$EMACS_DIR" --load ${./screenshots.el} --eval '(kill-emacs)'
           '';
         };
+      };
+
+      checks = {
+        build-config = config.packages.emacs-config;
+        build-env = config.packages.emacs-env;
       };
     };
 }

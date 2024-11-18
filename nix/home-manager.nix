@@ -19,15 +19,11 @@ in
 
     package = mkOption {
       type = types.package;
-      default = pkgs.emacs-env;
-      defaultText = literalExample "pkgs.emacs-env";
       description = "The default Emacs derivation to use.";
     };
 
     configPackage = mkOption {
       type = types.package;
-      default = pkgs.emacs-config;
-      defaultText = literalExample "pkgs.emacs-config";
       description = "The default Emacs config derivation to use.";
     };
 

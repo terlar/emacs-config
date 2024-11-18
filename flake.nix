@@ -53,60 +53,11 @@
 
       partitions.dev = {
         extraInputsFlake = ./dev;
-        module = {
-          imports = [ ./dev/flake-module.nix ];
-        };
+        module.imports = [ ./dev/flake-module.nix ];
       };
 
       flake = {
-        overlays.default = inputs.nixpkgs.lib.composeManyExtensions [
-          inputs.emacs-overlay.overlays.emacs
-          inputs.org-babel.overlays.default
-          inputs.twist.overlays.default
-
-          (
-            final: prev:
-            let
-              emacsPackage = final.emacs-git;
-            in
-            {
-              emacs-env =
-                (final.emacsTwist {
-                  inherit emacsPackage;
-
-                  initFiles = [ (final.tangleOrgBabelFile "init.el" ./init.org { }) ];
-
-                  lockDir = ./lock;
-                  registries = import ./nix/registries.nix {
-                    inherit inputs;
-                    emacsSrc = emacsPackage.src;
-                  };
-                  inputOverrides = import ./nix/inputOverrides.nix { inherit (inputs.nixpkgs) lib; };
-                }).overrideScope
-                  (
-                    _: tprev: {
-                      elispPackages = tprev.elispPackages.overrideScope (
-                        prev.callPackage ./nix/packageOverrides.nix { inherit (tprev) emacs; }
-                      );
-                    }
-                  );
-
-              emacs-config = prev.callPackage inputs.self {
-                buildElispPackage = (inputs.twist.lib.buildElispPackage final).override {
-                  emacs = emacsPackage;
-                };
-
-                elispInputs = prev.lib.pipe final.emacs-env.elispPackages [
-                  builtins.attrValues
-                  (builtins.filter prev.lib.isDerivation)
-                ];
-              };
-            }
-          )
-        ];
-        homeManagerModules = {
-          emacsConfig = import ./nix/home-manager.nix;
-        };
+        homeManagerModules.emacsConfig = import ./nix/home-manager.nix;
       };
 
       perSystem =
@@ -117,34 +68,54 @@
           ...
         }:
         {
-          _module.args.pkgs = inputs'.nixpkgs.legacyPackages.extend inputs.self.overlays.default;
+          packages =
+            let
+              inherit (inputs.nixpkgs) lib;
 
-          packages = {
-            inherit (pkgs) emacs-config emacs-env;
-
-            default = pkgs.writeShellApplication {
-              name = "test-emacs-config";
-              runtimeInputs = [
-                pkgs.emacs-env
-                pkgs.xorg.lndir
+              initEl = lib.pipe ./init.org [
+                builtins.readFile
+                (inputs.org-babel.lib.tangleOrgBabel { })
+                (builtins.toFile "init.el")
               ];
-              text = ''
-                XDG_DATA_DIRS="$XDG_DATA_DIRS:${
-                  builtins.concatStringsSep ":" (map (x: "${x}/share") pkgs.emacs-config.buildInputs)
-                }"
-                EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
-                lndir -silent ${pkgs.emacs-config} "$EMACS_DIR"
-                emacs --init-directory "$EMACS_DIR" "$@"
-              '';
+
+              packageOverrides = _: prev: {
+                elispPackages = prev.elispPackages.overrideScope (
+                  pkgs.callPackage ./nix/packageOverrides.nix { inherit (prev) emacs; }
+                );
+              };
+            in
+            {
+              emacs = inputs'.emacs-overlay.packages.emacs-git;
+              emacs-env =
+                (inputs.twist.lib.makeEnv {
+                  inherit pkgs;
+                  emacsPackage = config.packages.emacs;
+
+                  initFiles = [ initEl ];
+                  lockDir = ./lock;
+
+                  registries = import ./nix/registries.nix {
+                    inherit inputs;
+                    emacsSrc = config.packages.emacs.src;
+                  };
+
+                  inputOverrides = import ./nix/inputOverrides.nix { inherit lib; };
+                }).overrideScope
+                  packageOverrides;
+
+              emacs-config = pkgs.callPackage inputs.self {
+                buildElispPackage = (inputs.twist.lib.buildElispPackage pkgs).override {
+                  inherit (config.packages) emacs;
+                };
+
+                elispInputs = lib.pipe config.packages.emacs-env.elispPackages [
+                  builtins.attrValues
+                  (builtins.filter lib.isDerivation)
+                ];
+              };
             };
-          };
 
-          checks = {
-            build-config = config.packages.emacs-config;
-            build-env = config.packages.emacs-env;
-          };
-
-          apps = pkgs.emacs-env.makeApps { lockDirName = "lock"; };
+          apps = config.packages.emacs-env.makeApps { lockDirName = "lock"; };
         };
     };
 }
