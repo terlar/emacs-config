@@ -112,6 +112,24 @@
                   builtins.attrValues
                   (builtins.filter lib.isDerivation)
                 ];
+
+                treesit-grammars = pkgs.emacsPackages.treesit-grammars.with-grammars (ps: [
+                  ps.tree-sitter-dockerfile
+                  ps.tree-sitter-elixir
+                  ps.tree-sitter-go
+                  ps.tree-sitter-gomod
+                  ps.tree-sitter-heex
+                  ps.tree-sitter-java
+                  ps.tree-sitter-javascript
+                  ps.tree-sitter-json
+                  ps.tree-sitter-lua
+                  ps.tree-sitter-nix
+                  ps.tree-sitter-python
+                  ps.tree-sitter-ruby
+                  ps.tree-sitter-rust
+                  ps.tree-sitter-typescript
+                  ps.tree-sitter-yaml
+                ]);
               };
             };
 
