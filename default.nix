@@ -4,14 +4,12 @@
   buildElispPackage,
   elispInputs,
   emacs-all-the-icons-fonts,
-  emacsPackages,
+  treesit-grammars,
   iosevka-bin,
   ripgrep,
   xorg,
 }:
 let
-  tree-sitter = emacsPackages.treesit-grammars.with-all-grammars;
-
   init = buildElispPackage {
     ename = "config-init";
 
@@ -38,7 +36,7 @@ let
         --funcall org-babel-tangle
       rm *.org
 
-      ln -s ${tree-sitter}/lib "$HOME/.config/emacs/tree-sitter"
+      ln -s ${treesit-grammars}/lib "$HOME/.config/emacs/tree-sitter"
     '';
 
     meta = { };
@@ -73,6 +71,6 @@ stdenv.mkDerivation {
 
     install -D -t $out $src/templates
 
-    ln -s ${tree-sitter}/lib $out/tree-sitter
+    ln -s ${treesit-grammars}/lib $out/tree-sitter
   '';
 }
