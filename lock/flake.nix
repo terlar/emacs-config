@@ -556,6 +556,12 @@
       repo = "markdown-toc";
       type = "github";
     };
+    mathjax = {
+      flake = false;
+      owner = "astoff";
+      repo = "mathjax.el";
+      type = "github";
+    };
     miniedit = {
       flake = false;
       owner = "emacsorphanage";
@@ -715,12 +721,6 @@
       flake = false;
       owner = "auto-complete";
       repo = "popup-el";
-      type = "github";
-    };
-    protobuf-mode = {
-      flake = false;
-      owner = "protocolbuffers";
-      repo = "protobuf";
       type = "github";
     };
     puni = {

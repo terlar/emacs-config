@@ -1488,6 +1488,22 @@
         "type": "github"
       }
     },
+    "mathjax": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731487181,
+        "narHash": "sha256-McyqJadcSzUd98moe2Y4tXcMsSjx4YAos2MtyEVd58E=",
+        "owner": "astoff",
+        "repo": "mathjax.el",
+        "rev": "db669451bbee7d2ea9872c28661c4679391b9644",
+        "type": "github"
+      },
+      "original": {
+        "owner": "astoff",
+        "repo": "mathjax.el",
+        "type": "github"
+      }
+    },
     "miniedit": {
       "flake": false,
       "locked": {
@@ -1920,22 +1936,6 @@
         "type": "github"
       }
     },
-    "protobuf-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1732221301,
-        "narHash": "sha256-t/Bd2vNI0ISuI9XPzqKNxzGrt3uElgFIi2pwzO2LMng=",
-        "owner": "protocolbuffers",
-        "repo": "protobuf",
-        "rev": "f497c186ce93f70d7fe6b7aee95256e45b022182",
-        "type": "github"
-      },
-      "original": {
-        "owner": "protocolbuffers",
-        "repo": "protobuf",
-        "type": "github"
-      }
-    },
     "puni": {
       "flake": false,
       "locked": {
@@ -2159,6 +2159,7 @@
         "marginalia": "marginalia",
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
+        "mathjax": "mathjax",
         "miniedit": "miniedit",
         "minitest": "minitest",
         "nix-mode": "nix-mode",
@@ -2186,7 +2187,6 @@
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
-        "protobuf-mode": "protobuf-mode",
         "puni": "puni",
         "python-test": "python-test",
         "racket-mode": "racket-mode",
