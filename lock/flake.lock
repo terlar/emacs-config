@@ -1488,22 +1488,6 @@
         "type": "github"
       }
     },
-    "mathjax": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1731487181,
-        "narHash": "sha256-McyqJadcSzUd98moe2Y4tXcMsSjx4YAos2MtyEVd58E=",
-        "owner": "astoff",
-        "repo": "mathjax.el",
-        "rev": "db669451bbee7d2ea9872c28661c4679391b9644",
-        "type": "github"
-      },
-      "original": {
-        "owner": "astoff",
-        "repo": "mathjax.el",
-        "type": "github"
-      }
-    },
     "miniedit": {
       "flake": false,
       "locked": {
@@ -2159,7 +2143,6 @@
         "marginalia": "marginalia",
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
-        "mathjax": "mathjax",
         "miniedit": "miniedit",
         "minitest": "minitest",
         "nix-mode": "nix-mode",

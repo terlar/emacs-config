@@ -556,12 +556,6 @@
       repo = "markdown-toc";
       type = "github";
     };
-    mathjax = {
-      flake = false;
-      owner = "astoff";
-      repo = "mathjax.el";
-      type = "github";
-    };
     miniedit = {
       flake = false;
       owner = "emacsorphanage";
