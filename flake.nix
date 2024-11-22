@@ -58,6 +58,7 @@
 
       flake = {
         homeManagerModules.emacsConfig = import ./nix/home-manager.nix;
+        lib = import ./nix/lib.nix { inherit (inputs.nixpkgs) lib; };
       };
 
       perSystem =

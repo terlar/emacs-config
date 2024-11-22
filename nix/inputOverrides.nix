@@ -1,5 +1,12 @@
 { lib, ... }:
 {
+  devdocs = _: prev: {
+    packageRequires = builtins.removeAttrs prev.packageRequires [
+      # Unused integrations.
+      "mathjax"
+    ];
+  };
+
   ghelp = _: prev: {
     files = builtins.removeAttrs prev.files [
       # Unused integrations.

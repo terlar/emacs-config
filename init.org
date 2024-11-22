@@ -3455,13 +3455,6 @@ Pretty check-boxes
   (setq plantuml-default-exec-mode 'executable))
 #+end_src
 
-** protobuf
-#+begin_src emacs-lisp :tangle yes
-(use-package protobuf-mode
-  :ensure t
-  :mode "\\.proto\\'")
-#+end_src
-
 ** python
 #+begin_src emacs-lisp :tangle yes
 (use-package python

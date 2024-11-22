@@ -9,6 +9,12 @@
   unzip,
 }:
 _final: prev: {
+  devdocs = prev.devdocs.overrideAttrs (_: {
+    preBuild = ''
+      substituteInPlace devdocs.el --replace-fail "(require 'mathjax)" "(require 'mathjax nil t)"
+    '';
+  });
+
   jinx = prev.jinx.overrideAttrs (
     old:
     let
