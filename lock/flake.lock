@@ -880,22 +880,6 @@
         "type": "github"
       }
     },
-    "gorepl-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1577096364,
-        "narHash": "sha256-jTYyjhukwfZXPTSMk9iY3dpV1LlpU1uygBdV6kvBsXk=",
-        "owner": "manute",
-        "repo": "gorepl-mode",
-        "rev": "6a73bf352e8d893f89cad36c958c4db2b5e35e07",
-        "type": "github"
-      },
-      "original": {
-        "owner": "manute",
-        "repo": "gorepl-mode",
-        "type": "github"
-      }
-    },
     "gotest": {
       "flake": false,
       "locked": {
@@ -1085,22 +1069,6 @@
       "original": {
         "owner": "tarsius",
         "repo": "hl-todo",
-        "type": "github"
-      }
-    },
-    "hydra": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1662811567,
-        "narHash": "sha256-tZmYPUN6bgn+6zWbKmqhpCoD4kcrRCn9i6SC1e8Ed9k=",
-        "owner": "abo-abo",
-        "repo": "hydra",
-        "rev": "317e1de33086637579a7aeb60f77ed0405bf359b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "abo-abo",
-        "repo": "hydra",
         "type": "github"
       }
     },
@@ -1373,22 +1341,6 @@
       "original": {
         "owner": "aki2o",
         "repo": "log4e",
-        "type": "github"
-      }
-    },
-    "lv": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1662811567,
-        "narHash": "sha256-tZmYPUN6bgn+6zWbKmqhpCoD4kcrRCn9i6SC1e8Ed9k=",
-        "owner": "abo-abo",
-        "repo": "hydra",
-        "rev": "317e1de33086637579a7aeb60f77ed0405bf359b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "abo-abo",
-        "repo": "hydra",
         "type": "github"
       }
     },
@@ -2105,7 +2057,6 @@
         "ghelp": "ghelp",
         "git-modes": "git-modes",
         "gntp": "gntp",
-        "gorepl-mode": "gorepl-mode",
         "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gptel": "gptel",
@@ -2118,7 +2069,6 @@
         "helpful": "helpful",
         "hide-mode-line": "hide-mode-line",
         "hl-todo": "hl-todo",
-        "hydra": "hydra",
         "idle-highlight-mode": "idle-highlight-mode",
         "imenu-anywhere": "imenu-anywhere",
         "imenu-extra": "imenu-extra",
@@ -2136,7 +2086,6 @@
         "ligature": "ligature",
         "link-hint": "link-hint",
         "log4e": "log4e",
-        "lv": "lv",
         "magit": "magit",
         "magit-popup": "magit-popup",
         "magit-section": "magit-section",

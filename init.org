@@ -291,6 +291,20 @@ Call ORIG-FN with ARGS and suppress the output.  Usage:
   (quiet! (apply orig-fn args)))
 #+end_src
 
+Easily define REPL functions.
+#+begin_src emacs-lisp :tangle yes
+(defmacro define-repl (fn-name buffer-name command &rest args)
+  "Define a REPL function named FN-NAME running COMMAND inside BUFFER-NAME."
+  (let ((repl-buffer (concat "*" buffer-name "*")))
+    `(defun ,fn-name ()
+       ,(format "Run an inferior instance of %s inside Emacs." command)
+       (interactive)
+       (let ((buffer (get-buffer-create ,repl-buffer)))
+	  (unless (comint-check-proc ,repl-buffer)
+	    (apply 'make-comint-in-buffer ,buffer-name buffer ,command nil ,args))
+	  (pop-to-buffer buffer)))))
+#+end_src
+
 *** Display
 #+begin_src emacs-lisp :tangle yes
 (defun display-ctrl-M-as-newline ()
@@ -3108,6 +3122,8 @@ Elm and elm-mode seems unmaintained at the moment, so I disable this.
   :hook
   (go-ts-mode-hook . eglot-ensure)
   (go-ts-mode-hook . go-ts-mode-set-devdocs)
+  :preface
+  (define-repl go-repl "Go REPL" "gore")
   :config
   (defun go-ts-mode-set-devdocs ()
     (setq-local devdocs-current-docs '("go")))
@@ -3116,6 +3132,9 @@ Elm and elm-mode seems unmaintained at the moment, so I disable this.
 
   (with-eval-after-load 'apheleia
     (cl-pushnew '(go-ts-mode . goimports) apheleia-mode-alist :test #'equal))
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(go-ts-mode . go-repl) rtog/mode-repl-alist :test #'equal))
 
   (cl-pushnew '("\\([^/]+\\)\\.go\\'" "\\1_test.go") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\)_test\\.go\\'" "\\1.go") find-sibling-rules :test #'equal))
@@ -3132,17 +3151,6 @@ Elm and elm-mode seems unmaintained at the moment, so I disable this.
         ("C-. t a" . go-test-current-project)
         ("C-. t f" . go-test-current-file)
         ("C-. t t" . go-test-current-test)))
-#+end_src
-
-**** gorepl-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package gorepl-mode
-  :ensure t
-  :hook
-  (go-ts-mode-hook . gorepl-mode)
-  :init
-  (with-eval-after-load 'repl-toggle
-    (cl-pushnew '(go-ts-mode . gorepl-run) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 ** groovy
@@ -3400,7 +3408,7 @@ Pretty check-boxes
   (nix-ts-mode-hook . nix-ts-mode-set-devdocs)
   :init
   (with-eval-after-load 'apheleia
-    (cl-pushnew '(nix-mode . nix) apheleia-mode-alist :test #'equal))
+    (cl-pushnew '(nix-ts-mode . nix) apheleia-mode-alist :test #'equal))
   (with-eval-after-load 'grugru
     (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
   (with-eval-after-load 'repl-toggle
@@ -4284,7 +4292,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - fish-mode
 - flymake-racket
 - focus
-- gorepl-mode
 - gotest
 - gradle-mode
 - groovy-mode
