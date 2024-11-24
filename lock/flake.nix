@@ -329,12 +329,6 @@
       repo = "gntp.el";
       type = "github";
     };
-    gorepl-mode = {
-      flake = false;
-      owner = "manute";
-      repo = "gorepl-mode";
-      type = "github";
-    };
     gotest = {
       flake = false;
       owner = "nlamirault";
@@ -405,12 +399,6 @@
       flake = false;
       owner = "tarsius";
       repo = "hl-todo";
-      type = "github";
-    };
-    hydra = {
-      flake = false;
-      owner = "abo-abo";
-      repo = "hydra";
       type = "github";
     };
     idle-highlight-mode = {
@@ -512,12 +500,6 @@
       flake = false;
       owner = "aki2o";
       repo = "log4e";
-      type = "github";
-    };
-    lv = {
-      flake = false;
-      owner = "abo-abo";
-      repo = "hydra";
       type = "github";
     };
     magit = {
