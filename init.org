@@ -3992,15 +3992,15 @@ Visual undo history navigation.
   (gptel-make-ollama)
   :bind
   (:map leader-map
-        ("g" . gptel-menu)
-        ("G" . gptel))
+        ("g" . gptel)
+        ("G" . gptel-menu))
   :config
   (setq gptel-model "llama3.2:latest")
   (setq gptel-backend (gptel-make-ollama "Ollama"
                                          :host "localhost:11434"
                                          :stream t
                                          :models '("llama3.2:latest"
-                                                   "gemma2:latest")))
+                                                   "gwen2.5-coder:latest")))
   (setq gptel-default-mode 'org-mode)
 
   (cl-pushnew
