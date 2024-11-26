@@ -9,6 +9,13 @@
   unzip,
 }:
 _final: prev: {
+  cape = prev.cape.overrideAttrs (_: {
+    preBuild = ''
+      substituteInPlace cape-char.el \
+        --replace-fail "when-let" "when-let*"
+    '';
+  });
+
   devdocs = prev.devdocs.overrideAttrs (_: {
     preBuild = ''
       substituteInPlace devdocs.el --replace-fail "(require 'mathjax)" "(require 'mathjax nil t)"
