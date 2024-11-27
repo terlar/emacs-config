@@ -3995,12 +3995,12 @@ Visual undo history navigation.
         ("g" . gptel)
         ("G" . gptel-menu))
   :config
-  (setq gptel-model "llama3.2:latest")
+  (setq gptel-model 'llama3.2:latest)
   (setq gptel-backend (gptel-make-ollama "Ollama"
                                          :host "localhost:11434"
                                          :stream t
                                          :models '("llama3.2:latest"
-                                                   "gwen2.5-coder:latest")))
+                                                   "qwen2.5-coder:latest")))
   (setq gptel-default-mode 'org-mode)
 
   (cl-pushnew
