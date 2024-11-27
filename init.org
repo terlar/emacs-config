@@ -3592,7 +3592,7 @@ Pretty check-boxes as well as bullet lists.
   :hook
   (ruby-ts-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
-  (compilation-filter . inf-ruby-auto-enter)
+  (compilation-filter-hook . inf-ruby-auto-enter)
   :bind
   (:map ruby-ts-mode-map ("C-. r" . inf-ruby))
   :init
