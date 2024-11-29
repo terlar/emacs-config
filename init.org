@@ -867,6 +867,7 @@ Completion preview inline, with quick completion key.
 (use-package completion-preview
   :hook
   ((comint-mode-hook
+    eshell-mode-hook
     prog-mode-hook
     text-mode-hook) . completion-preview-mode)
   :bind
@@ -1355,7 +1356,8 @@ Automatic parenthesis pairing and highlighting.
   :commands
   (tempel-expand)
   :hook
-  ((prog-mode-hook
+  ((eshell-mode-hook
+    prog-mode-hook
     text-mode-hook) . tempel-setup-capf)
   :bind
   (("M-+" . tempel-complete)
