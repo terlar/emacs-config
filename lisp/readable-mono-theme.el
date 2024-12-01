@@ -173,6 +173,7 @@
 ;;;;; Search
    '(completions-annotations ((t (:inherit italic))))
    '(completions-common-part ((t (:inherit region))))
+   '(completion-preview-exact ((t (:inherit underline))))
    '(isearch ((t (:inherit region))))
    '(isearch-fail ((t (:inherit error))))
    '(lazy-highlight ((t (:inherit highlight))))
