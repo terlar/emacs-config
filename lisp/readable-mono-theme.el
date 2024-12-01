@@ -37,12 +37,12 @@
   "Minimal and monochromatic light theme customization options."
   :group 'readable-mono-theme)
 
-(defcustom readable-mono-theme-light-background "#fffce9"
+(defcustom readable-mono-theme-light-background "#fbf7ef"
   "Default background color for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
 
-(defcustom readable-mono-theme-light-secondary-background "#f2efdc"
+(defcustom readable-mono-theme-light-secondary-background "#f1ede5"
   "Secondary background color for light theme."
   :type 'string
   :group 'readable-mono-theme-light)
