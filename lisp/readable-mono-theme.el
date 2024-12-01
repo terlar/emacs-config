@@ -72,17 +72,17 @@
   "Minimal and monochromatic dark theme customization options."
   :group 'readable-mono-theme)
 
-(defcustom readable-mono-theme-dark-background "#002732"
+(defcustom readable-mono-theme-dark-background "#000011"
   "Default background color for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-secondary-background "#01323d"
+(defcustom readable-mono-theme-dark-secondary-background "#252525"
   "Secondary background color for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
 
-(defcustom readable-mono-theme-dark-highlight-background "#01323d"
+(defcustom readable-mono-theme-dark-highlight-background "#3b3b3b"
   "Highlight background color for dark theme."
   :type 'string
   :group 'readable-mono-theme-dark)
