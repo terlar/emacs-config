@@ -3595,10 +3595,11 @@ Pretty check-boxes as well as bullet lists.
   (ruby-ts-mode-hook . inf-ruby-minor-mode)
   ;; Auto breakpoint
   (compilation-filter-hook . inf-ruby-auto-enter)
-  :bind
-  (:map ruby-ts-mode-map ("C-. r" . inf-ruby))
   :init
-  (setq inf-ruby-default-implementation "pry"))
+  (setq inf-ruby-default-implementation "pry")
+
+  (with-eval-after-load 'repl-toggle
+    (cl-pushnew '(ruby-ts-mode . inf-ruby) rtog/mode-repl-alist :test #'equal)))
 #+end_src
 
 **** minitest
