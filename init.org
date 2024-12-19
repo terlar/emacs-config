@@ -300,9 +300,9 @@ Easily define REPL functions.
        ,(format "Run an inferior instance of %s inside Emacs." command)
        (interactive)
        (let ((buffer (get-buffer-create ,repl-buffer)))
-	  (unless (comint-check-proc ,repl-buffer)
-	    (apply 'make-comint-in-buffer ,buffer-name buffer ,command nil ,args))
-	  (pop-to-buffer buffer)))))
+         (unless (comint-check-proc ,repl-buffer)
+           (apply 'make-comint-in-buffer ,buffer-name buffer ,command nil ,args))
+         (pop-to-buffer buffer)))))
 #+end_src
 
 *** Display
