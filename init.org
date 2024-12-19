@@ -990,6 +990,11 @@ Completion At Point Extensions.
                 ("r" . cape-rfc1345))
    (:map corfu-map
          ("C-x C-f" . cape-file)))
+  :preface
+  (defun init-cape-comint-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super #'cape-history
+                                       #'pcomplete-completions-at-point))))
   :config
   (defun init-cape-capf ()
     (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
@@ -2193,6 +2198,8 @@ Don't ask about keeping current list of tags tables.
 *** Persistent history in comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
+  :hook
+  (comint-mode-hook . init-cape-comint-capf)
   :functions
   (comint-read-input-ring
    comint-write-input-ring
@@ -3862,6 +3869,7 @@ Avoid color when possible.
   (defvar eshell-visual-commands)
   :hook
   (eshell-mode-hook . abbrev-mode)
+  (eshell-mode-hook . init-cape-comint-capf)
   (eshell-mode-hook . init-eshell-define-keys)
   (eshell-mode-hook . init-eshell-set-visual-commands)
   :bind
@@ -3869,8 +3877,9 @@ Avoid color when possible.
    (:map leader-map ("t" . eshell)))
   :init
   (setq eshell-buffer-maximum-lines 20000)
-  (setq eshell-history-size 1000)
+  (setq eshell-history-size 10000)
   (setq eshell-hist-ignoredups t)
+  (setq eshell-save-history-on-exit t)
   (setq eshell-error-if-no-glob t)
   (setq eshell-destroy-buffer-when-process-dies t)
   (autoload 'eshell-smart-initialize "em-smart")
