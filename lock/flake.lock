@@ -1760,22 +1760,6 @@
         "type": "github"
       }
     },
-    "pairable": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733727203,
-        "narHash": "sha256-xJB7UqHHx5nCq4LQAMqGXoyexXNT4iwkUb/4xmXYAp0=",
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "rev": "6225675e62e403db4cf09dfa482c4a043edeb5c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "type": "github"
-      }
-    },
     "parseclj": {
       "flake": false,
       "locked": {
@@ -1917,54 +1901,6 @@
       "original": {
         "owner": "greghendershott",
         "repo": "racket-mode",
-        "type": "github"
-      }
-    },
-    "readable": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733727203,
-        "narHash": "sha256-xJB7UqHHx5nCq4LQAMqGXoyexXNT4iwkUb/4xmXYAp0=",
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "rev": "6225675e62e403db4cf09dfa482c4a043edeb5c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "type": "github"
-      }
-    },
-    "readable-mono-theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733727203,
-        "narHash": "sha256-xJB7UqHHx5nCq4LQAMqGXoyexXNT4iwkUb/4xmXYAp0=",
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "rev": "6225675e62e403db4cf09dfa482c4a043edeb5c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "type": "github"
-      }
-    },
-    "readable-typo-theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733727203,
-        "narHash": "sha256-xJB7UqHHx5nCq4LQAMqGXoyexXNT4iwkUb/4xmXYAp0=",
-        "owner": "terlar",
-        "repo": "emacs-config",
-        "rev": "6225675e62e403db4cf09dfa482c4a043edeb5c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "terlar",
-        "repo": "emacs-config",
         "type": "github"
       }
     },
@@ -2112,7 +2048,6 @@
         "package-lint": "package-lint",
         "package-lint-flymake": "package-lint-flymake",
         "page-break-lines": "page-break-lines",
-        "pairable": "pairable",
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
@@ -2122,9 +2057,6 @@
         "puni": "puni",
         "python-test": "python-test",
         "racket-mode": "racket-mode",
-        "readable": "readable",
-        "readable-mono-theme": "readable-mono-theme",
-        "readable-typo-theme": "readable-typo-theme",
         "repl-toggle": "repl-toggle",
         "request": "request",
         "rspec-mode": "rspec-mode",

@@ -101,6 +101,13 @@
                   };
 
                   inputOverrides = import ./nix/inputOverrides.nix { inherit lib; };
+
+                  localPackages = [
+                    "pairable"
+                    "readable"
+                    "readable-mono-theme"
+                    "readable-typo-theme"
+                  ];
                 }).overrideScope
                   packageOverrides;
 

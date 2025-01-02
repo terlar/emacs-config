@@ -657,12 +657,6 @@
       repo = "page-break-lines";
       type = "github";
     };
-    pairable = {
-      flake = false;
-      owner = "terlar";
-      repo = "emacs-config";
-      type = "github";
-    };
     parseclj = {
       flake = false;
       owner = "clojure-emacs";
@@ -715,24 +709,6 @@
       flake = false;
       owner = "greghendershott";
       repo = "racket-mode";
-      type = "github";
-    };
-    readable = {
-      flake = false;
-      owner = "terlar";
-      repo = "emacs-config";
-      type = "github";
-    };
-    readable-mono-theme = {
-      flake = false;
-      owner = "terlar";
-      repo = "emacs-config";
-      type = "github";
-    };
-    readable-typo-theme = {
-      flake = false;
-      owner = "terlar";
-      repo = "emacs-config";
       type = "github";
     };
     repl-toggle = {
