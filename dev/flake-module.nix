@@ -68,7 +68,7 @@
           ];
           text = ''
             XDG_DATA_DIRS="$XDG_DATA_DIRS:${
-              builtins.concatStringsSep ":" (map (x: "${x}/share") config.packages.emacs-config.buildInputs)
+              builtins.concatStringsSep ":" (map (x: "${x}/share") config.packages.emacs-config.runtimeInputs)
             }"
             EMACS_DIR="$(mktemp -td emacs.XXXXXXXXXX)"
             lndir -silent ${config.packages.emacs-config} "$EMACS_DIR"

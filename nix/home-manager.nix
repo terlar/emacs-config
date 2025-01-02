@@ -101,7 +101,9 @@ in
         '';
       };
 
-      home.packages = [ cfg.package ] ++ optionals cfg.enableUserDirectory cfg.configPackage.buildInputs;
+      home.packages = [
+        cfg.package
+      ] ++ optionals cfg.enableUserDirectory cfg.configPackage.runtimeInputs;
     }
     (mkIf cfg.enableUserDirectory {
       xdg.configFile.emacs = {

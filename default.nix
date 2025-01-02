@@ -5,8 +5,6 @@
   elispInputs,
   emacs-all-the-icons-fonts,
   treesit-grammars,
-  iosevka-bin,
-  ripgrep,
   xorg,
 }:
 let
@@ -48,16 +46,14 @@ stdenv.mkDerivation {
   src = lib.sourceByRegex ./. [ "templates" ];
   dontUnpack = true;
 
-  buildInputs = [
-    (iosevka-bin.override { variant = "Aile"; })
-    (iosevka-bin.override { variant = "CurlySlab"; })
-    (iosevka-bin.override { variant = "Etoile"; })
-    emacs-all-the-icons-fonts
-    ripgrep
-  ];
+  passthru = {
+    components = {
+      inherit init;
+    };
 
-  passthru.components = {
-    inherit init;
+    runtimeInputs = [
+      emacs-all-the-icons-fonts
+    ];
   };
 
   installPhase = ''
