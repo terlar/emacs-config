@@ -16,6 +16,14 @@ _final: prev: {
     '';
   });
 
+  corfu = prev.corfu.overrideAttrs (_: {
+    preBuild = ''
+      substituteInPlace corfu-popupinfo.el \
+        --replace-fail "if-let" "if-let*" \
+        --replace-fail "when-let" "when-let*"
+    '';
+  });
+
   devdocs = prev.devdocs.overrideAttrs (_: {
     preBuild = ''
       substituteInPlace devdocs.el --replace-fail "(require 'mathjax)" "(require 'mathjax nil t)"
