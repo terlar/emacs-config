@@ -105,6 +105,15 @@
 
                   inputOverrides = import ./nix/inputOverrides.nix { inherit lib; };
 
+                  initialLibraries = [
+                    "cl-lib"
+                    "let-alist"
+                    "map"
+                    "org"
+                    "seq"
+                    "transient"
+                  ];
+
                   localPackages = [
                     "pairable"
                     "readable"
