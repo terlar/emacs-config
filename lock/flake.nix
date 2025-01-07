@@ -737,12 +737,6 @@
       repo = "emacs-request";
       type = "github";
     };
-    rspec-mode = {
-      flake = false;
-      owner = "pezra";
-      repo = "rspec-mode";
-      type = "github";
-    };
     "s" = {
       flake = false;
       owner = "magnars";

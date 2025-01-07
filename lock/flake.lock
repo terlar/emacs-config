@@ -2093,7 +2093,6 @@
         "racket-mode": "racket-mode",
         "repl-toggle": "repl-toggle",
         "request": "request",
-        "rspec-mode": "rspec-mode",
         "s": "s",
         "scala-mode": "scala-mode",
         "separedit": "separedit",
@@ -2119,22 +2118,6 @@
         "vundo": "vundo",
         "with-editor": "with-editor",
         "ws-butler": "ws-butler"
-      }
-    },
-    "rspec-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1692410091,
-        "narHash": "sha256-NRDVIAnKCSY9cGuL6ci0htXhKfAf9WWCni7IkKSm2Ds=",
-        "owner": "pezra",
-        "repo": "rspec-mode",
-        "rev": "29df3d081c6a1cbdf840cd13d45ea1c100c5bbaa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pezra",
-        "repo": "rspec-mode",
-        "type": "github"
       }
     },
     "s": {
