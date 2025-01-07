@@ -11,13 +11,13 @@
     path = inputs.melpa.outPath + "/recipes";
   }
   {
-    name = "nongnu";
-    type = "elpa";
-    path = inputs.nongnu-elpa.outPath + "/elpa-packages";
-  }
-  {
     name = "gnu-archive";
     type = "archive";
     url = "https://elpa.gnu.org/packages/";
+  }
+  {
+    name = "nongnu-archive";
+    type = "archive";
+    url = "https://elpa.nongnu.org/nongnu/";
   }
 ]

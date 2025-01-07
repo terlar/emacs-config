@@ -26,10 +26,6 @@
       url = "github:melpa/melpa";
       flake = false;
     };
-    nongnu-elpa = {
-      url = "git+https://git.savannah.gnu.org/git/emacs/nongnu.git?ref=main&shallow=0";
-      flake = false;
-    };
   };
 
   outputs =

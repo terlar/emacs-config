@@ -1637,15 +1637,15 @@
       "locked": {
         "lastModified": 1733557376,
         "narHash": "sha256-QBfojRIA1HapXIgtT5X2qJ9gmnyZWwf3f4hpWrsSyj8=",
-        "ref": "refs/heads/master",
+        "owner": "~bzg",
+        "repo": "org-contrib",
         "rev": "4c70eafd0e9ad03cf8057b9110af3a3af82130e2",
-        "revCount": 2796,
-        "type": "git",
-        "url": "https://git.sr.ht/~bzg/org-contrib"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~bzg/org-contrib"
+        "owner": "~bzg",
+        "repo": "org-contrib",
+        "type": "sourcehut"
       }
     },
     "org-limit-image-size": {

@@ -614,8 +614,9 @@
     };
     org-contrib = {
       flake = false;
-      type = "git";
-      url = "https://git.sr.ht/~bzg/org-contrib";
+      owner = "~bzg";
+      repo = "org-contrib";
+      type = "sourcehut";
     };
     org-limit-image-size = {
       flake = false;

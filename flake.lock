@@ -119,25 +119,6 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/e9b51731911566bbf7e4895475a87fe06961de0b.tar.gz"
       }
     },
-    "nongnu-elpa": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1735082674,
-        "narHash": "sha256-stEaQ8u3lCYtHINO4rEGrqNReQWtWLjk7gLmsd01Cl8=",
-        "ref": "main",
-        "rev": "d141240b3c2cf746396f8b328bb92116e844b1dd",
-        "revCount": 342,
-        "shallow": false,
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
-      },
-      "original": {
-        "ref": "main",
-        "shallow": false,
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
-      }
-    },
     "org-babel": {
       "locked": {
         "lastModified": 1731256202,
@@ -159,7 +140,6 @@
         "flake-parts": "flake-parts",
         "melpa": "melpa",
         "nixpkgs": "nixpkgs",
-        "nongnu-elpa": "nongnu-elpa",
         "org-babel": "org-babel",
         "twist": "twist"
       }
