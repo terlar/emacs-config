@@ -1,0 +1,2 @@
+(cobol-mode :fetcher sourcehut
+            :repo "hjelmtech/cobol-mode")

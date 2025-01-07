@@ -75,25 +75,6 @@
         "type": "github"
       }
     },
-    "gnu-elpa": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1734803939,
-        "narHash": "sha256-W3eXL3QDcvpZywbuRIjoc2EikMnRwqqueN/JZQqbxWs=",
-        "ref": "main",
-        "rev": "9e3eebe4b2dc3f0ef8e21c7c6d6cb9810d3d267e",
-        "revCount": 643,
-        "shallow": false,
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
-      },
-      "original": {
-        "ref": "main",
-        "shallow": false,
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/elpa.git"
-      }
-    },
     "melpa": {
       "flake": false,
       "locked": {
@@ -176,7 +157,6 @@
       "inputs": {
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
-        "gnu-elpa": "gnu-elpa",
         "melpa": "melpa",
         "nixpkgs": "nixpkgs",
         "nongnu-elpa": "nongnu-elpa",

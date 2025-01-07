@@ -1,16 +1,9 @@
-{ inputs, emacsSrc }:
+{ inputs }:
 [
   {
     name = "custom";
     type = "melpa";
     path = ../recipes;
-  }
-  {
-    name = "gnu";
-    type = "elpa";
-    path = inputs.gnu-elpa.outPath + "/elpa-packages";
-    core-src = emacsSrc;
-    auto-sync-only = true;
   }
   {
     name = "melpa";

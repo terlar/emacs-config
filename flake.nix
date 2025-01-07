@@ -22,10 +22,6 @@
     twist.url = "github:emacs-twist/twist.nix";
     org-babel.url = "github:emacs-twist/org-babel";
 
-    gnu-elpa = {
-      url = "git+https://git.savannah.gnu.org/git/emacs/elpa.git?ref=main&shallow=0";
-      flake = false;
-    };
     melpa = {
       url = "github:melpa/melpa";
       flake = false;
@@ -86,7 +82,15 @@
               };
             in
             {
-              emacs = inputs'.emacs-overlay.packages.emacs-git;
+              emacs = inputs'.emacs-overlay.packages.emacs-git.overrideAttrs (old: {
+                src = pkgs.fetchFromGitHub {
+                  owner = "emacs-mirror";
+                  repo = "emacs";
+                  inherit (old.src) rev;
+                  sha256 = old.src.outputHash;
+                };
+              });
+
               emacs-env =
                 (inputs.twist.lib.makeEnv {
                   inherit pkgs;
@@ -97,7 +101,6 @@
 
                   registries = import ./nix/registries.nix {
                     inherit inputs;
-                    emacsSrc = config.packages.emacs.src;
                   };
 
                   inputOverrides = import ./nix/inputOverrides.nix { inherit lib; };
