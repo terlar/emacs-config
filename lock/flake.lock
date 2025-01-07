@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "adaptive-wrap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705139428,
+        "narHash": "sha256-yzQll5p1DKtOYwbHG70mOX2SKyt9ObICxmWPlptfjpk=",
+        "owner": "emacsmirror",
+        "repo": "adaptive-wrap",
+        "rev": "cb759c0ad5a3203464687c09dbe0e56464c2126e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emacsmirror",
+        "repo": "adaptive-wrap",
+        "type": "github"
+      }
+    },
     "aio": {
       "flake": false,
       "locked": {
@@ -213,25 +229,25 @@
       "locked": {
         "lastModified": 1729447820,
         "narHash": "sha256-c3c+PJLcIYtAzutmDcat2cbefMC3j/TWt+48Cq7hSvc=",
-        "ref": "refs/heads/main",
+        "owner": "~hjelmtech",
+        "repo": "cobol-mode",
         "rev": "65c1b420da0b91803a2349a52d93d8c680d886b1",
-        "revCount": 51,
-        "type": "git",
-        "url": "https://git.sr.ht/~hjelmtech/cobol-mode"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~hjelmtech/cobol-mode"
+        "owner": "~hjelmtech",
+        "repo": "cobol-mode",
+        "type": "sourcehut"
       }
     },
     "compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1732120721,
-        "narHash": "sha256-U+EZdndZuCypDaNCKGzDaZuGS3EUCQbY29kjHTP74hI=",
+        "lastModified": 1736113714,
+        "narHash": "sha256-jpo/MBqhlpis7eOQhNzK7VBhc8n6srV0RLfNmleAUDs=",
         "owner": "emacs-compat",
         "repo": "compat",
-        "rev": "f06c24c2498a8b9642fdef3bd8336ac75da4ad07",
+        "rev": "a1a1c9c395a494ebba26c9d46549fe9daf54e032",
         "type": "github"
       },
       "original": {
@@ -821,15 +837,15 @@
       "locked": {
         "lastModified": 1605567102,
         "narHash": "sha256-RXSs1ANy04eZAoz0ZdVVguNOEPome3AzIX1seNFVAXo=",
-        "ref": "refs/heads/master",
+        "owner": "koral",
+        "repo": "gcmh",
         "rev": "0089f9c3a6d4e9a310d0791cf6fa8f35642ecfd9",
-        "revCount": 34,
-        "type": "git",
-        "url": "https://gitlab.com/koral/gcmh"
+        "type": "gitlab"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/koral/gcmh"
+        "owner": "koral",
+        "repo": "gcmh",
+        "type": "gitlab"
       }
     },
     "ghelp": {
@@ -1621,15 +1637,15 @@
       "locked": {
         "lastModified": 1733557376,
         "narHash": "sha256-QBfojRIA1HapXIgtT5X2qJ9gmnyZWwf3f4hpWrsSyj8=",
-        "ref": "refs/heads/master",
+        "owner": "~bzg",
+        "repo": "org-contrib",
         "rev": "4c70eafd0e9ad03cf8057b9110af3a3af82130e2",
-        "revCount": 2796,
-        "type": "git",
-        "url": "https://git.sr.ht/~bzg/org-contrib"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~bzg/org-contrib"
+        "owner": "~bzg",
+        "repo": "org-contrib",
+        "type": "sourcehut"
       }
     },
     "org-limit-image-size": {
@@ -1888,6 +1904,22 @@
         "type": "github"
       }
     },
+    "queue": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1615070229,
+        "narHash": "sha256-rTyRxR5LnXIQStjs6CPgkLe7RUrFu/SwjjGB6ZB+Yl0=",
+        "owner": "emacsmirror",
+        "repo": "queue",
+        "rev": "f986fb68e75bdae951efb9e11a3012ab6bd408ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emacsmirror",
+        "repo": "queue",
+        "type": "github"
+      }
+    },
     "racket-mode": {
       "flake": false,
       "locked": {
@@ -1938,6 +1970,7 @@
     },
     "root": {
       "inputs": {
+        "adaptive-wrap": "adaptive-wrap",
         "aio": "aio",
         "alert": "alert",
         "all-the-icons": "all-the-icons",
@@ -2056,10 +2089,10 @@
         "popup": "popup",
         "puni": "puni",
         "python-test": "python-test",
+        "queue": "queue",
         "racket-mode": "racket-mode",
         "repl-toggle": "repl-toggle",
         "request": "request",
-        "rspec-mode": "rspec-mode",
         "s": "s",
         "scala-mode": "scala-mode",
         "separedit": "separedit",
@@ -2085,22 +2118,6 @@
         "vundo": "vundo",
         "with-editor": "with-editor",
         "ws-butler": "ws-butler"
-      }
-    },
-    "rspec-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1692410091,
-        "narHash": "sha256-NRDVIAnKCSY9cGuL6ci0htXhKfAf9WWCni7IkKSm2Ds=",
-        "owner": "pezra",
-        "repo": "rspec-mode",
-        "rev": "29df3d081c6a1cbdf840cd13d45ea1c100c5bbaa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pezra",
-        "repo": "rspec-mode",
-        "type": "github"
       }
     },
     "s": {
@@ -2458,11 +2475,11 @@
     "vundo": {
       "flake": false,
       "locked": {
-        "lastModified": 1714104797,
-        "narHash": "sha256-2CTtDGXB9puk/MK1PId0zJllK2vHSw728Wbft3dfEak=",
+        "lastModified": 1735175053,
+        "narHash": "sha256-3i+7FEUWg47AfdM4J0aRH/NgSvsUwYK8mczXVaPW3JA=",
         "owner": "casouri",
         "repo": "vundo",
-        "rev": "ca590c571546eb1d38c855216db11d28135892f2",
+        "rev": "d792738a5e4da73e619ad9c47dc34a3566445871",
         "type": "github"
       },
       "original": {

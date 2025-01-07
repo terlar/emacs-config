@@ -1,6 +1,12 @@
 {
   description = "THIS IS AN AUTO-GENERATED FILE. PLEASE DON'T EDIT IT MANUALLY.";
   inputs = {
+    adaptive-wrap = {
+      flake = false;
+      owner = "emacsmirror";
+      repo = "adaptive-wrap";
+      type = "github";
+    };
     aio = {
       flake = false;
       owner = "skeeto";
@@ -81,8 +87,9 @@
     };
     cobol-mode = {
       flake = false;
-      type = "git";
-      url = "https://git.sr.ht/~hjelmtech/cobol-mode";
+      owner = "~hjelmtech";
+      repo = "cobol-mode";
+      type = "sourcehut";
     };
     compat = {
       flake = false;
@@ -308,8 +315,9 @@
     };
     gcmh = {
       flake = false;
-      type = "git";
-      url = "https://gitlab.com/koral/gcmh";
+      owner = "koral";
+      repo = "gcmh";
+      type = "gitlab";
     };
     ghelp = {
       flake = false;
@@ -606,8 +614,9 @@
     };
     org-contrib = {
       flake = false;
-      type = "git";
-      url = "https://git.sr.ht/~bzg/org-contrib";
+      owner = "~bzg";
+      repo = "org-contrib";
+      type = "sourcehut";
     };
     org-limit-image-size = {
       flake = false;
@@ -705,6 +714,12 @@
       repo = "python-test.el";
       type = "github";
     };
+    queue = {
+      flake = false;
+      owner = "emacsmirror";
+      repo = "queue";
+      type = "github";
+    };
     racket-mode = {
       flake = false;
       owner = "greghendershott";
@@ -721,12 +736,6 @@
       flake = false;
       owner = "tkf";
       repo = "emacs-request";
-      type = "github";
-    };
-    rspec-mode = {
-      flake = false;
-      owner = "pezra";
-      repo = "rspec-mode";
       type = "github";
     };
     "s" = {

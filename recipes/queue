@@ -1,0 +1,2 @@
+(queue :fetcher github
+       :repo "emacsmirror/queue")

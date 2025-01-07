@@ -3624,23 +3624,6 @@ Pretty check-boxes as well as bullet lists.
   (put 'minitest-use-bundler 'safe-local-variable 'booleanp))
 #+end_src
 
-**** rspec-mode
-#+begin_src emacs-lisp :tangle yes
-(use-package rspec-mode
-  :ensure t
-  :hook
-  (ruby-ts-mode-hook . rspec-enable-appropriate-mode)
-  :bind
-  (:map rspec-mode-map
-        ("C-. t a" . rspec-verify-all)
-        ("C-. t f" . rspec-verify)
-        ("C-. t t" . rspec-verify-single))
-  :init
-  (setq rspec-use-relative-path t)
-  (setq rspec-use-opts-file-when-available nil)
-  (setq rspec-command-options "--format progress"))
-#+end_src
-
 ** rust
 #+begin_src emacs-lisp :tangle yes
 (use-package rust-ts-mode

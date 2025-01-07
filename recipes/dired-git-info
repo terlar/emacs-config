@@ -1,0 +1,2 @@
+(dired-git-info :fetcher github
+		:repo "clemera/dired-git-info")
