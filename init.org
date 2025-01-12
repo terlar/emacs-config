@@ -1629,22 +1629,17 @@ Edit minibuffer in a new temporary buffer by pressing =C-c '=.
 #+end_src
 
 ** Scrolling
-More procedural scrolling.
 #+begin_src emacs-lisp :tangle yes
-(setq auto-window-vscroll nil)
-(setq hscroll-margin 5)
-(setq hscroll-step 5)
-(setq scroll-margin 0)
+(setq scroll-conservatively 101)
 (setq scroll-preserve-screen-position t)
+#+end_src
 
-(setq-default scroll-down-aggressively 0.01)
-(setq-default scroll-up-aggressively 0.01)
-
-(use-package pixel-scroll
+*** ultra-scroll
+#+begin_src emacs-lisp :tangle yes
+(use-package ultra-scroll
+  :ensure t
   :hook
-  ((image-mode-hook
-    markdown-mode-hook
-    org-mode-hook) . pixel-scroll-precision-mode))
+  (after-init-hook . ultra-scroll-mode))
 #+end_src
 
 ** Packages

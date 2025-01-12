@@ -828,6 +828,12 @@
       repo = "tuareg";
       type = "github";
     };
+    ultra-scroll = {
+      flake = false;
+      owner = "jdtsmith";
+      repo = "ultra-scroll";
+      type = "github";
+    };
     valign = {
       flake = false;
       owner = "casouri";
