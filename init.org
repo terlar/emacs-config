@@ -868,15 +868,21 @@ Completion preview inline, with quick completion key.
   :hook
   ((comint-mode-hook
     eshell-mode-hook
-    minibuffer-mode-hook
     prog-mode-hook
     text-mode-hook) . completion-preview-mode)
+  (minibuffer-setup-hook . completion-preview-enable-in-minibuffer)
   :bind
   (:map completion-preview-active-mode-map
         ("C-e" . completion-preview-insert))
   :init
+  (setq completion-preview-adapt-background-color nil)
   (setq completion-preview-minimum-symbol-length 2)
   :config
+  (defun completion-preview-enable-in-minibuffer ()
+    "Enable Corfu completion in the minibuffer, e.g., `eval-expression'."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (completion-preview-mode 1)))
+
   (cl-pushnew 'org-self-insert-command completion-preview-commands :test #'equal))
 #+end_src
 
