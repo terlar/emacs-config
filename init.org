@@ -3806,6 +3806,8 @@ it really useful.
 
 ** Spell checking
 #+begin_src emacs-lisp :tangle yes
+(setq ispell-alternate-dictionary (getenv "WORDLIST"))
+
 (use-package jinx
   :ensure t
   :hook
