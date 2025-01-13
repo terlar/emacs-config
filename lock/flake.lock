@@ -2108,6 +2108,7 @@
         "terraform-mode": "terraform-mode",
         "transpose-frame": "transpose-frame",
         "tuareg": "tuareg",
+        "ultra-scroll": "ultra-scroll",
         "valign": "valign",
         "vertico": "vertico",
         "virtual-auto-fill": "virtual-auto-fill",
@@ -2357,6 +2358,22 @@
       "original": {
         "owner": "ocaml",
         "repo": "tuareg",
+        "type": "github"
+      }
+    },
+    "ultra-scroll": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736714660,
+        "narHash": "sha256-yuwgWflx835hGBuJz6LiAwBXoaaTRgtF+FCWEv4TCIw=",
+        "owner": "jdtsmith",
+        "repo": "ultra-scroll",
+        "rev": "9f62273531ad2f9837ad6da28fccbe2ec4c7938c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jdtsmith",
+        "repo": "ultra-scroll",
         "type": "github"
       }
     },
