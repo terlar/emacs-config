@@ -979,7 +979,11 @@ Completion At Point Extensions.
   (cape-wrap-silent
    cape-wrap-purify)
   :hook
-  (prog-mode-hook . init-cape-capf)
+  ((comint-mode-hook
+    eshell-mode-hook) . init-cape-comint-capf)
+  (eglot-managed-mode-hook . init-cape-eglot-capf)
+  (prog-mode-hook . init-cape-prog-capf)
+  (text-mode-hook . init-cape-text-capf)
   :bind
   (([remap dabbrev-expand] . cape-dabbrev)
    (:prefix-map completion-prefix-map :prefix "M-P"
@@ -997,16 +1001,40 @@ Completion At Point Extensions.
                 ("r" . cape-rfc1345))
    (:map corfu-map
          ("C-x C-f" . cape-file)))
-  :preface
+  :init
+  (setq cape-dict-file (getenv "WORDLIST"))
+  :config
   (defun init-cape-comint-capf ()
     (setq-local completion-at-point-functions
-                (list (cape-capf-super #'cape-history
-                                       #'pcomplete-completions-at-point))))
-  :config
-  (defun init-cape-capf ()
-    (cl-pushnew #'cape-dabbrev completion-at-point-functions :test #'equal)
-    (cl-pushnew #'cape-elisp-symbol completion-at-point-functions :test #'equal)
-    (cl-pushnew #'cape-file completion-at-point-functions :test #'equal))
+                (list (cape-capf-super #'pcomplete-completions-at-point
+                                       #'cape-history
+                                       :with #'tempel-complete))))
+
+  (defun init-cape-eglot-capf ()
+    (setq-local completion-at-point-functions
+                (list #'cape-file
+                      (cape-capf-super #'eglot-completion-at-point
+                                       :with #'tempel-complete))))
+
+  (defun init-cape-prog-capf ()
+    (setq-local completion-at-point-functions
+                (list #'cape-file
+                      (cape-capf-super #'cape-keyword
+                                       #'cape-dabbrev
+                                       :with #'tempel-complete))))
+
+  (defun init-cape-text-capf ()
+    (setq-local completion-at-point-functions
+                (list #'cape-file
+                      (cape-capf-super #'cape-dict
+                                       #'cape-dabbrev
+                                       :with #'tempel-complete))))
+
+  (setq completion-at-point-functions
+        (list #'cape-file
+              (cape-capf-super #'cape-dabbrev
+                               #'cape-elisp-symbol
+                               #'cape-dict)))
 
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
@@ -1367,19 +1395,10 @@ Automatic parenthesis pairing and highlighting.
   :ensure t
   :commands
   (tempel-expand)
-  :hook
-  ((eshell-mode-hook
-    prog-mode-hook
-    text-mode-hook) . tempel-setup-capf)
   :bind
   (("M-+" . tempel-complete)
    ("M-*" . tempel-insert))
   :config
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
-
   (setq tempel-path (concat user-emacs-directory "templates")))
 #+end_src
 
@@ -2200,8 +2219,6 @@ Don't ask about keeping current list of tags tables.
 *** Persistent history in comint
 #+begin_src emacs-lisp :tangle yes
 (use-package comint
-  :hook
-  (comint-mode-hook . init-cape-comint-capf)
   :functions
   (comint-read-input-ring
    comint-write-input-ring
@@ -3856,7 +3873,6 @@ Avoid color when possible.
   (defvar eshell-visual-commands)
   :hook
   (eshell-mode-hook . abbrev-mode)
-  (eshell-mode-hook . init-cape-comint-capf)
   (eshell-mode-hook . init-eshell-define-keys)
   (eshell-mode-hook . init-eshell-set-visual-commands)
   :bind
