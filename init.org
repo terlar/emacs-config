@@ -873,6 +873,7 @@ Completion preview inline, with quick completion key.
   (minibuffer-setup-hook . completion-preview-enable-in-minibuffer)
   :bind
   (:map completion-preview-active-mode-map
+        ("TAB" . completion-preview-complete)
         ("C-e" . completion-preview-insert))
   :init
   (setq completion-preview-adapt-background-color nil)
@@ -978,6 +979,9 @@ Completion At Point Extensions.
   :commands
   (cape-wrap-silent
    cape-wrap-purify)
+  :functions
+  (cape-capf-buster
+   cape-capf-super)
   :hook
   ((comint-mode-hook
     eshell-mode-hook) . init-cape-comint-capf)
@@ -1002,40 +1006,31 @@ Completion At Point Extensions.
    (:map corfu-map
          ("C-x C-f" . cape-file)))
   :init
+  ;; Use cape-dict for dictionary completion.
   (setq cape-dict-file (getenv "WORDLIST"))
+  (setq text-mode-ispell-word-completion nil)
   :config
   (defun init-cape-comint-capf ()
     (setq-local completion-at-point-functions
-                (list (cape-capf-super #'pcomplete-completions-at-point
-                                       #'cape-history
-                                       :with #'tempel-complete))))
+                (list (apply #'cape-capf-super
+                             #'cape-history
+                             (cl-remove-if-not #'functionp completion-at-point-functions)))))
 
   (defun init-cape-eglot-capf ()
     (setq-local completion-at-point-functions
                 (list #'cape-file
-                      (cape-capf-super #'eglot-completion-at-point
+                      (cape-capf-super (cape-capf-buster #'eglot-completion-at-point #'string-prefix-p)
                                        :with #'tempel-complete))))
 
   (defun init-cape-prog-capf ()
-    (setq-local completion-at-point-functions
-                (list #'cape-file
-                      (cape-capf-super #'cape-keyword
-                                       #'cape-dabbrev
-                                       :with #'tempel-complete))))
+    (add-hook 'completion-at-point-functions #'cape-file nil t))
 
   (defun init-cape-text-capf ()
-    (setq-local completion-at-point-functions
-                (list #'cape-file
-                      (cape-capf-super #'cape-dict
-                                       #'cape-dabbrev
-                                       :with #'tempel-complete))))
+    (add-hook 'completion-at-point-functions #'cape-file nil t)
+    (add-hook 'completion-at-point-functions #'cape-dict 10 t))
 
-  (setq completion-at-point-functions
-        (list #'cape-file
-              (cape-capf-super #'cape-dabbrev
-                               #'cape-elisp-symbol
-                               #'cape-dict)))
-
+  (setq-default completion-at-point-functions
+                (list #'cape-file #'cape-dabbrev))
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 #+end_src
@@ -1409,7 +1404,8 @@ Guess indentation offset and adjust the corresponding setting.
 (use-package dtrt-indent
   :ensure t
   :hook
-  (prog-mode-hook . dtrt-indent-mode)
+  ((prog-mode-hook
+    text-mode-hook) . dtrt-indent-mode)
   :init
   (setq dtrt-indent-ignore-single-chars-flag t)
   (setq dtrt-indent-run-after-smie t)
@@ -3888,8 +3884,7 @@ Avoid color when possible.
   (autoload 'eshell-smart-initialize "em-smart")
   :config
   (defun init-eshell-define-keys ()
-    (keymap-set eshell-mode-map "RET" '+eshell-expand-abbrev-and-send-input)
-    (keymap-set eshell-mode-map "<tab>" 'completion-at-point))
+    (keymap-set eshell-mode-map "RET" '+eshell-expand-abbrev-and-send-input))
 
   (defun init-eshell-set-visual-commands ()
     (setq eshell-visual-commands
