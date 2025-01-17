@@ -1360,6 +1360,22 @@
         "type": "github"
       }
     },
+    "lte": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736718878,
+        "narHash": "sha256-6mqTJnlmKYWVnQRvEToMcxMnRG7zwPn85igAsAl18HI=",
+        "owner": "fredericgiquel",
+        "repo": "lte.el",
+        "rev": "011c86d9fb72d00105293efabef4756274d851b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fredericgiquel",
+        "repo": "lte.el",
+        "type": "github"
+      }
+    },
     "magit": {
       "flake": false,
       "locked": {
@@ -2055,6 +2071,7 @@
         "ligature": "ligature",
         "link-hint": "link-hint",
         "log4e": "log4e",
+        "lte": "lte",
         "magit": "magit",
         "magit-popup": "magit-popup",
         "magit-section": "magit-section",

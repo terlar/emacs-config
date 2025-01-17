@@ -510,6 +510,12 @@
       repo = "log4e";
       type = "github";
     };
+    lte = {
+      flake = false;
+      owner = "fredericgiquel";
+      repo = "lte.el";
+      type = "github";
+    };
     magit = {
       flake = false;
       owner = "magit";

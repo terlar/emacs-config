@@ -2742,6 +2742,15 @@ Presentation mode.
     (global-hide-fringes-mode 0)))
 #+end_src
 
+**** lte
+Truncate long tables.
+#+begin_src emacs-lisp :tangle yes
+(use-package lte
+  :ensure t
+  :hook
+  (org-mode-hook . lte-truncate-table-mode))
+#+end_src
+
 **** org-contrib
 Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 #+begin_src emacs-lisp :tangle yes
