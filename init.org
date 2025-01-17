@@ -1331,6 +1331,15 @@ Display page breaks as a horizontal line.
   (setq valign-fancy-bar t))
 #+end_src
 
+Truncate large tables.
+#+begin_src emacs-lisp :tangle yes
+(use-package lte
+  :ensure t
+  :hook
+  ((markdown-mode-hook
+    org-mode-hook) . lte-truncate-table-mode))
+#+end_src
+
 *** Visible
 Making invisible text temporarily visible.
 #+begin_src emacs-lisp :tangle yes
@@ -2742,15 +2751,6 @@ Presentation mode.
     (global-hide-fringes-mode 0)))
 #+end_src
 
-**** lte
-Truncate long tables.
-#+begin_src emacs-lisp :tangle yes
-(use-package lte
-  :ensure t
-  :hook
-  (org-mode-hook . lte-truncate-table-mode))
-#+end_src
-
 **** org-contrib
 Unmaintained add-ons for org-mode, in this configuration =org-eldoc= is used.
 #+begin_src emacs-lisp :tangle yes
@@ -4101,7 +4101,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 |------------+-------------|
 | =M-=         | =C-[=         |
 | =TAB=        | =C-i=         |
-| =RET=        | =C-m=        |
+| =RET=        | =C-m=         |
 
 *** Commands
 | Keybinding      | Function                          | Description                                                                      |
@@ -4324,6 +4324,7 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - kotlin-mode
 - kubernetes
 - ligature
+- lte
 - mermaid-mode
 - minitest
 - nginx-mode
