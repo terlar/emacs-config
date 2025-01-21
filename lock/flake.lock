@@ -1504,6 +1504,22 @@
         "type": "github"
       }
     },
+    "minuet": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1737355213,
+        "narHash": "sha256-8EWOfRJjvr8jQHtjnxpg0IUzBz0P/BpnQSJZ6l3mwzA=",
+        "owner": "milanglacier",
+        "repo": "minuet-ai.el",
+        "rev": "ebca9d72c09e040f12c6e56fbace58ba9c2ce532",
+        "type": "github"
+      },
+      "original": {
+        "owner": "milanglacier",
+        "repo": "minuet-ai.el",
+        "type": "github"
+      }
+    },
     "nix-mode": {
       "flake": false,
       "locked": {
@@ -1840,6 +1856,22 @@
         "type": "github"
       }
     },
+    "plz": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723844847,
+        "narHash": "sha256-yy4ATg5krWpcxgzrtwckd6uCsNTvSUbq0aCbtyo6ZR0=",
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "rev": "9fb22d84d9e39692392276d7b7b9979ca6ca1c01",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "type": "github"
+      }
+    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2080,6 +2112,7 @@
         "markdown-toc": "markdown-toc",
         "miniedit": "miniedit",
         "minitest": "minitest",
+        "minuet": "minuet",
         "nix-mode": "nix-mode",
         "nix-ts-mode": "nix-ts-mode",
         "no-littering": "no-littering",
@@ -2101,6 +2134,7 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
+        "plz": "plz",
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
