@@ -576,12 +576,6 @@
       repo = "minitest-emacs";
       type = "github";
     };
-    minuet = {
-      flake = false;
-      owner = "milanglacier";
-      repo = "minuet-ai.el";
-      type = "github";
-    };
     nix-mode = {
       flake = false;
       owner = "NixOS";
@@ -706,12 +700,6 @@
       flake = false;
       owner = "vedang";
       repo = "pdf-tools";
-      type = "github";
-    };
-    plz = {
-      flake = false;
-      owner = "alphapapa";
-      repo = "plz.el";
       type = "github";
     };
     pomm = {
