@@ -288,6 +288,22 @@
         "type": "github"
       }
     },
+    "copilot": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736970264,
+        "narHash": "sha256-BEA5cQSNgAMOULM3uNMATYHtFwV7CXAsZYi5IT1kB8A=",
+        "owner": "copilot-emacs",
+        "repo": "copilot.el",
+        "rev": "867a3debf907cbd7c5b0eb8837354a1efc7c2db9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "copilot-emacs",
+        "repo": "copilot.el",
+        "type": "github"
+      }
+    },
     "corfu": {
       "flake": false,
       "locked": {
@@ -573,6 +589,22 @@
       "original": {
         "owner": "Fanael",
         "repo": "edit-indirect",
+        "type": "github"
+      }
+    },
+    "editorconfig": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730052935,
+        "narHash": "sha256-ucTipCiDstMCZnx/hZo7bdMpR2LV3W1+ObZRRca/Bfo=",
+        "owner": "editorconfig",
+        "repo": "editorconfig-emacs",
+        "rev": "24f5b2b1cd4e37adc245fb59f7edeb6872a707a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "editorconfig",
+        "repo": "editorconfig-emacs",
         "type": "github"
       }
     },
@@ -2004,6 +2036,7 @@
         "compat": "compat",
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
+        "copilot": "copilot",
         "corfu": "corfu",
         "cov": "cov",
         "crystal-mode": "crystal-mode",
@@ -2022,6 +2055,7 @@
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",
         "edit-indirect": "edit-indirect",
+        "editorconfig": "editorconfig",
         "elisp-refs": "elisp-refs",
         "elquery": "elquery",
         "elysium": "elysium",

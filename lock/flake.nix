@@ -109,6 +109,12 @@
       repo = "consult-git-log-grep";
       type = "github";
     };
+    copilot = {
+      flake = false;
+      owner = "copilot-emacs";
+      repo = "copilot.el";
+      type = "github";
+    };
     corfu = {
       flake = false;
       owner = "minad";
@@ -215,6 +221,12 @@
       flake = false;
       owner = "Fanael";
       repo = "edit-indirect";
+      type = "github";
+    };
+    editorconfig = {
+      flake = false;
+      owner = "editorconfig";
+      repo = "editorconfig-emacs";
       type = "github";
     };
     elisp-refs = {

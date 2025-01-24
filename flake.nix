@@ -103,6 +103,7 @@
 
                   initialLibraries = [
                     "cl-lib"
+                    "jsonrpc"
                     "let-alist"
                     "map"
                     "org"
