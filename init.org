@@ -1273,7 +1273,7 @@ Disabled by default. When enabled, only highlight in the selected window.
   (define-minor-mode hl-line-number-mode
     "Toggle highlighting of the current line number."
     :group 'hl-line
-    (if (or global-hl-line-mode hl-line-mode)
+    (if (or (bound-and-true-p global-hl-line-mode) (bound-and-true-p hl-line-mode))
         (setq hl-line-number--current-line-remap
               (face-remap-add-relative 'line-number-current-line 'hl-line))
       (face-remap-remove-relative hl-line-number--current-line-remap)
