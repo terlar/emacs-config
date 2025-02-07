@@ -516,6 +516,12 @@
       repo = "link-hint.el";
       type = "github";
     };
+    llama = {
+      flake = false;
+      owner = "tarsius";
+      repo = "llama";
+      type = "github";
+    };
     log4e = {
       flake = false;
       owner = "aki2o";
