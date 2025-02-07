@@ -4019,7 +4019,8 @@ Visual undo history navigation.
                                          :host "localhost:11434"
                                          :stream t
                                          :models '("llama3.2:latest"
-                                                   "qwen2.5-coder:latest")))
+                                                   "qwen2.5-coder:latest"
+                                                   "deepseek-r1:7b")))
   (setq gptel-default-mode 'org-mode)
 
   (cl-pushnew
