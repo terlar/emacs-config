@@ -976,6 +976,22 @@
         "type": "github"
       }
     },
+    "gptel-aibo": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1738919763,
+        "narHash": "sha256-v70UWwWhWPUolNtEEBlTpKYOwJcsEoazi0N0JVDRJpQ=",
+        "owner": "dolmens",
+        "repo": "gptel-aibo",
+        "rev": "edcaef5d5385d22193e51eb2fc35df1471e4d0fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dolmens",
+        "repo": "gptel-aibo",
+        "type": "github"
+      }
+    },
     "gptel-quick": {
       "flake": false,
       "locked": {
@@ -2095,6 +2111,7 @@
         "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gptel": "gptel",
+        "gptel-aibo": "gptel-aibo",
         "gptel-quick": "gptel-quick",
         "gradle-mode": "gradle-mode",
         "groovy-mode": "groovy-mode",

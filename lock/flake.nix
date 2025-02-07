@@ -367,6 +367,12 @@
       repo = "gptel";
       type = "github";
     };
+    gptel-aibo = {
+      flake = false;
+      owner = "dolmens";
+      repo = "gptel-aibo";
+      type = "github";
+    };
     gptel-quick = {
       flake = false;
       owner = "karthink";

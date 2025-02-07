@@ -4103,6 +4103,12 @@ Packages that I am currently testing or evaluating.
         ("TAB" . 'copilot-accept-completion-by-word)))
 #+end_src
 
+
+** gptel-aibo
+#+begin_src emacs-lisp :tangle yes
+(use-package gptel-aibo :ensure t)
+#+end_src
+
 * Private
 #+begin_src emacs-lisp :tangle yes
 (require 'private nil t)
