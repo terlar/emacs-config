@@ -291,11 +291,11 @@
     "copilot": {
       "flake": false,
       "locked": {
-        "lastModified": 1739945853,
-        "narHash": "sha256-7UIu/qVFI27lpwkX13k5CvuJbP9oted3KrT0vN/dJ1E=",
+        "lastModified": 1740274761,
+        "narHash": "sha256-ATIyNAnd1pU82xdGH7+z9zkOcDVJhYhh65QDQ73NiL0=",
         "owner": "copilot-emacs",
         "repo": "copilot.el",
-        "rev": "8a0068afcfb98af7f172d04f6f8cc932c1a22fe8",
+        "rev": "7d105d708a23d16cdfd5240500be8bb02f95a46e",
         "type": "github"
       },
       "original": {
