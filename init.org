@@ -4014,12 +4014,13 @@ Visual undo history navigation.
         ("g" . gptel)
         ("G" . gptel-menu))
   :config
-  (setq gptel-model 'llama3.2:latest)
+  (setq gptel-model 'gemma3)
   (setq gptel-backend (gptel-make-ollama "Ollama"
                                          :host "localhost:11434"
                                          :stream t
-                                         :models '("llama3.2:latest"
-                                                   "qwen2.5-coder:latest"
+                                         :models '("gemma3"
+                                                   "llama3.2"
+                                                   "qwen2.5-coder"
                                                    "deepseek-r1:7b")))
   (setq gptel-default-mode 'org-mode)
 
