@@ -1603,11 +1603,11 @@
     "no-littering": {
       "flake": false,
       "locked": {
-        "lastModified": 1741117881,
-        "narHash": "sha256-yCT4y3jGzvIq0Mq7evz+K0l3wfZyHDSb/vU0WQqbvTM=",
+        "lastModified": 1743372412,
+        "narHash": "sha256-OwQcax4het61CTzIns/QS5r21jhCMjMNPgRr1RgzQXY=",
         "owner": "emacscollective",
         "repo": "no-littering",
-        "rev": "de767a4952b2375a2ce1a2f7fe17a417bfbf512e",
+        "rev": "e46ea5b0e8a279ed40a7e696e82745d8c1f9dd32",
         "type": "github"
       },
       "original": {
