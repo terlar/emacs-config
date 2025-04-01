@@ -304,6 +304,22 @@
         "type": "github"
       }
     },
+    "copilot-chat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743406678,
+        "narHash": "sha256-TbpXTOCHvGCFpcd39sYRwWz1Z6Awpj10gQKiQvCH/4Q=",
+        "owner": "chep",
+        "repo": "copilot-chat.el",
+        "rev": "c2b9d40e5909a8d4468ab57ea72a85518106658e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chep",
+        "repo": "copilot-chat.el",
+        "type": "github"
+      }
+    },
     "corfu": {
       "flake": false,
       "locked": {
@@ -1904,6 +1920,22 @@
         "type": "github"
       }
     },
+    "polymode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733335372,
+        "narHash": "sha256-dLhCdRiChN1tBT01f20loPNwPNeohJjUzU8RME0dvZM=",
+        "owner": "polymode",
+        "repo": "polymode",
+        "rev": "74ba75d4bcfbea959ccc9080a95ab9ef759849f2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "polymode",
+        "repo": "polymode",
+        "type": "github"
+      }
+    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2069,6 +2101,7 @@
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
         "copilot": "copilot",
+        "copilot-chat": "copilot-chat",
         "corfu": "corfu",
         "cov": "cov",
         "crystal-mode": "crystal-mode",
@@ -2169,6 +2202,7 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
+        "polymode": "polymode",
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
@@ -2182,6 +2216,7 @@
         "scala-mode": "scala-mode",
         "separedit": "separedit",
         "sesman": "sesman",
+        "shell-maker": "shell-maker",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
         "spinner": "spinner",
@@ -2267,6 +2302,22 @@
       "original": {
         "owner": "vspinu",
         "repo": "sesman",
+        "type": "github"
+      }
+    },
+    "shell-maker": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742461685,
+        "narHash": "sha256-TRhwJZQzRqNeAZeVfUH/VSmAD/R05CWSj1CvfZ3VM90=",
+        "owner": "xenodium",
+        "repo": "shell-maker",
+        "rev": "db0c2726922657e0891e224ca4a5523be01e55c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xenodium",
+        "repo": "shell-maker",
         "type": "github"
       }
     },
@@ -2609,17 +2660,18 @@
     "ws-butler": {
       "flake": false,
       "locked": {
-        "lastModified": 1730956751,
-        "narHash": "sha256-0MAZavwt+rHEaUG1ZB5QkBH67PE+q9uZ/Lxx0XUcx50=",
-        "owner": "lewang",
-        "repo": "ws-butler",
-        "rev": "d3927f6131f215e9cd3e1f747be5a91e5be8ca9a",
-        "type": "github"
+        "lastModified": 1741572342,
+        "narHash": "sha256-S9aFJcFMkyB1KozJc9hpwKjAMkOyEnCZ6Wf3JVZ8d0c=",
+        "ref": "elpa/ws-butler",
+        "rev": "9ee5a7657a22e836618813c2e2b64a548d27d2ff",
+        "revCount": 109,
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
       },
       "original": {
-        "owner": "lewang",
-        "repo": "ws-butler",
-        "type": "github"
+        "ref": "elpa/ws-butler",
+        "type": "git",
+        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
       }
     }
   },

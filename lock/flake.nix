@@ -115,6 +115,12 @@
       repo = "copilot.el";
       type = "github";
     };
+    copilot-chat = {
+      flake = false;
+      owner = "chep";
+      repo = "copilot-chat.el";
+      type = "github";
+    };
     corfu = {
       flake = false;
       owner = "minad";
@@ -714,6 +720,12 @@
       repo = "pdf-tools";
       type = "github";
     };
+    polymode = {
+      flake = false;
+      owner = "polymode";
+      repo = "polymode";
+      type = "github";
+    };
     pomm = {
       flake = false;
       owner = "SqrtMinusOne";
@@ -790,6 +802,12 @@
       flake = false;
       owner = "vspinu";
       repo = "sesman";
+      type = "github";
+    };
+    shell-maker = {
+      flake = false;
+      owner = "xenodium";
+      repo = "shell-maker";
       type = "github";
     };
     sly = {
@@ -919,9 +937,9 @@
     };
     ws-butler = {
       flake = false;
-      owner = "lewang";
-      repo = "ws-butler";
-      type = "github";
+      ref = "elpa/ws-butler";
+      type = "git";
+      url = "https://git.savannah.gnu.org/git/emacs/nongnu.git";
     };
   };
   outputs = { ... }: { };

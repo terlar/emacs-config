@@ -4104,6 +4104,11 @@ Packages that I am currently testing or evaluating.
         ("TAB" . 'copilot-accept-completion-by-word)))
 #+end_src
 
+** copilot-chat
+#+begin_src emacs-lisp :tangle yes
+(use-package copilot-chat
+  :ensure t)
+#+end_src
 
 ** gptel-aibo
 #+begin_src emacs-lisp :tangle yes
