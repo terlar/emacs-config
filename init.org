@@ -4101,9 +4101,23 @@ Packages that I am currently testing or evaluating.
   :bind
   (:map copilot-completion-map
         ("C-e" . 'copilot-accept-completion)
-        ("TAB" . 'copilot-accept-completion-by-word)))
+        ("TAB" . 'copilot-accept-completion-by-word))
+  :preface
+  (define-global-minor-mode global-copilot-prog-mode copilot-prog-mode copilot-prog-mode
+    :group 'copilot)
+
+  (define-minor-mode copilot-prog-mode
+    "Toggle copilot for prog-mode buffer."
+    :group 'copilot
+    (when (derived-mode-p 'prog-mode)
+      (copilot-mode))))
 #+end_src
 
+** copilot-chat
+#+begin_src emacs-lisp :tangle yes
+(use-package copilot-chat
+  :ensure t)
+#+end_src
 
 ** gptel-aibo
 #+begin_src emacs-lisp :tangle yes
