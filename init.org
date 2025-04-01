@@ -4100,14 +4100,13 @@ Packages that I am currently testing or evaluating.
         ("C-e" . 'copilot-accept-completion)
         ("TAB" . 'copilot-accept-completion-by-word))
   :preface
-  (define-global-minor-mode global-copilot-prog-mode copilot-prog-mode copilot-prog-mode
-    :group 'copilot)
-
-  (define-minor-mode copilot-prog-mode
-    "Toggle copilot for prog-mode buffer."
-    :group 'copilot
+  (defun copilot-turn-on-when-prog-mode ()
+    "Turn on `copilot-mode' if the buffer mode is derived from `prog-mode'."
     (when (derived-mode-p 'prog-mode)
-      (copilot-mode))))
+      (copilot-mode 1)))
+
+  (define-global-minor-mode global-copilot-prog-mode copilot-mode copilot-turn-on-when-prog-mode
+    :group 'copilot))
 #+end_src
 
 ** copilot-chat
