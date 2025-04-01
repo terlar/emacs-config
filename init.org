@@ -995,7 +995,8 @@ Completion At Point Extensions.
                 ("h" . cape-history)
                 ("f" . cape-file)
                 ("k" . cape-keyword)
-                ("p" . completion-at-point)
+                ("M-P" . completion-at-point)
+                ("p" . cape-pcomplete)
                 ("s" . cape-elisp-symbol)
                 ("a" . cape-abbrev)
                 ("l" . cape-line)
@@ -1031,6 +1032,8 @@ Completion At Point Extensions.
 
   (setq-default completion-at-point-functions
                 (list #'cape-file #'cape-dabbrev))
+
+  (setf (symbol-function 'cape-pcomplete) (cape-capf-interactive #'pcomplete-completions-at-point))
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 #+end_src
