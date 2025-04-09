@@ -2484,6 +2484,7 @@ Generic Language Server Protocol integration via ~eglot~.
          ("Q" . eglot-shutdown)))
   :init
   (setq eglot-autoshutdown t)
+  (setq eglot-code-action-indications nil)
   (setq eglot-confirm-server-edits nil)
   (setq eglot-sync-connect nil)
   :config
