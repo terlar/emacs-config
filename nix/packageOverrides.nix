@@ -10,6 +10,14 @@
 }:
 
 _final: prev: {
+  all-the-icons = prev.all-the-icons.overrideAttrs (_: {
+    preBuild = ''
+      for i in data/data-*.el; do
+        sed -i -e "1i ;;; -*- lexical-binding: t; -*-" $i
+      done
+    '';
+  });
+
   cape = prev.cape.overrideAttrs (_: {
     preBuild = ''
       substituteInPlace cape-char.el \
@@ -52,6 +60,7 @@ _final: prev: {
     preBuild = ''
       substituteInPlace Makefile --replace "include ../default.mk" ""
       make PKG=magit VERSION="${old.version}" magit-version.el
+      sed -i -e "1i ;;; -*- lexical-binding: t; -*-" magit-version.el
       rm Makefile
     '';
   });
