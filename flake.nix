@@ -70,6 +70,15 @@
               };
             });
 
+            emacs-pgtk = inputs'.emacs-overlay.packages.emacs-git-pgtk.overrideAttrs (old: {
+              src = pkgs.fetchFromGitHub {
+                owner = "emacs-mirror";
+                repo = "emacs";
+                inherit (old.src) rev;
+                sha256 = old.src.outputHash;
+              };
+            });
+
             emacs-env = pkgs.callPackage ./nix/packages/emacs-env {
               org-babel-lib = inputs.org-babel.lib;
               twist-lib = inputs.twist.lib;
@@ -78,10 +87,19 @@
               inherit (config.packages) emacs;
             };
 
+            emacs-env-pgtk = config.packages.emacs-env.override {
+              emacs = config.packages.emacs-pgtk;
+            };
+
             emacs-config = pkgs.callPackage ./nix/packages/emacs-config {
               twist-lib = inputs.twist.lib;
               rootPath = ./.;
               inherit (config.packages) emacs emacs-env;
+            };
+
+            emacs-config-pgtk = config.packages.emacs-config.override {
+              emacs = config.packages.emacs-pgtk;
+              emacs-env = config.packages.emacs-env-pgtk;
             };
           };
 

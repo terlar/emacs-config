@@ -112,6 +112,8 @@
       checks = {
         build-config = config.packages.emacs-config;
         build-env = config.packages.emacs-env;
+        build-config-pgtk = config.packages.emacs-config-pgtk;
+        build-env-pgtk = config.packages.emacs-env-pgtk;
       };
     };
 }
