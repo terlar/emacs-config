@@ -1,0 +1,3 @@
+(ws-butler :fetcher github
+           :repo "emacsmirror/nongnu_elpa"
+           :branch "elpa/ws-butler")

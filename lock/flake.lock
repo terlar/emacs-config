@@ -1360,22 +1360,6 @@
         "type": "github"
       }
     },
-    "kv": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1389195260,
-        "narHash": "sha256-tcg7hgXz8tJ1NO2bSaAhhTgtkTFROWW5I8DvZ7T4FGQ=",
-        "owner": "nicferrier",
-        "repo": "emacs-kv",
-        "rev": "721148475bce38a70e0b678ba8aa923652e8900e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nicferrier",
-        "repo": "emacs-kv",
-        "type": "github"
-      }
-    },
     "ligature": {
       "flake": false,
       "locked": {
@@ -2167,7 +2151,6 @@
         "json-navigator": "json-navigator",
         "kotlin-mode": "kotlin-mode",
         "kubernetes": "kubernetes",
-        "kv": "kv",
         "ligature": "ligature",
         "link-hint": "link-hint",
         "llama": "llama",
@@ -2662,16 +2645,16 @@
       "locked": {
         "lastModified": 1741572342,
         "narHash": "sha256-S9aFJcFMkyB1KozJc9hpwKjAMkOyEnCZ6Wf3JVZ8d0c=",
-        "ref": "elpa/ws-butler",
+        "owner": "emacsmirror",
+        "repo": "nongnu_elpa",
         "rev": "9ee5a7657a22e836618813c2e2b64a548d27d2ff",
-        "revCount": 109,
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
+        "type": "github"
       },
       "original": {
+        "owner": "emacsmirror",
         "ref": "elpa/ws-butler",
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/emacs/nongnu.git"
+        "repo": "nongnu_elpa",
+        "type": "github"
       }
     }
   },

@@ -510,12 +510,6 @@
       repo = "kubernetes-el";
       type = "github";
     };
-    kv = {
-      flake = false;
-      owner = "nicferrier";
-      repo = "emacs-kv";
-      type = "github";
-    };
     ligature = {
       flake = false;
       owner = "mickeynp";
@@ -937,9 +931,10 @@
     };
     ws-butler = {
       flake = false;
+      owner = "emacsmirror";
       ref = "elpa/ws-butler";
-      type = "git";
-      url = "https://git.savannah.gnu.org/git/emacs/nongnu.git";
+      repo = "nongnu_elpa";
+      type = "github";
     };
   };
   outputs = { ... }: { };
