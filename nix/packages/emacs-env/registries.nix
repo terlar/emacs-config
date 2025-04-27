@@ -1,14 +1,15 @@
-{ inputs }:
+{ rootPath, melpaSrc }:
+
 [
   {
     name = "custom";
     type = "melpa";
-    path = ../recipes;
+    path = rootPath + "/recipes";
   }
   {
     name = "melpa";
     type = "melpa";
-    path = inputs.melpa.outPath + "/recipes";
+    path = melpaSrc + "/recipes";
   }
   {
     name = "gnu-archive";

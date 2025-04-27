@@ -6,12 +6,13 @@
   emacs-all-the-icons-fonts,
   treesit-grammars,
   xorg,
+  rootPath,
 }:
 let
   init = buildElispPackage {
     ename = "config-init";
 
-    src = lib.sourceByRegex ./. [ "init.org" ];
+    src = lib.sourceByRegex rootPath [ "init.org" ];
     files = [ "init.org" ];
     lispFiles = [
       "early-init.el"
@@ -43,7 +44,7 @@ in
 stdenv.mkDerivation {
   name = "emacs-config";
 
-  src = lib.sourceByRegex ./. [ "templates" ];
+  src = lib.sourceByRegex rootPath [ "templates" ];
   dontUnpack = true;
 
   passthru = {

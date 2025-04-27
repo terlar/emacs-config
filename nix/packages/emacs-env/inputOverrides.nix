@@ -1,4 +1,5 @@
-{ lib, ... }:
+{ rootPath, lib }:
+
 {
   devdocs = _: prev: {
     packageRequires = builtins.removeAttrs prev.packageRequires [
@@ -52,28 +53,28 @@
   };
 
   pairable = _: _: {
-    src = lib.sourceByRegex ../. [
+    src = lib.sourceByRegex rootPath [
       "lisp"
       "lisp/pairable.el"
     ];
   };
 
   readable = _: _: {
-    src = lib.sourceByRegex ../. [
+    src = lib.sourceByRegex rootPath [
       "lisp"
       "lisp/readable.el"
     ];
   };
 
   readable-mono-theme = _: _: {
-    src = lib.sourceByRegex ../. [
+    src = lib.sourceByRegex rootPath [
       "lisp"
       "lisp/readable-mono-theme.el"
     ];
   };
 
   readable-typo-theme = _: _: {
-    src = lib.sourceByRegex ../. [
+    src = lib.sourceByRegex rootPath [
       "lisp"
       "lisp/readable-typo-theme.el"
     ];
