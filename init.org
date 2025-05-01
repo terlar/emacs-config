@@ -3814,7 +3814,7 @@ it really useful.
                  read-expression-history
                  shell-command-history))
     (cl-pushnew var desktop-globals-to-save :test #'equal))
-  (dolist (var '(buffer-undo-list comint-input-ring))
+  (dolist (var '(apheleia-formatter buffer-undo-list comint-input-ring))
     (cl-pushnew var desktop-locals-to-save :test #'equal)))
 #+end_src
 
