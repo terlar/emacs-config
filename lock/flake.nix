@@ -618,6 +618,12 @@
       repo = "nov";
       type = "github";
     };
+    nushell-ts-mode = {
+      flake = false;
+      owner = "herbertjones";
+      repo = "nushell-ts-mode";
+      type = "github";
+    };
     ob-http = {
       flake = false;
       owner = "zweifisch";

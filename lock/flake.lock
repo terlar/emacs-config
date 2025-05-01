@@ -1648,6 +1648,22 @@
         "type": "github"
       }
     },
+    "nushell-ts-mode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694997680,
+        "narHash": "sha256-C4RRph7zaO4PQkZcUSsFg2jWuLcZGtRjaPcNICj3JG0=",
+        "owner": "herbertjones",
+        "repo": "nushell-ts-mode",
+        "rev": "e07ecc59762fab8d5fa35bc6d3f522f74e580a2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "herbertjones",
+        "repo": "nushell-ts-mode",
+        "type": "github"
+      }
+    },
     "ob-http": {
       "flake": false,
       "locked": {
@@ -2169,6 +2185,7 @@
         "no-littering": "no-littering",
         "noccur": "noccur",
         "nov": "nov",
+        "nushell-ts-mode": "nushell-ts-mode",
         "ob-http": "ob-http",
         "orderless": "orderless",
         "org-appear": "org-appear",

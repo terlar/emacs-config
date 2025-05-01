@@ -33,6 +33,7 @@ pkgs.callPackage ./build-config.nix {
     ps.tree-sitter-json5
     ps.tree-sitter-lua
     ps.tree-sitter-nix
+    ps.tree-sitter-nu
     ps.tree-sitter-python
     ps.tree-sitter-ruby
     ps.tree-sitter-rust

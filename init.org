@@ -3459,6 +3459,12 @@ Pretty check-boxes
   (:map leader-map ("f" . nix-flake)))
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(use-package nushell-ts-mode
+  :ensure t
+  :mode "\\.nu\\'")
+#+end_src
+
 ** nxml
 #+begin_src emacs-lisp :tangle yes
 (use-package nxml-mode
