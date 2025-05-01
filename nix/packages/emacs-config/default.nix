@@ -28,7 +28,9 @@ pkgs.callPackage ./build-config.nix {
     ps.tree-sitter-heex
     ps.tree-sitter-java
     ps.tree-sitter-javascript
+    ps.tree-sitter-jsdoc
     ps.tree-sitter-json
+    ps.tree-sitter-json5
     ps.tree-sitter-lua
     ps.tree-sitter-nix
     ps.tree-sitter-python
