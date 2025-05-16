@@ -4,9 +4,9 @@
   pkgs,
   ...
 }:
-with builtins;
-with lib;
+
 let
+  inherit (lib) types;
   cfg = config.custom.emacsConfig;
 
   emacsEdit = if cfg.enableServer then "emacsclient" else "emacs";
@@ -15,118 +15,121 @@ let
 in
 {
   options.custom.emacsConfig = {
-    enable = mkEnableOption "custom emacs configuration";
+    enable = lib.mkEnableOption "custom emacs configuration";
 
-    package = mkOption {
+    package = lib.mkOption {
       type = types.package;
       description = "The default Emacs derivation to use.";
     };
 
-    configPackage = mkOption {
+    configPackage = lib.mkOption {
       type = types.package;
       description = "The default Emacs config derivation to use.";
     };
 
-    enableUserDirectory = mkOption {
+    enableUserDirectory = lib.mkOption {
       default = true;
       type = types.bool;
       description = "Whether to enable user Emacs directory files.";
     };
 
-    enableGitDiff = mkOption {
+    enableGitDiff = lib.mkOption {
       default = true;
       type = types.bool;
       description = "Whether to enable ediff as default git diff tool.";
     };
 
-    enableServer = mkOption {
+    enableServer = lib.mkOption {
       default = pkgs.stdenv.isLinux;
       type = types.bool;
       description = "Whether to enable user Emacs server.";
     };
 
-    defaultEditor = mkOption {
+    defaultEditor = lib.mkOption {
       default = true;
       type = types.bool;
       description = "Whether to use Emacs as default editor.";
     };
 
-    defaultEmailApplication = mkOption {
+    defaultEmailApplication = lib.mkOption {
       default = false;
       type = types.bool;
       description = "Whether to use Emacs as default e-mail application.";
     };
 
-    defaultPdfApplication = mkOption {
+    defaultPdfApplication = lib.mkOption {
       default = false;
       type = types.bool;
       description = "Whether to use Emacs as default PDF application.";
     };
 
-    gnus = mkOption {
+    gnus = lib.mkOption {
       type = types.nullOr types.path;
       default = null;
       description = "Gnus config file.";
     };
 
-    erc = mkOption {
+    erc = lib.mkOption {
       type = types.nullOr types.path;
       default = null;
       description = "ERC config file.";
     };
 
-    private = mkOption {
+    private = lib.mkOption {
       type = types.nullOr types.path;
       default = null;
       description = "Private config file.";
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [
-    {
-      services.emacs = {
-        enable = cfg.enableServer;
-        inherit (cfg) package;
-        socketActivation.enable = true;
-        extraOptions = [ "--no-desktop" ];
-      };
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      {
+        services.emacs = {
+          inherit (cfg) package;
+          enable = lib.mkDefault cfg.enableServer;
+          client.enable = lib.mkDefault true;
+          socketActivation.enable = lib.mkDefault true;
+          extraOptions = [ "--no-desktop" ];
+        };
 
-      programs.git.extraConfig = {
-        difftool.ediff.cmd = ''
-          ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
-        '';
+        programs.git.extraConfig = {
+          difftool.ediff.cmd = ''
+            ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
+          '';
 
-        mergetool.ediff.cmd = ''
-          ${emacsEdit} --eval '(ediff-merge-files-with-ancestor "'$LOCAL'" "'$REMOTE'" "'$BASE'" nil "'$MERGED'")'
-        '';
-      };
+          mergetool.ediff.cmd = ''
+            ${emacsEdit} --eval '(ediff-merge-files-with-ancestor "'$LOCAL'" "'$REMOTE'" "'$BASE'" nil "'$MERGED'")'
+          '';
+        };
 
-      home.packages = [
-        cfg.package
-      ] ++ optionals cfg.enableUserDirectory cfg.configPackage.runtimeInputs;
-    }
-    (mkIf cfg.enableUserDirectory {
-      xdg.configFile.emacs = {
-        source = cfg.configPackage;
-        recursive = true;
-      };
-    })
-    (mkIf cfg.defaultEditor { home.sessionVariables.EDITOR = emacsEdit; })
-    (mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
-    (mkIf cfg.defaultEditor {
-      programs.qutebrowser.settings.editor.command = [
-        emacsEdit
-        "{}"
-      ];
-    })
-    (mkIf cfg.defaultEmailApplication {
-      xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" = emacsMailDesktop;
-    })
-    (mkIf cfg.defaultPdfApplication {
-      xdg.mimeApps.defaultApplications."application/pdf" = emacsDesktop;
-    })
-    (mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
-    (mkIf (cfg.erc != null) { xdg.configFile."emacs/.ercrc.el".source = cfg.erc; })
-    (mkIf (cfg.private != null) { xdg.configFile."emacs/private/private.el".source = cfg.private; })
-  ]);
+        home.packages = [
+          cfg.package
+        ] ++ lib.optionals cfg.enableUserDirectory cfg.configPackage.runtimeInputs;
+      }
+      (lib.mkIf cfg.enableUserDirectory {
+        xdg.configFile.emacs = {
+          source = cfg.configPackage;
+          recursive = true;
+        };
+      })
+      (lib.mkIf cfg.defaultEditor {
+        home.sessionVariables.EDITOR = emacsEdit;
+        programs.qutebrowser.settings.editor.command = [
+          emacsEdit
+          "{}"
+        ];
+      })
+      (lib.mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
+      (lib.mkIf cfg.defaultEmailApplication {
+        xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" = emacsMailDesktop;
+      })
+      (lib.mkIf cfg.defaultPdfApplication {
+        xdg.mimeApps.defaultApplications."application/pdf" = emacsDesktop;
+      })
+      (lib.mkIf (cfg.gnus != null) { home.file.".gnus.el".source = cfg.gnus; })
+      (lib.mkIf (cfg.erc != null) { xdg.configFile."emacs/.ercrc.el".source = cfg.erc; })
+      (lib.mkIf (cfg.private != null) { xdg.configFile."emacs/private/private.el".source = cfg.private; })
+    ]
+  );
 }
