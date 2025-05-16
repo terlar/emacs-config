@@ -16,6 +16,7 @@
     }:
     {
       pre-commit.settings.hooks = {
+        conform.enable = true;
         statix.settings.ignore = [ "lock" ];
       };
 
