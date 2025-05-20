@@ -2226,6 +2226,7 @@
         "tablist": "tablist",
         "tempel": "tempel",
         "terraform-mode": "terraform-mode",
+        "transient": "transient",
         "transpose-frame": "transpose-frame",
         "tuareg": "tuareg",
         "ultra-scroll": "ultra-scroll",
@@ -2462,6 +2463,22 @@
       "original": {
         "owner": "hcl-emacs",
         "repo": "terraform-mode",
+        "type": "github"
+      }
+    },
+    "transient": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747391495,
+        "narHash": "sha256-YdgJzxNDcSLMVd/fAoTk9cFlQLPwXk3zpDzmrxutl00=",
+        "owner": "magit",
+        "repo": "transient",
+        "rev": "41b6e06cf56c029465fae72dc4c6e16cfd304e47",
+        "type": "github"
+      },
+      "original": {
+        "owner": "magit",
+        "repo": "transient",
         "type": "github"
       }
     },
