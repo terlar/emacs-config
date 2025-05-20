@@ -864,6 +864,12 @@
       repo = "terraform-mode";
       type = "github";
     };
+    transient = {
+      flake = false;
+      owner = "magit";
+      repo = "transient";
+      type = "github";
+    };
     transpose-frame = {
       flake = false;
       owner = "emacsorphanage";
