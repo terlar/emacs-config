@@ -4184,6 +4184,8 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 | =C-SPC=           | ~set-mark-command~                  | Set a mark                                                                       |
 | =C-u C-SPC=       | ~pop-to-mark-command~               | Pop a mark                                                                       |
 | =C-x $=           | ~set-selective-display~             | Code-folding via indentation                                                     |
+| =C-x p !=         | ~project-shell-command~             | Run shell command in the current project’s root directory                        |
+| =C-x p &=         | ~project-async-shell-command~       | Run shell command asynchronously in the current project’s root directory         |
 
 *** Gnus
 | Keybinding | Function                              | Description                                                   |
