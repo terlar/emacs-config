@@ -1897,15 +1897,6 @@ URL handling.
        (lambda (x) (cl-every #'stringp x))))
 #+end_src
 
-*** find-file-rg
-Find files via =rg --files=.
-#+begin_src emacs-lisp :tangle yes
-(use-package find-file-rg
-  :ensure t
-  :bind
-  ("C-c f" . find-file-rg))
-#+end_src
-
 *** goto-last-change
 Move point through buffer-undo-list positions.
 #+begin_src emacs-lisp :tangle yes
@@ -3445,7 +3436,7 @@ Pretty check-boxes
   (with-eval-after-load 'apheleia
     (cl-pushnew '(nix-ts-mode . nix) apheleia-mode-alist :test #'equal))
   (with-eval-after-load 'grugru
-    (grugru-define-on-major-mode 'nix-mode 'symbol '("true" "false")))
+    (grugru-define-on-major-mode 'nix-ts-mode 'symbol '("true" "false")))
   (with-eval-after-load 'repl-toggle
     (cl-pushnew '(nix-ts-mode . nix-repl) rtog/mode-repl-alist :test #'equal))
   :config
@@ -3963,15 +3954,6 @@ Command execution status indicator in the fringe.
   (eshell-mode-hook . eshell-fringe-status-mode))
 #+end_src
 
-***** fish-completion
-Populate auto-completions from fish.
-#+begin_src emacs-lisp :tangle yes
-(use-package fish-completion
-  :ensure t
-  :hook
-  (eshell-mode-hook . fish-completion-mode))
-#+end_src
-
 *** vterm
 Fast terminal emulator utilizing =libvterm=.
 #+begin_src emacs-lisp :tangle yes
@@ -4300,8 +4282,6 @@ I am trying to reduce the amount of custom keybindings, therefore I present a ta
 - dslide
 - easy-escape
 - epithet
-- find-file-rg
-- fish-completion
 - gcmh
 - ghelp
 - git-modes

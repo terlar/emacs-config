@@ -295,18 +295,6 @@
       repo = "f.el";
       type = "github";
     };
-    find-file-rg = {
-      flake = false;
-      owner = "muffinmad";
-      repo = "emacs-find-file-rg";
-      type = "github";
-    };
-    fish-completion = {
-      flake = false;
-      owner = "LemonBreezes";
-      repo = "emacs-fish-completion";
-      type = "github";
-    };
     fish-mode = {
       flake = false;
       owner = "wwwjfy";

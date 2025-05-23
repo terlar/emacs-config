@@ -784,38 +784,6 @@
         "type": "github"
       }
     },
-    "find-file-rg": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685981910,
-        "narHash": "sha256-0Somgu5LXISf6KpNLT2dmJjgg828c9hCU/iLzzg3bVY=",
-        "owner": "muffinmad",
-        "repo": "emacs-find-file-rg",
-        "rev": "60b01657bca1e9c5f4fc08a351509853bb09d49d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "muffinmad",
-        "repo": "emacs-find-file-rg",
-        "type": "github"
-      }
-    },
-    "fish-completion": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1716041019,
-        "narHash": "sha256-cd9mJUFbBSX9gr/ePsCL/8hH8dFgHGnP54F8CxPuSlA=",
-        "owner": "LemonBreezes",
-        "repo": "emacs-fish-completion",
-        "rev": "1256f137a2039805d4e87f8e6c11a162ed019587",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LemonBreezes",
-        "repo": "emacs-fish-completion",
-        "type": "github"
-      }
-    },
     "fish-mode": {
       "flake": false,
       "locked": {
@@ -2131,8 +2099,6 @@
         "erlang": "erlang",
         "esxml": "esxml",
         "f": "f",
-        "find-file-rg": "find-file-rg",
-        "fish-completion": "fish-completion",
         "fish-mode": "fish-mode",
         "flymake-racket": "flymake-racket",
         "focus": "focus",
