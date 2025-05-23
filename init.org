@@ -1762,6 +1762,7 @@ mark ring.
 *** Editable
 #+begin_src emacs-lisp :tangle yes
 (use-package wdired
+  :after dired
   :bind
   (:map dired-mode-map ("C-c '" . wdired-change-to-wdired-mode)))
 #+end_src
