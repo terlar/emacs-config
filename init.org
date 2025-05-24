@@ -740,7 +740,6 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 #+begin_src emacs-lisp :tangle yes
 ;; Editing
 (keymap-global-set "<XF86Tools>" #'just-one-space)
-(keymap-global-set "M-p" #'completion-at-point)
 (keymap-global-set "C-M-y" #'duplicate-dwim)
 (keymap-global-set "C-x C-/" #'revert-buffer)
 (keymap-global-set "C-z" #'zap-up-to-char)
@@ -797,15 +796,13 @@ Shorten long Git branch names as well as replace Git prefix with a nice icon.
 (defvar-keymap next-map
   :doc "Keymap for the next key sequences."
   :prefix 'next-map-prefix
-  "b" '("Buffer" . next-buffer)
-  "e" '("Error" . next-error))
+  "b" '("Buffer" . next-buffer))
 (keymap-global-set next-prefix 'next-map-prefix)
 
 (defvar-keymap prev-map
   :doc "Keymap for the prev key sequences."
   :prefix 'prev-map-prefix
-  "b" '("Buffer" . previous-buffer)
-  "e" '("Error" . previous-error))
+  "b" '("Buffer" . previous-buffer))
 (keymap-global-set prev-prefix 'prev-map-prefix)
 #+end_src
 
@@ -990,12 +987,12 @@ Completion At Point Extensions.
   (text-mode-hook . init-cape-text-capf)
   :bind
   (([remap dabbrev-expand] . cape-dabbrev)
-   (:prefix-map completion-prefix-map :prefix "M-P"
+   (:prefix-map completion-prefix-map :prefix "M-p"
                 ("d" . cape-dabbrev)
                 ("h" . cape-history)
                 ("f" . cape-file)
                 ("k" . cape-keyword)
-                ("M-P" . completion-at-point)
+                ("M-p" . completion-at-point)
                 ("p" . cape-pcomplete)
                 ("s" . cape-elisp-symbol)
                 ("a" . cape-abbrev)
@@ -1052,7 +1049,7 @@ Commands compatible with ~completing-read~.
    ([remap switch-to-buffer] . consult-buffer)
    ([remap yank-pop] . consult-yank-pop)
    ("C-c k" . consult-kmacro)
-   ("C-c r" . consult-recent-file)
+   ("C-x C-r" . consult-recent-file)
    (:map search-map
          ("g" . consult-ripgrep)
          ("m" . consult-mark)
