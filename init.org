@@ -1556,7 +1556,14 @@ Visually indicate what will be modified in a search and replace as you type.
 (use-package visual-replace
   :ensure t
   :hook
-  (after-init-hook . visual-replace-global-mode))
+  (after-init-hook . visual-replace-global-mode)
+  :bind
+  ([remap query-replace-regexp] . visual-replace-regexp)
+  :config
+  (defun visual-replace-regexp ()
+    (interactive)
+    (let ((visual-replace-defaults-hook 'visual-replace-toggle-regexp))
+      (call-interactively 'visual-replace))))
 #+end_src
 
 * Buffers
