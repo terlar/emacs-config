@@ -3760,7 +3760,8 @@ Display current path for HTML/XML/CSS.
   :mode "\\.\\(e?ya?\\|ra\\)ml\\'"
   :hook
   (yaml-ts-mode-hook . apheleia-mode)
-  (yaml-ts-mode-hook . indent-bars-mode))
+  (yaml-ts-mode-hook . indent-bars-mode)
+  (yaml-ts-mode-hook . (lambda () (variable-pitch-mode 0))))
 #+end_src
 
 * Tools
