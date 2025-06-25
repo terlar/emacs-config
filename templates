@@ -1,6 +1,7 @@
 fundamental-mode
 
 (today (format-time-string "%Y-%m-%d"))
+(encrypt-to "# -*- epa-file-encrypt-to: (\"" p "\") -*-")
 
 prog-mode
 
@@ -80,3 +81,7 @@ go-mode go-ts-mode
 (if-else > "if " p " {" n> r> n> "} else {" n> p> n> "}" >)
 (if-else-if > "if " p " {" n> r> n> "} else if " p> " {" n> p> n> "}" >)
 (if-err > "if err != nil {" n> r> n> "}" >)
+
+authinfo-mode
+
+(login "machine " p "\nlogin " p "\npassword " p)

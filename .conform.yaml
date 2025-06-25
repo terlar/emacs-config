@@ -27,4 +27,5 @@ policies:
           - github
           - lock
           - theme
+          - template
         descriptionLength: 72
