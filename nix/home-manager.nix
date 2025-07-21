@@ -105,7 +105,8 @@ in
 
         home.packages = [
           cfg.package
-        ] ++ lib.optionals cfg.enableUserDirectory cfg.configPackage.runtimeInputs;
+        ]
+        ++ lib.optionals cfg.enableUserDirectory cfg.configPackage.runtimeInputs;
       }
       (lib.mkIf cfg.enableUserDirectory {
         xdg.configFile.emacs = {
