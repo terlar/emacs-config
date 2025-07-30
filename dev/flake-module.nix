@@ -15,17 +15,13 @@
       ...
     }:
     {
+      treefmt = {
+        settings.formatter.nixfmt.excludes = [ "lock/**/*.nix" ];
+      };
+
       pre-commit.settings.hooks = {
         conform.enable = true;
         statix.settings.ignore = [ "lock" ];
-      };
-
-      treefmt = {
-        programs.nixfmt = {
-          enable = true;
-          package = pkgs.nixfmt-rfc-style;
-        };
-        settings.formatter.nixfmt.excludes = [ "lock/**/*.nix" ];
       };
 
       devshells.default = {

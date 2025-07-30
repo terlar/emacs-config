@@ -40,6 +40,7 @@
       partitionedAttrs = {
         checks = "dev";
         devShells = "dev";
+        formatter = "dev";
         packages = "dev";
       };
 
