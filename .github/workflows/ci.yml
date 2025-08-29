@@ -69,7 +69,7 @@ jobs:
           extraPullNames: nix-community
 
       - name: Run check
-        run: nix build .#checks.x86_64-linux.${{ matrix.check }}
+        run: nix build --print-build-logs --show-trace .#checks.x86_64-linux.${{ matrix.check }}
 
   build:
     name: Build
@@ -99,4 +99,4 @@ jobs:
           extraPullNames: nix-community
 
       - name: Build default package
-        run: nix build --print-build-logs
+        run: nix build --print-build-logs --show-trace
