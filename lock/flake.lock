@@ -592,6 +592,22 @@
         "type": "github"
       }
     },
+    "eca": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1756919089,
+        "narHash": "sha256-qICgBFzzw5ytfjJqksEv1ElhI9oK/qEwQVQYJREtaEk=",
+        "owner": "editor-code-assistant",
+        "repo": "eca-emacs",
+        "rev": "70eef9fa9662d56e3f7b15a071eaad5ed2521ac5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "editor-code-assistant",
+        "repo": "eca-emacs",
+        "type": "github"
+      }
+    },
     "edit-indirect": {
       "flake": false,
       "locked": {
@@ -1523,17 +1539,17 @@
     "minitest": {
       "flake": false,
       "locked": {
-        "lastModified": 1753283456,
-        "narHash": "sha256-OXUAyNpRbza1HNXYOPYIHBtj7MYq69+PE4rVg6Vsuic=",
-        "owner": "arthurnn",
+        "lastModified": 1754182192,
+        "narHash": "sha256-FnTQxp6zfPWYdadWVd9iS+gV8K3bQU3h6kopiN2Y0+o=",
+        "owner": "~shoshin",
         "repo": "minitest-emacs",
-        "rev": "8a9612f6a485b906aaa67e9a51cf7a3d638196a4",
-        "type": "github"
+        "rev": "d278e94fb1874c584699e1d6fa1b34224c1f8550",
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "arthurnn",
+        "owner": "~shoshin",
         "repo": "minitest-emacs",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nix-mode": {
@@ -2087,6 +2103,7 @@
         "dtrt-indent": "dtrt-indent",
         "dumb-jump": "dumb-jump",
         "easy-escape": "easy-escape",
+        "eca": "eca",
         "edit-indirect": "edit-indirect",
         "editorconfig": "editorconfig",
         "elisp-refs": "elisp-refs",

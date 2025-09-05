@@ -223,6 +223,12 @@
       repo = "easy-escape";
       type = "github";
     };
+    eca = {
+      flake = false;
+      owner = "editor-code-assistant";
+      repo = "eca-emacs";
+      type = "github";
+    };
     edit-indirect = {
       flake = false;
       owner = "Fanael";
@@ -572,9 +578,9 @@
     };
     minitest = {
       flake = false;
-      owner = "arthurnn";
+      owner = "~shoshin";
       repo = "minitest-emacs";
-      type = "github";
+      type = "sourcehut";
     };
     nix-mode = {
       flake = false;
