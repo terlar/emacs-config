@@ -256,6 +256,22 @@
         "type": "github"
       }
     },
+    "cond-let": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1756917964,
+        "narHash": "sha256-8QWp3scHOHJjmVrZk8fRlSGx5ScltWVfnXlp3wShXcM=",
+        "owner": "tarsius",
+        "repo": "cond-let",
+        "rev": "79a16e1f2428f0f79f03250b987bc79cd37a029e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tarsius",
+        "repo": "cond-let",
+        "type": "github"
+      }
+    },
     "consult": {
       "flake": false,
       "locked": {
@@ -301,22 +317,6 @@
       "original": {
         "owner": "copilot-emacs",
         "repo": "copilot.el",
-        "type": "github"
-      }
-    },
-    "copilot-chat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1756814830,
-        "narHash": "sha256-ZWTBBM+84Z6mF31n79UUOv/+UPoVFbhBLr6FX0Xu69o=",
-        "owner": "chep",
-        "repo": "copilot-chat.el",
-        "rev": "d8d97e57d483e2f6bc8fd9223c044126fae5cbb1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chep",
-        "repo": "copilot-chat.el",
         "type": "github"
       }
     },
@@ -1904,22 +1904,6 @@
         "type": "github"
       }
     },
-    "polymode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1750156392,
-        "narHash": "sha256-rwNrOLt8y3STqLqzYYujrX3OaS2OQl85j96c1Qgj/TI=",
-        "owner": "polymode",
-        "repo": "polymode",
-        "rev": "25ba9463a443f0e904147138f226284e437248d3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "polymode",
-        "repo": "polymode",
-        "type": "github"
-      }
-    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2082,10 +2066,10 @@
         "clojure-mode": "clojure-mode",
         "cobol-mode": "cobol-mode",
         "compat": "compat",
+        "cond-let": "cond-let",
         "consult": "consult",
         "consult-git-log-grep": "consult-git-log-grep",
         "copilot": "copilot",
-        "copilot-chat": "copilot-chat",
         "corfu": "corfu",
         "cov": "cov",
         "crystal-mode": "crystal-mode",
@@ -2185,7 +2169,6 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
-        "polymode": "polymode",
         "pomm": "pomm",
         "popper": "popper",
         "popup": "popup",
@@ -2199,7 +2182,6 @@
         "scala-mode": "scala-mode",
         "separedit": "separedit",
         "sesman": "sesman",
-        "shell-maker": "shell-maker",
         "sly": "sly",
         "sly-quicklisp": "sly-quicklisp",
         "spinner": "spinner",
@@ -2286,22 +2268,6 @@
       "original": {
         "owner": "vspinu",
         "repo": "sesman",
-        "type": "github"
-      }
-    },
-    "shell-maker": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1755682788,
-        "narHash": "sha256-tNjbgd+IVzp9SLD0rjssfbK1Ez9Z1rzXsnkt64ys1ME=",
-        "owner": "xenodium",
-        "repo": "shell-maker",
-        "rev": "b33eed1f939d107c01d4c1f7cfd50d76078f715e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "xenodium",
-        "repo": "shell-maker",
         "type": "github"
       }
     },

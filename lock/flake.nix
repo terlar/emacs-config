@@ -97,6 +97,12 @@
       repo = "compat";
       type = "github";
     };
+    cond-let = {
+      flake = false;
+      owner = "tarsius";
+      repo = "cond-let";
+      type = "github";
+    };
     consult = {
       flake = false;
       owner = "minad";
@@ -113,12 +119,6 @@
       flake = false;
       owner = "copilot-emacs";
       repo = "copilot.el";
-      type = "github";
-    };
-    copilot-chat = {
-      flake = false;
-      owner = "chep";
-      repo = "copilot-chat.el";
       type = "github";
     };
     corfu = {
@@ -714,12 +714,6 @@
       repo = "pdf-tools";
       type = "github";
     };
-    polymode = {
-      flake = false;
-      owner = "polymode";
-      repo = "polymode";
-      type = "github";
-    };
     pomm = {
       flake = false;
       owner = "SqrtMinusOne";
@@ -796,12 +790,6 @@
       flake = false;
       owner = "vspinu";
       repo = "sesman";
-      type = "github";
-    };
-    shell-maker = {
-      flake = false;
-      owner = "xenodium";
-      repo = "shell-maker";
       type = "github";
     };
     sly = {
