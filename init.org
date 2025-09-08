@@ -4109,9 +4109,8 @@ Packages that I am currently testing or evaluating.
 #+end_src
 
 ** copilot-chat
-#+begin_src emacs-lisp :tangle yes
-(use-package copilot-chat
-  :ensure t)
+#+begin_src emacs-lisp :tangle no
+(use-package copilot-chat :ensure t)
 #+end_src
 
 ** gptel-aibo
