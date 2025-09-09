@@ -4018,6 +4018,7 @@ Visual undo history navigation.
                                          :models '("deepseek-r1"
                                                    "gemma3:12b"
                                                    "gemma3n"
+                                                   "gpt-oss"
                                                    "qwen3"
                                                    "qwen3:4b"
                                                    "qwen3-coder")))
