@@ -1,2 +1,0 @@
-(gptel-aibo :fetcher github
-            :repo "dolmens/gptel-aibo")

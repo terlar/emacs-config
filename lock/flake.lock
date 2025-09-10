@@ -672,22 +672,6 @@
         "type": "github"
       }
     },
-    "elysium": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1743957529,
-        "narHash": "sha256-Xux9yhLuxiI5+C/2VnOJLi/Ri7iVLQJJwBK03ImYNHQ=",
-        "owner": "lanceberge",
-        "repo": "elysium",
-        "rev": "049ad3091baf3ce578791187c5e5e4f932c26044",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lanceberge",
-        "repo": "elysium",
-        "type": "github"
-      }
-    },
     "embark": {
       "flake": false,
       "locked": {
@@ -976,19 +960,35 @@
         "type": "github"
       }
     },
-    "gptel-aibo": {
+    "gptel-autocomplete": {
       "flake": false,
       "locked": {
-        "lastModified": 1752051066,
-        "narHash": "sha256-1AdKT6l32cfiYsdTJlzuxgd+lPgT8Pe/Re48au+15kA=",
-        "owner": "dolmens",
-        "repo": "gptel-aibo",
-        "rev": "f55b5170b9dfc3023110ec8cad66e6f352ea9d8a",
+        "lastModified": 1750253181,
+        "narHash": "sha256-gVgdFLi6RGUCD3ZXzOIo5XpTNmP/9lMAO5nyWu1zVlM=",
+        "owner": "jdndeveloper",
+        "repo": "gptel-autocomplete",
+        "rev": "8ace326a6e7b8a3a4df7a6e80272b472e7fbd167",
         "type": "github"
       },
       "original": {
-        "owner": "dolmens",
-        "repo": "gptel-aibo",
+        "owner": "jdndeveloper",
+        "repo": "gptel-autocomplete",
+        "type": "github"
+      }
+    },
+    "gptel-magit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747729990,
+        "narHash": "sha256-AoWGHeO6CPQCuyASOh+xo6FzC2h9Nwdq1nEDNaU0WMs=",
+        "owner": "ragnard",
+        "repo": "gptel-magit",
+        "rev": "f27c01821b67ed99ddf705c2b995f78b71394d8b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ragnard",
+        "repo": "gptel-magit",
         "type": "github"
       }
     },
@@ -1421,6 +1421,22 @@
       "original": {
         "owner": "fredericgiquel",
         "repo": "lte.el",
+        "type": "github"
+      }
+    },
+    "macher": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1755742522,
+        "narHash": "sha256-Ngwocb5k+d8FPQNoWNIxFxImnGqPaTzKz0YX8O+7ugU=",
+        "owner": "kmontag",
+        "repo": "macher",
+        "rev": "4fa8fbb6b250b207723d380931a463bcbc8da9ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kmontag",
+        "repo": "macher",
         "type": "github"
       }
     },
@@ -2092,7 +2108,6 @@
         "editorconfig": "editorconfig",
         "elisp-refs": "elisp-refs",
         "elquery": "elquery",
-        "elysium": "elysium",
         "embark": "embark",
         "embark-consult": "embark-consult",
         "envrc": "envrc",
@@ -2111,7 +2126,8 @@
         "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gptel": "gptel",
-        "gptel-aibo": "gptel-aibo",
+        "gptel-autocomplete": "gptel-autocomplete",
+        "gptel-magit": "gptel-magit",
         "gptel-quick": "gptel-quick",
         "gradle-mode": "gradle-mode",
         "groovy-mode": "groovy-mode",
@@ -2139,6 +2155,7 @@
         "llama": "llama",
         "log4e": "log4e",
         "lte": "lte",
+        "macher": "macher",
         "magit": "magit",
         "magit-popup": "magit-popup",
         "magit-section": "magit-section",

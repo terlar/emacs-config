@@ -253,12 +253,6 @@
       repo = "elquery";
       type = "github";
     };
-    elysium = {
-      flake = false;
-      owner = "lanceberge";
-      repo = "elysium";
-      type = "github";
-    };
     embark = {
       flake = false;
       owner = "oantolin";
@@ -367,10 +361,16 @@
       repo = "gptel";
       type = "github";
     };
-    gptel-aibo = {
+    gptel-autocomplete = {
       flake = false;
-      owner = "dolmens";
-      repo = "gptel-aibo";
+      owner = "jdndeveloper";
+      repo = "gptel-autocomplete";
+      type = "github";
+    };
+    gptel-magit = {
+      flake = false;
+      owner = "ragnard";
+      repo = "gptel-magit";
       type = "github";
     };
     gptel-quick = {
@@ -532,6 +532,12 @@
       flake = false;
       owner = "fredericgiquel";
       repo = "lte.el";
+      type = "github";
+    };
+    macher = {
+      flake = false;
+      owner = "kmontag";
+      repo = "macher";
       type = "github";
     };
     magit = {
