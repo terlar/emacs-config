@@ -4013,7 +4013,8 @@ Visual undo history navigation.
 (use-package gptel
   :ensure t
   :functions
-  (gptel-make-ollama)
+  (gptel-make-gh-copilot
+   gptel-make-ollama)
   :bind
   (:map leader-map
         ("g" . gptel)
@@ -4044,7 +4045,10 @@ Visual undo history navigation.
    :test #'equal))
 
 (use-package gptel-autocomplete
-  :ensure t)
+  :ensure t
+  :bind
+  (:map gptel-autocomplete-map
+        ("C-e" . 'gptel-accept-completion)))
 
 (use-package gptel-magit
   :ensure t

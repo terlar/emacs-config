@@ -1,2 +1,2 @@
 (gptel-autocomplete :fetcher github
-		    :repo "jdndeveloper/gptel-autocomplete")
+		    :repo "terlar/gptel-autocomplete")

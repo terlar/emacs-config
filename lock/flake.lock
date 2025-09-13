@@ -963,15 +963,15 @@
     "gptel-autocomplete": {
       "flake": false,
       "locked": {
-        "lastModified": 1750253181,
-        "narHash": "sha256-gVgdFLi6RGUCD3ZXzOIo5XpTNmP/9lMAO5nyWu1zVlM=",
-        "owner": "jdndeveloper",
+        "lastModified": 1757795550,
+        "narHash": "sha256-d5X6sZ/7TiMGTAht/qHGt2n4/H7nfyx0TpJPEINeJ9M=",
+        "owner": "terlar",
         "repo": "gptel-autocomplete",
-        "rev": "8ace326a6e7b8a3a4df7a6e80272b472e7fbd167",
+        "rev": "9b171854b9179f815eae2a3164aae9604ac73f4b",
         "type": "github"
       },
       "original": {
-        "owner": "jdndeveloper",
+        "owner": "terlar",
         "repo": "gptel-autocomplete",
         "type": "github"
       }
