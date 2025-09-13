@@ -707,11 +707,11 @@
     "envrc": {
       "flake": false,
       "locked": {
-        "lastModified": 1756386431,
-        "narHash": "sha256-0IiecKfyXarg/tDOAoJFv1Yub1XGDTp33j8BggShkho=",
+        "lastModified": 1757428123,
+        "narHash": "sha256-wCjPui0TICHc4oacGP2QZdYR2IbgrU6VYQEK17lZaCc=",
         "owner": "purcell",
         "repo": "envrc",
-        "rev": "48a2ee6a4d6a36b1dc76efa321b9b9c8bc11d73b",
+        "rev": "4fc7b657ea62c29eff5b8bf4356427e96cc99c93",
         "type": "github"
       },
       "original": {

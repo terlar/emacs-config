@@ -2459,8 +2459,6 @@ Project-specific environment variables via =direnv=.
   :defer 1
   :commands
   (envrc-global-mode)
-  :preface
-  (defvar Info-directory-list)
   :bind
   (:map envrc-mode-map ("C-c e" . envrc-command-map))
   :config
