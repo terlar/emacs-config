@@ -4060,6 +4060,15 @@ Visual undo history navigation.
   (:map help-map ("," . gptel-quick)))
 #+end_src
 
+*** macher
+#+begin_src emacs-lisp :tangle yes
+(use-package macher
+  :ensure t
+  :after gptel
+  :config
+  (macher-install))
+#+end_src
+
 * Testing
 Packages that I am currently testing or evaluating.
 
@@ -4095,15 +4104,6 @@ Packages that I am currently testing or evaluating.
 ** freeze-it
 #+begin_src emacs-lisp :tangle no
 (use-package freeze-it :ensure t)
-#+end_src
-
-** macher
-#+begin_src emacs-lisp :tangle yes
-(use-package macher
-  :ensure t
-  :after gptel
-  :config
-  (macher-install))
 #+end_src
 
 * Private
