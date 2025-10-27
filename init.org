@@ -4046,7 +4046,9 @@ Visual undo history navigation.
   :ensure t
   :bind
   (:map gptel-autocomplete-map
-        ("C-e" . 'gptel-accept-completion)))
+        ("C-e" . 'gptel-accept-completion))
+  :init
+  (keymap-set toggle-map "," '("GPTel completion" . gptel-autocomplete-mode)))
 
 (use-package gptel-magit
   :ensure t
