@@ -93,7 +93,7 @@ in
           extraOptions = [ "--no-desktop" ];
         };
 
-        programs.git.extraConfig = {
+        programs.git.settings = {
           difftool.ediff.cmd = ''
             ${emacsEdit} --eval '(ediff-files "'$LOCAL'" "'$REMOTE'")'
           '';
@@ -121,7 +121,7 @@ in
           "{}"
         ];
       })
-      (lib.mkIf cfg.enableGitDiff { programs.git.extraConfig.diff.tool = "ediff"; })
+      (lib.mkIf cfg.enableGitDiff { programs.git.settings.diff.tool = "ediff"; })
       (lib.mkIf cfg.defaultEmailApplication {
         xdg.mimeApps.defaultApplications."x-scheme-handler/mailto" = emacsMailDesktop;
       })
