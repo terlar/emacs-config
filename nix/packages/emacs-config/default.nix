@@ -4,7 +4,6 @@
   pkgs,
   emacs,
   emacs-env,
-  emacsPackages,
   rootPath,
 }:
 
@@ -20,7 +19,7 @@ pkgs.callPackage ./build-config.nix {
     (builtins.filter lib.isDerivation)
   ];
 
-  treesit-grammars = emacsPackages.treesit-grammars.with-grammars (ps: [
+  treesit-grammars = emacs.pkgs.treesit-grammars.with-grammars (ps: [
     ps.tree-sitter-dockerfile
     ps.tree-sitter-elixir
     ps.tree-sitter-go
