@@ -15,7 +15,7 @@ The rough details:
 - minibuffer completion :: [[https://github.com/minad/vertico][vertico]]
 - package configuration :: [[info:use-package#Top][use-package]]
 - key definitions :: =keymap=, =repeat=
-- code navigation :: [[info:emacs#Xref][xref]], [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]]
+- code navigation :: [[info:emacs#Xref][xref]], [[https://github.com/jacktasia/dumb-jump][dumb-jump]], [[https://github.com/vspinu/imenu-anywhere][imenu-anywhere]], [[info:emacs#Visiting][find-sibling-file]]
 - syntax checker :: [[info:flymake#Top][flymake]]
 - persistence :: =desktop=
 - language server integration :: [[info:eglot#Top][eglot]]
@@ -4040,6 +4040,29 @@ Visual undo history navigation.
   (cl-pushnew
    '(regex . "You are a large language model and regular expression expert. Respond with pure regular expressions without involvement of other programming languages.")
    gptel-directives
+   :test #'equal)
+
+  (cl-pushnew
+   '(commit . "You are an expert at writing Git commits. Your job is to write a short clear commit message that summarizes the changes.
+
+The commit message should be structured as follows:
+
+    <type>(<optional scope>): <description>
+
+    [optional body]
+
+- Commits MUST be prefixed with a type, which consists of one of the followings words: build, chore, ci, docs, feat, fix, perf, refactor, style, test
+- The type feat MUST be used when a commit adds a new feature
+- The type fix MUST be used when a commit represents a bug fix
+- An optional scope MAY be provided after a type. A scope is a phrase describing a section of the codebase enclosed in parenthesis, e.g., fix(parser):
+- A description MUST immediately follow the type/scope prefix. The description is a short description of the code changes, e.g., fix: array parsing issue when multiple spaces were contained in string.
+- Try to limit the whole subject line to 60 characters
+- Lowercase the subject line
+- Do not end the subject line with any punctuation
+- A longer commit body MAY be provided after the short description, providing additional contextual information about the code changes. The body MUST begin one blank line after the description.
+- Use the imperative mood in the subject line
+- Keep the body short and concise (omit it entirely if not useful)")
+   gptel-directives
    :test #'equal))
 
 (use-package gptel-autocomplete
@@ -4054,7 +4077,25 @@ Visual undo history navigation.
   :ensure t
   :after magit
   :hook
-  (magit-mode-hook . gptel-magit-install))
+  (magit-mode-hook . gptel-magit-install)
+  :bind
+  (:map git-commit-mode-map ("M-g" . gptel-magit-generate-message-from-buffer))
+  :init
+  (defun gptel-magit-generate-message-from-buffer ()
+    "Generate a commit message when in the git commit buffer."
+    (interactive)
+    (unless (magit-commit-message-buffer)
+      (user-error "No commit in progress"))
+    (gptel-magit--request (buffer-string)
+      :system gptel-magit-commit-prompt
+      :context nil
+      :callback (lambda (response _info)
+                  (let ((msg (gptel-magit--format-commit-message response)))
+                    (with-current-buffer (magit-commit-message-buffer)
+                      (save-excursion
+                        (goto-char (point-min))
+                        (insert msg))))))
+    (message "magit-gptel: Generating commit message...")))
 
 (use-package gptel-quick
   :ensure t
@@ -4068,7 +4109,9 @@ Visual undo history navigation.
   :ensure t
   :after gptel
   :config
-  (macher-install))
+  (macher-install)
+  :bind
+  (:map local-leader-map ("g" . macher-implement)))
 #+end_src
 
 * Testing
