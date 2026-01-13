@@ -18,13 +18,6 @@ _final: prev: {
     '';
   });
 
-  cape = prev.cape.overrideAttrs (_: {
-    preBuild = ''
-      substituteInPlace cape-char.el \
-        --replace-fail "when-let" "when-let*"
-    '';
-  });
-
   corfu = prev.corfu.overrideAttrs (_: {
     preBuild = ''
       substituteInPlace corfu-popupinfo.el \
