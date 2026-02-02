@@ -41,6 +41,12 @@
     };
   };
 
+  pdf-tools = _: prev: {
+    files = prev.files // {
+      "server" = "server";
+    };
+  };
+
   rustic = _: prev: {
     files = builtins.removeAttrs prev.files [
       # Unused integrations.

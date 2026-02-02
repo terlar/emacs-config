@@ -7,6 +7,12 @@
   libvterm-neovim,
   pkg-config,
   unzip,
+  # pdf-tools
+  autoconf,
+  automake,
+  libpng,
+  poppler,
+  zlib,
 }:
 
 _final: prev: {
@@ -54,6 +60,28 @@ _final: prev: {
 
   nov = prev.nov.overrideAttrs (old: {
     propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [ unzip ];
+  });
+
+  pdf-tools = prev.pdf-tools.overrideAttrs (old: {
+    nativeBuildInputs = [
+      autoconf
+      automake
+      pkg-config
+    ];
+    buildInputs = old.buildInputs ++ [
+      libpng
+      zlib
+      poppler
+    ];
+    preBuild = ''
+      cd server
+      ./autogen.sh
+      ./configure -q
+      make
+      cp epdfinfo ..
+      cd ..
+      rm -r server
+    '';
   });
 
   vterm = prev.vterm.overrideAttrs (old: {
