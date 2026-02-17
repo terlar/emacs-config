@@ -2,7 +2,7 @@
   stdenv,
   cmake,
   emacs,
-  enchant2,
+  enchant_2,
   gcc,
   libvterm-neovim,
   pkg-config,
@@ -39,7 +39,7 @@ _final: prev: {
     in
     {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkg-config ];
-      buildInputs = (old.buildInputs or [ ]) ++ [ enchant2 ];
+      buildInputs = (old.buildInputs or [ ]) ++ [ enchant_2 ];
 
       preBuild = ''
         NIX_CFLAGS_COMPILE="$($PKG_CONFIG --cflags enchant-2) $NIX_CFLAGS_COMPILE"
