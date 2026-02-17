@@ -4018,19 +4018,21 @@ Visual undo history navigation.
         ("g" . gptel)
         ("G" . gptel-menu))
   :config
-  (setq gptel-model 'gpt-4.1)
-  (setq gptel-backend (gptel-make-ollama "Ollama"
-                                         :host "localhost:11434"
-                                         :stream t
-                                         :models '("deepseek-r1"
-                                                   "gemma3:12b"
-                                                   "gemma3n"
-                                                   "glm-4.7-flash"
-                                                   "gpt-oss"
-                                                   "qwen3"
-                                                   "qwen3:4b"
-                                                   "qwen3-coder")))
   (gptel-make-gh-copilot "Copilot")
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '("deepseek-r1"
+              "gemma3:12b"
+              "gemma3n"
+              "glm-4.7-flash"
+              "gpt-oss"
+              "qwen3"
+              "qwen3:4b"
+              "qwen3-coder"))
+
+  (setq gptel-model 'gpt-4.1)
+  (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
   (setq gptel-default-mode 'org-mode)
 
   (cl-pushnew
