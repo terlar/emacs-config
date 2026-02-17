@@ -61,7 +61,7 @@
           name = "test-emacs-config";
           runtimeInputs = [
             config.packages.emacs-env
-            pkgs.xorg.lndir
+            pkgs.lndir
           ];
           text = ''
             XDG_DATA_DIRS="$XDG_DATA_DIRS:${
@@ -95,7 +95,7 @@
         updateScreenshots = pkgs.writeShellApplication {
           name = "update-screenshots";
           runtimeInputs = [
-            pkgs.xorg.lndir
+            pkgs.lndir
             config.packages.emacs-env
           ];
           text = ''

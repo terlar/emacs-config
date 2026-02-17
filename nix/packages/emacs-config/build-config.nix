@@ -4,8 +4,8 @@
   buildElispPackage,
   elispInputs,
   emacs-all-the-icons-fonts,
+  lndir,
   treesit-grammars,
-  xorg,
   rootPath,
 }:
 let
@@ -59,11 +59,11 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out
-    ${xorg.lndir}/bin/lndir -silent ${init}/share/emacs/site-lisp $out
+    ${lndir}/bin/lndir -silent ${init}/share/emacs/site-lisp $out
 
     if [ -d "${init}/share/emacs/native-lisp" ]; then
       mkdir -p $out/eln-cache
-      ${xorg.lndir}/bin/lndir -silent ${init}/share/emacs/native-lisp $out/eln-cache
+      ${lndir}/bin/lndir -silent ${init}/share/emacs/native-lisp $out/eln-cache
     fi
 
     install -D -t $out $src/templates
