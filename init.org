@@ -2079,7 +2079,7 @@ Support for Docker related files.
 #+end_src
 
 *** Kubernetes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package kubernetes :ensure t)
 #+end_src
 

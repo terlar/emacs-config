@@ -486,12 +486,6 @@
       repo = "kotlin-mode";
       type = "github";
     };
-    kubernetes = {
-      flake = false;
-      owner = "kubernetes-el";
-      repo = "kubernetes-el";
-      type = "github";
-    };
     ligature = {
       flake = false;
       owner = "mickeynp";
@@ -532,12 +526,6 @@
       flake = false;
       owner = "magit";
       repo = "magit";
-      type = "github";
-    };
-    magit-popup = {
-      flake = false;
-      owner = "magit";
-      repo = "magit-popup";
       type = "github";
     };
     magit-section = {
@@ -720,12 +708,6 @@
       repo = "popper";
       type = "github";
     };
-    popup = {
-      flake = false;
-      owner = "auto-complete";
-      repo = "popup-el";
-      type = "github";
-    };
     puni = {
       flake = false;
       owner = "AmaiKinono";
@@ -755,12 +737,6 @@
       owner = "~tomterl";
       repo = "repl-toggle";
       type = "sourcehut";
-    };
-    request = {
-      flake = false;
-      owner = "tkf";
-      repo = "emacs-request";
-      type = "github";
     };
     "s" = {
       flake = false;
