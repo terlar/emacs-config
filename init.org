@@ -2486,6 +2486,9 @@ Generic Language Server Protocol integration via ~eglot~.
   :config
   (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
               eglot-server-programs
+              :test #'equal)
+  (cl-pushnew '((terraform-mode) . ("tofu-ls" "serve"))
+              eglot-server-programs
               :test #'equal))
 #+end_src
 
