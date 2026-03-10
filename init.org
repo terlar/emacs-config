@@ -4073,10 +4073,13 @@ The commit message should be structured as follows:
 
 (use-package gptel-autocomplete
   :ensure t
+  :commands
+  (gptel-autocomplete-mode)
   :bind
-  (:map gptel-autocomplete-map
+  (:map gptel-autocomplete-completion-map
         ("C-e" . 'gptel-accept-completion))
   :init
+  (setq gptel-autocomplete-idle-delay 0.1)
   (keymap-set toggle-map "," '("GPTel completion" . gptel-autocomplete-mode)))
 
 (use-package gptel-magit

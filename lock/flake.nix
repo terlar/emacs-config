@@ -351,7 +351,7 @@
     };
     gptel-autocomplete = {
       flake = false;
-      owner = "terlar";
+      owner = "JDNdeveloper";
       repo = "gptel-autocomplete";
       type = "github";
     };

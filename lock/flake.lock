@@ -931,15 +931,15 @@
     "gptel-autocomplete": {
       "flake": false,
       "locked": {
-        "lastModified": 1757795550,
-        "narHash": "sha256-d5X6sZ/7TiMGTAht/qHGt2n4/H7nfyx0TpJPEINeJ9M=",
-        "owner": "terlar",
+        "lastModified": 1773061819,
+        "narHash": "sha256-VSHsAQUtiOeMPlSB5I0I5bFCA7ODXBiKRu/PL0/FKSQ=",
+        "owner": "JDNdeveloper",
         "repo": "gptel-autocomplete",
-        "rev": "9b171854b9179f815eae2a3164aae9604ac73f4b",
+        "rev": "6d2a37fbf514858a98aaa8d90343b1fb4d6b540a",
         "type": "github"
       },
       "original": {
-        "owner": "terlar",
+        "owner": "JDNdeveloper",
         "repo": "gptel-autocomplete",
         "type": "github"
       }
