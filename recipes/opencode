@@ -1,0 +1,2 @@
+(opencode :fetcher codeberg
+	  :repo "sczi/opencode.el")

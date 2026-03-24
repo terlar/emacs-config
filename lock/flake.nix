@@ -606,6 +606,11 @@
       repo = "ob-http";
       type = "github";
     };
+    opencode = {
+      flake = false;
+      type = "git";
+      url = "https://codeberg.org/sczi/opencode.el.git";
+    };
     orderless = {
       flake = false;
       owner = "oantolin";
@@ -694,6 +699,12 @@
       flake = false;
       owner = "vedang";
       repo = "pdf-tools";
+      type = "github";
+    };
+    plz = {
+      flake = false;
+      owner = "alphapapa";
+      repo = "plz.el";
       type = "github";
     };
     pomm = {

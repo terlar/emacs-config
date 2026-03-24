@@ -1616,6 +1616,22 @@
         "type": "github"
       }
     },
+    "opencode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774224380,
+        "narHash": "sha256-EvF+nvDwyTmEDQO9UujiNdjWEa4MG8C7JQNErzZuMIo=",
+        "ref": "refs/heads/main",
+        "rev": "0b5b538c73fd4c163b5e04c01b468ba7106cf96b",
+        "revCount": 164,
+        "type": "git",
+        "url": "https://codeberg.org/sczi/opencode.el.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/sczi/opencode.el.git"
+      }
+    },
     "orderless": {
       "flake": false,
       "locked": {
@@ -1856,6 +1872,22 @@
         "type": "github"
       }
     },
+    "plz": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742340934,
+        "narHash": "sha256-rencjqNdWSVSqlbXS3WJBmd/LW8eaUtHCZJdPQgJGIg=",
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "rev": "e2d07838e3b64ee5ebe59d4c3c9011adefb7b58e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "type": "github"
+      }
+    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2071,6 +2103,7 @@
         "nov": "nov",
         "nushell-ts-mode": "nushell-ts-mode",
         "ob-http": "ob-http",
+        "opencode": "opencode",
         "orderless": "orderless",
         "org-appear": "org-appear",
         "org-cliplink": "org-cliplink",
@@ -2086,6 +2119,7 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
+        "plz": "plz",
         "pomm": "pomm",
         "popper": "popper",
         "puni": "puni",
