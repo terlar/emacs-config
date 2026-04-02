@@ -4161,7 +4161,7 @@ Packages that I am currently testing or evaluating.
 #+end_src
 
 ** opencode
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package opencode :ensure t)
 #+end_src
 

@@ -9,10 +9,6 @@ on:
     branches:
       - main
 
-env:
-  # renovate: datasource=github-releases depName=nixos/nix
-  NIX_VERSION: 2.18.2
-
 jobs:
   prepare:
     name: Prepare
@@ -23,14 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
-        with:
-          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
-          extra-conf: |
-            http-connections = 50
-            max-jobs = auto
-          diagnostic-endpoint: ''
+      - name: Install Lix
+        uses: canidae-solutions/lix-quick-install-action@v4
 
       - name: Find checks
         id: checks
@@ -51,14 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
-        with:
-          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
-          extra-conf: |
-            http-connections = 50
-            max-jobs = auto
-          diagnostic-endpoint: ''
+      - name: Install Lix
+        uses: canidae-solutions/lix-quick-install-action@v4
 
       - name: Nix cache (cachix)
         uses: cachix/cachix-action@1eb2ef646ac0255473d23a5907ad7b04ce94065c # v17
@@ -81,14 +65,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
-        with:
-          nix-package-url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/nix-${{ env.NIX_VERSION }}-x86_64-linux.tar.xz
-          extra-conf: |
-            http-connections = 50
-            max-jobs = auto
-          diagnostic-endpoint: ''
+      - name: Install Lix
+        uses: canidae-solutions/lix-quick-install-action@v4
 
       - name: Nix cache (cachix)
         uses: cachix/cachix-action@1eb2ef646ac0255473d23a5907ad7b04ce94065c # v17
