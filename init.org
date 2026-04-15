@@ -4167,6 +4167,11 @@ Packages that I am currently testing or evaluating.
 (use-package opencode :ensure t)
 #+end_src
 
+** mcp
+#+begin_src emacs-lisp :tangle yes
+(use-package mcp :ensure t)
+#+end_src
+
 * Private
 #+begin_src emacs-lisp :tangle yes
 (require 'private nil t)

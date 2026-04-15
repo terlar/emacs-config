@@ -1488,6 +1488,22 @@
         "type": "github"
       }
     },
+    "mcp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771757919,
+        "narHash": "sha256-tTbClmM0FgE4SS6rAdqq6vj5O8f4kAYGB24w90Gx1w4=",
+        "owner": "lizqwerscott",
+        "repo": "mcp.el",
+        "rev": "5c105a8db470eb9777fdbd26251548dec42c03f0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lizqwerscott",
+        "repo": "mcp.el",
+        "type": "github"
+      }
+    },
     "miniedit": {
       "flake": false,
       "locked": {
@@ -2079,6 +2095,7 @@
         "marginalia": "marginalia",
         "markdown-mode": "markdown-mode",
         "markdown-toc": "markdown-toc",
+        "mcp": "mcp",
         "miniedit": "miniedit",
         "minitest": "minitest",
         "nix-mode": "nix-mode",

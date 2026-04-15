@@ -558,6 +558,12 @@
       repo = "markdown-toc";
       type = "github";
     };
+    mcp = {
+      flake = false;
+      owner = "lizqwerscott";
+      repo = "mcp.el";
+      type = "github";
+    };
     miniedit = {
       flake = false;
       owner = "emacsorphanage";
