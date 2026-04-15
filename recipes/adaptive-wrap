@@ -1,2 +1,2 @@
 (adaptive-wrap :fetcher github
-	       :repo "emacsmirror/adaptive-wrap")
+               :repo "emacsmirror/adaptive-wrap")

@@ -1,2 +1,2 @@
 (macher :fetcher github
-	:repo "kmontag/macher")
+        :repo "kmontag/macher")
