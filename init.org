@@ -4066,6 +4066,13 @@ The commit message should be structured as follows:
    gptel-directives
    :test #'equal))
 
+(use-package gptel-agent
+  :ensure t
+  :commands
+  (gptel-agent-update)
+  :config
+  (gptel-agent-update))
+
 (use-package gptel-autocomplete
   :ensure t
   :commands

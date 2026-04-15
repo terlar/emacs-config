@@ -928,6 +928,22 @@
         "type": "github"
       }
     },
+    "gptel-agent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776233479,
+        "narHash": "sha256-XaZ8FCsR6f2yOr0qtkIpGT4J6Tf9JyO2lJMBYrZyCE0=",
+        "owner": "karthink",
+        "repo": "gptel-agent",
+        "rev": "e2ef97d6b566b2ad751c8a0a87b8272710c95808",
+        "type": "github"
+      },
+      "original": {
+        "owner": "karthink",
+        "repo": "gptel-agent",
+        "type": "github"
+      }
+    },
     "gptel-autocomplete": {
       "flake": false,
       "locked": {
@@ -2028,6 +2044,7 @@
         "gotest": "gotest",
         "goto-chg": "goto-chg",
         "gptel": "gptel",
+        "gptel-agent": "gptel-agent",
         "gptel-autocomplete": "gptel-autocomplete",
         "gptel-magit": "gptel-magit",
         "gptel-quick": "gptel-quick",
@@ -2119,7 +2136,8 @@
         "vterm-toggle": "vterm-toggle",
         "vundo": "vundo",
         "with-editor": "with-editor",
-        "ws-butler": "ws-butler"
+        "ws-butler": "ws-butler",
+        "yaml": "yaml"
       }
     },
     "s": {
@@ -2552,6 +2570,22 @@
         "owner": "emacsmirror",
         "ref": "elpa/ws-butler",
         "repo": "nongnu_elpa",
+        "type": "github"
+      }
+    },
+    "yaml": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768287231,
+        "narHash": "sha256-q100u9hMSBiD7AdvueIZw+ZMEomMtS04GPOCbNaDZ7k=",
+        "owner": "zkry",
+        "repo": "yaml.el",
+        "rev": "f2369fb4985ed054be47ae111760ff2075dff72a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zkry",
+        "repo": "yaml.el",
         "type": "github"
       }
     }
