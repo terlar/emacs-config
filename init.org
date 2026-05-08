@@ -1491,17 +1491,83 @@ Structured editing with soft deletion and balanced expressions.
   (keymap-set next-map "SPC" '("Expand region" . puni-expand-region))
   (keymap-set prev-map "SPC" '("Contract region" . puni-contract-region))
   :config
-  (defun puni-comment-line (arg)
-    "Comment whole structured line(s) based on ARG or active region."
+  (defun puni--kill-line-bol-cleanup (orig-fn &rest args)
+    "Advice for `puni-kill-line' to clean up a lone punctuation remnant.
+When called from the start of a line's content, puni may leave a lone
+punctuation char (e.g. \";\" in Nix) behind.  Delete it silently."
+    (if (looking-back (rx line-start (* space)) (line-beginning-position))
+        (let ((bol (line-beginning-position)))
+          (apply orig-fn args)
+          (when (save-excursion
+                  (goto-char bol)
+                  (looking-at-p (rx (* space) (+ (syntax punctuation)) (* space) line-end)))
+            (delete-region bol (min (1+ (save-excursion (goto-char bol) (line-end-position)))
+                                    (point-max))))
+          (back-to-indentation))
+      (apply orig-fn args)))
+
+  (advice-add 'puni-kill-line :around #'puni--kill-line-bol-cleanup)
+
+  (defun puni-comment-line (&optional n)
+    "Toggle comment on the Puni-structural line(s).
+With a region active, comment/uncomment the region. With prefix N,
+operate on N structural lines. Uses puni's structural region when
+commenting; when uncommenting, finds the contiguous commented block."
     (interactive "P")
-    (cl-letf (((symbol-function 'kill-region) #'comment-region))
-      (puni-kill-line arg)))
+    (if (use-region-p)
+        (comment-or-uncomment-region (region-beginning) (region-end))
+      (when n (setq n (prefix-numeric-value n)))
+      (if (and comment-start
+               (save-excursion
+                 (skip-syntax-forward " ")
+                 (looking-at (regexp-quote (string-trim comment-start)))))
+          ;; Uncommenting: find the extent of the commented block and uncomment it.
+          (let ((block-start
+                 (if (comment-only-p (line-beginning-position) (line-end-position))
+                     ;; Full comment line: scan backward through contiguous block.
+                     (save-excursion
+                       (while (and (not (bobp))
+                                   (save-excursion
+                                     (forward-line -1)
+                                     (comment-only-p (line-beginning-position)
+                                                     (line-end-position))))
+                         (forward-line -1))
+                       (line-beginning-position))
+                   ;; Mid-line comment: start at the comment character.
+                   (save-excursion (skip-syntax-forward " ") (point))))
+                (block-end
+                 (save-excursion
+                   (forward-line 1)
+                   (while (and (not (eobp))
+                               (comment-only-p (line-beginning-position)
+                                               (line-end-position)))
+                     (forward-line 1))
+                   (point))))
+            (uncomment-region block-start block-end))
+        ;; Commenting: use puni structural region for balanced commenting.
+        (let ((pt (point))
+              (to (save-excursion (forward-line (or n 1)) (point))))
+          (unless (or (and kill-whole-line (bolp)) (eolp) n)
+            (setq to (1- to)))
+          (when-let* ((region (puni-soft-delete pt to 'strict-sexp 'beyond
+                                                nil nil 'return-region)))
+            ;; Extend region to include a trailing punctuation char (e.g. ";" in Nix).
+            (let ((end (save-excursion
+                         (goto-char (cdr region))
+                         (skip-chars-forward " \t")
+                         (if (and (not (eolp))
+                                  (eq (char-syntax (char-after)) ?.))
+                             (1+ (point))
+                           (cdr region)))))
+              (comment-region (car region) end)))))))
 
   (defun puni-kill-ring-save-line (arg)
     "Save whole structured line(s) based on ARG or active region."
     (interactive "P")
-    (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
-      (puni-kill-line arg)))
+    (save-excursion
+      (cl-letf (((symbol-function 'kill-region) #'kill-ring-save)
+                ((symbol-function 'delete-region) #'ignore))
+        (puni-kill-line arg))))
 
   (defun puni-whole-line-or-region-kill (arg)
     "Kill whole structured line(s) based on ARG or active region."
@@ -1518,8 +1584,10 @@ Structured editing with soft deletion and balanced expressions.
   (defun puni-whole-line-or-region-kill-ring-save (arg)
     "Save whole structured line(s) based on ARG or active region."
     (interactive "P")
-    (cl-letf (((symbol-function 'kill-region) #'kill-ring-save))
-      (puni-whole-line-or-region-kill arg)))
+    (save-excursion
+      (cl-letf (((symbol-function 'kill-region) #'kill-ring-save)
+                ((symbol-function 'delete-region) #'ignore))
+        (puni-whole-line-or-region-kill arg))))
 
   (defun puni-kill-list-around-point ()
     (interactive)
@@ -4025,14 +4093,9 @@ Visual undo history navigation.
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
-    :models '("deepseek-r1"
-              "gemma3:12b"
-              "gemma3n"
-              "glm-4.7-flash"
+    :models '("gemma4"
               "gpt-oss"
-              "qwen3"
-              "qwen3:4b"
-              "qwen3-coder"))
+              "qwen3"))
 
   (setq gptel-model 'gpt-4.1)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
@@ -4070,6 +4133,13 @@ The commit message should be structured as follows:
 - Keep the body short and concise (omit it entirely if not useful)")
    gptel-directives
    :test #'equal))
+
+(use-package gptel-agent
+  :ensure t
+  :commands
+  (gptel-agent-update)
+  :config
+  (gptel-agent-update))
 
 (use-package gptel-autocomplete
   :ensure t
@@ -4163,6 +4233,11 @@ Packages that I am currently testing or evaluating.
 ** opencode
 #+begin_src emacs-lisp :tangle no
 (use-package opencode :ensure t)
+#+end_src
+
+** mcp
+#+begin_src emacs-lisp :tangle yes
+(use-package mcp :ensure t)
 #+end_src
 
 * Private

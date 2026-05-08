@@ -349,6 +349,12 @@
       repo = "gptel";
       type = "github";
     };
+    gptel-agent = {
+      flake = false;
+      owner = "karthink";
+      repo = "gptel-agent";
+      type = "github";
+    };
     gptel-autocomplete = {
       flake = false;
       owner = "JDNdeveloper";
@@ -550,6 +556,12 @@
       flake = false;
       owner = "ardumont";
       repo = "markdown-toc";
+      type = "github";
+    };
+    mcp = {
+      flake = false;
+      owner = "lizqwerscott";
+      repo = "mcp.el";
       type = "github";
     };
     miniedit = {
@@ -898,6 +910,12 @@
       owner = "emacsmirror";
       ref = "elpa/ws-butler";
       repo = "nongnu_elpa";
+      type = "github";
+    };
+    yaml = {
+      flake = false;
+      owner = "zkry";
+      repo = "yaml.el";
       type = "github";
     };
   };

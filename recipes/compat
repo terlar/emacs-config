@@ -1,2 +1,2 @@
 (compat :fetcher github
-	:repo "emacs-compat/compat")
+        :repo "emacs-compat/compat")
