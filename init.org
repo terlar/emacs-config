@@ -1466,6 +1466,7 @@ Structured editing with soft deletion and balanced expressions.
    puni-kill-line
    puni-kill-active-region
    puni-mark-list-around-point)
+  :functions (puni--kill-line-bol-cleanup)
   :hook
   (after-init-hook . puni-global-mode)
   :bind
