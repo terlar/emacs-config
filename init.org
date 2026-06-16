@@ -4084,7 +4084,8 @@ Visual undo history navigation.
   :ensure t
   :functions
   (gptel-make-gh-copilot
-   gptel-make-ollama)
+   gptel-make-ollama
+   gptel-make-openai)
   :bind
   (:map leader-map
         ("g" . gptel)
@@ -4097,6 +4098,13 @@ Visual undo history navigation.
     :models '("gemma4"
               "gpt-oss"
               "qwen3"))
+  (gptel-make-openai "OpenCode-Zen"
+    :host "opencode.ai"
+    :endpoint "/zen/v1/chat/completions"
+    :stream t
+    ;; https://opencode.ai/zen/v1/models
+    :models '(deepseek-v4-flash-free
+              qwen3.6-plus-free))
 
   (setq gptel-model 'gpt-4.1)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
