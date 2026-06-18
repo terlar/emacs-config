@@ -4144,6 +4144,7 @@ The commit message should be structured as follows:
   :commands
   (gptel-agent-update)
   :config
+  (cl-pushnew "~/.config/opencode/skills/" gptel-agent-skill-dirs :test #'equal)
   (gptel-agent-update))
 
 (use-package gptel-autocomplete
