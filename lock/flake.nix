@@ -618,6 +618,12 @@
       repo = "ob-http";
       type = "github";
     };
+    opencode = {
+      flake = false;
+      owner = "terlar";
+      repo = "opencode.el";
+      type = "github";
+    };
     orderless = {
       flake = false;
       owner = "oantolin";
@@ -706,6 +712,12 @@
       flake = false;
       owner = "vedang";
       repo = "pdf-tools";
+      type = "github";
+    };
+    plz = {
+      flake = false;
+      owner = "alphapapa";
+      repo = "plz.el";
       type = "github";
     };
     pomm = {
