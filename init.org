@@ -293,6 +293,8 @@ Call ORIG-FN with ARGS and suppress the output.  Usage:
 
 Easily define REPL functions.
 #+begin_src emacs-lisp :tangle yes
+(declare-function comint-check-proc "comint")
+
 (defmacro define-repl (fn-name buffer-name command &rest args)
   "Define a REPL function named FN-NAME running COMMAND inside BUFFER-NAME."
   (let ((repl-buffer (concat "*" buffer-name "*")))
@@ -978,7 +980,8 @@ Completion At Point Extensions.
    cape-wrap-purify)
   :functions
   (cape-capf-buster
-   cape-capf-super)
+   cape-capf-super
+   cape-capf-interactive)
   :hook
   ((comint-mode-hook
     eshell-mode-hook) . init-cape-comint-capf)
@@ -1008,6 +1011,9 @@ Completion At Point Extensions.
   (setq cape-dict-file (getenv "WORDLIST"))
   (setq text-mode-ispell-word-completion nil)
   :config
+  (declare-function cl-remove-if-not "cl-lib")
+  (declare-function pcomplete-completions-at-point "pcomplete")
+
   (defun init-cape-comint-capf ()
     (setq-local completion-at-point-functions
                 (list (apply #'cape-capf-super
@@ -1267,7 +1273,7 @@ Disabled by default. When enabled, only highlight in the selected window.
   (defvar-local hl-line-number--current-line-remap nil
     "Face remapping cookie for `line-number-current-line' to `hl-line'.")
 
-  (define-global-minor-mode global-hl-line-number-mode hl-line-number-mode hl-line-number-mode
+  (define-globalized-minor-mode global-hl-line-number-mode hl-line-number-mode hl-line-number-mode
     :group 'hl-line)
 
   (define-minor-mode hl-line-number-mode
@@ -1466,6 +1472,9 @@ Structured editing with soft deletion and balanced expressions.
    puni-kill-line
    puni-kill-active-region
    puni-mark-list-around-point)
+  :functions
+  (puni-soft-delete
+   puni--kill-line-bol-cleanup)
   :hook
   (after-init-hook . puni-global-mode)
   :bind
@@ -2054,10 +2063,10 @@ Retrieve project list via ghq.
 * Development
 Reduce scroll margin.
 #+begin_src emacs-lisp :tangle yes
-(defun prog-scroll-margin-setup ()
+(defun prog-mode-scroll-margin-setup ()
   "Setup `scroll-margin' for `prog-mode'."
   (setq-local scroll-margin 3))
-(add-hook 'prog-mode-hook #'prog-scroll-margin-setup)
+(add-hook 'prog-mode-hook #'prog-mode-scroll-margin-setup)
 #+end_src
 
 ** Compilation
@@ -2484,7 +2493,8 @@ Enhanced git related views and commands.
   :ensure t
   :defer 2
   :functions
-  (magit-process-ask-create-pull-request)
+  (magit-commit-message-buffer
+   magit-process-ask-create-pull-request)
   :preface
   (autoload 'magit-show-commit "magit-diff" nil t)
   :hook
@@ -2546,6 +2556,8 @@ Generic Language Server Protocol integration via ~eglot~.
          ("r" . eglot-rename)
          ("q" . eglot-reconnect)
          ("Q" . eglot-shutdown)))
+  :functions
+  (eglot-completion-at-point)
   :init
   (setq eglot-autoshutdown t)
   (setq eglot-code-action-indications nil)
@@ -2770,7 +2782,7 @@ Improve readability of escape characters in regular expressions.
   (setq org-special-ctrl-a/e t)
 
   (setq org-confirm-babel-evaluate nil)
-  (setq org-edit-src-content-indentation 0)
+  (setq org-src-content-indentation 0)
   (setq org-src-preserve-indentation nil)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
@@ -2883,7 +2895,7 @@ This sections makes ~org-mode~ look more beautiful and appealing.
 #+begin_src emacs-lisp :tangle yes
 (use-package org
   :hook
-  (org-babel-after-execute-hook . org-redisplay-inline-images)
+  (org-babel-after-execute-hook . org-link-preview-refresh)
   :init
   (setq org-fold-catch-invisible-edits 'show-and-error)
   (setq org-fontify-quote-and-verse-blocks t)
@@ -3679,16 +3691,14 @@ Pretty check-boxes as well as bullet lists.
 
   (cl-pushnew '("\\([^/]+\\)\\.rb\\'" "\\1_test.rb") find-sibling-rules :test #'equal)
   (cl-pushnew '("\\([^/]+\\)_test\\.rb\\'" "\\1.rb") find-sibling-rules :test #'equal)
+  :hook
+  (ruby-ts-mode-hook . init-ruby-ts-hideshow-setup)
   :config
-  (with-eval-after-load 'hideshow
-    (cl-pushnew `(ruby-ts-mode
-                  ,(rx (or "def" "class" "module" "do" "{" "[")) ; Block start
-                  ,(rx (or "}" "]" "end"))                       ; Block end
-                  ,(rx bol
-                       (or (+ (zero-or-more blank) "#") "=begin")) ; Comment start
-                  ruby-forward-sexp nil)
-                hs-special-modes-alist
-                :test #'equal)))
+  (defun init-ruby-ts-hideshow-setup ()
+    (setq-local hs-block-start-regexp (rx (or "def" "class" "module" "do" "{" "["))
+                hs-block-end-regexp (rx (or "}" "]" "end"))
+                hs-forward-sexp-function #'forward-sexp
+                hs-c-start-regexp (rx bol (or (+ (zero-or-more blank) "#") "=begin")))))
 #+end_src
 
 *** Packages
@@ -3909,6 +3919,7 @@ it really useful.
 
 ** Spell checking
 #+begin_src emacs-lisp :tangle yes
+(defvar ispell-alternate-dictionary)
 (setq ispell-alternate-dictionary (getenv "WORDLIST"))
 
 (use-package jinx
@@ -4083,7 +4094,8 @@ Visual undo history navigation.
   :ensure t
   :functions
   (gptel-make-gh-copilot
-   gptel-make-ollama)
+   gptel-make-ollama
+   gptel-make-openai)
   :bind
   (:map leader-map
         ("g" . gptel)
@@ -4096,6 +4108,13 @@ Visual undo history navigation.
     :models '("gemma4"
               "gpt-oss"
               "qwen3"))
+  (gptel-make-openai "OpenCode-Zen"
+    :host "opencode.ai"
+    :endpoint "/zen/v1/chat/completions"
+    :stream t
+    ;; https://opencode.ai/zen/v1/models
+    :models '(deepseek-v4-flash-free
+              qwen3.6-plus-free))
 
   (setq gptel-model 'gpt-4.1)
   (setq gptel-backend (gptel-make-gh-copilot "Copilot"))
@@ -4144,7 +4163,7 @@ The commit message should be structured as follows:
 (use-package gptel-autocomplete
   :ensure t
   :commands
-  (gptel-autocomplete-mode)
+  (gptel-autocomplete-mode gptel-accept-completion)
   :bind
   (:map gptel-autocomplete-completion-map
         ("C-e" . 'gptel-accept-completion))
@@ -4159,7 +4178,10 @@ The commit message should be structured as follows:
   (magit-mode-hook . gptel-magit-install)
   :bind
   (:map git-commit-mode-map ("M-g" . gptel-magit-generate-message-from-buffer))
-  :init
+  :functions
+  (gptel-magit--request
+   gptel-magit--format-commit-message)
+  :config
   (defun gptel-magit-generate-message-from-buffer ()
     "Generate a commit message when in the git commit buffer."
     (interactive)
@@ -4187,6 +4209,8 @@ The commit message should be structured as follows:
 (use-package macher
   :ensure t
   :after gptel
+  :functions
+  (macher-install)
   :config
   (macher-install)
   :bind
