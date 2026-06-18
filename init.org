@@ -81,10 +81,10 @@ Temporarily reduce garbage collection to gain some performance boost during star
         gc-cons-percentage init-gc-cons-percentage
         file-name-handler-alist nil)
   (add-hook 'after-init-hook
-            `(lambda ()
-               (setq gc-cons-threshold ,normal-gc-cons-threshold
-                     gc-cons-percentage ,normal-gc-cons-percentage
-                     file-name-handler-alist ',normal-file-name-handler-alist))))
+            (lambda ()
+              (setq gc-cons-threshold normal-gc-cons-threshold
+                    gc-cons-percentage normal-gc-cons-percentage
+                    file-name-handler-alist normal-file-name-handler-alist))))
 #+end_src
 
 Inhibit startup screen and messages. If you are new to Emacs it is recommended to not
@@ -374,8 +374,8 @@ Fringe control:
   :global t
   :group 'fringe
   (if global-hide-fringes-mode
-        (set-fringe-style 0)
-      (set-fringe-style nil)))
+      (set-fringe-style 0)
+    (set-fringe-style nil)))
 #+end_src
 
 ** Localization
@@ -893,7 +893,7 @@ Space-separated matching components matching in any order.
 (use-package orderless
   :ensure t
   :init
-  (setq completion-styles '(substring orderless))
+  (setq completion-styles '(orderless basic))
   (setq completion-category-defaults nil)
   (setq completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
@@ -1034,7 +1034,7 @@ Completion At Point Extensions.
     (add-hook 'completion-at-point-functions #'cape-dict 10 t))
 
   (setq-default completion-at-point-functions
-                (list #'cape-file #'cape-dabbrev))
+                (list #'cape-dabbrev))
 
   (setf (symbol-function 'cape-pcomplete) (cape-capf-interactive #'pcomplete-completions-at-point))
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
@@ -1097,11 +1097,8 @@ Annotations for completion candidates.
 #+begin_src emacs-lisp :tangle yes
 (use-package marginalia
   :ensure t
-  :defer 2
-  :commands
-  (marginalia-mode)
-  :config
-  (marginalia-mode 1))
+  :hook
+  (after-init-hook . marginalia-mode))
 #+end_src
 
 * Help
@@ -1216,7 +1213,7 @@ Manage "popups".
   (("C-`" . popper-toggle)
    ("C-M-`" . popper-cycle)
    (:map window-prefix-map
-        ("p" . popper-toggle-type)))
+         ("p" . popper-toggle-type)))
   :init
   (setq popper-display-function #'popper-display-popup-at-bottom)
   (setq popper-reference-buffers
@@ -1231,20 +1228,21 @@ Manage "popups".
           ghelp-page-mode
           (lambda (buf)
             (with-current-buffer buf
-              (derived-mode-p '(compilation-mode
-                                comint-mode
-                                help-mode)))))))
+              (and (derived-mode-p '(compilation-mode
+                                     comint-mode
+                                     help-mode))
+                   (not (derived-mode-p 'opencode-session-mode))))))))
 #+end_src
 
 ** Buffer
 *** Cursor
 #+begin_src emacs-lisp :tangle yes
 (define-minor-mode hide-cursor-mode
-    "Toggle hiding of the cursor."
-    :lighter " Hide Cursor"
-    (if hide-cursor-mode
-        (setq cursor-type nil)
-      (kill-local-variable 'cursor-type)))
+  "Toggle hiding of the cursor."
+  :lighter " Hide Cursor"
+  (if hide-cursor-mode
+      (setq cursor-type nil)
+    (kill-local-variable 'cursor-type)))
 #+end_src
 
 *** Buttons
@@ -1647,11 +1645,6 @@ Prevent generation of useless lock and backup files.
 (setq make-backup-files nil)
 #+end_src
 
-Don't require confirmation when opening a new buffer.
-#+begin_src emacs-lisp :tangle yes
-(setq confirm-nonexistent-file-or-buffer t)
-#+end_src
-
 Remove visual indicators from non-selected windows
 #+begin_src emacs-lisp :tangle yes
 (setq highlight-nonselected-windows nil)
@@ -2006,7 +1999,8 @@ Hint mode for links.
 Keep track of recently opened files.
 #+begin_src emacs-lisp :tangle yes
 (use-package recentf
-  :defer 1
+  :hook
+  (after-init-hook . init-recentf-enable)
   :init
   (setq recentf-exclude
         (list "/tmp/"                        ; Temp-files
@@ -2025,7 +2019,8 @@ Keep track of recently opened files.
   (setq recentf-max-saved-items 300)
   (setq recentf-auto-cleanup 'never)
   :config
-  (quiet! (recentf-mode 1)))
+  (defun init-recentf-enable ()
+    (quiet! (recentf-mode 1))))
 #+end_src
 
 *** saveplace
@@ -2354,10 +2349,10 @@ Haskell one).
          ("k" . flymake-diagnostics-prev-error)
          ("TAB" . flymake-show-diagnostic))
    (:repeat-map flymake-mode-repeat-map
-               ("e" . flymake-goto-next-error)
-               ("E" . flymake-goto-prev-error)
-               ("[" . flymake-goto-prev-error)
-               ("]" . flymake-goto-next-error)))
+                ("e" . flymake-goto-next-error)
+                ("E" . flymake-goto-prev-error)
+                ("[" . flymake-goto-prev-error)
+                ("]" . flymake-goto-next-error)))
   :config
   (defun flymake-setup-next-error-function ()
     (setq next-error-function 'flymake-next-error-compat))
@@ -2469,21 +2464,14 @@ Diff indicators in fringe
 #+begin_src emacs-lisp :tangle yes
 (use-package diff-hl
   :ensure t
-  :defer 2
-  :commands
-  (global-diff-hl-mode)
-  :preface
-  (autoload 'diff-hl-flydiff-mode "diff-hl-flydiff" nil t)
-  (autoload 'diff-hl-dired-mode "diff-hl-dired" nil t)
   :hook
+  (after-init-hook . global-diff-hl-mode)
+  (after-init-hook . diff-hl-flydiff-mode)
   (dired-mode-hook . diff-hl-dired-mode)
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   :init
   (setq diff-hl-ask-before-revert-hunk nil)
-  (setq diff-hl-update-async t)
-  :config
-  (global-diff-hl-mode 1)
-  (diff-hl-flydiff-mode 1))
+  (setq diff-hl-update-async t))
 #+end_src
 
 *** magit
@@ -4092,14 +4080,12 @@ Visual undo history navigation.
 #+begin_src emacs-lisp :tangle yes
 (use-package gptel
   :ensure t
-  :functions
-  (gptel-make-gh-copilot
-   gptel-make-ollama
-   gptel-make-openai)
   :bind
   (:map leader-map
         ("g" . gptel)
         ("G" . gptel-menu))
+  :functions
+  (gptel-make-gh-copilot gptel-make-ollama gptel-make-openai)
   :config
   (gptel-make-gh-copilot "Copilot")
   (gptel-make-ollama "Ollama"
@@ -4158,6 +4144,7 @@ The commit message should be structured as follows:
   :commands
   (gptel-agent-update)
   :config
+  (cl-pushnew "~/.config/opencode/skills/" gptel-agent-skill-dirs :test #'equal)
   (gptel-agent-update))
 
 (use-package gptel-autocomplete
@@ -4188,14 +4175,14 @@ The commit message should be structured as follows:
     (unless (magit-commit-message-buffer)
       (user-error "No commit in progress"))
     (gptel-magit--request (buffer-string)
-      :system gptel-magit-commit-prompt
-      :context nil
-      :callback (lambda (response _info)
-                  (let ((msg (gptel-magit--format-commit-message response)))
-                    (with-current-buffer (magit-commit-message-buffer)
-                      (save-excursion
-                        (goto-char (point-min))
-                        (insert msg))))))
+                          :system gptel-magit-commit-prompt
+                          :context nil
+                          :callback (lambda (response _info)
+                                      (let ((msg (gptel-magit--format-commit-message response)))
+                                        (with-current-buffer (magit-commit-message-buffer)
+                                          (save-excursion
+                                            (goto-char (point-min))
+                                            (insert msg))))))
     (message "magit-gptel: Generating commit message...")))
 
 (use-package gptel-quick
@@ -4255,7 +4242,7 @@ Packages that I am currently testing or evaluating.
 #+end_src
 
 ** opencode
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
 (use-package opencode :ensure t)
 #+end_src
 

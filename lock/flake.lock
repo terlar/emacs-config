@@ -1648,6 +1648,22 @@
         "type": "github"
       }
     },
+    "opencode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781772750,
+        "narHash": "sha256-j0YDpEsmaNqL4KgJvztStlrOISXV1sh3DB5soCmDKSU=",
+        "owner": "terlar",
+        "repo": "opencode.el",
+        "rev": "e944d674a2316aadfcb0aa70ef71eb4064a078a3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "terlar",
+        "repo": "opencode.el",
+        "type": "github"
+      }
+    },
     "orderless": {
       "flake": false,
       "locked": {
@@ -1888,6 +1904,22 @@
         "type": "github"
       }
     },
+    "plz": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742340934,
+        "narHash": "sha256-rencjqNdWSVSqlbXS3WJBmd/LW8eaUtHCZJdPQgJGIg=",
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "rev": "e2d07838e3b64ee5ebe59d4c3c9011adefb7b58e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alphapapa",
+        "repo": "plz.el",
+        "type": "github"
+      }
+    },
     "pomm": {
       "flake": false,
       "locked": {
@@ -2105,6 +2137,7 @@
         "nov": "nov",
         "nushell-ts-mode": "nushell-ts-mode",
         "ob-http": "ob-http",
+        "opencode": "opencode",
         "orderless": "orderless",
         "org-appear": "org-appear",
         "org-cliplink": "org-cliplink",
@@ -2120,6 +2153,7 @@
         "parseclj": "parseclj",
         "parseedn": "parseedn",
         "pdf-tools": "pdf-tools",
+        "plz": "plz",
         "pomm": "pomm",
         "popper": "popper",
         "puni": "puni",
