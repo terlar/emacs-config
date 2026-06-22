@@ -17,7 +17,7 @@ jobs:
       checks: ${{ steps.checks.outputs.checks }}
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Install Lix
         uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Install Lix
         uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
@@ -63,7 +63,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Install Lix
         uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
