@@ -756,6 +756,12 @@
       repo = "racket-mode";
       type = "github";
     };
+    reformatter = {
+      flake = false;
+      owner = "purcell";
+      repo = "emacs-reformatter";
+      type = "github";
+    };
     repl-toggle = {
       flake = false;
       owner = "~tomterl";
@@ -931,5 +937,5 @@
       type = "github";
     };
   };
-  outputs = { ... }: { };
+  outputs = _: { };
 }

@@ -2016,6 +2016,22 @@
         "type": "github"
       }
     },
+    "reformatter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781870287,
+        "narHash": "sha256-UyjV9ODjPQ2IewC6OHfrANHU+FNvGhbZESUUmUfeSco=",
+        "owner": "purcell",
+        "repo": "emacs-reformatter",
+        "rev": "2bd8818f3f2119a3876e574a437495214c87bc81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "purcell",
+        "repo": "emacs-reformatter",
+        "type": "github"
+      }
+    },
     "repl-toggle": {
       "flake": false,
       "locked": {
@@ -2160,6 +2176,7 @@
         "python-test": "python-test",
         "queue": "queue",
         "racket-mode": "racket-mode",
+        "reformatter": "reformatter",
         "repl-toggle": "repl-toggle",
         "s": "s",
         "scala-mode": "scala-mode",
