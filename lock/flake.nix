@@ -620,9 +620,8 @@
     };
     opencode = {
       flake = false;
-      owner = "terlar";
-      repo = "opencode.el";
-      type = "github";
+      type = "git";
+      url = "https://codeberg.org/sczi/opencode.el.git";
     };
     orderless = {
       flake = false;
