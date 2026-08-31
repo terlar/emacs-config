@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install Lix
-        uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
+        uses: canidae-solutions/lix-quick-install-action@8ccd1622179c3881955a55d538670c43e4e22c06 # v5
 
       - name: Find checks
         id: checks
@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install Lix
-        uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
+        uses: canidae-solutions/lix-quick-install-action@8ccd1622179c3881955a55d538670c43e4e22c06 # v5
 
       - name: Nix cache (cachix)
         uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
@@ -66,7 +66,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install Lix
-        uses: canidae-solutions/lix-quick-install-action@cdb5d0931be2223edbb9bad884341fcacdac298f # v4
+        uses: canidae-solutions/lix-quick-install-action@8ccd1622179c3881955a55d538670c43e4e22c06 # v5
 
       - name: Nix cache (cachix)
         uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
