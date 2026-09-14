@@ -45,7 +45,7 @@ jobs:
         uses: canidae-solutions/lix-quick-install-action@8ccd1622179c3881955a55d538670c43e4e22c06 # v5
 
       - name: Nix cache (cachix)
-        uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
+        uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866 # v17
         with:
           useDaemon: true
           name: terlar
@@ -69,7 +69,7 @@ jobs:
         uses: canidae-solutions/lix-quick-install-action@8ccd1622179c3881955a55d538670c43e4e22c06 # v5
 
       - name: Nix cache (cachix)
-        uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
+        uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866 # v17
         with:
           useDaemon: true
           name: terlar
