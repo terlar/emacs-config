@@ -2527,6 +2527,8 @@ Project-specific environment variables via =direnv=.
   (envrc-global-mode)
   :bind
   (:map envrc-mode-map ("C-c e" . envrc-command-map))
+  :init
+  (setq envrc-async t)
   :config
   (envrc-global-mode 1))
 #+end_src
