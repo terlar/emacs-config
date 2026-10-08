@@ -196,6 +196,7 @@
       (((background dark)) (:foreground ,d-bg :background ,d-fg :box (:line-width 6 :color ,d-fg)))))
 
    '(minibuffer-prompt ((t (:inherit bold))))
+   '(minibuffer-nonselected ((t (:inherit shadow :inverse-video t))))
 
    '(fringe ((t (:inherit shadow))))
 
@@ -345,6 +346,9 @@
    `(cov-coverage-run-face
      ((((background light)) (:foreground ,l-fg))
       (((background dark)) (:foreground ,d-fg))))
+
+;;;;; custom
+   '(custom-invalid ((t (:inherit error))))
 
 ;;;;; dired
    '(all-the-icons-dired-dir-face ((t (:foreground unspecified))))
