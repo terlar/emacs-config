@@ -1,2 +1,2 @@
-(opencode :fetcher github
-          :repo "terlar/opencode.el")
+(opencode :fetcher codeberg
+          :repo "sczi/opencode.el")

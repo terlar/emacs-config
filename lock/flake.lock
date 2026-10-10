@@ -1651,17 +1651,17 @@
     "opencode": {
       "flake": false,
       "locked": {
-        "lastModified": 1787039108,
-        "narHash": "sha256-LUAaj1Qs7QELldpMyWh9rYREtKe8cECKnes64fxcf9I=",
-        "owner": "terlar",
-        "repo": "opencode.el",
-        "rev": "f51e6474143720c2e47ffff3264849334fb47bcc",
-        "type": "github"
+        "lastModified": 1787114055,
+        "narHash": "sha256-UxLHv86EFTQGd6zmuu8WbK49N6wPSGyUKftRKJdDHnQ=",
+        "ref": "refs/heads/main",
+        "rev": "4fcfef79e4536a9d609a99171bd4058cb0c61f20",
+        "revCount": 250,
+        "type": "git",
+        "url": "https://codeberg.org/sczi/opencode.el.git"
       },
       "original": {
-        "owner": "terlar",
-        "repo": "opencode.el",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/sczi/opencode.el.git"
       }
     },
     "orderless": {
