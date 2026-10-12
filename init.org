@@ -3107,8 +3107,6 @@ Add faces to =outline-minor-mode= in order to make the headings stand out.
   :hook
   (d2-mode-hook . d2-mode-set-compile-command)
   (d2-mode-hook . compile-on-save-mode)
-  :init
-  (setq d2-flags '("--layout" "elk" "--sketch" "--theme" "1"))
   :config
   (defun d2-mode-set-compile-command ()
     "Configure compile command for d2-mode."
