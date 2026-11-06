@@ -1651,11 +1651,11 @@
     "opencode": {
       "flake": false,
       "locked": {
-        "lastModified": 1792467282,
-        "narHash": "sha256-hes3/4v+pZhpnsWnnM6ZPVl7G3qNkdy0SqKsPGWdwIw=",
+        "lastModified": 1793944153,
+        "narHash": "sha256-H+U/ut69p2ynz/i1YGQXmNJrfPrjRjDPjPo1E+tulW0=",
         "owner": "terlar",
         "repo": "opencode.el",
-        "rev": "69ac73d439be547b01b3216b9925530d88bce675",
+        "rev": "96da98f6f7f5338da19dafb21ef7b54daf3095d9",
         "type": "github"
       },
       "original": {
