@@ -2550,8 +2550,6 @@ Generic Language Server Protocol integration via ~eglot~.
   (eglot-completion-at-point)
   :init
   (setq eglot-autoshutdown t)
-  (setq eglot-code-action-indications nil)
-  (setq eglot-confirm-server-edits nil)
   (setq eglot-sync-connect nil)
   :config
   (cl-pushnew '((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
@@ -2560,6 +2558,15 @@ Generic Language Server Protocol integration via ~eglot~.
   (cl-pushnew '((terraform-mode) . ("tofu-ls" "serve"))
               eglot-server-programs
               :test #'equal))
+#+end_src
+
+*** refactor
+Language-agnostic refactoring interface used by ~eglot~.
+#+begin_src emacs-lisp :tangle yes
+(use-package refactor
+  :init
+  (setq refactor-indications nil)
+  (setq refactor-confirmation nil))
 #+end_src
 
 *** hl-todo
