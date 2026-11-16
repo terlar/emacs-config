@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794168698,
-        "narHash": "sha256-W7V4A+9t4AhU55bGjQEQQDz17KRDZW6/GiYfwUPchsw=",
+        "lastModified": 1794779111,
+        "narHash": "sha256-w9Fm4+yEd6SKJ0+y9r6wZS1JEZfOOguZ1pvc1T7uZbM=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "39e0e9133f05f65798f89f50fd7276c19d3beaf3",
+        "rev": "f0fb9a6a2b3842a14389d0c14c9ef76b0dcd3f20",
         "type": "github"
       },
       "original": {
@@ -78,11 +78,11 @@
     "melpa": {
       "flake": false,
       "locked": {
-        "lastModified": 1794166247,
-        "narHash": "sha256-DXAVxfxvWkTx7T5XrtdaWGYMUXKZdXAHSzdb03D8Ow4=",
+        "lastModified": 1794768395,
+        "narHash": "sha256-+zwTEM/uQqlSGh8EWqfbwWRTCfZ7KH4RMSSklnLmz54=",
         "owner": "melpa",
         "repo": "melpa",
-        "rev": "3abc8c7bbd6a936dc934f5dae20c8b12a8111a89",
+        "rev": "be3a609d8b5dc97790756034b04c2aa3d0ceda8b",
         "type": "github"
       },
       "original": {
@@ -93,11 +93,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794157196,
-        "narHash": "sha256-gMI8yA9ZwoXZvjN4lZbObE7dt2iCiZEH6Su+6nEWKg0=",
-        "rev": "4d6a01a11146f4691c0991682885ad9e4686e3ee",
+        "lastModified": 1794781419,
+        "narHash": "sha256-1Jjc95c3y2bngQYHOSNbWUCTh755cfh713E/t5ls1qQ=",
+        "rev": "5da7db4ddb6d0ba0ef8f6edcd7dfe9ec6d19c88d",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable-small/nixos-26.11pre1114595.4d6a01a11146/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/unstable-small/nixos-26.11pre1121952.5da7db4ddb6d/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
@@ -149,11 +149,11 @@
         "elisp-helpers": "elisp-helpers"
       },
       "locked": {
-        "lastModified": 1793051394,
-        "narHash": "sha256-q6k3i8+D+wxp/9F0ymkhgQj48+SJvRlTC6q24+5UNmM=",
+        "lastModified": 1794563044,
+        "narHash": "sha256-ke14STTcdjZVK/d8m2p86htLkRFeNQRM42nOtcrrjwk=",
         "owner": "emacs-twist",
         "repo": "twist.nix",
-        "rev": "def085446c993fdfd7a99a8f8c67694be5d8c08b",
+        "rev": "91a1e2a0a1846337d968ba17f5820e695e0d68e0",
         "type": "github"
       },
       "original": {
